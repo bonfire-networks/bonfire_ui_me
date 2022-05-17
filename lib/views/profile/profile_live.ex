@@ -18,6 +18,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
     ]
   end
 
+  def tab(selected_tab) do
+    case maybe_to_atom(selected_tab) do
+      tab when is_atom(tab) -> tab
+      _ -> :timeline
+    end
+  end
+
   defp mounted(%{"remote_follow"=> _, "username"=> username} = params, _session, socket) do
     # TODO?
   end

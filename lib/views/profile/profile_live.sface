@@ -1,13 +1,16 @@
-<Bonfire.UI.Me.ProfileViewLive 
-  page_title={@page_title}
-  page={@page}
-  selected_tab={@selected_tab}
-  smart_input={@smart_input}
-  smart_input_prompt={@smart_input_prompt}
-  smart_input_text={@smart_input_text}
-  search_placholder={@search_placholder}
-  feed_title={@feed_title}
-  user={@user}
-  feed={@feed}
-  page_info={@page_info}
-/>
+<main
+  data-id="profile"
+  data-user-id={e(@user, :id, "")}
+  class="md:flex md:mx-0">
+  <section class="w-full mx-auto bg-base-100 rounded-xl">
+    <Bonfire.UI.Common.PageHeaderLive
+      before
+      :if={e(current_user(assigns), :id, nil)}
+      page_title={@page_title}
+    />
+    <Surface.Components.Dynamic.Component
+      module={Bonfire.Common.Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Me.ProfileTimelineLive)}
+      {...assigns}
+    />
+  </section>
+</main>

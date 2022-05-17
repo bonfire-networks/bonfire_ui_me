@@ -17,6 +17,7 @@ defmodule Bonfire.UI.Me.ChangePasswordLive do
   def mounted(_params, session, socket) do
     {:ok,
      socket
+     |> assign(:page_title, l "Change your password")
      |> assign(:without_sidebar,  true)
      |> assign(:form,  session["form"])
      |> assign(:error,  session["error"])
