@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.ProfileTest do
-
   use Bonfire.UI.Social.ConnCase, async: true
   # alias Bonfire.Social.Fake
   alias Bonfire.Social.{Follows}

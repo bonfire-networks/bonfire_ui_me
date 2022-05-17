@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.ProfileTest do
-
   use Bonfire.UI.Social.ConnCase, async: true
   # alias Bonfire.Social.Fake
   alias Bonfire.Social.{Follows}
@@ -24,7 +23,6 @@ defmodule Bonfire.UI.Me.ProfileTest do
     # Given a user
     carl = fake_user!(account)
     # When I visit the profile of the user that does not follows me
-    conn = conn(user: alice, account: account)
     next = Bonfire.Common.URIs.path(carl)
     {:ok, _view, html} = live(conn, next)
     # Then I should not see the visual feedback in their profile
