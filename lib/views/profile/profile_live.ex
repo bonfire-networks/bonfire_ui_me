@@ -53,7 +53,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
     if user && ( current_username || Integration.is_local?(user) ) do # show remote users only to logged in users
 
-      # following = if current_user && current_user.id != user.id && module_enabled?(Bonfire.Social.Follows) && Bonfire.Social.Follows.following?(current_user, user), do: [user.id] |> debug("following")
+      following = current_user && current_user.id != user.id && module_enabled?(Bonfire.Social.Follows) && Bonfire.Social.Follows.following?(user, current_user)
 
       page_title = if current_username == e(user, :character, :username, ""), do: l( "Your profile"), else: e(user, :profile, :name, l "Someone") <> "'s profile"
 
@@ -63,7 +63,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       "", else: "@"<>e(user, :character, :username, "")<>" "
 
       search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
-
+      IO.inspect(following, label: "BAH")
       {:ok,
         socket
         |> assign(
@@ -74,6 +74,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
           feed_title: l( "User timeline"),
           user: user, # the user to display
           feed: [],
+          follows_me: following,
           page_info: []
         )
       |> assign_global(

@@ -3,6 +3,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   import Bonfire.UI.Me.Integration
 
   prop user, :map
+  prop follows_me, :boolean, default: false
 
   def display_url("https://"<>url), do: url
   def display_url("http://"<>url), do: url

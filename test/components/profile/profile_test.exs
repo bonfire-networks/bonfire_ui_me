@@ -1,9 +1,9 @@
-defmodule Bonfire.UI.Me.Profile.ProfileTest do
+defmodule Bonfire.UI.Me.ProfileTest do
 
-  use Bonfire.UI.Me.ConnCase, async: true
+  use Bonfire.UI.Social.ConnCase, async: true
   # alias Bonfire.Social.Fake
-  alias Bonfire.Social.{Boosts, Likes, Follows, Posts}
-
+  alias Bonfire.Social.{Follows}
+  import Phoenix.LiveViewTest
 
   describe "Profile: Check if the profile hero section displays all the information correctly " do
 
@@ -72,13 +72,5 @@ defmodule Bonfire.UI.Me.Profile.ProfileTest do
     end
 
   end
-
-  describe "Profile: Followers and Following tabs" do
-    test "When I click on followers link, I want to see the paginated list of followers" do
-    end
-    test "When I click on following link, I want to see the paginated list of following" do
-    end
-  end
-
 
 end
