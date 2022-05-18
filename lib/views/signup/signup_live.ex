@@ -4,8 +4,8 @@ defmodule Bonfire.UI.Me.SignupLive do
 
   # because this isn't a live link and it will always be accessed by a
   # guest, it will always be offline
-  def mount(params, session, socket) do
-    debug(session: session)
+  def mount(_params, session, socket) do
+    # debug(session: session)
     {:ok,
      socket
       |> assign(:invite, e(session, "invite", nil))

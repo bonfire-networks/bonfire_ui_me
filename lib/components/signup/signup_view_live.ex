@@ -4,5 +4,6 @@ defmodule Bonfire.UI.Me.SignupViewLive do
   prop form, :any
   prop error, :any
   prop registered, :any
+  prop invite, :any
 
 end
