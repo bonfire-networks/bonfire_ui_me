@@ -63,7 +63,6 @@ defmodule Bonfire.UI.Me.ProfileLive do
       "", else: "@"<>e(user, :character, :username, "")<>" "
 
       search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
-      IO.inspect(following, label: "BAH")
       {:ok,
         socket
         |> assign(
