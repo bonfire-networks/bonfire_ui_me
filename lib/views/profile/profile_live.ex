@@ -3,7 +3,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   alias Bonfire.Me.Integration
   import Where
 
-  alias Bonfire.Me.Fake
+  # alias Bonfire.Me.Fake
   alias Bonfire.UI.Me.LivePlugs
 
   def mount(params, session, socket) do
@@ -25,7 +25,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     end
   end
 
-  defp mounted(%{"remote_follow"=> _, "username"=> username} = params, _session, socket) do
+  defp mounted(%{"remote_follow"=> _, "username"=> _username} = _params, _session, _socket) do
     # TODO?
   end
 
@@ -80,7 +80,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         # following: following || [],
         search_placholder: search_placeholder,
         smart_input_prompt: smart_input_prompt,
-        smart_input_text: smart_input_text,
+        smart_input_text: smart_input_text
         # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), e(user, :id, nil)}]
       )}
     else
@@ -186,7 +186,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     {:noreply,
      assign(socket,
        selected_tab: tab,
-       feed: e(feed, :edges, []),
+       feed: e(feed, :edges, [])
      )
     |> assign_global(
       page_title: page_title,
@@ -229,7 +229,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     # something that may be added by another extension?
     {:noreply,
      assign(socket,
-       selected_tab: tab,
+       selected_tab: tab
      )}
   end
 
@@ -244,7 +244,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     end
   end
 
-  def do_handle_params(_params, url, socket) do
+  def do_handle_params(_params, _url, socket) do
     # default tab
     do_handle_params(%{"tab" => "timeline"}, nil, socket)
   end

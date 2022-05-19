@@ -21,7 +21,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
     end
   end
 
-  def handle_event("make_admin", %{"username_or_id"=>username_or_id} = attrs, socket) do
+  def handle_event("make_admin", %{"username_or_id"=>username_or_id} = _attrs, socket) do
     with true <- Bonfire.Me.Users.is_admin?(current_user(socket)),
          {:ok, user} <- Bonfire.Me.Users.make_admin(username_or_id) do
       {:noreply, socket
@@ -31,7 +31,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
     end
   end
 
-  def handle_event("revoke_admin", %{"username_or_id"=>username_or_id} = attrs, socket) do
+  def handle_event("revoke_admin", %{"username_or_id"=>username_or_id} = _attrs, socket) do
     with true <- Bonfire.Me.Users.is_admin?(current_user(socket)),
          {:ok, user} <- Bonfire.Me.Users.revoke_admin(username_or_id) do
       {:noreply, socket

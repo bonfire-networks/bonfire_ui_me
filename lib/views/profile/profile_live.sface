@@ -9,7 +9,7 @@
       page_title={@page_title}
     />
     <Surface.Components.Dynamic.Component
-      module={Bonfire.Common.Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Me.ProfileTimelineLive)}
+      module={Bonfire.Common.Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
       {...assigns}
     />
   </section>

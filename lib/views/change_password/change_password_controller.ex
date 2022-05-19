@@ -27,7 +27,7 @@ defmodule Bonfire.UI.Me.ChangePasswordController do
 
   def form_cs(params \\ %{}), do: Accounts.changeset(:change_password, params)
 
-  defp changed(conn, account) do
+  defp changed(conn, _account) do
     conn
     |> put_flash(:info, l "You have now changed your password. We recommend saving it in a password manager app!")
     |> redirect(to: path(:home))

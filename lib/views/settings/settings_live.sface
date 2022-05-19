@@ -113,14 +113,12 @@
       />
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive
         :if={!current_user(assigns) && current_account(assigns)}
-        uploads={@uploads} 
         selected_tab={@selected_tab}
         current_account={current_account(assigns)}
       />
       <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive
         :if={!current_user(assigns) && !current_account(assigns)}
         selected_tab={@selected_tab}
-        uploads={@uploads} 
       />
   {/case}
   </section>

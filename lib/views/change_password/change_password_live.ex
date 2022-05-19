@@ -1,7 +1,7 @@
 defmodule Bonfire.UI.Me.ChangePasswordLive do
   use Bonfire.UI.Common.Web, :surface_view
   alias Bonfire.UI.Me.LivePlugs
-  alias Bonfire.Me.Accounts
+  # alias Bonfire.Me.Accounts
 
   def mount(params, session, socket) do
     live_plug params, session, socket, [

@@ -57,7 +57,7 @@
                 </div>
                 <div class="ml-3">
                   <h3 class="text-sm font-medium text-yellow-800">
-                    An error occurred: {@error}
+                    An error occurred: {error}
                   </h3>
                 </div>
               </div>

@@ -35,7 +35,7 @@ defmodule Bonfire.UI.Me.BlocksLive do
       block_type: block_type,
       # page_title: "Flags",
       current_user: current_user,
-      blocks: blocks,
+      blocks: blocks
       # page_info: e(q, :page_info, [])
       )}
   end

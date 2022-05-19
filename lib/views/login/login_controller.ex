@@ -2,9 +2,9 @@ defmodule Bonfire.UI.Me.LoginController do
 
   use Bonfire.UI.Common.Web, :controller
   alias Bonfire.Me.Accounts
-  alias Bonfire.Me.Users
+  # alias Bonfire.Me.Users
   alias Bonfire.UI.Me.LoginLive
-  alias Bonfire.Common.Utils
+  # alias Bonfire.Common.Utils
   import Where
 
   def index(conn, _) do # GET only supports 'go'
