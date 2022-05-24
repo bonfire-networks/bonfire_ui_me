@@ -250,9 +250,12 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   def handle_params(params, uri, socket) do
-    undead_params(socket, fn ->
-      do_handle_params(params, uri, socket)
-    end)
+    # poor man's hook I guess
+    with {_, socket} <- Bonfire.UI.Common.LiveHandlers.handle_params(params, uri, socket) do
+      undead_params(socket, fn ->
+        do_handle_params(params, uri, socket)
+      end)
+    end
   end
 
   def handle_event(action, attrs, socket), do: Bonfire.UI.Common.LiveHandlers.handle_event(action, attrs, socket, __MODULE__)

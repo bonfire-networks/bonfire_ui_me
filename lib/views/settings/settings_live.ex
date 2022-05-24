@@ -143,7 +143,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
 
 
 
-  def handle_params(%{"tab" => tab, "id" => id}, _url, socket) do
+  def do_handle_params(%{"tab" => tab, "id" => id}, _url, socket) do
     # debug(id)
     {:noreply, assign(socket,
       selected_tab: tab,
@@ -167,12 +167,12 @@ defmodule Bonfire.UI.Me.SettingsLive do
       )}
   end
 
-  # def handle_params(%{"tab" => tab, "admin_tab" => admin_tab}, _url, socket) do
+  # def do_handle_params(%{"tab" => tab, "admin_tab" => admin_tab}, _url, socket) do
   #   debug(admin_tab)
   #   {:noreply, assign(socket, selected_tab: tab, admin_tab: admin_tab)}
   # end
 
-  def handle_params(%{"tab" => tab}, _url, socket) do
+  def do_handle_params(%{"tab" => tab}, _url, socket) do
     {:noreply, assign(
         socket,
         selected_tab: tab,
@@ -195,8 +195,17 @@ defmodule Bonfire.UI.Me.SettingsLive do
         )}
   end
 
-  def handle_params(_, _url, socket) do
+  def do_handle_params(_, _url, socket) do
     {:noreply, socket}
+  end
+
+  def handle_params(params, uri, socket) do
+    # poor man's hook I guess
+    with {_, socket} <- Bonfire.UI.Common.LiveHandlers.handle_params(params, uri, socket) do
+      undead_params(socket, fn ->
+        do_handle_params(params, uri, socket)
+      end)
+    end
   end
 
   def handle_event("validate", _params, socket) do
