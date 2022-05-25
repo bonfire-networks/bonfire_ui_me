@@ -1,4 +1,4 @@
-<section class="mb-3 bg-base-100 rounded-xl">
+<section class="mb-3 bg-base-100 rounded-md">
   {#case @selected_tab}
     {#match "admin"}
       {#if is_admin?(current_user(assigns))}
