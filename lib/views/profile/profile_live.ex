@@ -168,35 +168,35 @@ defmodule Bonfire.UI.Me.ProfileLive do
     )}
   end
 
-  def do_handle_params(%{"tab" => "private" =tab} = _params, _url, socket) do
-    current_user = current_user(socket)
-    user = e(socket, :assigns, :user, nil)
+  # def do_handle_params(%{"tab" => "private" =tab} = _params, _url, socket) do
+  #   current_user = current_user(socket)
+  #   user = e(socket, :assigns, :user, nil)
 
-    page_title = if e(current_user, :character, :username, "") == e(user, :character, :username, ""), do: l( "My messages"), else: l("Messages with")<>" "<>e(user, :profile, :name, l "someone")
+  #   page_title = if e(current_user, :character, :username, "") == e(user, :character, :username, ""), do: l( "My messages"), else: l("Messages with")<>" "<>e(user, :profile, :name, l "someone")
 
-    # smart_input_prompt = if e(current_user, :character, :username, "") == e(user, :character, :username, ""), do: l( "Write a private note to self..."), else: l("Send a private message") <> e(user, :profile, :name, l "this person")
-    smart_input_prompt = l("Send a private message")
+  #   # smart_input_prompt = if e(current_user, :character, :username, "") == e(user, :character, :username, ""), do: l( "Write a private note to self..."), else: l("Send a private message") <> e(user, :profile, :name, l "this person")
+  #   smart_input_prompt = l("Send a private message")
 
-    smart_input_text = if e(current_user, :character, :username, nil) != e(user, :character, :username, nil),
-    do: "@"<>e(user, :character, :username, "")<>" ",
-    else: ""
+  #   smart_input_text = if e(current_user, :character, :username, nil) != e(user, :character, :username, nil),
+  #   do: "@"<>e(user, :character, :username, "")<>" ",
+  #   else: ""
 
-    feed = if current_user, do: if module_enabled?(Bonfire.Social.Messages), do: Bonfire.Social.Messages.list(current_user, user) #|> debug("messages")
+  #   feed = if current_user, do: if module_enabled?(Bonfire.Social.Messages), do: Bonfire.Social.Messages.list(current_user, user) #|> debug("messages")
 
-    {:noreply,
-     assign(socket,
-       selected_tab: tab,
-       feed: e(feed, :edges, [])
-     )
-    |> assign_global(
-      page_title: page_title,
-      smart_input_prompt: smart_input_prompt,
-      smart_input_text: smart_input_text,
-      to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), e(user, :id, nil)}],
-      create_activity_type: :message
-    )
-    }
-  end
+  #   {:noreply,
+  #    assign(socket,
+  #      selected_tab: tab,
+  #      feed: e(feed, :edges, [])
+  #    )
+  #   |> assign_global(
+  #     page_title: page_title,
+  #     smart_input_prompt: smart_input_prompt,
+  #     smart_input_text: smart_input_text,
+  #     to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), e(user, :id, nil)}],
+  #     create_activity_type: :message
+  #   )
+  #   }
+  # end
 
 
   def do_handle_params(%{"tab" => "followers" =tab} = _params, _url, socket) do
