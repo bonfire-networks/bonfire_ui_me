@@ -62,7 +62,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       smart_input_text = if current_username == e(user, :character, :username, ""), do:
       "", else: "@"<>e(user, :character, :username, "")<>" "
 
-      search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
+      # search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
       {:ok,
         socket
         |> assign(
@@ -78,7 +78,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         )
       |> assign_global(
         # following: following || [],
-        search_placholder: search_placeholder,
+        # search_placholder: search_placeholder,
         smart_input_prompt: smart_input_prompt,
         smart_input_text: smart_input_text
         # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), e(user, :id, nil)}]

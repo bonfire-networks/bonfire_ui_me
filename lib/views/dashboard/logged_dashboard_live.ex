@@ -24,7 +24,7 @@ defmodule Bonfire.UI.Me.LoggedDashboardLive do
         page: "dashboard",
         smart_input: true,
         page_title: l("Bonfire Dashboard"),
-        feed_title: l("My Feed"),
+        feed_title: l("My feed"),
         selected_tab: "feed",
         go: "",
         without_sidebar: true
