@@ -32,7 +32,7 @@ defmodule Bonfire.UI.Me.LoginController do
     conn
       |> put_session(:account_id, account.id)
       |> put_session(:user_id, nil)
-      |> put_flash(:info, l "Welcome back!")
+      |> assign_flash(:info, l "Welcome back!")
       |> redirect(to: path(:switch_user) <> copy_go(form))
   end
 
@@ -44,7 +44,7 @@ defmodule Bonfire.UI.Me.LoginController do
     conn
     |> put_session(:account_id, account.id)
     |> put_session(:user_id, user.id)
-    |> put_flash(:info, l("Welcome back, %{name}", name: e(user, :profile, :name, e(user, :character, :username, "anonymous"))))
+    |> assign_flash(:info, l("Welcome back, %{name}", name: e(user, :profile, :name, e(user, :character, :username, "anonymous"))))
     |> redirect_to_previous_go(form, path(:feed))
   end
 

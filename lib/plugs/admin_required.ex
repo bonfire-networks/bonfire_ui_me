@@ -15,7 +15,7 @@ defmodule Bonfire.UI.Me.Plugs.AdminRequired do
       # debug(e)
       conn
       |> clear_session()
-      |> put_flash(:error, e)
+      |> assign_flash(:error, e)
       |> redirect(to: path(:home))
       |> halt()
     end

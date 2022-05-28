@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.Plugs.AccountRequired do
     conn
     |> clear_session()
     |> set_go_after()
-    |> put_flash(:error, l "You need to log in to view that page.")
+    |> assign_flash(:error, l "You need to log in to view that page.")
     |> redirect(to: path(:login))
     |> halt()
   end

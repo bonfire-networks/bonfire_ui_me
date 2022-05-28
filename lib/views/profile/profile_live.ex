@@ -90,8 +90,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
           {:ok,
             socket
             |> set_go_after(path)
-            |> put_flash(:info, l("Please login first, and then... ")<>" "<>e(socket, :assigns, :flash, :info, ""))
-            |> push_redirect(to: path(:login) <> go_query(path))
+            |> assign_flash(:info, l("Please login first, and then... ")<>" "<>e(socket, :assigns, :flash, :info, ""))
+            |> redirect_to(path(:login) <> go_query(path))
           }
         else # redir to remote profile
           {:ok,
@@ -102,8 +102,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
       else
         {:ok,
           socket
-          |> put_flash(:error, l "Profile not found")
-          |> push_redirect(to: path(:error))
+          |> assign_flash(:error, l "Profile not found")
+          |> redirect_to(path(:error))
         }
       end
     end
@@ -238,7 +238,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
     if String.contains?(url, "%40"<>username) do
       debug("rewrite encoded @ in URL")
-      {:noreply, push_patch(socket, to: "/@"<>username, replace: true)}
+      {:noreply, patch_to(socket, "/@"<>username, replace: true)}
     else
       do_handle_params(%{"tab" => "timeline"}, nil, socket)
     end

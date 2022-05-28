@@ -23,12 +23,12 @@ defmodule Bonfire.UI.Me.CreateUserController do
         err = EctoSparkles.Changesets.Errors.changeset_errors_string(changeset, false) #|> IO.inspect
         conn
         |> assign(:error, err)
-        |> put_flash(:error, l("Please double check your inputs... ")<>err)
+        |> assign_flash(:error, l("Please double check your inputs... ")<>err)
         |> paint(changeset)
       r ->
         debug(create_user: r)
         conn
-        |> put_flash(:error, l "An unexpected error occured... ")
+        |> assign_flash(:error, l "An unexpected error occured... ")
         |> paint(changeset)
     end
   end
@@ -36,7 +36,7 @@ defmodule Bonfire.UI.Me.CreateUserController do
   defp greet(conn, params, id, name) do
     conn
     |> put_session(:user_id, id)
-    |> put_flash(:info, l("Hey %{name}, nice to meet you!", name: name))
+    |> assign_flash(:info, l("Hey %{name}, nice to meet you!", name: name))
     |> redirect_to_previous_go(params, path(:feed))
   end
 

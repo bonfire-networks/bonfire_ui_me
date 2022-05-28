@@ -8,7 +8,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
       {:noreply,
           socket
           |> maybe_assign_context(settings)
-          |> put_flash(:info, "Settings saved :-)")
+          |> assign_flash(:info, "Settings saved :-)")
       }
     end
   end
@@ -18,8 +18,8 @@ defmodule Bonfire.Me.Settings.LiveHandler do
       {:noreply,
           socket
           |> maybe_assign_context(settings)
-          |> put_flash(:info, "Settings saved :-)")
-          |> push_redirect(to: "/")
+          |> assign_flash(:info, "Settings saved :-)")
+          |> redirect_to("/")
       }
     end
   end

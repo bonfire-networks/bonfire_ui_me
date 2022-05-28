@@ -34,7 +34,7 @@
           </div>
           <div class="mt-1">
             <div class="w-full prose-sm prose prose-p:pt-2">
-              {rich e(@user, :profile, :summary, "")}
+              {markdown e(@user, :profile, :summary, "")}
             </div>
           </div>
         </div>

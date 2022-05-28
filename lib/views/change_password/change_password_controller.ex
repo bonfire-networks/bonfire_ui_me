@@ -13,12 +13,12 @@ defmodule Bonfire.UI.Me.ChangePasswordController do
         changed(conn, account)
       {:error, :not_found} ->
         conn
-        |> put_flash(:error, l "Unable to change your password. Try entering your old password correctly...")
+        |> assign_flash(:error, l "Unable to change your password. Try entering your old password correctly...")
         |> assign(:error, :not_found)
         |> live_render(ChangePasswordLive)
       {:error, changeset} ->
         conn
-        |> put_flash(:error, l "Unable to change your password. Try entering a longer password...")
+        |> assign_flash(:error, l "Unable to change your password. Try entering a longer password...")
         |> assign(:error, :invalid)
         |> assign(:form, changeset)
         |> live_render(ChangePasswordLive)
@@ -29,7 +29,7 @@ defmodule Bonfire.UI.Me.ChangePasswordController do
 
   defp changed(conn, _account) do
     conn
-    |> put_flash(:info, l "You have now changed your password. We recommend saving it in a password manager app!")
+    |> assign_flash(:info, l "You have now changed your password. We recommend saving it in a password manager app!")
     |> redirect(to: path(:home))
   end
 

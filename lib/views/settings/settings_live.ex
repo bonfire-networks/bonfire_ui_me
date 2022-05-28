@@ -69,7 +69,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
 
     if user && entry.done? do
       with %{} = uploaded_media <-
-        consume_uploaded_entry(socket, entry, fn %{path: path} = metadata ->
+        maybe_consume_uploaded_entry(socket, entry, fn %{path: path} = metadata ->
           # debug(metadata, "icon consume_uploaded_entry meta")
           Bonfire.Files.IconUploader.upload(user, path, %{client_name: entry.client_name, metadata: metadata[entry.ref]})
           # |> debug("uploaded")
@@ -89,7 +89,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
 
     if user && entry.done? do
       with %{} = uploaded_media <-
-        consume_uploaded_entry(socket, entry, fn %{path: path} = metadata ->
+        maybe_consume_uploaded_entry(socket, entry, fn %{path: path} = metadata ->
           # debug(metadata, "image consume_uploaded_entry meta")
           Bonfire.Files.BannerUploader.upload(user, path, %{client_name: entry.client_name, metadata: metadata[entry.ref]})
           # |> debug("uploaded")
@@ -107,8 +107,8 @@ defmodule Bonfire.UI.Me.SettingsLive do
   def save(:icon, :instance, uploaded_media, socket) do
     with :ok <- Bonfire.Me.Settings.put([:bonfire, :ui, :theme, :instance_icon], Bonfire.Files.IconUploader.remote_url(uploaded_media), scope: :instance, socket: socket) do
       {:noreply, socket
-        |> put_flash(:info, l "Icon changed!")
-        |> push_redirect(to: "/")
+        |> assign_flash(:info, l "Icon changed!")
+        |> redirect_to("/")
       }
     end
   end
@@ -117,8 +117,8 @@ defmodule Bonfire.UI.Me.SettingsLive do
     with :ok <- Bonfire.Me.Settings.put([:bonfire, :ui, :theme, :instance_image], Bonfire.Files.BannerUploader.remote_url(uploaded_media), scope: :instance, socket: socket) do
       {:noreply,
       socket
-        |> put_flash(:info, l "Image changed!")
-        |> push_redirect(to: "/")
+        |> assign_flash(:info, l "Image changed!")
+        |> redirect_to("/")
       }
     end
   end
@@ -128,7 +128,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
     with {:ok, user} <- Bonfire.Me.Users.update(user, %{"profile"=> %{"icon"=> uploaded_media, "icon_id"=> uploaded_media.id}}) do
       {:noreply, socket
       |> assign(current_user: deep_merge(user, %{profile: %{icon: uploaded_media}}))
-      |> put_flash(:info, l "Avatar changed!")}
+      |> assign_flash(:info, l "Avatar changed!")}
     end
   end
 
@@ -137,7 +137,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
       {:noreply,
       socket
       |> assign(current_user: deep_merge(user, %{profile: %{image: uploaded_media}}))
-      |> put_flash(:info, l "Background image changed!")}
+      |> assign_flash(:info, l "Background image changed!")}
     end
   end
 

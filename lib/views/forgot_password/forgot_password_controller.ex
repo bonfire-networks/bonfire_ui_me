@@ -44,7 +44,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
     conn
     |> put_session(:account_id, account.id)
     |> put_session(:resetting_password, true) # tell the change password form not to ask for the old password
-    |> put_flash(:info, l "Welcome back! Thanks for confirming your email address. You can now change your password.")
+    |> assign_flash(:info, l "Welcome back! Thanks for confirming your email address. You can now change your password.")
     |> redirect(to: path(Bonfire.UI.Me.ChangePasswordController))
     # |> redirect(to: path(:home))
   end

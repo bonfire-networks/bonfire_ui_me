@@ -11,8 +11,8 @@ defmodule Bonfire.UI.Me.LivePlugs.AdminRequired do
     else
       {:halt,
       socket
-      |> put_flash(:error, l "That page is only accessible to instance administrators.")
-      |> push_redirect(to: path(:login))}
+      |> assign_flash(:error, l "That page is only accessible to instance administrators.")
+      |> redirect_to(path(:login))}
     end
   end
 

@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
 
   defp index([], _, conn, params) do
     conn
-    |> put_flash(:info, l "Hey there! Let's fill out your profile!")
+    |> assign_flash(:info, l "Hey there! Let's fill out your profile!")
     |> redirect(to: path(:create_user) <> copy_go(params))
   end
 
@@ -40,14 +40,14 @@ defmodule Bonfire.UI.Me.SwitchUserController do
   defp show({:ok, user}, conn, params) do
     conn
     |> put_session(:user_id, user.id)
-    |> put_flash(:info, l("Welcome back, %{name}!", name: greet(user)))
+    |> assign_flash(:info, l("Welcome back, %{name}!", name: greet(user)))
     |> redirect_to_previous_go(params, path(:feed))
   end
 
   defp show(error, conn, params) do
     error(error, "Wrong user, or was blocked by admin")
     conn
-    |> put_flash(:error, l "You can only identify as valid users in your account.")
+    |> assign_flash(:error, l "You can only identify as valid users in your account.")
     |> redirect(to: path(:switch_user) <> copy_go(params))
   end
 

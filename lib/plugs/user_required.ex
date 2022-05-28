@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.Plugs.UserRequired do
 
   defp check(_user, %Account{}, conn) do
     conn
-    |> put_flash(:info, l "You need to choose a user to see that page.")
+    |> assign_flash(:info, l "You need to choose a user to see that page.")
     |> set_go_after()
     |> redirect(to: path(:switch_user))
     |> halt()
@@ -22,7 +22,7 @@ defmodule Bonfire.UI.Me.Plugs.UserRequired do
   defp check(_user, _account, conn) do
     conn
     |> clear_session()
-    |> put_flash(:info, l "You need to log in to see that page.")
+    |> assign_flash(:info, l "You need to log in to see that page.")
     |> set_go_after()
     |> redirect(to: path(:login))
     |> halt()

@@ -28,15 +28,15 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
           {
             :noreply,
             assign(socket, trigger_submit: true)
-            |> put_flash(:info, "Details saved!")
-             |> push_redirect(to: "/user")
+            |> assign_flash(:info, "Details saved!")
+             |> redirect_to("/user")
           }
 
         true ->
           {:noreply,
           socket
-          |> put_flash(:info, "Profile saved!")
-          |> push_redirect(to: "/user")
+          |> assign_flash(:info, "Profile saved!")
+          |> redirect_to("/user")
           }
       end
     end

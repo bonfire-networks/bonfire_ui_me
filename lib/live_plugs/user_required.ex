@@ -13,15 +13,15 @@ defmodule Bonfire.UI.Me.LivePlugs.UserRequired do
   defp check(_user, %Account{}, socket) do
     {:halt,
      socket
-     |> put_flash(:info, l "You need to choose a user to see that page.")
-     |> push_redirect(to: path(:switch_user))}
+     |> assign_flash(:info, l "You need to choose a user to see that page.")
+     |> redirect_to(path(:switch_user))}
   end
 
   defp check(_user, _account, socket) do
     {:halt,
      socket
-     |> put_flash(:info, l "You need to log in to see that page.")
-     |> push_redirect(to: path(:login))}
+     |> assign_flash(:info, l "You need to log in to see that page.")
+     |> redirect_to(path(:login))}
   end
 
 end
