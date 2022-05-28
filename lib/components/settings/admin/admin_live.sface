@@ -160,7 +160,7 @@
                   {l "Closed"}
                 </span>
                 <span id="privacy-setting-description" class="block text-sm">
-                  {"Only people with a valid invite link can sign up to this instance."}
+                  {l "Only people with a valid invite link can sign up to this instance."}
                 </span>
               </div>
             </label>
@@ -182,7 +182,7 @@
                   {l "Open"}
                 </span>
                 <span id="privacy-setting-description" class="block text-sm">
-                  {"Anyone can sign up to this instance."}
+                  {l "Anyone can sign up to this instance."}
                 </span>
               </div>
             </label>

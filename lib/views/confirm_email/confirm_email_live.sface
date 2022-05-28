@@ -42,7 +42,7 @@
                   {l "Type your email"}
                 </span>
               </Label>
-              <EmailInput class="w-full mb-3 input input-bordered" opts={placeholder: "Type your email..."} />
+              <EmailInput class="w-full mb-3 input input-bordered" opts={placeholder: l "Type your email..."} />
               <ErrorTag />
             </Field>
             <button class="w-full btn btn-primary" type="submit">{l "Send"}</button> 
