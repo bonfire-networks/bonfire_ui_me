@@ -50,7 +50,7 @@
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <Bonfire.UI.Common.ChangeLocaleLive
-          locale={Bonfire.Me.Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], e(assigns, :locale, nil))}
+          locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], e(assigns, :locale, nil))}
          />
       </div>
     </div>
@@ -156,10 +156,10 @@
               >
               <div class="flex flex-col ml-3">
                 <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
-                <span id="privacy-setting-label" class="block text-sm font-medium">
+                <span class="block text-sm font-medium">
                   {l "Closed"}
                 </span>
-                <span id="privacy-setting-description" class="block text-sm">
+                <span class="block text-sm">
                   {l "Only people with a valid invite link can sign up to this instance."}
                 </span>
               </div>
@@ -178,10 +178,10 @@
               >
               <div class="flex flex-col ml-3">
                 <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
-                <span id="privacy-setting-label" class="block text-sm font-medium">
+                <span class="block text-sm font-medium">
                   {l "Open"}
                 </span>
-                <span id="privacy-setting-description" class="block text-sm">
+                <span class="block text-sm">
                   {l "Anyone can sign up to this instance."}
                 </span>
               </div>

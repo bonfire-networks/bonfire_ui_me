@@ -22,7 +22,9 @@
         {l "Language"}
       </label>
       <div class="w-full">
-        <Bonfire.UI.Common.ChangeLocaleLive />
+        <Bonfire.UI.Common.ChangeLocaleLive
+          locale={Bonfire.Me.Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], e(assigns, :locale, nil), assigns)}
+        />
       </div>
     </div>
   </div>
