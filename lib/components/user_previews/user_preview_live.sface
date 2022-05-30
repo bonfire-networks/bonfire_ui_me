@@ -1,4 +1,4 @@
-<div class="transition duration-300 ease-in-out rounded-lg shadow bg-base-100 component_user_preview hover:shadow-xl ring-2 ring-primary hover:ring-2">
+<div class="box-border transition duration-300 ease-in-out rounded-lg shadow hover:opacity-50 bg-base-100 component_user_preview hover:shadow-xl ring-2 ring-primary hover:ring-2">
   <LiveRedirect to={path(:switch_user, [:show, @user.character.username || ""]) <> (@go || "")}>
   <div
     aria-hidden="true"

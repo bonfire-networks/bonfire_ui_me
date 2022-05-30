@@ -16,7 +16,7 @@ defmodule Bonfire.UI.Me.SwitchUserLive do
   end
 
   defp mounted(_, _, socket), do: {:ok,
-    assign(socket, current_user: nil, go: Map.get(socket.assigns, :go, ""), without_sidebar: true)
+    assign(socket, current_user: nil, go: Map.get(socket.assigns, :go, ""), page_title: l "Switch user")
   }
 
 end

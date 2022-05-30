@@ -1,15 +1,16 @@
-<div id="switch_user">
-  <div class="my-8">
-    <h3 class="text-2xl font-bold leading-6 tracking-wider text-base-content">
-      {l "Switch user"}
-    </h3>
-    <p class="max-w-4xl mt-4 text-base text-opacity-75 text-base-content">
+<main 
+  id="switch-user"
+  class="flex flex-col h-body">
+  <Bonfire.UI.Common.PageHeaderLive 
+    before
+    page_title={e(assigns, :page_title, l "Switch user")} />
+  <div class="flex-1 p-3 bg-base-100 rounded-b-md">
+    <p class="mt-4 text-base text-opacity-75 text-base-content">
       {l "You can have multiple user profiles for different online identities, or for your organizations or projects."}
     </p>
+    <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive 
+      go={@go} 
+      current_account_users={@current_account_users} 
+    />
   </div>
-
-  <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive 
-    go={@go} 
-    current_account_users={@current_account_users} 
-  />
-</div>
+</main>
