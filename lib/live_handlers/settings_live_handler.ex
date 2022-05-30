@@ -24,6 +24,17 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     end
   end
 
+    # LiveHandler
+  def handle_event("set_locale", %{"locale" => locale}, socket) do
+
+    Bonfire.Common.Localise.put_locale(locale)
+    |> debug("set current UI locale")
+
+    # then save to settings
+    %{"Bonfire.Common.Localise.Cldr"=> %{"default_locale"=> locale}}
+    |> handle_event("set", ..., socket)
+  end
+
   defp maybe_assign_context(socket, %{assign_context: assigns}) do
     socket
     |> assign_global(assigns)
