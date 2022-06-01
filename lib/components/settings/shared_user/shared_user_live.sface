@@ -48,7 +48,7 @@
           <label>
             <h4>{l "Warning!"}</h4> 
             <p class="text-sm text-base-content text-opacity-60">
-            {l "Anyone you add will have admin-level access over this user identity, meaning they can post as%{username}, read private messages, etc.", username: e(current_user(assigns), :character, :username, "")}
+            {l "Anyone you add will have admin-level access over this user identity, meaning they can post as %{username}, read private messages, etc.", username: e(current_user(assigns), :character, :username, "")}
             </p>
           </label>
         </div> 
