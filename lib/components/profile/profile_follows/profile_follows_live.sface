@@ -1,22 +1,27 @@
-<div class="pt-4">
-  <div role="tabpanel" class="flex w-full tabs">
+  <main class="flex flex-col ">
+
+  <div role="tabpanel" class="flex justify-between w-full mb-2 border-b bg-base-200 tabs border-base-content/10">
     <LiveRedirect 
       to={"/user/#{e(@user, :character, :username, "")}/followers"} 
-      class={"tab flex-1 tab-bordered", "tab-active": @selected_tab ==  "followers"}
+      class="flex flex-1 pt-2 text-base font-semibold capitalize hover:bg-base-content/10 group place-content-center"
     >
+      <div class={"tab tab-bordered flex group-hover:text-opacity-100", "tab-active": @selected_tab == "followers"}>
       {l "Followers"} 
-      <span :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, assigns)}>
-        ({e(@user, :character, :follow_count, :object_count, 0)})
-      </span>
+        <span :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, assigns)}>
+          ({e(@user, :character, :follow_count, :object_count, 0)})
+        </span>
+      </div>
     </LiveRedirect> 
     <LiveRedirect 
       to={"/user/#{e(@user, :character, :username, "")}/followed"} 
-      class={"tab flex-1 tab-bordered", "tab-active": @selected_tab ==  "followed"}
+      class="flex flex-1 pt-2 text-base font-semibold capitalize hover:bg-base-content/10 group place-content-center"
     >
-      {l "Following"} 
-      <span :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, assigns)}>
-        ({e(@user, :character, :follow_count, :subject_count, 0)})
-      </span>
+      <div class={"tab tab-bordered flex group-hover:text-opacity-100", "tab-active": @selected_tab == "followed"}>
+        {l "Following"} 
+        <span :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, assigns)}>
+          ({e(@user, :character, :follow_count, :subject_count, 0)})
+        </span>
+      </div>
     </LiveRedirect>   
   </div>
 
@@ -32,7 +37,9 @@
           />
         </li>
         {#else}
+         <div id="followed-empty-feed" class="flex items-center my-12 place-content-center">
           <Bonfire.UI.Common.EmptyFeed/> 
+        </div>
         {/for}    
       </ul>
     </div>
@@ -50,10 +57,12 @@
             />
           </li>
         {#else}
-          <Bonfire.UI.Common.EmptyFeed/> 
+          <div id="followers-empty-feed" class="flex items-center my-12 place-content-center">
+            <Bonfire.UI.Common.EmptyFeed/> 
+          </div>
         {/for}    
 
       </ul>
     </div>
   </div>
-</div>
+</main>

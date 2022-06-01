@@ -1,4 +1,4 @@
-defmodule Bonfire.UI.Me.ProfileFollowsLive do
+defmodule Bonfire.UI.Social.ProfileFollowsLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
   prop user, :map
