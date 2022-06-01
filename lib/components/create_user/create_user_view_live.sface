@@ -8,7 +8,7 @@
     <div class="rounded shadow-xl bg-base-100 -mt-14">
       <div class="px-6 pt-16 pb-6 mx-auto">
         <h1 class="text-xl font-bold leading-6 text-base-content">
-          {l "Create a new user"}
+          {l "Create a user profile"}
         </h1>
         <p class="mt-2 text-base text-base-content text-opacity-80">
           {l "This information will be displayed publicly so be careful what you share."}
@@ -30,7 +30,7 @@
                 </div>
                 <div class="ml-3">
                   <h3 class="text-sm font-medium text-yellow-800">
-                    This username has already been taken. Please choose another. Did you mean to <LiveRedirect to="/switch-user">Switch user</LiveRedirect> or <LiveRedirect to="/login">login</LiveRedirect>?
+                    {l "This username has already been taken. Please choose another. Did you mean to"} <LiveRedirect to="/switch-user">{l "Switch user profile"}</LiveRedirect> {l "or"} <LiveRedirect to="/login">{l "login"}</LiveRedirect>?
                   </h3>
                 </div>
               </div>
@@ -43,7 +43,7 @@
                 </div>
                 <div class="ml-3">
                   <h3 class="text-sm font-medium text-yellow-800">
-                    You need to use the special invite link to sign up.
+                    {l "You need to use the special invite link to sign up."}
                   </h3>
                 </div>
               </div>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="ml-3">
                   <h3 class="text-sm font-medium text-yellow-800">
-                    An error occurred: {error}
+                    {l "An error occurred:"} {error}
                   </h3>
                 </div>
               </div>

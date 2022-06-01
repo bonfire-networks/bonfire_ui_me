@@ -7,7 +7,7 @@
 
   <form phx-submit="Bonfire.Me.Users:share_user" method="POST">
     <div class="p-3">
-      <h2 class="text-lg font-bold">Share this user identity with your team</h2>
+      <h2 class="text-lg font-bold">{l "Share this user identity with your team"}</h2>
 
       <div class="mt-4 form-control">
         <label for="shared_user_label" class="label">
@@ -28,7 +28,7 @@
       <div class="form-control">
         <label for="add_shared_user" class="label">
           <span class="label-text">
-            {l "Give full access to this user identity (%{username}) to a team member", username: e(current_user(assigns), :character, :username, "")}
+            {l "Give full access to this user identity and profile (%{username}) to a team member", username: e(current_user(assigns), :character, :username, "")}
           </span>
         </label>
         <input
@@ -46,9 +46,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>                     
           </svg> 
           <label>
-            <h4>Warning!</h4> 
+            <h4>{l "Warning!"}</h4> 
             <p class="text-sm text-base-content text-opacity-60">
-              Anyone you add will have admin-level access over this user identity, meaning they can post as <strong>{e(current_user(assigns), :character, :username, "")}</strong>, read private messages, etc.
+            {l "Anyone you add will have admin-level access over this user identity, meaning they can post as%{username}, read private messages, etc.", username: e(current_user(assigns), :character, :username, "")}
             </p>
           </label>
         </div> 

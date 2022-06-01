@@ -15,8 +15,7 @@
           <h3 class="text-sm font-medium text-base-content">{l "Hooray! You are registered"}</h3>
           <div class="mt-2 text-sm text-base-content text-opacity-80" data-id="confirmation_success">
             {#if @registered==:check_email }
-              {l "Now we need you to confirm your email address. We've emailed
-              you a link (check your spam folder!). Please click on it to continue."}
+              {l "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."}
             {#else}
               {l "You can now log in."}
             {/if}
