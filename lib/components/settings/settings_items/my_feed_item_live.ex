@@ -1,5 +1,7 @@
 defmodule Bonfire.UI.Me.SettingsViewsLive.MyFeedItemLive do
   use Bonfire.UI.Common.Web, :stateless_component
+
+  prop scope, :atom, default: nil
   prop key, :any
   prop label, :string
   prop force_checked, :boolean, default: false

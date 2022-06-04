@@ -3,7 +3,7 @@
     <label class="label cursor-pointer justify-start">
       <Checkbox 
         name={"Bonfire.Social.Feeds[my_feed_includes][#{@key}]"} 
-        value={@force_checked==true or (@force_unchecked !=true and Bonfire.Me.Settings.get([Bonfire.Social.Feeds, :my_feed_includes, @key], true, assigns) |> debug("value: #{@key}") )}
+        value={@force_checked==true or (@force_unchecked !=true and Bonfire.Me.Settings.get([Bonfire.Social.Feeds, :my_feed_includes, @key], true, @scope || assigns))}
         opts={disabled: @disabled}
         class="checkbox" 
       />

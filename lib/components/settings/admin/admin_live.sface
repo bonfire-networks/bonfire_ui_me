@@ -36,7 +36,7 @@
       </label>
       <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
         <div class="flex max-w-lg ">
-           <input type="text" name="ui[theme][instance_theme]" id="instance_theme" value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_theme], "")} class="w-full input input-bordered">
+           <input type="text" name="ui[theme][instance_theme]" id="instance_theme" value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_theme], nil, :instance)} class="w-full input input-bordered">
 
           <!-- <Bonfire.UI.Common.ChangeThemeLive  /> -->
           <!-- <input type="text" name="ui[theme][instance_name]" id="instance_name" value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_name], "")} class="w-full input input-bordered"> -->
@@ -50,7 +50,7 @@
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <Bonfire.UI.Common.ChangeLocaleLive
-          locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], e(assigns, :locale, nil))}
+          locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], e(assigns, :locale, nil), :instance)}
          />
       </div>
     </div>
@@ -70,8 +70,8 @@
               <input type="radio" 
               name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" 
               value="true" 
-              checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true), do: "checked"} 
-              class="radio radio-secondary" aria-labelledby="admin-info-0-label" aria-describedby="admin-info-0-description">
+              checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true, :instance), do: "checked"} 
+              class="radio radio-secondary" >
               <div class="flex flex-col ml-3">
                 <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
                 <span id="admin-info-0-label" class="block text-sm font-medium">
@@ -86,8 +86,8 @@
               <input type="radio" 
               name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" 
               value="false" 
-              checked={if !Bonfire.Me.Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true), do: "checked"} 
-              class="radio radio-secondary" aria-labelledby="admin-info-2-label" aria-describedby="admin-info-2-description">
+              checked={if !Bonfire.Me.Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true, :instance), do: "checked"} 
+              class="radio radio-secondary">
               <div class="flex flex-col ml-3">
                 <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
                 <span id="admin-info-2-label" class="block text-sm font-medium">
@@ -149,10 +149,8 @@
                 type="radio"
                 name="invite_only"
                 value="true"
-                checked={if Bonfire.Me.Settings.get(:invite_only, true), do: "checked"} 
+                checked={if Bonfire.Me.Settings.get(:invite_only, true, :instance), do: "checked"} 
                 class="radio radio-secondary"
-                aria-labelledby="privacy-setting-0-label"
-                aria-describedby="privacy-setting-0-description"
               >
               <div class="flex flex-col ml-3">
                 <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
@@ -171,10 +169,8 @@
                 type="radio"
                 name="invite_only"
                 value="false"
-                checked={if !Bonfire.Me.Settings.get(:invite_only, true), do: "checked"} 
+                checked={if !Bonfire.Me.Settings.get(:invite_only, true, :instance), do: "checked"} 
                 class="radio radio-secondary"
-                aria-labelledby="privacy-setting-1-label"
-                aria-describedby="privacy-setting-1-description"
               >
               <div class="flex flex-col ml-3">
                 <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
@@ -190,10 +186,117 @@
         </fieldset>
       </div>
     </div>
+
     <div class="p-3">
       <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
         label={l "Users and their content should appear in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden by each account and user's settings)"}
+        scope={:instance}
       />
+    </div>
+
+    <Bonfire.UI.Me.SettingsViewsLive.MyFeedItemsLive
+      title={l "What activities to include in home feeds by default"}
+      scope={:instance}
+    />
+
+
+    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
+      <label class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
+        {l "Indexing of data in this instance's search engine"}
+      </label>
+
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <fieldset>
+          <legend class="sr-only">
+            {l "Indexing of data in this instance's search engine"}
+<!-- 
+index everything (except messages)
+settings for what to index:
+index everything (including messages)
+do not index anything that isn't public
+do not index anything that isn't public or local-only
+
+setting for whether or not to apply boundaries to search, as if you enable indexing private stuff and later disable it you would want to continue applying boundaries -->
+          </legend>
+          <div class="-space-y-px bg-base-100 rounded-box">
+            <label class="relative flex p-4 border cursor-pointer border-base-200 rounded-tl-md rounded-tr-md focus:outline-none">
+              <input
+                type="checkbox"
+                name="Bonfire.Search[include_in_index][public]"
+                value="true"
+                checked={if Bonfire.Me.Settings.get([Bonfire.Search, :include_in_index, :public], true, :instance), do: "checked"} 
+                class="radio radio-secondary"
+              >
+              <div class="flex flex-col ml-3">
+                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
+                <span class="block text-sm font-medium">
+                  {l "Public content"}
+                </span>
+                <span class="block text-sm">
+                  {l "All public local or remote activities."}
+                </span>
+              </div>
+            </label>
+
+            <label class="relative flex p-4 border cursor-pointer border-base-200 rounded-bl-md rounded-br-md focus:outline-none">
+              <input
+                type="checkbox"
+                name="Bonfire.Search[include_in_index][local]"
+                value="true"
+                checked={if Bonfire.Me.Settings.get([Bonfire.Search, :include_in_index, :local], true, :instance), do: "checked"} 
+                class="radio radio-secondary"
+              >
+              <div class="flex flex-col ml-3">
+                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
+                <span class="block text-sm font-medium">
+                  {l "Local-only"}
+                </span>
+                <span class="block text-sm">
+                  {l "All local activities visible only to this instance's members."}
+                </span>
+              </div>
+            </label>
+
+            <label class="relative flex p-4 border cursor-pointer border-base-200 rounded-bl-md rounded-br-md focus:outline-none">
+              <input
+                type="checkbox"
+                name="Bonfire.Search[include_in_index][private]"
+                value="true"
+                checked={if Bonfire.Me.Settings.get([Bonfire.Search, :include_in_index, :private], false, :instance), do: "checked"} 
+                class="radio radio-secondary"
+              >
+              <div class="flex flex-col ml-3">
+                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
+                <span class="block text-sm font-medium">
+                  {l "Private activities"}
+                </span>
+                <span class="block text-sm">
+                  {l "Index private content (except messages), and make it searcheable for those allowed based on boundaries."}
+                </span>
+              </div>
+            </label>
+
+            <label class="relative flex p-4 border cursor-pointer border-base-200 rounded-bl-md rounded-br-md focus:outline-none">
+              <input
+                type="checkbox"
+                name="Bonfire.Search[include_in_index][messages]"
+                value="true"
+                checked={if Bonfire.Me.Settings.get([Bonfire.Search, :include_in_index, :messages], false, :instance), do: "checked"} 
+                class="radio radio-secondary"
+              >
+              <div class="flex flex-col ml-3">
+                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
+                <span class="block text-sm font-medium">
+                  {l "Private messages"}
+                </span>
+                <span class="block text-sm">
+                  {l "Make message threads searcheable for their participants."}
+                </span>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+      </div>
     </div>
 </form>
 
