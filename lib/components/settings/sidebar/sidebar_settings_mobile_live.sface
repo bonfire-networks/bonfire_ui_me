@@ -1,0 +1,181 @@
+  <div 
+    x-cloak
+    x-show="open_sidebar_drawer" 
+    class="relative z-[100]" 
+    x-description="Off-canvas menu for mobile, show/hide based on off-canvas menu state." x-ref="dialog" aria-modal="true">
+    <div x-show="open_sidebar_drawer" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-description="Off-canvas menu backdrop, show/hide based on off-canvas menu state." class="fixed inset-0 h-screen bg-slate-600/60"></div>
+    <div class="fixed inset-0 z-40 flex h-screen">
+      <div x-show="open_sidebar_drawer" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" x-description="Off-canvas menu, show/hide based on off-canvas menu state." class="relative flex flex-col flex-1 w-full max-w-md bg-base-300" @click.away="open_sidebar_drawer = false">
+        <div x-show="open_sidebar_drawer" x-transition:enter="ease-in-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in-out duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" x-description="Close button, show/hide based on off-canvas menu state." class="absolute top-0 right-0 pt-2 -mr-12">
+          <button type="button" class="flex items-center justify-center w-10 h-10 ml-1 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="open_sidebar_drawer = false">
+            <span class="sr-only">{l "Close menu"}</span>
+            <svg class="w-6 h-6 text-white" x-description="Heroicon name: outline/x" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="flex flex-col h-full py-6 overflow-y-auto shadow-xl bg-base-100">
+          <div class="px-4 sm:px-6">
+            <div class="flex items-start justify-between">
+              <div class="font-bold text-base-content">
+                {l "Account information"}
+              </div>
+            </div>
+          </div>
+          <div class="relative flex flex-col flex-1 px-4 mt-6 sm:px-6">
+            
+
+            <ul role="navigation" class="menu bg-base-100">
+              <li class="uppercase menu-title">
+                <span>{l "General settings"}</span>
+              </li>
+              
+              <li :if={current_user(assigns)}>
+                <LivePatch 
+                  to={"/settings/user"} 
+                  class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "user"}>
+                  <Outline.UserIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "Profile Info"}
+                </LivePatch>
+              </li> 
+              <li>
+                <LivePatch 
+                  to={"/settings/preferences"}
+                  class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "preferences"}>
+                  <Outline.AdjustmentsIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "User Preferences"}
+                </LivePatch>
+              </li> 
+              <li :if={ module_enabled?(Bonfire.Data.SharedUser) and module_enabled?(Bonfire.Me.SharedUsers) }>
+                <LivePatch 
+                  to={"/settings/shared_user"}
+                  class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "shared_user"}>
+                  <Solid.UserGroupIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "Teams"}
+                </LivePatch>
+              </li> 
+              <li>
+                <LivePatch 
+                  to={"/settings/account"}
+                  class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "account"}>
+                  <Outline.LockClosedIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "Account Settings"}
+                </LivePatch>
+              </li>
+              <li class="uppercase menu-title">
+                <span>{l "Safety"}</span>
+              </li>
+              <li>
+                <LivePatch 
+                  to={"/settings/flags"}
+                  class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "flags"}>
+                  <Outline.FlagIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+                  {l "Flags"}
+                </LivePatch>
+              </li>
+              <li>
+                <LivePatch 
+                  to={"/settings/ghosted"}
+                  class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "ghosted"}>
+                  <Outline.MinusCircleIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+                  {l "Ghosted"}
+                </LivePatch>
+              </li>
+              <li>
+                <LivePatch 
+                  to={"/settings/silenced"}
+                  class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "silenced"}>
+                  <Outline.VolumeOffIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+                  {l "Silenced"}
+                </LivePatch>
+              </li>
+              <div :if={Bonfire.Me.Users.is_admin?(current_user(assigns))} >
+                <li class="mt-2 uppercase menu-title">
+                  <span>{l "Admin settings"}</span>
+                </li>
+                <li>
+                  <LivePatch 
+                    to="/settings/admin/instance"
+                    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @admin_tab == "instance"}>
+                  <Outline.FireIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "Instance Info"}
+                  </LivePatch>
+                </li>
+                <li>
+                  <LivePatch 
+                    to="/settings/admin/config"
+                    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "admin" and (@admin_tab == "config" or !@admin_tab)}>
+                  <Outline.AdjustmentsIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "Instance Settings"}
+                  </LivePatch>
+                </li>
+                <li>
+                  <LivePatch 
+                    to="/settings/extensions"
+                    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "extensions"}>
+                  <Outline.PuzzleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "Extensions"}
+                  </LivePatch>
+                </li>
+                <li>
+                  <LivePatch 
+                    to="/settings/admin/terms"
+                    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @admin_tab == "terms"}>
+                  <Outline.ScaleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "Terms / Policies"}
+                  </LivePatch>
+                </li>
+                <li>
+                  <LivePatch 
+                    :if={module_enabled?(Bonfire.Invite.Links)}
+                    to="/settings/admin/invites"
+                    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @admin_tab == "invites"}>
+                    <Outline.MailIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                    {l "Invites"}
+                  </LivePatch>
+                </li>
+                <li class="uppercase menu-title">
+                  <span>{l "Moderation"}</span>
+                </li>
+                <li>
+                  <LivePatch 
+                    to={"/settings/flags"}
+                    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "flags"}>
+                    <Outline.FlagIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+                    {l "Flags"}
+                  </LivePatch>
+                </li>
+                <li>
+                  <LivePatch 
+                    to={"/settings/admin/ghosted"}
+                    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "ghosts"}>
+                    <Outline.MinusCircleIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+                    {l "Ghosted"}
+                  </LivePatch>
+                </li>
+                <li>
+                  <LivePatch 
+                    to={"/settings/admin/silenced"}
+                    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "silence"}>
+                    <Outline.VolumeOffIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+                    {l "Silenced"}
+                  </LivePatch>
+                </li>
+              </div>
+            </ul>
+            <LivePatch to={"/logout"} class="w-full mt-2 btn btn-error">
+              <Outline.LogoutIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+              {l "Logout"}
+            </LivePatch>
+          </div>
+
+
+
+        </div>
+      </div>
+            
+      <div class="flex-shrink-0 w-14">
+        <!-- Force sidebar to shrink to fit close icon -->
+      </div>
+    </div>
+  </div>

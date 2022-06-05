@@ -20,27 +20,6 @@
       {/if} 
       <!-- {#else} -->
 
-      {#if Bonfire.Me.Settings.get([:bonfire, :terms, :conduct], nil)}
-        <div class="my-4 alert">
-          <div><div>
-            <h3 class="mb-3 opacity-70">{l "Terms of Use"} / {l "Code of Conduct"}</h3>
-            <div class="prose whitespace-normal">
-              {rich Bonfire.Me.Settings.get([:bonfire, :terms, :conduct], "")}
-            </div>
-          </div></div>
-        </div>
-      {/if} 
-
-      {#if Bonfire.Me.Settings.get([:bonfire, :terms, :privacy], nil)}
-        <div class="my-4 alert">
-          <div><div>
-            <h3 class="mb-3 opacity-70">{l "Privacy Policy"}</h3>
-            <div class="prose whitespace-normal">
-              {rich Bonfire.Me.Settings.get([:bonfire, :terms, :privacy], "")}
-            </div>
-          </div></div>
-        </div>
-      {/if} 
 
       {#case @error}
         {#match nil }
@@ -109,6 +88,8 @@
               </Field>
             </div>
           </Inputs>
+
+          
           <div class="mt-6">
             <span class="block w-full rounded-md shadow-sm">
               <button type="submit" class="flex w-full btn btn-primary place-content-center">
@@ -116,11 +97,17 @@
               </button>
             </span>
           </div>
-          <div class="mt-4 text-base-content">
+          <div class="flex flex-col mt-4 space-y-3 text-base-content">
+            {#if Bonfire.Me.Settings.get([:bonfire, :terms, :conduct], nil)}
+              <div>{l "Read our "}<LiveRedirect to="/code-of-conduct" class="link">{l "code of conduct"}</LiveRedirect></div>
+            {/if} 
+
+            {#if Bonfire.Me.Settings.get([:bonfire, :terms, :privacy], nil)}
+            <div>{l "Read our "}<LiveRedirect to="/privacy-policy" class="link">{l "privacy policy"}</LiveRedirect></div>
+            {/if} 
             <p>
-              <span>&#x01f44b; </span>
             {l "Do you already have an account?"}
-              <LiveRedirect class="font-bold underline" to={path(:login, :index)}>{l "Log in"}</LiveRedirect>.
+              <LiveRedirect class="link" to={path(:login, :index)}>{l "Log in"}</LiveRedirect>
             </p>
           </div>
         </Form>

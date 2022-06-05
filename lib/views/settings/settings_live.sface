@@ -1,4 +1,12 @@
-<section class="mb-3 bg-base-100 rounded-md">
+<section
+  x-data="{
+    open_sidebar_drawer: false
+  }" 
+  class="mb-3 rounded-md bg-base-100">
+  <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsMobileLive 
+    selected_tab={@selected_tab}
+    admin_tab={@tab_id}
+    current_user={current_user(assigns)} />
   {#case @selected_tab}
     {#match "admin"}
       {#if is_admin?(current_user(assigns))}
