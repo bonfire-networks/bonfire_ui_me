@@ -33,7 +33,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
           ],
           secondary: [
             # {Bonfire.UI.Me.WidgetTagsLive , []},
-            {Bonfire.UI.Common.HomeBannerLive, []}
+            {Bonfire.UI.Common.WidgetInstanceInfoLive, []}
           ]
         ]
       ])
@@ -160,7 +160,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
           ],
           secondary: [
             # {Bonfire.UI.Me.WidgetTagsLive , []},
-            {Bonfire.UI.Common.HomeBannerLive, []}
+            {Bonfire.UI.Common.WidgetInstanceInfoLive, []}
           ]
         ]
       ]
@@ -188,7 +188,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
             ],
             secondary: [
               # {Bonfire.UI.Me.WidgetTagsLive , []},
-              {Bonfire.UI.Common.HomeBannerLive, []}
+              {Bonfire.UI.Common.WidgetInstanceInfoLive, []}
             ]
           ]
         ]

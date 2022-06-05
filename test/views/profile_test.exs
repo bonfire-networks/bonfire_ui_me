@@ -1,10 +1,8 @@
 defmodule Bonfire.UI.Me.ProfileTest do
-  use Bonfire.UI.Me.ConnCase, async: true
-  # alias Bonfire.Social.Fake
-  alias Bonfire.Social.{Follows}
-  import Phoenix.LiveViewTest
-  alias Bonfire.UI.Me.ProfileHeroFullLive
+  use Bonfire.UI.Me.ConnCase, async: false # not async to try to avoid this error in CI: (Postgrex.Error) ERROR 57014 (query_canceled) canceling statement due to user request
 
+  import Phoenix.LiveViewTest
+  alias Bonfire.Social.Follows
 
   test "If a user follows me, I want to have a visual feedback in their profile" do
     account = fake_account!()
@@ -20,7 +18,7 @@ defmodule Bonfire.UI.Me.ProfileTest do
     # Then I should see a visual feedback in their profile
     assert html =~ "Follows you"
 
-    # Given a user
+    # Given a third user
     carl = fake_user!(account)
     # When I visit the profile of the user that does not follows me
     next = Bonfire.Common.URIs.path(carl)
