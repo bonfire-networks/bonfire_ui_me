@@ -1,6 +1,22 @@
+<div 
+  class="hidden tablet:block">
 
-<div class="hidden tablet:block">
-  <ul role="navigation" class="py-3 rounded-md shadow w-[285px] menu bg-base-100">
+  <div
+    :if={Bonfire.Me.Users.is_admin?(current_user(assigns))}
+    class="w-full mb-2 dropdown">
+    <label 
+      tabindex="0" 
+      class="w-full normal-case btn border-base-content/30 btn-outline btn-wide">{if String.length(e(assigns, :admin_tab, "")) > 0, do: "Admin settings", else: "User settings"}</label>
+    <ul tabindex="0" class="p-2 shadow dropdown-content menu bg-base-100 rounded-box w-52">
+      <li><LivePatch to="/settings/user">{l "User settings"}</LivePatch></li>
+      <li><LivePatch to="/settings/admin/instance">{l "Admin settings"}</LivePatch></li>
+    </ul>
+  </div>
+
+
+  <ul 
+    :if={String.length(e(assigns, :admin_tab, "")) == 0}
+    role="navigation" class="py-3 rounded-md shadow w-[285px] menu bg-base-100">
     <li class="uppercase menu-title">
       <span>{l "General settings"}</span>
     </li>
@@ -40,9 +56,8 @@
     <li class="uppercase menu-title">
       <span>{l "Safety"}</span>
     </li>
-    <li>
-      <LivePatch 
-        to={"/settings/flags"}
+     <li>
+      <LivePatch  to={"/settings/flags"}
         class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "flags"}>
         <Outline.FlagIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
         {l "Flags"}
@@ -64,80 +79,86 @@
         {l "Silenced"}
       </LivePatch>
     </li>
-    <div :if={Bonfire.Me.Users.is_admin?(current_user(assigns))} >
-      <li class="mt-2 uppercase menu-title">
-        <span>{l "Admin settings"}</span>
-      </li>
-      <li>
-        <LivePatch 
-          to="/settings/admin/instance"
-          class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @admin_tab == "instance"}>
-        <Outline.FireIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
-        {l "Instance Info"}
-        </LivePatch>
-      </li>
-      <li>
-        <LivePatch 
-          to="/settings/admin/config"
-          class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "admin" and (@admin_tab == "config" or !@admin_tab)}>
-        <Outline.AdjustmentsIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
-        {l "Instance Settings"}
-        </LivePatch>
-      </li>
-      <li>
-        <LivePatch 
-          to="/settings/extensions"
-          class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "extensions"}>
-        <Outline.PuzzleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
-        {l "Extensions"}
-        </LivePatch>
-      </li>
-      <li>
-        <LivePatch 
-          to="/settings/admin/terms"
-          class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @admin_tab == "terms"}>
-        <Outline.ScaleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
-        {l "Terms / Policies"}
-        </LivePatch>
-      </li>
-      <li>
-        <LivePatch 
-          :if={module_enabled?(Bonfire.Invite.Links)}
-          to="/settings/admin/invites"
-          class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @admin_tab == "invites"}>
-          <Outline.MailIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
-          {l "Invites"}
-        </LivePatch>
-      </li>
-      <li class="uppercase menu-title">
-        <span>{l "Moderation"}</span>
-      </li>
-      <li>
-        <LivePatch 
-          to={"/settings/flags"}
-          class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "flags"}>
-          <Outline.FlagIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
-          {l "Flags"}
-        </LivePatch>
-      </li>
-      <li>
-        <LivePatch 
-          to={"/settings/admin/ghosted"}
-          class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "ghosts"}>
-          <Outline.MinusCircleIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
-          {l "Ghosted"}
-        </LivePatch>
-      </li>
-      <li>
-        <LivePatch 
-          to={"/settings/admin/silenced"}
-          class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "silence"}>
-          <Outline.VolumeOffIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
-          {l "Silenced"}
-        </LivePatch>
-      </li>
-    </div>
   </ul>
+
+  <ul 
+    :if={String.length(e(assigns, :admin_tab, "")) > 0 and Bonfire.Me.Users.is_admin?(current_user(assigns))}
+    role="navigation" 
+    class="py-3 rounded-md shadow w-[285px] menu bg-base-100">
+    <li class="mt-2 uppercase menu-title">
+      <span>{l "Admin settings"}</span>
+    </li>
+    <li>
+      <LivePatch 
+        to="/settings/admin/instance"
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @admin_tab == "instance"}>
+      <Outline.FireIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+      {l "Instance Info"}
+      </LivePatch>
+    </li>
+    <li>
+      <LivePatch 
+        to="/settings/admin/config"
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "admin" and (@admin_tab == "config" or !@admin_tab)}>
+      <Outline.AdjustmentsIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+      {l "Instance Settings"}
+      </LivePatch>
+    </li>
+    <li>
+      <LivePatch 
+        to="/settings/extensions"
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "extensions"}>
+      <Outline.PuzzleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+      {l "Extensions"}
+      </LivePatch>
+    </li>
+    <li>
+      <LivePatch 
+        to="/settings/admin/terms"
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @admin_tab == "terms"}>
+      <Outline.ScaleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+      {l "Terms / Policies"}
+      </LivePatch>
+    </li>
+    <li>
+      <LivePatch 
+        :if={module_enabled?(Bonfire.Invite.Links)}
+        to="/settings/admin/invites"
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @admin_tab == "invites"}>
+        <Outline.MailIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+        {l "Invites"}
+      </LivePatch>
+    </li>
+    <li class="uppercase menu-title">
+      <span>{l "Moderation"}</span>
+    </li>
+    <li>
+      <LivePatch 
+        to={"/settings/flags"}
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "flags"}>
+        <Outline.FlagIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+        {l "Flags"}
+      </LivePatch>
+    </li>
+    <li>
+      <LivePatch 
+        to={"/settings/admin/ghosted"}
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "ghosts"}>
+        <Outline.MinusCircleIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+        {l "Ghosted"}
+      </LivePatch>
+    </li>
+    <li>
+      <LivePatch 
+        to={"/settings/admin/silenced"}
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "silence"}>
+        <Outline.VolumeOffIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+        {l "Silenced"}
+      </LivePatch>
+    </li>
+  </ul>
+
+
   <LivePatch to={"/logout"} class="w-full mt-2 btn btn-error">
     <Outline.LogoutIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "Logout"}
