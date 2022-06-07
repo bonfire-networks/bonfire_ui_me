@@ -49,6 +49,7 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       assert redirected_to(conn) == "/switch-user"
       conn = get(recycle(conn), "/switch-user")
       doc = floki_response(conn)
+      # |> dump
       assert [err] = find_flash(doc)
       assert_flash_kind(err, :error)
     end
