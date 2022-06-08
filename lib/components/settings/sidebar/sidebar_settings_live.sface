@@ -1,19 +1,6 @@
 <div 
   class="hidden tablet:block">
 
-  <div
-    :if={Bonfire.Me.Users.is_admin?(current_user(assigns))}
-    class="w-full mb-2 dropdown">
-    <label 
-      tabindex="0" 
-      class="w-full normal-case btn border-base-content/30 btn-outline btn-wide">{if String.length(e(assigns, :admin_tab, "")) > 0, do: "Admin settings", else: "User settings"}</label>
-    <ul tabindex="0" class="p-2 shadow dropdown-content menu bg-base-100 rounded-box w-52">
-      <li><LivePatch to="/settings/user">{l "User settings"}</LivePatch></li>
-      <li><LivePatch to="/settings/admin/instance">{l "Admin settings"}</LivePatch></li>
-    </ul>
-  </div>
-
-
   <ul 
     :if={String.length(e(assigns, :admin_tab, "")) == 0}
     role="navigation" class="py-3 rounded-md shadow w-[285px] menu bg-base-100">
