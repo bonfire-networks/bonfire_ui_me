@@ -11,7 +11,7 @@
       - [ ] Reply to a blocked user activity, block or unblock  -->
 {#if Bonfire.Me.Users.is_admin?(current_user(assigns)) }
   <Bonfire.UI.Common.PageHeaderLive
-  page_title={l "Admin"}
+  page_title={l "Instance Settings"}
   current_user={current_user(assigns)}
   >
     <:left_action>

@@ -24,7 +24,7 @@
             phx-disable-with="sending..."
             type="submit"
           >
-            Proceed to follow
+            {l "Proceed to follow"}
           </button>
 
           <p class="mt-4 text-sm">{l "Why is this step necessary? This might not be the fediverse instance where you are registered, so we need to redirect you to your home instance first."}</p>

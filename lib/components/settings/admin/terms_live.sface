@@ -1,5 +1,5 @@
  <Bonfire.UI.Common.PageHeaderLive
-  page_title={l "Instance configuration"}
+  page_title={l "Instance Policies"}
   current_user={current_user(assigns)}
   >
    <:left_action>
