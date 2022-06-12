@@ -123,49 +123,9 @@ defmodule Bonfire.UI.Me.ProfileLive do
     end
   end
 
-  def do_handle_params(%{"tab" => "posts" = tab} = _params, _url, socket) do
-    user = e(socket, :assigns, :user, nil)
 
-    feed = if module_enabled?(Bonfire.Social.Posts), do: Bonfire.Social.Posts.list_by(user, socket)
-    #|> debug("posts")
-
-    {:noreply,
-     assign(socket,
-       selected_tab: tab,
-       feed: e(feed, :edges, []),
-       page_info: e(feed, :page_info, [])
-     )}
-  end
-
-  def do_handle_params(%{"tab" => "boosts" = tab} = _params, _url, socket) do
-    user = e(socket, :assigns, :user, nil)
-
-    feed = if module_enabled?(Bonfire.Social.Boosts), do: Bonfire.Social.Boosts.list_by(user, current_user: current_user(socket))
-    |> debug("boosts")
-
-    {:noreply,
-      assign(socket,
-        selected_tab: tab,
-        feed: e(feed, :edges, []),
-        page_info: e(feed, :page_info, [])
-      )}
-  end
-
-  def do_handle_params(%{"tab" => "timeline" = tab} = _params, _url, socket) do
-
-    user = e(socket, :assigns, :user, nil)
-
-    feed_id = if user && module_enabled?(Bonfire.Social.Feeds), do: Bonfire.Social.Feeds.feed_id(:outbox, user)
-    feed = if feed_id && module_enabled?(Bonfire.Social.FeedActivities), do: Bonfire.Social.FeedActivities.feed(feed_id, socket)
-  #  debug(feed: feed)
-
-  {:noreply,
-    assign(socket,
-    selected_tab: tab,
-    feed_id: feed_id,
-    feed: e(feed, :edges, []),
-    page_info: e(feed, :page_info, [])
-    )}
+  def do_handle_params(%{"tab" => tab} = params, _url, socket) when tab in ["posts", "boosts", "timeline", "followers", "followed"] do
+    Bonfire.Social.Feeds.LiveHandler.assign_user_feed(tab, nil, params, socket)
   end
 
   # def do_handle_params(%{"tab" => "private" =tab} = _params, _url, socket) do
@@ -198,32 +158,16 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #   }
   # end
 
+  def do_handle_params(%{"username" => username} = _params, url, socket) do
+    # info(url, "profile url")
 
-  def do_handle_params(%{"tab" => "followers" =tab} = _params, _url, socket) do
-    user = e(socket, :assigns, :user, nil)
-    followers = Bonfire.Social.Follows.list_followers(user, socket) |> debug("followers")
-
-    {:noreply,
-    assign(socket,
-      selected_tab: tab,
-      feed: e(followers, :edges, []),
-      page_info: e(followers, :page_info, [])
-    )}
+    if String.contains?(url, "%40"<>username) do
+      debug("rewrite encoded @ in URL")
+      {:noreply, patch_to(socket, "/@"<>username, replace: true)}
+    else
+      Bonfire.Social.Feeds.LiveHandler.assign_user_feed("timeline", nil, nil, socket)
+    end
   end
-
-
-  def do_handle_params(%{"tab" => "followed" =tab} = _params, _url, socket) do
-    user = e(socket, :assigns, :user, nil)
-    followed = Bonfire.Social.Follows.list_followed(user, socket) |> debug("followed")
-
-    {:noreply,
-    assign(socket,
-      selected_tab: tab,
-      feed: e(followed, :edges, []),
-      page_info: e(followed, :page_info, [])
-    )}
-  end
-
 
   def do_handle_params(%{"tab" => tab} = _params, _url, socket) do
     # something that may be added by another extension?
@@ -233,20 +177,9 @@ defmodule Bonfire.UI.Me.ProfileLive do
      )}
   end
 
-  def do_handle_params(%{"username" => username} = _params, url, socket) do
-    # info(url, "profile url")
-
-    if String.contains?(url, "%40"<>username) do
-      debug("rewrite encoded @ in URL")
-      {:noreply, patch_to(socket, "/@"<>username, replace: true)}
-    else
-      do_handle_params(%{"tab" => "timeline"}, nil, socket)
-    end
-  end
-
   def do_handle_params(_params, _url, socket) do
     # default tab
-    do_handle_params(%{"tab" => "timeline"}, nil, socket)
+    Bonfire.Social.Feeds.LiveHandler.assign_user_feed("timeline", nil, nil, socket)
   end
 
   def handle_params(params, uri, socket) do
@@ -257,6 +190,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       end)
     end
   end
+
 
   def handle_event(action, attrs, socket), do: Bonfire.UI.Common.LiveHandlers.handle_event(action, attrs, socket, __MODULE__)
   def handle_info(info, socket), do: Bonfire.UI.Common.LiveHandlers.handle_info(info, socket, __MODULE__)
