@@ -39,6 +39,9 @@ defmodule Bonfire.UI.Me.SettingsLive do
       ])
       |> assign(
         page_title: l( "Settings"),
+        page_header_aside: [
+          {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
+        ],
         selected_tab: "user",
         tab_id: "",
         hide_smart_input: true,

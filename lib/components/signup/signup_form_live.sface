@@ -1,116 +1,109 @@
-<div class="w-full mx-auto mt-16 lg:w-96 md:w-2/3">
-  <div class="relative z-10 flex items-center mx-auto rounded-full bg-base-300 w-28 h-28 place-content-center ring-4 ring-base-100">
-    <LiveRedirect to={path(Bonfire.Common.Config.get!(:home_page))}>
-      <div class="w-24 h-24 bg-center bg-no-repeat bg-contain" style={"background-image: url(#{Bonfire.Common.Config.get([:ui, :theme, :instance_icon], nil)})"}></div>
-    </LiveRedirect>
-  </div>
 
-  <div class="rounded shadow-xl bg-base-100 -mt-14">
-    <div class="px-6 pt-16 pb-6 mx-auto">
 
-      {#if Bonfire.Me.Accounts.instance_is_invite_only? && e(assigns, :invite, nil) |> IO.inspect == nil 
-  }
-        <div role="status" class="my-4 alert alert-warning">
+
+<div class="w-full mx-auto mt-4 lg:w-96 md:w-2/3">
+  <div class="p-3 mx-auto border rounded border-base-content/20">
+    {#if Bonfire.Me.Accounts.instance_is_invite_only? && e(assigns, :invite, nil)}
+      <div role="status" class="my-4 alert alert-warning">
+        <div class="flex">
+          <div class="whitespace-normal">
+            {l "Warning: this instance is currently invite-only."}
+          </div>
+        </div>
+      </div>
+    {/if} 
+    <!-- {#else} -->
+
+
+    {#case @error}
+      {#match nil }
+        <div></div>
+      {#match :taken }
+        <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
-            <div class="whitespace-normal">
-              {l "Warning: this instance is currently invite-only."}
+            <div class="flex-shrink-0">
+              <Solid.ExclamationIcon />
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium">
+                {l "This email is taken."} Did you mean to <LiveRedirect to="/login">log in</LiveRedirect>?
+              </h3>
             </div>
           </div>
         </div>
-      {/if} 
-      <!-- {#else} -->
 
-
-      {#case @error}
-        {#match nil }
-          <div></div>
-        {#match :taken }
-          <div role="status" class="mb-4 alert alert-error">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <Solid.ExclamationIcon />
-              </div>
-              <div class="ml-3">
-                <h3 class="text-sm font-medium">
-                  {l "This email is taken."} Did you mean to <LiveRedirect to="/login">log in</LiveRedirect>?
-                </h3>
-              </div>
+      {#match error}
+        <div role="status" class="mb-4 alert alert-error">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <Solid.ExclamationIcon />
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium ">
+                {l "An error occurred:"} {error}
+              </h3>
             </div>
           </div>
-
-        {#match error}
-          <div role="status" class="mb-4 alert alert-error">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                <Solid.ExclamationIcon />
-              </div>
-              <div class="ml-3">
-                <h3 class="text-sm font-medium ">
-                  {l "An error occurred:"} {error}
-                </h3>
-              </div>
-            </div>
-          </div>
-      {/case}
-        <Form for={@form} opts={[id: "signup-form"]}>
-          <Inputs for={:email}>
-            <Field name={:email_address}>
-              <label for="signup-form_email_email_address" class="label">
+        </div>
+    {/case}
+      <Form for={@form} opts={[id: "signup-form"]}>
+        <Inputs for={:email}>
+          <Field name={:email_address}>
+            <label for="signup-form_email_email_address" class="label">
+              <span class="label-text">
+                {l "Email address"}
+              </span>
+            </label>
+            <EmailInput opts={placeholder: "alice@email.com"} required class="w-full input input-bordered" />
+            <ErrorTag />
+          </Field>
+        </Inputs>
+        <Inputs for={:credential}>
+          <div class="mt-6">
+            <Field name={:password}>
+              <Label class="label">
                 <span class="label-text">
-                  {l "Email address"}
+                  {l "Choose a password"} ({l "10 characters minimum"})
                 </span>
-              </label>
-              <EmailInput opts={placeholder: "alice@email.com"} required class="w-full input input-bordered" />
+              </Label>
+              <PasswordInput opts={placeholder: l "Type a strong password"} required class="w-full input input-bordered" />
               <ErrorTag />
             </Field>
-          </Inputs>
-          <Inputs for={:credential}>
-            <div class="mt-6">
-              <Field name={:password}>
-                <Label class="label">
-                  <span class="label-text">
-                    {l "Choose a password"} ({l "10 characters minimum"})
-                  </span>
-                </Label>
-                <PasswordInput opts={placeholder: l "Type a strong password"} required class="w-full input input-bordered" />
-                <ErrorTag />
-              </Field>
-            </div>
-            <div class="mt-6">
-              <Field name={:password_confirmation}>
-                <Label class="label">
-                  <span class="label-text">
-                    {l "Confirm your password"}
-                  </span>
-                </Label>
-                <PasswordInput opts={placeholder: l "Enter the same password again"} required class="w-full input input-bordered" />
-                <ErrorTag />
-              </Field>
-            </div>
-          </Inputs>
-
-          
+          </div>
           <div class="mt-6">
-            <span class="block w-full rounded-md shadow-sm">
-              <button type="submit" class="flex w-full btn btn-primary place-content-center">
-                {l "Sign up"}
-              </button>
-            </span>
+            <Field name={:password_confirmation}>
+              <Label class="label">
+                <span class="label-text">
+                  {l "Confirm your password"}
+                </span>
+              </Label>
+              <PasswordInput opts={placeholder: l "Enter the same password again"} required class="w-full input input-bordered" />
+              <ErrorTag />
+            </Field>
           </div>
-          <div class="flex flex-col mt-4 space-y-3 text-base-content">
-            {#if Bonfire.Me.Settings.get([:bonfire, :terms, :conduct], nil)}
-              <div>{l "Read our "}<LiveRedirect to="/code-of-conduct" class="link">{l "code of conduct"}</LiveRedirect></div>
-            {/if} 
+        </Inputs>
 
-            {#if Bonfire.Me.Settings.get([:bonfire, :terms, :privacy], nil)}
-            <div>{l "Read our "}<LiveRedirect to="/privacy-policy" class="link">{l "privacy policy"}</LiveRedirect></div>
-            {/if} 
-            <p>
-            {l "Do you already have an account?"}
-              <LiveRedirect class="link" to={path(:login, :index)}>{l "Log in"}</LiveRedirect>
-            </p>
-          </div>
-        </Form>
-    </div>
+        
+        <div class="mt-6">
+          <span class="block w-full rounded-md shadow-sm">
+            <button type="submit" class="flex w-full btn btn-primary place-content-center">
+              {l "Sign up"}
+            </button>
+          </span>
+        </div>
+        <div class="flex flex-col mt-4 space-y-3 text-base-content">
+          <!-- {#if Bonfire.Me.Settings.get([:bonfire, :terms, :conduct], nil)}
+            <div>{l "Read our "}<LiveRedirect to="/code-of-conduct" class="link">{l "code of conduct"}</LiveRedirect></div>
+          {/if} 
+
+          {#if Bonfire.Me.Settings.get([:bonfire, :terms, :privacy], nil)}
+          <div>{l "Read our "}<LiveRedirect to="/privacy-policy" class="link">{l "privacy policy"}</LiveRedirect></div>
+          {/if}  -->
+          <p>
+          {l "Do you already have an account?"}
+            <LiveRedirect class="link" to={path(:login, :index)}>{l "Log in"}</LiveRedirect>
+          </p>
+        </div>
+      </Form>
   </div>
 </div>

@@ -1,16 +1,4 @@
 <form phx-change="Bonfire.Me.Profiles:validate" phx-submit="Bonfire.Me.Profiles:save" method="POST">
-   <Bonfire.UI.Common.PageHeaderLive
-    page_title={l "Edit profile"}
-    current_user={current_user(assigns)}
-  >
-   <:left_action>
-    <div 
-      @click="open_sidebar_drawer = true"
-      class="flex btn btn-ghost btn-circle btn-sm tablet-lg:hidden">
-      <Outline.MenuAlt2Icon class="w-5 h-5 text-base-content/80" />
-    </div>
-  </:left_action>
-</Bonfire.UI.Common.PageHeaderLive>
   <div class="p-4">
     <div class="mt-1 sm:mt-0">
       <div 

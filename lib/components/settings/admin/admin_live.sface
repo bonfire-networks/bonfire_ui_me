@@ -10,46 +10,23 @@
       - [ ] Reply to a reported activity, remove or unflag
       - [ ] Reply to a blocked user activity, block or unblock  -->
 {#if Bonfire.Me.Users.is_admin?(current_user(assigns)) }
-  <Bonfire.UI.Common.PageHeaderLive
-  page_title={l "Instance Settings"}
-  current_user={current_user(assigns)}
-  >
-    <:left_action>
-    <div 
-      @click="open_sidebar_drawer = true"
-      class="flex btn btn-ghost btn-circle btn-sm tablet-lg:hidden">
-      <Outline.MenuAlt2Icon class="w-5 h-5 text-base-content/80" />
-    </div>
-  </:left_action>
-</Bonfire.UI.Common.PageHeaderLive>
   <div class="p-4">
     
-<form name="settings" phx-change="Bonfire.Me.Settings:set">
-  <input name="scope" value={:instance} type="hidden" />
-  
-    <!-- <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-base-200 sm:pt-5">
-      <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
-        {l "Default theme"}
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <Bonfire.UI.Common.ChangeThemeLive
-          selected={Bonfire.Me.Settings.get([:bonfire, :ui, :default_theme], nil)}
-         />
-      </div>
-    </div> -->
-    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
-      <label for="instance_theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
-        {l "Instance default theme"}
-      </label>
-      <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
-        <div class="flex max-w-lg ">
-           <input type="text" name="ui[theme][instance_theme]" id="instance_theme" value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_theme], nil, :instance)} class="w-full input input-bordered">
+    <form name="settings" phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:instance} type="hidden" />
+      <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
+        <label for="instance_theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
+          {l "Instance default theme"}
+        </label>
+        <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
+          <div class="flex max-w-lg ">
+            <input type="text" name="ui[theme][instance_theme]" id="instance_theme" value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_theme], nil, :instance)} class="w-full input input-bordered">
 
-          <!-- <Bonfire.UI.Common.ChangeThemeLive  /> -->
-          <!-- <input type="text" name="ui[theme][instance_name]" id="instance_name" value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_name], "")} class="w-full input input-bordered"> -->
+            <!-- <Bonfire.UI.Common.ChangeThemeLive  /> -->
+            <!-- <input type="text" name="ui[theme][instance_name]" id="instance_name" value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_name], "")} class="w-full input input-bordered"> -->
+          </div>
         </div>
       </div>
-    </div>
 
     <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-base-200 sm:pt-5">
       <label for="default-language" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">

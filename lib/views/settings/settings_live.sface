@@ -1,8 +1,5 @@
 <section
-  x-data="{
-    open_sidebar_drawer: false
-  }" 
-  class="mb-3 rounded-md bg-base-100">
+  class="">
   <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsMobileLive 
     selected_tab={@selected_tab}
     admin_tab={@tab_id}

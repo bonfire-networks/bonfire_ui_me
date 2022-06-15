@@ -8,6 +8,8 @@ defmodule Bonfire.UI.Me.SignupLive do
     # debug(session: session)
     {:ok,
      socket
+      |> assign(:page, l("Sign up"))
+      |> assign(:page_title, l("Sign up"))
       |> assign(:invite, e(session, "invite", nil))
       |> assign(:registered, e(session, "registered", nil))
       |> assign_new(:without_sidebar, fn -> true end)

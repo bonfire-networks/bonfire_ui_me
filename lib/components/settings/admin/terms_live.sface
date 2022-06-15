@@ -1,22 +1,11 @@
- <Bonfire.UI.Common.PageHeaderLive
-  page_title={l "Instance Policies"}
-  current_user={current_user(assigns)}
-  >
-   <:left_action>
-    <div 
-      @click="open_sidebar_drawer = true"
-      class="flex btn btn-ghost btn-circle btn-sm tablet-lg:hidden">
-      <Outline.MenuAlt2Icon class="w-5 h-5 text-base-content/80" />
-    </div>
-  </:left_action>
-</Bonfire.UI.Common.PageHeaderLive>
+
 <!--- 
   - show admins in homepage
   - show number instance users
   - Switch open / invite only instance
   - Show default theme -->
 
-<div class="space-y-6 sm:space-y-5 pb-1">
+<div class="pb-1 space-y-6 sm:space-y-5">
 
 <form name="settings" phx-submit="Bonfire.Me.Settings:save">
   <input name="scope" value={:instance} type="hidden" />

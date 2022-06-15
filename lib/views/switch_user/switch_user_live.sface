@@ -1,11 +1,7 @@
 <main 
-  id="switch-user"
-  class="flex flex-col h-body">
-  <Bonfire.UI.Common.PageHeaderLive 
-    before
-    page_title={e(assigns, :page_title, l "Switch user profile")} />
+  id="switch-user">
   <div class="flex-1 p-3 bg-base-100 rounded-b-md">
-    <p class="mt-4 text-base text-opacity-75 text-base-content">
+    <p class="my-5 text-lg mb-7 text-base-content/80">
       {l "You can have multiple user profiles for different online identities, or for your organizations or projects."}
     </p>
     <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive 

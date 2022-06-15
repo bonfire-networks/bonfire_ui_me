@@ -1,4 +1,4 @@
-<div class="w-full mx-auto" id="signup">
+<div id="signup">
   <Bonfire.UI.Me.SignupViewLive 
     form={@form}
     error={@error}
