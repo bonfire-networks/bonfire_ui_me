@@ -1,5 +1,5 @@
   <div class="w-full mx-auto mt-4 lg:w-96 md:w-2/3">
-    <div class="p-3 mx-auto border rounded border-base-content/20">
+    <div class="p-3 mx-auto rounded tablet:border border-base-content/20">
       <Form for={@form} action={path(:login, :create)} class="w-full md:ml-0" opts={[id: "login-form"]}>
         <HiddenInput name={:go} value={e(@form, :changes, :go, nil)} />
         <!-- <%= hidden_input f, :go %> -->

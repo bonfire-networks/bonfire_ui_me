@@ -2,7 +2,7 @@
 
 
 <div class="w-full mx-auto mt-4 lg:w-96 md:w-2/3">
-  <div class="p-3 mx-auto border rounded border-base-content/20">
+  <div class="p-3 mx-auto rounded tablet:border border-base-content/20">
     {#if Bonfire.Me.Accounts.instance_is_invite_only? && e(assigns, :invite, nil)}
       <div role="status" class="my-4 alert alert-warning">
         <div class="flex">
