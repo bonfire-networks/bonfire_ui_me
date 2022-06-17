@@ -4,9 +4,9 @@ defmodule Bonfire.UI.Me.SwitchUserLive do
 
   def mount(params, session, socket) do
     live_plug params, session, socket, [
-      LivePlugs.LoadCurrentAccount,
-      LivePlugs.AccountRequired,
+      # LivePlugs.LoadCurrentAccount,
       LivePlugs.LoadCurrentUser,
+      LivePlugs.AccountRequired,
       LivePlugs.LoadCurrentAccountUsers,
       Bonfire.UI.Common.LivePlugs.StaticChanged,
       Bonfire.UI.Common.LivePlugs.Csrf,

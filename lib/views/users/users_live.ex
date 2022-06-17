@@ -7,7 +7,7 @@ defmodule Bonfire.UI.Me.UsersLive do
       LivePlugs.LoadCurrentAccount,
       LivePlugs.LoadCurrentUser,
       LivePlugs.AccountRequired,
-      LivePlugs.LoadCurrentUserCircles,
+      # LivePlugs.LoadCurrentUserCircles,
       # LivePlugs.LoadCurrentAccountUsers,
       Bonfire.UI.Common.LivePlugs.StaticChanged,
       Bonfire.UI.Common.LivePlugs.Csrf,

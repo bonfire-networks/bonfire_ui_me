@@ -9,7 +9,7 @@ defmodule Bonfire.UI.Me.LoggedDashboardLive do
         LivePlugs.LoadCurrentUser,
         LivePlugs.AccountRequired,
         LivePlugs.LoadCurrentAccountUsers,
-        LivePlugs.LoadCurrentUserCircles,
+        # LivePlugs.LoadCurrentUserCircles,
         Bonfire.UI.Common.LivePlugs.StaticChanged,
         Bonfire.UI.Common.LivePlugs.Csrf,
       Bonfire.UI.Common.LivePlugs.Locale,
