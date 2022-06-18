@@ -74,7 +74,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
           user: user, # the user to display
           feed: [],
           follows_me: following,
-          page_info: []
+          page_info: [],
+          no_index: !Bonfire.Me.Settings.get([Bonfire.Me.Users, :discoverable], true, current_user: user)
         )
       |> assign_global(
         # following: following || [],

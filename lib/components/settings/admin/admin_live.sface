@@ -148,7 +148,7 @@
             </label>
 
             <!-- Checked: "bg-base-200 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
-            <label class="relative flex p-4 border cursor-pointer border-base-200 rounded-bl-md rounded-br-md focus:outline-none">
+            <label class="relative flex p-4 border cursor-pointer border-base-200  focus:outline-none">
               <input
                 type="radio"
                 name="invite_only"
@@ -184,7 +184,8 @@
     />
 
 
-    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
+    <!-- TODO -->
+    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5 hide"> 
       <label class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
         {l "Indexing of data in this instance's search engine"}
       </label>
@@ -209,26 +210,26 @@ setting for whether or not to apply boundaries to search, as if you enable index
                 name="Bonfire.Search[include_in_index][public]"
                 value="true"
                 checked={if Bonfire.Me.Settings.get([Bonfire.Search, :include_in_index, :public], true, :instance), do: "checked"} 
-                class="radio radio-secondary"
+                class="checkbox"
               >
               <div class="flex flex-col ml-3">
                 <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
                 <span class="block text-sm font-medium">
                   {l "Public content"}
                 </span>
-                <span class="block text-sm">
+                <!-- <span class="block text-sm">
                   {l "All public local or remote activities."}
-                </span>
+                </span> -->
               </div>
             </label>
 
-            <label class="relative flex p-4 border cursor-pointer border-base-200 rounded-bl-md rounded-br-md focus:outline-none">
+            <label class="relative flex p-4 border cursor-pointer border-base-200  focus:outline-none">
               <input
                 type="checkbox"
                 name="Bonfire.Search[include_in_index][local]"
                 value="true"
                 checked={if Bonfire.Me.Settings.get([Bonfire.Search, :include_in_index, :local], true, :instance), do: "checked"} 
-                class="radio radio-secondary"
+                class="checkbox"
               >
               <div class="flex flex-col ml-3">
                 <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
@@ -236,18 +237,18 @@ setting for whether or not to apply boundaries to search, as if you enable index
                   {l "Local-only"}
                 </span>
                 <span class="block text-sm">
-                  {l "All local activities visible only to this instance's members."}
+                  {l "Activities shared only with members of this instance."}
                 </span>
               </div>
             </label>
 
-            <label class="relative flex p-4 border cursor-pointer border-base-200 rounded-bl-md rounded-br-md focus:outline-none">
+            <label class="relative flex p-4 border cursor-pointer border-base-200  focus:outline-none">
               <input
                 type="checkbox"
                 name="Bonfire.Search[include_in_index][private]"
                 value="true"
                 checked={if Bonfire.Me.Settings.get([Bonfire.Search, :include_in_index, :private], false, :instance), do: "checked"} 
-                class="radio radio-secondary"
+                class="checkbox"
               >
               <div class="flex flex-col ml-3">
                 <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
@@ -255,21 +256,20 @@ setting for whether or not to apply boundaries to search, as if you enable index
                   {l "Private activities"}
                 </span>
                 <span class="block text-sm">
-                  {l "Index private content (except messages), and make it searcheable for those allowed based on boundaries."}
+                  {l "Make private content (except messages) searcheable by those allowed (based on boundaries)."}
                 </span>
               </div>
             </label>
 
-            <label class="relative flex p-4 border cursor-pointer border-base-200 rounded-bl-md rounded-br-md focus:outline-none">
+            <!-- <label class="relative flex p-4 border cursor-pointer border-base-200  focus:outline-none">
               <input
                 type="checkbox"
                 name="Bonfire.Search[include_in_index][messages]"
                 value="true"
                 checked={if Bonfire.Me.Settings.get([Bonfire.Search, :include_in_index, :messages], false, :instance), do: "checked"} 
-                class="radio radio-secondary"
+                class="checkbox"
               >
               <div class="flex flex-col ml-3">
-                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
                 <span class="block text-sm font-medium">
                   {l "Private messages"}
                 </span>
@@ -277,7 +277,7 @@ setting for whether or not to apply boundaries to search, as if you enable index
                   {l "Make message threads searcheable for their participants."}
                 </span>
               </div>
-            </label>
+            </label> -->
           </div>
         </fieldset>
       </div>
