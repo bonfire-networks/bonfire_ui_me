@@ -39,6 +39,17 @@
       </div>
     </div>
 
+    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-base-200 sm:pt-5">
+      <label for="font_family" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
+        {l "Default font"}
+      </label>
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <Bonfire.UI.Common.ChangeFontLive
+          font_family={Settings.get([:ui, :font_family], "Inter", :instance)}
+         />
+      </div>
+    </div>
+
     <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
       <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
         {l "Show list of admins on public homepage"}
