@@ -13,6 +13,7 @@
           :if={e(@user, :character, :peered, :canonical_uri, nil)}
           href={e(@user, :character, :peered, :canonical_uri, "#")}
           target="_blank"
+          rel="noopener noreferrer"
           class="hidden btn btn-sm lg:flex btn-info btn-circle"
         >
           <Solid.ExternalLinkIcon class="w-4 h-4" />
@@ -71,6 +72,7 @@
                 <a
                   href={e(@user, :character, :peered, :canonical_uri, "#")}
                   target="_blank"
+                  rel="noopener noreferrer"
                   class="flex items-center text-sm no-padding text-neutral"
                 >
                   <Solid.ExternalLinkIcon class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />

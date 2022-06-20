@@ -8,7 +8,9 @@
         {l "Look and feel"}
       </label>
       <div class="w-full">
-        <Bonfire.UI.Common.ChangeThemeLive />
+        <Bonfire.UI.Common.ChangeThemeLive
+          theme={Settings.get([:ui, :theme], "bonfire", assigns)}
+        />
       </div>
     </div>
 
@@ -25,6 +27,7 @@
     </div>
   </div>
 
+  <div class="grid grid-cols-2 gap-4 mt-3">
     <div class="flex flex-col space-y-2">
       <label for="font_family" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
         {l "Preferred font"}
@@ -35,7 +38,8 @@
          />
       </div>
     </div>
-
+  </div>
+  
   <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
     label={l "I want my profile (@%{username}) and content to appear in search engines (in Bonfire, the fediverse, and the web in general)", username: e(current_user(assigns), :character, :username, "")}
     current_user={current_user(assigns)}
