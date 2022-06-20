@@ -46,14 +46,7 @@
                   {l "User Preferences"}
                 </LivePatch>
               </li> 
-              <li :if={ module_enabled?(Bonfire.Data.SharedUser) and module_enabled?(Bonfire.Me.SharedUsers) }>
-                <LivePatch 
-                  to={"/settings/shared_user"}
-                  class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "shared_user"}>
-                  <Solid.UserGroupIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
-                  {l "Teams"}
-                </LivePatch>
-              </li> 
+
               <li>
                 <LivePatch 
                   to={"/settings/account"}
@@ -134,6 +127,16 @@
                     {l "Invites"}
                   </LivePatch>
                 </li>
+              
+              <li :if={module_enabled?(Bonfire.Data.SharedUser)}>
+                <LivePatch 
+                  to={"/settings/admin/shared_user"}
+                  class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "shared_user"}>
+                  <Solid.UserGroupIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "Teams"}
+                </LivePatch>
+              </li> 
+
                 <li class="uppercase menu-title">
                   <span>{l "Moderation"}</span>
                 </li>

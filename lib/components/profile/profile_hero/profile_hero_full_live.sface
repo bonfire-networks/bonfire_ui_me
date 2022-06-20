@@ -113,24 +113,25 @@
       </div>
     </div>
     <div class={"flex-1 px-6 mt-3"}>
-      <LivePatch to={"/user/#{e(@user, :character, :username, "")}/timeline"}>
         <h1 class="flex items-center text-2xl font-bold text-base-content">
-          {e(@user, :profile, :name, "Anonymous")}
+        
+          <LivePatch to={"/user/#{e(@user, :character, :username, "")}/timeline"}>
+            {e(@user, :profile, :name, "Anonymous")}
+          </LivePatch>
 
-            <span
-              :if={module_enabled?(Bonfire.Me.SharedUsers) && e(@user, :shared_user, :label, nil)} 
-              class="-mt-1 text-sm font-light text-primary-content-400 pull-right"
-            >
-              {e(@user, :shared_user, :label, "")}
-            </span>
-            <span
-              :if={is_admin?(@user)}
-              class="ml-3 badge badge-info badge-outline">
-              {l "Admin"}
-            </span>
+          <span
+            :if={module_enabled?(Bonfire.Data.SharedUser) && e(@user, :shared_user, :label, nil)} 
+            class="ml-3 badge badge-info badge-outline"
+          >
+            {e(@user, :shared_user, :label, "")}
+          </span>
+          <span
+            :if={is_admin?(@user)}
+            class="ml-3 badge badge-info badge-outline">
+            {l "Admin"}
+          </span>
 
         </h1>
-      </LivePatch>
       <div class="flex items-center">
         <span class="text-sm font-normal text-base-content text-opacity-70">{Bonfire.Me.Characters.display_username(@user)}</span>
         <!-- FOLLOWS YOU LABEL -->
