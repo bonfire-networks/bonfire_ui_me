@@ -31,10 +31,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
               current_user: current_user(socket)
             ]}
           ],
-          secondary: [
-            # {Bonfire.UI.Me.WidgetTagsLive , []},
-            {Bonfire.UI.Common.WidgetInstanceInfoLive, []}
-          ]
+          secondary: secondary_widgets()
         ]
       ])
       |> assign(
@@ -106,6 +103,11 @@ defmodule Bonfire.UI.Me.SettingsLive do
     end
   end
 
+  def secondary_widgets, do: [
+            # {Bonfire.UI.Me.WidgetTagsLive , []},
+            {Bonfire.UI.Common.WidgetInstanceInfoLive, []},
+            {Bonfire.UI.Common.WidgetFeedbackLive, []}
+          ]
 
   def save(:icon, :instance, uploaded_media, socket) do
     with :ok <- Bonfire.Me.Settings.put([:bonfire, :ui, :theme, :instance_icon], Bonfire.Files.IconUploader.remote_url(uploaded_media), scope: :instance, socket: socket) do
@@ -161,10 +163,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
               current_user: current_user(socket)
             ]}
           ],
-          secondary: [
-            # {Bonfire.UI.Me.WidgetTagsLive , []},
-            {Bonfire.UI.Common.WidgetInstanceInfoLive, []}
-          ]
+          secondary: secondary_widgets()
         ]
       ]
       )}
@@ -189,10 +188,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
                 current_user: current_user(socket)
               ]}
             ],
-            secondary: [
-              # {Bonfire.UI.Me.WidgetTagsLive , []},
-              {Bonfire.UI.Common.WidgetInstanceInfoLive, []}
-            ]
+            secondary: secondary_widgets()
           ]
         ]
         )}

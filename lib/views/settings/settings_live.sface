@@ -52,6 +52,12 @@
               selected_tab={"ghosted"}
             />
 
+          {#match "shared_user"}
+            <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
+              current_user={current_user(assigns) |> repo().maybe_preload(:shared_user) }
+              current_account={current_account(assigns)}
+              selected_tab={@selected_tab}
+            />
           {#match _}
             <Bonfire.UI.Me.SettingsViewsLive.AdminLive
               current_user={current_user(assigns)}
@@ -103,12 +109,7 @@
         current_user={current_user(assigns)}
         selected_tab={"ghosted"}
       />
-    {#match "shared_user"}
-      <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
-        current_user={current_user(assigns) |> repo().maybe_preload(:shared_user) }
-        current_account={current_account(assigns)}
-        selected_tab={@selected_tab}
-      />
+    
     {#match _}
       <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
         :if={current_user(assigns)}

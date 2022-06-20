@@ -16,50 +16,52 @@
             </p>
           </div>
         {/if}
-        {#if @requested }
-          <div class="alert alert-success" data-id="confirmation_success">
-            <label>{l "Great! We've emailed you another link. Please click it to continue."}</label>
+        
+        {#if @error }
+          <div class="alert alert-error">
+            {#case @error}
+              {#match :not_found}
+                <label>{l "Invalid confirmation link. Please request a new one below."}</label>
+              {#match :expired}
+                <label>{l "This confirmation link has expired. Please request a new one below."}</label>
+            {/case}
           </div>
         {#else}
-          {#if @error }
-            <div class="alert alert-error">
-              {#case @error}
-                {#match :not_found}
-                  <label>{l "Invalid confirmation link. Please request a new one below."}</label>
-                {#match :expired}
-                  <label>{l "This confirmation link has expired. Please request a new one below."}</label>
-              {/case}
+          {#if @requested }
+            <div class="alert alert-success" data-id="confirmation_success">
+              <label>{l "Great! We've emailed you another link. Please click it to continue."}</label>
             </div>
           {/if}
-
-          <Form 
-            for={@form} 
-            action={path(Bonfire.UI.Me.ConfirmEmailController)}
-            opts={[id: "confirm-email-form"]}>
-            <Field name={:email}>
-              <Label class="label">
-                <span class="label-text">
-                  {l "Type your email"}
-                </span>
-              </Label>
-              <EmailInput class="w-full mb-3 input input-bordered" />
-              <ErrorTag />
-            </Field>
-            <button class="w-full btn btn-primary" type="submit">{l "Send"}</button> 
-          </Form>
-          <div class="flex flex-col mt-6 space-y-2">
-            <p>
-              <span>&#x01f44b; </span>
-              {l "Already confirmed your email?"}
-              <LiveRedirect class="link" to={path(:login, :index)}>{l "Log in"}</LiveRedirect>
-            </p>
-            <p>
-              <span>&#x01f9d0; </span>
-              {l "Don't have an account yet?"}
-              <LiveRedirect class="link" to={path(:signup)}>{l "Signup"}</LiveRedirect>
-            </p>
-          </div>
         {/if}
+
+        <Form 
+          for={@form} 
+          action={path(Bonfire.UI.Me.ConfirmEmailController)}
+          opts={[id: "confirm-email-form"]}>
+          <Field name={:email}>
+            <Label class="label">
+              <span class="label-text">
+                {l "Type your email"}
+              </span>
+            </Label>
+            <EmailInput class="w-full mb-3 input input-bordered" />
+            <ErrorTag />
+          </Field>
+          <button class="w-full btn btn-primary" type="submit">{l "Send"}</button> 
+        </Form>
+        <div class="flex flex-col mt-6 space-y-2">
+          <p>
+            <span>&#x01f44b; </span>
+            {l "Already confirmed your email?"}
+            <LiveRedirect class="link" to={path(:login, :index)}>{l "Log in"}</LiveRedirect>
+          </p>
+          <p>
+            <span>&#x01f9d0; </span>
+            {l "Don't have an account yet?"}
+            <LiveRedirect class="link" to={path(:signup)}>{l "Signup"}</LiveRedirect>
+          </p>
+        </div>
+
       </div>
     </div>
   </div>
