@@ -3,19 +3,8 @@
 
 <div class="w-full mx-auto mt-4 lg:w-96 md:w-2/3">
   <div class="p-3 mx-auto rounded tablet:border border-base-content/20">
-    {#if Bonfire.Me.Accounts.instance_is_invite_only? && e(assigns, :invite, nil)}
-      <div role="status" class="my-4 alert alert-warning">
-        <div class="flex">
-          <div class="whitespace-normal">
-            {l "Warning: this instance is currently invite-only."}
-          </div>
-        </div>
-      </div>
-    {/if} 
-    <!-- {#else} -->
 
-
-    {#case @error}
+    {#case @error || e(@form, :errors, :form, nil)}
       {#match nil }
         <div></div>
       {#match :taken }
@@ -32,7 +21,20 @@
           </div>
         </div>
 
-      {#match error}
+      {#match {error, _} when is_binary(error)}
+        <div role="status" class="mb-4 alert alert-error">
+          <div class="flex">
+            <div class="flex-shrink-0">
+              <Solid.ExclamationIcon />
+            </div>
+            <div class="ml-3">
+              <h3 class="text-sm font-medium ">
+                {l "An error occurred:"} {error}
+              </h3>
+            </div>
+          </div>
+        </div>
+    {#match error}
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
             <div class="flex-shrink-0">
@@ -83,6 +85,30 @@
           </div>
         </Inputs>
 
+        {#case Ecto.Changeset.get_field(@form, :auth_second_factor) |> debug("formmm") |> e(:secret, nil)}
+          {#match nil}
+          {#match secret}
+
+          <p>{l "If you have a two-factor authentication app, please enable it by scanning the QR Code with your app (or you can enter the secret below instead), and then enter the code provided by your app at the bottom."}</p>
+
+          <div class="qrcode">
+            {raw Bonfire.Me.Accounts.SecondFactors.new_qrcode(secret: secret)}
+            <p class="text-sm font-mono">{raw Bonfire.Me.Accounts.SecondFactors.format_secret(secret)}</p>
+          </div>
+
+          <Inputs for={:auth_second_factor}>
+            <Field name={:code}>
+              <label for="signup-form_auth_second_factor_code" class="label">
+                <span class="label-text">
+                  {l "Verification code (optional)"}
+                </span>
+              </label>
+              <TextInput class="w-full input input-bordered" />
+              <ErrorTag />
+            </Field>
+          </Inputs>
+        {/case}
+
         
         <div class="mt-6">
           <span class="block w-full rounded-md shadow-sm">
@@ -105,5 +131,6 @@
           </p>
         </div>
       </Form>
+
   </div>
 </div>

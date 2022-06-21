@@ -1,11 +1,12 @@
 defmodule Bonfire.UI.Me.SignupLive do
   use Bonfire.UI.Common.Web, :surface_view
   alias Bonfire.Me.Accounts
+  alias Bonfire.UI.Me.SignupController
 
   # because this isn't a live link and it will always be accessed by a
   # guest, it will always be offline
   def mount(_params, session, socket) do
-    # debug(session: session)
+    # debug(session, "session")
     {:ok,
      socket
       |> assign(:page, l("Sign up"))
@@ -16,11 +17,8 @@ defmodule Bonfire.UI.Me.SignupLive do
       |> assign_new(:current_account, fn -> nil end)
       |> assign_new(:current_user, fn -> nil end)
       |> assign_new(:error, fn -> nil end)
-      |> assign_new(:form, fn -> form_cs(session) end)
+      |> assign_new(:form, fn -> SignupController.form_cs(session) end)
     }
   end
-
-  defp form_cs(%{"invite" => invite}), do: Accounts.changeset(:signup, %{}, invite: invite)
-  defp form_cs(_), do: Accounts.changeset(:signup, %{})
 
 end

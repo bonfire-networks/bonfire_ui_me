@@ -80,6 +80,25 @@
           <!-- <%= error_tag f, :password %> -->
         </Field>
 
+        {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
+          {#match true}
+
+          <p>{l "If you have a two-factor authentication enabled, please enter the code provided by your app."}</p>
+
+          <Inputs for={:auth_second_factor}>
+            <Field name={:code}>
+              <label for="signup-form_auth_second_factor_code" class="label">
+                <span class="label-text">
+                  {l "Two-factor code (optional)"}
+                </span>
+              </label>
+              <TextInput class="w-full input input-bordered" />
+              <ErrorTag />
+            </Field>
+          </Inputs>
+          {#match _}
+        {/case}
+
         <div class="mt-3">
           <span class="block w-full rounded-md shadow-sm">
             <button type="submit" class="w-full btn btn-primary">

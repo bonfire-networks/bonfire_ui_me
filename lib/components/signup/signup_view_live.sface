@@ -1,82 +1,5 @@
 
 
-<div 
-  x-data="{ active: 1 }" >
-  
-  {#if Bonfire.Me.Settings.get([:bonfire, :terms, :conduct], nil)}
-  <div x-data="{
-      id: 1,
-      get expanded() {
-          return this.active === this.id
-      },
-      set expanded(value) {
-          this.active = value ? this.id : null
-      },
-    }" 
-    role="region" 
-    class="border-b bg-base-200 border-base-content/10">
-    <button
-      x-on:click="expanded = !expanded"
-      :aria-expanded="expanded"
-      class="flex items-center justify-between w-full px-6 py-2 text-lg font-bold"
-    >
-      <span>{l "Read our code of conduct"}</span>
-      <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
-      <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
-    </button>
-
-    <div x-show="expanded" x-collapse>
-      <div class="px-6 pb-4">
-      {#case Config.get([:bonfire, :terms, :conduct], nil)}
-        {#match terms when is_binary(terms)}
-        <div class="prose">
-          {templated_or_remote_markdown terms}
-        </div>
-        {#match _}
-      {/case}
-      </div>  
-    </div>
-  </div>
-  {/if} 
-  {#if Bonfire.Me.Settings.get([:bonfire, :terms, :privacy], nil)}
-    <div x-data="{
-      id: 2,
-      get expanded() {
-          return this.active === this.id
-      },
-      set expanded(value) {
-          this.active = value ? this.id : null
-      },
-    }" 
-    role="region" 
-    class="border-b bg-base-200 border-base-content/10">
-      <h2>
-        <button
-          x-on:click="expanded = !expanded"
-          :aria-expanded="expanded"
-          class="flex items-center justify-between w-full px-6 py-2 text-lg font-bold"
-        >
-          <span>{l "Read our privacy policy"}</span>
-          <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
-          <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
-        </button>
-      </h2>
-
-      <div x-show="expanded" x-collapse>
-        <div class="px-6 pb-4">
-          {#case Config.get([:bonfire, :terms, :privacy], nil)}
-            {#match terms when is_binary(terms)}
-              {templated_or_remote_markdown terms}
-            {#match _}
-          {/case}
-        </div>
-      </div>
-    </div>
-  {/if}
-
-    
-</div>
-
 {#if @registered }
 <div class="w-full mx-auto mt-4 lg:w-96 md:w-2/3">
   <div class="relative z-10 flex items-center mx-auto rounded-full bg-base-300 w-28 h-28 place-content-center ring-4 ring-base-100">
@@ -109,8 +32,92 @@
     </div>
   </div>
 </div>
+
 {#else}
-  <div class="flex m-3 mb-3 md:m-0">
-    <Bonfire.UI.Me.SignupFormLive form={@form} error={@error}/>
-  </div>
+
+  {#if (Bonfire.Me.Accounts.instance_is_invite_only? && !e(assigns, :invite, nil))}
+    <div role="status" class="my-4 alert alert-warning">
+      <div class="flex">
+        <div class="whitespace-normal">
+          {l "This instance is currently invite-only."}
+        </div>
+      </div>
+    </div>
+  {#else}
+
+    <div x-data="{ active: 1 }" >
+    {#case Config.get([:bonfire, :terms, :conduct], nil)}
+      {#match terms when is_binary(terms)}
+      <div x-data="{
+        id: 1,
+        get expanded() {
+            return this.active === this.id
+        },
+        set expanded(value) {
+            this.active = value ? this.id : null
+        },
+      }" 
+      role="region" 
+      class="border-b bg-base-200 border-base-content/10">
+      <button
+        x-on:click="expanded = !expanded"
+        :aria-expanded="expanded"
+        class="flex items-center justify-between w-full px-6 py-2 text-lg font-bold"
+      >
+        <span>{l "Read our code of conduct"}</span>
+        <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
+        <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
+      </button>
+
+      <div x-show="expanded" x-collapse>
+        <div class="px-6 pb-4">
+          <div class="prose">
+            {templated_or_remote_markdown terms}
+          </div>
+        </div>  
+      </div>
+    </div>
+    {#match _}
+    {/case}
+
+    {#case Config.get([:bonfire, :terms, :privacy], nil)}
+    {#match terms when is_binary(terms)}
+      <div x-data="{
+        id: 2,
+        get expanded() {
+            return this.active === this.id
+        },
+        set expanded(value) {
+            this.active = value ? this.id : null
+        },
+      }" 
+      role="region" 
+      class="border-b bg-base-200 border-base-content/10">
+        <h2>
+          <button
+            x-on:click="expanded = !expanded"
+            :aria-expanded="expanded"
+            class="flex items-center justify-between w-full px-6 py-2 text-lg font-bold"
+          >
+            <span>{l "Read our privacy policy"}</span>
+            <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
+            <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
+          </button>
+        </h2>
+
+        <div x-show="expanded" x-collapse>
+          <div class="px-6 pb-4">
+                {templated_or_remote_markdown terms}              
+          </div>
+        </div>
+      </div>
+    {#match _}
+    {/case}
+    </div>
+
+    <div class="flex m-3 mb-3 md:m-0">
+      <Bonfire.UI.Me.SignupFormLive form={@form} error={@error}/>
+    </div>
+
+  {/if}
 {/if}

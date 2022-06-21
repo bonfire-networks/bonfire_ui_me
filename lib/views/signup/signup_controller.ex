@@ -5,12 +5,15 @@ defmodule Bonfire.UI.Me.SignupController do
 
   def index(conn, params) do
     conn
+    |> maybe_assign_secret(params)
     |> render_view(params)
   end
 
   def create(conn, params) do
     {account_attrs, params} = Map.pop(params, "account", %{})
-    ret = Accounts.signup(account_attrs, invite: params["invite"]) |> debug()
+    # debug(Plug.Conn.get_session(conn, :auth_two_factor_secret))
+    # changeset = form_cs(conn, params)
+    ret = Accounts.signup(account_attrs, invite: params["invite"], auth_two_factor_secret: Plug.Conn.get_session(conn, :auth_two_factor_secret)) |> debug()
     case ret do
       {:ok, %{email: %{confirmed_at: confirmed_at}}} when not is_nil(confirmed_at) ->
         conn
@@ -26,16 +29,35 @@ defmodule Bonfire.UI.Me.SignupController do
         |> render_view(params)
       {:error, changeset} ->
         conn
-        |> assign(:form, changeset)
         |> assign(:error, EctoSparkles.Changesets.Errors.changeset_errors_string(changeset, false))
-        |> render_view(params)
+        |> assign(:form, changeset) # FIXME
+        |> render_view(params, changeset)
     end
   end
 
-  def render_view(conn, params) do
-    live_render(conn, SignupLive, session: params)
+  def render_view(conn, params, changeset \\ nil) do
+    conn
+    |> live_render(SignupLive, session: params)
   end
 
+  def form_cs(session) do
+    # debug(session)
+    Accounts.changeset(:signup,
+      %{},
+      invite: e(session, "invite", nil),
+      auth_two_factor_secret: e(session, "auth_two_factor_secret", nil)
+    )
+    # |> debug()
+  end
 
+  def maybe_assign_secret(conn, opts \\ []) do
+    if Bonfire.Me.Accounts.SecondFactors.enabled? do
+      conn
+      |> Plug.Conn.put_session(:auth_two_factor_secret, Bonfire.Me.Accounts.SecondFactors.new())
+      # |> debug
+    else
+      conn
+    end
+  end
 
 end
