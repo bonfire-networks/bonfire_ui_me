@@ -41,7 +41,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
     conn
     |> put_session(:user_id, user.id)
     |> assign_flash(:info, l("Welcome back, %{name}!", name: greet(user)))
-    |> redirect_to_previous_go(params, path(:feed))
+    |> redirect_to_previous_go(params, path(:feed), "/switch-user")
   end
 
   defp show(error, conn, params) do
