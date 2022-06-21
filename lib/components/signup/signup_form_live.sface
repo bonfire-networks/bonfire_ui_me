@@ -105,7 +105,7 @@
           >
             <span class="flex items-center space-x-2">
               <Outline.KeyIcon class="w-5 h-5 text-info/40" /> 
-              <span>{l "Add a two-factor authentication (optional)"}</span>
+              <span>{l "Enable two-factor authentication (recommended)"}</span>
             </span>
             <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
             <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
