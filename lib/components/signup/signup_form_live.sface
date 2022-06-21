@@ -1,8 +1,8 @@
 
 
 
-<div class="w-full mx-auto mt-4 lg:w-96 md:w-2/3">
-  <div class="p-3 mx-auto rounded tablet:border border-base-content/20">
+<div class="w-full mx-auto">
+  <div class="p-3 mx-auto ">
 
     {#case @error || e(@form, :errors, :form, nil)}
       {#match nil }
@@ -61,7 +61,7 @@
           </Field>
         </Inputs>
         <Inputs for={:credential}>
-          <div class="mt-6">
+          <div class="mt-3">
             <Field name={:password}>
               <Label class="label">
                 <span class="label-text">
@@ -72,7 +72,7 @@
               <ErrorTag />
             </Field>
           </div>
-          <div class="mt-6">
+          <div class="mt-3">
             <Field name={:password_confirmation}>
               <Label class="label">
                 <span class="label-text">
@@ -85,32 +85,68 @@
           </div>
         </Inputs>
 
-        {#case Ecto.Changeset.get_field(@form, :auth_second_factor) |> debug("formmm") |> e(:secret, nil)}
-          {#match nil}
-          {#match secret}
+         <div class="mt-5" x-data="{ active: 0 }" >
+          <div x-data="{
+            id: 1,
+            get expanded() {
+                return this.active === this.id
+            },
+            set expanded(value) {
+                this.active = value ? this.id : null
+            },
+          }" 
+          role="region" 
+          class="border rounded-lg border-info/80 bg-info/10">
+          <button
+            type="button"
+            x-on:click="expanded = !expanded"
+            :aria-expanded="expanded"
+            class="flex items-center justify-between w-full px-6 py-2 font-medium text-info"
+          >
+            <span class="flex items-center space-x-2">
+              <Outline.KeyIcon class="w-5 h-5 text-info/40" /> 
+              <span>{l "Add a two-factor authentication (optional)"}</span>
+            </span>
+            <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
+            <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
+          </button>
 
-          <p>{l "If you have a two-factor authentication app, please enable it by scanning the QR Code with your app (or you can enter the secret below instead), and then enter the code provided by your app at the bottom."}</p>
+          <div x-show="expanded" x-collapse>
+            <div class="px-6 pb-4">
+              <div class="prose text-info/80">
+                {#case Ecto.Changeset.get_field(@form, :auth_second_factor) |> e(:secret, nil)}
+                  {#match nil}
+                  {#match secret}
 
-          <div class="qrcode">
-            {raw Bonfire.Me.Accounts.SecondFactors.new_qrcode(secret: secret)}
-            <p class="text-sm font-mono">{raw Bonfire.Me.Accounts.SecondFactors.format_secret(secret)}</p>
+                  <p>{l "If you have a two-factor authentication app, please enable it by scanning the QR Code with your app (or you can enter the secret below instead), and then enter the code provided by your app at the bottom."}</p>
+
+                  <div class="flex flex-col items-center mx-auto space-y-4 text-center qrcode">
+                    {raw Bonfire.Me.Accounts.SecondFactors.new_qrcode(secret: secret)}
+                    <p class="mt-1 font-mono text-sm badge badge-info">{raw Bonfire.Me.Accounts.SecondFactors.format_secret(secret)}</p>
+                  </div>
+
+                  <Inputs for={:auth_second_factor}>
+                    <Field name={:code}>
+                      <label for="signup-form_auth_second_factor_code" class="label">
+                        <span class="mt-3 label-text text-info/80">
+                          {l "Verification code (optional)"}
+                        </span>
+                      </label>
+                      <TextInput class="w-full bg-transparent input input-bordered" />
+                      <ErrorTag />
+                    </Field>
+                  </Inputs>
+                {/case}
+              </div>
+            </div>  
           </div>
-
-          <Inputs for={:auth_second_factor}>
-            <Field name={:code}>
-              <label for="signup-form_auth_second_factor_code" class="label">
-                <span class="label-text">
-                  {l "Verification code (optional)"}
-                </span>
-              </label>
-              <TextInput class="w-full input input-bordered" />
-              <ErrorTag />
-            </Field>
-          </Inputs>
-        {/case}
+        </div>
+      </div>
 
         
-        <div class="mt-6">
+
+        
+        <div class="mt-3">
           <span class="block w-full rounded-md shadow-sm">
             <button type="submit" class="flex w-full btn btn-primary place-content-center">
               {l "Sign up"}

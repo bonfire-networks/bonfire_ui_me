@@ -1,5 +1,5 @@
-  <div class="w-full mx-auto mt-4 lg:w-96 md:w-2/3">
-    <div class="p-3 mx-auto rounded tablet:border border-base-content/20">
+
+    <div class="p-3 mx-auto">
       <Form for={@form} action={path(:login, :create)} class="w-full md:ml-0" opts={[id: "login-form"]}>
         <HiddenInput name={:go} value={e(@form, :changes, :go, nil)} />
         <!-- <%= hidden_input f, :go %> -->
@@ -82,20 +82,21 @@
 
         {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
           {#match true}
+          <div class="p-3 mt-4 prose-sm prose border rounded-md bg-info/10 border-info/80 border-base-content/30 max-w-none">
+            <p class="text-info">{l "If you have a two-factor authentication enabled, please enter the code provided by your app."}</p>
 
-          <p>{l "If you have a two-factor authentication enabled, please enter the code provided by your app."}</p>
-
-          <Inputs for={:auth_second_factor}>
-            <Field name={:code}>
-              <label for="signup-form_auth_second_factor_code" class="label">
-                <span class="label-text">
-                  {l "Two-factor code (optional)"}
-                </span>
-              </label>
-              <TextInput class="w-full input input-bordered" />
-              <ErrorTag />
-            </Field>
-          </Inputs>
+            <Inputs for={:auth_second_factor}>
+              <Field name={:code}>
+                <label for="signup-form_auth_second_factor_code" class="label">
+                  <span class="label-text text-info/80">
+                    {l "Two-factor code (optional)"}
+                  </span>
+                </label>
+                <TextInput class="w-full bg-transparent input input-bordered" />
+                <ErrorTag />
+              </Field>
+            </Inputs>
+          </div>
           {#match _}
         {/case}
 
@@ -119,4 +120,3 @@
         </div>
       </Form>
     </div>
-  </div>

@@ -21,11 +21,13 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
       {:ok, _, _} ->
         conn
         |> assign(:requested, true)
+        |> assign_flash(:info, l "Thanks for your request. If your email address is linked to an account here, a reset email should be on its way to you.")
         |> live_render(ForgotPasswordLive)
       {:error, :not_found} ->
         # don't tell snoopers if someone has an account here or not
         conn
         |> assign(:requested, true)
+        |> assign_flash(:info, l "Thanks for your request. If your email address is linked to an account here, a reset email should be on its way to you.")
         |> live_render(ForgotPasswordLive)
       {:error, changeset} ->
         conn
