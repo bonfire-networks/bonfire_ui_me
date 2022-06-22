@@ -18,6 +18,7 @@ defmodule Bonfire.UI.Me.SignupLive do
       |> assign_new(:current_user, fn -> nil end)
       |> assign_new(:error, fn -> nil end)
       |> assign_new(:form, fn -> SignupController.form_cs(session) end)
+      |> assign_new(:auth_second_factor_secret, fn -> session["auth_second_factor_secret"] end)
     }
   end
 

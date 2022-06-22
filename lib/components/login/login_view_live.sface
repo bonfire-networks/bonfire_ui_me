@@ -6,7 +6,7 @@
 
         <!-- <%= f = form_for @form, path(:login, :create), class: "w-full md:ml-0" %> -->
         <!-- <%= case @form.errors[:form] do %> -->
-        {#case @form.errors[:form]}
+        {#case @error || @form.errors[:form]}
         {#match {"not_found",_} }
         <!-- <%= {"not_found",_} -> %> -->
         <div role="status" class="alert alert-warning">

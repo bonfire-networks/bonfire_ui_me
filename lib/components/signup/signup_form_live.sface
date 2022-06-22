@@ -85,6 +85,9 @@
           </div>
         </Inputs>
 
+      {#case @auth_second_factor_secret}
+        {#match nil}
+        {#match secret}
          <div class="mt-5" x-data="{ active: 0 }" >
           <div x-data="{
             id: 1,
@@ -114,9 +117,6 @@
           <div x-show="expanded" x-collapse>
             <div class="px-6 pb-4">
               <div class="prose text-info/80">
-                {#case Ecto.Changeset.get_field(@form, :auth_second_factor) |> e(:secret, nil)}
-                  {#match nil}
-                  {#match secret}
 
                   <p>{l "If you have a two-factor authentication app, please enable it by scanning the QR Code with your app (or you can enter the secret below instead), and then enter the code provided by your app at the bottom."}</p>
 
@@ -136,14 +136,12 @@
                       <ErrorTag />
                     </Field>
                   </Inputs>
-                {/case}
               </div>
             </div>  
           </div>
         </div>
       </div>
-
-        
+      {/case}
 
         
         <div class="mt-3">

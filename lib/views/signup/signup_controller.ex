@@ -4,17 +4,18 @@ defmodule Bonfire.UI.Me.SignupController do
   alias Bonfire.UI.Me.SignupLive
 
   def index(conn, params) do
+    secret = Plug.Conn.get_session(conn, :auth_second_factor_secret) || Bonfire.Me.Accounts.SecondFactors.new()
+
     conn
-    |> maybe_assign_secret(params)
-    |> render_view(params)
+    |> Plug.Conn.put_session(:auth_second_factor_secret, secret)
+    |> render_view(Map.put(params, "auth_second_factor_secret", secret))
   end
 
   def create(conn, params) do
     {account_attrs, params} = Map.pop(params, "account", %{})
-    # debug(Plug.Conn.get_session(conn, :auth_two_factor_secret))
+    # debug(Plug.Conn.get_session(conn, :auth_second_factor_secret))
     # changeset = form_cs(conn, params)
-    ret = Accounts.signup(account_attrs, invite: params["invite"], auth_two_factor_secret: Plug.Conn.get_session(conn, :auth_two_factor_secret)) |> debug()
-    case ret do
+    case Accounts.signup(account_attrs, invite: params["invite"], auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret)) do
       {:ok, %{email: %{confirmed_at: confirmed_at}}} when not is_nil(confirmed_at) ->
         conn
         |> assign(:registered, :confirmed)
@@ -44,20 +45,10 @@ defmodule Bonfire.UI.Me.SignupController do
     # debug(session)
     Accounts.changeset(:signup,
       %{},
-      invite: e(session, "invite", nil),
-      auth_two_factor_secret: e(session, "auth_two_factor_secret", nil)
+      invite: e(session, "invite", nil)
+      # auth_second_factor_secret: e(session, "auth_second_factor_secret", nil)
     )
     # |> debug()
-  end
-
-  def maybe_assign_secret(conn, opts \\ []) do
-    if Bonfire.Me.Accounts.SecondFactors.enabled? do
-      conn
-      |> Plug.Conn.put_session(:auth_two_factor_secret, Bonfire.Me.Accounts.SecondFactors.new())
-      # |> debug
-    else
-      conn
-    end
   end
 
 end

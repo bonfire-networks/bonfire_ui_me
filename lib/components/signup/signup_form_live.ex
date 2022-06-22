@@ -4,5 +4,6 @@ defmodule Bonfire.UI.Me.SignupFormLive do
   prop form, :any
   prop error, :any
   prop invite, :any
+  prop auth_second_factor_secret, :any, default: nil
 
 end
