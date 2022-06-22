@@ -83,7 +83,7 @@
         {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
           {#match true}
           <div class="p-3 mt-4 prose-sm prose border rounded-md bg-info/10 border-info/80 border-base-content/30 max-w-none">
-            <p class="text-info">{l "If you have a two-factor authentication enabled, please enter the code provided by your app."}</p>
+            <p class="text-info">{l "If you have two-factor authentication enabled, please enter the code provided by your app."}</p>
 
             <Inputs for={:auth_second_factor}>
               <Field name={:code}>
