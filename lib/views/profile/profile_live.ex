@@ -79,7 +79,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         )
       |> assign_global(
         # following: following || [],
-        # search_placholder: search_placeholder,
+        # search_placeholder: search_placeholder,
         smart_input_prompt: smart_input_prompt,
         smart_input_text: smart_input_text
         # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), e(user, :id, nil)}]
@@ -126,7 +126,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
 
   def do_handle_params(%{"tab" => tab} = params, _url, socket) when tab in ["posts", "boosts", "timeline", "followers", "followed"] do
-    Bonfire.Social.Feeds.LiveHandler.assign_user_feed(tab, nil, params, socket)
+    Bonfire.Social.Feeds.LiveHandler.user_feed_assign_or_load_async(tab, nil, params, socket)
   end
 
   # def do_handle_params(%{"tab" => "private" =tab} = _params, _url, socket) do
@@ -166,7 +166,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       debug("rewrite encoded @ in URL")
       {:noreply, patch_to(socket, "/@"<>username, replace: true)}
     else
-      Bonfire.Social.Feeds.LiveHandler.assign_user_feed("timeline", nil, nil, socket)
+      do_handle_params(nil, nil, socket) # default tab
     end
   end
 
@@ -178,9 +178,9 @@ defmodule Bonfire.UI.Me.ProfileLive do
      )}
   end
 
-  def do_handle_params(_params, _url, socket) do
+  def do_handle_params(params, _url, socket) do
     # default tab
-    Bonfire.Social.Feeds.LiveHandler.assign_user_feed("timeline", nil, nil, socket)
+    do_handle_params(Map.merge(params || %{}, %{"tab" => "timeline"}), nil, socket)
   end
 
   def handle_params(params, uri, socket) do

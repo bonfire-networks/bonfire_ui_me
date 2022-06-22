@@ -8,7 +8,7 @@ defmodule Bonfire.UI.Me.LocaleTest do
   alias Cldr.Plug.SetLocale
   alias Plug.Conn
 
-  @tag :skip_ci
+  @tag :fixme
   test "locale is detected from accept header" do
     conn()
     |> Conn.put_req_header("accept-language", "es_MX, es, en-gb;q=0.8, en;q=0.7")
@@ -17,7 +17,7 @@ defmodule Bonfire.UI.Me.LocaleTest do
     assert "es-MX" == Localise.get_locale().canonical_locale_name
   end
 
-  @tag :skip_ci
+  @tag :fixme
   test "valid locale is detected" do
     conn()
     |> Conn.put_req_header("accept-language", "xyz, es;q=0.8")
