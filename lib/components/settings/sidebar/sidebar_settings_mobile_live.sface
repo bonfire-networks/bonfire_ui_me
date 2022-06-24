@@ -14,8 +14,8 @@
             </svg>
           </button>
         </div>
-        <div class="flex flex-col h-full py-6 overflow-y-auto shadow-xl bg-base-100">
-          <div class="relative flex flex-col flex-1 px-4 mt-6 sm:px-6">
+        <div class="flex flex-col h-full overflow-y-auto shadow-xl bg-base-100">
+          <div class="relative flex flex-col flex-1 p-4 ">
 
             <ul role="navigation" class="menu bg-base-100">
               <li class="uppercase menu-title">
@@ -157,11 +157,14 @@
                   </LivePatch>
                 </li>
               </div>
+                <li class="mb-12">
+                 <LivePatch to={"/logout"} class="w-full mt-2 btn btn-error">
+                  <Outline.LogoutIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+                  {l "Logout"}
+                </LivePatch>
+                </li>
             </ul>
-            <LivePatch to={"/logout"} class="w-full mt-2 btn btn-error">
-              <Outline.LogoutIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
-              {l "Logout"}
-            </LivePatch>
+           
           </div>
 
 
