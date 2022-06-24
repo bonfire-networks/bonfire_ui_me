@@ -50,6 +50,51 @@
       </div>
     </div>
 
+    <!--  -->
+
+
+
+    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
+      <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
+        {l "Enable federation?"}
+      </label>
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <fieldset>
+          <legend class="sr-only">
+            {l "Publish activities to the fediverse, and accept remote federated activities"}
+          </legend>
+          <div class="flex -space-y-px border border-base-200 bg-base-100 rounded-box">
+            <label class="relative flex items-center flex-1 p-4 border-r cursor-pointer border-base-200 focus:outline-none">
+              <input type="radio" 
+              name="activity_pub[instance][federating]" 
+              value="true" 
+              checked={if Bonfire.Me.Settings.get([:activity_pub, :instance, :federating], true, :instance), do: "checked"} 
+              class="radio radio-secondary" >
+              <div class="flex flex-col ml-3">
+                <span id="admin-info-0-label" class="block text-sm font-medium">
+                  {l "Yes"}
+                </span>
+              </div>
+            </label>
+
+            <label class="relative flex items-center flex-1 p-4 cursor-pointer focus:outline-none">
+              <input type="radio" 
+              name="activity_pub[instance][federating]" 
+              value="false" 
+              checked={if !Bonfire.Me.Settings.get([:activity_pub, :instance, :federating], true, :instance), do: "checked"} 
+              class="radio radio-secondary">
+              <div class="flex flex-col ml-3">
+                <span id="admin-info-2-label" class="block text-sm font-medium">
+                  {l "No"}
+                </span>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+
     <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
       <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
         {l "Show list of admins on public homepage"}
