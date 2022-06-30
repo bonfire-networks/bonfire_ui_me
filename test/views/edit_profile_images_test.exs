@@ -11,7 +11,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     {view, doc} = floki_live(conn, next) #|> IO.inspect
 
     [style] = Floki.attribute(doc, "[data-id='preview_icon']", "style")
-    assert style =~ "background-image: url('http" # has placeholder
+    assert style =~ "/images/avatar.png" # has placeholder avatar
 
     file = Path.expand("../fixtures/icon.png", __DIR__)
 
