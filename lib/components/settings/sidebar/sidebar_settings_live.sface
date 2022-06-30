@@ -33,6 +33,16 @@
         {l "Account Settings"}
       </LivePatch>
     </li>
+
+    <li>
+      <LivePatch 
+        to={"/settings/circles"}
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "circles"}>
+        <Outline.LockClosedIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+        {l "Circles"}
+      </LivePatch>
+    </li>
+
     <li class="uppercase menu-title">
       <span>{l "Safety"}</span>
     </li>

@@ -71,15 +71,22 @@
       selected_tab={@selected_tab}
     />
     {#match "circles"}
-      <Bonfire.Boundaries.Web.MyCirclesLive
-      selected_tab={@selected_tab}
+      <Surface.Components.Dynamic.Component
+        :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and current_user(assigns)}
+        module={Bonfire.Boundaries.Web.MyCirclesLive}
         current_user={current_user(assigns)}
         current_account={current_account(assigns)}
+        id={"circles"} 
       />
     {#match "circle"}
-      <Bonfire.Boundaries.Web.ViewCircleLive
-      selected_tab={@selected_tab}
-       />
+      <Surface.Components.Dynamic.Component
+        :if={module_enabled?(Bonfire.Boundaries.Web.ViewCircleLive) and current_user(assigns)}
+        module={Bonfire.Boundaries.Web.ViewCircleLive}
+        current_user={current_user(assigns)}
+        selected_tab={@selected_tab}
+        current_account={current_account(assigns)}
+        id={"view_circle"} 
+      />
     {#match "extensions"}
       <Bonfire.UI.Common.ExtensionsLive
         current_user={current_user(assigns)}
