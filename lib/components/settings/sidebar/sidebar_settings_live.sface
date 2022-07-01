@@ -29,7 +29,7 @@
       <LivePatch 
         to={"/settings/account"}
         class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "account"}>
-        <Outline.LockClosedIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+        <Outline.KeyIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
         {l "Account Settings"}
       </LivePatch>
     </li>
@@ -38,8 +38,17 @@
       <LivePatch 
         to={"/settings/circles"}
         class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "circles"}>
-        <Outline.LockClosedIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+        <Outline.UserGroupIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
         {l "Circles"}
+      </LivePatch>
+    </li>
+
+    <li>
+      <LivePatch 
+        to={"/settings/acls"}
+        class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "acls"}>
+        <Outline.LockClosedIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+        {l "Boundaries"}
       </LivePatch>
     </li>
 
