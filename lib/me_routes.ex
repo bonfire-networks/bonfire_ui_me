@@ -59,6 +59,7 @@ defmodule Bonfire.UI.Me.Routes do
 
         live "/settings/:tab", SettingsLive
         live "/settings/:tab/:id", SettingsLive
+        live "/settings/:tab/:id/:section", SettingsLive, as: :settings
 
         # resources "/settings/account/delete", AccountDeleteController, only: [:index, :create]
 
@@ -71,7 +72,7 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through :user_required
 
         live "/user", ProfileLive, as: :user_profile
-        live "/settings", SettingsLive, as: :settings
+        live "/settings", SettingsLive
 
         live "/user/circles", CirclesLive
 
@@ -83,8 +84,8 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through :browser
         pipe_through :admin_required
 
-        live "/admin", SettingsLive, as: :settings
-        live "/admin/:admin_tab", SettingsLive, as: :settings
+        live "/admin", SettingsLive, as: :admin_settings
+        live "/admin/:admin_tab", SettingsLive, as: :admin_settings
       end
 
 
