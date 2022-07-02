@@ -2,10 +2,10 @@
   <LiveRedirect to={if String.starts_with?(e(@character, :username, ""), "http"), do: e(@character, :username, nil), else: "/user/#{e(@character, :username, "")}"} class="flex items-center flex-1 space-x-3 profile-item group ">
     <Bonfire.UI.Common.AvatarLive profile={@profile} />
     <div class="flex-1">
-      <p class="text-sm font-semibold group-hover:underline text-base-content">
+      <p class="text-base font-semibold group-hover:underline text-base-content">
         {e(@profile, :name, "Anon")}
       </p>
-      <p class="-mt-1 text-sm text-base-content text-opacity-70">
+      <p class="-mt-1 text-base text-base-content/80">
         {e(@character, :username, "")} 
       </p>
     </div> 
