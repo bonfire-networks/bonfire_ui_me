@@ -34,7 +34,9 @@
       </LivePatch>
     </li>
 
-    <li>
+    <li
+      :if={Config.get(:experimental_features_enabled)}
+      >
       <LivePatch 
         to={"/settings/circles"}
         class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "circles"}>
@@ -43,7 +45,9 @@
       </LivePatch>
     </li>
 
-    <li>
+    <li
+      :if={Config.get(:experimental_features_enabled)}
+      >
       <LivePatch 
         to={"/settings/acls"}
         class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "acls"}>
