@@ -18,8 +18,8 @@ defmodule Bonfire.UI.Me.LoginController do
     case Accounts.login(params) do
       {:ok, account, user} -> logged_in(account, user, conn, form)
       {:error, changeset} -> paint(conn, changeset)
-      _ ->
-        error("LoginController: unhandled error")
+      other ->
+        error(other, "LoginController: unhandled error")
         paint(conn, Accounts.changeset(:login, params))
     end
   end
