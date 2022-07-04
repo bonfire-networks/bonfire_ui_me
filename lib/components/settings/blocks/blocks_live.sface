@@ -76,7 +76,7 @@
                 </td> -->
                 <!-- Selected: "text-indigo-600", Not Selected: "text-gray-900" -->
                 <td class="flex items-center py-4 pl-6 space-x-3 text-sm font-medium text-base-content whitespace-nowrap">
-                  <Bonfire.UI.Common.AvatarLive profile={e(block, :subject, :profile, nil ) || %{name: e(block, :peer, :display_hostname, nil )}} />
+                  <Bonfire.UI.Common.AvatarLive user={e(block, :subject, nil ) || %{name: e(block, :peer, :display_hostname, nil )}} />
                   <div class="flex flex-col font-medium whitespace-nowrap">
                     <div>
                       {e(block, :subject, :profile, :name, "Anon" ) || %{name: e(block, :peer, :display_hostname, :name, "Anon" )}}
@@ -187,7 +187,7 @@
                 </td> -->
                 <!-- Selected: "text-indigo-600", Not Selected: "text-gray-900" -->
                 <td class="flex items-center py-4 pl-6 space-x-3 text-sm font-medium text-base-content whitespace-nowrap">
-                  <Bonfire.UI.Common.AvatarLive profile={e(block, :subject, :profile, nil ) || %{name: e(block, :peer, :display_hostname, nil )}} />
+                  <Bonfire.UI.Common.AvatarLive profile={e(block, :subject, nil ) || %{name: e(block, :peer, :display_hostname, nil )}} />
                   <div class="flex flex-col font-medium whitespace-nowrap">
                     <div>
                       {e(block, :subject, :profile, :name, "Anon" ) || %{name: e(block, :peer, :display_hostname, :name, "Anon" )}}

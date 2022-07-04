@@ -338,6 +338,13 @@ setting for whether or not to apply boundaries to search, as if you enable index
         </fieldset>
       </div>
     </div>
+
+
+    <div class="p-3">
+      <Bonfire.UI.Me.SettingsViewsLive.AvatarsLive
+        scope={:instance}
+      />
+    </div>
 </form>
 
   </div>

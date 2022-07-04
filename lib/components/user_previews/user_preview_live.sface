@@ -8,10 +8,11 @@
     <div class="px-3 pb-2 -mt-8">
       <div class="">
         <div class="flex items-center justify-between">
-          <LazyImage
+          <Bonfire.UI.Common.AvatarLive
             class="inline-block object-cover w-16 h-16 rounded-full ring-2 ring-base-100 bg-base-200"
-            src={"#{avatar_url(@user)}"}
-            alt="user image"/>
+            size=64
+            user={@user}
+          />
         </div>
         <div class="mt-1">
           <div class="flex items-center space-x-2">
