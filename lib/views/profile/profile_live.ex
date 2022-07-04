@@ -125,8 +125,16 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
 
-  def do_handle_params(%{"tab" => tab} = params, _url, socket) when tab in ["posts", "boosts", "timeline", "followers", "followed"] do
+  def do_handle_params(%{"tab" => tab} = params, _url, socket) when tab in ["posts", "boosts", "timeline"] do
     Bonfire.Social.Feeds.LiveHandler.user_feed_assign_or_load_async(tab, nil, params, socket)
+  end
+
+
+  def do_handle_params(%{"tab" => tab} = params, _url, socket) when tab in ["followers", "followed"] do
+    {:noreply,
+      assign(socket,
+        Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(tab, nil, params, socket)
+      )}
   end
 
   # def do_handle_params(%{"tab" => "private" =tab} = _params, _url, socket) do
