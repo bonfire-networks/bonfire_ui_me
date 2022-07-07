@@ -50,7 +50,7 @@
     title={l "What activities to include in my home feed"}
    />
 
-  <Bonfire.UI.Me.SettingsViewsLive.SmartInputLive
+  <Bonfire.UI.Me.SettingsViewsLive.SmartInputSettingsLive
     current_user={current_user(assigns)}
    />
 
