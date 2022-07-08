@@ -1,8 +1,8 @@
-  <div class="pb-4 bg-base-content bg-opacity-5">
+  <div class="pb-4 ">
     <div class="bg-center bg-cover bg-no-repeat bg-base-200 h-[200px]" style={"background-image: url('#{banner_url(@user)}')"}></div>
     <div class="flex items-center justify-between">
       <Bonfire.UI.Common.AvatarLive
-        class="inline-block object-cover -mt-10 tablet:-mt-16 rounded-full ring-4 ring-base-content/5 bg-base-200 w-24 h-24 tablet:w-32 tablet:h-32 ml-4 tablet:ml-6"
+        class="inline-block object-cover w-24 h-24 ml-4 -mt-10 rounded-full tablet:-mt-16 ring-4 ring-base-content/5 bg-base-200 tablet:w-32 tablet:h-32 tablet:ml-6"
         size="100%"
         user={@user}
       />
