@@ -88,12 +88,11 @@
         id={"view_circle"} 
       />
     {#match "acls"}
-      <Surface.Components.Dynamic.LiveComponent
+      <Surface.Components.Dynamic.Component
         :if={module_enabled?(Bonfire.Boundaries.Web.MyAclsLive) and current_user(assigns)}
         module={Bonfire.Boundaries.Web.MyAclsLive}
         current_user={current_user(assigns)}
         current_account={current_account(assigns)}
-        id={"acls"} 
       />
     {#match "acl"}
       <Surface.Components.Dynamic.LiveComponent
