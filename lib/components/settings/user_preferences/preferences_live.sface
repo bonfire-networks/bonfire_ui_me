@@ -39,6 +39,24 @@
       </div>
     </div>
   </div>
+
+  <div class="form-control mt-2">
+    <label class="label cursor-pointer justify-start">
+      <input 
+        name="ui[compact]" 
+        value="false"
+        type="hidden" 
+      />
+      <input 
+        name="ui[compact]" 
+        value="true"
+        type="checkbox" 
+        checked={if Bonfire.Me.Settings.get([:ui, :compact], nil, assigns), do: "checked"} 
+        class="checkbox" 
+      />
+      <span class="ml-2 label-text">{l "Prefer compact layouts"}</span> 
+    </label>
+  </div>
   
   <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
     label={l "I want my profile (@%{username}) and content to appear in search engines (in Bonfire, the fediverse, and the web in general)", username: e(current_user(assigns), :character, :username, "")}
