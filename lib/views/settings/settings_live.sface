@@ -80,8 +80,8 @@
       />
     {#match "circle"}
       <Surface.Components.Dynamic.LiveComponent
-        :if={module_enabled?(Bonfire.Boundaries.Web.ViewCircleLive) and current_user(assigns)}
-        module={Bonfire.Boundaries.Web.ViewCircleLive}
+        :if={module_enabled?(Bonfire.Boundaries.Web.CircleLive) and current_user(assigns)}
+        module={Bonfire.Boundaries.Web.CircleLive}
         current_user={current_user(assigns)}
         selected_tab={@selected_tab}
         current_account={current_account(assigns)}
