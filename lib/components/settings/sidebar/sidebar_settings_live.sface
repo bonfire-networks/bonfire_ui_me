@@ -3,7 +3,9 @@
 
   <ul 
     :if={String.length(e(assigns, :admin_tab, "")) == 0}
-    role="navigation" class="py-3 rounded-md shadow w-[285px] menu bg-base-100">
+    role="navigation" class={"py-2 rounded-md shadow w-[285px] bg-base-100 menu menu-compact",
+        "lg:menu-normal": !Settings.get([:ui, :compact], false, assigns)
+        }>
     <li class="uppercase menu-title">
       <span>{l "General settings"}</span>
     </li>
@@ -56,7 +58,7 @@
       </LivePatch>
     </li>
 
-    <li class="uppercase menu-title">
+    <li class="mt-2 uppercase menu-title">
       <span>{l "Safety"}</span>
     </li>
      <li>
@@ -87,8 +89,10 @@
   <ul 
     :if={String.length(e(assigns, :admin_tab, "")) > 0 and Bonfire.Me.Users.is_admin?(current_user(assigns))}
     role="navigation" 
-    class="py-3 rounded-md shadow w-[285px] menu bg-base-100">
-    <li class="mt-2 uppercase menu-title">
+    class={"py-3 rounded-md shadow w-[285px] bg-base-100 menu menu-compact",
+        "lg:menu-normal": !Settings.get([:ui, :compact], false, assigns)
+        }>
+    <li class="mt-1 uppercase menu-title">
       <span>{l "Admin settings"}</span>
     </li>
     <li>
@@ -142,7 +146,7 @@
       </LivePatch>
     </li> 
 
-    <li class="uppercase menu-title">
+    <li class="mt-1 uppercase menu-title">
       <span>{l "Moderation"}</span>
     </li>
     <li>
