@@ -7,7 +7,7 @@ defmodule Bonfire.UI.Me.LoginLive do
   def mount(params, session, socket) do
     {:ok,
      socket
-      |> assign(:page, l("Log in"))
+      |> assign(:page, "login")
       |> assign(:page_title, l("Log in"))
       |> assign_new(:without_sidebar, fn -> true end)
       |> assign_new(:current_account, fn -> nil end)
