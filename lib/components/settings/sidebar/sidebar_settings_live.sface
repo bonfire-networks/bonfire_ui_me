@@ -1,8 +1,7 @@
 <div 
-  class="hidden tablet:block">
+  class="hidden md:block">
 
   <ul 
-    :if={String.length(e(assigns, :admin_tab, "")) == 0}
     role="navigation" class={"py-2 rounded-md shadow w-[285px] bg-base-100 menu menu-compact",
         "lg:menu-normal": !Settings.get([:ui, :compact], false, assigns)
         }>
@@ -84,14 +83,8 @@
         {l "Silenced"}
       </LivePatch>
     </li>
-  </ul>
-
-  <ul 
-    :if={String.length(e(assigns, :admin_tab, "")) > 0 and Bonfire.Me.Users.is_admin?(current_user(assigns))}
-    role="navigation" 
-    class={"py-3 rounded-md shadow w-[285px] bg-base-100 menu menu-compact",
-        "lg:menu-normal": !Settings.get([:ui, :compact], false, assigns)
-        }>
+    <div 
+    :if={Bonfire.Me.Users.is_admin?(current_user(assigns))}>
     <li class="mt-1 uppercase menu-title">
       <span>{l "Admin settings"}</span>
     </li>
@@ -141,7 +134,7 @@
       <LivePatch 
         to={"/settings/admin/shared_user"}
         class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "shared_user"}>
-        <Solid.UserGroupIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+        <Outline.UserGroupIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
         {l "Teams"}
       </LivePatch>
     </li> 
@@ -173,6 +166,7 @@
         {l "Silenced"}
       </LivePatch>
     </li>
+  </div>
   </ul>
 
 

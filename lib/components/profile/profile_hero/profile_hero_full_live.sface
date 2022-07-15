@@ -1,5 +1,5 @@
   <div class="pb-4 ">
-    <div class="bg-center bg-cover bg-no-repeat bg-base-200 h-[200px]" style={"background-image: url('#{banner_url(@user)}')"}></div>
+    <div class="bg-center bg-cover bg-no-repeat bg-base-200 h-[140px] md:h-[200px]" style={"background-image: url('#{banner_url(@user)}')"}></div>
     <div class="flex items-center justify-between">
       <Bonfire.UI.Common.AvatarLive
         class="inline-block object-cover w-24 h-24 ml-4 -mt-10 rounded-full tablet:-mt-16 ring-4 ring-base-content/5 bg-base-200 tablet:w-32 tablet:h-32 tablet:ml-6"

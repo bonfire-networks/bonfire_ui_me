@@ -93,13 +93,14 @@
         module={Bonfire.Boundaries.Web.MyAclsLive}
         current_user={current_user(assigns)}
         current_account={current_account(assigns)}
+        selected_tab={"acls"}
       />
     {#match "acl"}
       <Surface.Components.Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.AclLive) and current_user(assigns)}
         module={Bonfire.Boundaries.Web.AclLive}
         current_user={current_user(assigns)}
-        selected_tab={@selected_tab}
+        selected_tab={"acls"}
         current_account={current_account(assigns)}
         id={"acl"} 
       />
