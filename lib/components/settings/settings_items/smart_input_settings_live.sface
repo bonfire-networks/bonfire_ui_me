@@ -61,7 +61,7 @@
             <div class="flex flex-col ml-3">
             <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
             <span class="block text-sm font-medium">
-                {l "Editor window in the corner of the screen"}
+                {l "Large floating editor window"}
             </span>
             <span class="block text-sm">
                 {l "Always give yourself the space to write."}
