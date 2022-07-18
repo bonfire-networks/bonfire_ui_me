@@ -21,20 +21,21 @@ defmodule Bonfire.UI.Me.SettingsLive do
     {:ok,
       socket
       # |> assign(:without_sidebar,  true)
-      |> assign(sidebar_widgets: [
-        users: [
-          main: [
-            {Bonfire.UI.Me.SettingsViewLive.SidebarSettingsLive,
-            [
-              selected_tab: "user",
-              admin_tab: "",
-              current_user: current_user(socket)
-            ]}
-          ],
-          secondary: secondary_widgets()
-        ]
-      ])
       |> assign(
+        sidebar_widgets: [
+          users: [
+            main: [
+              {Bonfire.UI.Me.SettingsViewLive.SidebarSettingsLive,
+              [
+                selected_tab: "user",
+                admin_tab: "",
+                current_user: current_user(socket)
+              ]}
+            ],
+            secondary: secondary_widgets()
+          ]
+        ],
+        show_less_menu_items: true,
         page_title: l( "Settings"),
         page_header_aside: [
           {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
@@ -42,7 +43,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
         selected_tab: "user",
         tab_id: "",
         hide_smart_input: true,
-        page: "Settings",
+        page: "settings",
         trigger_submit: false,
         uploaded_files: []
       )
