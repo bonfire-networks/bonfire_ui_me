@@ -63,12 +63,12 @@
     current_user={current_user(assigns)}
    />
 
-  <Bonfire.UI.Me.SettingsViewsLive.MyFeedItemsLive
+  <Bonfire.UI.Social.Settings.MyFeedItemsLive
     current_user={current_user(assigns)}
     title={l "What activities to include in my home feed"}
    />
 
-  <Bonfire.UI.Me.SettingsViewsLive.SmartInputSettingsLive
+  <Bonfire.UI.Common.SmartInputSettingsLive
     current_user={current_user(assigns)}
    />
 

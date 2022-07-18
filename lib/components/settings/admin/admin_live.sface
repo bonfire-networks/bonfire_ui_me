@@ -234,7 +234,7 @@
       />
     </div>
 
-    <Bonfire.UI.Me.SettingsViewsLive.MyFeedItemsLive
+    <Bonfire.UI.Social.Settings.MyFeedItemsLive
       title={l "What activities to include in home feeds by default"}
       scope={:instance}
     />
@@ -341,7 +341,7 @@ setting for whether or not to apply boundaries to search, as if you enable index
 
 
     <div class="p-3">
-      <Bonfire.UI.Me.SettingsViewsLive.AvatarsLive
+      <Bonfire.UI.Common.AvatarsSettingsLive
         scope={:instance}
       />
     </div>
