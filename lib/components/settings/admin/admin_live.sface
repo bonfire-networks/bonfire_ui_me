@@ -94,6 +94,56 @@
       </div>
     </div>
 
+    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
+      <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
+        {l "Directory of users visibility"}
+      </label>
+      <div class="mt-1 sm:mt-0 sm:col-span-2">
+        <fieldset>
+          <div class="flex -space-y-px border border-base-200 bg-base-100 rounded-box">
+            <label class="relative flex items-center flex-1 p-4 border-r cursor-pointer border-base-200 focus:outline-none">
+              <input type="radio" 
+              name="Bonfire.UI.Me.UsersDirectoryLive[show_to]" 
+              value="guests" 
+              checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users, :instance)==:guests, do: "checked"} 
+              class="radio radio-secondary" >
+              <div class="flex flex-col ml-3">
+                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
+                <span id="admin-info-0-label" class="block text-sm font-medium">
+                  {l "Guests"}
+                </span>
+              </div>
+            </label>
+
+            <label class="relative flex items-center flex-1 p-4 cursor-pointer focus:outline-none">
+              <input type="radio" 
+              name="Bonfire.UI.Me.UsersDirectoryLive[show_to]" 
+              value="users" 
+              checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users, :instance)==:users, do: "checked"} 
+              class="radio radio-secondary">
+              <div class="flex flex-col ml-3">
+                <span id="admin-info-2-label" class="block text-sm font-medium">
+                  {l "Users"}
+                </span>
+              </div>
+            </label>
+
+            <label class="relative flex items-center flex-1 p-4 cursor-pointer focus:outline-none">
+              <input type="radio" 
+              name="Bonfire.UI.Me.UsersDirectoryLive[show_to]" 
+              value="false" 
+              checked={if !Bonfire.Me.Settings.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users), do: "checked"} 
+              class="radio radio-secondary">
+              <div class="flex flex-col ml-3">
+                <span id="admin-info-2-label" class="block text-sm font-medium">
+                  {l "Admins"}
+                </span>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+      </div>
+    </div>
 
     <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
       <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
@@ -229,7 +279,7 @@
 
     <div class="p-3">
       <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
-        label={l "Users and their content should appear in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden by each account and user's settings)"}
+        label={l "New users and their content should appear in publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden by each user)"}
         scope={:instance}
       />
     </div>

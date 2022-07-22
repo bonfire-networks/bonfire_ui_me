@@ -8,7 +8,7 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through :browser
 
         live "/user/@:username", ProfileLive
-        live "/user/:username", ProfileLive
+        live "/user/:username", ProfileLive, as: :user_profile
 
         live "/@:username", ProfileLive, as: Bonfire.Data.Identity.User
         live "/@:username", ProfileLive, as: Bonfire.Data.Identity.Character
@@ -20,6 +20,8 @@ defmodule Bonfire.UI.Me.Routes do
         live "/user/:username/:tab", ProfileLive
 
         resources "/login/forgot-password", ForgotPasswordController, only: [:index, :create], as: :forgot_password
+
+        live "/users", UsersDirectoryLive
 
       end
 

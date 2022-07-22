@@ -53,6 +53,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
     if user && ( current_username || Integration.is_local?(user) ) do # show remote users only to logged in users
 
+      dump(Bonfire.Boundaries.Debug.debug_object_acls(user), "boundaries on user profile")
+
       following = current_user && current_user.id != user.id && module_enabled?(Bonfire.Social.Follows) && Bonfire.Social.Follows.following?(user, current_user)
 
       page_title = if current_username == e(user, :character, :username, ""), do: l( "Your profile"), else: e(user, :profile, :name, l "Someone") <> "'s profile"
