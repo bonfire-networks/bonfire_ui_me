@@ -1,4 +1,7 @@
-<div 
+<form name="settings" phx-change="Bonfire.Me.Settings:set">
+  <input name="scope" value={@scope || "user"} type="hidden" />
+
+  <div 
   class="font-bold text-xs uppercase text-base-content text-opacity-80 border-b mt-8 border-base-content border-opacity-30 pb-2">{l "Discoverability"}</div>
   
   <div class="form-control mt-2">
@@ -18,3 +21,4 @@
       <span class="ml-2 label-text">{@label}</span> 
     </label>
   </div>
+</form>

@@ -1,3 +1,4 @@
+<div class="p-4">
 <!-- - [ ] Configure basic instance info: Name, description, image
       - [ ] Invite link via email
       - [ ] Choose between open / invite only instance
@@ -10,10 +11,10 @@
       - [ ] Reply to a reported activity, remove or unflag
       - [ ] Reply to a blocked user activity, block or unblock  -->
 {#if Bonfire.Me.Users.is_admin?(current_user(assigns)) }
-  <div class="p-4">
     
     <form name="settings" phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:instance} type="hidden" />
+
       <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
         <label for="instance_theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
           {l "Instance default theme"}
@@ -277,13 +278,6 @@
       </div>
     </div>
 
-    <div class="p-3">
-      <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
-        label={l "New users and their content should appear in publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden by each user)"}
-        scope={:instance}
-      />
-    </div>
-
     <Bonfire.UI.Social.Settings.MyFeedItemsLive
       title={l "What activities to include in home feeds by default"}
       scope={:instance}
@@ -397,5 +391,12 @@ setting for whether or not to apply boundaries to search, as if you enable index
     </div>
 </form>
 
+  <div class="p-3">
+    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
+      label={l "New users and their content should appear in publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden by each user)"}
+      scope={:instance}
+    />
   </div>
+
 {/if}
+</div>

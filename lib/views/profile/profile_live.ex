@@ -53,7 +53,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
     if user && ( current_username || Integration.is_local?(user) ) do # show remote users only to logged in users
 
-      dump(Bonfire.Boundaries.Debug.debug_object_acls(user), "boundaries on user profile")
+      dump(Bonfire.Boundaries.Controlleds.list_on_object(user), "boundaries on user profile")
 
       following = current_user && current_user.id != user.id && module_enabled?(Bonfire.Social.Follows) && Bonfire.Social.Follows.following?(user, current_user)
 
