@@ -12,4 +12,6 @@ defmodule Bonfire.UI.Me.ProfileRemoteFollowLive do
   prop user, :map
   prop follows_me, :boolean, default: false
 
+  slot header
+
 end

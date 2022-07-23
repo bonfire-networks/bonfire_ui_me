@@ -1,10 +1,7 @@
 <div>
-<Surface.Components.Dynamic.Component 
-    module={Config.get([:ui, :profile, :hero_component], 
-    Bonfire.UI.Me.ProfileHeroFullLive)} 
-    user={@user} 
-    current_user={current_user(assigns)} 
-    follows_me={e(assigns, :follows_me, false)}  />
+
+  <#slot name="header" />
+
   <div class="flex">
     <div class="w-full mx-auto">
       <Form for={:outgoing} action="/pub/remote_interaction">

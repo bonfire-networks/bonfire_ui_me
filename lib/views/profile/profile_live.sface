@@ -8,9 +8,22 @@
       :if={e(current_user(assigns), :id, nil)}
       page_title={@page_title}
     /> -->
+
     <Surface.Components.Dynamic.Component
       module={Bonfire.Common.Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
       {...assigns}
-    />
+      >
+      <:header>
+        <Surface.Components.Dynamic.Component 
+          module={Config.get([:ui, :profile, :hero_component], 
+          Bonfire.UI.Me.ProfileHeroFullLive)} 
+          user={@user} 
+          current_user={current_user(assigns)} 
+          follows_me={e(assigns, :follows_me, false)} 
+        />
+        <Bonfire.UI.Common.ProfileNavigationLive selected_tab={@selected_tab} path_prefix={"/@#{e(@user, :character, :username, "")}/"} tabs={Bonfire.Common.Config.get([:ui, :profile, :navigation], [timeline: "Timeline"])} />
+      </:header>
+    </Surface.Components.Dynamic.Component>
+  
   </section>
 </main>
