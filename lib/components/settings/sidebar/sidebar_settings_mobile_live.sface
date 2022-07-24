@@ -22,7 +22,7 @@
                 <span>{l "General settings"}</span>
               </li>
               
-              <li :if={current_user(assigns)}>
+              <li :if={current_user(@__context__)}>
                 <LivePatch 
                   to={"/settings/user"} 
                   class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "user"}>
@@ -98,7 +98,7 @@
                   {l "Silenced"}
                 </LivePatch>
               </li>
-              <div :if={Bonfire.Me.Users.is_admin?(current_user(assigns))} >
+              <div :if={Bonfire.Me.Users.is_admin?(current_user(@__context__))} >
                 <li class="mt-2 uppercase menu-title">
                   <span>{l "Admin settings"}</span>
                 </li>

@@ -4,12 +4,14 @@
 
 </form>
 
-  <!-- <div class="p-4">
+ <div class="p-4">
     <LiveRedirect to={path(:change_password)} class="w-full normal-case btn btn-primary btn-wide">{l "Change my password"}</LiveRedirect>
-    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
+
+  <!--    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
       label={l "I want my profiles to appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden in each user's settings)"}
-      scope={current_account(assigns)}
-    />
-  </div> -->
+      scope={current_account(@__context__)}
+    />-->
+    
+  </div> 
 
 </div>

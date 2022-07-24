@@ -7,19 +7,20 @@ defmodule Bonfire.UI.Me.Routes do
       scope "/", Bonfire.UI.Me do
         pipe_through :browser
 
+        # order matters!
+        live "/@:username", ProfileLive, as: Bonfire.Data.Identity.User
+        live "/@:username/:tab", ProfileLive, as: Bonfire.Data.Identity.User
+        live "/user/", ProfileLive, as: Bonfire.Data.Identity.User
+
         live "/user/@:username", ProfileLive
         live "/user/:username", ProfileLive, as: :user_profile
         live "/user/:id", ProfileLive, as: :user_profile
-        live "/user/", ProfileLive, as: Bonfire.Data.Identity.User
         live "/user/:username/:tab", ProfileLive, as: :user_profile
 
-        live "/@:username", ProfileLive, as: Bonfire.Data.Identity.User
-        live "/@:username/:tab", ProfileLive
-
         live "/profile/:id", CharacterLive, as: Bonfire.Data.Social.Profile
-        live "/character/:id", CharacterLive, as: Bonfire.Data.Social.Character
+        live "/character/:id", CharacterLive, as: Bonfire.Data.Identity.Character
         live "/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile
-        live "/character/:username", CharacterLive, as: Bonfire.Data.Social.Character
+        live "/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character
 
         resources "/login/forgot-password", ForgotPasswordController, only: [:index, :create], as: :forgot_password
 

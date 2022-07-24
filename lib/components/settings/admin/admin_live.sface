@@ -10,7 +10,7 @@
     - [ ] View the list of reported activities
       - [ ] Reply to a reported activity, remove or unflag
       - [ ] Reply to a blocked user activity, block or unblock  -->
-{#if Bonfire.Me.Users.is_admin?(current_user(assigns)) }
+{#if Bonfire.Me.Users.is_admin?(current_user(@__context__)) }
     
     <form name="settings" phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:instance} type="hidden" />
@@ -35,7 +35,7 @@
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <Bonfire.UI.Common.ChangeLocaleLive
-          locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], e(assigns, :locale, nil), :instance)}
+          locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], e(@locale, nil), :instance)}
          />
       </div>
     </div>
