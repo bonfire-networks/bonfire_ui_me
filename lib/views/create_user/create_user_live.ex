@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.CreateUserLive do
-  use Bonfire.UI.Common.Web, :surface_view
+  use Bonfire.UI.Common.Web, :surface_live_view
   # alias Bonfire.Data.Identity.User
   alias Bonfire.Me.Users
   alias Bonfire.UI.Me.LivePlugs

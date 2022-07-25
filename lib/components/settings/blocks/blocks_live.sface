@@ -89,7 +89,7 @@
                 <td class="py-4 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-6">
                   <Bonfire.Boundaries.Web.BlockButtonLive
                     object={e(block, :subject, nil )}
-                    scope={e(assigns, :scope, nil)}
+                    scope={e(@scope, nil)}
                     block_type={@block_type}
                     my_block={true}
                     label={l "Unsilence"}
@@ -200,7 +200,7 @@
                 <td class="py-4 pl-3 pr-4 text-sm font-medium text-right whitespace-nowrap sm:pr-6">
                   <Bonfire.Boundaries.Web.BlockButtonLive
                     object={e(block, :subject, nil )}
-                    scope={e(assigns, :scope, nil)}
+                    scope={e(@scope, nil)}
                     block_type={@block_type}
                     my_block={true}
                     label={l "Unghost"}

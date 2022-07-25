@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.UsersDirectoryLive do
-  use Bonfire.UI.Common.Web, :surface_view
+  use Bonfire.UI.Common.Web, :surface_live_view
   alias Bonfire.UI.Me.LivePlugs
   import Bonfire.UI.Me.Integration
 

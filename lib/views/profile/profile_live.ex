@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.ProfileLive do
-  use Bonfire.UI.Common.Web, :surface_view
+  use Bonfire.UI.Common.Web, :surface_live_view
   alias Bonfire.Me.Integration
   import Where
 
@@ -84,7 +84,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         # search_placeholder: search_placeholder,
         smart_input_prompt: smart_input_prompt,
         smart_input_text: smart_input_text
-        # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), e(user, :id, nil)}]
+        # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}]
       )}
     else
       if user do
@@ -163,7 +163,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #     page_title: page_title,
   #     smart_input_prompt: smart_input_prompt,
   #     smart_input_text: smart_input_text,
-  #     to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), e(user, :id, nil)}],
+  #     to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}],
   #     create_activity_type: :message
   #   )
   #   }

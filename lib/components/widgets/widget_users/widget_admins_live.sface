@@ -1,5 +1,5 @@
 <Bonfire.UI.Me.WidgetUsersLive 
-  :if={current_user(@__context__) || Settings.get([Bonfire.UI.Me.WidgetAdminsLive, :show_guests], true, assigns)}
-  widget_title={e(assigns, :widget_title, l "Admins")}
+  :if={current_user(@__context__) || Settings.get([Bonfire.UI.Me.WidgetAdminsLive, :show_guests], true, @__context__)}
+  widget_title={e(@widget_title, l "Admins")}
   current_user={current_user(@__context__)}
 />
