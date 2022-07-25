@@ -35,7 +35,7 @@
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <Bonfire.UI.Common.ChangeLocaleLive
-          locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], e(@locale, nil), :instance)}
+          locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], nil, :instance)}
          />
       </div>
     </div>

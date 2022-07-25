@@ -9,7 +9,7 @@
       </label>
       <div class="w-full">
         <Bonfire.UI.Common.ChangeThemeLive
-          theme={Settings.get([:ui, :theme], "bonfire", assigns)}
+          theme={Settings.get([:ui, :theme], "bonfire", @__context__)}
         />
       </div>
     </div>
@@ -20,7 +20,7 @@
       </label>
       <div class="w-full">
         <Bonfire.UI.Common.ChangeLocaleLive
-          locale={Bonfire.Me.Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], nil, assigns) || Bonfire.Common.Localise.get_locale_id()}
+          locale={Bonfire.Me.Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], nil, @__context__) || Bonfire.Common.Localise.get_locale_id()}
           live_handler="Bonfire.Me.Settings:set_locale"
         />
       </div>
@@ -34,7 +34,7 @@
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <Bonfire.UI.Common.ChangeFontLive
-          font_family={Settings.get([:ui, :font_family], "Inter", assigns)}
+          font_family={Settings.get([:ui, :font_family], "Inter", @__context__)}
          />
       </div>
     </div>
@@ -51,7 +51,7 @@
         name="ui[compact]" 
         value="true"
         type="checkbox" 
-        checked={if Bonfire.Me.Settings.get([:ui, :compact], nil, assigns), do: "checked"} 
+        checked={if Bonfire.Me.Settings.get([:ui, :compact], nil, @__context__), do: "checked"} 
         class="checkbox" 
       />
       <span class="ml-2 label-text">{l "Prefer compact layouts"}</span> 

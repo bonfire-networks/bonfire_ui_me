@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.ConfirmEmailLive do
-  use Bonfire.UI.Common.Web, :surface_view
+  use Bonfire.UI.Common.Web, :surface_live_view
   alias Bonfire.Me.Accounts
 
   def mount(_params, session, socket) do

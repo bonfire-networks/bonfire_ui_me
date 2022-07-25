@@ -1,6 +1,6 @@
 
 <Bonfire.UI.Common.WidgetLive 
-  widget_title={e(assigns, :widget_title, "Users")}
+  widget_title={e(@widget_title, "Users")}
 >
   <div class="grid grid-cols-1 gap-2 pb-2 divide-y divide-base-300">
     {#for user <- users(@users) }

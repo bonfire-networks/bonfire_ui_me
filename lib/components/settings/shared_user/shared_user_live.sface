@@ -1,16 +1,4 @@
 <div class="">
-   <Bonfire.UI.Common.PageHeaderLive
-      page_title={l "Teams"}
-      current_user={current_user(@__context__)}
-     >
-      <:left_action>
-    <div 
-      @click="open_sidebar_drawer = true"
-      class="flex btn btn-ghost btn-circle btn-sm md:hidden">
-      <Outline.MenuAlt2Icon class="w-5 h-5 text-base-content/80" />
-    </div>
-  </:left_action>
-</Bonfire.UI.Common.PageHeaderLive>
 
   <form phx-submit="Bonfire.Me.Users:share_user" method="POST">
     <div class="p-3">

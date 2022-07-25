@@ -56,7 +56,7 @@
 
 {#else}
 
-  {#if (Bonfire.Me.Accounts.instance_is_invite_only? && !e(assigns, :invite, nil))}
+  {#if (Bonfire.Me.Accounts.instance_is_invite_only? && !e(@invite, nil))}
     <div role="status" class="my-4 alert alert-warning">
       <div class="flex">
         <div class="whitespace-normal">
@@ -140,7 +140,7 @@
       <Bonfire.UI.Me.SignupFormLive 
         form={@form} 
         error={@error}
-        auth_second_factor_secret={e(assigns, :auth_second_factor_secret, nil)}
+        auth_second_factor_secret={e(@auth_second_factor_secret, nil)}
       />
     </div>
 
