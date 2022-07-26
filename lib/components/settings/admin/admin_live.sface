@@ -278,6 +278,24 @@
       </div>
     </div>
 
+  <div class="form-control mt-2">
+    <label class="label cursor-pointer justify-start">
+      <input 
+        name="ui[topics_list_in_sidebar]" 
+        value="false"
+        type="hidden" 
+      />
+      <input 
+        name="ui[topics_list_in_sidebar]" 
+        value="true"
+        type="checkbox" 
+        checked={if Bonfire.Me.Settings.get([:ui, :topics_list_in_sidebar], true, :instance), do: "checked"} 
+        class="checkbox" 
+      />
+      <span class="ml-2 label-text">{l "Show followed topics in the sidebar"}</span> 
+    </label>
+  </div>
+
     <Bonfire.UI.Social.Settings.MyFeedItemsLive
       title={l "What activities to include in home feeds by default"}
       scope={:instance}
