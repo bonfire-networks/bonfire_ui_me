@@ -2,9 +2,9 @@
 <Bonfire.UI.Common.WidgetLive 
   widget_title={e(@widget_title, "Users")}
 >
-  <div class="grid grid-cols-1 gap-2 pb-2 divide-y divide-base-300">
+  <div class="grid grid-cols-1 gap-2 p-3">
     {#for user <- users(@users) }
-      <div class="px-2 pt-2">
+      <div class="px-2">
         <Bonfire.UI.Common.ProfileItemLive 
           character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)} 
           profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}

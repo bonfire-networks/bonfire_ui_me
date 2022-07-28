@@ -1,8 +1,10 @@
 <div class="flex flex-col p-4">
 
 <form name="settings" phx-change="Bonfire.Me.Settings:set">
-
-  <div class="grid grid-cols-2 gap-4">
+  <div class="pb-2 mb-4 text-xs font-bold uppercase border-b text-base-content text-opacity-80 border-base-content border-opacity-30">
+    {l "General preferences"}
+  </div>
+  <div class="grid grid-cols-1 gap-4">
     <div class="flex flex-col space-y-2">
       <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
         {l "Look and feel"}
@@ -25,9 +27,7 @@
         />
       </div>
     </div>
-  </div>
 
-  <div class="grid grid-cols-2 gap-4 mt-3">
     <div class="flex flex-col space-y-2">
       <label for="font_family" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
         {l "Preferred font"}
@@ -40,8 +40,8 @@
     </div>
   </div>
 
-  <div class="form-control mt-2">
-    <label class="label cursor-pointer justify-start">
+  <div class="mt-2 form-control">
+    <label class="justify-start cursor-pointer label">
       <input 
         name="ui[compact]" 
         value="false"
@@ -58,8 +58,8 @@
     </label>
   </div>
   
-  <div class="form-control mt-2">
-    <label class="label cursor-pointer justify-start">
+  <div class="mt-2 form-control">
+    <label class="justify-start cursor-pointer label">
       <input 
         name="ui[topics_list_in_sidebar]" 
         value="false"
@@ -76,14 +76,17 @@
     </label>
   </div>
 
+  <Bonfire.UI.Common.SmartInputSettingsLive
+    current_user={current_user(@__context__)}
+   />
+
+
   <Bonfire.UI.Social.Settings.MyFeedItemsLive
     current_user={current_user(@__context__)}
     title={l "What activities to include in my home feed"}
    />
 
-  <Bonfire.UI.Common.SmartInputSettingsLive
-    current_user={current_user(@__context__)}
-   />
+  
 
 </form>
 
