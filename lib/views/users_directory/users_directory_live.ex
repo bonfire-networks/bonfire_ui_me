@@ -26,19 +26,21 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
 
         users = Bonfire.Me.Users.list(current_user)
 
+        count = Bonfire.Me.Users.maybe_count()
+
         {:ok,
           socket
           |> assign(
-            page_title: "Users directory",
-            page: "Users",
-            search_placeholder: "Search in users directory",
+            page_title: ( if count, do: l("Users directory (%{total})", total: count), else: l("Users directory") ),
+            page: "users",
+            search_placeholder: "Search users",
             users: users
           )}
       else
-        error("You need to log in before browsing the directory")
+        error(l "You need to log in before browsing the user directory")
       end
     else
-      error("User discoverability is disabled on this instance")
+      error(l "The user directory is disabled on this instance")
     end
   end
 

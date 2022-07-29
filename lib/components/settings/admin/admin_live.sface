@@ -35,7 +35,7 @@
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <Bonfire.UI.Common.ChangeLocaleLive
-          locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], nil, :instance)}
+          locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", :instance)}
          />
       </div>
     </div>
@@ -51,53 +51,106 @@
       </div>
     </div>
 
-    <!--  -->
 
 
-
-    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
-      <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
-        {l "Enable federation?"}
+    <div class="form-control mt-2">
+      <label class="label cursor-pointer justify-start">
+        <input 
+          name="activity_pub[instance][federating]" 
+          value="false"
+          type="hidden" 
+        />
+        <input 
+          name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" 
+          value="true"
+          type="checkbox" 
+          checked={if Bonfire.Me.Settings.get([:activity_pub, :instance, :federating], true, :instance), do: "checked"} 
+          class="checkbox" 
+        />
+        <span class="ml-2 label-text">{l "Enable federation:"} {l "Push local activities to the fediverse, and accept remote activities"}</span> 
       </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <fieldset>
-          <legend class="sr-only">
-            {l "Publish activities to the fediverse, and accept remote federated activities"}
-          </legend>
-          <div class="flex -space-y-px border border-base-200 bg-base-100 rounded-box">
-            <label class="relative flex items-center flex-1 p-4 border-r cursor-pointer border-base-200 focus:outline-none">
-              <input type="radio" 
-              name="activity_pub[instance][federating]" 
-              value="true" 
-              checked={if Bonfire.Me.Settings.get([:activity_pub, :instance, :federating], true, :instance), do: "checked"} 
-              class="radio radio-secondary" >
-              <div class="flex flex-col ml-3">
-                <span id="admin-info-0-label" class="block text-sm font-medium">
-                  {l "Yes"}
-                </span>
-              </div>
-            </label>
-
-            <label class="relative flex items-center flex-1 p-4 cursor-pointer focus:outline-none">
-              <input type="radio" 
-              name="activity_pub[instance][federating]" 
-              value="false" 
-              checked={if !Bonfire.Me.Settings.get([:activity_pub, :instance, :federating], true, :instance), do: "checked"} 
-              class="radio radio-secondary">
-              <div class="flex flex-col ml-3">
-                <span id="admin-info-2-label" class="block text-sm font-medium">
-                  {l "No"}
-                </span>
-              </div>
-            </label>
-          </div>
-        </fieldset>
-      </div>
     </div>
 
+
+    <div class="form-control mt-2">
+      <label class="label cursor-pointer justify-start">
+        <input 
+          name="invite_only" 
+          value="false"
+          type="hidden" 
+        />
+        <input 
+          name="invite_only" 
+          value="true"
+          type="checkbox" 
+          checked={if Bonfire.Me.Settings.get(:invite_only, nil, :instance), do: "checked"} 
+          class="checkbox" 
+        />
+        <span class="ml-2 label-text">{l "Only people with a valid invite link can sign up to this instance."}</span> 
+      </label>
+    </div>
+
+
+    <div class="form-control mt-2">
+      <label class="label cursor-pointer justify-start">
+        <input 
+          name="ui[topics_list_in_sidebar]" 
+          value="false"
+          type="hidden" 
+        />
+        <input 
+          name="ui[topics_list_in_sidebar]" 
+          value="true"
+          type="checkbox" 
+          checked={if Bonfire.Me.Settings.get([:ui, :topics_list_in_sidebar], true, :instance), do: "checked"} 
+          class="checkbox" 
+        />
+        <span class="ml-2 label-text">{l "Show followed topics in the sidebar"}</span> 
+      </label>
+    </div>
+
+
+    <div class="form-control mt-2">
+      <label class="label cursor-pointer justify-start">
+        <input 
+          name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" 
+          value="false"
+          type="hidden" 
+        />
+        <input 
+          name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" 
+          value="true"
+          type="checkbox" 
+          checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true, :instance), do: "checked"} 
+          class="checkbox" 
+        />
+        <span class="ml-2 label-text">{l "Show list of admins on public homepage"}</span> 
+      </label>
+    </div>
+
+
+    <div class="form-control mt-2">
+      <label class="label cursor-pointer justify-start">
+        <input 
+          name="Bonfire.Me.Users[public_count]" 
+          value="true"
+          type="hidden" 
+        />
+        <input 
+          name="Bonfire.Me.Users[public_count]" 
+          value="false"
+          type="checkbox" 
+          checked={if !Bonfire.Me.Settings.get([Bonfire.Me.Users, :public_count], true, :instance), do: "checked"} 
+          class="checkbox" 
+        />
+        <span class="ml-2 label-text">{l "Hide the number of total users on this instance"}</span> 
+      </label>
+    </div>
+
+
     <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
       <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
-        {l "Directory of users visibility"}
+        {l "Who can see the list of local users?"}
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <fieldset>
@@ -146,155 +199,6 @@
       </div>
     </div>
 
-    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
-      <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
-        {l "Show list of admins on public homepage"}
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <fieldset>
-          <legend class="sr-only">
-            {l "Show list of admins on public homepage"}
-          </legend>
-          <div class="flex -space-y-px border border-base-200 bg-base-100 rounded-box">
-            <!-- Checked: "bg-base-200 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
-            <label class="relative flex items-center flex-1 p-4 border-r cursor-pointer border-base-200 focus:outline-none">
-              <input type="radio" 
-              name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" 
-              value="true" 
-              checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true, :instance), do: "checked"} 
-              class="radio radio-secondary" >
-              <div class="flex flex-col ml-3">
-                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
-                <span id="admin-info-0-label" class="block text-sm font-medium">
-                  {l "Yes"}
-                </span>
-              </div>
-            </label>
-
-
-            <!-- Checked: "bg-base-200 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
-            <label class="relative flex items-center flex-1 p-4 cursor-pointer focus:outline-none">
-              <input type="radio" 
-              name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" 
-              value="false" 
-              checked={if !Bonfire.Me.Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true, :instance), do: "checked"} 
-              class="radio radio-secondary">
-              <div class="flex flex-col ml-3">
-                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
-                <span id="admin-info-2-label" class="block text-sm font-medium">
-                  {l "No"}
-                </span>
-              </div>
-            </label>
-          </div>
-        </fieldset>
-      </div>
-    </div>
-
-    <!-- <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
-      <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
-        {l "Display number of users on this instance"}
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <fieldset>
-          <legend class="sr-only">
-            {l "Display number of users on this instance"}
-          </legend>
-          <div class="flex -space-y-px border border-base-200 bg-base-100 rounded-box">
-            <label class="relative flex items-center flex-1 p-4 border-r cursor-pointer border-base-200 focus:outline-none">
-              <input type="radio" name="users-amount" value="Public access" class="radio radio-secondary" aria-labelledby="users-amount-0-label" aria-describedby="users-amount-0-description">
-              <div class="flex flex-col ml-3">
-                <span id="users-amount-0-label" class="block text-sm font-medium">
-                  {l "Yes"}
-                </span>
-              </div>
-            </label>
-
-
-            <label class="relative flex items-center flex-1 p-4 cursor-pointer focus:outline-none">
-              <input type="radio" name="users-amount" value="Private to you" class="radio radio-secondary" aria-labelledby="users-amount-2-label" aria-describedby="users-amount-2-description">
-              <div class="flex flex-col ml-3">
-                <span id="users-amount-2-label" class="block text-sm font-medium">
-                  {l "No"}
-                </span>
-              </div>
-            </label>
-          </div>
-        </fieldset>
-      </div>
-    </div> -->
-
-    <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
-      <label class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
-        {l "Open or invite-only"}
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <fieldset>
-          <legend class="sr-only">
-            {l "Open or invite-only"}
-          </legend>
-          <div class="-space-y-px bg-base-100 rounded-box">
-            <!-- Checked: "bg-base-200 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
-            <label class="relative flex p-4 border cursor-pointer border-base-200 rounded-tl-md rounded-tr-md focus:outline-none">
-              <input
-                type="radio"
-                name="invite_only"
-                value="true"
-                checked={if Bonfire.Me.Settings.get(:invite_only, true, :instance), do: "checked"} 
-                class="radio radio-secondary"
-              >
-              <div class="flex flex-col ml-3">
-                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
-                <span class="block text-sm font-medium">
-                  {l "Closed"}
-                </span>
-                <span class="block text-sm">
-                  {l "Only people with a valid invite link can sign up to this instance."}
-                </span>
-              </div>
-            </label>
-
-            <!-- Checked: "bg-base-200 border-indigo-200 z-10", Not Checked: "border-gray-200" -->
-            <label class="relative flex p-4 border cursor-pointer border-base-200  focus:outline-none">
-              <input
-                type="radio"
-                name="invite_only"
-                value="false"
-                checked={if !Bonfire.Me.Settings.get(:invite_only, true, :instance), do: "checked"} 
-                class="radio radio-secondary"
-              >
-              <div class="flex flex-col ml-3">
-                <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
-                <span class="block text-sm font-medium">
-                  {l "Open"}
-                </span>
-                <span class="block text-sm">
-                  {l "Anyone can sign up to this instance."}
-                </span>
-              </div>
-            </label>
-          </div>
-        </fieldset>
-      </div>
-    </div>
-
-  <div class="form-control mt-2">
-    <label class="label cursor-pointer justify-start">
-      <input 
-        name="ui[topics_list_in_sidebar]" 
-        value="false"
-        type="hidden" 
-      />
-      <input 
-        name="ui[topics_list_in_sidebar]" 
-        value="true"
-        type="checkbox" 
-        checked={if Bonfire.Me.Settings.get([:ui, :topics_list_in_sidebar], true, :instance), do: "checked"} 
-        class="checkbox" 
-      />
-      <span class="ml-2 label-text">{l "Show followed topics in the sidebar"}</span> 
-    </label>
-  </div>
 
     <Bonfire.UI.Social.Settings.MyFeedItemsLive
       title={l "What activities to include in home feeds by default"}
