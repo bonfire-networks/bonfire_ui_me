@@ -18,7 +18,7 @@
                 {l "You can now log in."}
               {/if}
             </div>
-            <LiveRedirect class="mt-3 font-bold link link-sm text-success" to={path(Bonfire.Common.Config.get!(:home_page))}>
+            <LiveRedirect class="mt-3 font-bold link link-sm text-success" to={path(Config.get!(:home_page))}>
               {l "Back to home page"}
             </LiveRedirect>
           </div>
@@ -41,7 +41,7 @@
               {l "You can now log in."}
             {/if}
           </div>
-          <LiveRedirect to={path(Bonfire.Common.Config.get!(:home_page))}>
+          <LiveRedirect to={path(Config.get!(:home_page))}>
             <div class="flex items-center">
               <span class="mt-6 text-sm font-bold underline text-base-content">{l "Back to home page"}</span>
             </div>

@@ -73,7 +73,7 @@
             <label class="input-group input-group-md">
               <span class="text-sm">@</span> 
               <TextInput class="flex-1 input input-bordered" required opts={"x-bind:value": "suggest_username(username)"} />
-              <span class="text-sm">@{Bonfire.Common.Config.get(:host)}</span>
+              <span class="text-sm">@{Config.get(:host)}</span>
             </label>
             <ErrorTag />
           </Field>

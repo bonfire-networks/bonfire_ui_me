@@ -26,7 +26,7 @@
             />
           {#match "invites"}
           <Surface.Components.Dynamic.LiveComponent
-              module={Bonfire.Common.Config.get([:ui, :invites_component], Bonfire.Invite.Links.Web.InvitesLive)}
+              module={Config.get([:ui, :invites_component], Bonfire.Invite.Links.Web.InvitesLive)}
               id="admin_invites"
               selected_tab={@selected_tab}
               current_user={current_user(@__context__)}
