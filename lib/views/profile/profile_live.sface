@@ -2,7 +2,7 @@
   data-id="profile"
   data-user-id={e(@user, :id, "")}
   class="md:flex md:mx-0">
-  <section class="w-full mx-auto rounded-md bg-base-100">
+  <section class="flex flex-col w-full mx-auto space-y-3">
 
     <Surface.Components.Dynamic.Component
       module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}

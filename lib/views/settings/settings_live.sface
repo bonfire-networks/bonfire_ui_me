@@ -1,5 +1,5 @@
 <section
-  class="">
+  class="bg-base-100">
   <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsMobileLive 
     selected_tab={@selected_tab}
     admin_tab={@tab_id}

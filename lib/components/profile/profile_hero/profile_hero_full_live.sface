@@ -1,4 +1,4 @@
-  <div class="pb-4 ">
+  <div class="pb-4 bg-base-100">
     <div class="bg-center bg-cover bg-no-repeat bg-base-200 h-[140px] md:h-[200px]" style={"background-image: url('#{banner_url(@user)}')"}></div>
     <div class="flex items-center justify-between">
       <Bonfire.UI.Common.AvatarLive
