@@ -58,7 +58,7 @@
   </LivePatch>
 </li> 
 
-<li :if={Bonfire.Boundaries.can?(@__context__, :toggle, current_user(@__context__))}>
+<li>
   <LivePatch 
     to="/settings/extensions"
     class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "extensions"}>
