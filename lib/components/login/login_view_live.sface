@@ -82,7 +82,7 @@
 
         {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
           {#match true}
-          <div class="mt-4 shadow alert">
+          <div class="mt-4 rounded-md shadow alert bg-base-content/10">
             <p class="mb-2">{l "If you have two-factor authentication enabled, please enter the code provided by your app (optional)."}</p>
 
             <Inputs for={:auth_second_factor}>
