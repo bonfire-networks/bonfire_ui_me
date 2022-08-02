@@ -2,9 +2,7 @@
   class="hidden md:block">
   <ul 
     role="navigation" 
-    class={"py-2 rounded-md shadow w-[285px] bg-base-100 menu menu-compact",
-        "lg:menu-normal": !Settings.get([:ui, :compact], false, @__context__)
-      }>
+    class={"py-2  menu"}>
     <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsNavLive 
       selected_tab={@selected_tab}
       id={@id}

@@ -16,7 +16,29 @@ defmodule Bonfire.UI.Me.SwitchUserLive do
   end
 
   defp mounted(_, _, socket), do: {:ok,
-    assign(socket, current_user: nil, go: Map.get(socket.assigns, :go, ""), page_title: l "Switch user profile")
+    assign(
+      socket, 
+      current_user: nil, 
+      sidebar_widgets: [
+        users: [
+          main: [
+            {Bonfire.UI.Common.WidgetInstanceInfoLive, []},
+          ],
+          secondary: [
+            {Bonfire.UI.Social.WidgetTagsLive, []}
+          ]
+        ],
+        guests: [
+          main: [
+            {Bonfire.UI.Common.WidgetInstanceInfoLive, []},
+          ],
+          secondary: [
+            {Bonfire.UI.Social.WidgetTagsLive, []}
+          ]
+        ]
+      ],
+      go: Map.get(socket.assigns, :go, ""), 
+      page_title: l "Switch user profile"),
   }
 
 end

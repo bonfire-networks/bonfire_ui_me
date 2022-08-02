@@ -1,5 +1,5 @@
 
-    <div class="p-3 mx-auto">
+    <div class="p-3 w-full md:w-[460px] mx-auto rounded-md shadow bg-base-100">
       <Form for={@form} action={path(:login, :create)} class="w-full md:ml-0" opts={[id: "login-form"]}>
         <HiddenInput name={:go} value={e(@form, :changes, :go, nil)} />
         <!-- <%= hidden_input f, :go %> -->
@@ -82,17 +82,17 @@
 
         {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
           {#match true}
-          <div class="p-3 mt-4 prose-sm prose border rounded-md bg-info/10 border-info/80 border-base-content/30 max-w-none">
-            <p class="text-info">{l "If you have two-factor authentication enabled, please enter the code provided by your app."}</p>
+          <div class="mt-4 shadow alert">
+            <p class="mb-2">{l "If you have two-factor authentication enabled, please enter the code provided by your app (optional)."}</p>
 
             <Inputs for={:auth_second_factor}>
-              <Field name={:code}>
-                <label for="signup-form_auth_second_factor_code" class="label">
-                  <span class="label-text text-info/80">
+              <Field name={:code} class="flex flex-col mt-2">
+                <!-- <label for="signup-form_auth_second_factor_code" class="label">
+                  <span class="label-text">
                     {l "Two-factor code (optional)"}
                   </span>
-                </label>
-                <TextInput class="w-full bg-transparent input input-bordered" />
+                </label> -->
+                <TextInput class="w-full input input-bordered" />
                 <ErrorTag />
               </Field>
             </Inputs>
@@ -109,13 +109,9 @@
         </div>
 
         <div class="mt-4">
-        <Link to={path(Bonfire.UI.Me.ForgotPasswordController)} class="block w-full text-center link link-secondary"> {l "Did you forget your password?"}</Link>
-          <!-- <p>
-            <%= link "Did you forget your password?", to: path(Bonfire.UI.Me.ForgotPasswordController), class: " w-full block text-center font-medium text-sm" %>
-          </p> -->
+          <Link to={path(Bonfire.UI.Me.ForgotPasswordController)} class="block w-full text-center capitalize link link-secondary"> {l "Forgot password?"}</Link>
           <div class="flex py-4 pb-2 mt-6 border-t border-base-content/10 place-content-center">
-            <Link to={path(:signup)} class="text-center link"> {l "Need to sign up instead?"}</Link>
-            <!-- <%= link "Need to sign up instead?", to: path(:signup), class: "font-medium underline text-primary-content-800 text-sm" %> -->
+            <Link to={path(:signup)} class="text-center normal-case btn btn-secondary"> {l "Create new account"}</Link>
           </div>
         </div>
       </Form>

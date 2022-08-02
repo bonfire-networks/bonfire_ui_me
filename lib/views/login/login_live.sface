@@ -1,4 +1,7 @@
-<div class="w-full" id="login">
+<div class="w-full" id="login"> 
+
+  <Bonfire.UI.Common.LogoGuestLive />
+
   <Bonfire.UI.Me.LoginViewLive
     form={@form}
     error={@error}

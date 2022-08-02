@@ -10,8 +10,19 @@ defmodule Bonfire.UI.Me.LoginLive do
       |> assign(:page, "login")
       |> assign(:page_title, l("Log in"))
       |> assign_new(:without_sidebar, fn -> true end)
+      |> assign_new(:without_header, fn -> true end)
       |> assign_new(:current_account, fn -> nil end)
       |> assign_new(:current_user, fn -> nil end)
+      |> assign(:sidebar_widgets, [
+        users: [
+          main: [],
+          secondary: []
+        ],
+        guests: [
+          main: [],
+          secondary: []
+        ]
+      ])
       |> assign_new(:error, fn -> nil end)
       |> assign_new(:feed_title, fn -> "Public Feed" end)
       |> assign_new(:form, fn -> login_form(params) end)
