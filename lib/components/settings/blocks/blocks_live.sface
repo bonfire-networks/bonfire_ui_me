@@ -4,7 +4,8 @@
       <div class="flex items-start">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="flex-shrink-0 w-6 h-6 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <div class="flex flex-col">
-          <div class="text-sm">{l "You will not receive any updates from the users in this list"}</div>
+          <div :if={@scope==:instance_wide} class="text-sm">{l "Nobody on this instance will receive any updates from the users or instances on this list"}</div>
+          <div :if={@scope !=:instance_wide} class="text-sm">{l "You will not receive any updates from the users or instances on this list"}</div>
           <div 
             x-data="{active_silence: false}"
             role="region"
@@ -114,7 +115,8 @@
       <div class="flex items-start">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="flex-shrink-0 w-6 h-6 stroke-current"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <div class="flex flex-col">
-          <div class="text-sm">{l "Users in this list will not be able to see or interact with you or your content"}</div>
+          <div :if={@scope==:instance_wide} class="text-sm">{l "Users or instances on this list will not be able to see or interact with anyone on this instance"}</div>
+          <div :if={@scope !=:instance_wide} class="text-sm">{l "Users or instances on this list will not be able to see or interact with you or your content"}</div>
           <div 
             x-data="{active_block: false}"
             role="region"

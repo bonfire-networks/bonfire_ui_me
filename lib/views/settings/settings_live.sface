@@ -2,69 +2,22 @@
   class="bg-base-100">
   <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsMobileLive 
     selected_tab={@selected_tab}
-    admin_tab={@tab_id}
+    id={@id}
     current_user={current_user(@__context__)} />
   {#case @selected_tab}
-    {#match "admin"}
-      {#if is_admin?(current_user(@__context__))}
-        {#case @tab_id}
-          {#match "config"}
-            <Bonfire.UI.Me.SettingsViewsLive.AdminLive
-              current_user={current_user(@__context__)}
-              selected_tab={@selected_tab}
-            />
-          {#match "instance"}
-            <Bonfire.UI.Me.SettingsViewsLive.InstanceInfoLive
-              current_user={current_user(@__context__)}
-              selected_tab={@selected_tab}
-              uploads={@uploads}
-            />
-          {#match "terms"}
-            <Bonfire.UI.Me.SettingsViewsLive.TermsLive
-              current_user={current_user(@__context__)}
-              selected_tab={@selected_tab}
-            />
-          {#match "invites"}
-          <Surface.Components.Dynamic.LiveComponent
-              module={Config.get([:ui, :invites_component], Bonfire.Invite.Links.Web.InvitesLive)}
-              id="admin_invites"
-              selected_tab={@selected_tab}
-              current_user={current_user(@__context__)}
-            />
-          
-          <!-- {#match "flags"}
-            <Bonfire.UI.Me.SettingsViewsLive.AdminReportsLive
-              current_user={current_user(@__context__)}
-            /> -->
-          
-          {#match "silenced"}
-            <Bonfire.UI.Me.BlocksLive
-              scope={:instance_wide}
-              id="blocks"
-              current_user={current_user(@__context__)}
-              selected_tab={"silenced"}
-            />
-          {#match "ghosted"}
-            <Bonfire.UI.Me.BlocksLive
-              scope={:instance_wide}
-              id="blocks"
-              current_user={current_user(@__context__)}
-              selected_tab={"ghosted"}
-            />
 
-          {#match "shared_user"}
-            <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
-              current_user={current_user(@__context__) |> repo().maybe_preload(:shared_user) }
-              current_account={current_account(@__context__)}
-              selected_tab={@selected_tab}
-            />
-          {#match _}
-            <Bonfire.UI.Me.SettingsViewsLive.AdminLive
-              current_user={current_user(@__context__)}
-              selected_tab={@selected_tab}
-            />
-        {/case}
-      {/if}
+    {#match "profile"}
+      <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
+        :if={current_user(@__context__)}
+        uploads={@uploads} 
+        selected_tab={@selected_tab}
+        current_user={current_user(@__context__)}
+      />
+    {#match "user"}
+      <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive
+        current_user={current_user(@__context__)}
+        selected_tab={@selected_tab}
+      />
     {#match "account"}
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive 
       current_account={current_account(@__context__)}
@@ -77,6 +30,7 @@
         current_user={current_user(@__context__)}
         current_account={current_account(@__context__)}
         id={"circles"} 
+        scope={nil}
       />
     {#match "circle"}
       <Surface.Components.Dynamic.LiveComponent
@@ -88,12 +42,14 @@
         id={"view_circle"} 
       />
     {#match "acls"}
-      <Surface.Components.Dynamic.Component
+      <Surface.Components.Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.MyAclsLive) and current_user(@__context__)}
         module={Bonfire.Boundaries.Web.MyAclsLive}
         current_user={current_user(@__context__)}
         current_account={current_account(@__context__)}
         selected_tab={"acls"}
+        id={"my_acls"} 
+        scope={nil}
       />
     {#match "acl"}
       <Surface.Components.Dynamic.LiveComponent
@@ -110,11 +66,7 @@
         selected_tab={@selected_tab}
         data={Bonfire.Common.Extensions.data()}
       />
-    {#match "preferences"}
-      <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive
-        current_user={current_user(@__context__)}
-        selected_tab={@selected_tab}
-      />
+    
     {#match "flags"}
       <Bonfire.UI.Social.FlagsLive
         id="flags"
@@ -132,6 +84,84 @@
         id="blocks"
         current_user={current_user(@__context__)}
         selected_tab={"ghosted"}
+      />
+
+    {#match "instance"}
+      <Bonfire.UI.Me.SettingsViewsLive.AdminLive
+        current_user={current_user(@__context__)}
+        selected_tab={@selected_tab}
+      />
+
+    {#match "instance_info"}
+      <Bonfire.UI.Me.SettingsViewsLive.InstanceInfoLive
+        current_user={current_user(@__context__)}
+        selected_tab={@selected_tab}
+        uploads={@uploads}
+      />
+
+    {#match "terms"}
+      <Bonfire.UI.Me.SettingsViewsLive.TermsLive
+        current_user={current_user(@__context__)}
+        selected_tab={@selected_tab}
+      />
+
+    {#match "invites"}
+    <Surface.Components.Dynamic.LiveComponent
+        module={Config.get([:ui, :invites_component], Bonfire.Invite.Links.Web.InvitesLive)}
+        id="admin_invites"
+        selected_tab={@selected_tab}
+        current_user={current_user(@__context__)}
+      />
+    
+    <!-- {#match "flags"}
+      <Bonfire.UI.Me.SettingsViewsLive.AdminReportsLive
+        current_user={current_user(@__context__)}
+      /> -->
+    
+    {#match "instance_silenced"}
+      <Bonfire.UI.Me.BlocksLive
+        scope={:instance_wide}
+        id="blocks"
+        current_user={current_user(@__context__)}
+        selected_tab={"silenced"}
+      />
+    {#match "instance_ghosted"}
+      <Bonfire.UI.Me.BlocksLive
+        scope={:instance_wide}
+        id="blocks"
+        current_user={current_user(@__context__)}
+        selected_tab={"ghosted"}
+      />
+
+    {#match "shared_user"}
+      <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
+        current_user={current_user(@__context__) |> repo().maybe_preload(:shared_user) }
+        current_account={current_account(@__context__)}
+        selected_tab={@selected_tab}
+      />
+    {#match "instance_circles"}
+      <Surface.Components.Dynamic.LiveComponent
+        :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and current_user(@__context__)}
+        module={Bonfire.Boundaries.Web.MyCirclesLive}
+        current_user={current_user(@__context__)}
+        current_account={current_account(@__context__)}
+        id={"circles"} 
+        scope={:instance}
+      />
+    {#match "instance_acls"}
+      <Surface.Components.Dynamic.LiveComponent
+        :if={module_enabled?(Bonfire.Boundaries.Web.MyAclsLive) and current_user(@__context__)}
+        module={Bonfire.Boundaries.Web.MyAclsLive}
+        current_user={current_user(@__context__)}
+        current_account={current_account(@__context__)}
+        selected_tab={"acls"}
+        id={"my_acls"} 
+        scope={:instance}
+      />
+    {#match "admin"}
+      <Bonfire.UI.Me.SettingsViewsLive.AdminLive
+        current_user={current_user(@__context__)}
+        selected_tab={@selected_tab}
       />
     
     {#match _}

@@ -1,12 +1,7 @@
 
-<!--- 
-  - show admins in homepage
-  - show number instance users
-  - Switch open / invite only instance
-  - Show default theme -->
-
 <div class="pb-1 space-y-6 sm:space-y-5">
 
+{#if Bonfire.Me.Users.is_admin?(current_user(@__context__)) || Bonfire.Boundaries.can?(@__context__, :describe, :instance) }
 
 <form phx-change="Bonfire.Me.Profiles:validate" name="images">
   <input name="scope" value={:instance} type="hidden" />
@@ -110,5 +105,9 @@
   </div>
 
 </form>
+
+{#else}
+  {l "You don't have permission to describe the instance, sorry!"}
+{/if}
 
 </div>

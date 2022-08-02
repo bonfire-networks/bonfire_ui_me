@@ -85,14 +85,12 @@ defmodule Bonfire.UI.Me.Routes do
       end
 
       # pages only admins can view
-      scope "/settings", Bonfire.UI.Me do
+      scope "/", Bonfire.UI.Me do
         pipe_through :browser
         pipe_through :admin_required
 
-        live "/admin", SettingsLive, as: :admin_settings
-        live "/admin/:admin_tab", SettingsLive, as: :admin_settings
+        live "/settings/", SettingsLive, as: :admin_settings
       end
-
 
     end
   end

@@ -3,6 +3,5 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.EditProfileLive do
 
   prop uploads, :any
   prop selected_tab, :string
-  prop admin_tab, :string
 
 end

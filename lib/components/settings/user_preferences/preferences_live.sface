@@ -2,7 +2,7 @@
 
 <form name="settings" phx-change="Bonfire.Me.Settings:set">
   <div class="pb-2 mb-4 text-xs font-bold uppercase border-b text-base-content text-opacity-80 border-base-content border-opacity-30">
-    {l "General preferences"}
+    {l "General user_settings"}
   </div>
   <div class="grid grid-cols-1 gap-4">
     <div class="flex flex-col space-y-2">

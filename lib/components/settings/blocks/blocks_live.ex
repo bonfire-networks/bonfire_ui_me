@@ -1,16 +1,16 @@
 defmodule Bonfire.UI.Me.BlocksLive do
   use Bonfire.UI.Common.Web, :stateful_component
+  alias Bonfire.UI.Me.Integration
 
-  prop user, :map
   prop selected_tab, :string
   prop blocks, :list, default: []
   prop page_info, :any
-  prop scope, :atom
+  prop scope, :atom, default: nil
 
   def update(assigns, socket) do
     current_user = current_user(assigns)
     tab = e(assigns, :selected_tab, nil)
-    scope = e(assigns, :scope, nil)
+    scope = if Integration.is_admin?(current_user) || Bonfire.Boundaries.can?(current_user, :block, :instance), do: e(assigns, :scope, nil)
 
     block_type = (if tab=="ghosted", do: :ghost, else: :silence)
 
@@ -33,7 +33,7 @@ defmodule Bonfire.UI.Me.BlocksLive do
       page: tab,
       selected_tab: tab,
       block_type: block_type,
-      # page_title: "Flags",
+      # page_title: l("Blocks")<>" - #{scope} #{tab}",
       current_user: current_user,
       blocks: blocks
       # page_info: e(q, :page_info, [])

@@ -28,7 +28,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
               {Bonfire.UI.Me.SettingsViewLive.SidebarSettingsLive,
               [
                 selected_tab: "user",
-                admin_tab: "",
                 current_user: current_user(socket)
               ]}
             ],
@@ -41,7 +40,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
           {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
         ],
         selected_tab: "user",
-        tab_id: "",
+        id: nil,
         hide_smart_input: true,
         page: "settings",
         trigger_submit: false,
@@ -153,14 +152,14 @@ defmodule Bonfire.UI.Me.SettingsLive do
     # debug(id)
     {:noreply, assign(socket,
       selected_tab: tab,
-      tab_id: id,
+      id: id,
       sidebar_widgets: [
         users: [
           main: [
             {Bonfire.UI.Me.SettingsViewLive.SidebarSettingsLive,
             [
               selected_tab: tab,
-              admin_tab: id,
+              id: id,
               current_user: current_user(socket)
             ]}
           ],
@@ -169,11 +168,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
       ]
       )}
   end
-
-  # def do_handle_params(%{"tab" => tab, "admin_tab" => admin_tab}, _url, socket) do
-  #   debug(admin_tab)
-  #   {:noreply, assign(socket, selected_tab: tab, admin_tab: admin_tab)}
-  # end
 
   def do_handle_params(%{"tab" => tab}, _url, socket) do
     {:noreply, assign(
@@ -185,7 +179,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
               {Bonfire.UI.Me.SettingsViewLive.SidebarSettingsLive,
               [
                 selected_tab: tab,
-                admin_tab: "",
                 current_user: current_user(socket)
               ]}
             ],

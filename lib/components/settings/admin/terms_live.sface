@@ -1,11 +1,6 @@
-
-<!--- 
-  - show admins in homepage
-  - show number instance users
-  - Switch open / invite only instance
-  - Show default theme -->
-
 <div class="pb-1 space-y-6 sm:space-y-5">
+
+{#if Bonfire.Me.Users.is_admin?(current_user(@__context__)) || Bonfire.Boundaries.can?(@__context__, :configure, :instance) }
 
 <form name="settings" phx-submit="Bonfire.Me.Settings:save">
   <input name="scope" value={:instance} type="hidden" />
@@ -38,4 +33,9 @@
   <p class="m-4 text-sm">Protip: instead of text you can paste the URL of a remote markdown-formated document, and its contents will be pulled in.</p>
 
 </form>
+
+{#else}
+  {l "You don't have permission to configure the instance, sorry!"}
+{/if}
+
 </div>

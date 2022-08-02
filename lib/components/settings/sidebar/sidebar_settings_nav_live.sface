@@ -1,0 +1,219 @@
+
+<li class="uppercase menu-title">
+  <span>{l "User"}</span>
+</li>
+
+<li :if={current_user(@__context__)}>
+  <LivePatch 
+    to={"/settings/profile"} 
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "profile"}>
+    <Outline.UserIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    {l "Profile Info"}
+  </LivePatch>
+</li> 
+<li>
+  <LivePatch 
+    to={"/settings/user"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "user"}>
+    <Outline.AdjustmentsIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    {l "User Preferences"}
+  </LivePatch>
+</li> 
+
+<li>
+  <LivePatch 
+    to={"/settings/account"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "account"}>
+    <Outline.KeyIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    {l "Account Settings"}
+  </LivePatch>
+</li>
+
+<li
+  >
+  <LivePatch 
+    to={"/settings/circles"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "circles"}>
+    <Boxicon.Regular.ShapeCircle class="inline-block w-5 h-5 mr-2" />
+    {l "Circles"}
+  </LivePatch>
+</li>
+
+<li
+  >
+  <LivePatch 
+    to={"/settings/acls"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "acls"}>
+    <Outline.LockClosedIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    {l "Boundaries"}
+  </LivePatch>
+</li>
+
+<li :if={module_enabled?(Bonfire.Data.SharedUser) && Settings.get(:experimental_features_enabled, false, @__context__)}>
+  <LivePatch 
+    to={"/settings/shared_user"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "shared_user"}>
+    <Outline.UserGroupIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    {l "Team Profiles"}
+  </LivePatch>
+</li> 
+
+<li :if={Bonfire.Boundaries.can?(@__context__, :toggle, current_user(@__context__))}>
+  <LivePatch 
+    to="/settings/extensions"
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "extensions"}>
+  <Outline.PuzzleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  {l "Extensions"}
+  </LivePatch>
+</li>
+
+<li class="mt-2 uppercase menu-title">
+  <span>{l "Safety"}</span>
+</li>
+  <li>
+  <LivePatch  to={"/settings/flags"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "flags"}>
+    <Outline.FlagIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    {l "Flags"}
+  </LivePatch>
+</li>
+<li>
+  <LivePatch 
+    to={"/settings/ghosted"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "ghosted"}>
+    <Outline.MinusCircleIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    {l "Ghosted"}
+  </LivePatch>
+</li>
+<li>
+  <LivePatch 
+    to={"/settings/silenced"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "silenced"}>
+    <Outline.VolumeOffIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    {l "Silenced"}
+  </LivePatch>
+</li>
+
+<li class="mt-1 uppercase menu-title">
+  <span>{l "Instance"}</span>
+</li>
+
+<!-- <Bonfire.Boundaries.Web.IfCan object={:instance} verbs={:describe} id={Pointers.ULID.generate()}> -->
+<li :if={Bonfire.Boundaries.can?(@__context__, :describe, :instance)}>
+  <LivePatch 
+    to="/settings/instance_info"
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "instance_info"}>
+  <Outline.FireIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  {l "Instance Info"}
+  </LivePatch>
+</li>
+<!-- </Bonfire.Boundaries.Web.IfCan> -->
+
+<li :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
+  <LivePatch 
+    to="/settings/instance"
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": (@selected_tab == "instance")}>
+  <Outline.AdjustmentsIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  {l "Instance Settings"}
+  </LivePatch>
+</li>
+
+<!-- <li :if={Bonfire.Boundaries.can?(@__context__, :toggle, :instance)}>
+  <LivePatch 
+    to="/settings/extensions"
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "extensions"}>
+  <Outline.PuzzleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  {l "Extensions"}
+  </LivePatch>
+</li> -->
+
+<li :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
+  <LivePatch 
+    to="/settings/terms"
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "terms"}>
+  <Outline.ScaleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  {l "Terms / Policies"}
+  </LivePatch>
+</li>
+
+<li>
+  <LivePatch 
+    :if={module_enabled?(Bonfire.Invite.Links) && ( !Settings.get(:invite_only, nil, :instance) or Bonfire.Boundaries.can?(@__context__, :invite, :instance) )}
+    to="/settings/invites"
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "invites"}>
+    <Outline.MailIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    {l "Invites"}
+  </LivePatch>
+</li>
+
+<li
+  :if={Settings.get(:experimental_features_enabled, false, @__context__) && Bonfire.Boundaries.can?(@__context__, :appoint, :instance)}
+  >
+  <LivePatch 
+    to={"/settings/instance_circles"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "instance_circles"}>
+    <Boxicon.Regular.ShapeCircle class="inline-block w-5 h-5 mr-2" />
+    {l "Instance Roles / Circles"}
+  </LivePatch>
+</li>
+
+<!-- <li
+  :if={Settings.get(:experimental_features_enabled, false, @__context__)}
+  >
+  <LivePatch 
+    to={"/settings/instance_acls"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "instance_acls"}>
+    <Outline.LockClosedIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    {l "Local Boundaries"}
+  </LivePatch>
+</li> -->
+
+<li
+  :if={Settings.get(:experimental_features_enabled, false, @__context__)}
+  >
+  <LivePatch 
+    to={"/settings/acl/01SETT1NGSF0R10CA11NSTANCE"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @id == "01SETT1NGSF0R10CA11NSTANCE"}>
+    <Boxicon.Solid.EditLocation class="inline-block w-5 h-5 mr-2 stroke-current" />
+    {l "Instance Boundaries"}
+  </LivePatch>
+</li>
+
+<!-- <li class="mt-1 uppercase menu-title">
+  <span>{l "Moderation"}</span>
+</li> -->
+<!-- 
+<li
+  :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}
+  >
+  <LivePatch 
+    to={"/settings/flags"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "flags"}>
+    <Outline.FlagIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    {l "Flags"}
+  </LivePatch>
+</li> -->
+
+<li :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
+  <LivePatch 
+    to={"/settings/instance_ghosted"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "instance_ghosted"}>
+    <Outline.MinusCircleIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    {l "Ghosted instance-wide"}
+  </LivePatch>
+</li>
+<li :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
+  <LivePatch 
+    to={"/settings/instance_silenced"}
+    class={"w-full flex items-center text-sm font-regular text-base-content", "focus:bg-primary hover:bg-primary bg-primary text-primary-content": @selected_tab == "instance_silenced"}>
+    <Outline.VolumeOffIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    {l "Silenced instance-wide"}
+  </LivePatch>
+</li>
+
+<li>
+  <LivePatch to={"/logout"} class="w-full mt-2 btn btn-error">
+    <Outline.LogoutIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    {l "Logout"}
+  </LivePatch>
+</li>
