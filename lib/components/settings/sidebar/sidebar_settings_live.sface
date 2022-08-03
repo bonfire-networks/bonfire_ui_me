@@ -2,7 +2,7 @@
   class="hidden md:block">
   <ul 
     role="navigation" 
-    class={"py-2  menu"}>
+    class={"menu"}>
     <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsNavLive 
       selected_tab={@selected_tab}
       id={@id}
