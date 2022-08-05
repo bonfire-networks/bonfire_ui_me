@@ -103,7 +103,7 @@
         </table>
       </div>
       {#else}
-        <Bonfire.UI.Common.EmptyFeed/>
+        <Bonfire.UI.Common.EmptyFeed feedback_title={l "Not silencing anyone"} />
       {/if}
     </div>
   </div>
@@ -215,7 +215,7 @@
         </table>
       </div>
       {#else}
-        <Bonfire.UI.Common.EmptyFeed/>
+        <Bonfire.UI.Common.EmptyFeed feedback_title={l "Not ghosting anyone"} />
       {/if}
     </div>
   </div>

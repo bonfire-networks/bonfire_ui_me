@@ -30,6 +30,10 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   defp mounted(params, _session, socket) do
+    {:ok, init(params, socket)}
+  end
+
+  defp init(params, socket) do
     # info(params)
 
     current_user = current_user(socket)
@@ -65,8 +69,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       "", else: "@"<>e(user, :character, :username, "")<>" "
 
       # search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
-      {:ok,
-        socket
+      socket
         |> assign(
           page: "profile",
           page_title: page_title,
@@ -85,34 +88,35 @@ defmodule Bonfire.UI.Me.ProfileLive do
         smart_input_prompt: smart_input_prompt,
         smart_input_text: smart_input_text
         # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}]
-      )}
+      )
     else
       if user do
         if Map.get(params, "remote_interaction") do # redir to login and then come back to this page
           path = path(user)
-          {:ok,
-            socket
+          socket
             |> set_go_after(path)
             |> assign_flash(:info, l("Please login first, and then... ")<>" "<>e(socket, :assigns, :flash, :info, ""))
             |> redirect_to(path(:login) <> go_query(path))
-          }
+
         else # redir to remote profile
-          {:ok,
-            socket
+          socket
             |> redirect(external: canonical_url(user))
-          }
+
         end
       else
-        {:ok,
-          socket
+        socket
           |> assign_flash(:error, l "Profile not found")
           |> redirect_to(path(:error))
-        }
       end
     end
   end
 
-  def get_user(username) do
+  defp maybe_init(%{"username" => load_username} = params, %{assigns: %{user: %{character: %{username: loaded_username}}}} = socket) when load_username !=loaded_username do
+    init(params, socket)
+  end
+  defp maybe_init(params, socket), do: socket
+
+  defp get_user(username) do
     username = String.trim_trailing(username, "@"<>Bonfire.Common.URIs.instance_domain())
 
     with {:ok, user} <- Bonfire.Me.Users.by_username(username) do
@@ -135,7 +139,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   def do_handle_params(%{"tab" => tab} = params, _url, socket) when tab in ["followers", "followed"] do
     {:noreply,
       assign(socket,
-        Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(tab, nil, params, socket)
+        Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(tab, nil, params, socket) |> debug("ffff")
       )}
   end
 
@@ -197,7 +201,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
     # poor man's hook I guess
     with {_, socket} <- Bonfire.UI.Common.LiveHandlers.handle_params(params, uri, socket) do
       undead_params(socket, fn ->
-        do_handle_params(params, uri, socket)
+        maybe_init(params, socket)
+        |> do_handle_params(params, uri, ...)
       end)
     end
   end

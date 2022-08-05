@@ -1,12 +1,10 @@
-<div 
-  class="hidden md:block">
-  <ul 
-    role="navigation" 
-    class={"menu"}>
-    <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsNavLive 
-      selected_tab={@selected_tab}
-      id={@id}
-    />
-  </ul>
 
-</div>
+<ul 
+  role="navigation" 
+  class={"menu hidden md:block",
+  "menu-compact": Settings.get([:ui, :compact], false, @__context__)}>
+  <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsNavLive 
+    selected_tab={@selected_tab}
+    id={@id}
+  />
+</ul>

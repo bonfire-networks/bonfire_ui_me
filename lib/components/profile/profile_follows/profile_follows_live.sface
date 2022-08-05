@@ -38,7 +38,7 @@
         </li>
         {#else}
          <div id="followed-empty-feed" class="flex items-center my-12 place-content-center">
-          <Bonfire.UI.Common.EmptyFeed/> 
+          <Bonfire.UI.Common.EmptyFeed feedback_title={l "Not following anyone"} /> 
         </div>
         {/for}    
       </ul>
@@ -58,7 +58,7 @@
           </li>
         {#else}
           <div id="followers-empty-feed" class="flex items-center my-12 place-content-center">
-            <Bonfire.UI.Common.EmptyFeed/> 
+            <Bonfire.UI.Common.EmptyFeed feedback_title={l "Nobody following"} /> 
           </div>
         {/for}    
 
