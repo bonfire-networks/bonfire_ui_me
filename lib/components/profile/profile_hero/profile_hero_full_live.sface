@@ -16,7 +16,7 @@
           rel="noopener noreferrer"
           class="hidden btn btn-sm lg:flex btn-info btn-circle"
         >
-          <Solid.ExternalLinkIcon class="w-4 h-4" />
+          <Icon solid="ExternalLink" class="w-4 h-4" />
         </a> 
 
         <div :if={ulid(current_user(@__context__)) != maybe_get(@user, :id)} >
@@ -32,7 +32,7 @@
           to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
           class="hidden btn lg:flex btn-sm btn-outline btn-circle"
         >
-          <Solid.MailIcon class="w-4 h-4" />  
+          <Icon solid="Mail" class="w-4 h-4" />  
         </LiveRedirect> 
         
         <LiveRedirect
@@ -41,7 +41,7 @@
           class="normal-case btn btn-sm btn-outline"
         >
           <span class="mr-2">
-            <Outline.PencilIcon />
+            <Icon outline="Pencil" />
           </span>
           {l "Edit profile"}
         </LiveRedirect>
@@ -50,7 +50,7 @@
           class="dropdown dropdown-end"
           :if={current_user(@__context__)} >
           <label tabindex="0" class="m-1 btn btn-outline btn-sm btn-circle">
-            <Solid.DotsHorizontalIcon />
+            <Icon solid="DotsHorizontal" />
           </label>
           <ul  
             tabindex="0"     
@@ -62,7 +62,7 @@
               class="lg:hidden">
               <div class="">
                 <LiveRedirect class="flex items-center text-sm no-padding text-neutral" to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}>
-                  <Solid.MailIcon class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
+                  <Icon solid="Mail" class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
                   <span>{l "Send a message"}</span>  
                 </LiveRedirect>
               </div> 
@@ -77,7 +77,7 @@
                   rel="noopener noreferrer"
                   class="flex items-center text-sm no-padding text-neutral"
                 >
-                  <Solid.ExternalLinkIcon class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
+                  <Icon solid="ExternalLink" class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
                   <span>{l "Visit the original url"}</span>  
                 </a> 
               </div>
@@ -115,7 +115,7 @@
               </div>
               <:open_btn>
               <div class="flex items-center gap-0">
-                <Solid.CollectionIcon class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
+                <Icon solid="Collection" class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
                 <div class="text-sm text-neutral">
                   {l "Tag with topic(s)"}
                 </div>
@@ -135,7 +135,7 @@
               phx-value-username_or_id={maybe_get(@user, :id)}
               :if={is_admin?(current_user(@__context__)) && !is_admin?(@user)} >
               <label class="flex items-center gap-0">
-                <Outline.KeyIcon class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
+                <Icon outline="Key" class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
                 <span class="text-sm text-neutral">{l "Make admin"}</span>
               </label>
             </li>
@@ -145,7 +145,7 @@
               phx-value-username_or_id={maybe_get(@user, :id)}
             >
               <label class="flex items-center gap-0">
-                <Outline.KeyIcon class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
+                <Icon outline="Key" class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
                 <span class="text-sm text-neutral">{l "Revoke admin"}</span>
               </label>
             </li>
@@ -207,7 +207,7 @@
             :if={e(@user, :profile, :location, nil)}
             class="flex items-center"
           >
-            <Solid.LocationMarkerIcon class="w-5 h-5 text-base-content text-opacity-70" />
+            <Icon solid="LocationMarker" class="w-5 h-5 text-base-content text-opacity-70" />
             <span class="ml-2 text-sm text-base-content text-opacity-70">
               {e(@user, :profile, :location, "")}
             </span>
@@ -218,7 +218,7 @@
           >
             {#case Bonfire.Files.FaviconStore.favicon_url(e(@user, :profile, :website, nil))}
               {#match nil}
-                <Solid.ExternalLinkIcon class="w-5 h-5 text-base-content text-opacity-70" />
+                <Icon solid="ExternalLink" class="w-5 h-5 text-base-content text-opacity-70" />
               {#match image}
                 <img src={image} class="w-4 h-4 text-base-content text-opacity-70"/>
             {/case}
@@ -230,7 +230,7 @@
         </div>
 
         <div class="flex items-center mt-2 text-base-content">
-          <Solid.UsersIcon class="w-5 h-5 text-base-content text-opacity-70" />
+          <Icon solid="Users" class="w-5 h-5 text-base-content text-opacity-70" />
           <LivePatch to={"/user/#{e(@user, :character, :username, "")}/followers"}>
             <span class="ml-2 mr-2 text-sm text-base-content text-opacity-70 hover:underline">
               <strong :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, @__context__)} class="text-base-content">

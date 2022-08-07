@@ -1,5 +1,5 @@
  <div 
   @click="open_sidebar_drawer = true"
   class="flex btn btn-ghost btn-circle btn-sm md:hidden">
-  <Outline.MenuAlt2Icon class="w-5 h-5 text-base-content/80" />
+  <Icon outline="Menu-Alt-2" class="w-5 h-5 text-base-content/80" />
 </div>

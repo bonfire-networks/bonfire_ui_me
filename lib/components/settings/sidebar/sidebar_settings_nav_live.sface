@@ -9,7 +9,7 @@
   <LivePatch 
     to={"/settings/profile"} 
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "profile"}>
-    <Outline.UserIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    <Icon outline="User" class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "Profile Info"}
   </LivePatch>
 </li> 
@@ -17,7 +17,7 @@
   <LivePatch 
     to={"/settings/user"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "user"}>
-    <Outline.AdjustmentsIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    <Icon outline="Adjustments" class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "User Preferences"}
   </LivePatch>
 </li> 
@@ -26,7 +26,7 @@
   <LivePatch 
     to={"/settings/account"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "account"}>
-    <Outline.KeyIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    <Icon outline="Key" class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "Account Settings"}
   </LivePatch>
 </li>
@@ -36,7 +36,7 @@
   <LivePatch 
     to={"/settings/circles"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "circles"}>
-    <Boxicon.Regular.ShapeCircle class="inline-block w-5 h-5 mr-2" />
+    <Icon iconify="bx:ShapeCircle" class="inline-block w-5 h-5 mr-2" />
     {l "Circles"}
   </LivePatch>
 </li>
@@ -46,7 +46,7 @@
   <LivePatch 
     to={"/settings/acls"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "acls"}>
-    <Outline.LockClosedIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    <Icon outline="LockClosed" class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "Boundaries"}
   </LivePatch>
 </li>
@@ -55,7 +55,7 @@
   <LivePatch 
     to={"/settings/shared_user"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "shared_user"}>
-    <Outline.UserGroupIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    <Icon outline="UserGroup" class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "Team Profiles"}
   </LivePatch>
 </li> 
@@ -64,7 +64,7 @@
   <LivePatch 
     to="/settings/extensions"
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "extensions"}>
-  <Outline.PuzzleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  <Icon outline="Puzzle" class="inline-block w-5 h-5 mr-2 stroke-current" />
   {l "Extensions"}
   </LivePatch>
 </li>
@@ -79,7 +79,7 @@
   <li>
   <LivePatch  to={"/settings/flags"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "flags"}>
-    <Outline.FlagIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    <Icon outline="Flag" class="inline-block w-4 h-4 mr-2 stroke-current" />
     {l "Flags"}
   </LivePatch>
 </li>
@@ -87,7 +87,7 @@
   <LivePatch 
     to={"/settings/ghosted"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "ghosted"}>
-    <Outline.MinusCircleIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    <Icon outline="MinusCircle" class="inline-block w-4 h-4 mr-2 stroke-current" />
     {l "Ghosted"}
   </LivePatch>
 </li>
@@ -95,7 +95,7 @@
   <LivePatch 
     to={"/settings/silenced"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "silenced"}>
-    <Outline.VolumeOffIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    <Icon outline="VolumeOff" class="inline-block w-4 h-4 mr-2 stroke-current" />
     {l "Silenced"}
   </LivePatch>
 </li>
@@ -111,7 +111,7 @@
   <LivePatch 
     to="/settings/instance_info"
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "instance_info"}>
-  <Outline.FireIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  <Icon outline="Fire" class="inline-block w-5 h-5 mr-2 stroke-current" />
   {l "Instance Info"}
   </LivePatch>
 </li>
@@ -121,7 +121,7 @@
   <LivePatch 
     to="/settings/instance"
     class={"rounded relative",  "font-bold bg-base-content/10": (@selected_tab == "instance")}>
-  <Outline.AdjustmentsIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  <Icon outline="Adjustments" class="inline-block w-5 h-5 mr-2 stroke-current" />
   {l "Instance Settings"}
   </LivePatch>
 </li>
@@ -130,7 +130,7 @@
   <LivePatch 
     to="/settings/extensions"
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "extensions"}>
-  <Outline.PuzzleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  <Icon outline="Puzzle" class="inline-block w-5 h-5 mr-2 stroke-current" />
   {l "Extensions"}
   </LivePatch>
 </li> -->
@@ -139,7 +139,7 @@
   <LivePatch 
     to="/settings/terms"
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "terms"}>
-  <Outline.ScaleIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+  <Icon outline="Scale" class="inline-block w-5 h-5 mr-2 stroke-current" />
   {l "Terms / Policies"}
   </LivePatch>
 </li>
@@ -149,7 +149,7 @@
     :if={module_enabled?(Bonfire.Invite.Links) && ( !Settings.get(:invite_only, nil, :instance) or Bonfire.Boundaries.can?(@__context__, :invite, :instance) )}
     to="/settings/invites"
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "invites"}>
-    <Outline.MailIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    <Icon outline="Mail" class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "Invites"}
   </LivePatch>
 </li>
@@ -160,7 +160,7 @@
   <LivePatch 
     to={"/settings/instance_circles"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "instance_circles"}>
-    <Boxicon.Regular.ShapeCircle class="inline-block w-5 h-5 mr-2" />
+    <Icon iconify="bx:ShapeCircle" class="inline-block w-5 h-5 mr-2" />
     {l "Instance Roles / Circles"}
   </LivePatch>
 </li>
@@ -171,7 +171,7 @@
   <LivePatch 
     to={"/settings/instance_acls"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "instance_acls"}>
-    <Outline.LockClosedIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    <Icon outline="LockClosed" class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "Local Boundaries"}
   </LivePatch>
 </li> -->
@@ -182,7 +182,7 @@
   <LivePatch 
     to={"/settings/acl/01SETT1NGSF0R10CA11NSTANCE"}
     class={"rounded relative",  "font-bold bg-base-content/10": @id == "01SETT1NGSF0R10CA11NSTANCE"}>
-    <Boxicon.Solid.EditLocation class="inline-block w-5 h-5 mr-2 stroke-current" />
+    <Icon iconify="bxs:EditLocation" class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "Instance Boundaries"}
   </LivePatch>
 </li>
@@ -197,7 +197,7 @@
   <LivePatch 
     to={"/settings/flags"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "flags"}>
-    <Outline.FlagIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    <Icon outline="Flag" class="inline-block w-4 h-4 mr-2 stroke-current" />
     {l "Flags"}
   </LivePatch>
 </li> -->
@@ -206,7 +206,7 @@
   <LivePatch 
     to={"/settings/instance_ghosted"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "instance_ghosted"}>
-    <Outline.MinusCircleIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    <Icon outline="MinusCircle" class="inline-block w-4 h-4 mr-2 stroke-current" />
     {l "Ghosted instance-wide"}
   </LivePatch>
 </li>
@@ -214,14 +214,14 @@
   <LivePatch 
     to={"/settings/instance_silenced"}
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "instance_silenced"}>
-    <Outline.VolumeOffIcon class="inline-block w-4 h-4 mr-2 stroke-current" />
+    <Icon outline="VolumeOff" class="inline-block w-4 h-4 mr-2 stroke-current" />
     {l "Silenced instance-wide"}
   </LivePatch>
 </li>
 
 <li>
   <LivePatch to={"/logout"} class="w-full mt-2 btn btn-error">
-    <Outline.LogoutIcon class="inline-block w-5 h-5 mr-2 stroke-current" />
+    <Icon outline="Logout" class="inline-block w-5 h-5 mr-2 stroke-current" />
     {l "Logout"}
   </LivePatch>
 </li>

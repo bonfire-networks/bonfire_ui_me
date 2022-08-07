@@ -7,7 +7,7 @@
 
       <div class="mt-4 shadow-lg aler alert alert-info">
         <div class="flex-1">
-          <Outline.BellIcon class="flex-shrink-0 w-6 h-6 mx-2" />
+          <Icon outline="Bell" class="flex-shrink-0 w-6 h-6 mx-2" />
           <label>
             <h4>{l "Warning!"}</h4> 
             <p class="text-sm">
