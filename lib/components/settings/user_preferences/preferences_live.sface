@@ -52,7 +52,7 @@
         value="true"
         type="checkbox" 
         checked={if Bonfire.Me.Settings.get([:ui, :compact], nil, @__context__), do: "checked"} 
-        class="checkbox" 
+        class="toggle toggle-primary" 
       />
       <span class="ml-2 label-text">{l "Prefer compact layouts"}</span> 
     </label>
@@ -70,7 +70,7 @@
         value="true"
         type="checkbox" 
         checked={if Bonfire.Me.Settings.get([:ui, :topics_list_in_sidebar], true, @__context__), do: "checked"} 
-        class="checkbox" 
+        class="toggle toggle-primary" 
       />
       <span class="ml-2 label-text">{l "Show followed topics in the sidebar"}</span> 
     </label>
