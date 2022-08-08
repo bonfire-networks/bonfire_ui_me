@@ -2,10 +2,10 @@
   <input name="scope" value={@scope || "user"} type="hidden" />
 
   <div 
-  class="font-bold text-xs uppercase text-base-content text-opacity-80 border-b mt-8 border-base-content border-opacity-30 pb-2">{l "Discoverability"}</div>
+  class="pb-2 mt-8 text-xs font-bold uppercase border-b text-base-content text-opacity-80 border-base-content border-opacity-30">{l "Discoverability"}</div>
   
-  <div class="form-control mt-2">
-    <label class="label cursor-pointer justify-start">
+  <div class="mt-2 form-control">
+    <label class="justify-start cursor-pointer label">
       <input 
         name="Bonfire.Me.Users[discoverable]" 
         value="false"
@@ -16,7 +16,7 @@
         value="true"
         type="checkbox" 
         checked={if Bonfire.Me.Settings.get([Bonfire.Me.Users, :discoverable], true, @scope || assigns), do: "checked"} 
-        class="checkbox" 
+        class="toggle toggle-primary" 
       />
       <span class="ml-2 label-text">{@label}</span> 
     </label>
