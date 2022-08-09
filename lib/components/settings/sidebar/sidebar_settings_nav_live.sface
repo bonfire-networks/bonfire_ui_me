@@ -155,7 +155,7 @@
 </li>
 
 <li
-  :if={Settings.get(:experimental_features_enabled, false, @__context__) && Bonfire.Boundaries.can?(@__context__, :appoint, :instance)}
+  :if={Bonfire.Boundaries.can?(@__context__, :appoint, :instance)}
   >
   <LivePatch 
     to={"/settings/instance_circles"}
@@ -176,9 +176,7 @@
   </LivePatch>
 </li> -->
 
-<li
-  :if={Settings.get(:experimental_features_enabled, false, @__context__)}
-  >
+<li>
   <LivePatch 
     to={"/settings/acl/01SETT1NGSF0R10CA11NSTANCE"}
     class={"rounded relative",  "font-bold bg-base-content/10": @id == "01SETT1NGSF0R10CA11NSTANCE"}>
