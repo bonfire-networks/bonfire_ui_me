@@ -39,7 +39,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
     |> debug("user_etc")
 
     if user_etc do
-      if Integration.is_local?(user_etc) do # redir to login and then come back to this page
+      if current_user || Integration.is_local?(user_etc) do # show profile locally
         {:ok,
           socket
           |> redirect_to(path(user_etc))
