@@ -48,7 +48,7 @@
         <div 
           aria-haspopup="true"
           class="dropdown dropdown-end"
-          :if={current_user(@__context__)} >
+          :if={current_user(@__context__) && ulid(current_user(@__context__)) != maybe_get(@user, :id)}>
           <label tabindex="0" class="m-1 btn btn-outline btn-sm btn-circle">
             <Icon solid="DotsHorizontal" />
           </label>
@@ -133,14 +133,14 @@
             <li
               phx-click="Bonfire.Me.Users:make_admin"
               phx-value-username_or_id={maybe_get(@user, :id)}
-              :if={is_admin?(current_user(@__context__)) && !is_admin?(@user)} >
+              :if={is_admin?(current_user(@__context__)) && !is_admin?(@user) && ulid(current_user(@__context__)) != maybe_get(@user, :id)} >
               <label class="flex items-center gap-0">
                 <Icon outline="Key" class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
                 <span class="text-sm text-neutral">{l "Make admin"}</span>
               </label>
             </li>
             <li
-              :if={is_admin?(current_user(@__context__)) && is_admin?(@user)} 
+              :if={is_admin?(current_user(@__context__)) && is_admin?(@user) && ulid(current_user(@__context__)) != maybe_get(@user, :id)}
               phx-click="Bonfire.Me.Users:revoke_admin"
               phx-value-username_or_id={maybe_get(@user, :id)}
             >
@@ -157,8 +157,8 @@
               />
             </li>
             <Bonfire.Boundaries.Web.BlockMenuButtonsLive
-                object={@user}
-              />
+              object={@user}
+            />
             
           </ul>
         </div>
