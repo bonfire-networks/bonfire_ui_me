@@ -23,6 +23,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       tab when is_atom(tab) -> tab
       _ -> :timeline
     end
+    |> debug(selected_tab)
   end
 
   defp mounted(%{"remote_follow"=> _, "username"=> _username} = _params, _session, _socket) do
@@ -30,6 +31,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   defp mounted(params, _session, socket) do
+    # debug(params)
     {:ok, init(params, socket)}
   end
 
@@ -70,16 +72,16 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
       # search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
       socket
+        |> assign_new(:selected_tab, fn -> "timeline" end)
         |> assign(
+          smart_input: true,
+          feed: [],
+          page_info: [],
           page: "profile",
           page_title: page_title,
-          selected_tab: "timeline",
-          smart_input: true,
           feed_title: l( "User timeline"),
           user: user, # the user to display
-          feed: [],
           follows_me: following,
-          page_info: [],
           no_index: !Bonfire.Me.Settings.get([Bonfire.Me.Users, :discoverable], true, current_user: user)
         )
       |> assign_global(
@@ -135,11 +137,11 @@ defmodule Bonfire.UI.Me.ProfileLive do
     Bonfire.Social.Feeds.LiveHandler.user_feed_assign_or_load_async(tab, nil, params, socket)
   end
 
-
   def do_handle_params(%{"tab" => tab} = params, _url, socket) when tab in ["followers", "followed"] do
     {:noreply,
       assign(socket,
-        Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(tab, nil, params, socket) |> debug("ffff")
+        Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(tab, nil, params, socket)
+        # |> debug("ffff")
       )}
   end
 
@@ -173,19 +175,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #   }
   # end
 
-  def do_handle_params(%{"username" => username} = _params, url, socket) do
-    # info(url, "profile url")
-
-    if String.contains?(url, "%40"<>username) do
-      debug("rewrite encoded @ in URL")
-      {:noreply, patch_to(socket, "/@"<>username, replace: true)}
-    else
-      do_handle_params(nil, nil, socket) # default tab
-    end
+  def do_handle_params(%{"username" => "%40"<>username} = _params, url, socket) do
+    debug("rewrite encoded @ in URL")
+    {:noreply, patch_to(socket, "/@"<>username, replace: true)}
   end
 
   def do_handle_params(%{"tab" => tab} = _params, _url, socket) do
-    # something that may be added by another extension?
+    debug(tab, "unknown tab, maybe from another extension?")
     {:noreply,
      assign(socket,
        selected_tab: tab
@@ -193,20 +189,16 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   def do_handle_params(params, _url, socket) do
-    # default tab
+    debug(params, "load default tab")
     do_handle_params(Map.merge(params || %{}, %{"tab" => "timeline"}), nil, socket)
   end
 
   def handle_params(params, uri, socket) do
-    # poor man's hook I guess
-    with {_, socket} <- Bonfire.UI.Common.LiveHandlers.handle_params(params, uri, socket) do
-      undead_params(socket, fn ->
-        maybe_init(params, socket)
-        |> do_handle_params(params, uri, ...)
-      end)
-    end
+    undead_params(socket, fn ->
+      maybe_init(params, socket) # in case we're patching to a different user
+      |> do_handle_params(params, uri, ...)
+    end)
   end
-
 
   def handle_event(action, attrs, socket), do: Bonfire.UI.Common.LiveHandlers.handle_event(action, attrs, socket, __MODULE__)
   def handle_info(info, socket), do: Bonfire.UI.Common.LiveHandlers.handle_info(info, socket, __MODULE__)

@@ -8,8 +8,8 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through :browser
 
         # order matters!
-        live "/@:username", ProfileLive, as: Bonfire.Data.Identity.User
         live "/@:username/:tab", ProfileLive, as: Bonfire.Data.Identity.User
+        live "/@:username", ProfileLive, as: Bonfire.Data.Identity.User
         live "/user/", ProfileLive, as: Bonfire.Data.Identity.User
 
         live "/user/@:username", ProfileLive
