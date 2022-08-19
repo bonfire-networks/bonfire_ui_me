@@ -114,9 +114,14 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   defp maybe_init(%{"username" => load_username} = params, %{assigns: %{user: %{character: %{username: loaded_username}}}} = socket) when load_username !=loaded_username do
+    debug(loaded_username, "old user")
+    debug(load_username, "load new user")
     init(params, socket)
   end
-  defp maybe_init(params, socket), do: socket
+  defp maybe_init(params, socket) do
+    debug("skip (re)loading user")
+    socket
+  end
 
   defp get_user(username) do
     username = String.trim_trailing(username, "@"<>Bonfire.Common.URIs.instance_domain())
@@ -132,12 +137,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
     end
   end
 
-
   def do_handle_params(%{"tab" => tab} = params, _url, socket) when tab in ["posts", "boosts", "timeline"] do
+    debug(tab, "load tab")
     Bonfire.Social.Feeds.LiveHandler.user_feed_assign_or_load_async(tab, nil, params, socket)
   end
 
   def do_handle_params(%{"tab" => tab} = params, _url, socket) when tab in ["followers", "followed"] do
+    debug(tab, "load tab")
     {:noreply,
       assign(socket,
         Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(tab, nil, params, socket)
