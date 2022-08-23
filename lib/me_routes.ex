@@ -26,6 +26,8 @@ defmodule Bonfire.UI.Me.Routes do
 
         live "/users", UsersDirectoryLive
 
+        live "/remote_interaction", RemoteInteractionLive
+
       end
 
       # pages only guests can view

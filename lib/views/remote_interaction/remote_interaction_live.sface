@@ -1,0 +1,5 @@
+<Bonfire.UI.Me.RemoteInteractionFormLive
+  canonical_url={@canonical_url}
+  name={@name}
+  interaction_type={@interaction_type}
+/>

@@ -63,7 +63,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
       following = current_user && current_user.id != user.id && module_enabled?(Bonfire.Social.Follows) && Bonfire.Social.Follows.following?(user, current_user)
 
-      page_title = if current_username == e(user, :character, :username, ""), do: l( "Your profile"), else: e(user, :profile, :name, l "Someone") <> "'s profile"
+      name = e(user, :profile, :name, l "Someone")
+      title = if current_username == e(user, :character, :username, ""), do: l( "Your profile"), else: name <> "'s profile"
 
       # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
       smart_input_prompt = nil
@@ -78,9 +79,12 @@ defmodule Bonfire.UI.Me.ProfileLive do
           feed: [],
           page_info: [],
           page: "profile",
-          page_title: page_title,
+          page_title: title,
           feed_title: l( "User timeline"),
           user: user, # the user to display
+          canonical_url: canonical_url(user),
+          name: name,
+          interaction_type: l("follow"),
           follows_me: following,
           no_index: !Bonfire.Me.Settings.get([Bonfire.Me.Users, :discoverable], true, current_user: user)
         )
