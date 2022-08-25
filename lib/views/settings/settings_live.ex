@@ -22,6 +22,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
       socket
       # |> assign(:without_sidebar,  true)
       |> assign(
+        layout_mode: "full",
         sidebar_widgets: [
           users: [
             main: [
