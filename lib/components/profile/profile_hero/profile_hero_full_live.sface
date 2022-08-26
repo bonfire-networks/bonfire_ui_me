@@ -85,7 +85,7 @@
 <!-- 
             <li>
               <Bonfire.UI.Common.OpenModalLive
-                id={ComponentID.new(Bonfire.UI.Common.OpenModalLive, @user)} 
+                id={Pointers.ULID.generate()} 
                 title_text={l "Tag with topic(s)"}
                 form_opts={%{"phx-submit"=> "Bonfire.Social.Objects:tag"}}
                 :let={autocomplete: autocomplete}
