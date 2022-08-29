@@ -12,9 +12,17 @@ defmodule Bonfire.UI.Me.Plugs.GuestOnly do
 
   defp not_permitted(conn) do
     conn
-    |> assign_flash(:error, "That page is only accessible to guests.")
-    |> redirect(to: path(:home))
+    |> maybe_error()
+    |> redirect(to: path(:dashboard) || path(:home))
     |> halt()
+  end
+
+  defp maybe_error(%{request_path: "/login"} = conn) do
+    conn
+  end
+  defp maybe_error(conn) do
+    conn
+    |> assign_flash(:error, "That page is only accessible to guests.")
   end
 
 end
