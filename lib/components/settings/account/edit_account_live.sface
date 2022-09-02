@@ -9,7 +9,7 @@
 
   <!--    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
       label={l "I want my profiles to appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden in each user's settings)"}
-      scope={current_account(@__context__)}
+      scope={@current_account}
     />-->
     
   </div> 

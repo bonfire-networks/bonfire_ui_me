@@ -1,6 +1,6 @@
 <div class="p-4">
 
-{#if Bonfire.Me.Users.is_admin?(current_user(@__context__)) || Bonfire.Boundaries.can?(@__context__, :configure, :instance) }
+{#if Bonfire.Me.Users.is_admin?(@current_user) || Bonfire.Boundaries.can?(@__context__, :configure, :instance) }
     
     <form name="settings" phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:instance} type="hidden" />

@@ -5,7 +5,7 @@
         data-id="upload_image"
         phx-drop-target={@uploads.image.ref} 
         class="relative flex justify-center px-6 py-10  bg-center bg-cover rounded-lg" 
-        style={"background-image: url('"<>banner_url(current_user(@__context__))<>"'); height: 225px;"}>
+        style={"background-image: url('"<>banner_url(@current_user)<>"'); height: 225px;"}>
         <div class="space-y-1 text-center">
           <div class="flex text-sm text-primary-content-600">
             <label for={@uploads.image.ref} class="absolute inset-0 flex flex-col items-center justify-center w-full h-full text-sm font-medium text-white transition duration-150 ease-in-out rounded-lg opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60">
@@ -33,7 +33,7 @@
         class="relative block w-32 h-32 mb-6 ml-6 -mt-16 overflow-hidden rounded-full ring-8 ring-base-100">
         <div 
           data-id="preview_icon"
-          class="flex items-center w-32 h-32 bg-cover rounded-full shadow-lg bg-base-content" style={"background-image: url('" <> avatar_url(current_user(@__context__)) <> "')"}></div>
+          class="flex items-center w-32 h-32 bg-cover rounded-full shadow-lg bg-base-content" style={"background-image: url('" <> avatar_url(@current_user) <> "')"}></div>
         <label for={@uploads.icon.ref} class="absolute inset-0 flex items-center justify-center w-full h-full text-sm font-medium text-white transition duration-150 ease-in-out opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60">
           <span>{l "Upload or drop"}</span>
           <span class="sr-only"> {l "avatar"}</span>
@@ -54,7 +54,7 @@
             id="name"
             autocomplete="name"
             class="input input-bordered"
-            value={e(current_user(@__context__), :profile, :name, "")}
+            value={e(@current_user, :profile, :name, "")}
           >
         </div>
 
@@ -67,7 +67,7 @@
           </label>
           <label class="w-full input-group">
             <span>@</span>
-             <input type="text" name="character[username]" id="username" autocomplete="username" class="flex-1 input input-bordered" value={e(current_user(@__context__), :character, :username, "")}>
+             <input type="text" name="character[username]" id="username" autocomplete="username" class="flex-1 input input-bordered" value={e(@current_user, :character, :username, "")}>
             <span>
               @{Config.get(:host)}
             </span>
@@ -78,7 +78,7 @@
           <label for="about" class="label">
             <span class="label-text">{l "About"}</span>
           </label>
-          <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(current_user(@__context__), :profile, :summary, "")}</textarea>
+          <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(@current_user, :profile, :summary, "")}</textarea>
           <p class="mt-2 text-sm text-base-content text-opacity-70">
           {l "Brief description for your profile. You can use markdown formatting."}
         </p>
@@ -94,7 +94,7 @@
             id="website"
             autocomplete="website"
             class="input input-bordered"
-            value={e(current_user(@__context__), :profile, :website, "")}
+            value={e(@current_user, :profile, :website, "")}
           >
         </div>
 
@@ -102,7 +102,7 @@
           <label for="location" class="label">
             <span class="label-text">{l "Location"}</span>
           </label>
-          <input type="text" name="profile[location]" id="location" autocomplete="location" class="input input-bordered" value={e(current_user(@__context__), :profile, :location, "")}>
+          <input type="text" name="profile[location]" id="location" autocomplete="location" class="input input-bordered" value={e(@current_user, :profile, :location, "")}>
         </div>
         
         <!-- <div>
@@ -120,7 +120,7 @@
           <span class="inline-flex items-center px-3 border border-r-0 border-gray-300 rounded-l text-primary-content-500 bg-base-100 sm:text-sm">
             @
           </span>
-          <input type="text" name="character[username]" id="username" autocomplete="username" class="flex-grow block w-full min-w-0 border-gray-300 rounded-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(current_user(@__context__), :character, :username, "")}>
+          <input type="text" name="character[username]" id="username" autocomplete="username" class="flex-grow block w-full min-w-0 border-gray-300 rounded-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(@current_user, :character, :username, "")}>
           <span class="inline-flex items-center px-3 border border-l-0 border-gray-300 rounded-r text-primary-content-500 bg-base-100 sm:text-sm">
             @{Config.get(:host)}
           </span>
@@ -132,7 +132,7 @@
         </label>
         <div class="mt-1">
           <textarea id="about" name="profile[summary]" rows="3" class="block w-full mt-1 border-gray-300 rounded shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
-            {e(current_user(@__context__), :profile, :summary, "")}
+            {e(@current_user, :profile, :summary, "")}
           </textarea>
         </div>
         <p class="mt-2 text-sm text-primary-content-500 ">
@@ -144,7 +144,7 @@
           {l "Website"}
         </label>
         <div class="flex mt-1 rounded shadow-sm">
-          <input type="text" name="profile[website]" id="website" autocomplete="website" class="flex-grow block w-full min-w-0 border-gray-300 rounded focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(current_user(@__context__), :profile, :website, "")}>
+          <input type="text" name="profile[website]" id="website" autocomplete="website" class="flex-grow block w-full min-w-0 border-gray-300 rounded focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(@current_user, :profile, :website, "")}>
         </div>
       </div>
       <div>
@@ -152,7 +152,7 @@
           {l "Location"}
         </label>
         <div class="flex mt-1 rounded-md shadow-sm">
-          <input type="text" name="profile[location]" id="location" autocomplete="location" class="flex-grow block w-full min-w-0 border-gray-300 rounded focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(current_user(@__context__), :profile, :location, "")}>
+          <input type="text" name="profile[location]" id="location" autocomplete="location" class="flex-grow block w-full min-w-0 border-gray-300 rounded focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(@current_user, :profile, :location, "")}>
         </div>
       </div> -->
     </div>

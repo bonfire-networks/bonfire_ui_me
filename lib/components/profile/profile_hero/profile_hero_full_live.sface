@@ -19,16 +19,16 @@
           <Icon solid="ExternalLink" class="w-4 h-4" />
         </a> 
 
-        <div :if={ulid(current_user(@__context__)) != maybe_get(@user, :id)} >
+        <div :if={ulid(@current_user) != maybe_get(@user, :id)} >
           <Bonfire.UI.Common.FollowButtonLive 
             id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, @user)}
             object={@user} 
-            current_user={current_user(@__context__)} 
+             
           />
         </div>
 
         <LiveRedirect
-          :if={current_user(@__context__) && ulid(current_user(@__context__)) != maybe_get(@user, :id)}
+          :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}
           to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
           class="hidden btn lg:flex btn-sm btn-outline btn-circle"
         >
@@ -36,7 +36,7 @@
         </LiveRedirect> 
         
         <LiveRedirect
-          :if={current_user(@__context__) && ulid(current_user(@__context__)) == maybe_get(@user, :id)}
+          :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
           to="/settings/user"
           class="normal-case btn btn-sm btn-outline"
         >
@@ -48,7 +48,7 @@
         <div 
           aria-haspopup="true"
           class="dropdown dropdown-end"
-          :if={current_user(@__context__) && ulid(current_user(@__context__)) != maybe_get(@user, :id)}>
+          :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}>
           <label tabindex="0" class="m-1 btn btn-outline btn-sm btn-circle">
             <Icon solid="DotsHorizontal" />
           </label>
@@ -58,7 +58,7 @@
             aria-orientation="vertical"
             class="rounded shadow dropdown_actions w-52 menu dropdown-content bg-neutral-content">
             <li 
-              if={ulid(current_user(@__context__)) != maybe_get(@user, :id)}
+              if={ulid(@current_user) != maybe_get(@user, :id)}
               class="lg:hidden">
               <div class="">
                 <LiveRedirect class="flex items-center text-sm no-padding text-neutral" to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}>
@@ -133,14 +133,14 @@
             <li
               phx-click="Bonfire.Me.Users:make_admin"
               phx-value-username_or_id={maybe_get(@user, :id)}
-              :if={is_admin?(current_user(@__context__)) && !is_admin?(@user) && ulid(current_user(@__context__)) != maybe_get(@user, :id)} >
+              :if={is_admin?(@current_user) && !is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)} >
               <label class="flex items-center gap-0">
                 <Icon outline="Key" class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
                 <span class="text-sm text-neutral">{l "Make admin"}</span>
               </label>
             </li>
             <li
-              :if={is_admin?(current_user(@__context__)) && is_admin?(@user) && ulid(current_user(@__context__)) != maybe_get(@user, :id)}
+              :if={is_admin?(@current_user) && is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)}
               phx-click="Bonfire.Me.Users:revoke_admin"
               phx-value-username_or_id={maybe_get(@user, :id)}
             >

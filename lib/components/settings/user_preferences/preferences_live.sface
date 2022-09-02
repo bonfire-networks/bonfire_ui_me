@@ -77,12 +77,12 @@
   </div>
 
   <Bonfire.UI.Common.SmartInputSettingsLive
-    current_user={current_user(@__context__)}
+    
    />
 
 
   <Bonfire.UI.Social.Settings.MyFeedItemsLive
-    current_user={current_user(@__context__)}
+    
     title={l "What activities to include in my home feed"}
    />
 
@@ -91,8 +91,8 @@
 </form>
 
 <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
-  label={l "I want my profile (@%{username}) and content to appear publicly in search engines (in Bonfire, the fediverse, and the web in general)", username: e(current_user(@__context__), :character, :username, "")}
-  current_user={current_user(@__context__)}
+  label={l "I want my profile (@%{username}) and content to appear publicly in search engines (in Bonfire, the fediverse, and the web in general)", username: e(@current_user, :character, :username, "")}
+  
   />
 
 </div>

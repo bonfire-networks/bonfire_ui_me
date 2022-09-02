@@ -5,7 +5,7 @@
   </span>
 </li>
 
-<li :if={current_user(@__context__)}>
+<li :if={@current_user}>
   <LivePatch 
     to={"/settings/profile"} 
     class={"rounded relative",  "font-bold bg-base-content/10": @selected_tab == "profile"}>
