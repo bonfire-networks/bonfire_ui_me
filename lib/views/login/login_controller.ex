@@ -5,7 +5,7 @@ defmodule Bonfire.UI.Me.LoginController do
   # alias Bonfire.Me.Users
   alias Bonfire.UI.Me.LoginLive
   # alias Bonfire.Common.Utils
-  import Where
+  import Untangle
 
   def index(conn, _) do # GET only supports 'go'
     conn = fetch_query_params(conn)

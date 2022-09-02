@@ -32,7 +32,7 @@ defmodule Bonfire.UI.Me.ConnCase do
       import Bonfire.UI.Me.Test.FakeHelpers
       import Bonfire.Me.Fake.Helpers
 
-      import Where
+      import Untangle
       use Arrows
       # alias Bonfire.UI.Me.Web.Router.Helpers, as: Routes
 

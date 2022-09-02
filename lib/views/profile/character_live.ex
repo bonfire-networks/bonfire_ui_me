@@ -1,7 +1,7 @@
 defmodule Bonfire.UI.Me.CharacterLive do
   use Bonfire.UI.Common.Web, :surface_live_view
   alias Bonfire.Me.Integration
-  import Where
+  import Untangle
 
   # alias Bonfire.Me.Fake
   alias Bonfire.UI.Me.LivePlugs
