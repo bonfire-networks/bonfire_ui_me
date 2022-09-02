@@ -1,6 +1,6 @@
 <div>
 
-  <#slot name="header" />
+  <#slot {@header} />
 
   <div class="flex">
     <div class="w-full mx-auto">
