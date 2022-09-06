@@ -15,8 +15,6 @@ defmodule Bonfire.UI.Me.MixProject do
       deps: Mess.deps([
         {:phoenix_live_reload, "~> 1.2", only: :dev},
         {:dbg, "~> 1.0", only: [:dev, :test]},
-        {:bonfire_editor_ck, git: "https://github.com/bonfire-networks/bonfire_editor_ck", branch: "main", optional: true},
-        {:bonfire_editor_quill, git: "https://github.com/bonfire-networks/bonfire_editor_quill", branch: "main", optional: true},
         {:bonfire_tag, git: "https://github.com/bonfire-networks/bonfire_tag", branch: "main", optional: true},
         {:bonfire_social, git: "https://github.com/bonfire-networks/bonfire_social", branch: "main", optional: true}
         # {:bonfire_valueflows, "https://github.com/bonfire-networks/bonfire_valueflows", branch: "main", optional: true}

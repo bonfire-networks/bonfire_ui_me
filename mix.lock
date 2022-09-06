@@ -11,8 +11,6 @@
   "bonfire_data_identity": {:git, "https://github.com/bonfire-networks/bonfire_data_identity", "88c7224ac3394696f91936aea5f2a1503a5c7e2c", [branch: "main"]},
   "bonfire_data_social": {:git, "https://github.com/bonfire-networks/bonfire_data_social", "75da41940b0dfd9f572804f8ffbfce29f213e041", [branch: "main"]},
   "bonfire_ecto": {:git, "https://github.com/bonfire-networks/bonfire_ecto", "88ad2c495c07a33d7df0f0b825e96c2b9cf1f2e0", [branch: "main"]},
-  "bonfire_editor_ck": {:git, "https://github.com/bonfire-networks/bonfire_editor_ck", "bac3329a5679cd990a98bf6923fcbb1daa89ab2b", [branch: "main"]},
-  "bonfire_editor_quill": {:git, "https://github.com/bonfire-networks/bonfire_editor_quill", "31db3c8efd31062027df34d5d2eed19d3db938e5", [branch: "main"]},
   "bonfire_epics": {:git, "https://github.com/bonfire-networks/bonfire_epics", "34300053dbafa9b9cfede22bd4e6433d04344b69", [branch: "main"]},
   "bonfire_mailer": {:git, "https://github.com/bonfire-networks/bonfire_mailer", "432c4cb16601b7be5835b95791314660836c4e73", [branch: "main"]},
   "bonfire_me": {:git, "https://github.com/bonfire-networks/bonfire_me", "9fbedf99adaf5c08cabfdfe3be030a37f58cfe1c", [branch: "main"]},
