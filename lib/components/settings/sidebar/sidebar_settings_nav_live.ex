@@ -5,4 +5,6 @@ defmodule  Bonfire.UI.Me.SettingsViewLive.SidebarSettingsNavLive do
   prop selected_tab, :string
   prop id, :string, default: nil
 
+
+  declare_nav_component("Links to sections of settings")
 end

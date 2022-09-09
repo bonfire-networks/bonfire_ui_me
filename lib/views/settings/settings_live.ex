@@ -22,19 +22,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
       socket
       # |> assign(:without_sidebar,  true)
       |> assign(
-        layout_mode: "full",
-        sidebar_widgets: [
-          users: [
-            main: [
-              {Bonfire.UI.Me.SettingsViewLive.SidebarSettingsLive,
-              [
-                selected_tab: "user",
-                current_user: current_user(socket)
-              ]}
-            ],
-            secondary: secondary_widgets()
-          ]
-        ],
         show_less_menu_items: true,
         page_title: l( "Settings"),
         page_header_aside: [
@@ -104,12 +91,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
     end
   end
 
-  def secondary_widgets, do: [
-            # {Bonfire.UI.Me.WidgetTagsLive , []},
-            {Bonfire.UI.Common.WidgetInstanceInfoLive, []},
-            {Bonfire.UI.Common.WidgetFeedbackLive, []}
-          ]
-
   def save(:icon, :instance, uploaded_media, socket) do
     with :ok <- Bonfire.Me.Settings.put([:bonfire, :ui, :theme, :instance_icon], Bonfire.Files.IconUploader.remote_url(uploaded_media), scope: :instance, socket: socket) do
       {:noreply, socket
@@ -153,39 +134,14 @@ defmodule Bonfire.UI.Me.SettingsLive do
     # debug(id)
     {:noreply, assign(socket,
       selected_tab: tab,
-      id: id,
-      sidebar_widgets: [
-        users: [
-          main: [
-            {Bonfire.UI.Me.SettingsViewLive.SidebarSettingsLive,
-            [
-              selected_tab: tab,
-              id: id,
-              current_user: current_user(socket)
-            ]}
-          ],
-          secondary: secondary_widgets()
-        ]
-      ]
+      id: id
       )}
   end
 
   def do_handle_params(%{"tab" => tab}, _url, socket) do
     {:noreply, assign(
         socket,
-        selected_tab: tab,
-        sidebar_widgets: [
-          users: [
-            main: [
-              {Bonfire.UI.Me.SettingsViewLive.SidebarSettingsLive,
-              [
-                selected_tab: tab,
-                current_user: current_user(socket)
-              ]}
-            ],
-            secondary: secondary_widgets()
-          ]
-        ]
+        selected_tab: tab
         )}
   end
 

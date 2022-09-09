@@ -26,16 +26,6 @@ defmodule Bonfire.UI.Me.CreateUserLive do
      |> assign_new(:error, fn -> nil end)
      |> assign_new(:without_header, fn -> true end)
      |> assign(:without_sidebar,  true)
-      |> assign(:sidebar_widgets, [
-        users: [
-          main: [],
-          secondary: []
-        ],
-        guests: [
-          main: [],
-          secondary: []
-        ]
-      ])
       }
   end
 

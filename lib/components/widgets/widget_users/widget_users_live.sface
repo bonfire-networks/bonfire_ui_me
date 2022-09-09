@@ -1,5 +1,5 @@
 
-<Bonfire.UI.Common.WidgetLive 
+<Bonfire.UI.Common.WidgetBlockLive 
   widget_title={e(@widget_title, "Users")}
 >
   <div class="grid grid-cols-1 gap-4 py-3">
@@ -13,4 +13,4 @@
       </div>
     {/for}
   </div>
-</Bonfire.UI.Common.WidgetLive>
+</Bonfire.UI.Common.WidgetBlockLive>

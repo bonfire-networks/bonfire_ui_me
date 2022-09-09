@@ -1,9 +1,13 @@
-
 <ul 
   role="navigation" 
-  class={"hidden md:block space-y-4 border-l border-base-content/30"}>
+  class={"hidden md:block space-y-4"}>
   <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsNavLive 
     selected_tab={@selected_tab}
     id={@id}
   />
 </ul>
+
+<Bonfire.UI.Me.SettingsViewLive.SidebarSettingsMobileLive 
+  selected_tab={@selected_tab}
+  id={@id}
+/>

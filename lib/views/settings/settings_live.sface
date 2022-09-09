@@ -1,14 +1,10 @@
 <section
   class="bg-base-100">
-  <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsMobileLive 
-    selected_tab={@selected_tab}
-    id={@id}
-     />
   {#case @selected_tab}
 
     {#match "profile"}
       <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
-        :if={@current_user}
+        :if={ulid(@current_user)}
         uploads={@uploads} 
         selected_tab={@selected_tab}
         
@@ -74,13 +70,13 @@
         selected_tab={@selected_tab}
       />
     {#match "silenced"}
-      <Bonfire.UI.Me.BlocksLive
+      <Bonfire.Boundaries.Web.BlocksLive
         id="blocks"
         
         selected_tab={"silenced"}
       />
     {#match "ghosted"}
-      <Bonfire.UI.Me.BlocksLive
+      <Bonfire.Boundaries.Web.BlocksLive
         id="blocks"
         
         selected_tab={"ghosted"}
@@ -119,14 +115,14 @@
       /> -->
     
     {#match "instance_silenced"}
-      <Bonfire.UI.Me.BlocksLive
+      <Bonfire.Boundaries.Web.BlocksLive
         scope={:instance_wide}
         id="blocks"
         
         selected_tab={"silenced"}
       />
     {#match "instance_ghosted"}
-      <Bonfire.UI.Me.BlocksLive
+      <Bonfire.Boundaries.Web.BlocksLive
         scope={:instance_wide}
         id="blocks"
         
@@ -166,7 +162,7 @@
     
     {#match _}
       <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
-        :if={@current_user}
+        :if={ulid(@current_user)}
         uploads={@uploads} 
         selected_tab={@selected_tab}
         

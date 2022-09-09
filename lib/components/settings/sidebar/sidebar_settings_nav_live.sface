@@ -5,7 +5,7 @@
   </span>
 </li>
 
-<li :if={@current_user}>
+<li :if={ulid(@current_user)}>
   <LivePatch 
     to={"/settings/profile"} 
     class={"flex items-center border-l pl-4 -ml-px border-transparent hover:border-base-content text-base-content/70 hover:text-base-content",  "!text-primary hover:!border-current border-current font-semibold": @selected_tab == "profile"}>
@@ -31,7 +31,7 @@
   </LivePatch>
 </li>
 
-<li
+<!-- <li
   >
   <LivePatch 
     to={"/settings/circles"}
@@ -49,7 +49,7 @@
     <Icon solid="LockClosed" class={"mr-2 w-4 h-4 text-base-content/80", "!text-primary": @selected_tab == "acls"} />
     {l "Boundaries"}
   </LivePatch>
-</li>
+</li> -->
 
 <li :if={module_enabled?(Bonfire.Data.SharedUser) && Settings.get(:experimental_features_enabled, false, @__context__)}>
   <LivePatch 
@@ -83,7 +83,7 @@
     {l "Flags"}
   </LivePatch>
 </li>
-<li>
+<!-- <li>
   <LivePatch 
     to={"/settings/ghosted"}
     class={"flex items-center border-l pl-4 -ml-px border-transparent hover:border-base-content text-base-content/70 hover:text-base-content",  "!text-primary hover:!border-current border-current font-semibold": @selected_tab == "ghosted"}>
@@ -98,7 +98,7 @@
     <Icon solid="VolumeOff" class={"inline-block w-4 h-4 mr-2 stroke-current", "!text-primary": @selected_tab == "silenced"} />
     {l "Silenced"}
   </LivePatch>
-</li>
+</li> -->
 
 <li class="!mt-1  menu-title">
   <span class="!text-base !font-medium capitalize">
@@ -154,7 +154,7 @@
   </LivePatch>
 </li>
 
-<li
+<!-- <li
   :if={Bonfire.Boundaries.can?(@__context__, :appoint, :instance)}
   >
   <LivePatch 
@@ -163,7 +163,7 @@
     <Icon iconify="bx:ShapeCircle" class="inline-block w-5 h-5 mr-2" />
     {l "Instance Roles / Circles"}
   </LivePatch>
-</li>
+</li> -->
 
 <!-- <li
   :if={Settings.get(:experimental_features_enabled, false, @__context__)}
@@ -176,14 +176,14 @@
   </LivePatch>
 </li> -->
 
-<li>
+<!-- <li>
   <LivePatch 
     to={"/settings/acl/01SETT1NGSF0R10CA11NSTANCE"}
     class={"flex items-center border-l pl-4 -ml-px border-transparent hover:border-base-content text-base-content/70 hover:text-base-content",  "!text-primary hover:!border-current border-current font-semibold": @id == "01SETT1NGSF0R10CA11NSTANCE"}>
     <Icon iconify="bxs:EditLocation" class={"mr-2 w-4 h-4 text-base-content/80", "!text-primary": @selected_tab == "feed"} />
     {l "Instance Boundaries"}
   </LivePatch>
-</li>
+</li> -->
 
 <!-- <li class="mt-1 uppercase menu-title">
   <span>{l "Moderation"}</span>
@@ -200,7 +200,7 @@
   </LivePatch>
 </li> -->
 
-<li :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
+<!-- <li :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
   <LivePatch 
     to={"/settings/instance_ghosted"}
     class={"flex items-center border-l pl-4 -ml-px border-transparent hover:border-base-content text-base-content/70 hover:text-base-content",  "!text-primary hover:!border-current border-current font-semibold": @selected_tab == "instance_ghosted"}>
@@ -215,7 +215,7 @@
     <Icon solid="VolumeOff" class={"inline-block w-4 h-4 mr-2 stroke-current", "!text-primary": @selected_tab == "extensions"} />
     {l "Silenced instance-wide"}
   </LivePatch>
-</li>
+</li> -->
 
 <li>
   <LivePatch to={"/logout"} class="w-full mt-2 btn btn-error">
