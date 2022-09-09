@@ -4,12 +4,12 @@
   class="md:flex md:mx-0">
   <section class="flex flex-col w-full mx-auto space-y-3">
 
-    <Surface.Components.Dynamic.Component
+    <Dynamic.Component
       module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
       {...assigns}
       >
       <:header>
-        <Surface.Components.Dynamic.Component 
+        <Dynamic.Component 
           module={Config.get([:ui, :profile, :hero_component], 
           Bonfire.UI.Me.ProfileHeroFullLive)} 
           user={@user} 
@@ -17,7 +17,7 @@
           follows_me={e(@follows_me, false)} 
         />
       </:header>
-    </Surface.Components.Dynamic.Component>
+    </Dynamic.Component>
   
   </section>
 </main>

@@ -20,7 +20,7 @@
       selected_tab={@selected_tab}
     />
     {#match "circles"}
-      <Surface.Components.Dynamic.LiveComponent
+      <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and @current_user}
         module={Bonfire.Boundaries.Web.MyCirclesLive}
         
@@ -29,7 +29,7 @@
         scope={nil}
       />
     {#match "circle"}
-      <Surface.Components.Dynamic.LiveComponent
+      <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.CircleLive) and @current_user}
         module={Bonfire.Boundaries.Web.CircleLive}
         
@@ -38,7 +38,7 @@
         id={"view_circle"} 
       />
     {#match "acls"}
-      <Surface.Components.Dynamic.LiveComponent
+      <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.MyAclsLive) and @current_user}
         module={Bonfire.Boundaries.Web.MyAclsLive}
         
@@ -48,7 +48,7 @@
         scope={nil}
       />
     {#match "acl"}
-      <Surface.Components.Dynamic.LiveComponent
+      <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.AclLive) and @current_user}
         module={Bonfire.Boundaries.Web.AclLive}
         
@@ -102,7 +102,7 @@
       />
 
     {#match "invites"}
-    <Surface.Components.Dynamic.LiveComponent
+    <Dynamic.LiveComponent
         module={Config.get([:ui, :invites_component], Bonfire.Invite.Links.Web.InvitesLive)}
         id="admin_invites"
         selected_tab={@selected_tab}
@@ -136,7 +136,7 @@
         selected_tab={@selected_tab}
       />
     {#match "instance_circles"}
-      <Surface.Components.Dynamic.LiveComponent
+      <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and @current_user}
         module={Bonfire.Boundaries.Web.MyCirclesLive}
         
@@ -145,7 +145,7 @@
         scope={:instance}
       />
     {#match "instance_acls"}
-      <Surface.Components.Dynamic.LiveComponent
+      <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.MyAclsLive) and @current_user}
         module={Bonfire.Boundaries.Web.MyAclsLive}
         
