@@ -4,7 +4,8 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
 
   prop user, :map
   prop follows_me, :boolean, default: false
-
+  prop selected_tab, :string
+  
   def display_url("https://"<>url), do: url
   def display_url("http://"<>url), do: url
   def display_url(url), do: url

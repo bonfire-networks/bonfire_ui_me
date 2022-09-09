@@ -1,0 +1,41 @@
+
+<Bonfire.UI.Common.WidgetBlockLive 
+  widget_title={e(@widget_title, "About")}
+>
+
+  <div class="p-4">
+    <div class="w-full prose-sm prose prose-p:pt-2">
+      {markdown e(@user, :profile, :summary, "")}
+    </div>
+
+    <div
+      :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)}
+      class="flex items-center mt-2 space-x-4"
+    >
+      <div
+        :if={e(@user, :profile, :location, nil)}
+        class="flex items-center"
+      >
+        <Icon solid="LocationMarker" class="w-5 h-5 text-base-content text-opacity-70" />
+        <span class="ml-2 text-sm text-base-content text-opacity-70">
+          {e(@user, :profile, :location, "")}
+        </span>
+      </div>
+      <div
+        :if={e(@user, :profile, :website, nil)}
+        class="flex items-center "
+      >
+        {#case Bonfire.Files.FaviconStore.favicon_url(e(@user, :profile, :website, nil))}
+          {#match nil}
+            <Icon solid="ExternalLink" class="w-5 h-5 text-base-content text-opacity-70" />
+          {#match image}
+            <img src={image} class="w-4 h-4 text-base-content text-opacity-70"/>
+        {/case}
+
+        <a href={"#{e(@user, :profile, :website, "")}"} target="blank" class="ml-2 text-sm link">
+          {display_url(e(@user, :profile, :website, ""))}
+        </a>
+      </div>
+    </div>
+  </div>
+</Bonfire.UI.Common.WidgetBlockLive>

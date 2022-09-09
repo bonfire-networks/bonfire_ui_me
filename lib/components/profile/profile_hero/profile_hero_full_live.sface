@@ -1,5 +1,5 @@
-  <div class="pb-4 bg-base-100">
-    <div class="bg-center bg-cover bg-no-repeat bg-base-200 h-[140px] md:h-[200px]" style={"background-image: url('#{banner_url(@user)}')"}></div>
+  <div class="mb-6 shadow-xl bg-base-100 rounded-xl">
+    <div class="bg-center bg-cover rounded-t-xl bg-no-repeat bg-base-200 h-[140px] md:h-[250px]" style={"background-image: url('#{banner_url(@user)}')"}></div>
     <div class="flex items-center justify-between">
       <Bonfire.UI.Common.AvatarLive
         class="inline-block object-cover w-24 h-24 ml-4 -mt-10 rounded-full tablet:-mt-16 ring-4 ring-base-content/5 bg-base-200 tablet:w-32 tablet:h-32 tablet:ml-6"
@@ -82,7 +82,7 @@
                 </a> 
               </div>
             </li>
-<!-- 
+    <!-- 
             <li>
               <Bonfire.UI.Common.OpenModalLive
                 id={Pointers.ULID.generate()} 
@@ -195,11 +195,11 @@
       </div>
 
       <div class="mt-1">
-        <div class="w-full prose-sm prose prose-p:pt-2">
+        <!-- <div class="w-full prose-sm prose prose-p:pt-2">
           {markdown e(@user, :profile, :summary, "")}
-        </div>
+        </div> -->
 
-        <div
+        <!-- <div
           :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)}
           class="flex items-center mt-2 space-x-4"
         >
@@ -227,7 +227,7 @@
               {display_url(e(@user, :profile, :website, ""))}
             </a>
           </div>
-        </div>
+        </div> -->
 
         <div class="flex items-center mt-2 text-base-content">
           <Icon solid="Users" class="w-5 h-5 text-base-content text-opacity-70" />
@@ -251,4 +251,5 @@
         </div>
       </div>
     </div>
+  <Bonfire.UI.Common.ProfileNavigationLive selected_tab={@selected_tab} path_prefix={"/@#{e(@user, :character, :username, "")}/"} tabs={Config.get([:ui, :profile, :navigation], [timeline: "Timeline"])} />
   </div>
