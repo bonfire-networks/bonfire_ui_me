@@ -1,12 +1,13 @@
-<main 
-  id="switch-user">
+<main id="switch-user">
   <div class="flex-1 p-3 bg-base-100 rounded-b-md">
     <p class="my-5 text-lg mb-7 text-base-content/80">
-      {l "You can have multiple user profiles for different online identities, or for your organizations or projects."}
+      {l(
+        "You can have multiple user profiles for different online identities, or for your organizations or projects."
+      )}
     </p>
-    <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive 
-      go={@go} 
-      current_account_users={@current_account_users} 
+    <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive
+      go={@go}
+      current_account_users={@current_account_users}
     />
   </div>
 </main>

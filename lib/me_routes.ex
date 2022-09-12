@@ -1,115 +1,143 @@
 defmodule Bonfire.UI.Me.Routes do
   defmacro __using__(_) do
-
     quote do
-
       pipeline :guest_only do
-        plug Bonfire.UI.Me.Plugs.GuestOnly
+        plug(Bonfire.UI.Me.Plugs.GuestOnly)
       end
 
       pipeline :account_required do
-        plug Bonfire.UI.Me.Plugs.AccountRequired
+        plug(Bonfire.UI.Me.Plugs.AccountRequired)
       end
 
       pipeline :user_required do
-        plug Bonfire.UI.Me.Plugs.UserRequired
+        plug(Bonfire.UI.Me.Plugs.UserRequired)
       end
 
       pipeline :admin_required do
-        plug Bonfire.UI.Me.Plugs.AdminRequired
+        plug(Bonfire.UI.Me.Plugs.AdminRequired)
       end
 
       # pages anyone can view
       scope "/", Bonfire.UI.Me do
-        pipe_through :browser
+        pipe_through(:browser)
 
         # order matters!
-        live "/@:username/:tab", ProfileLive, as: Bonfire.Data.Identity.User
-        live "/@:username", ProfileLive, as: Bonfire.Data.Identity.User
-        live "/user/", ProfileLive, as: Bonfire.Data.Identity.User
+        live("/@:username/:tab", ProfileLive, as: Bonfire.Data.Identity.User)
+        live("/@:username", ProfileLive, as: Bonfire.Data.Identity.User)
+        live("/user/", ProfileLive, as: Bonfire.Data.Identity.User)
 
-        live "/user/@:username", ProfileLive
-        live "/user/:username", ProfileLive, as: :user_profile
-        live "/user/:id", ProfileLive, as: :user_profile
-        live "/user/:username/:tab", ProfileLive, as: :user_profile
+        live("/user/@:username", ProfileLive)
+        live("/user/:username", ProfileLive, as: :user_profile)
+        live("/user/:id", ProfileLive, as: :user_profile)
+        live("/user/:username/:tab", ProfileLive, as: :user_profile)
 
-        live "/profile/:id", CharacterLive, as: Bonfire.Data.Social.Profile
-        live "/character/:id", CharacterLive, as: Bonfire.Data.Identity.Character
-        live "/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile
-        live "/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character
+        live("/profile/:id", CharacterLive, as: Bonfire.Data.Social.Profile)
 
-        resources "/login/forgot-password", ForgotPasswordController, only: [:index, :create], as: :forgot_password
+        live("/character/:id", CharacterLive, as: Bonfire.Data.Identity.Character)
 
-        live "/users", UsersDirectoryLive
+        live("/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile)
 
-        live "/remote_interaction", RemoteInteractionLive
+        live("/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character)
 
+        resources("/login/forgot-password", ForgotPasswordController,
+          only: [:index, :create],
+          as: :forgot_password
+        )
+
+        live("/users", UsersDirectoryLive)
+
+        live("/remote_interaction", RemoteInteractionLive)
       end
 
       # pages only guests can view
       scope "/", Bonfire.UI.Me do
-        pipe_through :browser
-        pipe_through :guest_only
-        resources "/signup", SignupController, only: [:index, :create], as: :signup
-        resources "/signup/invitation/:invite", SignupController, only: [:index, :create], as: :invite
-        resources "/signup/email/confirm", ConfirmEmailController, only: [:index, :create, :show]
-        resources "/signup/email/confirm/:id", ConfirmEmailController, only: [:show]
-        resources "/login", LoginController, only: [:index, :create], as: :login
-        resources "/login/forgot-password/:login_token", ForgotPasswordController, only: [:index]
-        resources "/login/:login_token", LoginController, only: [:index]
+        pipe_through(:browser)
+        pipe_through(:guest_only)
+
+        resources("/signup", SignupController,
+          only: [:index, :create],
+          as: :signup
+        )
+
+        resources("/signup/invitation/:invite", SignupController,
+          only: [:index, :create],
+          as: :invite
+        )
+
+        resources("/signup/email/confirm", ConfirmEmailController, only: [:index, :create, :show])
+
+        resources("/signup/email/confirm/:id", ConfirmEmailController, only: [:show])
+
+        resources("/login", LoginController, only: [:index, :create], as: :login)
+
+        resources(
+          "/login/forgot-password/:login_token",
+          ForgotPasswordController,
+          only: [:index]
+        )
+
+        resources("/login/:login_token", LoginController, only: [:index])
       end
 
       scope "/", Bonfire do
-        pipe_through :browser
-        pipe_through :account_required
+        pipe_through(:browser)
+        pipe_through(:account_required)
 
-        live "/settings/extensions/diff", UI.Common.ExtensionDiffLive
-
+        live("/settings/extensions/diff", UI.Common.ExtensionDiffLive)
       end
 
       # pages you need an account to view
       scope "/", Bonfire.UI.Me do
-        pipe_through :browser
-        pipe_through :account_required
+        pipe_through(:browser)
+        pipe_through(:account_required)
 
         # live "/dashboard", LoggedDashboardLive, as: :dashboard
 
-        resources "/switch-user", SwitchUserController, only: [:index, :show], as: :switch_user
-        resources "/create-user", CreateUserController, only: [:index, :create], as: :create_user
+        resources("/switch-user", SwitchUserController,
+          only: [:index, :show],
+          as: :switch_user
+        )
+
+        resources("/create-user", CreateUserController,
+          only: [:index, :create],
+          as: :create_user
+        )
 
         # live "/account/password/change", ChangePasswordLive
-        resources "/account/password/change", ChangePasswordController, only: [:index, :create], as: :change_password
+        resources("/account/password/change", ChangePasswordController,
+          only: [:index, :create],
+          as: :change_password
+        )
 
-        live "/settings/:tab", SettingsLive
-        live "/settings/:tab/:id", SettingsLive
-        live "/settings/:tab/:id/:section", SettingsLive, as: :settings
+        live("/settings/:tab", SettingsLive)
+        live("/settings/:tab/:id", SettingsLive)
+        live("/settings/:tab/:id/:section", SettingsLive, as: :settings)
 
         # resources "/settings/account/delete", AccountDeleteController, only: [:index, :create]
 
-        resources "/logout", LogoutController, only: [:index, :create]
+        resources("/logout", LogoutController, only: [:index, :create])
       end
 
       # pages you need to view as a user
       scope "/", Bonfire.UI.Me do
-        pipe_through :browser
-        pipe_through :user_required
+        pipe_through(:browser)
+        pipe_through(:user_required)
 
-        live "/user", ProfileLive, as: :user_profile
-        live "/settings", SettingsLive
+        live("/user", ProfileLive, as: :user_profile)
+        live("/settings", SettingsLive)
 
-        live "/user/circles", CirclesLive
+        live("/user/circles", CirclesLive)
 
         # resources "/settings/user/delete", UserDeleteController, only: [:index, :create]
       end
 
       # pages only admins can view
       scope "/", Bonfire.UI.Me do
-        pipe_through :browser
-        pipe_through :admin_required
+        pipe_through(:browser)
+        pipe_through(:admin_required)
 
-        live "/settings/", SettingsLive, as: :admin_settings
+        live("/settings/", SettingsLive, as: :admin_settings)
       end
-
     end
   end
 end

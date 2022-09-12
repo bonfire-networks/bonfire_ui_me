@@ -1,11 +1,11 @@
 defmodule Bonfire.UI.Me.ProfileTest do
   use Bonfire.UI.Me.ConnCase, async: true
   # alias Bonfire.Social.Fake
-  alias Bonfire.Social.{Follows}
+  alias Bonfire.Social.Follows
+
   import Phoenix.LiveViewTest
 
   describe "Profile: Check if the profile hero section displays all the information correctly " do
-
     test "As a user I want to see the user background image" do
     end
 
@@ -50,11 +50,9 @@ defmodule Bonfire.UI.Me.ProfileTest do
 
     test "If I click to unfollow, I want to see the button label changing from unfollow to follow" do
     end
-
   end
 
   describe "Profile: Navigation" do
-
     test "As a user, when I navigate to a user profile, I should see the timeline tab as the active default" do
     end
 
@@ -69,7 +67,5 @@ defmodule Bonfire.UI.Me.ProfileTest do
 
     test "As a user when I navigate to a user profile, If I click on liked link, I should see only user liked activities" do
     end
-
   end
-
 end

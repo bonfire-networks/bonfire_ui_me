@@ -1,41 +1,47 @@
 <div class="pb-1 space-y-6 sm:space-y-5">
+  {#if Bonfire.Me.Users.is_admin?(@current_user) ||
+      Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
+    <form name="settings" phx-submit="Bonfire.Me.Settings:save">
+      <input name="scope" value={:instance} type="hidden">
 
-{#if Bonfire.Me.Users.is_admin?(@current_user) || Bonfire.Boundaries.can?(@__context__, :configure, :instance) }
+      <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
+        <label for="conduct" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
+          {l("Terms of Use")} / <br>
+          {l("Code of Conduct")}
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <textarea
+            id="conduct"
+            name="terms[conduct]"
+            rows="10"
+            class="w-full h-50 textarea textarea-bordered"
+          >{Bonfire.Me.Settings.get([:bonfire, :terms, :conduct], "")}</textarea>
+        </div>
+      </div>
 
-<form name="settings" phx-submit="Bonfire.Me.Settings:save">
-  <input name="scope" value={:instance} type="hidden" />
-  
-  <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
-    <label for="conduct" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
-      {l "Terms of Use"} / <br/>
-      {l "Code of Conduct"}
-    </label>
-    <div class="mt-1 sm:mt-0 sm:col-span-2">
-      <textarea id="conduct" name="terms[conduct]" rows="10" class="w-full h-50 textarea textarea-bordered">{Bonfire.Me.Settings.get([:bonfire, :terms, :conduct], "")}</textarea>
-    </div>
-  </div>
+      <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
+        <label for="privacy" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
+          {l("Privacy Policy")}
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <textarea
+            id="privacy"
+            name="terms[privacy]"
+            rows="10"
+            class="w-full h-50 textarea textarea-bordered"
+          >{Bonfire.Me.Settings.get([:bonfire, :terms, :privacy], "")}</textarea>
+        </div>
+      </div>
 
-  <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
-    <label for="privacy" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
-      {l "Privacy Policy"}
-    </label>
-    <div class="mt-1 sm:mt-0 sm:col-span-2">
-      <textarea id="privacy" name="terms[privacy]" rows="10" class="w-full h-50 textarea textarea-bordered">{Bonfire.Me.Settings.get([:bonfire, :terms, :privacy], "")}</textarea>
-    </div>
-  </div>
+      <div class="mt-8">
+        <button type="submit" class="w-full btn btn-primary">
+          {l("Save")}
+        </button>
+      </div>
 
-  <div class="mt-8">
-    <button type="submit" class="w-full btn btn-primary">
-      {l "Save"}
-    </button>
-  </div>
-
-  <p class="m-4 text-sm">Protip: instead of text you can paste the URL of a remote markdown-formated document, and its contents will be pulled in.</p>
-
-</form>
-
-{#else}
-  {l "You don't have permission to configure the instance, sorry!"}
-{/if}
-
+      <p class="m-4 text-sm">Protip: instead of text you can paste the URL of a remote markdown-formated document, and its contents will be pulled in.</p>
+    </form>
+  {#else}
+    {l("You don't have permission to configure the instance, sorry!")}
+  {/if}
 </div>

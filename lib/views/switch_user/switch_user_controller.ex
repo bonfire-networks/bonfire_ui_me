@@ -5,30 +5,30 @@ defmodule Bonfire.UI.Me.SwitchUserController do
   alias Bonfire.UI.Me.SwitchUserLive
 
   @doc "A listing of users in the account."
-  def index(%{assigns: the}=conn, params) do
+  def index(%{assigns: the} = conn, params) do
     conn = fetch_query_params(conn)
     index(the[:current_account_users], the[:current_account], conn, params)
   end
 
   defp index([], _, conn, params) do
     conn
-    |> assign_flash(:info, l "Hey there! Let's fill out your profile!")
+    |> assign_flash(:info, l("Hey there! Let's fill out your profile!"))
     |> redirect(to: path(:create_user) <> copy_go(params))
   end
 
-  defp index([_|_]=users, _, conn, _params) do
+  defp index([_ | _] = users, _, conn, _params) do
     conn
     |> assign(:current_account_users, users)
     |> assign(:go, go_query(conn))
     |> live_render(SwitchUserLive)
   end
 
-  defp index(nil, %Account{}=account, conn, params),
+  defp index(nil, %Account{} = account, conn, params),
     do: index(Users.by_account(account), account, conn, params)
 
   defp index(nil, _account, _conn, _params) do
     error("[SwitchUserController.index] Missing :current_account")
-    throw :missing_current_account
+    throw(:missing_current_account)
   end
 
   @doc "Switch to a user, if permitted."
@@ -46,20 +46,24 @@ defmodule Bonfire.UI.Me.SwitchUserController do
 
   defp show(error, conn, params) do
     error(error, "Wrong user, or was blocked by admin")
+
     conn
-    |> assign_flash(:error, l "You can only identify as valid users in your account.")
+    |> assign_flash(
+      :error,
+      l("You can only identify as valid users in your account.")
+    )
     |> redirect(to: path(:switch_user) <> copy_go(params))
   end
 
   defp greet(%{profile: %{name: name}}) when is_binary(name) do
     name
   end
+
   defp greet(%{character: %{username: username}}) when is_binary(username) do
     "@#{username}"
   end
+
   defp greet(_) do
     "stranger"
   end
-
-
 end

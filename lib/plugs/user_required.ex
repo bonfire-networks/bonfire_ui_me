@@ -1,11 +1,11 @@
 defmodule Bonfire.UI.Me.Plugs.UserRequired do
-
   use Bonfire.UI.Common.Web, :plug
-  alias Bonfire.Data.Identity.{Account, User}
+  alias Bonfire.Data.Identity.Account
+  alias Bonfire.Data.Identity.User
 
   def init(opts), do: opts
 
-  def call(%{assigns: the}=conn, _opts) do
+  def call(%{assigns: the} = conn, _opts) do
     check(the[:current_user], the[:current_account], conn)
   end
 
@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.Plugs.UserRequired do
 
   defp check(_user, %Account{}, conn) do
     conn
-    |> assign_flash(:info, l "You need to choose a user to see that page.")
+    |> assign_flash(:info, l("You need to choose a user to see that page."))
     |> set_go_after()
     |> redirect(to: path(:switch_user))
     |> halt()
@@ -22,10 +22,9 @@ defmodule Bonfire.UI.Me.Plugs.UserRequired do
   defp check(_user, _account, conn) do
     conn
     |> clear_session()
-    |> assign_flash(:info, l "You need to log in to see that page.")
+    |> assign_flash(:info, l("You need to log in to see that page."))
     |> set_go_after()
     |> redirect(to: path(:login))
     |> halt()
   end
-
 end

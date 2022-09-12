@@ -1,8 +1,5 @@
 <div class="w-full" id="create_user">
   <Bonfire.UI.Common.LogoGuestLive />
 
-  <Bonfire.UI.Me.CreateUserViewLive
-    form={@form}
-    error={@error}
-  />
+  <Bonfire.UI.Me.CreateUserViewLive form={@form} error={@error} />
 </div>

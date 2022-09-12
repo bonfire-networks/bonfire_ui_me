@@ -16,5 +16,4 @@ defmodule Bonfire.UI.Me.Boundaries.InstanceWideGhostActorTest do
     assert [err] = find_flash(doc)
     assert_flash_kind(err, :error)
   end
-
 end

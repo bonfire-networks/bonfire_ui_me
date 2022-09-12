@@ -8,26 +8,32 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     conn = conn(user: user, account: account)
 
     next = "/settings/user"
-    {view, doc} = floki_live(conn, next) #|> IO.inspect
+    # |> IO.inspect
+    {view, doc} = floki_live(conn, next)
 
     [style] = Floki.attribute(doc, "[data-id='preview_icon']", "style")
-    assert style =~ "/images/avatar.png" # has placeholder avatar
+    # has placeholder avatar
+    assert style =~ "/images/avatar.png"
 
     file = Path.expand("../fixtures/icon.png", __DIR__)
 
-    icon = file_input(view, "[data-id='upload_icon']", :icon, [%{
-      last_modified: 1_594_171_879_000,
-      name: "icon.png",
-      content: File.read!(file),
-      type: "image/png"
-    }])
+    icon =
+      file_input(view, "[data-id='upload_icon']", :icon, [
+        %{
+          last_modified: 1_594_171_879_000,
+          name: "icon.png",
+          content: File.read!(file),
+          type: "image/png"
+        }
+      ])
 
     uploaded = render_upload(icon, "icon.png")
 
-    [done] = uploaded
-    |> Floki.attribute("[data-id='preview_icon']", "style")
+    [done] = Floki.attribute(uploaded, "[data-id='preview_icon']", "style")
+
     # |> debug
-    assert done =~ "background-image: url('/data/uploads/" # now has uploaded image
+    # now has uploaded image
+    assert done =~ "background-image: url('/data/uploads/"
 
     # TODO check if filesizes match?
     # File.stat!(file).size |> debug()
@@ -39,27 +45,30 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     conn = conn(user: user, account: account)
 
     next = "/settings/user"
-    {view, doc} = floki_live(conn, next) #|> IO.inspect
+    # |> IO.inspect
+    {view, doc} = floki_live(conn, next)
 
     [style] = Floki.attribute(doc, "[data-id='upload_image']", "style")
     refute style =~ "background-image: url('/data/uploads/"
 
     file = Path.expand("../fixtures/icon.png", __DIR__)
 
-    icon = file_input(view, "[data-id='upload_image']", :image, [%{
-      last_modified: 1_594_171_879_000,
-      name: "image.png",
-      content: File.read!(file),
-      type: "image/png"
-    }])
+    icon =
+      file_input(view, "[data-id='upload_image']", :image, [
+        %{
+          last_modified: 1_594_171_879_000,
+          name: "image.png",
+          content: File.read!(file),
+          type: "image/png"
+        }
+      ])
 
     uploaded = render_upload(icon, "image.png")
 
-    [done] = uploaded
-    |> Floki.attribute("[data-id='upload_image']", "style")
+    [done] = Floki.attribute(uploaded, "[data-id='upload_image']", "style")
+
     # |> debug
-    assert done =~ "background-image: url('/data/uploads/" # now has uploaded image
-
+    # now has uploaded image
+    assert done =~ "background-image: url('/data/uploads/"
   end
-
 end

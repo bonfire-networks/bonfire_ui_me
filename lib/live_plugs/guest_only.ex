@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.Plugs.GuestOnly do
-
   use Bonfire.UI.Common.Web, :plug
 
   def init(opts), do: opts
@@ -20,9 +19,8 @@ defmodule Bonfire.UI.Me.Plugs.GuestOnly do
   defp maybe_error(%{request_path: "/login"} = conn) do
     conn
   end
-  defp maybe_error(conn) do
-    conn
-    |> assign_flash(:error, "That page is only accessible to guests.")
-  end
 
+  defp maybe_error(conn) do
+    assign_flash(conn, :error, "That page is only accessible to guests.")
+  end
 end

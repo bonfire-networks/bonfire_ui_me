@@ -6,5 +6,4 @@ defmodule Bonfire.UI.Me.UserPreviewLive do
   prop user, :map
   prop path_prefix, :string, default: "/@"
   prop go, :string, default: nil
-
 end

@@ -19,29 +19,36 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
 
   defp mounted(_params, _session, socket) do
     current_user = current_user(socket)
-    show_to = Bonfire.Me.Settings.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users)
+
+    show_to =
+      Bonfire.Me.Settings.get(
+        [Bonfire.UI.Me.UsersDirectoryLive, :show_to],
+        :users
+      )
 
     if show_to || is_admin?(current_user) do
-      if show_to==:guests or current_user(socket) || current_account(socket) do
-
+      if show_to == :guests or current_user(socket) || current_account(socket) do
         users = Bonfire.Me.Users.list(current_user)
 
         count = Bonfire.Me.Users.maybe_count()
 
         {:ok,
-          socket
-          |> assign(
-            page_title: ( if count, do: l("Users directory (%{total})", total: count), else: l("Users directory") ),
-            page: "users",
-            search_placeholder: "Search users",
-            users: users
-          )}
+         assign(
+           socket,
+           page_title:
+             if(count,
+               do: l("Users directory (%{total})", total: count),
+               else: l("Users directory")
+             ),
+           page: "users",
+           search_placeholder: "Search users",
+           users: users
+         )}
       else
-        error(l "You need to log in before browsing the user directory")
+        error(l("You need to log in before browsing the user directory"))
       end
     else
-      error(l "The user directory is disabled on this instance")
+      error(l("The user directory is disabled on this instance"))
     end
   end
-
 end

@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.LoginController do
-
   use Bonfire.UI.Common.Web, :controller
   alias Bonfire.Me.Accounts
   # alias Bonfire.Me.Users
@@ -7,7 +6,8 @@ defmodule Bonfire.UI.Me.LoginController do
   # alias Bonfire.Common.Utils
   import Untangle
 
-  def index(conn, _) do # GET only supports 'go'
+  # GET only supports 'go'
+  def index(conn, _) do
     conn = fetch_query_params(conn)
     paint(conn, form_cs(Map.take(conn.query_params, [:go, "go"])))
   end
@@ -16,8 +16,12 @@ defmodule Bonfire.UI.Me.LoginController do
     params = Map.get(form, "login_fields", form)
     # cs = Accounts.changeset(:login, params)
     case Accounts.login(params) do
-      {:ok, account, user} -> logged_in(account, user, conn, form)
-      {:error, changeset} -> paint(conn, changeset)
+      {:ok, account, user} ->
+        logged_in(account, user, conn, form)
+
+      {:error, changeset} ->
+        paint(conn, changeset)
+
       other ->
         error(other, "LoginController: unhandled error")
         paint(conn, Accounts.changeset(:login, params))
@@ -30,10 +34,10 @@ defmodule Bonfire.UI.Me.LoginController do
   # account, so we must show them the user switcher.
   defp logged_in(account, nil, conn, form) do
     conn
-      |> put_session(:account_id, account.id)
-      |> put_session(:user_id, nil)
-      |> assign_flash(:info, l "Welcome back!")
-      |> redirect(to: path(:switch_user) <> copy_go(form))
+    |> put_session(:account_id, account.id)
+    |> put_session(:user_id, nil)
+    |> assign_flash(:info, l("Welcome back!"))
+    |> redirect(to: path(:switch_user) <> copy_go(form))
   end
 
   # the user logged in via username, or they logged in via email and
@@ -44,7 +48,12 @@ defmodule Bonfire.UI.Me.LoginController do
     conn
     |> put_session(:account_id, account.id)
     |> put_session(:user_id, user.id)
-    |> assign_flash(:info, l("Welcome back, %{name}!", name: e(user, :profile, :name, e(user, :character, :username, "anonymous"))))
+    |> assign_flash(
+      :info,
+      l("Welcome back, %{name}!",
+        name: e(user, :profile, :name, e(user, :character, :username, "anonymous"))
+      )
+    )
     |> redirect_to_previous_go(form, path(:feed), "/login")
   end
 
@@ -53,5 +62,4 @@ defmodule Bonfire.UI.Me.LoginController do
     |> assign(:form, changeset)
     |> live_render(LoginLive)
   end
-
 end

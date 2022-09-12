@@ -1,11 +1,9 @@
 defmodule Bonfire.UI.Me.SwitchUserController.Test do
-
   use Bonfire.UI.Me.ConnCase, async: true
   alias Bonfire.Me.Fake
   alias Bonfire.Common.Repo
 
   describe "index" do
-
     test "not logged in" do
       conn = conn()
       conn = get(conn, "/switch-user")
@@ -30,11 +28,9 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       assert Floki.text(a) =~ "@#{alice.character.username}"
       assert Floki.text(b) =~ "@#{bob.character.username}"
     end
-
   end
 
   describe "show" do
-
     test "not logged in" do
       conn = conn()
       conn = get(conn, "/switch-user/#{username()}")
@@ -49,7 +45,7 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       assert redirected_to(conn) == "/switch-user"
       conn = get(recycle(conn), "/switch-user")
       doc = floki_response(conn)
-      # |> dump
+      # |> debug
       assert [err] = find_flash(doc)
       assert_flash_kind(err, :error)
     end
@@ -70,9 +66,11 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
 
     test "success" do
       account = fake_account!()
+
       user =
         fake_user!(account, %{profile: %{name: "tester"}})
         |> Repo.preload([:character, :profile])
+
       conn = conn(account: account)
       conn = get(conn, "/switch-user/#{user.character.username}")
       next = redirected_to(conn)
@@ -83,7 +81,5 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       assert [err] = find_flash(doc)
       assert_flash(err, :info, "Welcome back, tester!")
     end
-
   end
-
 end

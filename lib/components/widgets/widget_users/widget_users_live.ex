@@ -7,16 +7,16 @@ defmodule Bonfire.UI.Me.WidgetUsersLive do
   def users(users) when is_list(users) do
     users
   end
+
   def users(%{edges: users}) when is_list(users) do
     users
   end
+
   def users(_) do
     list_admins()
   end
 
   def list_admins() do
-    Bonfire.Me.Users.list_admins()
-    |> Bonfire.Common.Repo.maybe_preload([:character, profile: :icon])
+    Bonfire.Common.Repo.maybe_preload(Bonfire.Me.Users.list_admins(), [:character, profile: :icon])
   end
-
 end

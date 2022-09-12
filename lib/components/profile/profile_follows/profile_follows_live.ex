@@ -5,5 +5,4 @@ defmodule Bonfire.UI.Social.ProfileFollowsLive do
   prop selected_tab, :string
   prop feed, :list
   prop page_info, :any
-
 end

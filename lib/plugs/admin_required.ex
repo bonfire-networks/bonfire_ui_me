@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.Plugs.AdminRequired do
-
   use Bonfire.UI.Common.Web, :plug
   # alias Bonfire.Data.Identity.User
 
@@ -11,7 +10,7 @@ defmodule Bonfire.UI.Me.Plugs.AdminRequired do
     if e(user, :instance_admin, :is_instance_admin, nil) == true do
       conn
     else
-      e = l "That page is only accessible to instance administrators."
+      e = l("That page is only accessible to instance administrators.")
       # debug(e)
       conn
       |> clear_session()
@@ -20,5 +19,4 @@ defmodule Bonfire.UI.Me.Plugs.AdminRequired do
       |> halt()
     end
   end
-
 end

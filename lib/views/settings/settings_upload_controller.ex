@@ -24,10 +24,8 @@ defmodule Bonfire.UI.Me.My.SettingsUpload do
     # maybe_upload(params["profile"]["icon"], "icon")
     # maybe_upload(params["profile"]["image"], "image")
 
-    {:ok, _edit_profile} =
-      Bonfire.Me.Users.update(current_user, attrs)
+    {:ok, _edit_profile} = Bonfire.Me.Users.update(current_user, attrs)
 
-    conn
-    |> redirect(external: "/user")
+    redirect(conn, external: "/user")
   end
 end

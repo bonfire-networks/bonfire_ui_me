@@ -1,5 +1,3 @@
-
-
 defmodule Bonfire.UI.Me.LocaleTest do
   use Bonfire.UI.Me.ConnCase, async: true
   # alias Bonfire.Social.Fake
@@ -11,7 +9,10 @@ defmodule Bonfire.UI.Me.LocaleTest do
   @tag :fixme
   test "locale is detected from accept header" do
     conn()
-    |> Conn.put_req_header("accept-language", "es_MX, es, en-gb;q=0.8, en;q=0.7")
+    |> Conn.put_req_header(
+      "accept-language",
+      "es_MX, es, en-gb;q=0.8, en;q=0.7"
+    )
     |> SetLocale.call(Localise.set_locale_config())
 
     assert "es-MX" == Localise.get_locale().canonical_locale_name
@@ -45,5 +46,4 @@ defmodule Bonfire.UI.Me.LocaleTest do
 
     assert "es" == Localise.get_locale()
   end
-
 end

@@ -1,23 +1,20 @@
-<main
-  data-id="profile"
-  data-user-id={e(@user, :id, "")}
-  class="md:flex md:mx-0">
+<main data-id="profile" data-user-id={e(@user, :id, "")} class="md:flex md:mx-0">
   <section class="flex flex-col w-full mx-auto space-y-3">
-
     <Dynamic.Component
       module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
       {...assigns}
-      >
+    >
       <:header>
-        <Dynamic.Component 
-          module={Config.get([:ui, :profile, :hero_component], 
-          Bonfire.UI.Me.ProfileHeroFullLive)} 
-          user={@user} 
+        <Dynamic.Component
+          module={Config.get(
+            [:ui, :profile, :hero_component],
+            Bonfire.UI.Me.ProfileHeroFullLive
+          )}
+          user={@user}
           selected_tab={@selected_tab}
-          follows_me={e(@follows_me, false)} 
+          follows_me={e(@follows_me, false)}
         />
       </:header>
     </Dynamic.Component>
-  
   </section>
 </main>

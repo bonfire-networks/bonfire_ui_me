@@ -3,7 +3,7 @@ defmodule Bonfire.UI.Me.SwitchUserLive do
   alias Bonfire.UI.Me.LivePlugs
 
   def mount(params, session, socket) do
-    live_plug params, session, socket, [
+    live_plug(params, session, socket, [
       LivePlugs.LoadCurrentAccount,
       # LivePlugs.LoadCurrentUser,
       LivePlugs.AccountRequired,
@@ -11,16 +11,17 @@ defmodule Bonfire.UI.Me.SwitchUserLive do
       Bonfire.UI.Common.LivePlugs.StaticChanged,
       Bonfire.UI.Common.LivePlugs.Csrf,
       Bonfire.UI.Common.LivePlugs.Locale,
-      &mounted/3,
-    ]
+      &mounted/3
+    ])
   end
 
-  defp mounted(_, _, socket), do: {:ok,
-    assign(
-      socket,
-      current_user: nil,
-      go: Map.get(socket.assigns, :go, ""),
-      page_title: l "Switch user profile"),
-  }
-
+  defp mounted(_, _, socket),
+    do:
+      {:ok,
+       assign(
+         socket,
+         current_user: nil,
+         go: Map.get(socket.assigns, :go, ""),
+         page_title: l("Switch user profile")
+       )}
 end

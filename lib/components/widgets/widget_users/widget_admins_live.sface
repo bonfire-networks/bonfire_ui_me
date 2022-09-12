@@ -1,5 +1,4 @@
-<Bonfire.UI.Me.WidgetUsersLive 
+<Bonfire.UI.Me.WidgetUsersLive
   :if={@current_user || Settings.get([Bonfire.UI.Me.WidgetAdminsLive, :show_guests], true, @__context__)}
-  widget_title={e(@widget_title, l "Admins")}
-  
+  widget_title={e(@widget_title, l("Admins"))}
 />

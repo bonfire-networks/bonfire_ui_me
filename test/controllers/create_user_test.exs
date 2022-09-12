@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.CreateUserController.Test do
-
   use Bonfire.UI.Me.ConnCase, async: true
 
   test "form renders" do
@@ -16,7 +15,6 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
   end
 
   describe "required fields" do
-
     test "missing all" do
       alice = fake_account!()
       conn = conn(account: alice)
@@ -26,10 +24,12 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       assert Floki.text(view) =~ "error occurred"
       assert [form] = Floki.find(doc, "#create-form")
       assert [_] = Floki.find(form, "#create-form_character_username")
+
       # assert_field_error(form, "create-form_character_username", ~r/can't be blank/)
       assert [_] = Floki.find(form, "#create-form_profile_name")
       # assert_field_error(form, "create-form_profile_name", ~r/can't be blank/)
       assert [_] = Floki.find(form, "#create-form_profile_summary")
+
       # assert_field_error(form, "create-form_profile_summary", ~r/can't be blank/)
       assert [_] = Floki.find(form, "button[type='submit']")
     end
@@ -37,27 +37,38 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     test "with name" do
       alice = fake_account!()
       conn = conn(account: alice)
-      conn = post(conn, "/create-user", %{"user" => %{"profile" => %{"name" => name()}}})
+
+      conn =
+        post(conn, "/create-user", %{
+          "user" => %{"profile" => %{"name" => name()}}
+        })
+
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
       assert Floki.text(view) =~ "error occurred"
       assert [form] = Floki.find(doc, "#create-form")
       assert_field_good(form, "create-form_profile_name")
+
       # assert_field_error(form, "create-form_character_username", ~r/can't be blank/)
       # assert_field_error(form, "create-form_profile_summary", ~r/can't be blank/)
       assert [_] = Floki.find(form, "button[type='submit']")
     end
 
-
     test "with summary" do
       alice = fake_account!()
       conn = conn(account: alice)
-      conn = post(conn, "/create-user", %{"user" => %{"profile" => %{"summary" => summary()}}})
+
+      conn =
+        post(conn, "/create-user", %{
+          "user" => %{"profile" => %{"summary" => summary()}}
+        })
+
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
       assert Floki.text(view) =~ "error occurred"
       assert [form] = Floki.find(doc, "#create-form")
       assert_field_good(form, "create-form_profile_summary")
+
       # assert_field_error(form, "create-form_character_username", ~r/can't be blank/)
       # assert_field_error(form, "create-form_profile_name", ~r/can't be blank/)
       assert [_] = Floki.find(form, "button[type='submit']")
@@ -66,13 +77,19 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     test "missing username" do
       alice = fake_account!()
       conn = conn(account: alice)
-      conn = post(conn, "/create-user", %{"user" => %{"profile" => %{"summary" => summary(), "name" => name()}}})
+
+      conn =
+        post(conn, "/create-user", %{
+          "user" => %{"profile" => %{"summary" => summary(), "name" => name()}}
+        })
+
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
       assert Floki.text(view) =~ "error occurred"
       assert [form] = Floki.find(doc, "#create-form")
       assert_field_good(form, "create-form_profile_summary")
       assert_field_good(form, "create-form_profile_name")
+
       # assert_field_error(form, "create-form_character_username", ~r/can't be blank/)
       assert [_] = Floki.find(form, "button[type='submit']")
     end
@@ -80,7 +97,15 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     test "missing name" do
       alice = fake_account!()
       conn = conn(account: alice)
-      conn = post(conn, "/create-user", %{"user" => %{"profile" => %{"summary" => summary()}, "character" => %{"username" => username()}}})
+
+      conn =
+        post(conn, "/create-user", %{
+          "user" => %{
+            "profile" => %{"summary" => summary()},
+            "character" => %{"username" => username()}
+          }
+        })
+
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
       assert Floki.text(view) =~ "error occurred"
@@ -90,15 +115,20 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       # assert_field_error(form, "create-form_profile_name", ~r/can't be blank/)
       assert [_] = Floki.find(form, "button[type='submit']")
     end
-
-
   end
 
   test "username taken" do
     alice = fake_account!()
     user = fake_user!(alice)
     conn = conn(account: alice)
-    params = %{"user" => %{"profile" => %{"summary" => summary(), "name" => name()}, "character" => %{"username" => user.character.username}}}
+
+    params = %{
+      "user" => %{
+        "profile" => %{"summary" => summary(), "name" => name()},
+        "character" => %{"username" => user.character.username}
+      }
+    }
+
     conn = post(conn, "/create-user", params)
     doc = floki_response(conn)
     assert [view] = Floki.find(doc, "#create_user")
@@ -106,6 +136,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert [form] = Floki.find(doc, "#create-form")
     assert_field_good(form, "create-form_profile_summary")
     assert_field_good(form, "create-form_profile_name")
+
     # assert_field_error(form, "create-form_character_username", ~r/has already been taken/)
     assert [_] = Floki.find(form, "button[type='submit']")
   end
@@ -114,7 +145,14 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     alice = fake_account!()
     conn = conn(account: alice)
     username = username()
-    params = %{"user" => %{"profile" => %{"summary" => summary(), "name" => name()}, "character" => %{"username" => username}}}
+
+    params = %{
+      "user" => %{
+        "profile" => %{"summary" => summary(), "name" => name()},
+        "character" => %{"username" => username}
+      }
+    }
+
     conn = post(conn, "/create-user", params)
     assert redirected_to(conn) == "/feed"
     conn = get(recycle(conn), "/feed")
@@ -122,5 +160,4 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert [ok] = find_flash(doc)
     assert_flash(ok, :info, ~r/nice/)
   end
-
 end

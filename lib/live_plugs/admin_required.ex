@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.LivePlugs.AdminRequired do
-
   use Bonfire.UI.Common.Web, :live_plug
   # alias Bonfire.Data.Identity.User
 
@@ -10,10 +9,12 @@ defmodule Bonfire.UI.Me.LivePlugs.AdminRequired do
       {:ok, socket}
     else
       {:halt,
-      socket
-      |> assign_flash(:error, l "That page is only accessible to instance administrators.")
-      |> redirect_to(path(:login))}
+       socket
+       |> assign_flash(
+         :error,
+         l("That page is only accessible to instance administrators.")
+       )
+       |> redirect_to(path(:login))}
     end
   end
-
 end

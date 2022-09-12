@@ -6,8 +6,8 @@ defmodule Bonfire.UI.Me.ConfirmEmailLive do
     # debug(session)
     {:ok,
      socket
-     |> assign(:without_sidebar,  true)
-     |> assign(:error,  session["error"])
+     |> assign(:without_sidebar, true)
+     |> assign(:error, session["error"])
      |> assign(:requested, session["requested"])
      |> assign_new(:current_account, fn -> nil end)
      |> assign_new(:current_user, fn -> nil end)
@@ -15,5 +15,4 @@ defmodule Bonfire.UI.Me.ConfirmEmailLive do
   end
 
   defp form_cs(), do: Accounts.changeset(:confirm_email, %{})
-
 end

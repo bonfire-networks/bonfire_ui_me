@@ -1,5 +1,6 @@
 defmodule Bonfire.UI.Me.ProfileTest do
-  use Bonfire.UI.Me.ConnCase, async: false # not async to try to avoid this error in CI: (Postgrex.Error) ERROR 57014 (query_canceled) canceling statement due to user request
+  # not async to try to avoid this error in CI: (Postgrex.Error) ERROR 57014 (query_canceled) canceling statement due to user request
+  use Bonfire.UI.Me.ConnCase, async: false
 
   import Phoenix.LiveViewTest
   alias Bonfire.Social.Follows
@@ -26,5 +27,4 @@ defmodule Bonfire.UI.Me.ProfileTest do
     # Then I should not see the visual feedback in their profile
     refute html =~ "Follows you"
   end
-
 end

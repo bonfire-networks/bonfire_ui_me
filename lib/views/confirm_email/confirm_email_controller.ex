@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.ConfirmEmailController do
-
   use Bonfire.UI.Common.Web, :controller
   alias Bonfire.Me.Accounts
   alias Bonfire.UI.Me.ConfirmEmailLive
@@ -10,10 +9,13 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
     case Accounts.confirm_email(token) do
       {:ok, account} ->
         confirmed(conn, account)
+
       {:error, "already_confirmed", _} ->
         already_confirmed(conn)
+
       {:error, :expired, _} ->
         show_error(conn, :expired_link)
+
       _ ->
         show_error(conn, :not_found)
     end
@@ -21,17 +23,21 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
 
   def create(conn, params) do
     form = Map.get(params, "confirm_email_fields", %{})
+
     case Accounts.request_confirm_email(form_cs(form)) do
       {:ok, _, _} ->
         conn
         |> put_session(:requested, true)
         |> live_render(ConfirmEmailLive)
+
       {:error, "already_confirmed"} ->
         already_confirmed(conn)
+
       {:error, :not_found} ->
         conn
         |> assign(:error, :not_found)
         |> live_render(ConfirmEmailLive)
+
       {:error, changeset} ->
         conn
         |> assign(:form, changeset)
@@ -44,20 +50,29 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
   defp confirmed(conn, account) do
     conn
     |> put_session(:account_id, account.id)
-    |> assign_flash(:info, l "Welcome back! Thanks for confirming your email address. You can now create a user profile.")
+    |> assign_flash(
+      :info,
+      l(
+        "Welcome back! Thanks for confirming your email address. You can now create a user profile."
+      )
+    )
     |> redirect(to: path(:create_user))
   end
 
   defp already_confirmed(conn) do
     conn
-    |> assign_flash(:error, l "You've already confirmed your email address. You can log in now.")
+    |> assign_flash(
+      :error,
+      l("You've already confirmed your email address. You can log in now.")
+    )
     |> redirect(to: path(:login))
   end
 
   defp show_error(conn, text) do
     error(maybe_to_string(text))
+
     conn
-      |> put_session(:error, text)
-      |> live_render(ConfirmEmailLive)
+    |> put_session(:error, text)
+    |> live_render(ConfirmEmailLive)
   end
 end

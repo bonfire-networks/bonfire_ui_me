@@ -6,5 +6,4 @@ defmodule Bonfire.UI.Me.RemoteInteractionFormLive do
   prop interaction_type, :string, default: "follow"
 
   slot header
-
 end

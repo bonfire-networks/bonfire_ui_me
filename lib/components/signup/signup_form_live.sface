@@ -1,13 +1,9 @@
-
-
-
 <div class="p-3 w-full md:w-[460px] mx-auto rounded-md shadow bg-base-100">
-  <div class="p-3 mx-auto ">
-
+  <div class="p-3 mx-auto">
     {#case @error || e(@form, :errors, :form, nil)}
-      {#match nil }
-        <div></div>
-      {#match :taken }
+      {#match nil}
+        <div />
+      {#match :taken}
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
             <div class="flex-shrink-0">
@@ -15,12 +11,11 @@
             </div>
             <div class="ml-3">
               <h3 class="text-sm font-medium">
-                {l "This email is taken."} Did you mean to <LiveRedirect to="/login">log in</LiveRedirect>?
+                {l("This email is taken.")} Did you mean to <LiveRedirect to="/login">log in</LiveRedirect>?
               </h3>
             </div>
           </div>
         </div>
-
       {#match {error, _} when is_binary(error)}
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
@@ -28,68 +23,77 @@
               <Icon solid="Exclamation" />
             </div>
             <div class="ml-3">
-              <h3 class="text-sm font-medium ">
-                {l "An error occurred:"} {error}
+              <h3 class="text-sm font-medium">
+                {l("An error occurred:")} {error}
               </h3>
             </div>
           </div>
         </div>
-    {#match error}
+      {#match error}
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
             <div class="flex-shrink-0">
               <Icon solid="Exclamation" />
             </div>
             <div class="ml-3">
-              <h3 class="text-sm font-medium ">
-                {l "An error occurred:"} {error}
+              <h3 class="text-sm font-medium">
+                {l("An error occurred:")} {error}
               </h3>
             </div>
           </div>
         </div>
     {/case}
-      <Form for={@form} opts={[id: "signup-form"]}>
-        <Inputs for={:email}>
-          <Field name={:email_address}>
-            <label for="signup-form_email_email_address" class="label">
+    <Form for={@form} opts={[id: "signup-form"]}>
+      <Inputs for={:email}>
+        <Field name={:email_address}>
+          <label for="signup-form_email_email_address" class="label">
+            <span class="label-text">
+              {l("Email address")}
+            </span>
+          </label>
+          <EmailInput opts={placeholder: "alice@email.com"} required class="w-full input input-bordered" />
+          <ErrorTag />
+        </Field>
+      </Inputs>
+      <Inputs for={:credential}>
+        <div class="mt-3">
+          <Field name={:password}>
+            <Label class="label">
               <span class="label-text">
-                {l "Email address"}
+                {l("Choose a password")} ({l("10 characters minimum")})
               </span>
-            </label>
-            <EmailInput opts={placeholder: "alice@email.com"} required class="w-full input input-bordered" />
+            </Label>
+            <PasswordInput
+              opts={placeholder: l("Type a strong password")}
+              required
+              class="w-full input input-bordered"
+            />
             <ErrorTag />
           </Field>
-        </Inputs>
-        <Inputs for={:credential}>
-          <div class="mt-3">
-            <Field name={:password}>
-              <Label class="label">
-                <span class="label-text">
-                  {l "Choose a password"} ({l "10 characters minimum"})
-                </span>
-              </Label>
-              <PasswordInput opts={placeholder: l "Type a strong password"} required class="w-full input input-bordered" />
-              <ErrorTag />
-            </Field>
-          </div>
-          <div class="mt-3">
-            <Field name={:password_confirmation}>
-              <Label class="label">
-                <span class="label-text">
-                  {l "Confirm your password"}
-                </span>
-              </Label>
-              <PasswordInput opts={placeholder: l "Enter the same password again"} required class="w-full input input-bordered" />
-              <ErrorTag />
-            </Field>
-          </div>
-        </Inputs>
+        </div>
+        <div class="mt-3">
+          <Field name={:password_confirmation}>
+            <Label class="label">
+              <span class="label-text">
+                {l("Confirm your password")}
+              </span>
+            </Label>
+            <PasswordInput
+              opts={placeholder: l("Enter the same password again")}
+              required
+              class="w-full input input-bordered"
+            />
+            <ErrorTag />
+          </Field>
+        </div>
+      </Inputs>
 
       {#case @auth_second_factor_secret}
         {#match nil}
         {#match secret}
-         <div class="mt-5" x-data="{ active: 0 }" >
-          <div x-data="{
+          <div class="mt-5" x-data="{ active: 0 }">
+            <div
+              x-data="{
             id: 1,
             get expanded() {
                 return this.active === this.id
@@ -97,65 +101,66 @@
             set expanded(value) {
                 this.active = value ? this.id : null
             },
-          }" 
-          role="region" 
-          class="border rounded-lg border-info/80 bg-info/10">
-          <button
-            type="button"
-            x-on:click="expanded = !expanded"
-            :aria-expanded="expanded"
-            class="flex items-center justify-between w-full px-6 py-2 font-medium text-info"
-          >
-            <span class="flex items-center space-x-2">
-              <Icon outline="Key" class="w-5 h-5 text-info/40" /> 
-              <span>{l "Enable two-factor authentication (recommended)"}</span>
-            </span>
-            <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
-            <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
-          </button>
+          }"
+              role="region"
+              class="border rounded-lg border-info/80 bg-info/10"
+            >
+              <button
+                type="button"
+                x-on:click="expanded = !expanded"
+                :aria-expanded="expanded"
+                class="flex items-center justify-between w-full px-6 py-2 font-medium text-info"
+              >
+                <span class="flex items-center space-x-2">
+                  <Icon outline="Key" class="w-5 h-5 text-info/40" />
+                  <span>{l("Enable two-factor authentication (recommended)")}</span>
+                </span>
+                <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
+                <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
+              </button>
 
-          <div x-show="expanded" x-collapse>
-            <div class="px-6 pb-4">
-              <div class="prose text-info/80">
+              <div x-show="expanded" x-collapse>
+                <div class="px-6 pb-4">
+                  <div class="prose text-info/80">
+                    <p>{l(
+                        "If you have a two-factor authentication app, please enable it by scanning the QR Code with your app (or you can enter the secret below instead), and then enter the code provided by your app at the bottom."
+                      )}</p>
 
-                  <p>{l "If you have a two-factor authentication app, please enable it by scanning the QR Code with your app (or you can enter the secret below instead), and then enter the code provided by your app at the bottom."}</p>
+                    <div class="flex flex-col items-center mx-auto space-y-4 text-center qrcode">
+                      {raw(Bonfire.Me.Accounts.SecondFactors.new_qrcode(secret: secret))}
+                      <p class="mt-1 font-mono text-sm badge badge-info">{raw(Bonfire.Me.Accounts.SecondFactors.format_secret(secret))}</p>
+                    </div>
 
-                  <div class="flex flex-col items-center mx-auto space-y-4 text-center qrcode">
-                    {raw Bonfire.Me.Accounts.SecondFactors.new_qrcode(secret: secret)}
-                    <p class="mt-1 font-mono text-sm badge badge-info">{raw Bonfire.Me.Accounts.SecondFactors.format_secret(secret)}</p>
+                    <Inputs for={:auth_second_factor}>
+                      <Field name={:code}>
+                        <label for="signup-form_auth_second_factor_code" class="label">
+                          <span class="mt-3 label-text text-info/80">
+                            {l("Verification code (optional)")}
+                          </span>
+                        </label>
+                        <TextInput class="w-full bg-transparent input input-bordered" />
+                        <ErrorTag />
+                      </Field>
+                    </Inputs>
                   </div>
-
-                  <Inputs for={:auth_second_factor}>
-                    <Field name={:code}>
-                      <label for="signup-form_auth_second_factor_code" class="label">
-                        <span class="mt-3 label-text text-info/80">
-                          {l "Verification code (optional)"}
-                        </span>
-                      </label>
-                      <TextInput class="w-full bg-transparent input input-bordered" />
-                      <ErrorTag />
-                    </Field>
-                  </Inputs>
+                </div>
               </div>
-            </div>  
+            </div>
           </div>
-        </div>
-      </div>
       {/case}
 
-        
       <div class="mt-3">
         <span class="block w-full rounded-md shadow-sm">
           <button type="submit" class="flex w-full btn btn-primary place-content-center">
-            {l "Sign up"}
+            {l("Sign up")}
           </button>
         </span>
       </div>
 
       <div class="flex py-4 pb-2 mt-6 border-t border-base-content/10 place-content-center">
         <p>
-          {l "Do you already have an account?"}
-          <LiveRedirect class="link" to={path(:login, :index)}>{l "Log in"}</LiveRedirect>
+          {l("Do you already have an account?")}
+          <LiveRedirect class="link" to={path(:login, :index)}>{l("Log in")}</LiveRedirect>
         </p>
       </div>
     </Form>

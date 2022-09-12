@@ -1,10 +1,8 @@
 defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
-
   use Bonfire.UI.Me.ConnCase, async: true
   alias Bonfire.Me.Fake
 
   describe "request" do
-
     test "must be a guest" do
     end
 
@@ -26,25 +24,47 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
       assert [_] = Floki.find(form, "input[type='email']")
       assert [_] = Floki.find(form, "button[type='submit']")
       assert [] = Floki.find(doc, ".error")
-      assert [err] = Floki.find(form, "[phx-feedback-for='confirm_email_fields[email]']")
+
+      assert [err] =
+               Floki.find(
+                 form,
+                 "[phx-feedback-for='confirm_email_fields[email]']"
+               )
+
       assert "can't be blank" == Floki.text(err)
     end
 
     test "format validation" do
       conn = conn()
-      conn = post(conn, "/signup/email/confirm", %{"confirm_email_fields" => %{"email" => Faker.Pokemon.name()}})
+
+      conn =
+        post(conn, "/signup/email/confirm", %{
+          "confirm_email_fields" => %{"email" => Faker.Pokemon.name()}
+        })
+
       doc = floki_response(conn)
       assert [form] = Floki.find(doc, "#confirm-email-form")
       assert [_] = Floki.find(form, "input[type='email']")
       assert [_] = Floki.find(form, "button[type='submit']")
       assert [] = Floki.find(doc, ".error")
-      assert [err] = Floki.find(form, "[phx-feedback-for='confirm_email_fields[email]']")
+
+      assert [err] =
+               Floki.find(
+                 form,
+                 "[phx-feedback-for='confirm_email_fields[email]']"
+               )
+
       assert "has invalid format" == Floki.text(err)
     end
 
     test "not found" do
       conn = conn()
-      conn = post(conn, "/signup/email/confirm", %{"confirm_email_fields" => %{"email" => email()}})
+
+      conn =
+        post(conn, "/signup/email/confirm", %{
+          "confirm_email_fields" => %{"email" => email()}
+        })
+
       doc = floki_response(conn)
       assert [form] = Floki.find(doc, "#confirm-email-form")
       assert [_] = Floki.find(form, "input[type='email']")
@@ -64,17 +84,20 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
       assert [form] = Floki.find(doc, "#confirm-email-form")
       assert [_] = Floki.find(form, "input[type='email']")
       assert [_] = Floki.find(form, "button[type='submit']")
-      conn = post(recycle(conn), "/signup/email/confirm", %{"confirm_email_fields" => %{"email" => account.email.email_address}})
+
+      conn =
+        post(recycle(conn), "/signup/email/confirm", %{
+          "confirm_email_fields" => %{"email" => account.email.email_address}
+        })
+
       doc = floki_response(conn)
       # assert [] = Floki.find(doc, "#confirm-email-form")
       assert [conf] = Floki.find(doc, ".alert-success")
       assert Floki.text(conf) =~ ~r/emailed you/
     end
-
   end
 
   describe "confirmation" do
-
     test "must be a guest" do
       # TODO
     end
@@ -103,7 +126,13 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
       {:ok, account} = Bonfire.Me.Accounts.signup(signup_form())
       conn = get(conn, "/signup/email/confirm/#{account.email.confirm_token}")
       assert redirected_to(conn) == "/create-user"
-      conn = get(build_conn(), "/signup/email/confirm/#{account.email.confirm_token}")
+
+      conn =
+        get(
+          build_conn(),
+          "/signup/email/confirm/#{account.email.confirm_token}"
+        )
+
       doc = floki_response(conn)
       assert [form] = Floki.find(doc, "#confirm-email-form")
       assert [_] = Floki.find(form, "input[type='email']")
@@ -112,5 +141,4 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
       assert Floki.text(err) =~ ~r/invalid confirmation link/i
     end
   end
-
 end

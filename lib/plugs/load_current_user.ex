@@ -9,5 +9,4 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
   def call(conn, _opts) do
     assign(conn, :current_user, Users.get_current(get_session(conn, :user_id)))
   end
-
 end

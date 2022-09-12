@@ -1,5 +1,4 @@
 defmodule Bonfire.Me.Dashboard.Test do
-
   use Bonfire.UI.Me.ConnCase, async: true
   alias Bonfire.Me.Fake
 
@@ -34,5 +33,4 @@ defmodule Bonfire.Me.Dashboard.Test do
   #   end
 
   # end
-
 end

@@ -1,24 +1,20 @@
 <form name="settings" phx-change="Bonfire.Me.Settings:set">
-  <input name="scope" value={@scope || "user"} type="hidden" />
+  <input name="scope" value={@scope || "user"} type="hidden">
 
-  <div 
-  class="pb-2 mt-8 text-xs font-bold uppercase border-b text-base-content text-opacity-80 border-base-content border-opacity-30">{l "Discoverability"}</div>
-  
+  <div class="pb-2 mt-8 text-xs font-bold uppercase border-b text-base-content text-opacity-80 border-base-content border-opacity-30">{l("Discoverability")}</div>
+
   <div class="mt-2 form-control">
     <label class="justify-start cursor-pointer label">
-      <input 
-        name="Bonfire.Me.Users[discoverable]" 
-        value="false"
-        type="hidden" 
-      />
-      <input 
-        name="Bonfire.Me.Users[discoverable]" 
+      <input name="Bonfire.Me.Users[discoverable]" value="false" type="hidden">
+      <input
+        name="Bonfire.Me.Users[discoverable]"
         value="true"
-        type="checkbox" 
-        checked={if Bonfire.Me.Settings.get([Bonfire.Me.Users, :discoverable], true, @scope || assigns), do: "checked"} 
-        class="toggle toggle-primary" 
+        type="checkbox"
+        checked={if Bonfire.Me.Settings.get([Bonfire.Me.Users, :discoverable], true, @scope || assigns),
+          do: "checked"}
+        class="toggle toggle-primary"
       />
-      <span class="ml-2 label-text">{@label}</span> 
+      <span class="ml-2 label-text">{@label}</span>
     </label>
   </div>
 </form>

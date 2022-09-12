@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.LoginController.Test do
-
   use Bonfire.UI.Me.ConnCase, async: true
   alias Bonfire.Me.Accounts
 
@@ -14,16 +13,17 @@ defmodule Bonfire.UI.Me.LoginController.Test do
   end
 
   describe "required fields" do
-
     test "missing both" do
       conn = conn()
       conn = post(conn, "/login", %{"login_fields" => %{}})
       doc = floki_response(conn)
       assert [form] = Floki.find(doc, "#login-form")
       refute [] == Floki.find(form, "input[type='text']")
+
       # assert [email_error] = Floki.find(form, "span.invalid-feedback[phx-feedback-for='login-form_email']")
       # assert "can't be blank" == Floki.text(email_error)
       assert [_] = Floki.find(form, "input[type='password']")
+
       # assert [password_error] = Floki.find(form, "span.invalid-feedback[phx-feedback-for='login-form_password']")
       # assert "can't be blank" == Floki.text(password_error)
       assert [_] = Floki.find(form, "button[type='submit']")
@@ -32,10 +32,16 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     test "missing password" do
       conn = conn()
       email = email()
-      conn = post(conn, "/login", %{"login_fields" => %{"email_or_username" => email}})
+
+      conn =
+        post(conn, "/login", %{
+          "login_fields" => %{"email_or_username" => email}
+        })
+
       doc = floki_response(conn)
       assert [form] = Floki.find(doc, "#login-form")
       assert [_] = Floki.find(form, "input[type='password']")
+
       # assert [password_error] = Floki.find(form, "span.invalid-feedback[phx-feedback-for='login-form_password']")
       # assert "can't be blank" == Floki.text(password_error)
       assert [_] = Floki.find(form, "button[type='submit']")
@@ -44,22 +50,28 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     test "missing email" do
       conn = conn()
       password = password()
+
       conn = post(conn, "/login", %{"login_fields" => %{"password" => password}})
+
       doc = floki_response(conn)
       assert [form] = Floki.find(doc, "#login-form")
       refute [] == Floki.find(form, "input[type='text']")
+
       # assert [email_error] = Floki.find(form, "span.invalid-feedback[phx-feedback-for='login-form_email']")
       # assert "can't be blank" == Floki.text(email_error)
       assert [_] = Floki.find(form, "button[type='submit']")
     end
-
   end
 
   test "not found" do
     conn = conn()
     email = email()
     password = password()
-    params = %{"login_fields" => %{"email_or_username" => email, "password" => password}}
+
+    params = %{
+      "login_fields" => %{"email_or_username" => email, "password" => password}
+    }
+
     conn = post(conn, "/login", params)
     doc = floki_response(conn)
     assert [login] = Floki.find(doc, "#login")
@@ -72,9 +84,14 @@ defmodule Bonfire.UI.Me.LoginController.Test do
   test "not activated" do
     conn = conn()
     account = fake_account!(%{}, must_confirm?: true)
-    params = %{"login_fields" =>
-                %{"email_or_username" => account.email.email_address,
-                  "password" => account.credential.password}}
+
+    params = %{
+      "login_fields" => %{
+        "email_or_username" => account.email.email_address,
+        "password" => account.credential.password
+      }
+    }
+
     conn = post(conn, "/login", params)
     # debug(conn: conn)
     # assert redirected_to(conn) == "/switch-user"
@@ -90,15 +107,19 @@ defmodule Bonfire.UI.Me.LoginController.Test do
   end
 
   describe "success" do
-
     test "with email for an account with 1 user identity" do
       conn = conn()
       account = fake_account!()
       _user = fake_user!(account)
       {:ok, account} = Accounts.confirm_email(account)
-      params = %{"login_fields" =>
-                  %{"email_or_username" => account.email.email_address,
-                    "password" => account.credential.password}}
+
+      params = %{
+        "login_fields" => %{
+          "email_or_username" => account.email.email_address,
+          "password" => account.credential.password
+        }
+      }
+
       conn = post(conn, "/login", params)
       assert redirected_to(conn) == "/feed"
     end
@@ -109,9 +130,14 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       _user1 = fake_user!(account)
       _user2 = fake_user!(account)
       {:ok, account} = Accounts.confirm_email(account)
-      params = %{"login_fields" =>
-                  %{"email_or_username" => account.email.email_address,
-                    "password" => account.credential.password}}
+
+      params = %{
+        "login_fields" => %{
+          "email_or_username" => account.email.email_address,
+          "password" => account.credential.password
+        }
+      }
+
       conn = post(conn, "/login", params)
       assert redirected_to(conn) == "/switch-user"
     end
@@ -121,12 +147,16 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       account = fake_account!()
       user = fake_user!(account)
       {:ok, account} = Accounts.confirm_email(account)
-      params = %{"login_fields" =>
-                  %{"email_or_username" => user.character.username,
-                    "password" => account.credential.password}}
+
+      params = %{
+        "login_fields" => %{
+          "email_or_username" => user.character.username,
+          "password" => account.credential.password
+        }
+      }
+
       conn = post(conn, "/login", params)
       assert redirected_to(conn) == "/feed"
     end
-
   end
 end
