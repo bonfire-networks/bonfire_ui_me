@@ -18,7 +18,8 @@ defmodule Bonfire.UI.Me.ErrorLive do
      socket
      |> assign_new(:page, fn -> nil end)
      |> assign_new(:current_account, fn -> nil end)
-     |> assign_new(:current_user, fn -> nil end)}
+     |> assign_new(:current_user, fn -> nil end)
+     |> assign_new(:without_sidebar, fn -> true end)}
   end
 
   defdelegate handle_params(params, attrs, socket),
