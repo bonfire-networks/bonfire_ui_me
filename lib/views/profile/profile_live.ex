@@ -235,7 +235,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #     smart_input_prompt: smart_input_prompt,
   #     smart_input_text: smart_input_text,
   #     to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}],
-  #     create_activity_type: :message
+  #     create_object_type: :message
   #   )
   #   }
   # end
