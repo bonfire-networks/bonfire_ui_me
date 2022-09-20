@@ -253,8 +253,8 @@
 
 <!-- <li>
   <LivePatch 
-    to={"/settings/acl/01SETT1NGSF0R10CA11NSTANCE"}
-    class={"flex items-center border-l pl-4 -ml-px border-transparent hover:border-base-content text-base-content/70 hover:text-base-content",  "!text-primary hover:!border-current border-current font-semibold": @id == "01SETT1NGSF0R10CA11NSTANCE"}>
+    to={"/settings/acl/#{Bonfire.Boundaries.Fixtures.instance_acl}"}
+    class={"flex items-center border-l pl-4 -ml-px border-transparent hover:border-base-content text-base-content/70 hover:text-base-content",  "!text-primary hover:!border-current border-current font-semibold": @id == Bonfire.Boundaries.Fixtures.instance_acl}>
     <Icon iconify="bxs:EditLocation" class={"mr-2 w-4 h-4 text-base-content/80", "!text-primary": @selected_tab == "feed"} />
     {l "Instance Boundaries"}
   </LivePatch>

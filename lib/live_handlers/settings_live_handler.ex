@@ -22,6 +22,14 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     end
   end
 
+  def handle_event("extension:disable", %{"extension" => extension} = attrs, socket) do
+    extension_toggle(extension, true, attrs, socket)
+  end
+
+  def handle_event("extension:enable", %{"extension" => extension} = attrs, socket) do
+    extension_toggle(extension, nil, attrs, socket)
+  end
+
   # LiveHandler
   def handle_event("set_locale", %{"locale" => locale}, socket) do
     Bonfire.Common.Localise.put_locale(locale)
@@ -38,4 +46,21 @@ defmodule Bonfire.Me.Settings.LiveHandler do
   end
 
   defp maybe_assign_context(socket, _), do: socket
+
+  defp extension_toggle(extension, disabled?, attrs, socket) do
+    scope =
+      e(attrs, "scope", nil)
+      |> debug("scope")
+
+    with {:ok, settings} <-
+           Bonfire.Me.Settings.put([extension, :disabled], disabled?, scope: scope, socket: socket) do
+      {
+        :noreply,
+        socket
+        |> maybe_assign_context(settings)
+        |> assign_flash(:info, "Extension toggled :-)")
+        #  |> redirect_to(current_url(socket))
+      }
+    end
+  end
 end
