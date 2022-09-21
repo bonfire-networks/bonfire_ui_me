@@ -100,6 +100,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         page: "profile",
         page_title: title,
         feed_title: l("User timeline"),
+        without_sidebar: true,
         # the user to display
         user: user,
         canonical_url: canonical_url(user),
