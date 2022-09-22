@@ -293,7 +293,7 @@
 </li> -->
 
 <li>
-  <LivePatch to="/logout" class="normal-case rounded btn-wide btn btn-error">
+  <LiveRedirect to="/logout" class="normal-case rounded btn-wide btn btn-error">
     <Icon
       solid="Logout"
       class={"w-4 h-4 text-error-content", "!text-primary": @selected_tab == "feed"}
@@ -301,5 +301,5 @@
     <span class="text-error-content">
     {l("Logout")}
     </span>
-  </LivePatch>
+  </LiveRedirect>
 </li>
