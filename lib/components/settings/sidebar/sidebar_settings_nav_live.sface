@@ -9,7 +9,7 @@
     to="/settings/profile"
     class={
       "",
-      "active": @selected_tab == "profile"
+      active: @selected_tab == "profile"
     }
   >
     <Icon
@@ -24,7 +24,7 @@
     to="/settings/user"
     class={
       "",
-      "active": @selected_tab == "user"
+      active: @selected_tab == "user"
     }
   >
     <Icon
@@ -40,7 +40,7 @@
     to="/settings/account"
     class={
       "",
-      "active": @selected_tab == "account"
+      active: @selected_tab == "account"
     }
   >
     <Icon
@@ -77,8 +77,7 @@
     to="/settings/shared_user"
     class={
       "",
-      "active":
-        @selected_tab == "shared_user"
+      active: @selected_tab == "shared_user"
     }
   >
     <Icon
@@ -94,8 +93,7 @@
     to="/settings/extensions"
     class={
       "",
-      "active":
-        @selected_tab == "extensions"
+      active: @selected_tab == "extensions"
     }
   >
     <Icon
@@ -117,7 +115,7 @@
     to="/settings/flags"
     class={
       "",
-      "active": @selected_tab == "flags"
+      active: @selected_tab == "flags"
     }
   >
     <Icon
@@ -156,8 +154,7 @@
     to="/settings/instance_info"
     class={
       "",
-      "active":
-        @selected_tab == "instance_info"
+      active: @selected_tab == "instance_info"
     }
   >
     <Icon
@@ -174,7 +171,7 @@
     to="/settings/instance"
     class={
       "",
-      "active": @selected_tab == "instance"
+      active: @selected_tab == "instance"
     }
   >
     <Icon
@@ -199,7 +196,7 @@
     to="/settings/terms"
     class={
       "",
-      "active": @selected_tab == "terms"
+      active: @selected_tab == "terms"
     }
   >
     <Icon
@@ -218,7 +215,7 @@
     to="/settings/invites"
     class={
       "",
-      "active": @selected_tab == "invites"
+      active: @selected_tab == "invites"
     }
   >
     <Icon
@@ -299,7 +296,7 @@
       class={"w-4 h-4 text-error-content", "!text-primary": @selected_tab == "feed"}
     />
     <span class="text-error-content">
-    {l("Logout")}
+      {l("Logout")}
     </span>
   </LiveRedirect>
 </li>
