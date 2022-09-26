@@ -13,6 +13,11 @@ defmodule Bonfire.UI.Me.Routes do
         plug(Bonfire.UI.Me.Plugs.UserRequired)
       end
 
+      # an alias
+      pipeline :require_authenticated_user do
+        plug(Bonfire.UI.Me.Plugs.UserRequired)
+      end
+
       pipeline :admin_required do
         plug(Bonfire.UI.Me.Plugs.AdminRequired)
       end

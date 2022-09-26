@@ -18,7 +18,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
     {:ok, assign_global(socket, current_user: Users.get_current(user_id))}
   end
 
-  def mount(_, _params, socket) do
+  def mount(_, _, socket) do
     {:ok, assign_global(socket, current_user: nil)}
   end
 end
