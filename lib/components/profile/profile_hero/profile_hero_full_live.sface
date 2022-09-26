@@ -3,7 +3,7 @@
     class="bg-center bg-cover rounded-t-xl bg-no-repeat bg-base-200 h-[140px] md:h-[250px]"
     style={"background-image: url('#{banner_url(@user)}')"}
   />
-  <div class="flex items-center justify-between">
+  <div class="flex items-start justify-between">
     <div class="flex items-center gap-6">
       <Bonfire.UI.Common.AvatarLive
         class="inline-block object-cover w-24 h-24 ml-4 -mt-6 rounded-full tablet:-mt-6 ring-4 ring-base-100 bg-base-200 tablet:w-32 tablet:h-32 tablet:ml-6"
@@ -61,7 +61,7 @@
         </div>
       </div>
     </div>
-    <div class="flex items-center pr-2 space-x-3">
+    <div class="flex items-center pr-3 mt-3 space-x-3">
       <a
         :if={e(@user, :character, :peered, :canonical_uri, nil)}
         href={e(@user, :character, :peered, :canonical_uri, "#")}
