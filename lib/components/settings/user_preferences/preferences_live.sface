@@ -1,5 +1,6 @@
 <div class="flex flex-col p-4">
   <form name="settings" phx-change="Bonfire.Me.Settings:set">
+    <input type="hidden" name="scope" value="user">
     <div class="pb-2 mb-4 text-xs font-bold uppercase border-b text-base-content text-opacity-80 border-base-content border-opacity-30">
       {l("General user_settings")}
     </div>
@@ -9,7 +10,10 @@
           {l("Look and feel")}
         </label>
         <div class="w-full">
-          <Bonfire.UI.Common.ChangeThemeLive theme={Settings.get([:ui, :theme], "bonfire", @__context__)} />
+          <Bonfire.UI.Common.ChangeThemesLive
+            theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @__context__)}
+            theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @__context__)}
+          />
         </div>
       </div>
 

@@ -10,16 +10,10 @@
         </label>
         <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
           <div class="flex max-w-lg">
-            <input
-              type="text"
-              name="ui[theme][instance_theme]"
-              id="instance_theme"
-              value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_theme], nil, :instance)}
-              class="w-full input input-bordered"
+            <Bonfire.UI.Common.ChangeThemesLive
+              theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", :instance)}
+              theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", :instance)}
             />
-
-            <!-- <Bonfire.UI.Common.ChangeThemeLive  /> -->
-            <!-- <input type="text" name="ui[theme][instance_name]" id="instance_name" value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_name], "")} class="w-full input input-bordered"> -->
           </div>
         </div>
       </div>

@@ -1,8 +1,4 @@
 <div class="">
-  <form name="settings" phx-change="Bonfire.Me.Settings:set">
-    <input name="scope" value={:account} type="hidden">
-  </form>
-
   <div class="p-4">
     <LiveRedirect to={path(:change_password)} class="w-full normal-case btn btn-primary btn-wide">{l("Change my password")}</LiveRedirect>
 
@@ -11,4 +7,20 @@
       scope={@current_account}
     />-->
   </div>
+
+  <form name="settings" phx-change="Bonfire.Me.Settings:set">
+    <input name="scope" value={:account} type="hidden">
+
+    <div class="flex flex-col space-y-2">
+      <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
+        {l("Default look and feel")}
+      </label>
+      <div class="w-full">
+        <Bonfire.UI.Common.ChangeThemesLive
+          theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_account)}
+          theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_account)}
+        />
+      </div>
+    </div>
+  </form>
 </div>
