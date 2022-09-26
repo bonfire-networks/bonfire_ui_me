@@ -90,7 +90,7 @@
       <LiveRedirect
         :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
         to="/settings/user"
-        class="normal-case btn btn-sm btn-outline"
+        class="hidden normal-case md:flex opacity-70 btn btn-sm btn-outline"
       >
         <span class="mr-2">
           <Icon outline="Pencil" />
