@@ -1,24 +1,25 @@
 <div class="relative md:mb-6 md:rounded-md md:shadow bg-base-100">
   <div class="flex z-50 absolute left-0 right-0 top-0 items-start justify-between p-3 bg-gradient-to-b from-black to-transparent h-[80px]">
-    <a aria-label="Navigate to the previous page" href="javascript:window.history.back()" class="btn btn-ghost btn-sm btn-circle">
+    <a
+      aria-label="Navigate to the previous page"
+      href="javascript:window.history.back()"
+      class="btn btn-ghost btn-sm btn-circle"
+    >
       <Icon outline="ArrowLeft" class="w-4 h-4 text-white" />
     </a>
 
     <div class="flex items-center gap-4">
       <LiveRedirect
-          :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
-          to="/settings/user"
-          class="flex normal-case opacity-90 btn btn-sm"
-        >
-          <span class="mr-2">
-            <Icon outline="Pencil" />
-          </span>
-          {l("Edit profile")}
+        :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
+        to="/settings/user"
+        class="flex normal-case opacity-90 btn btn-sm"
+      >
+        <span class="mr-2">
+          <Icon outline="Pencil" />
+        </span>
+        {l("Edit profile")}
       </LiveRedirect>
-      <div
-        aria-haspopup="true"
-        class="dropdown dropdown-end"
-        >
+      <div aria-haspopup="true" class="dropdown dropdown-end">
         <label tabindex="0" class="btn btn-ghost btn-sm btn-circle">
           <Icon solid="DotsVertical" class="w-4 h-4 text-white" />
         </label>
@@ -27,7 +28,7 @@
           role="menu"
           aria-orientation="vertical"
           class="rounded shadow dropdown_actions w-52 menu dropdown-content bg-neutral-content"
-          >
+        >
           <li if={ulid(@current_user) != maybe_get(@user, :id)} class="lg:hidden">
             <div class="">
               <LiveRedirect
@@ -104,7 +105,7 @@
             phx-click="Bonfire.Me.Users:make_admin"
             phx-value-username_or_id={maybe_get(@user, :id)}
             :if={is_admin?(@current_user) && !is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)}
-            >
+          >
             <label class="flex items-center gap-0">
               <Icon outline="Key" class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
               <span class="text-sm text-neutral">{l("Make admin")}</span>
@@ -114,7 +115,7 @@
             :if={is_admin?(@current_user) && is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)}
             phx-click="Bonfire.Me.Users:revoke_admin"
             phx-value-username_or_id={maybe_get(@user, :id)}
-            >
+          >
             <label class="flex items-center gap-0">
               <Icon outline="Key" class="w-4 h-4 mr-2 shrink-0 text-neutral text-opacity-70" />
               <span class="text-sm text-neutral">{l("Revoke admin")}</span>
@@ -136,7 +137,7 @@
     class="relative bg-center bg-cover md:rounded-t-xl bg-no-repeat bg-base-200 h-[250px]"
     style={"background-image: url('#{banner_url(@user)}')"}
   >
-     <!-- FOLLOWS YOU LABEL -->
+    <!-- FOLLOWS YOU LABEL -->
     <div :if={@follows_me} class="absolute rounded right-2 bottom-2 opacity-90 badge badge-lg">
       {"Follows you"}
     </div>
@@ -166,9 +167,7 @@
         </div>
         <div class="flex items-center">
           <span class="text-sm font-normal text-base-content text-opacity-70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
-         
         </div>
-
 
         <div class="lg:hidden">
           <div class="w-full prose-sm prose prose-p:pt-2">
@@ -200,8 +199,6 @@
           </div>
         </div>
 
-
-        
         <div class="flex items-center mt-1 text-base-content">
           <Icon solid="Users" class="w-5 h-5 text-base-content text-opacity-70" />
           <LivePatch to={"/user/#{e(@user, :character, :username, "")}/followers"}>
@@ -255,9 +252,6 @@
       >
         <Icon solid="Mail" class="w-4 h-4" />
       </LiveRedirect>
-
-      
-      
     </div>
   </div>
   <div class="flex-1 px-6 mt-3">
