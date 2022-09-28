@@ -57,7 +57,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
   end
 
   defp handle_progress(:icon = type, entry, socket) do
-    user = current_user(socket)
+    user = current_user_required(socket)
 
     scope =
       if e(socket, :assigns, :selected_tab, nil) == "admin",
@@ -85,7 +85,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
   end
 
   defp handle_progress(:image = type, entry, socket) do
-    user = current_user(socket)
+    user = current_user_required(socket)
 
     scope =
       if e(socket, :assigns, :selected_tab, nil) == "admin",
