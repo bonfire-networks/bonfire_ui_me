@@ -1,8 +1,8 @@
 defmodule Bonfire.UI.Me.WidgetUsersLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
-  prop users, :any
-  prop widget_title, :string
+  prop users, :any, default: []
+  prop widget_title, :string, default: nil
 
   def users(users) when is_list(users) do
     users
