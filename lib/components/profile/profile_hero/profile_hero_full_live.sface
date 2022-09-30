@@ -1,12 +1,6 @@
 <div class="relative md:mb-6 md:rounded-md md:shadow bg-base-100">
   <div class="flex z-50 absolute left-0 right-0 top-0 items-start justify-between p-3 bg-gradient-to-b from-black to-transparent h-[80px]">
-    <a
-      aria-label="Navigate to the previous page"
-      href="javascript:window.history.back()"
-      class="btn btn-ghost btn-sm btn-circle"
-    >
-      <Icon outline="ArrowLeft" class="w-4 h-4 text-white" />
-    </a>
+    <Bonfire.UI.Common.BackButtonLive showing_within={@showing_within} />
 
     <div class="flex items-center gap-4">
       <LiveRedirect
