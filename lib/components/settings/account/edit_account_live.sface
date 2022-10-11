@@ -1,6 +1,6 @@
 <div class="">
   <div class="">
-  <div class="py-4 mb-6 text-2xl font-bold border-b border-base-content/10 text-base-content">
+    <div class="py-4 mb-6 text-2xl font-bold border-b border-base-content/10 text-base-content">
       {l("Account settings")}
     </div>
     <LiveRedirect to={path(:change_password)} class="normal-case btn btn-primary btn-wide">{l("Change my password")}</LiveRedirect>

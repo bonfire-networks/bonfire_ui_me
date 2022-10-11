@@ -1,8 +1,8 @@
 <div class="grid -my-6 gap-8 grid-cols-[280px_1fr]">
-   <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-base-content/10">
+  <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-base-content/10">
     <nav class="" role="navigation" aria-label={l("Settings navigation")}>
       <ul class="mt-5 space-y-1 menu menu-compact">
-          <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsNavLive selected_tab={@selected_tab} id={@id} />
+        <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsNavLive selected_tab={@selected_tab} id={@id} />
       </ul>
     </nav>
   </div>
@@ -58,7 +58,7 @@
         <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="silenced" />
       {#match "ghosted"}
         <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="ghosted" />
-      <!-- {#match "instance"}
+        <!-- {#match "instance"}
         <Bonfire.UI.Me.SettingsViewsLive.AdminLive selected_tab={@selected_tab} />
       {#match "instance_info"}
         <Bonfire.UI.Me.SettingsViewsLive.InstanceInfoLive
@@ -78,7 +78,7 @@
         <Bonfire.UI.Me.SettingsViewsLive.AdminReportsLive
           
         /> -->
-      <!-- {#match "instance_silenced"}
+        <!-- {#match "instance_silenced"}
         <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" />
       {#match "instance_ghosted"}
         <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="ghosted" /> -->
@@ -87,7 +87,7 @@
           current_user={@current_user |> repo().maybe_preload(:shared_user)}
           selected_tab={@selected_tab}
         />
-      <!-- {#match "instance_circles"}
+        <!-- {#match "instance_circles"}
         <Dynamic.LiveComponent
           :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and @current_user}
           module={Bonfire.Boundaries.Web.MyCirclesLive}

@@ -1,73 +1,62 @@
 <div class="pb-6 space-y-6 sm:space-y-5">
-
-    
-
-
-
-  {#if Bonfire.Me.Users.is_admin?(@current_user) || Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
-
+  {#if Bonfire.Me.Users.is_admin?(@current_user) ||
+      Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
     <div class="py-4 mb-6 text-2xl font-bold text-base-content">
       <div class="text-sm breadcrumbs">
         <ul>
-          <li><a>Settings</a></li> 
-          <li class="font-normal text-base-content/70">General</li> 
+          <li><a>Settings</a></li>
+          <li class="font-normal text-base-content/70">General</li>
         </ul>
       </div>
       {l("General information")}
     </div>
 
+    <div class="text-xs tracking-wide uppercase text-base-content">{l("Appearance")}</div>
 
-    <div class="text-xs tracking-wide uppercase text-base-content">{l "Appearance"}</div>
-
-    <form phx-change="Bonfire.Me.Profiles:validate" name="images">
-      <input name="scope" value={:instance} type="hidden">
-      <div class="divide-y divide-base-300">
-        <div 
-          x-data="{open: false}"
-          class="p-6 rounded-t shadow bg-base-100">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l "Title & Description"}</div>
-              <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
-            </div>
-            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l "Expand"}</button>
+    <div class="divide-y divide-base-300">
+      <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-bold">{l("Title & Description")}</div>
+            <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
           </div>
-          <div x-show="open" x-collapse>
-            <form name="settings" phx-submit="Bonfire.Me.Settings:save">
-              <input name="scope" value={:instance} type="hidden">
+          <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+        </div>
+        <div x-show="open" x-collapse>
+          <form name="settings" phx-submit="Bonfire.Me.Settings:save">
+            <input name="scope" value={:instance} type="hidden">
 
-              <div class="w-full max-w-lg mt-8 form-control">
-                <label for="instance_name" class="label">
-                  <span class="label-text text-base-content/70">{l("The name of your instance")}</span>
-                </label>
-                <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
-                  <div class="flex max-w-lg">
-                    <input
-                      type="text"
-                      name="ui[theme][instance_name]"
-                      id="instance_name"
-                      value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_name], "")}
-                      class="w-full h-10 input bg-base-content/10"
-                    />
-                  </div>
+            <div class="w-full max-w-lg mt-8 form-control">
+              <label for="instance_name" class="label">
+                <span class="label-text text-base-content/70">{l("The name of your instance")}</span>
+              </label>
+              <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
+                <div class="flex max-w-lg">
+                  <input
+                    type="text"
+                    name="ui[theme][instance_name]"
+                    id="instance_name"
+                    value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_name], "")}
+                    class="w-full h-10 input bg-base-content/10"
+                  />
                 </div>
               </div>
+            </div>
 
-              <div class="w-full max-w-lg mt-2 form-control">
-                <label for="instance_description" class="label">
-                  <span class="label-text text-base-content/70">{l("A short summary shown in various places")}</span>
-                </label>
+            <div class="w-full max-w-lg mt-2 form-control">
+              <label for="instance_description" class="label">
+                <span class="label-text text-base-content/70">{l("A short summary shown in various places")}</span>
+              </label>
 
-                <textarea
-                    id="instance_description"
-                    name="ui[theme][instance_description]"
-                    rows="3"
-                    class="w-full h-24 textarea bg-base-content/10"
-                  >{Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_description], "")}</textarea>
-              </div>
+              <textarea
+                id="instance_description"
+                name="ui[theme][instance_description]"
+                rows="3"
+                class="w-full h-24 textarea bg-base-content/10"
+              >{Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_description], "")}</textarea>
+            </div>
 
-
-              <!-- <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
+            <!-- <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
                 <label
                   for="instance_description"
                   class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2"
@@ -95,30 +84,31 @@
                 </div>
               </div> -->
 
-              <div class="mt-3">
-                <button type="submit" class="normal-case btn-wide btn btn-sm btn-primary">
-                  {l("Save")}
-                </button>
-              </div>
-            </form>
-          </div>
+            <div class="mt-3">
+              <button type="submit" class="normal-case btn-wide btn btn-sm btn-primary">
+                {l("Save")}
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
 
-        <div 
-          x-data="{open: false}"
-          class="p-6 shadow bg-base-100">
+      <form phx-change="Bonfire.Me.Profiles:validate" name="images">
+        <input name="scope" value={:instance} type="hidden">
+
+        <div x-data="{open: false}" class="p-6 shadow bg-base-100">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l "Logo & brand"}</div>
+              <div class="text-sm font-bold">{l("Logo & brand")}</div>
               <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
             </div>
-           <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l "Expand"}</button>
+            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
           <div x-show="open" x-collapse>
-
             <div class="w-full max-w-lg mt-8 form-control">
               <label for="photo" class="label">
-                <span class="label-text text-base-content/70">  {l("Instance icon")}</span>
+                <span class="label-text text-base-content/70">
+                  {l("Instance icon")}</span>
               </label>
               <div data-id="upload_icon" phx-drop-target={@uploads.icon.ref} class="mt-1 sm:mt-0 sm:col-span-2">
                 <div class="flex items-center">
@@ -135,7 +125,6 @@
                 </div>
               </div>
             </div>
-            
 
             <div class="w-full max-w-lg mt-2 form-control">
               <label for="cover-photo" class="label">
@@ -172,87 +161,83 @@
                 </div>
               </div>
             </div>
-            
           </div>
         </div>
+      </form>
 
-        <div 
-          x-data="{open: false}"
-          class="p-6 shadow bg-base-100">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l "Theme & fonts"}</div>
-              <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
-            </div>
-            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l "Expand"}</button>
+      <div x-data="{open: false}" class="p-6 shadow bg-base-100">
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-bold">{l("Theme & fonts")}</div>
+            <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
           </div>
-          <div x-show="open" x-collapse>
-            <form name="settings" phx-change="Bonfire.Me.Settings:set">
-              <input name="scope" value={:instance} type="hidden">
-              <div class="w-full max-w-lg mt-8 form-control">
-                <label for="instance_theme" class="label">
-                  <span class="label-text text-base-content/70">  {l("Instance default theme")}</span>
-                </label>
-                <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
-                  <div class="flex max-w-lg">
-                    <Bonfire.UI.Common.ChangeThemesLive
-                      theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", :instance)}
-                      theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", :instance)}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div class="w-full max-w-lg mt-2 form-control">
-                <label for="font_family" class="label">
-                  <span class="label-text text-base-content/70">  {l("Default font")}</span>
-                </label>
-                <div class="mt-1 sm:mt-0 sm:col-span-2">
-                  <Bonfire.UI.Common.ChangeFontLive font_family={Settings.get([:ui, :font_family], "Inter", :instance)} />
-                </div>
-              </div>
-            </form>
-          </div>
+          <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
-
-
-        <div 
-          x-data="{open: false}"
-          class="p-6 rounded-b shadow bg-base-100">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l "Language"}</div>
-              <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
-            </div>
-            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l "Expand"}</button>
-          </div>
-          <div x-show="open" x-collapse>
-            <form name="settings" phx-change="Bonfire.Me.Settings:set">
-              <input name="scope" value={:instance} type="hidden">
-              <div class="w-full max-w-lg mt-8 form-control">
-                <label for="default" class="label">
-                  <span class="label-text text-base-content/70">  {l("Default language")}</span>
-                </label>
-                <div class="mt-1 sm:mt-0 sm:col-span-2">
-                  <Bonfire.UI.Common.ChangeLocaleLive locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", :instance)} />
+        <div x-show="open" x-collapse>
+          <form name="settings" phx-change="Bonfire.Me.Settings:set">
+            <input name="scope" value={:instance} type="hidden">
+            <div class="w-full max-w-lg mt-8 form-control">
+              <label for="instance_theme" class="label">
+                <span class="label-text text-base-content/70">
+                  {l("Instance default theme")}</span>
+              </label>
+              <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
+                <div class="flex max-w-lg">
+                  <Bonfire.UI.Common.ChangeThemesLive
+                    theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", :instance)}
+                    theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", :instance)}
+                  />
                 </div>
               </div>
-            </form>
-          </div>
+            </div>
+
+            <div class="w-full max-w-lg mt-2 form-control">
+              <label for="font_family" class="label">
+                <span class="label-text text-base-content/70">
+                  {l("Default font")}</span>
+              </label>
+              <div class="mt-1 sm:mt-0 sm:col-span-2">
+                <Bonfire.UI.Common.ChangeFontLive font_family={Settings.get([:ui, :font_family], "Inter", :instance)} />
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </form>
 
-    <div class="!mt-12 text-xs tracking-wide uppercase text-base-content">{l "Default behaviours"}</div>
+      <div x-data="{open: false}" class="p-6 rounded-b shadow bg-base-100">
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-bold">{l("Language")}</div>
+            <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
+          </div>
+          <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+        </div>
+        <div x-show="open" x-collapse>
+          <form name="settings" phx-change="Bonfire.Me.Settings:set">
+            <input name="scope" value={:instance} type="hidden">
+            <div class="w-full max-w-lg mt-8 form-control">
+              <label for="default" class="label">
+                <span class="label-text text-base-content/70">
+                  {l("Default language")}</span>
+              </label>
+              <div class="mt-1 sm:mt-0 sm:col-span-2">
+                <Bonfire.UI.Common.ChangeLocaleLive locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", :instance)} />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- </form> -->
+
+    <div class="!mt-12 text-xs tracking-wide uppercase text-base-content">{l("Default behaviours")}</div>
     <form name="settings" phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:instance} type="hidden">
       <div class="divide-y divide-base-300">
-        
-
         <div class="p-6 shadow rounder-t bg-base-100">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l "Make invite only"}</div>
+              <div class="text-sm font-bold">{l("Make invite only")}</div>
               <div class="text-sm font-light text-base-content/70">{l("Only people with a valid invite link can sign up to this instance.")}</div>
             </div>
             <input name="invite_only" value="false" type="hidden">
@@ -269,33 +254,16 @@
         <div class="p-6 shadow bg-base-100">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l "Show list of admins on public homepage"}</div>
+              <div class="text-sm font-bold">{l("Show list of admins on public homepage")}</div>
               <div class="text-sm font-light text-base-content/70">{l("Show list of admins on public homepage")}</div>
             </div>
             <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
-          <input
-            name="Bonfire.UI.Me.WidgetUsersLive[show_guests]"
-            value="true"
-            type="checkbox"
-            checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true, :instance),
-              do: "checked"}
-            class="toggle"
-          />
-          </div>
-        </div>
-
-        <div class="p-6 shadow bg-base-100">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Hide the number of total users on this instance")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("Hide the number of total users on this instance")}</div>
-            </div>
-            <input name="Bonfire.Me.Users[public_count]" value="true" type="hidden">
             <input
-              name="Bonfire.Me.Users[public_count]"
-              value="false"
+              name="Bonfire.UI.Me.WidgetUsersLive[show_guests]"
+              value="true"
               type="checkbox"
-              checked={if !Bonfire.Me.Settings.get([Bonfire.Me.Users, :public_count], true, :instance), do: "checked"}
+              checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true, :instance),
+                do: "checked"}
               class="toggle"
             />
           </div>
@@ -318,19 +286,32 @@
           </div>
         </div>
 
+        <div class="p-6 shadow bg-base-100">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-bold">{l("Hide the number of total users on this instance")}</div>
+              <div class="text-sm font-light text-base-content/70">{l("Hide the number of total users on this instance")}</div>
+            </div>
+            <input name="Bonfire.Me.Users[public_count]" value="true" type="hidden">
+            <input
+              name="Bonfire.Me.Users[public_count]"
+              value="false"
+              type="checkbox"
+              checked={if !Bonfire.Me.Settings.get([Bonfire.Me.Users, :public_count], true, :instance), do: "checked"}
+              class="toggle"
+            />
+          </div>
+        </div>
 
         <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} />
 
-
-        <div 
-          x-data="{open: false}"
-          class="p-6 rounded-t shadow bg-base-100">
+        <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Who can see the list of local users?")}</div>
               <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
             </div>
-            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l "Expand"}</button>
+            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
           <div x-show="open" x-collapse>
             <div class="mt-4 sm:col-span-2">
@@ -342,8 +323,8 @@
                       name="Bonfire.UI.Me.UsersDirectoryLive[show_to]"
                       value="guests"
                       checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users, :instance) ==
-                          :guests,
-                        do: "checked"}
+                           :guests,
+                         do: "checked"}
                       class="radio radio-secondary"
                     />
                     <div class="flex flex-col ml-3">
@@ -360,8 +341,8 @@
                       name="Bonfire.UI.Me.UsersDirectoryLive[show_to]"
                       value="users"
                       checked={if Bonfire.Me.Settings.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users, :instance) ==
-                          :users,
-                        do: "checked"}
+                           :users,
+                         do: "checked"}
                       class="radio radio-secondary"
                     />
                     <div class="flex flex-col ml-3">
@@ -391,34 +372,31 @@
           </div>
         </div>
 
-        <div 
-          x-data="{open: false}"
-          class="p-6 rounded-t shadow bg-base-100">
+        <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Who can see the list of local users?")}</div>
               <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
             </div>
-            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l "Expand"}</button>
+            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
           <div x-show="open" x-collapse>
-             <Bonfire.UI.Social.Settings.MyFeedItemsLive
-                title={l("What activities to include in home feeds by default")}
-                scope={:instance}
-              />
+            <Bonfire.UI.Social.Settings.MyFeedItemsLive
+              title={l("What activities to include in home feeds by default")}
+              scope={:instance}
+            />
           </div>
         </div>
-
       </div>
 
-
-      <div class="!mt-12 mb-6 text-xs tracking-wide uppercase text-base-content">{l "Advanced settings"}</div>
+      <div class="!mt-12 mb-6 text-xs tracking-wide uppercase text-base-content">{l("Advanced settings")}</div>
       <div class="divide-y divide-base-300">
         <div class="p-6 rounded-t shadow bg-base-100">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l "Enable federation"}</div>
-              <div class="text-sm font-light text-base-content/70"> {l("Push local activities to the fediverse, and accept remote activities")}</div>
+              <div class="text-sm font-bold">{l("Enable federation")}</div>
+              <div class="text-sm font-light text-base-content/70">
+                {l("Push local activities to the fediverse, and accept remote activities")}</div>
             </div>
             <input name="activity_pub[instance][federating]" value="false" type="hidden">
             <input
@@ -431,7 +409,7 @@
             />
           </div>
         </div>
-        
+
         <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
           label={l(
             "New users and their content should appear in publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden by each user)"
@@ -439,9 +417,7 @@
           scope={:instance}
         />
       </div>
-    </form>  
-
-    
+    </form>
   {#else}
     {l("You don't have permission to describe the instance, sorry!")}
   {/if}

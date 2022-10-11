@@ -114,12 +114,13 @@ defmodule Bonfire.UI.Me.Routes do
           as: :change_password
         )
 
+        live("/settings/instance", InstanceSettingsLive)
+        live("/settings/instance/:tab", InstanceSettingsLive)
+
         live("/settings/:tab", SettingsLive)
         live("/settings/:tab/:id", SettingsLive)
         live("/settings/:tab/:id/:section", SettingsLive, as: :settings)
-        
-        live("/instance/settings", InstanceSettingsLive)
-        live("/instance/settings/:tab", InstanceSettingsLive)
+
         # resources "/settings/account/delete", AccountDeleteController, only: [:index, :create]
 
         resources("/logout", LogoutController, only: [:index, :create])
