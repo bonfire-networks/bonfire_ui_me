@@ -115,7 +115,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         # following: following || [],
         # search_placeholder: search_placeholder,
         smart_input_prompt: smart_input_prompt,
-        smart_input_text: smart_input_text
+        smart_input_opts: [text: smart_input_text]
 
         # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}]
       )
@@ -213,34 +213,6 @@ defmodule Bonfire.UI.Me.ProfileLive do
        # |> debug("ffff")
      )}
   end
-
-  # def do_handle_params(%{"tab" => "private" =tab} = _params, _url, socket) do
-  #   current_user = current_user(socket)
-  #   user = e(socket, :assigns, :user, nil)
-  #   page_title = if e(current_user, :character, :username, "") == e(user, :character, :username, ""), do: l( "My messages"), else: l("Messages with")<>" "<>e(user, :profile, :name, l "someone")
-
-  #   # smart_input_prompt = if e(current_user, :character, :username, "") == e(user, :character, :username, ""), do: l( "Write a private note to self..."), else: l("Send a private message") <> e(user, :profile, :name, l "this person")
-  #   smart_input_prompt = l("Send a private message")
-
-  #   smart_input_text = if e(current_user, :character, :username, nil) != e(user, :character, :username, nil),
-  #   do: "@"<>e(user, :character, :username, "")<>" ",
-  #   else: ""
-  #   feed = if current_user, do: if module_enabled?(Bonfire.Social.Messages), do: Bonfire.Social.Messages.list(current_user, user) #|> debug("messages")
-
-  #   {:noreply,
-  #    assign(socket,
-  #      selected_tab: tab,
-  #      feed: e(feed, :edges, [])
-  #    )
-  #   |> assign_global(
-  #     page_title: page_title,
-  #     smart_input_prompt: smart_input_prompt,
-  #     smart_input_text: smart_input_text,
-  #     to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}],
-  #     create_object_type: :message
-  #   )
-  #   }
-  # end
 
   def do_handle_params(
         %{"username" => "%40" <> username} = _params,
