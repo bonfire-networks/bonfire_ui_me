@@ -3,12 +3,15 @@
   phx-submit="Bonfire.Me.Profiles:save"
   method="POST"
 >
-  <div class="p-4">
+  <div class="">
+    <div class="py-4 mb-6 text-2xl font-bold border-b border-base-content/10 text-base-content">
+      {l("Edit profile")}
+    </div>
     <div class="mt-1 sm:mt-0">
       <div
         data-id="upload_image"
         phx-drop-target={@uploads.image.ref}
-        class="relative flex justify-center px-6 py-10  bg-center bg-cover rounded-lg"
+        class="relative flex justify-center px-6 py-10 bg-center bg-cover rounded-lg"
         style={"background-image: url('" <> banner_url(@current_user) <> "'); height: 225px;"}
       >
         <div class="space-y-1 text-center">

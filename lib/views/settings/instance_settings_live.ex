@@ -1,4 +1,4 @@
-defmodule Bonfire.UI.Me.SettingsLive do
+defmodule Bonfire.UI.Me.InstanceSettingsLive do
   use Bonfire.UI.Common.Web, :surface_live_view
   import Untangle
   import Bonfire.UI.Me.Integration, only: [is_admin?: 1]
@@ -24,17 +24,13 @@ defmodule Bonfire.UI.Me.SettingsLive do
      socket
      # |> assign(:without_sidebar,  true)
      |> assign(
-       show_less_menu_items: true,
-       page_title: l("Settings"),
+       page_title: l("Instance Settings"),
        full_page: true,
        without_sidebar: true,
-       page_header_aside: [
-         {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
-       ],
-       selected_tab: "user",
+       selected_tab: "dashboard",
        id: nil,
        hide_smart_input: true,
-       page: "settings",
+       page: "instance_settings",
        trigger_submit: false,
        uploaded_files: []
      )
@@ -142,45 +138,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
        |> assign_flash(:info, l("Image changed!"))
        |> redirect_to("/")}
     end
-  end
-
-  def save(:icon, %{} = user, uploaded_media, socket) do
-    with {:ok, user} <-
-           Bonfire.Me.Users.update(user, %{
-             "profile" => %{
-               "icon" => uploaded_media,
-               "icon_id" => uploaded_media.id
-             }
-           }) do
-      {:noreply,
-       socket
-       |> assign(current_user: deep_merge(user, %{profile: %{icon: uploaded_media}}))
-       |> assign_flash(:info, l("Avatar changed!"))}
-    end
-  end
-
-  def save(:image, %{} = user, uploaded_media, socket) do
-    with {:ok, user} <-
-           Bonfire.Me.Users.update(user, %{
-             "profile" => %{
-               "image" => uploaded_media,
-               "image_id" => uploaded_media.id
-             }
-           }) do
-      {:noreply,
-       socket
-       |> assign(current_user: deep_merge(user, %{profile: %{image: uploaded_media}}))
-       |> assign_flash(:info, l("Background image changed!"))}
-    end
-  end
-
-  def do_handle_params(%{"tab" => tab, "id" => id}, _url, socket) do
-    # debug(id)
-    {:noreply,
-     assign(socket,
-       selected_tab: tab,
-       id: id
-     )}
   end
 
   def do_handle_params(%{"tab" => tab}, _url, socket) do

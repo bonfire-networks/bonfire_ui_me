@@ -1,6 +1,9 @@
 <div class="">
-  <div class="p-4">
-    <LiveRedirect to={path(:change_password)} class="w-full normal-case btn btn-primary btn-wide">{l("Change my password")}</LiveRedirect>
+  <div class="">
+  <div class="py-4 mb-6 text-2xl font-bold border-b border-base-content/10 text-base-content">
+      {l("Account settings")}
+    </div>
+    <LiveRedirect to={path(:change_password)} class="normal-case btn btn-primary btn-wide">{l("Change my password")}</LiveRedirect>
 
     <!--    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
       label={l "I want my profiles to appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden in each user's settings)"}
@@ -11,7 +14,7 @@
   <form name="settings" phx-change="Bonfire.Me.Settings:set">
     <input name="scope" value={:account} type="hidden">
 
-    <div class="flex flex-col space-y-2">
+    <div class="flex flex-col mt-6 space-y-2">
       <label for="default-theme" class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2">
         {l("Default look and feel")}
       </label>

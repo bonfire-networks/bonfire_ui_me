@@ -1,0 +1,276 @@
+<div class="grid -my-6 gap-8 grid-cols-[280px_1fr]">
+  <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-base-content/10">
+    <nav class="" role="navigation" aria-label={l("Settings navigation")}>
+      <ul class="mt-5 space-y-1 menu menu-compact">
+         <li :if={Bonfire.Boundaries.can?(@__context__, :describe, :instance)}>
+          <LiveRedirect
+            to="/instance/settings"
+            class={"", active: @selected_tab == "dashboard"}>
+            <Icon
+              outline="Home"
+              class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "dashboard"}
+            />
+            {l("Dashboard")}
+          </LiveRedirect>
+        </li>
+
+        <li :if={Bonfire.Boundaries.can?(@__context__, :describe, :instance)}>
+          <LivePatch
+            to="/instance/settings/instance_info"
+            class={"", active: @selected_tab == "instance_info"}>
+            <Icon
+              outline="Fire"
+              class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "instance_info"}
+            />
+            {l("General information")}
+          </LivePatch>
+        </li>
+
+        <!-- <li :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
+          <LivePatch
+            to="/instance/settings/instance"
+            class={
+              "",
+              active: @selected_tab == "instance"
+            }
+          >
+            <Icon
+              outline="Adjustments"
+              class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "instance"}
+            />
+            {l("Instance Settings")}
+          </LivePatch>
+        </li> -->
+
+        <li :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
+          <LivePatch
+            to="/instance/settings/terms"
+            class={
+              "",
+              active: @selected_tab == "terms"
+            }
+          >
+            <Icon
+              outline="Scale"
+              class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "terms"}
+            />
+            {l("Terms / Policies")}
+          </LivePatch>
+        </li>
+
+        <li>
+          <LivePatch
+            :if={module_enabled?(Bonfire.Invite.Links) &&
+              (!Settings.get(:invite_only, nil, :instance) or
+                Bonfire.Boundaries.can?(@__context__, :invite, :instance))}
+            to="/instance/settings/invites"
+            class={
+              "",
+              active: @selected_tab == "invites"
+            }
+          >
+            <Icon
+              outline="Mail"
+              class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "invites"}
+            />
+            {l("Invites")}
+          </LivePatch>
+        </li>
+
+      </ul>
+    </nav>
+  </div>
+  <section class="w-full max-w-screen-xl px-8 mx-auto">
+    
+    {#case @selected_tab}
+      {#match "dashboard"}
+        <div class="py-8 mb-6 text-2xl font-bold text-base-content">
+          {l("Dashboard")}
+        </div>
+        <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l "website"}</div>
+        <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
+          
+          <LivePatch to="/instance/settings/instance_info" class="flex items-center gap-4 group">
+            <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+              <Icon outline="Cog" class="w-7 h-7" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "General"}</div>
+              <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Basic publication details and site metadata</div>
+            </div>
+          </LivePatch>
+
+          <div class="flex items-center gap-4 group">
+            <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+              <Icon outline="ColorSwatch" class="w-7 h-7" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "Design"}</div>
+              <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Customize your site and manage themes</div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 group">
+            <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+              <Icon outline="PaperAirplane" class="w-7 h-7" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "Navigation"}</div>
+              <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-4 group">
+            <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+              <Icon outline="UserGroup" class="w-7 h-7" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "Staff"}</div>
+              <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
+            </div>
+          </div>
+
+          <LivePatch to="/instance/settings/terms" class="flex items-center gap-4 rounded group">
+            <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+              <Icon outline="Scale" class="w-7 h-7" />
+            </div>
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "Terms / Policies"}</div>
+              <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
+            </div>
+          </LivePatch>
+
+
+        </div>
+          <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l "Members"}</div>
+          <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
+            <div class="flex items-center gap-4 group">
+              <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+                <Icon outline="Users" class="w-7 h-7" />
+              </div>
+              <div class="flex flex-col gap-1">
+                <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "Members"}</div>
+                <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Basic publication details and site metadata</div>
+              </div>
+            </div>
+
+            <LivePatch to="/instance/settings/invites" class="flex items-center gap-4 group">
+              <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+                <Icon outline="Mail" class="w-7 h-7" />
+              </div>
+              <div class="flex flex-col gap-1">
+                <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "Invites"}</div>
+                <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Customize your site and manage themes</div>
+              </div>
+            </LivePatch>
+          </div>
+
+          <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l "Moderation"}</div>
+          <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
+            <div class="flex items-center gap-4 group">
+              <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+                <Icon outline="Flag" class="w-7 h-7" />
+              </div>
+              <div class="flex flex-col gap-1">
+                <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "Flagged"}</div>
+                <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 group">
+              <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+                <Icon outline="Ban" class="w-7 h-7" />
+              </div>
+              <div class="flex flex-col gap-1">
+                <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "Blocks"}</div>
+                <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l "Advanced"}</div>
+          <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
+            <div class="flex items-center gap-4 group">
+              <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+                <Icon outline="Puzzle" class="w-7 h-7" />
+              </div>
+              <div class="flex flex-col gap-1">
+                <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "Extensions"}</div>
+                <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 group">
+              <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+                <Icon outline="Calendar" class="w-7 h-7" />
+              </div>
+              <div class="flex flex-col gap-1">
+                <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l "History"}</div>
+                <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l "View system event log"}</div>
+              </div>
+            </div>
+          </div>
+
+
+      {#match "extensions"}
+        <Bonfire.UI.Common.ExtensionsLive
+          selected_tab={@selected_tab}
+          data={Bonfire.Common.Extensions.data()}
+        />
+      {#match "flags"}
+        <Bonfire.UI.Social.FlagsLive id="flags" selected_tab={@selected_tab} />
+      {#match "silenced"}
+        <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="silenced" />
+      {#match "ghosted"}
+        <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="ghosted" />
+      {#match "instance"}
+        <Bonfire.UI.Me.SettingsViewsLive.AdminLive selected_tab={@selected_tab} />
+      {#match "instance_info"}
+        <Bonfire.UI.Me.SettingsViewsLive.InstanceInfoLive
+          selected_tab={@selected_tab}
+          uploads={@uploads}
+        />
+      {#match "terms"}
+        <Bonfire.UI.Me.SettingsViewsLive.TermsLive selected_tab={@selected_tab} />
+      {#match "invites"}
+        <Dynamic.LiveComponent
+          module={Config.get([:ui, :invites_component], Bonfire.Invite.Links.Web.InvitesLive)}
+          id="admin_invites"
+          selected_tab={@selected_tab}
+        />
+
+        <!-- {#match "flags"}
+        <Bonfire.UI.Me.SettingsViewsLive.AdminReportsLive
+          
+        /> -->
+      {#match "instance_silenced"}
+        <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" />
+      {#match "instance_ghosted"}
+        <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="ghosted" />
+      {#match "shared_user"}
+        <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
+          current_user={@current_user |> repo().maybe_preload(:shared_user)}
+          selected_tab={@selected_tab}
+        />
+      {#match "instance_circles"}
+        <Dynamic.LiveComponent
+          :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and @current_user}
+          module={Bonfire.Boundaries.Web.MyCirclesLive}
+          id="circles"
+          scope={:instance}
+        />
+      {#match "instance_acls"}
+        <Dynamic.LiveComponent
+          :if={module_enabled?(Bonfire.Boundaries.Web.MyAclsLive) and @current_user}
+          module={Bonfire.Boundaries.Web.MyAclsLive}
+          selected_tab="acls"
+          id="my_acls"
+          scope={:instance}
+        />
+      {#match "admin"}
+        <Bonfire.UI.Me.SettingsViewsLive.AdminLive selected_tab={@selected_tab} />
+      {#match _}
+        <div>test</div>
+    {/case}
+  </section>
+</div>
