@@ -1,44 +1,32 @@
-<div class="py-8 mb-6 text-2xl font-bold text-base-content">
-  {l("Pages")}
+<div class="flex items-center justify-between py-8 mb-6">
+  <div class="text-2xl font-bold  text-base-content">
+    {l("Pages")}
+  </div>
+  <button class="normal-case btn btn-primary">{l "New page"}</button>
 </div>
-
 <div class="flex flex-col border-t divide-y border-base-content/10 divide-base-content/10">
 
-  <div class="flex items-center justify-between p-3 hover:bg-base-content/5">
+  <div 
+    :for={%{id: page_id} = page <- e(@pages, :edges, [])}
+    class="flex items-center justify-between p-3 hover:bg-base-content/5">
     <div class="flex flex-col">
-      <div class="text-lg font-bold">Page title</div>
+      <div class="text-lg font-bold">{e(page, :post_content, :name, nil)}</div>
       <div class="text-sm font-light text-base-content/70">By ivan minutillo - 21 hours ago</div>
       <div class="mt-2 badge badge-sm badge-success">Published</div>
     </div>
-    <button class="gap-2 normal-case rounded-md btn text-base-content/70 border-base-content/70 btn-outline">
-      <Icon outline="Pencil" class="w-5 h-5 " />
-      <span class="tracking-wide">{l "Edit"}</span>
-    </button>
+    <div class="flex items-center gap-2">
+      <LiveRedirect to={Bonfire.Pages.page_path(page |> debug, @__context__)} class="gap-2 normal-case rounded-md btn btn-sm">
+        <Icon outline="Eye" class="w-5 h-5 " />
+        <span class="tracking-wide">{l "View"}</span>
+      </LiveRedirect>
+      <LiveRedirect to={"/pages/edit/#{page_id}"} class="gap-2 normal-case rounded-md btn btn-sm text-base-content/70 border-base-content/70 btn-outline">
+        <Icon outline="Pencil" class="w-5 h-5 " />
+        <span class="tracking-wide">{l "Edit"}</span>
+      </LiveRedirect>
+    </div>
   </div>
 
-  <div class="flex items-center justify-between p-3 hover:bg-base-content/5">
-    <div class="flex flex-col">
-      <div class="text-lg font-bold">Page title</div>
-      <div class="text-sm font-light text-base-content/70">By ivan minutillo - 21 hours ago</div>
-      <div class="mt-2 badge badge-sm badge-success">Published</div>
-    </div>
-    <button class="gap-2 normal-case rounded-md btn text-base-content/70 border-base-content/70 btn-outline">
-      <Icon outline="Pencil" class="w-5 h-5 " />
-      <span class="tracking-wide">{l "Edit"}</span>
-    </button>
-  </div>
-
-  <div class="flex items-center justify-between p-3 hover:bg-base-content/5">
-    <div class="flex flex-col">
-      <div class="text-lg font-bold">Page title</div>
-      <div class="text-sm font-light text-base-content/70">By ivan minutillo - 21 hours ago</div>
-      <div class="mt-2 badge badge-sm badge-success">Published</div>
-    </div>
-    <button class="gap-2 normal-case rounded-md btn text-base-content/70 border-base-content/70 btn-outline">
-      <Icon outline="Pencil" class="w-5 h-5 " />
-      <span class="tracking-wide">{l "Edit"}</span>
-    </button>
-  </div>
+  
 
 </div>
 

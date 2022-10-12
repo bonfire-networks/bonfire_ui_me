@@ -10,6 +10,8 @@
         <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive selected_tab={@selected_tab} />
       {#match "preferences"}
         <Bonfire.UI.Me.SettingsViewsLive.InstanceLive selected_tab={@selected_tab} uploads={@uploads} />
+      {#match "navigation"}
+        <Bonfire.UI.Me.SettingsViewsLive.InstanceNavigationLive selected_tab={@selected_tab} />
       {#match "extensions"}
         <Bonfire.UI.Common.ExtensionsLive selected_tab={@selected_tab} data={Bonfire.Common.Extensions.data()} />
       {#match "flags"}
@@ -27,11 +29,17 @@
           selected_tab={@selected_tab}
         />
       {#match "pages"}
-       <Bonfire.UI.Me.SettingsViewsLive.InstancePagesLive selected_tab={@selected_tab} />
+       <Bonfire.UI.Me.SettingsViewsLive.InstancePagesLive 
+          id={:instance_pages}
+          selected_tab={@selected_tab} />
         <!-- {#match "flags"}
         <Bonfire.UI.Me.SettingsViewsLive.AdminReportsLive
           
         /> -->
+      {#match "members"}
+        <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive 
+          id={:instance_members}
+          selected_tab={@selected_tab} />
       {#match "instance_silenced"}
         <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" />
       {#match "instance_ghosted"}
