@@ -36,6 +36,11 @@
           id={:instance_pages}
           selected_tab={@selected_tab}
         />
+      {#match "posts"}
+        <Bonfire.UI.Me.SettingsViewsLive.InstancePostsLive
+          id={:instance_posts}
+          selected_tab={@selected_tab}
+        />
         <!-- {#match "flags"}
         <Bonfire.UI.Me.SettingsViewsLive.AdminReportsLive
           
