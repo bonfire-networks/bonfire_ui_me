@@ -1,7 +1,7 @@
 <div class="grid -my-6 gap-8 grid-cols-[280px_1fr]">
   <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-base-content/10">
     <nav class="" role="navigation" aria-label={l("Settings navigation")}>
-     <Bonfire.UI.Me.SettingsViewLive.SidebarInstanceSettingsLive selected_tab={@selected_tab} />
+      <Bonfire.UI.Me.SettingsViewLive.SidebarInstanceSettingsLive selected_tab={@selected_tab} />
     </nav>
   </div>
   <section class="w-full max-w-screen-xl px-8 mx-auto">
@@ -13,7 +13,10 @@
       {#match "navigation"}
         <Bonfire.UI.Me.SettingsViewsLive.InstanceNavigationLive selected_tab={@selected_tab} />
       {#match "extensions"}
-        <Bonfire.UI.Common.ExtensionsLive selected_tab={@selected_tab} data={Bonfire.Common.Extensions.data()} />
+        <Bonfire.UI.Common.ExtensionsLive
+          selected_tab={@selected_tab}
+          data={Bonfire.Common.Extensions.data()}
+        />
       {#match "flags"}
         <Bonfire.UI.Social.FlagsLive id="flags" selected_tab={@selected_tab} />
       {#match "silenced"}
@@ -29,17 +32,19 @@
           selected_tab={@selected_tab}
         />
       {#match "pages"}
-       <Bonfire.UI.Me.SettingsViewsLive.InstancePagesLive 
+        <Bonfire.UI.Me.SettingsViewsLive.InstancePagesLive
           id={:instance_pages}
-          selected_tab={@selected_tab} />
+          selected_tab={@selected_tab}
+        />
         <!-- {#match "flags"}
         <Bonfire.UI.Me.SettingsViewsLive.AdminReportsLive
           
         /> -->
       {#match "members"}
-        <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive 
+        <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive
           id={:instance_members}
-          selected_tab={@selected_tab} />
+          selected_tab={@selected_tab}
+        />
       {#match "instance_silenced"}
         <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" />
       {#match "instance_ghosted"}

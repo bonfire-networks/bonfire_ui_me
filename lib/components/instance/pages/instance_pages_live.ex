@@ -6,6 +6,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstancePagesLive do
   def update(assigns, socket) do
     current_user = current_user(assigns)
     tab = e(assigns, :selected_tab, nil)
+
     {:ok,
      assign(
        socket,
@@ -15,4 +16,3 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstancePagesLive do
      )}
   end
 end
-

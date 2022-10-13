@@ -16,12 +16,12 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
        selected_tab: tab,
        current_user: current_user,
        page_title:
-          if(count,
-            do: l("Users directory (%{total})", total: count),
-            else: l("Users directory")
-          ),
-        page: "users",
-        users: users
+         if(count,
+           do: l("Users directory (%{total})", total: count),
+           else: l("Users directory")
+         ),
+       page: "users",
+       users: users
      )}
   end
 end

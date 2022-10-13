@@ -11,7 +11,7 @@
         <th>Name</th>
         <th>Roles</th>
         <th>Last login</th>
-        <th></th>
+        <th />
       </tr>
     </thead>
     <tbody>
@@ -41,9 +41,6 @@
           <button class="btn btn-danger btn-xs">Deactivate</button>
         </th>
       </tr>
-      
     </tbody>
-    
-    
   </table>
 </div>

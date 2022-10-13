@@ -7,38 +7,38 @@
 <div phx-hook="Sortable" id="the_navigation" class="">
   <div data-group="sections" class="flex flex-col py-6 rounded dropzone bg-base-200">
     <div class="flex items-center gap-3 p-3 draggable">
-      <div class=" btn btn-square btn-sm btn-ghost">
+      <div class="btn btn-square btn-sm btn-ghost">
         <Icon iconify="ic:round-drag-indicator" class="w-5 h-5" />
       </div>
-      <input class=" input input-bordered" placeholder="Label" />
-      <input class="flex-1 input input-bordered" placeholder="Link" />
+      <input class="input input-bordered" placeholder="Label">
+      <input class="flex-1 input input-bordered" placeholder="Link">
       <Icon outline="Trash" class="w-5 h-5 text-base-content/70" />
     </div>
 
     <div class="flex items-center gap-3 p-3 draggable">
-      <div class=" btn btn-square btn-sm btn-ghost">
+      <div class="btn btn-square btn-sm btn-ghost">
         <Icon iconify="ic:round-drag-indicator" class="w-5 h-5" />
       </div>
-      <input class=" input input-bordered" placeholder="Label" />
-      <input class="flex-1 input input-bordered" placeholder="Link" />
+      <input class="input input-bordered" placeholder="Label">
+      <input class="flex-1 input input-bordered" placeholder="Link">
       <Icon outline="Trash" class="w-5 h-5 text-base-content/70" />
     </div>
 
     <div class="flex items-center gap-3 p-3 draggable">
-      <div class=" btn btn-square btn-sm btn-ghost">
+      <div class="btn btn-square btn-sm btn-ghost">
         <Icon iconify="ic:round-drag-indicator" class="w-5 h-5" />
       </div>
-      <input class=" input input-bordered" placeholder="Label" />
-      <input class="flex-1 input input-bordered" placeholder="Link" />
+      <input class="input input-bordered" placeholder="Label">
+      <input class="flex-1 input input-bordered" placeholder="Link">
       <Icon outline="Trash" class="w-5 h-5 text-base-content/70" />
     </div>
 
     <div class="flex items-center gap-3 p-3 draggable">
-      <div class=" btn btn-square btn-sm btn-ghost">
+      <div class="btn btn-square btn-sm btn-ghost">
         <Icon iconify="ic:round-drag-indicator" class="w-5 h-5" />
       </div>
-      <input class=" input input-bordered" placeholder="Label" />
-      <input class="flex-1 input input-bordered" placeholder="Link" />
+      <input class="input input-bordered" placeholder="Label">
+      <input class="flex-1 input input-bordered" placeholder="Link">
       <Icon outline="Trash" class="w-5 h-5 text-base-content/70" />
     </div>
   </div>

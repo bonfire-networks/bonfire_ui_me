@@ -1,4 +1,4 @@
- <ul class="mt-5 space-y-1 menu menu-compact">
+<ul class="mt-5 space-y-1 menu menu-compact">
   <li :if={Bonfire.Boundaries.can?(@__context__, :describe, :instance)}>
     <LiveRedirect to="/settings/instance" class={"", active: @selected_tab == "dashboard"}>
       <Icon outline="Home" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "dashboard"} />
@@ -79,7 +79,10 @@
         active: @selected_tab == "pages"
       }
     >
-      <Icon outline="DocumentDuplicate" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "pages"} />
+      <Icon
+        outline="DocumentDuplicate"
+        class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "pages"}
+      />
       {l("Pages")}
     </LivePatch>
   </li>
