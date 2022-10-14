@@ -14,6 +14,7 @@
         <Bonfire.UI.Me.SettingsViewsLive.InstanceNavigationLive selected_tab={@selected_tab} />
       {#match "extensions"}
         <Bonfire.UI.Common.ExtensionsLive
+          scope={:instance}
           selected_tab={@selected_tab}
           data={Bonfire.Common.Extensions.data()}
         />
