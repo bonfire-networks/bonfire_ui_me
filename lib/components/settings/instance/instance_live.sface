@@ -17,8 +17,8 @@
       <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
-            <div class="text-sm font-bold">{l("Title & Description")}</div>
-            <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
+            <div class="text-sm font-bold">{l("Name & description")}</div>
+            <div class="text-sm font-light text-base-content/70">{l "Identify this instance"}</div>
           </div>
           <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
@@ -99,8 +99,8 @@
         <div x-data="{open: false}" class="p-6 shadow bg-base-100">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Logo & brand")}</div>
-              <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
+              <div class="text-sm font-bold">{l("Icon & banner")}</div>
+              <div class="text-sm font-light text-base-content/70">{l "Provide some visuals"}</div>
             </div>
             <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
@@ -168,8 +168,8 @@
       <div x-data="{open: false}" class="p-6 shadow bg-base-100">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
-            <div class="text-sm font-bold">{l("Theme & fonts")}</div>
-            <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
+            <div class="text-sm font-bold">{l("Theme & font")}</div>
+            <div class="text-sm font-light text-base-content/70">{l "Customise the look and feel"}</div>
           </div>
           <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
@@ -208,7 +208,7 @@
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Language")}</div>
-            <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
+            <div class="text-sm font-light text-base-content/70">{l "What language do most new users understand?"}</div>
           </div>
           <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
@@ -286,30 +286,13 @@
           </div>
         </div>
 
-        <div class="p-6 shadow bg-base-100">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Hide the number of total users on this instance")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("Hide the number of total users on this instance")}</div>
-            </div>
-            <input name="Bonfire.Me.Users[public_count]" value="true" type="hidden">
-            <input
-              name="Bonfire.Me.Users[public_count]"
-              value="false"
-              type="checkbox"
-              checked={if !Bonfire.Me.Settings.get([Bonfire.Me.Users, :public_count], true, :instance), do: "checked"}
-              class="toggle"
-            />
-          </div>
-        </div>
-
         <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} />
 
         <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Who can see the list of local users?")}</div>
-              <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
+              <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
             </div>
             <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
@@ -375,8 +358,8 @@
         <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Who can see the list of local users?")}</div>
-              <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
+              <div class="text-sm font-bold">{l("What activities to include in home feeds by default")}</div>
+              <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
             </div>
             <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
