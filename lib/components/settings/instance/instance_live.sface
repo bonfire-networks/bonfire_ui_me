@@ -18,7 +18,7 @@
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Name & description")}</div>
-            <div class="text-sm font-light text-base-content/70">{l "Identify this instance"}</div>
+            <div class="text-sm font-light text-base-content/70">{l("Identify this instance")}</div>
           </div>
           <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
@@ -100,7 +100,7 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Icon & banner")}</div>
-              <div class="text-sm font-light text-base-content/70">{l "Provide some visuals"}</div>
+              <div class="text-sm font-light text-base-content/70">{l("Provide some visuals")}</div>
             </div>
             <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
@@ -169,7 +169,7 @@
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Theme & font")}</div>
-            <div class="text-sm font-light text-base-content/70">{l "Customise the look and feel"}</div>
+            <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
           </div>
           <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
@@ -208,7 +208,7 @@
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Language")}</div>
-            <div class="text-sm font-light text-base-content/70">{l "What language do most new users understand?"}</div>
+            <div class="text-sm font-light text-base-content/70">{l("What language do most new users understand?")}</div>
           </div>
           <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>

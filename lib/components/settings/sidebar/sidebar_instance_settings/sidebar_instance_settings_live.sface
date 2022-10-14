@@ -138,7 +138,7 @@
           class={"", active: @selected_tab == "instance_ghosted"}
         >
           <Icon
-            outline="Ban"
+            solid="MinusCircle"
             class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "instance_ghosted"}
           />
           {l("Ghosted")}
