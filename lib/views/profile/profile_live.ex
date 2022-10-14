@@ -72,7 +72,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
       following =
         current_user && current_user.id != user.id &&
-          module_enabled?(Bonfire.Social.Follows) &&
+          module_enabled?(Bonfire.Social.Follows, current_user) &&
           Bonfire.Social.Follows.following?(user, current_user)
 
       name = e(user, :profile, :name, l("Someone"))

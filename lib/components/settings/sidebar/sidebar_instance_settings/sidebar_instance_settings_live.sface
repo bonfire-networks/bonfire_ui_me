@@ -65,7 +65,7 @@
     <ul x-cloak x-show="open" x-collapse class="menu menu-compact">
       <li>
         <LivePatch
-          :if={module_enabled?(Bonfire.Invite.Links) and
+          :if={module_enabled?(Bonfire.Invite.Links, @__context__) and
             Bonfire.Boundaries.can?(@__context__, :invite, :instance)}
           to="/settings/instance/members"
           class={
@@ -103,7 +103,7 @@
 
       <li>
         <LivePatch
-          :if={module_enabled?(Bonfire.Invite.Links) and
+          :if={module_enabled?(Bonfire.Invite.Links, @__context__) and
             Bonfire.Boundaries.can?(@__context__, :invite, :instance)}
           to="/settings/instance/invites"
           class={"", active: @selected_tab == "invites"}
@@ -181,7 +181,7 @@
 
   <li>
     <LivePatch
-      :if={module_enabled?(Bonfire.Invite.Links) and
+      :if={module_enabled?(Bonfire.Invite.Links, @__context__) and
         Bonfire.Boundaries.can?(@__context__, :invite, :instance)}
       to="/pages"
       class={
@@ -199,7 +199,7 @@
 
   <li>
     <LivePatch
-      :if={module_enabled?(Bonfire.Invite.Links) and
+      :if={module_enabled?(Bonfire.Invite.Links, @__context__) and
         Bonfire.Boundaries.can?(@__context__, :invite, :instance)}
       to="/posts"
       class={
@@ -214,7 +214,7 @@
 
   <li>
     <LivePatch
-      :if={module_enabled?(Bonfire.Invite.Links) and
+      :if={module_enabled?(Bonfire.Invite.Links, @__context__) and
         Bonfire.Boundaries.can?(@__context__, :invite, :instance)}
       to="/settings/instance/tags"
       class={
