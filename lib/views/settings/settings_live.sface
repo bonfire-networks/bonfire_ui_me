@@ -1,4 +1,4 @@
-<div class="grid -my-6 gap-8 grid-cols-[280px_1fr]">
+<div class="grid gap-8 grid-cols-[280px_1fr]">
   <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-base-content/10">
     <nav class="" role="navigation" aria-label={l("Settings navigation")}>
       <ul class="mt-5 space-y-1 menu menu-compact">
