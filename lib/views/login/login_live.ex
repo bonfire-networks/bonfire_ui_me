@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.LoginLive do
      |> assign(:page, "login")
      |> assign(:page_title, l("Log in"))
      |> assign_new(:without_sidebar, fn -> true end)
-     |> assign_new(:without_header, fn -> true end)
+     |> assign_new(:nav_header, fn -> false end)
      |> assign_new(:current_account, fn -> nil end)
      |> assign_new(:current_user, fn -> nil end)
      |> assign_new(:error, fn -> nil end)
