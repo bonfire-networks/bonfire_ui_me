@@ -11,36 +11,32 @@
       <button type="submit" class="normal-case btn-sm btn-wide btn btn-primary">{l("Save")}</button>
     </div>
 
-
-
-
     <div class="max-w-lg mt-1 sm:mt-0">
+      <div class="form-control">
+        <label for="name" class="label">
+          <span class="label-text">
+            {l("Full name")}
+          </span>
+        </label>
+        <input
+          type="text"
+          name="profile[name]"
+          id="name"
+          autocomplete="name"
+          class="input input-bordered"
+          value={e(@current_user, :profile, :name, "")}
+        />
+      </div>
 
-        <div class=" form-control">
-          <label for="name" class="label">
-            <span class="label-text">
-              {l("Full name")}
-            </span>
-          </label>
-          <input
-            type="text"
-            name="profile[name]"
-            id="name"
-            autocomplete="name"
-            class="input input-bordered"
-            value={e(@current_user, :profile, :name, "")}
-          />
-        </div>
-
-        <div class="mt-4 form-control">
-          <label for="about" class="label">
-            <span class="label-text">{l("Bio")}</span>
-          </label>
-          <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(@current_user, :profile, :summary, "")}</textarea>
-          <p class="mt-2 text-sm text-base-content text-opacity-70">
-            {l("You can use markdown formatting.")}
-          </p>
-        </div>
+      <div class="mt-4 form-control">
+        <label for="about" class="label">
+          <span class="label-text">{l("Bio")}</span>
+        </label>
+        <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(@current_user, :profile, :summary, "")}</textarea>
+        <p class="mt-2 text-sm text-base-content text-opacity-70">
+          {l("You can use markdown formatting.")}
+        </p>
+      </div>
 
       <div class="mt-6 rounded-md shadow bg-base-100">
         <div
@@ -48,7 +44,7 @@
           phx-drop-target={@uploads.image.ref}
           class="relative flex justify-center px-6 py-10 bg-center bg-cover h-[130px]"
           style={"background-image: url('" <> banner_url(@current_user) <> "')"}
-          >
+        >
           <div class="space-y-1 text-center">
             <div class="flex text-sm text-primary-content-600">
               <label
@@ -78,7 +74,7 @@
             data-id="upload_icon"
             phx-drop-target={@uploads.icon.ref}
             class="relative block w-16 h-16 overflow-hidden rounded-full ring-2 ring-base-100"
-            >
+          >
             <Bonfire.UI.Common.AvatarLive
               class="inline-block w-16 h-16 rounded-full bg-base-100"
               user={@current_user}
@@ -86,7 +82,7 @@
             <label
               for={@uploads.icon.ref}
               class="absolute inset-0 flex items-center justify-center w-full h-full text-sm font-medium text-white transition duration-150 ease-in-out opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60"
-              >
+            >
               <span>{l("Upload or drop")}</span>
               <span class="sr-only">
                 {l("avatar")}</span>
@@ -102,43 +98,42 @@
         </div>
       </div>
 
+      <div class="mt-6 form-control">
+        <label for="website" class="label">
+          <span class="label-text">{l("Website")}</span>
+        </label>
+        <input
+          type="text"
+          name="profile[website]"
+          id="website"
+          autocomplete="website"
+          class="input input-bordered"
+          value={e(@current_user, :profile, :website, "")}
+        />
+      </div>
 
-        <div class="mt-6 form-control">
-          <label for="website" class="label">
-            <span class="label-text">{l("Website")}</span>
-          </label>
-          <input
-            type="text"
-            name="profile[website]"
-            id="website"
-            autocomplete="website"
-            class="input input-bordered"
-            value={e(@current_user, :profile, :website, "")}
-          />
-        </div>
+      <div class="mt-6 form-control">
+        <label for="location" class="label">
+          <span class="label-text">{l("Location")}</span>
+        </label>
+        <input
+          type="text"
+          name="profile[location]"
+          id="location"
+          autocomplete="location"
+          class="input input-bordered"
+          value={e(@current_user, :profile, :location, "")}
+        />
+      </div>
 
-        <div class="mt-6 form-control">
-          <label for="location" class="label">
-            <span class="label-text">{l("Location")}</span>
-          </label>
-          <input
-            type="text"
-            name="profile[location]"
-            id="location"
-            autocomplete="location"
-            class="input input-bordered"
-            value={e(@current_user, :profile, :location, "")}
-          />
-        </div>
-
-        <!-- <div>
+      <!-- <div>
           <label for="name" class="block text-sm font-medium text-primary-content-700 ">
             {l "Full name"}
           </label>
           <div class="flex mt-1 rounded shadow-sm">
         </div> -->
-        <!-- </div> -->
-        <!-- <div>
+      <!-- </div> -->
+      <!-- <div>
         <label for="username" class="block text-sm font-medium text-primary-content-700 ">
           {l "Username"}
         </label>
@@ -152,7 +147,7 @@
           </span>
         </div>
       </div> -->
-        <!-- <div>
+      <!-- <div>
         <label for="about" class="block text-sm font-medium text-primary-content-700 ">
           {l "About"}
         </label>
@@ -165,7 +160,7 @@
           {l "Brief description for your profile. URLs are hyperlinked."}
         </p>
       </div> -->
-        <!-- <div>
+      <!-- <div>
         <label for="website" class="block text-sm font-medium text-primary-content-700 ">
           {l "Website"}
         </label>
@@ -181,7 +176,6 @@
           <input type="text" name="profile[location]" id="location" autocomplete="location" class="flex-grow block w-full min-w-0 border-gray-300 rounded focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(@current_user, :profile, :location, "")}>
         </div>
       </div> -->
-
     </div>
   </div>
 </form>

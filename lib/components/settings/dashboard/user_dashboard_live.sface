@@ -14,7 +14,6 @@
       </div>
     </LivePatch>
 
-
     <LivePatch to="/settings/preferences" class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon outline="PaperAirplane" class="w-7 h-7" />
@@ -92,6 +91,5 @@
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
       </div>
     </LivePatch>
-
   </div>
 </div>
