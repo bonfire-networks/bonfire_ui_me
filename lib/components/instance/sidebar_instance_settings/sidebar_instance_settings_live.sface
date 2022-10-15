@@ -53,7 +53,7 @@
     </ul>
   </div>
 
-  <div x-data="{open: true}">
+  <div x-data="{open: false}">
     <li @click="open = ! open" class="mt-4">
       <div class="flex items-center justify-between">
         <span class="font-light text-base-content/70">{l("Members")}</span>
@@ -115,7 +115,7 @@
     </ul>
   </div>
 
-  <div x-data="{open: true}">
+  <div x-data="{open: false}">
     <li @click="open = ! open" class="mt-4">
       <div class="flex items-center justify-between">
         <span class="font-light text-base-content/70">{l("Moderation")}</span>
@@ -159,7 +159,7 @@
     </ul>
   </div>
 
-  <div x-data="{open: true}">
+  <div x-data="{open: false}">
     <li @click="open = ! open" class="mt-4">
       <div class="flex items-center justify-between">
         <span class="font-light text-base-content/70">{l("Advanced")}</span>

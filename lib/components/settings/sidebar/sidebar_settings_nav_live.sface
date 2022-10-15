@@ -4,112 +4,181 @@
   </span>
 </li> -->
 
-<li :if={ulid(@current_user)}>
-  <LivePatch
-    to="/settings/profile"
-    class={
-      "font-light",
-      "!font-semibold": @selected_tab == "profile"
-    }
-  >
-    <Icon outline="User" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "profile"} />
-    {l("Profile Info")}
-  </LivePatch>
-</li>
-<li>
-  <LivePatch
-    to="/settings/user"
-    class={
-      "font-light",
-      "!font-semibold": @selected_tab == "user"
-    }
-  >
-    <Icon outline="Adjustments" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "user"} />
-    {l("User Preferences")}
-  </LivePatch>
-</li>
+<ul class="mt-5 space-y-1 menu menu-compact">
+  <li>
+    <LiveRedirect to="/settings" class={"", active: @selected_tab == "dashboard"}>
+      <Icon outline="Home" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "dashboard"} />
+      {l("Dashboard")}
+    </LiveRedirect>
+  </li>
+
+  <div x-data="{open: true}">
+    <li @click="open = ! open">
+      <div class="flex items-center justify-between">
+        <span class="font-light text-base-content/70">{l("General")}</span>
+        <div :class="{'rotate-180' : open}" class="transition-all btn btn-xs btn-ghost btn-circle">
+          <Icon solid="ChevronDown" class="w-4 h-4" />
+        </div>
+      </div>
+    </li>
+
+    <ul x-show="open" x-collapse class="flex flex-col menu menu-compact">
+      <li :if={ulid(@current_user)}>
+        <LivePatch to="/settings/profile" class={"", "active": @selected_tab == "profile"}>
+          <Icon outline="User" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "profile"} />
+          {l("Profile")}
+        </LivePatch>
+      </li>
+      <li>
+        <LivePatch to="/settings/preferences" class={"", "active": @selected_tab == "preferences"}>
+          <Icon outline="Adjustments" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "preferences"} />
+          {l("Preferences")}
+        </LivePatch>
+      </li>
+
+      <li>
+        <LivePatch to="/settings/account" class={"","active": @selected_tab == "account"}>
+          <Icon outline="Key" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "account"} />
+          {l("Account Settings")}
+        </LivePatch>
+      </li>
+
+
+      <li :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) &&
+        Settings.get(:experimental_features_enabled, false, @__context__)}>
+        <LivePatch
+          to="/settings/shared_user" class={"", active: @selected_tab == "shared_user"}>
+          <Icon
+            outline="UserGroup"
+            class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "shared_user"}
+          />
+          {l("Team Profiles")}
+        </LivePatch>
+      </li>
+
+    </ul>
+  </div>
+
+ <div x-data="{open: false}">
+    <li @click="open = ! open" class="mt-4">
+      <div class="flex items-center justify-between">
+        <span class="font-light text-base-content/70">{l("Members")}</span>
+        <div :class="{'rotate-180' : open}" class="transition-all btn btn-xs btn-ghost btn-circle">
+          <Icon solid="ChevronDown" class="w-4 h-4" />
+        </div>
+      </div>
+    </li>
+    <ul x-cloak x-show="open" x-collapse class="menu menu-compact">
+      <li>
+        <LivePatch to="/settings/members" class={"", active: @selected_tab == "members"}>
+          <Icon outline="Users" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "members"} />
+          {l("Members")}
+        </LivePatch>
+      </li>
+
+      <li>
+        <LivePatch to="/settings/roles" class={"", active: @selected_tab == "roles"}>
+          <Icon
+            iconify="bx:ShapeCircle"
+            class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "roles"}
+          />
+          {l("Roles")}
+        </LivePatch>
+      </li>
+
+      <li>
+        <LivePatch to="/settings/invites" class={"", active: @selected_tab == "invites"}>
+          <Icon outline="Mail" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "invites"} />
+          {l("Invites")}
+        </LivePatch>
+      </li>
+    </ul>
+  </div>
+
+<div x-data="{open: false}">
+    <li @click="open = ! open" class="mt-4">
+      <div class="flex items-center justify-between">
+        <span class="font-light text-base-content/70">{l("Moderation")}</span>
+        <div :class="{'rotate-180' : open}" class="transition-all btn btn-xs btn-ghost btn-circle">
+          <Icon solid="ChevronDown" class="w-4 h-4" />
+        </div>
+      </div>
+    </li>
+    <ul x-cloak x-show="open" x-collapse class="menu menu-compact">
+      <li>
+        <LivePatch to="/settings/flagged" class={"", active: @selected_tab == "flagged"}>
+          <Icon outline="Flag" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "flagged"} />
+          {l("Flagged")}
+        </LivePatch>
+      </li>
+
+      <li>
+        <LivePatch
+          to="/settings/ghosted"
+          class={"", active: @selected_tab == "ghosted"}
+        >
+          <Icon
+            solid="MinusCircle"
+            class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "ghosted"}
+          />
+          {l("Ghosted")}
+        </LivePatch>
+      </li>
+      <li>
+        <LivePatch
+          to="/settings/silenced"
+          class={"", active: @selected_tab == "silenced"}
+        >
+          <Icon
+            outline="Ban"
+            class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "silenced"}
+          />
+          {l("Silenced")}
+        </LivePatch>
+      </li>
+    </ul>
+  </div>
+
+
+
+ <div x-data="{open: false}">
+    <li @click="open = ! open" class="mt-4">
+      <div class="flex items-center justify-between">
+        <span class="font-light text-base-content/70">{l("Advanced")}</span>
+        <div :class="{'rotate-180' : open}" class="transition-all btn btn-xs btn-ghost btn-circle">
+          <Icon solid="ChevronDown" class="w-4 h-4" />
+        </div>
+      </div>
+    </li>
+
+    <ul x-cloak x-show="open" x-collapse class="menu menu-compact">
+      <li>
+        <LivePatch to="/settings/extensions" class={"", active: @selected_tab == "extensions"}>
+          <Icon outline="Puzzle" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "extensions"} />
+          {l("Extensions")}
+        </LivePatch>
+      </li>
+    </ul>
+  </div>
 
 <li>
-  <LivePatch
-    to="/settings/account"
-    class={
-      "font-light",
-      "!font-semibold": @selected_tab == "account"
-    }
-  >
-    <Icon outline="Key" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "account"} />
-    {l("Account Settings")}
-  </LivePatch>
-</li>
+    <LivePatch
+      :if={module_enabled?(Bonfire.Invite.Links, @__context__) and
+        Bonfire.Boundaries.can?(@__context__, :invite, :instance)}
+      to="/posts"
+      class={
+        "",
+        active: @selected_tab == "posts"
+      }
+    >
+      <Icon outline="ChatAlt" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "posts"} />
+      {l("Posts")}
+    </LivePatch>
+  </li>
 
-<!-- <li
-  >
-  <LivePatch 
-    to={"/settings/circles"}
-    class={"",  "active": @selected_tab == "circles"}>
-    <Icon iconify="bx:ShapeCircle" class="inline-block w-5 h-5 mr-2" />
-    {l "Circles"}
-  </LivePatch>
-</li>
+  
+  
 
-<li
-  >
-  <LivePatch 
-    to={"/settings/acls"}
-    class={"",  "active": @selected_tab == "acls"}>
-    <Icon outline="LockClosed" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "acls"} />
-    {l "Boundaries"}
-  </LivePatch>
-</li> -->
-
-<li :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) &&
-  Settings.get(:experimental_features_enabled, false, @__context__)}>
-  <LivePatch
-    to="/settings/shared_user"
-    class={
-      "",
-      active: @selected_tab == "shared_user"
-    }
-  >
-    <Icon
-      outline="UserGroup"
-      class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "shared_user"}
-    />
-    {l("Team Profiles")}
-  </LivePatch>
-</li>
-
-<li>
-  <LivePatch
-    to="/settings/extensions"
-    class={
-      "",
-      active: @selected_tab == "extensions"
-    }
-  >
-    <Icon outline="Puzzle" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "extensions"} />
-    {l("Extensions")}
-  </LivePatch>
-</li>
-
-<li class="!mt-1  menu-title">
-  <span class="!text-base !font-medium capitalize">
-    {l("Safety")}
-  </span>
-</li>
-
-<li>
-  <LivePatch
-    to="/settings/flags"
-    class={
-      "",
-      active: @selected_tab == "flags"
-    }
-  >
-    <Icon outline="Flag" class={"w-6 h-6 mr-2 stroke-current", "": @selected_tab == "flags"} />
-    {l("Flags")}
-  </LivePatch>
-</li>
 <!-- <li>
   <LivePatch 
     to={"/settings/ghosted"}
@@ -144,7 +213,7 @@
   >
     <Icon
       outline="Fire"
-      class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "instance_info"}
+      class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "instance_info"}
     />
     {l("Instance Info")}
   </LivePatch>
@@ -161,7 +230,7 @@
   >
     <Icon
       outline="Adjustments"
-      class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "instance"}
+      class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "instance"}
     />
     {l("Instance Settings")}
   </LivePatch>
@@ -171,7 +240,7 @@
   <LivePatch 
     to="/settings/extensions"
     class={"",  "active": @selected_tab == "extensions"}>
-  <Icon outline="Puzzle" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "feed"} />
+  <Icon outline="Puzzle" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "feed"} />
   {l "Extensions"}
   </LivePatch>
 </li> -->
@@ -186,7 +255,7 @@
   >
     <Icon
       outline="Scale"
-      class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "terms"}
+      class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "terms"}
     />
     {l("Terms / Policies")}
   </LivePatch>
@@ -205,7 +274,7 @@
   >
     <Icon
       outline="Mail"
-      class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "invites"}
+      class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "invites"}
     />
     {l("Invites")}
   </LivePatch>
@@ -228,7 +297,7 @@
   <LivePatch 
     to={"/settings/instance_acls"}
     class={"",  "active": @selected_tab == "instance_acls"}>
-    <Icon outline="LockClosed" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "feed"} />
+    <Icon outline="LockClosed" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "feed"} />
     {l "Local Boundaries"}
   </LivePatch>
 </li> -->
@@ -237,7 +306,7 @@
   <LivePatch 
     to={"/settings/acl/#{Bonfire.Boundaries.Fixtures.instance_acl}"}
     class={"",  "active": @id == Bonfire.Boundaries.Fixtures.instance_acl}>
-    <Icon iconify="bxs:EditLocation" class={"mr-2 w-6 h-6 font-normal ", "": @selected_tab == "feed"} />
+    <Icon iconify="bxs:EditLocation" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "feed"} />
     {l "Instance Boundaries"}
   </LivePatch>
 </li> -->
@@ -285,3 +354,4 @@
     </span>
   </LiveRedirect>
 </li> -->
+</ul>

@@ -1,6 +1,5 @@
-defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceLive do
+defmodule Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
   prop selected_tab, :string
-  prop uploads, :any
 end

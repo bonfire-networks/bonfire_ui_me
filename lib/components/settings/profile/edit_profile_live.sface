@@ -4,62 +4,19 @@
   method="POST"
 >
   <div class="">
-    <div class="py-4 mb-6 text-2xl font-bold border-b border-base-content/10 text-base-content">
-      {l("Edit profile")}
+    <div class="flex items-center justify-between py-8 mb-6 border-b border-base-content/10">
+      <div class="text-2xl font-bold text-base-content">
+        {l("Edit your profile")}
+      </div>
+      <button type="submit" class="normal-case btn-sm btn-wide btn btn-primary">{l("Save")}</button>
     </div>
-    <div class="mt-1 sm:mt-0">
-      <div
-        data-id="upload_image"
-        phx-drop-target={@uploads.image.ref}
-        class="relative flex justify-center px-6 py-10 bg-center bg-cover rounded-lg"
-        style={"background-image: url('" <> banner_url(@current_user) <> "'); height: 225px;"}
-      >
-        <div class="space-y-1 text-center">
-          <div class="flex text-sm text-primary-content-600">
-            <label
-              for={@uploads.image.ref}
-              class="absolute inset-0 flex flex-col items-center justify-center w-full h-full text-sm font-medium text-white transition duration-150 ease-in-out rounded-lg opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60"
-            >
-              {live_file_input(@uploads.image, class: "sr-only")}
-              <div class="text-center">
-                <span>{l("Upload a background image")}</span>
-                <p class="pl-1">{l("or drag and drop")}</p>
-              </div>
-              <p class="block mt-2 text-xs text-center text-primary-content-200">
-                {#if length(@uploads.image.entries) > 0}
-                  {#for entry <- @uploads.image.entries}
-                    {entry.client_name} - {entry.progress}%
-                  {/for}
-                {#else}
-                  {l("PNG, JPG, GIF up to 10MB")}
-                {/if}
-              </p>
-            </label>
-          </div>
-        </div>
-      </div>
-      <div
-        data-id="upload_icon"
-        phx-drop-target={@uploads.icon.ref}
-        class="relative block w-32 h-32 mb-6 ml-6 -mt-16 overflow-hidden rounded-full ring-8 ring-base-100"
-      >
-        <div
-          data-id="preview_icon"
-          class="flex items-center w-32 h-32 bg-cover rounded-full shadow-lg bg-base-content"
-          style={"background-image: url('" <> avatar_url(@current_user) <> "')"}
-        />
-        <label
-          for={@uploads.icon.ref}
-          class="absolute inset-0 flex items-center justify-center w-full h-full text-sm font-medium text-white transition duration-150 ease-in-out opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60"
-        >
-          <span>{l("Upload or drop")}</span>
-          <span class="sr-only">
-            {l("avatar")}</span>
-          {live_file_input(@uploads.icon, class: "sr-only")}
-        </label>
-      </div>
-      <div class="flex-grow space-y-6">
-        <div class="form-control">
+
+
+
+
+    <div class="max-w-lg mt-1 sm:mt-0">
+
+        <div class=" form-control">
           <label for="name" class="label">
             <span class="label-text">
               {l("Full name")}
@@ -75,33 +32,78 @@
           />
         </div>
 
-        <!-- TODO: needs better handling in the backend, so old usernames still point to the user
-         <div class="form-control">
-          <label for="username" class="label">
-            <span class="label-text">
-              {l "Username"}
-            </span>
-          </label>
-          <label class="w-full input-group">
-            <span>@</span>
-             <input type="text" name="character[username]" id="username" autocomplete="username" class="flex-1 input input-bordered" value={e(@current_user, :character, :username, "")}>
-            <span>
-              @{Config.get(:host)}
-            </span>
-          </label>
-        </div> -->
-
-        <div class="form-control">
+        <div class="mt-4 form-control">
           <label for="about" class="label">
-            <span class="label-text">{l("About")}</span>
+            <span class="label-text">{l("Bio")}</span>
           </label>
           <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(@current_user, :profile, :summary, "")}</textarea>
           <p class="mt-2 text-sm text-base-content text-opacity-70">
-            {l("Brief description for your profile. You can use markdown formatting.")}
+            {l("You can use markdown formatting.")}
           </p>
         </div>
 
-        <div class="form-control">
+      <div class="mt-6 rounded-md shadow bg-base-100">
+        <div
+          data-id="upload_image"
+          phx-drop-target={@uploads.image.ref}
+          class="relative flex justify-center px-6 py-10 bg-center bg-cover h-[130px]"
+          style={"background-image: url('" <> banner_url(@current_user) <> "')"}
+          >
+          <div class="space-y-1 text-center">
+            <div class="flex text-sm text-primary-content-600">
+              <label
+                for={@uploads.image.ref}
+                class="absolute inset-0 flex flex-col items-center justify-center w-full h-full text-sm font-medium text-white transition duration-150 ease-in-out rounded-lg opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60"
+              >
+                {live_file_input(@uploads.image, class: "sr-only")}
+                <div class="text-center">
+                  <span>{l("Upload a background image")}</span>
+                  <p class="pl-1">{l("or drag and drop")}</p>
+                </div>
+                <p class="block mt-2 text-xs text-center text-primary-content-200">
+                  {#if length(@uploads.image.entries) > 0}
+                    {#for entry <- @uploads.image.entries}
+                      {entry.client_name} - {entry.progress}%
+                    {/for}
+                  {#else}
+                    {l("PNG, JPG, GIF up to 10MB")}
+                  {/if}
+                </p>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center gap-3 p-3">
+          <div
+            data-id="upload_icon"
+            phx-drop-target={@uploads.icon.ref}
+            class="relative block w-16 h-16 overflow-hidden rounded-full ring-2 ring-base-100"
+            >
+            <Bonfire.UI.Common.AvatarLive
+              class="inline-block w-16 h-16 rounded-full bg-base-100"
+              user={@current_user}
+            />
+            <label
+              for={@uploads.icon.ref}
+              class="absolute inset-0 flex items-center justify-center w-full h-full text-sm font-medium text-white transition duration-150 ease-in-out opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60"
+              >
+              <span>{l("Upload or drop")}</span>
+              <span class="sr-only">
+                {l("avatar")}</span>
+              {live_file_input(@uploads.icon, class: "sr-only")}
+            </label>
+          </div>
+          <div class="flex flex-col">
+            <div class="font-medium">{e(@current_user, :profile, :name, "")}</div>
+            <div class="text-sm font-light text-base-content/70">
+              {e(@current_user, :character, :username, "")}@{Config.get(:host)}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+        <div class="mt-6 form-control">
           <label for="website" class="label">
             <span class="label-text">{l("Website")}</span>
           </label>
@@ -115,7 +117,7 @@
           />
         </div>
 
-        <div class="form-control">
+        <div class="mt-6 form-control">
           <label for="location" class="label">
             <span class="label-text">{l("Location")}</span>
           </label>
@@ -179,12 +181,7 @@
           <input type="text" name="profile[location]" id="location" autocomplete="location" class="flex-grow block w-full min-w-0 border-gray-300 rounded focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(@current_user, :profile, :location, "")}>
         </div>
       </div> -->
-      </div>
-      <div class="mt-8">
-        <button type="submit" class="w-full btn btn-primary">
-          {l("Save")}
-        </button>
-      </div>
+
     </div>
   </div>
 </form>

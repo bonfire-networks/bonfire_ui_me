@@ -8,7 +8,7 @@
           <li class="font-normal text-base-content/70">General</li>
         </ul>
       </div>
-      {l("General information")}
+      {l("Instance preferences")}
     </div>
 
     <div class="text-xs tracking-wide uppercase text-base-content">{l("Appearance")}</div>
@@ -395,7 +395,7 @@
 
         <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
           label={l(
-            "New users and their content should appear in publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden by each user)"
+            "New users and their content should appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden by each user)"
           )}
           scope={:instance}
         />

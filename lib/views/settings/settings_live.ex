@@ -31,7 +31,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        page_header_aside: [
          {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
        ],
-       selected_tab: "user",
+       selected_tab: "dashboard",
        id: nil,
        hide_smart_input: true,
        page: "settings",
