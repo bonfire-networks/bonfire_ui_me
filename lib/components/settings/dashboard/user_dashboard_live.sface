@@ -34,7 +34,7 @@
       </div>
     </LivePatch>
   </div>
-  <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Members")}</div>
+  <!-- <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Members")}</div>
   <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
     <LivePatch to="/settings/members" class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
@@ -55,11 +55,11 @@
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Customize your site and manage themes</div>
       </div>
     </LivePatch>
-  </div>
+  </div> -->
 
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Moderation")}</div>
   <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
-    <div class="flex items-center gap-4 group">
+    <LivePatch to="/settings/flags" class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon outline="Flag" class="w-7 h-7" />
       </div>
@@ -67,9 +67,9 @@
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Flagged")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
       </div>
-    </div>
+    </LivePatch>
 
-    <div class="flex items-center gap-4 group">
+    <LivePatch to="/settings/ghosted" class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon outline="Ban" class="w-7 h-7" />
       </div>
@@ -77,7 +77,17 @@
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Blocks")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
       </div>
-    </div>
+    </LivePatch>
+
+    <LivePatch to="/settings/silenced" class="flex items-center gap-4 group">
+      <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
+        <Icon outline="Ban" class="w-7 h-7" />
+      </div>
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Silenced")}</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
+      </div>
+    </LivePatch>
   </div>
 
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Advanced")}</div>

@@ -59,7 +59,7 @@
     </ul>
   </div>
 
-  <div x-data="{open: false}">
+  <!-- <div x-data="{open: true}">
     <li @click="open = ! open" class="mt-4">
       <div class="flex items-center justify-between">
         <span class="font-light text-base-content/70">{l("Members")}</span>
@@ -93,9 +93,9 @@
         </LivePatch>
       </li>
     </ul>
-  </div>
+  </div> -->
 
-  <div x-data="{open: false}">
+  <div x-data="{open: true}">
     <li @click="open = ! open" class="mt-4">
       <div class="flex items-center justify-between">
         <span class="font-light text-base-content/70">{l("Moderation")}</span>
@@ -106,8 +106,8 @@
     </li>
     <ul x-cloak x-show="open" x-collapse class="menu menu-compact">
       <li>
-        <LivePatch to="/settings/flagged" class={"", active: @selected_tab == "flagged"}>
-          <Icon outline="Flag" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "flagged"} />
+        <LivePatch to="/settings/flags" class={"", active: @selected_tab == "flags"}>
+          <Icon outline="Flag" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "flags"} />
           {l("Flagged")}
         </LivePatch>
       </li>
@@ -127,7 +127,7 @@
     </ul>
   </div>
 
-  <div x-data="{open: false}">
+  <div x-data="{open: true}">
     <li @click="open = ! open" class="mt-4">
       <div class="flex items-center justify-between">
         <span class="font-light text-base-content/70">{l("Advanced")}</span>
@@ -147,7 +147,7 @@
     </ul>
   </div>
 
-  <li>
+  <!-- <li>
     <LivePatch
       :if={module_enabled?(Bonfire.Invite.Links, @__context__) and
         Bonfire.Boundaries.can?(@__context__, :invite, :instance)}
@@ -160,7 +160,7 @@
       <Icon outline="ChatAlt" class={"mr-2 w-5 h-5 font-normal ", "": @selected_tab == "posts"} />
       {l("Posts")}
     </LivePatch>
-  </li>
+  </li> -->
 
   <!-- <li>
   <LivePatch 

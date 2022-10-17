@@ -183,7 +183,7 @@
     <LivePatch
       :if={module_enabled?(Bonfire.Invite.Links, @__context__) and
         Bonfire.Boundaries.can?(@__context__, :invite, :instance)}
-      to="/pages"
+      to="settings/instance/pages"
       class={
         "mt-8",
         active: @selected_tab == "pages"
