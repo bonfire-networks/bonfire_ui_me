@@ -13,8 +13,8 @@
           selected_tab={@selected_tab}
           uploads={@uploads}
         />
-      {#match "navigation"}
-        <Bonfire.UI.Me.SettingsViewsLive.InstanceNavigationLive selected_tab={@selected_tab} />
+        <!-- {#match "navigation"}
+        <Bonfire.UI.Me.SettingsViewsLive.InstanceNavigationLive selected_tab={@selected_tab} /> -->
       {#match "extensions"}
         <Bonfire.UI.Common.ExtensionsLive
           scope={:instance}
@@ -33,11 +33,6 @@
         <Dynamic.LiveComponent
           module={Config.get([:ui, :invites_component], Bonfire.Invite.Links.Web.InvitesLive)}
           id="admin_invites"
-          selected_tab={@selected_tab}
-        />
-      {#match "pages"}
-        <Bonfire.UI.Me.SettingsViewsLive.InstancePagesLive
-          id={:instance_pages}
           selected_tab={@selected_tab}
         />
       {#match "posts"}
