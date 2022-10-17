@@ -147,6 +147,13 @@
     </ul>
   </div>
 
+  <li :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
+    <LivePatch to="/settings/instance">
+      <Icon outline="Adjustments" class="mr-2 w-5 h-5 font-normal" />
+      {l("Instance Settings")} →
+    </LivePatch>
+  </li>
+
   <!-- <li>
     <LivePatch
       :if={module_enabled?(Bonfire.Invite.Links, @__context__) and

@@ -1,5 +1,5 @@
 <div class="py-8 mb-6 text-2xl font-bold text-base-content">
-  {l("Dashboard")}
+  {l("Instance Settings")}
 </div>
 <div class="mb-8">
   <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("website")}</div>

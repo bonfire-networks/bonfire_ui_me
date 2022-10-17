@@ -1,5 +1,5 @@
 <div class="py-8 mb-6 text-2xl font-bold text-base-content">
-  {l("Dashboard")}
+  {l("Settings")}
 </div>
 <div class="mb-8">
   <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("website")}</div>
@@ -10,7 +10,7 @@
       </div>
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Profile")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Basic publication details and site metadata</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("How you present yourself")}</div>
       </div>
     </LivePatch>
 
@@ -20,7 +20,7 @@
       </div>
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Preferences")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("How things should behave")}</div>
       </div>
     </LivePatch>
 
@@ -30,7 +30,7 @@
       </div>
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Edit account")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Email and password")}</div>
       </div>
     </LivePatch>
   </div>
@@ -65,7 +65,7 @@
       </div>
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Flagged")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Review what you've flagged")}</div>
       </div>
     </LivePatch>
 
@@ -75,7 +75,7 @@
       </div>
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Blocks")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("People and instances who shouldn't see you")}</div>
       </div>
     </LivePatch>
 
@@ -85,7 +85,7 @@
       </div>
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Silenced")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("People and instances you don't want to see")}</div>
       </div>
     </LivePatch>
   </div>
@@ -98,7 +98,7 @@
       </div>
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Extensions")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("A la carte")}</div>
       </div>
     </LivePatch>
   </div>
