@@ -1,4 +1,6 @@
 defmodule Bonfire.UI.Me.Routes do
+  # def declare_routes, do: nil
+
   defmacro __using__(_) do
     quote do
       pipeline :guest_only do
