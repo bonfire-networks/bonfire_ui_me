@@ -64,11 +64,14 @@ defmodule Bonfire.Me.Settings.LiveHandler do
 
   defp extension_toggle(extension, disabled?, attrs, socket) do
     scope =
-      e(attrs, "scope", nil)
+      maybe_to_atom(e(attrs, "scope", nil))
       |> debug("scope")
 
     with {:ok, settings} <-
            Bonfire.Me.Settings.put([extension, :disabled], disabled?, scope: scope, socket: socket) do
+      # generate an updated reverse router based on extensions that are enabled/disabled
+      if scope == :instance, do: Bonfire.Common.Extend.generate_reverse_router!()
+
       {
         :noreply,
         socket
