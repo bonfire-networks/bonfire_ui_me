@@ -1,7 +1,11 @@
 <div class="grid gap-8 grid-cols-[280px_1fr]">
   <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-base-content/10">
     <nav class="" role="navigation" aria-label={l("Settings navigation")}>
-      <Bonfire.UI.Me.SettingsViewLive.SidebarSettingsNavLive selected_tab={@selected_tab} id={@id} />
+      <Bonfire.UI.Common.SettingsViewLive.SidebarSettingsNavLive
+        page={@page}
+        selected_tab={@selected_tab}
+        id={@id}
+      />
     </nav>
   </div>
   <section class="w-full max-w-screen-xl px-8 mx-auto">
