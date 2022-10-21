@@ -1,5 +1,5 @@
 <main id="switch-user">
-  <div class="flex-1 p-3 rounded-md shadow bg-base-100">
+  <div class="flex-1 p-3 mt-3 rounded-md shadow bg-base-100">
     <p class="my-2 text-base text-center mb-7 text-base-content/80">
       {l(
         "You can have multiple user profiles for different online identities, or for your organizations or projects."
