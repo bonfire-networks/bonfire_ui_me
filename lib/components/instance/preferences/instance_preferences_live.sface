@@ -55,35 +55,6 @@
                 class="w-full h-24 textarea bg-base-content/10"
               >{Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_description], "")}</textarea>
             </div>
-
-            <!-- <div class="px-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-base-200 sm:pt-5">
-                <label
-                  for="instance_description"
-                  class="block text-sm font-medium text-base-content sm:mt-px sm:pt-2"
-                >
-                  {l("Instance welcome")}
-                  {l("(longer text shown on the homepage, you can use markdown and/or HTML)")}
-                </label>
-                <div class="mt-1 sm:mt-0 sm:col-span-2">
-                  <p class="mt-1 mb-2 text-sm text-base-content text-opacity-80">{l("Enter a short title")}</p>
-                  <input
-                    name="ui[theme][instance_welcome][title]"
-                    value={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_welcome, :title], "")}
-                    class="w-full input input-bordered"
-                  />
-
-                  <textarea
-                    id="instance_welcome"
-                    name="ui[theme][instance_welcome][description]"
-                    rows="6"
-                    class="w-full h-48 mt-3 textarea textarea-bordered"
-                  >{Bonfire.Me.Settings.get(
-                      [:bonfire, :ui, :theme, :instance_welcome, :description],
-                      ""
-                    )}</textarea>
-                </div>
-              </div> -->
-
             <div class="mt-3">
               <button type="submit" class="normal-case btn-wide btn btn-sm btn-primary">
                 {l("Save")}
