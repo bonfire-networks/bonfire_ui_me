@@ -1,7 +1,6 @@
 defmodule Bonfire.UI.Me.SwitchUserController.Test do
   use Bonfire.UI.Me.ConnCase, async: true
   alias Bonfire.Me.Fake
-  alias Bonfire.Common.Repo
 
   describe "index" do
     test "not logged in" do
@@ -69,7 +68,7 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
 
       user =
         fake_user!(account, %{profile: %{name: "tester"}})
-        |> Repo.preload([:character, :profile])
+        |> repo().preload([:character, :profile])
 
       conn = conn(account: account)
       conn = get(conn, "/switch-user/#{user.character.username}")

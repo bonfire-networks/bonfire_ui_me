@@ -17,6 +17,6 @@ defmodule Bonfire.UI.Me.WidgetUsersLive do
   end
 
   def list_admins() do
-    Bonfire.Common.Repo.maybe_preload(Bonfire.Me.Users.list_admins(), [:character, profile: :icon])
+    repo().maybe_preload(Bonfire.Me.Users.list_admins(), [:character, profile: :icon])
   end
 end

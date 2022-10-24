@@ -22,6 +22,7 @@ defmodule Bonfire.UI.Me.DataCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
+      import Bonfire.Common.Simulation
       # import Bonfire.UI.Me.DataCase
     end
   end

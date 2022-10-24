@@ -30,6 +30,7 @@ defmodule Bonfire.UI.Me.ConnCase do
       # import Bonfire.UI.Me.ConnCase
       import Bonfire.UI.Me.Test.ConnHelpers
       import Bonfire.UI.Me.Test.FakeHelpers
+      import Bonfire.Common.Simulation
       import Bonfire.Me.Fake.Helpers
 
       import Untangle
