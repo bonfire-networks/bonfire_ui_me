@@ -6,12 +6,12 @@
         <div class="text-sm font-bold">{l("Discoverable")}</div>
         <div class="text-sm font-light text-base-content/70">{@label}</div>
       </div>
-      <input name="Bonfire.Me.Users[discoverable]" value="false" type="hidden">
+      <input name="Bonfire.Me.Users[undiscoverable]" value="true" type="hidden">
       <input
-        name="Bonfire.Me.Users[discoverable]"
-        value="true"
+        name="Bonfire.Me.Users[undiscoverable]"
+        value="false"
         type="checkbox"
-        checked={if Bonfire.Me.Settings.get([Bonfire.Me.Users, :discoverable], true, @scope || assigns),
+        checked={if !Bonfire.Me.Settings.get([Bonfire.Me.Users, :undiscoverable], false, @scope || @__context__),
           do: "checked"}
         class="toggle"
       />

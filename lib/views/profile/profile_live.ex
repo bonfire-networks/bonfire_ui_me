@@ -109,7 +109,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         interaction_type: l("follow"),
         follows_me: following,
         no_index:
-          !Bonfire.Me.Settings.get([Bonfire.Me.Users, :discoverable], true, current_user: user)
+          Bonfire.Me.Settings.get([Bonfire.Me.Users, :undiscoverable], false, current_user: user)
       )
       |> assign_global(
         # following: following || [],
