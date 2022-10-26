@@ -108,6 +108,18 @@ defmodule Bonfire.UI.Me.ProfileLive do
         name: name,
         interaction_type: l("follow"),
         follows_me: following,
+        sidebar_widgets: [
+          users: [
+            secondary: [
+              {Bonfire.Tag.Web.WidgetTagsLive, []}
+            ]
+          ],
+          guests: [
+            secondary: [
+              {Bonfire.Tag.Web.WidgetTagsLive, []}
+            ]
+          ]
+        ],
         no_index:
           Bonfire.Me.Settings.get([Bonfire.Me.Users, :undiscoverable], false, current_user: user)
       )

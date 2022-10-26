@@ -1,5 +1,5 @@
-<div class="relative md:mb-6 md:rounded-md md:shadow bg-base-100">
-  <div class="flex z-50 absolute left-0 right-0 top-0 items-start justify-between p-3 bg-gradient-to-b from-black to-transparent h-[80px]">
+<div class="relative md:mb-6 md:rounded-lg md:shadow bg-base-100">
+  <div class="rounded-t-lg flex z-50 absolute left-0 right-0 top-0 items-start justify-between p-3 bg-gradient-to-b from-black to-transparent h-[80px]">
     <Bonfire.UI.Common.BackButtonLive showing_within={@showing_within} />
 
     <div class="flex items-center gap-4">
