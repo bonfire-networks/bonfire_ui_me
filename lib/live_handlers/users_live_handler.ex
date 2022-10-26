@@ -23,7 +23,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
       ) do
     with {:ok, shared_user} <-
            Bonfire.Me.SharedUsers.add_accounts(
-             current_user_required(socket),
+             current_user_required!(socket),
              emails_or_usernames,
              attrs
            ) do
@@ -39,7 +39,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
         %{"username_or_id" => username_or_id} = _attrs,
         socket
       ) do
-    with true <- Bonfire.Me.Users.is_admin?(current_user_required(socket)),
+    with true <- Bonfire.Me.Users.is_admin?(current_user_required!(socket)),
          {:ok, user} <- Bonfire.Me.Users.make_admin(username_or_id) do
       {:noreply,
        socket
@@ -53,7 +53,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
         %{"username_or_id" => username_or_id} = _attrs,
         socket
       ) do
-    with true <- Bonfire.Me.Users.is_admin?(current_user_required(socket)),
+    with true <- Bonfire.Me.Users.is_admin?(current_user_required!(socket)),
          {:ok, user} <- Bonfire.Me.Users.revoke_admin(username_or_id) do
       {:noreply,
        socket

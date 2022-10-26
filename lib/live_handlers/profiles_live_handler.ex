@@ -24,7 +24,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     # params = input_to_atoms(params)
 
     with {:ok, _edit_profile} <-
-           Users.update(current_user_required(socket), params, current_account(socket)) do
+           Users.update(current_user_required!(socket), params, current_account(socket)) do
       # debug(icon: Map.get(params, "icon"))
       cond do
         # handle controller-based upload
