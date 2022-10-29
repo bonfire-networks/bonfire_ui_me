@@ -136,7 +136,7 @@
   <div class="flex items-start justify-between">
     <div class="flex flex-col gap-3 px-6 md:px-0 md:items-start md:flex-row md:gap-6">
       <Bonfire.UI.Common.AvatarLive
-        class="inline-block object-cover w-24 h-24 -mt-8 rounded-full md:ml-4 tablet:-mt-6 ring-4 ring-base-100 bg-base-200 tablet:w-32 tablet:h-32 tablet:ml-6"
+        class="inline-block object-cover w-32 h-32 -mt-12 rounded-full md:ml-4 tablet:-mt-6 ring-4 ring-base-100 bg-base-200 tablet:ml-6"
         size="100%"
         user={@user}
       />
