@@ -15,13 +15,13 @@
           follows_me={e(@follows_me, false)}
         />
       </:header>
-      <:widget>
+      <!-- <:widget>
         <Dynamic.Component
           :if={module_enabled?(Bonfire.UI.Me.WidgetProfileLive)}
           module={Bonfire.UI.Me.WidgetProfileLive}
           user={@user}
         />
-      </:widget>
+      </:widget> -->
     </Dynamic.Component>
   </section>
 </main>
