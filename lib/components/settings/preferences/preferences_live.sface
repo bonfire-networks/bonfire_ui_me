@@ -26,6 +26,35 @@
               <span class="label-text text-base-content/70">
                 {l("Default theme")}</span>
             </label>
+
+            <!-- <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
+              <div class="flex max-w-lg">
+                <div class="flex flex-col gap-1">
+                  <div class="text-sm font-bold">{l("Use device theme")}</div>
+                </div>
+                <form name="settings" phx-change="Bonfire.Me.Settings:set">
+                <input name="scope" value={:user} type="hidden">
+                <input
+                  type="radio"
+                  name="ui[device_theme]"
+                  {if Settings.get([:ui, :device_theme, false], false, :user), do: "checked", else: ""}
+                  value={Settings.get([:ui, :device_theme, false], false, :user)}
+                  class="toggle"
+                />
+                </form>
+              </div>
+            </div> -->
+
+            <!-- <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
+              <div class="flex max-w-lg">
+                <Bonfire.UI.Common.ChangeThemesLive
+                  theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", :instance)}
+                  theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", :instance)}
+                />
+              </div>
+            </div> -->
+
+
             <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
               <div class="flex max-w-lg">
                 <Bonfire.UI.Common.ChangeThemesLive
