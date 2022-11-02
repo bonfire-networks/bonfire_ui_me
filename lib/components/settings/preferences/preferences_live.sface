@@ -54,7 +54,6 @@
               </div>
             </div> -->
 
-
             <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
               <div class="flex max-w-lg">
                 <Bonfire.UI.Common.ChangeThemesLive

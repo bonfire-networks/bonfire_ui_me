@@ -95,7 +95,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       |> assign_new(:selected_tab, fn -> "timeline" end)
       |> assign(
         smart_input: true,
-        feed: [],
+        feed: nil,
         page_info: [],
         page: "profile",
         page_title: title,
