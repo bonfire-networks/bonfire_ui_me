@@ -8,7 +8,7 @@ defmodule Bonfire.UI.Me.CreateUserLive do
   def mount(params, session, socket) do
     live_plug(params, session, socket, [
       LivePlugs.LoadCurrentAccount,
-      # LivePlugs.LoadCurrentUser,
+      LivePlugs.LoadCurrentUser,
       LivePlugs.AccountRequired,
       Bonfire.UI.Common.LivePlugs.StaticChanged,
       Bonfire.UI.Common.LivePlugs.Csrf,
@@ -24,7 +24,8 @@ defmodule Bonfire.UI.Me.CreateUserLive do
      |> assign(:page_title, l("Create a new user profile"))
      |> assign_new(:form, fn -> user_form(current_account(socket)) end)
      |> assign_new(:error, fn -> nil end)
-     |> assign(:without_sidebar, true)}
+     |> assign(:without_sidebar, true)
+     |> assign(:hide_smart_input, true)}
   end
 
   defp user_form(params \\ %{}, account),

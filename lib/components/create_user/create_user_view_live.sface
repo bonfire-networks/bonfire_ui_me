@@ -1,4 +1,4 @@
-<div class="p-3 mx-auto bg-base-100 rounded-md shadow mt-3">
+<div class="max-w-screen-sm mx-3 mt-3 md:mx-auto">
   <div class="my-2">
     <div class="p-4 rounded-md bg-info/10">
       <div class="flex">
@@ -47,16 +47,20 @@
         </div>
       </div>
   {/case}
-  <Form for={@form} action={path(:create_user, :create)} opts={[id: "create-form"]}>
-    <div x-data="{username:''}" class="flex flex-col mt-4 space-y-3">
+  <Form for={@form} action={path(:create_user, :create)} opts={[class: "rounded-md shadow bg-base-100 p-3", id: "create-form"]}>
+    <div class="flex items-center gap-2 mb-3 text-base font-semibold">
+      <!-- <Icon iconify="noto:fire" class="w-7 h-7" /> -->
+      <span>{l "Create a new user"}</span>
+    </div>
+    <div x-data="{username:''}" class="flex flex-col space-y-2">
       <Inputs for={:profile}>
         <Field name={:name}>
           <Label class="label">
-            <span class="label-text">
+            <span class="text-sm label-text text-base-content/80">
               {l("Enter your name or a pseudonym")}
             </span>
           </Label>
-          <TextInput required class="w-full input input-bordered" opts={"x-model": "username"} />
+          <TextInput required class="w-full input bg-base-content/5 h-9" opts={"x-model": "username"} />
           <ErrorTag />
         </Field>
       </Inputs>
@@ -67,14 +71,14 @@
               {l("Choose a username")}
             </span>
           </Label>
-          <label class="input-group input-group-md">
+          <label class="text-sm input-group input-group-md text-base-content/80">
             <span class="text-sm">@</span>
             <TextInput
-              class="flex-1 input input-bordered"
+              class="flex-1 w-full bg-base-content/5 input h-9"
               required
               opts={"x-bind:value": "suggest_username(username)"}
             />
-            <span class="text-sm">@{Config.get(:host)}</span>
+            <span class="hidden text-sm md:flex">@{Config.get(:host)}</span>
           </label>
           <ErrorTag />
         </Field>
@@ -82,11 +86,11 @@
       <Inputs for={:profile}>
         <Field name={:summary}>
           <Label>
-            <span class="label-text">
+            <span class="text-sm label-text text-base-content/80">
               {l("Tell people a bit about yourself")}
             </span>
           </Label>
-          <TextArea class="w-full h-24 mt-1 textarea textarea-bordered" placeholder="Type your bio" />
+          <TextArea class="w-full h-24 mt-1 bg-base-content/5 textarea" placeholder="Type your bio" />
           <ErrorTag />
         </Field>
       </Inputs>
