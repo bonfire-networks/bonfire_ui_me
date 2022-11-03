@@ -5,7 +5,7 @@
     <div class="flex items-center gap-4">
       <LiveRedirect
         :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
-        to="/settings/user"
+        to="/settings"
         class="flex normal-case opacity-90 btn btn-sm"
       >
         <span class="mr-2">
