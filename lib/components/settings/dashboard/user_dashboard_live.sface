@@ -2,7 +2,7 @@
   {l("Settings")}
 </div>
 <div class="mb-8">
-  <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("website")}</div>
+  <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("General")}</div>
   <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
     <LivePatch to="/settings/profile" class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
@@ -74,7 +74,7 @@
         <Icon outline="Ban" class="w-7 h-7" />
       </div>
       <div class="flex flex-col gap-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Blocks")}</div>
+        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Ghosted")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("People and instances who shouldn't see you")}</div>
       </div>
     </LivePatch>
@@ -84,7 +84,7 @@
         <Icon outline="Ban" class="w-7 h-7" />
       </div>
       <div class="flex flex-col gap-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Silenced")}</div>
+        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Ignored / Silenced")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("People and instances you don't want to see")}</div>
       </div>
     </LivePatch>
