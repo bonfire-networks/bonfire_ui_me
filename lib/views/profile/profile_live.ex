@@ -111,13 +111,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
         sidebar_widgets: [
           users: [
             secondary: [
-              {Bonfire.UI.Me.WidgetProfileLive, [user: user]},
+              # {Bonfire.UI.Me.WidgetProfileLive, [user: user]},
               {Bonfire.Tag.Web.WidgetTagsLive, []}
             ]
           ],
           guests: [
             secondary: [
-              {Bonfire.UI.Me.WidgetProfileLive, [user: user]},
+              # {Bonfire.UI.Me.WidgetProfileLive, [user: user]},
               {Bonfire.Tag.Web.WidgetTagsLive, []}
             ]
           ]
