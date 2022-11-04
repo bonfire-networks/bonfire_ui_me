@@ -3,8 +3,6 @@
     <Bonfire.UI.Common.BackButtonLive showing_within={@showing_within} />
 
     <div class="flex items-center gap-4">
-
-      
     </div>
   </div>
   <div
@@ -51,7 +49,7 @@
           <div
             :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)}
             class="flex items-center mt-3 space-x-4"
-            >
+          >
             <div :if={e(@user, :profile, :location, nil)} class="flex items-center">
               <Icon solid="LocationMarker" class="w-5 h-5 text-base-content text-opacity-70" />
               <span class="ml-2 text-sm text-base-content text-opacity-70">
@@ -106,7 +104,7 @@
         :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
         to="/settings"
         class="font-semibold !h-[2-25rem] btn-sm px-8 normal-case rounded-full btn btn-outline border-opacity-70"
-        >
+      >
         {l("Edit profile")}
       </LiveRedirect>
       <a
@@ -115,7 +113,7 @@
         target="_blank"
         rel="noopener noreferrer"
         class="hidden btn btn-sm lg:flex btn-info btn-circle"
-        >
+      >
         <Icon solid="ExternalLink" class="w-4 h-4" />
       </a>
 
@@ -135,10 +133,15 @@
         <Icon solid="Mail" class="w-4 h-4" />
       </LiveRedirect>
 
-      <div 
+      <div
         :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}
-        aria-haspopup="true" class="dropdown dropdown-end">
-        <label tabindex="0" class="btn btn-outline h-[34px] w-[34px] btn-sm btn-circle border-base-content/50">
+        aria-haspopup="true"
+        class="dropdown dropdown-end"
+      >
+        <label
+          tabindex="0"
+          class="btn btn-outline h-[34px] w-[34px] btn-sm btn-circle border-base-content/50"
+        >
           <Icon solid="DotsHorizontal" class="w-4 h-4" />
         </label>
         <ul
@@ -197,7 +200,6 @@
           <Bonfire.Boundaries.Web.BlockMenuButtonsLive object={@user} />
         </ul>
       </div>
-      
     </div>
   </div>
 
