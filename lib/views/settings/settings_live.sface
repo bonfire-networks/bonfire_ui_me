@@ -1,4 +1,4 @@
-<div class="w-full items-start mx-auto grid grid-cols-1 md:grid-cols-[250px_minmax(min-content,_1fr)]">
+<div class="w-full items-start mx-auto grid grid-cols-1  md:grid-cols-[300px_minmax(min-content,_1fr)] desktop-lg:grid-cols-[350px_minmax(min-content,_1fr)]">
   <div class="border-r border-base-content/10 overflow-y-auto overflow-x-hidden widget pt-3 px-4 md:pt-6 hidden z-[110]  md:block sticky top-[56px]">
     <Bonfire.UI.Common.SettingsViewLive.SidebarSettingsNavLive
       page={@page}

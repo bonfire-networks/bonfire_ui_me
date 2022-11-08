@@ -31,6 +31,18 @@ defmodule Bonfire.UI.Me.SettingsLive do
        page_header_aside: [
          {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
        ],
+       sidebar_widgets: [
+        users: [
+          secondary: [
+            {Bonfire.Tag.Web.WidgetTagsLive, []}
+          ]
+        ],
+        guests: [
+          secondary: [
+            {Bonfire.Tag.Web.WidgetTagsLive, []}
+          ]
+        ]
+      ],
        selected_tab: "dashboard",
        id: nil,
        hide_smart_input: true,
