@@ -1,7 +1,7 @@
 <div class="relative md:mb-3">
-  <div class="bg-base-200">
+  <div class="pt-4 bg-base-200">
     <div
-      class="relative bg-center m-4 bg-cover rounded-xl bg-no-repeat bg-base-200 h-[280px]"
+      class="relative bg-center m-4 mt-0 bg-cover rounded-xl bg-no-repeat bg-base-200 h-[280px]"
       style={"background-image: url('#{banner_url(@user)}')"}
       >
       <!-- FOLLOWS YOU LABEL -->
