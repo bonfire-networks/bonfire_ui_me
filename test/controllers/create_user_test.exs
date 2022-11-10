@@ -154,8 +154,8 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     }
 
     conn = post(conn, "/create-user", params)
-    assert redirected_to(conn) == "/feed"
-    conn = get(recycle(conn), "/feed")
+    assert redirected_to(conn) == "/"
+    conn = get(recycle(conn), "/")
     doc = floki_response(conn)
     assert [ok] = find_flash(doc)
     assert_flash(ok, :info, ~r/nice/)

@@ -121,7 +121,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       }
 
       conn = post(conn, "/login", params)
-      assert redirected_to(conn) == "/feed"
+      assert redirected_to(conn) == "/"
     end
 
     test "with email for an account with multiple user identities" do
@@ -156,7 +156,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       }
 
       conn = post(conn, "/login", params)
-      assert redirected_to(conn) == "/feed"
+      assert redirected_to(conn) == "/"
     end
   end
 end

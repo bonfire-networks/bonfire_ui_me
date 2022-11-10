@@ -54,7 +54,7 @@ defmodule Bonfire.UI.Me.LoginController do
         name: e(user, :profile, :name, e(user, :character, :username, "anonymous"))
       )
     )
-    |> redirect_to_previous_go(form, path(:feed), "/login")
+    |> redirect_to_previous_go(form, "/", "/login")
   end
 
   defp paint(conn, changeset) do
