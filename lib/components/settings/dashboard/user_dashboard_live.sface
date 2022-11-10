@@ -1,7 +1,4 @@
-<div class="py-6 mb-6 text-2xl font-bold text-base-content">
-  {l("Settings")}
-</div>
-<div class="mb-8">
+<div class="my-6">
   <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("General")}</div>
   <div class="grid grid-cols-1 gap-6 mt-8 md:grid-cols-2 tablet-lg:grid-cols-3 tablet-lg:gap-y-10">
     <LivePatch
