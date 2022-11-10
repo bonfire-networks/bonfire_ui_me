@@ -3,7 +3,7 @@
     <div
       class="relative bg-center m-4 mt-0 bg-cover rounded-xl bg-no-repeat bg-base-200 h-[280px]"
       style={"background-image: url('#{banner_url(@user)}')"}
-      >
+    >
       <!-- FOLLOWS YOU LABEL -->
       <div :if={@follows_me} class="absolute rounded right-2 bottom-2 opacity-90 badge badge-lg">
         {"Follows you"}
@@ -197,12 +197,11 @@
         </div>
       </div>
     </div>
-      <Bonfire.UI.Common.TabsLive
-        selected_tab={@selected_tab}
-        class="max-w-screen-md gap-3 mx-auto mt-8 border-t border-base-content/10 tabs_nav_profile tabs"
-        path_prefix={"/@#{e(@user, :character, :username, "")}/"}
-        tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
-      />
+    <Bonfire.UI.Common.TabsLive
+      selected_tab={@selected_tab}
+      class="max-w-screen-md gap-3 mx-auto mt-8 border-t border-base-content/10 tabs_nav_profile tabs"
+      path_prefix={"/@#{e(@user, :character, :username, "")}/"}
+      tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
+    />
   </div>
-
 </div>

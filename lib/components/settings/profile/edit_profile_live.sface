@@ -3,14 +3,13 @@
   phx-submit="Bonfire.Me.Profiles:save"
   method="POST"
 >
-    <div class="flex items-center justify-between py-8 mb-6 border-b border-base-content/10">
-      <div class="text-2xl font-bold text-base-content">
-        {l("Edit your profile")}
-      </div>
-      <button type="submit" class="normal-case btn-sm btn-wide btn btn-primary">{l("Save")}</button>
+  <div class="flex items-center justify-between py-8 mb-6 border-b border-base-content/10">
+    <div class="text-2xl font-bold text-base-content">
+      {l("Edit your profile")}
     </div>
+    <button type="submit" class="normal-case btn-sm btn-wide btn btn-primary">{l("Save")}</button>
+  </div>
   <div class="max-w-screen-md p-3 mx-auto my-3 rounded-md shadow bg-base-100">
-
     <div class="max-w-screen-md mt-1 sm:mt-0">
       <div class="form-control">
         <label for="name" class="label">

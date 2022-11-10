@@ -32,17 +32,17 @@ defmodule Bonfire.UI.Me.SettingsLive do
          {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
        ],
        sidebar_widgets: [
-        users: [
-          secondary: [
-            {Bonfire.Tag.Web.WidgetTagsLive, []}
-          ]
-        ],
-        guests: [
-          secondary: [
-            {Bonfire.Tag.Web.WidgetTagsLive, []}
-          ]
-        ]
-      ],
+         users: [
+           secondary: [
+             {Bonfire.Tag.Web.WidgetTagsLive, []}
+           ]
+         ],
+         guests: [
+           secondary: [
+             {Bonfire.Tag.Web.WidgetTagsLive, []}
+           ]
+         ]
+       ],
        selected_tab: "dashboard",
        id: nil,
        hide_smart_input: true,
