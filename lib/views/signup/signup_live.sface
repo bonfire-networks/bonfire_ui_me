@@ -1,5 +1,10 @@
 <div class="w-full" id="signup">
-  <Bonfire.UI.Common.LogoGuestLive />
+  <Bonfire.UI.Common.LogoLinkLive
+    container_class=""
+    image_class="mt-12 mb-6 mx-auto w-12 h-12 bg-center bg-no-repeat bg-cover"
+    with_name={false}
+    href="/"
+  />
 
   {#if @registered}
     <div class="w-full mx-auto rounded-md shadow bg-base-100">
