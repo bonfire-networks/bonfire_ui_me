@@ -78,4 +78,10 @@ defmodule Bonfire.UI.Me.CharacterLive do
         nil
     end
   end
+
+  def render(assigns) do
+    ~F"""
+    Error - this URL should have redirected you.
+    """
+  end
 end
