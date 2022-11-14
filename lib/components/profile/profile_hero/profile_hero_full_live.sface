@@ -18,7 +18,7 @@
         />
         <div class="flex flex-col gap-1 md:mt-3">
           <div class="flex items-center text-2xl font-bold text-base-content">
-            <LivePatch to={"/user/#{e(@user, :character, :username, "")}/timeline"}>
+            <LivePatch to={~p"/user/#{e(@user, :character, :username, "")}/timeline"}>
               {e(@user, :profile, :name, "Anonymous")}
             </LivePatch>
 
@@ -68,7 +68,7 @@
 
           <div class="flex items-center mt-2 text-base-content">
             <Icon solid="Users" class="w-5 h-5 text-base-content text-opacity-70" />
-            <LivePatch to={"/user/#{e(@user, :character, :username, "")}/followers"}>
+            <LivePatch to={~p"/user/#{e(@user, :character, :username, "")}/followers"}>
               <span class="ml-2 mr-2 text-sm text-base-content text-opacity-70 hover:underline">
                 <strong
                   :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, @__context__)}
@@ -80,7 +80,7 @@
               </span>
             </LivePatch>
             <span class="text-base-content text-opacity-70">·</span>
-            <LivePatch to={"/user/#{e(@user, :character, :username, "")}/followed"}>
+            <LivePatch to={~p"/user/#{e(@user, :character, :username, "")}/followed"}>
               <span class="ml-2 text-sm text-base-content text-opacity-70 hover:underline">
                 <strong
                   :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, @__context__)}
@@ -97,7 +97,7 @@
       <div class="flex items-center gap-3 pr-3 mt-3">
         <LiveRedirect
           :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
-          to="/settings"
+          to={~p"/settings"}
           class="font-semibold !h-[2-25rem] btn-sm px-8 normal-case rounded-full btn btn-outline border-opacity-70"
         >
           {l("Edit profile")}

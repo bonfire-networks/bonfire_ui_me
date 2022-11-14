@@ -4,7 +4,7 @@
 <div class="mb-8">
   <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("website")}</div>
   <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
-    <LivePatch to="/settings/instance/instance_info" class="flex items-center gap-4 group">
+    <LivePatch to={~p"/settings/instance/instance_info"} class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon outline="Cog" class="w-7 h-7" />
       </div>
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <LivePatch to="/settings/instance/navigation" class="flex items-center gap-4 group">
+    <LivePatch to={~p"/settings/instance/navigation"} class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon outline="PaperAirplane" class="w-7 h-7" />
       </div>
@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <LivePatch to="/settings/instance/terms" class="flex items-center gap-4 rounded group">
+    <LivePatch to={~p"/settings/instance/terms"} class="flex items-center gap-4 rounded group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon outline="Scale" class="w-7 h-7" />
       </div>
@@ -56,7 +56,7 @@
   </div>
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Members")}</div>
   <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
-    <LivePatch to="/settings/instance/members" class="flex items-center gap-4 group">
+    <LivePatch to={~p"/settings/instance/members"} class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon outline="Users" class="w-7 h-7" />
       </div>
@@ -66,7 +66,7 @@
       </div>
     </LivePatch>
 
-    <LivePatch to="/settings/instance/invites" class="flex items-center gap-4 group">
+    <LivePatch to={~p"/settings/instance/invites"} class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon outline="Mail" class="w-7 h-7" />
       </div>
@@ -102,7 +102,7 @@
 
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Advanced")}</div>
   <div class="grid grid-cols-3 gap-6 mt-8 gap-y-10">
-    <LivePatch to="/settings/instance/extensions" class="flex items-center gap-4 group">
+    <LivePatch to={~p"/settings/instance/extensions"} class="flex items-center gap-4 group">
       <div class="flex items-center transition rounded-full w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon outline="Puzzle" class="w-7 h-7" />
       </div>

@@ -24,7 +24,7 @@
         <span class="tracking-wide">{l("View")}</span>
       </a>
       <LiveRedirect
-        to={"/pages/edit/#{page_id}"}
+        to={~p"/pages/edit/#{page_id}"}
         class="gap-2 normal-case rounded-md btn btn-sm text-base-content/70 border-base-content/70 btn-outline"
       >
         <Icon outline="Pencil" class="w-5 h-5" />

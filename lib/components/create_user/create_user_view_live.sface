@@ -28,7 +28,7 @@
           </div>
           <div class="ml-3">
             <h3 class="text-sm font-medium text-yellow-800">
-              {l("This username has already been taken. Please choose another. Did you mean to")} <LiveRedirect to="/switch-user">{l("Switch user profile")}</LiveRedirect> {l("or")} <LiveRedirect to="/login">{l("login")}</LiveRedirect>?
+              {l("This username has already been taken. Please choose another. Did you mean to")} <LiveRedirect to={~p"/switch-user"}>{l("Switch user profile")}</LiveRedirect> {l("or")} <LiveRedirect to={~p"/login"}>{l("login")}</LiveRedirect>?
             </h3>
           </div>
         </div>

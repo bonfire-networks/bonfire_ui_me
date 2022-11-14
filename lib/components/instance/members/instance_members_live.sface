@@ -25,7 +25,7 @@
               user={user}
             />
             <div>
-              <LiveRedirect to={"/@" <> e(user, :character, :username, "")} class="font-bold link link-hover">{e(user, :profile, :name, "Anonymous")}</LiveRedirect>
+              <LiveRedirect to={~p"/@" <> e(user, :character, :username, "")} class="font-bold link link-hover">{e(user, :profile, :name, "Anonymous")}</LiveRedirect>
               <div class="text-sm opacity-50">@{e(user, :character, :username, "")}</div>
             </div>
           </div>

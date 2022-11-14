@@ -1,7 +1,7 @@
 <main class="flex flex-col bg-base-100">
   <div role="tabpanel" class="flex justify-between w-full mb-2 bg-base-200">
     <LiveRedirect
-      to={"/user/#{e(@user, :character, :username, "")}/followers"}
+      to={~p"/user/#{e(@user, :character, :username, "")}/followers"}
       class="flex flex-1 pt-2 text-base font-semibold capitalize hover:bg-base-content/10 group place-content-center"
     >
       <div class={"tab tab-bordered flex group-hover:text-opacity-100", "tab-active": @selected_tab == "followers"}>
@@ -12,7 +12,7 @@
       </div>
     </LiveRedirect>
     <LiveRedirect
-      to={"/user/#{e(@user, :character, :username, "")}/followed"}
+      to={~p"/user/#{e(@user, :character, :username, "")}/followed"}
       class="flex flex-1 pt-2 text-base font-semibold capitalize hover:bg-base-content/10 group place-content-center"
     >
       <div class={"tab tab-bordered flex group-hover:text-opacity-100", "tab-active": @selected_tab == "followed"}>

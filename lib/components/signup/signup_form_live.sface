@@ -11,7 +11,7 @@
             </div>
             <div class="ml-3">
               <h3 class="text-sm font-medium">
-                {l("This email is taken.")} Did you mean to <LiveRedirect to="/login">log in</LiveRedirect>?
+                {l("This email is taken.")} Did you mean to <LiveRedirect to={~p"/login"}>log in</LiveRedirect>?
               </h3>
             </div>
           </div>
