@@ -1,7 +1,7 @@
 <div class="relative md:mb-3">
-  <div class="pt-4 bg-base-200">
+  <div class="bg-base-200">
     <div
-      class="relative bg-center m-4 mt-0 bg-cover rounded-xl bg-no-repeat bg-base-200 h-[280px]"
+      class="relative bg-center mt-0 bg-cover  bg-no-repeat bg-base-200 h-[280px]"
       style={"background-image: url('#{banner_url(@user)}')"}
     >
       <!-- FOLLOWS YOU LABEL -->
@@ -9,10 +9,10 @@
         {"Follows you"}
       </div>
     </div>
-    <div class="flex items-start max-w-screen-md mx-auto">
+    <div class="flex flex-col items-center max-w-screen-md mx-auto md:flex-row md:items-start">
       <div class="flex flex-col flex-1 gap-3 px-6 desktop-lg:px-0 desktop-lg:items-start desktop-lg:flex-row desktop-lg:gap-6">
         <Bonfire.UI.Common.AvatarLive
-          class="inline-block object-cover w-40 h-40 -mt-12 rounded-full ring-4 ring-base-200 bg-base-content/5"
+          class="inline-block object-cover w-40 h-40 mx-auto -mt-16 rounded-full md:mx-0 ring-4 ring-base-200 bg-base-content/5"
           size="100%"
           user={@user}
         />
