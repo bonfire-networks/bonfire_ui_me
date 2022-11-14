@@ -33,49 +33,46 @@ defmodule Bonfire.UI.Me.CharacterLive do
           current_user
 
         "@" <> username ->
-          get(username)
+          "/@" <> username
+
+        "+" <> username ->
+          "/+" <> username
 
         username ->
-          get(username)
+          # TODO: really need to query here?
+          Bonfire.UI.Me.ProfileLive.get(username)
       end
       |> debug("user_etc")
 
     if user_etc do
-      # show profile locally
-      # redir to remote profile
-      if current_user || Integration.is_local?(user_etc) do
+      if is_binary(user_etc) do
+        # redir to profile path
         {:ok,
          redirect_to(
            socket,
-           path(user_etc)
+           user_etc
          )}
       else
-        {:ok,
-         redirect(socket,
-           external: canonical_url(user_etc)
-         )}
+        # show profile locally
+        if current_user || Integration.is_local?(user_etc) do
+          {:ok,
+           redirect_to(
+             socket,
+             path(user_etc)
+           )}
+        else
+          # redir to remote profile
+          {:ok,
+           redirect(socket,
+             external: canonical_url(user_etc)
+           )}
+        end
       end
     else
       {:ok,
        socket
        |> assign_flash(:error, l("Not found"))
        |> redirect_to(path(:error))}
-    end
-  end
-
-  def get(username) do
-    username =
-      String.trim_trailing(
-        username,
-        "@" <> Bonfire.Common.URIs.instance_domain()
-      )
-
-    with {:ok, character} <- Bonfire.Me.Characters.by_username(username) do
-      # FIXME? this results in extra queries
-      Bonfire.Common.Pointers.get!(character.id, skip_boundary_check: true)
-    else
-      _ ->
-        nil
     end
   end
 

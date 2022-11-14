@@ -54,10 +54,10 @@ defmodule Bonfire.UI.Me.ProfileLive do
           current_user
 
         "@" <> username ->
-          get_user(username)
+          get(username)
 
         username ->
-          get_user(username)
+          get(username)
       end
       |> repo().maybe_preload(:shared_user)
 
@@ -176,18 +176,18 @@ defmodule Bonfire.UI.Me.ProfileLive do
     socket
   end
 
-  defp get_user(username) do
+  def get(username) do
     username =
       String.trim_trailing(
         username,
         "@" <> Bonfire.Common.URIs.instance_domain()
       )
 
-    # handle other character types beyond User
     with {:ok, user} <- Bonfire.Me.Users.by_username(username) do
       user
     else
       _ ->
+        # handle other character types beyond User
         with {:ok, character} <- Bonfire.Me.Characters.by_username(username) do
           # FIXME? this results in extra queries
           Bonfire.Common.Pointers.get!(character.id)
@@ -234,7 +234,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         socket
       ) do
     debug("rewrite encoded @ in URL")
-    {:noreply, patch_to(socket, "/@" <> username, replace: true)}
+    {:noreply, patch_to(socket, "/@" <> String.replace(username, "%40", "@"), replace: true)}
   end
 
   def do_handle_params(%{"tab" => tab} = _params, _url, socket) do
