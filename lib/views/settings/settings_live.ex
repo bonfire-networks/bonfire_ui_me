@@ -28,21 +28,21 @@ defmodule Bonfire.UI.Me.SettingsLive do
        page_title: l("Settings"),
        full_page: true,
        without_sidebar: true,
-      #  page_header_aside: [
-      #    {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
-      #  ],
-      #  sidebar_widgets: [
-      #    users: [
-      #      secondary: [
-      #        {Bonfire.Tag.Web.WidgetTagsLive, []}
-      #      ]
-      #    ],
-      #    guests: [
-      #      secondary: [
-      #        {Bonfire.Tag.Web.WidgetTagsLive, []}
-      #      ]
-      #    ]
-      #  ],
+       #  page_header_aside: [
+       #    {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
+       #  ],
+       #  sidebar_widgets: [
+       #    users: [
+       #      secondary: [
+       #        {Bonfire.Tag.Web.WidgetTagsLive, []}
+       #      ]
+       #    ],
+       #    guests: [
+       #      secondary: [
+       #        {Bonfire.Tag.Web.WidgetTagsLive, []}
+       #      ]
+       #    ]
+       #  ],
        selected_tab: "dashboard",
        id: nil,
        hide_smart_input: true,
