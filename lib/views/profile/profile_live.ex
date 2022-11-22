@@ -116,10 +116,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
             ]
           ],
           guests: [
-            secondary: [
-              # {Bonfire.UI.Me.WidgetProfileLive, [user: user]},
-              {Bonfire.Tag.Web.WidgetTagsLive, []}
-            ]
+            secondary: nil
           ]
         ],
         no_index:
