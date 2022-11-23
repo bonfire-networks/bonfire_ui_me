@@ -1,5 +1,5 @@
 <div class="relative md:mb-3">
-  <div class="bg-base-200">
+  <div class="bg-base-200 pb-3">
     <div
       class="relative bg-center mt-0 bg-cover  bg-no-repeat bg-base-200 h-[280px]"
       style={"background-image: url('#{banner_url(@user)}')"}
@@ -143,7 +143,7 @@
             tabindex="0"
             role="menu"
             aria-orientation="vertical"
-            class="rounded shadow dropdown_actions w-52 menu dropdown-content bg-neutral"
+            class="!block rounded shadow dropdown_actions w-52 menu dropdown-content bg-neutral"
           >
             <li if={ulid(@current_user) != maybe_get(@user, :id)} class="lg:hidden">
               <LiveRedirect
@@ -199,7 +199,7 @@
     </div>
     <Bonfire.UI.Common.TabsLive
       selected_tab={@selected_tab}
-      class="max-w-screen-md gap-3 mx-auto mt-8 border-t border-base-content/10 tabs_nav_profile tabs"
+      class="max-w-screen-md gap-3 mx-auto mt-8 tabs_nav_profile tabs"
       path_prefix={"/@#{e(@user, :character, :username, "")}/"}
       tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
     />
