@@ -4,11 +4,11 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   # TODO: use Profiles context instead?
   alias Bonfire.Me.Users
 
-  def handle_event("validate", _params, socket) do
+  def do_handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
-  def handle_event(
+  def do_handle_event(
         "save",
         _data,
         %{assigns: %{trigger_submit: trigger_submit}} = socket
@@ -20,7 +20,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     }
   end
 
-  def handle_event("save", params, socket) do
+  def do_handle_event("save", params, socket) do
     # params = input_to_atoms(params)
 
     with {:ok, _edit_profile} <-

@@ -15,4 +15,18 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstancePostsLive do
        pages: Bonfire.Pages.list_paginated()
      )}
   end
+
+  def handle_event(
+        action,
+        attrs,
+        socket
+      ),
+      do:
+        Bonfire.UI.Common.LiveHandlers.handle_event(
+          action,
+          attrs,
+          socket,
+          __MODULE__
+          # &do_handle_event/3
+        )
 end

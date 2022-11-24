@@ -25,20 +25,25 @@ defmodule Bonfire.UI.Me.CreateUserLive do
      |> assign_new(:form, fn -> user_form(current_account(socket)) end)
      |> assign_new(:error, fn -> nil end)
      |> assign(:without_sidebar, true)
-     |> assign(:hide_smart_input, true)}
+     |> assign(:smart_input_opts, hide_buttons: true)}
   end
 
   defp user_form(params \\ %{}, account),
     do: Users.changeset(:create, params, account)
 
-  def handle_event(action, attrs, socket),
-    do:
-      Bonfire.UI.Common.LiveHandlers.handle_event(
+  def handle_event(
         action,
         attrs,
-        socket,
-        __MODULE__
-      )
+        socket
+      ),
+      do:
+        Bonfire.UI.Common.LiveHandlers.handle_event(
+          action,
+          attrs,
+          socket,
+          __MODULE__
+          # &do_handle_event/3
+        )
 
   def handle_info(info, socket),
     do: Bonfire.UI.Common.LiveHandlers.handle_info(info, socket, __MODULE__)

@@ -101,7 +101,6 @@ defmodule Bonfire.UI.Me.ProfileLive do
         page_title: title,
         feed_title: l("User timeline"),
         # without_sidebar: false,
-        # without_mobile_logged_header: true,
         # the user to display
         user: user,
         canonical_url: canonical_url(user),
@@ -125,8 +124,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       |> assign_global(
         # following: following || [],
         # search_placeholder: search_placeholder,
-        smart_input_prompt: smart_input_prompt,
-        smart_input_opts: [text: smart_input_text]
+        smart_input_opts: [prompt: smart_input_prompt, text: smart_input_text]
 
         # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}]
       )
@@ -253,22 +251,29 @@ defmodule Bonfire.UI.Me.ProfileLive do
     )
   end
 
-  def handle_params(params, uri, socket) do
-    undead_params(socket, fn ->
-      # in case we're patching to a different user
-      maybe_init(params, socket)
-      |> do_handle_params(params, uri, ...)
-    end)
-  end
-
-  def handle_event(action, attrs, socket),
+  def handle_params(params, uri, socket),
     do:
-      Bonfire.UI.Common.LiveHandlers.handle_event(
+      Bonfire.UI.Common.LiveHandlers.handle_params(
+        params,
+        uri,
+        maybe_init(params, socket),
+        __MODULE__,
+        &do_handle_params/3
+      )
+
+  def handle_event(
         action,
         attrs,
-        socket,
-        __MODULE__
-      )
+        socket
+      ),
+      do:
+        Bonfire.UI.Common.LiveHandlers.handle_event(
+          action,
+          attrs,
+          socket,
+          __MODULE__
+          # &do_handle_event/3
+        )
 
   def handle_info(info, socket),
     do: Bonfire.UI.Common.LiveHandlers.handle_info(info, socket, __MODULE__)

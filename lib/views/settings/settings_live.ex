@@ -45,7 +45,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        #  ],
        selected_tab: "dashboard",
        id: nil,
-       hide_smart_input: true,
+       smart_input_opts: [hide_buttons: true],
        page: "settings",
        trigger_submit: false,
        uploaded_files: []
@@ -207,26 +207,34 @@ defmodule Bonfire.UI.Me.SettingsLive do
     {:noreply, socket}
   end
 
-  def handle_params(params, uri, socket) do
-    # poor man's hook I guess
-    with {_, socket} <-
-           Bonfire.UI.Common.LiveHandlers.handle_params(params, uri, socket) do
-      undead_params(socket, fn ->
-        do_handle_params(params, uri, socket)
-      end)
-    end
-  end
-
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
 
-  def handle_event(action, attrs, socket),
+  def handle_params(params, uri, socket),
     do:
-      Bonfire.UI.Common.LiveHandlers.handle_event(
+      Bonfire.UI.Common.LiveHandlers.handle_params(
+        params,
+        uri,
+        socket,
+        __MODULE__,
+        &do_handle_params/3
+      )
+
+  def handle_info(info, socket),
+    do: Bonfire.UI.Common.LiveHandlers.handle_info(info, socket, __MODULE__)
+
+  def handle_event(
         action,
         attrs,
-        socket,
-        __MODULE__
-      )
+        socket
+      ),
+      do:
+        Bonfire.UI.Common.LiveHandlers.handle_event(
+          action,
+          attrs,
+          socket,
+          __MODULE__
+          # &do_handle_event/3
+        )
 end
