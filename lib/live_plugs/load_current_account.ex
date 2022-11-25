@@ -8,7 +8,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentAccount do
     {:ok, socket}
   end
 
-  # current account is in context
+  # current account is already in context
   def mount(
         _,
         _,
@@ -19,10 +19,11 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentAccount do
 
   def mount(_, %{"account_id" => account_id}, socket)
       when is_binary(account_id) do
-    {:ok, assign_global(socket, current_account: Accounts.get_current(account_id))}
+    account = Accounts.get_current(account_id)
+    {:ok, assign_global(socket, current_account: account, current_account_id: ulid(account))}
   end
 
   def mount(_, _, socket) do
-    {:ok, assign_global(socket, current_account: nil)}
+    {:ok, assign_global(socket, current_account: nil, current_account_id: nil)}
   end
 end

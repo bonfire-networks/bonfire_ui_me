@@ -10,15 +10,25 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   # the non-live plug already supplied the current user
-  def mount(_, _, %{assigns: %{current_user: %User{} = user}} = socket) do
-    {:ok, assign_global(socket, current_user: user)}
+  def mount(_, _, %{assigns: %{current_user: %User{id: id} = user}} = socket) do
+    {:ok,
+     assign_global(socket,
+       current_user: user,
+       current_user_id: id
+     )}
   end
 
   def mount(_, %{"user_id" => user_id}, socket) when is_binary(user_id) do
-    {:ok, assign_global(socket, current_user: Users.get_current(user_id))}
+    user = Users.get_current(user_id)
+
+    {:ok,
+     assign_global(socket,
+       current_user: user,
+       current_user_id: ulid(user)
+     )}
   end
 
   def mount(_, _, socket) do
-    {:ok, assign_global(socket, current_user: nil)}
+    {:ok, assign_global(socket, current_user: nil, current_user_id: nil)}
   end
 end

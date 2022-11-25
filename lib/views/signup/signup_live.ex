@@ -16,7 +16,10 @@ defmodule Bonfire.UI.Me.SignupLive do
      |> assign_new(:nav_header, fn -> false end)
      |> assign_new(:without_sidebar, fn -> true end)
      |> assign_new(:current_account, fn -> nil end)
+     |> assign_new(:current_account_id, fn -> nil end)
      |> assign_new(:current_user, fn -> nil end)
+     |> assign_new(:current_user_id, fn -> nil end)
+     |> assign_new(:csrf_token, fn -> session["_csrf_token"] end)
      |> assign_new(:error, fn -> nil end)
      |> assign_new(:form, fn -> SignupController.form_cs(session) end)
      |> assign_new(:auth_second_factor_secret, fn ->

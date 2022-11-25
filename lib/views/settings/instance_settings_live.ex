@@ -25,8 +25,17 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      # |> assign(:without_sidebar,  true)
      |> assign(
        page_title: l("Instance Settings"),
-       full_page: true,
-       without_sidebar: true,
+       #  full_page: true,
+       #  without_sidebar: true,
+       nav_items: [Bonfire.UI.Common.SidebarInstanceSettingsLive.declared_nav()],
+       sidebar_widgets: [
+         users: [
+           main: []
+         ],
+         users: [
+           secondary: []
+         ]
+       ],
        selected_tab: "dashboard",
        id: nil,
        smart_input_opts: [hide_buttons: true],

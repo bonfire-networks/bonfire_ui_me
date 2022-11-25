@@ -1,66 +1,66 @@
-<div class="w-full items-start mx-auto grid grid-cols-1  md:grid-cols-[300px_minmax(min-content,_1fr)] desktop-lg:grid-cols-[350px_minmax(min-content,_1fr)]">
+<!-- <div class="w-full items-start mx-auto grid grid-cols-1  md:grid-cols-[300px_minmax(min-content,_1fr)] desktop-lg:grid-cols-[350px_minmax(min-content,_1fr)]">
   <div class="border-r border-base-content/10 overflow-y-auto overflow-x-hidden widget pt-3 px-4 md:pt-6 hidden z-[110]  md:block sticky top-[56px]">
-    <Bonfire.UI.Common.SettingsViewLive.SidebarSettingsNavLive
+    <Bonfire.UI.Common.SidebarSettingsNavLive
       page={@page}
       selected_tab={@selected_tab}
       id={@id}
     />
-  </div>
-  <section class="w-full max-w-screen-lg px-8 mx-auto">
-    {#case @selected_tab}
-      {#match "dashboard"}
-        <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} />
-      {#match "profile"}
-        <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
-          :if={ulid(@current_user)}
-          uploads={@uploads}
-          selected_tab={@selected_tab}
-        />
-      {#match "preferences"}
-        <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive selected_tab={@selected_tab} />
-      {#match "account"}
-        <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
-      {#match "circles"}
-        <Dynamic.LiveComponent
-          :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and @current_user}
-          module={Bonfire.Boundaries.Web.MyCirclesLive}
-          id="circles"
-          scope={nil}
-        />
-      {#match "circle"}
-        <Dynamic.LiveComponent
-          :if={module_enabled?(Bonfire.Boundaries.Web.CircleLive) and @current_user}
-          module={Bonfire.Boundaries.Web.CircleLive}
-          selected_tab={@selected_tab}
-          id="view_circle"
-        />
-      {#match "acls"}
-        <Dynamic.LiveComponent
-          :if={module_enabled?(Bonfire.Boundaries.Web.MyAclsLive) and @current_user}
-          module={Bonfire.Boundaries.Web.MyAclsLive}
-          selected_tab="acls"
-          id="my_acls"
-          scope={nil}
-        />
-      {#match "acl"}
-        <Dynamic.LiveComponent
-          :if={module_enabled?(Bonfire.Boundaries.Web.AclLive) and @current_user}
-          module={Bonfire.Boundaries.Web.AclLive}
-          selected_tab="acls"
-          id="acl"
-        />
-      {#match "extensions"}
-        <Bonfire.UI.Common.ExtensionsLive
-          selected_tab={@selected_tab}
-          data={Bonfire.Common.Extensions.data()}
-        />
-      {#match "flags"}
-        <Bonfire.UI.Social.FlagsLive id="flags" selected_tab={@selected_tab} />
-      {#match "silenced"}
-        <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="silenced" />
-      {#match "ghosted"}
-        <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="ghosted" />
-        <!-- {#match "instance"}
+  </div> -->
+<section class="w-full max-w-screen-lg px-8 mx-auto">
+  {#case @selected_tab}
+    {#match "dashboard"}
+      <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} />
+    {#match "profile"}
+      <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
+        :if={ulid(@current_user)}
+        uploads={@uploads}
+        selected_tab={@selected_tab}
+      />
+    {#match "preferences"}
+      <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive selected_tab={@selected_tab} />
+    {#match "account"}
+      <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
+    {#match "circles"}
+      <Dynamic.LiveComponent
+        :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and @current_user}
+        module={Bonfire.Boundaries.Web.MyCirclesLive}
+        id="circles"
+        scope={nil}
+      />
+    {#match "circle"}
+      <Dynamic.LiveComponent
+        :if={module_enabled?(Bonfire.Boundaries.Web.CircleLive) and @current_user}
+        module={Bonfire.Boundaries.Web.CircleLive}
+        selected_tab={@selected_tab}
+        id="view_circle"
+      />
+    {#match "acls"}
+      <Dynamic.LiveComponent
+        :if={module_enabled?(Bonfire.Boundaries.Web.MyAclsLive) and @current_user}
+        module={Bonfire.Boundaries.Web.MyAclsLive}
+        selected_tab="acls"
+        id="my_acls"
+        scope={nil}
+      />
+    {#match "acl"}
+      <Dynamic.LiveComponent
+        :if={module_enabled?(Bonfire.Boundaries.Web.AclLive) and @current_user}
+        module={Bonfire.Boundaries.Web.AclLive}
+        selected_tab="acls"
+        id="acl"
+      />
+    {#match "extensions"}
+      <Bonfire.UI.Common.ExtensionsLive
+        selected_tab={@selected_tab}
+        data={Bonfire.Common.Extensions.data()}
+      />
+    {#match "flags"}
+      <Bonfire.UI.Social.FlagsLive id="flags" selected_tab={@selected_tab} />
+    {#match "silenced"}
+      <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="silenced" />
+    {#match "ghosted"}
+      <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="ghosted" />
+      <!-- {#match "instance"}
         <Bonfire.UI.Me.SettingsViewsLive.AdminLive selected_tab={@selected_tab} />
       {#match "instance_info"}
         <Bonfire.UI.Me.SettingsViewsLive.InstanceInfoLive
@@ -76,20 +76,20 @@
           selected_tab={@selected_tab}
         /> -->
 
-        <!-- {#match "flags"}
+      <!-- {#match "flags"}
         <Bonfire.UI.Me.SettingsViewsLive.AdminReportsLive
           
         /> -->
-        <!-- {#match "instance_silenced"}
+      <!-- {#match "instance_silenced"}
         <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" />
       {#match "instance_ghosted"}
         <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="ghosted" /> -->
-      {#match "shared_user"}
-        <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
-          current_user={@current_user |> repo().maybe_preload(:shared_user)}
-          selected_tab={@selected_tab}
-        />
-        <!-- {#match "instance_circles"}
+    {#match "shared_user"}
+      <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
+        current_user={@current_user |> repo().maybe_preload(:shared_user)}
+        selected_tab={@selected_tab}
+      />
+      <!-- {#match "instance_circles"}
         <Dynamic.LiveComponent
           :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and @current_user}
           module={Bonfire.Boundaries.Web.MyCirclesLive}
@@ -106,17 +106,17 @@
         />
       {#match "admin"}
         <Bonfire.UI.Me.SettingsViewsLive.AdminLive selected_tab={@selected_tab} /> -->
-      {#match _}
-        {#case Bonfire.Common.SettingsModule.components(maybe_to_atom(@selected_tab))}
-          {#match extension_nav when is_list(extension_nav)}
-            <Bonfire.UI.Common.WidgetsLive
-              widgets={extension_nav}
-              page={@page}
-              selected_tab={@selected_tab}
-            />
-          {#match _}
-            <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} />
-            <!-- <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
+    {#match _}
+      {#case Bonfire.Common.SettingsModule.components(maybe_to_atom(@selected_tab))}
+        {#match extension_nav when is_list(extension_nav)}
+          <Bonfire.UI.Common.WidgetsLive
+            widgets={extension_nav}
+            page={@page}
+            selected_tab={@selected_tab}
+          />
+        {#match _}
+          <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} />
+          <!-- <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
             :if={ulid(@current_user)}
             uploads={@uploads}
             selected_tab={@selected_tab}
@@ -129,7 +129,7 @@
             :if={!@current_user && !@current_account}
             selected_tab={@selected_tab}
           /> -->
-        {/case}
-    {/case}
-  </section>
-</div>
+      {/case}
+  {/case}
+</section>
+<!-- </div> -->

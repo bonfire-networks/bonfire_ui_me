@@ -26,23 +26,20 @@ defmodule Bonfire.UI.Me.SettingsLive do
      |> assign(
        show_less_menu_items: true,
        page_title: l("Settings"),
-       full_page: true,
-       without_sidebar: true,
+       #  full_page: true,
+       #  without_sidebar: true,
+       nav_items: [Bonfire.UI.Common.SidebarSettingsNavLive.declared_nav()],
        #  page_header_aside: [
        #    {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
        #  ],
-       #  sidebar_widgets: [
-       #    users: [
-       #      secondary: [
-       #        {Bonfire.Tag.Web.WidgetTagsLive, []}
-       #      ]
-       #    ],
-       #    guests: [
-       #      secondary: [
-       #        {Bonfire.Tag.Web.WidgetTagsLive, []}
-       #      ]
-       #    ]
-       #  ],
+       sidebar_widgets: [
+         users: [
+           main: []
+         ],
+         users: [
+           secondary: []
+         ]
+       ],
        selected_tab: "dashboard",
        id: nil,
        smart_input_opts: [hide_buttons: true],
