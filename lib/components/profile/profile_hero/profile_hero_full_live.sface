@@ -1,15 +1,16 @@
 <div class="relative md:mb-3">
-  <div class="bg-base-200 pb-3">
+  <div class="shadow bg-base-100">
+    <div class="max-w-screen-lg mx-auto">
     <div
-      class="relative bg-center mt-0 bg-cover  bg-no-repeat bg-base-200 h-[280px]"
+      class="relative bg-center mt-0 bg-cover rounded-b-lg  bg-no-repeat bg-base-200 h-[380px]"
       style={"background-image: url('#{banner_url(@user)}')"}
-    >
+      >
       <!-- FOLLOWS YOU LABEL -->
       <div :if={@follows_me} class="absolute rounded right-2 bottom-2 opacity-90 badge badge-lg">
         {"Follows you"}
       </div>
     </div>
-    <div class="flex flex-col items-center max-w-screen-md mx-auto md:flex-row md:items-start">
+    <div class="flex flex-col items-center px-0 mx-auto md:px-8 md:flex-row md:items-start">
       <div class="flex flex-col flex-1 gap-3 px-6 desktop-lg:px-0 desktop-lg:items-start desktop-lg:flex-row desktop-lg:gap-6">
         <Bonfire.UI.Common.AvatarLive
           class="inline-block object-cover w-40 h-40 mx-auto -mt-16 rounded-full md:mx-0 ring-4 ring-base-200 bg-base-content/5"
@@ -199,9 +200,11 @@
     </div>
     <Bonfire.UI.Common.TabsLive
       selected_tab={@selected_tab}
-      class="max-w-screen-md gap-3 mx-auto mt-8 tabs_nav_profile tabs"
+      class="flex items-center gap-8 mt-4 border-t border-base-content/10"
+      tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium tracking-wide text-base-content/60 p-5"
       path_prefix={"/@#{e(@user, :character, :username, "")}/"}
       tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
     />
+    </div>
   </div>
 </div>
