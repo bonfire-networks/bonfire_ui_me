@@ -1,0 +1,146 @@
+digraph "xref graph" {
+  "lib/components/create_user/create_user_view_live.ex"
+  "lib/components/login/login_view_live.ex"
+  "lib/components/login/login_view_live.ex" -> "lib/views/confirm_email/confirm_email_controller.ex"
+  "lib/views/confirm_email/confirm_email_controller.ex" -> "lib/views/confirm_email/confirm_email_live.ex"
+  "lib/views/confirm_email/confirm_email_live.ex" -> "lib/views/confirm_email/confirm_email_controller.ex"
+  "lib/components/login/login_view_live.ex" -> "lib/views/forgot_password/forgot_password_controller.ex"
+  "lib/views/forgot_password/forgot_password_controller.ex" -> "lib/views/change_password/change_password_controller.ex"
+  "lib/views/change_password/change_password_controller.ex" -> "lib/views/change_password/change_password_live.ex"
+  "lib/views/change_password/change_password_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/forgot_password/forgot_password_controller.ex" -> "lib/views/forgot_password/forgot_password_live.ex"
+  "lib/views/forgot_password/forgot_password_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/forgot_password/forgot_password_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/forgot_password/forgot_password_live.ex" -> "lib/views/forgot_password/forgot_password_controller.ex"
+  "lib/components/profile/profile_follows/profile_follows_live.ex"
+  "lib/components/profile/profile_hero/profile_hero_full_live.ex"
+  "lib/components/profile/profile_hero/profile_hero_full_live.ex" -> "lib/integration.ex" [label="(export)"]
+  "lib/components/remote_interaction/remote_interaction_form_live.ex"
+  "lib/components/settings/account/edit_account_live.ex"
+  "lib/components/settings/dashboard/user_dashboard_live.ex"
+  "lib/components/settings/header_aside_mobile_menu/header_aside_mobile_menu_live.ex"
+  "lib/components/settings/instance/dashboard/instance_dashboard_live.ex"
+  "lib/components/settings/instance/instance_old/admin_live.ex"
+  "lib/components/settings/instance/instance_old/admin_live.ex" -> "lib/components/settings/settings_items/discoverable_live.ex" [label="(export)"]
+  "lib/components/settings/instance/instance_old/admin_live.ex" -> "lib/components/widgets/widget_users/widget_users_live.ex"
+  "lib/components/settings/instance/instance_old/admin_live.ex" -> "lib/views/users_directory/users_directory_live.ex"
+  "lib/views/users_directory/users_directory_live.ex" -> "lib/components/user_previews/user_preview_live.ex" [label="(export)"]
+  "lib/components/user_previews/user_preview_live.ex" -> "lib/integration.ex" [label="(export)"]
+  "lib/views/users_directory/users_directory_live.ex" -> "lib/integration.ex" [label="(export)"]
+  "lib/views/users_directory/users_directory_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/users_directory/users_directory_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/components/settings/instance/instance_old/terms_live.ex"
+  "lib/components/settings/instance/members/instance_members_live.ex"
+  "lib/components/settings/instance/navigation/instance_navigation_live.ex"
+  "lib/components/settings/instance/posts/instance_posts_live.ex"
+  "lib/components/settings/instance/preferences/instance_preferences_live.ex"
+  "lib/components/settings/instance/preferences/instance_preferences_live.ex" -> "lib/components/settings/settings_items/discoverable_live.ex" [label="(export)"]
+  "lib/components/settings/instance/preferences/instance_preferences_live.ex" -> "lib/components/widgets/widget_users/widget_users_live.ex"
+  "lib/components/settings/instance/preferences/instance_preferences_live.ex" -> "lib/views/users_directory/users_directory_live.ex"
+  "lib/components/settings/preferences/preferences_live.ex"
+  "lib/components/settings/preferences/preferences_live.ex" -> "lib/components/settings/settings_items/discoverable_live.ex" [label="(export)"]
+  "lib/components/settings/profile/edit_profile_live.ex"
+  "lib/components/settings/settings_items/discoverable_live.ex"
+  "lib/components/settings/shared_user/shared_user_live.ex"
+  "lib/components/signup/signup_form_live.ex"
+  "lib/components/switch_user/account_users_live.ex"
+  "lib/components/switch_user/account_users_live.ex" -> "lib/components/user_previews/user_preview_live.ex" [label="(export)"]
+  "lib/components/user_previews/user_preview_live.ex"
+  "lib/components/widgets/widget_profile/widget_profile_live.ex"
+  "lib/components/widgets/widget_users/widget_admins_live.ex"
+  "lib/components/widgets/widget_users/widget_admins_live.ex" -> "lib/components/widgets/widget_users/widget_users_live.ex" [label="(export)"]
+  "lib/components/widgets/widget_users/widget_users_live.ex"
+  "lib/integration.ex"
+  "lib/live_handlers/profiles_live_handler.ex"
+  "lib/live_handlers/settings_live_handler.ex"
+  "lib/live_handlers/users_live_handler.ex"
+  "lib/live_plugs/account_required.ex"
+  "lib/live_plugs/admin_required.ex"
+  "lib/live_plugs/guest_only.ex"
+  "lib/live_plugs/load_current_account.ex"
+  "lib/live_plugs/load_current_account_users.ex"
+  "lib/live_plugs/load_current_user.ex"
+  "lib/live_plugs/load_current_user_circles.ex"
+  "lib/live_plugs/user_auth_live_mount.ex"
+  "lib/live_plugs/user_auth_live_mount.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/live_plugs/user_required.ex"
+  "lib/me_routes.ex"
+  "lib/plugs/account_required.ex"
+  "lib/plugs/admin_required.ex"
+  "lib/plugs/load_current_account.ex"
+  "lib/plugs/load_current_account_users.ex"
+  "lib/plugs/load_current_user.ex"
+  "lib/plugs/user_required.ex"
+  "lib/views/change_password/change_password_controller.ex"
+  "lib/views/change_password/change_password_live.ex"
+  "lib/views/confirm_email/confirm_email_controller.ex"
+  "lib/views/confirm_email/confirm_email_live.ex"
+  "lib/views/create_user/create_user_controller.ex"
+  "lib/views/create_user/create_user_controller.ex" -> "lib/views/create_user/create_user_live.ex"
+  "lib/views/create_user/create_user_live.ex" -> "lib/components/create_user/create_user_view_live.ex" [label="(export)"]
+  "lib/views/create_user/create_user_live.ex" -> "lib/live_plugs/account_required.ex"
+  "lib/views/create_user/create_user_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/create_user/create_user_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/create_user/create_user_live.ex"
+  "lib/views/dashboard/logged_dashboard_live.ex"
+  "lib/views/dashboard/logged_dashboard_live.ex" -> "lib/live_plugs/account_required.ex"
+  "lib/views/dashboard/logged_dashboard_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/dashboard/logged_dashboard_live.ex" -> "lib/live_plugs/load_current_account_users.ex"
+  "lib/views/dashboard/logged_dashboard_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/error/error_live.ex"
+  "lib/views/error/error_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/error/error_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/forgot_password/forgot_password_controller.ex"
+  "lib/views/forgot_password/forgot_password_live.ex"
+  "lib/views/login/login_controller.ex"
+  "lib/views/login/login_controller.ex" -> "lib/views/login/login_live.ex"
+  "lib/views/login/login_live.ex" -> "lib/components/login/login_view_live.ex" [label="(export)"]
+  "lib/views/login/login_live.ex"
+  "lib/views/logout/logout_controller.ex"
+  "lib/views/profile/character_live.ex"
+  "lib/views/profile/character_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/profile/character_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/profile/character_live.ex" -> "lib/views/profile/profile_live.ex"
+  "lib/views/profile/profile_live.ex" -> "lib/components/profile/profile_hero/profile_hero_full_live.ex"
+  "lib/views/profile/profile_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/profile/profile_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/profile/profile_live.ex"
+  "lib/views/remote_interaction/remote_interaction_live.ex"
+  "lib/views/remote_interaction/remote_interaction_live.ex" -> "lib/components/remote_interaction/remote_interaction_form_live.ex" [label="(export)"]
+  "lib/views/remote_interaction/remote_interaction_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/settings/instance_settings_live.ex"
+  "lib/views/settings/instance_settings_live.ex" -> "lib/components/settings/instance/dashboard/instance_dashboard_live.ex" [label="(export)"]
+  "lib/views/settings/instance_settings_live.ex" -> "lib/components/settings/instance/instance_old/terms_live.ex" [label="(export)"]
+  "lib/views/settings/instance_settings_live.ex" -> "lib/components/settings/instance/members/instance_members_live.ex" [label="(export)"]
+  "lib/views/settings/instance_settings_live.ex" -> "lib/components/settings/instance/posts/instance_posts_live.ex" [label="(export)"]
+  "lib/views/settings/instance_settings_live.ex" -> "lib/components/settings/instance/preferences/instance_preferences_live.ex" [label="(export)"]
+  "lib/views/settings/instance_settings_live.ex" -> "lib/components/settings/shared_user/shared_user_live.ex" [label="(export)"]
+  "lib/views/settings/instance_settings_live.ex" -> "lib/integration.ex" [label="(export)"]
+  "lib/views/settings/instance_settings_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/settings/instance_settings_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/settings/instance_settings_live.ex" -> "lib/live_plugs/user_required.ex"
+  "lib/views/settings/settings_live.ex"
+  "lib/views/settings/settings_live.ex" -> "lib/components/settings/account/edit_account_live.ex" [label="(export)"]
+  "lib/views/settings/settings_live.ex" -> "lib/components/settings/dashboard/user_dashboard_live.ex" [label="(export)"]
+  "lib/views/settings/settings_live.ex" -> "lib/components/settings/preferences/preferences_live.ex" [label="(export)"]
+  "lib/views/settings/settings_live.ex" -> "lib/components/settings/profile/edit_profile_live.ex" [label="(export)"]
+  "lib/views/settings/settings_live.ex" -> "lib/components/settings/shared_user/shared_user_live.ex" [label="(export)"]
+  "lib/views/settings/settings_live.ex" -> "lib/integration.ex" [label="(export)"]
+  "lib/views/settings/settings_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/settings/settings_live.ex" -> "lib/live_plugs/load_current_user.ex"
+  "lib/views/settings/settings_live.ex" -> "lib/live_plugs/user_required.ex"
+  "lib/views/settings/settings_upload_controller.ex"
+  "lib/views/signup/signup_controller.ex"
+  "lib/views/signup/signup_controller.ex" -> "lib/views/signup/signup_live.ex"
+  "lib/views/signup/signup_live.ex" -> "lib/components/signup/signup_form_live.ex" [label="(export)"]
+  "lib/views/signup/signup_live.ex" -> "lib/views/signup/signup_controller.ex"
+  "lib/views/signup/signup_live.ex"
+  "lib/views/switch_user/switch_user_controller.ex"
+  "lib/views/switch_user/switch_user_controller.ex" -> "lib/views/switch_user/switch_user_live.ex"
+  "lib/views/switch_user/switch_user_live.ex" -> "lib/components/switch_user/account_users_live.ex" [label="(export)"]
+  "lib/views/switch_user/switch_user_live.ex" -> "lib/live_plugs/account_required.ex"
+  "lib/views/switch_user/switch_user_live.ex" -> "lib/live_plugs/load_current_account.ex"
+  "lib/views/switch_user/switch_user_live.ex" -> "lib/live_plugs/load_current_account_users.ex"
+  "lib/views/switch_user/switch_user_live.ex"
+  "lib/views/users_directory/users_directory_live.ex"
+}
