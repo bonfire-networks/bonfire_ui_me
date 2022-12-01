@@ -100,21 +100,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
         page: "profile",
         page_title: title,
         feed_title: l("User timeline"),
-        without_sidebar: true,
+        # without_sidebar: true,
         # the user to display
         user: user,
         canonical_url: canonical_url(user),
         name: name,
         interaction_type: l("follow"),
         follows_me: following,
-        sidebar_widgets: [
-          users: [
-            secondary: nil
-          ],
-          guests: [
-            secondary: nil
-          ]
-        ],
         no_index:
           Bonfire.Me.Settings.get([Bonfire.Me.Users, :undiscoverable], false, current_user: user)
       )

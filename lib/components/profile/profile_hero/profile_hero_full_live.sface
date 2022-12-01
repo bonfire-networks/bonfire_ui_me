@@ -1,5 +1,5 @@
 <div class="relative md:mb-3">
-  <div class="shadow bg-base-100">
+  <div class="shadow bg-base-200">
     <div class="max-w-screen-lg mx-auto">
       <div
         class="relative bg-center mt-0 bg-cover rounded-b-lg  bg-no-repeat bg-base-200 h-[380px]"
