@@ -1,8 +1,8 @@
 <div class="relative md:mb-3">
-  <div class="shadow bg-base-200">
+  <div class="border-b border-base-300">
     <div class="max-w-screen-lg mx-auto">
       <div
-        class="relative bg-center mt-0 bg-cover rounded-b-lg  bg-no-repeat bg-base-200 h-[380px]"
+        class="relative bg-center mt-0 bg-cover rounded-b-lg  bg-no-repeat bg-base-200 h-[220px]"
         style={"background-image: url('#{banner_url(@user)}')"}
       >
         <!-- FOLLOWS YOU LABEL -->
@@ -10,10 +10,10 @@
           {"Follows you"}
         </div>
       </div>
-      <div class="flex flex-col items-center px-0 mx-auto md:px-8 md:flex-row md:items-start">
+      <div class="flex flex-col items-center px-0 mx-auto md:px-4 md:flex-row md:items-start">
         <div class="flex flex-col flex-1 gap-3 px-6 desktop-lg:px-0 desktop-lg:items-start desktop-lg:flex-row desktop-lg:gap-6">
           <Bonfire.UI.Common.AvatarLive
-            class="inline-block object-cover w-40 h-40 mx-auto -mt-16 rounded-full md:mx-0 ring-4 ring-base-200 bg-base-content/5"
+            class="inline-block object-cover w-[135px] h-[135px] mx-auto -mt-16 rounded-full md:mx-0 ring-4 ring-base-100 bg-base-200"
             size="100%"
             user={@user}
           />
@@ -95,11 +95,11 @@
             </div>
           </div>
         </div>
-        <div class="flex items-center gap-3 pr-3 mt-3">
+        <div class="flex items-center gap-3 mt-3">
           <LiveRedirect
             :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
             to={~p"/settings"}
-            class="font-semibold !h-[2-25rem] btn-sm px-8 normal-case rounded-full btn btn-outline border-opacity-70"
+            class="btn btn-sm btn-outline opacity-70 normal-case"
           >
             {l("Edit profile")}
           </LiveRedirect>
@@ -201,7 +201,7 @@
       <Bonfire.UI.Common.TabsLive
         selected_tab={@selected_tab}
         class="flex items-center gap-8 mt-4 border-t border-base-content/10"
-        tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium tracking-wide text-base-content/60 p-5"
+        tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium tracking-wide text-base-content/60 p-4"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
         tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
       />
