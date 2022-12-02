@@ -15,7 +15,7 @@ defmodule Bonfire.UI.Me.LoginLive do
      |> assign_new(:current_account_id, fn -> nil end)
      |> assign_new(:current_user, fn -> nil end)
      |> assign_new(:current_user_id, fn -> nil end)
-     |> assign_new(:csrf_token, fn -> session["_csrf_token"] end)
+     |> assign_global(:csrf_token, session["_csrf_token"])
      |> assign_new(:error, fn -> nil end)
      |> assign_new(:feed_title, fn -> "Public Feed" end)
      |> assign_new(:form, fn -> login_form(params) end)

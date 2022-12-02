@@ -13,7 +13,7 @@
         {#if @flash}
           <div class="w-4/5 mx-auto">
             <p>
-              {live_flash(@flash, :error) || live_flash(@flash, :info)}
+              {e(@flash, :error, nil) || e(@flash, :info, nil)}
             </p>
           </div>
         {/if}

@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailLive do
      |> assign_new(:current_account_id, fn -> nil end)
      |> assign_new(:current_user, fn -> nil end)
      |> assign_new(:current_user_id, fn -> nil end)
-     |> assign_new(:csrf_token, fn -> session["_csrf_token"] end)
+     |> assign_global(:csrf_token, session["_csrf_token"])
      |> assign_new(:form, &form_cs/0)}
   end
 
