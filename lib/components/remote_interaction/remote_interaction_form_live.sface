@@ -7,10 +7,10 @@
         <HiddenInput name={:type} value={@interaction_type} />
         <HiddenInput name={:object} value={@canonical_url} />
 
-        <div class="p-5 mx-auto">
+        <div class="p-5 mx-auto pt-0">
           <Field name={:me}>
             <Label class="label">
-              <span class="text-xl font-bold text-base-content">{l("Enter your fediverse nick to %{verb} %{user_name} remotely:",
+              <span class="text-base font-medium text-base-content/80">{l("Enter your fediverse nick to %{verb} %{user_name} remotely:",
                   user_name: @name,
                   verb: @interaction_type
                 )}</span>
@@ -23,16 +23,22 @@
             <ErrorTag />
           </Field>
 
-          <button class="w-full mt-2 btn btn-primary" phx-disable-with={l("Redirecting...")} type="submit">
+          <button class="w-full mt-2 normal-case btn btn-primary" phx-disable-with={l("Redirecting...")} type="submit">
             {l("Proceed to %{verb}", verb: @interaction_type)}
           </button>
 
-          <p class="mt-2 text-md">{l("Are you a user of this instance?")} <a class="link" href={"/login?go=#{@canonical_url}"}>{l("Sign in instead.")}</a></p>
+          <p class="mt-4 text-sm">{l("Are you a user of this instance?")} <a class="link link-primary" href={"/login?go=#{@canonical_url}"}>{l("Sign in instead.")}</a></p>
 
-          <p class="mt-4 text-sm">{l(
-              "Why is this step necessary? This might not be the fediverse instance where you are registered, in which case we first need to redirect you to your home instance where you'll be able to proceed to %{verb}.",
-              verb: @interaction_type
-            )}</p>
+          <div class="alert alert-info justify-start text-sm shadow-lg mt-3 rounded">
+            <div>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-current flex-shrink-0 w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>{l(
+                "Why is this step necessary? This might not be the fediverse instance where you are registered, in which case we first need to redirect you to your home instance where you'll be able to proceed to %{verb}.",
+                verb: @interaction_type
+              )}</span>
+            </div>
+          </div>
+         
         </div>
       </Form>
     </div>

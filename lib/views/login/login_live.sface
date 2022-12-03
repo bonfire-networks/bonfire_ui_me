@@ -1,11 +1,11 @@
 <div class="w-full" id="login">
-  <Bonfire.UI.Common.LogoLinkLive
+  <!-- <Bonfire.UI.Common.LogoLinkLive
     container_class=""
     image_class="mt-12 mb-6 mx-auto w-12 h-12 bg-center bg-no-repeat bg-cover"
     with_name={false}
     href="/"
-  />
-  <div class="w-full md:w-[460px] mx-auto">
+  /> -->
+  <div class="w-full md:w-[360px] mx-auto">
     <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} />
   </div>
 </div>

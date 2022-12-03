@@ -61,18 +61,18 @@
 
     <Field name={:email_or_username}>
       <Label class="label">
-        <span class="label-text">
+        <span class="label-text text-xs">
           {l("Email address or @username")}
         </span>
       </Label>
-      <TextInput opts={placeholder: "alice@email.com"} required class="w-full input input-bordered" />
+      <TextInput opts={placeholder: "alice@email.com"} required class="w-full h-10 rounded input input-bordered" />
       <ErrorTag />
       <!-- <%= error_tag f, :email_or_username %> -->
     </Field>
 
     <Field name={:password} class="mt-3">
       <Label class="label">
-        <span class="label-text">
+        <span class="label-text text-xs">
           {l("Password (Min 10 characters)")}
         </span>
       </Label>
@@ -83,21 +83,21 @@
           placeholder={l("Type your password")}
           :type="show ? 'text' : 'password'"
           required
-          class="w-full input input-bordered"
+          class="w-full h-10 rounded input input-bordered"
         />
         <div
           x-show="show == false"
           @click="show = true"
-          class="absolute cursor-pointer top-2 right-3 btn btn-ghost btn-circle btn-sm"
+          class="absolute cursor-pointer top-1 right-2 btn btn-ghost btn-circle btn-sm"
         >
           <Icon solid="EyeOff" class="w-4 h-4" />
         </div>
         <div
           x-show="show == true"
           @click="show = false"
-          class="absolute cursor-pointer top-2 right-3 btn btn-ghost btn-circle btn-sm"
+          class="absolute cursor-pointer top-1 right-2 btn btn-ghost btn-circle btn-sm"
         >
-          <Icon solid="Eye" class="w-4 h-4 text-primary" />
+          <Icon solid="Eye" class="w-3 h-3 text-primary" />
         </div>
       </div>
 
@@ -105,7 +105,14 @@
       <!-- <%= error_tag f, :password %> -->
     </Field>
 
-    {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
+     <Link
+        to={path(Bonfire.UI.Me.ForgotPasswordController)}
+        class="block w-full my-3 text-sm capitalize link link-secondary"
+      >
+      {l("Forgot password?")}</Link>
+
+    <!-- WIP: ADD A CONFIG TO ENABLE / DISABLE 2FA -->
+    <!-- {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
       {#match true}
         <div class="mt-4 rounded-md shadow alert bg-base-content/10">
           <p class="mb-2">{l(
@@ -114,36 +121,27 @@
 
           <Inputs for={:auth_second_factor}>
             <Field name={:code} class="flex flex-col mt-2">
-              <!-- <label for="signup-form_auth_second_factor_code" class="label">
-                  <span class="label-text">
-                    {l "Two-factor code (optional)"}
-                  </span>
-                </label> -->
               <TextInput class="w-full input input-bordered" />
               <ErrorTag />
             </Field>
           </Inputs>
         </div>
       {#match _}
-    {/case}
+    {/case} -->
 
-    <div class="mt-3">
+    <div class="mt-6">
       <span class="block w-full rounded-md shadow-sm">
-        <button type="submit" class="w-full btn btn-primary">
+        <button type="submit" class="w-full rounded btn normal-case btn-primary">
           {l("Log in")}
         </button>
       </span>
     </div>
 
     <div class="mt-4">
-      <Link
-        to={path(Bonfire.UI.Me.ForgotPasswordController)}
-        class="block w-full text-center capitalize link link-secondary"
-      >
-        {l("Forgot password?")}</Link>
+     
       <div class="flex py-4 pb-2 mt-6 border-t border-base-content/10 place-content-center">
-        <Link to={path(:signup)} class="text-center normal-case btn btn-secondary">
-          {l("Sign up")}</Link>
+        <Link to={path(:signup)} class="text-center text-xs normal-case">
+          {l("Don't have an account?")} <span class="link link-primary">{l "Sign up"}</span></Link>
       </div>
     </div>
   </Form>
