@@ -51,7 +51,11 @@
               {l("Email address")}
             </span>
           </label>
-          <EmailInput opts={placeholder: "alice@email.com"} required class="w-full h-10 rounded input input-bordered" />
+          <EmailInput
+            opts={placeholder: "alice@email.com"}
+            required
+            class="w-full h-10 rounded input input-bordered"
+          />
           <ErrorTag />
         </Field>
       </Inputs>

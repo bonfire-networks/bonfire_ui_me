@@ -65,7 +65,11 @@
           {l("Email address or @username")}
         </span>
       </Label>
-      <TextInput opts={placeholder: "alice@email.com"} required class="w-full h-10 rounded input input-bordered" />
+      <TextInput
+        opts={placeholder: "alice@email.com"}
+        required
+        class="w-full h-10 rounded input input-bordered"
+      />
       <ErrorTag />
       <!-- <%= error_tag f, :email_or_username %> -->
     </Field>
@@ -105,10 +109,10 @@
       <!-- <%= error_tag f, :password %> -->
     </Field>
 
-     <Link
-        to={path(Bonfire.UI.Me.ForgotPasswordController)}
-        class="block w-full my-3 text-sm capitalize link link-secondary"
-      >
+    <Link
+      to={path(Bonfire.UI.Me.ForgotPasswordController)}
+      class="block w-full my-3 text-sm capitalize link link-secondary"
+    >
       {l("Forgot password?")}</Link>
 
     <!-- WIP: ADD A CONFIG TO ENABLE / DISABLE 2FA -->
@@ -138,10 +142,9 @@
     </div>
 
     <div class="mt-4">
-     
       <div class="flex py-4 pb-2 mt-6 border-t border-base-content/10 place-content-center">
         <Link to={path(:signup)} class="text-center text-xs normal-case">
-          {l("Don't have an account?")} <span class="link link-primary">{l "Sign up"}</span></Link>
+          {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></Link>
       </div>
     </div>
   </Form>

@@ -1,6 +1,10 @@
-<main data-id="profile" data-user-id={e(@user, :id, "")} class={
-  "max-w-[680px] mx-auto bg-base-100": !@current_user
-  }>
+<main
+  data-id="profile"
+  data-user-id={e(@user, :id, "")}
+  class={
+    "max-w-[680px] mx-auto bg-base-100": !@current_user
+  }
+>
   <Dynamic.Component
     module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
     {...assigns}

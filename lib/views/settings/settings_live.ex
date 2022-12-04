@@ -42,7 +42,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        ],
        selected_tab: "dashboard",
        id: nil,
-      #  smart_input_opts: [hide_buttons: true],
+       #  smart_input_opts: [hide_buttons: true],
        page: "settings",
        trigger_submit: false,
        uploaded_files: []
