@@ -25,11 +25,11 @@
 
               <span
                 :if={module_enabled?(Bonfire.Data.SharedUser) && e(@user, :shared_user, :label, nil)}
-                class="ml-3 badge badge-info badge-outline"
+                class="ml-3 badge badge-sm badge-info badge-outline"
               >
                 {e(@user, :shared_user, :label, "")}
               </span>
-              <span :if={is_admin?(@user)} class="ml-3 badge badge-info badge-outline">
+              <span :if={is_admin?(@user)} class="ml-3 badge badge-sm badge-info badge-outline">
                 {l("Admin")}
               </span>
             </div>

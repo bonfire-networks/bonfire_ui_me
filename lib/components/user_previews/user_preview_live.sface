@@ -30,7 +30,7 @@
             >
               {e(@user, :shared_user, :label, "")}
             </span>
-            <span :if={is_admin?(@user)} class="ml-3 badge badge-info badge-outline">
+            <span :if={is_admin?(@user)} class="ml-3 badge-smbadge badge-info badge-outline">
               {l("Admin")}
             </span>
           </div>
