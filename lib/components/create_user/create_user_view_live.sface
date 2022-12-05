@@ -1,4 +1,4 @@
-<div class="max-w-screen-sm mx-3 mt-3 md:mx-auto">
+<div class="max-w-[680px] mx-3 mt-3 md:mx-auto">
   <div class="my-2">
     <div class="p-4 rounded-md bg-info/10">
       <div class="flex">

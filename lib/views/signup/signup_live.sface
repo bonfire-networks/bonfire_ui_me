@@ -7,8 +7,8 @@
   /> -->
 
   {#if @registered}
-    <div class="w-full mx-auto rounded-md shadow bg-base-100">
-      <div class="p-3">
+    <div class="max-w-[680px] mx-auto">
+      <div class="">
         <div class="p-4 rounded-md bg-success/10">
           <div class="flex">
             <div class="flex-shrink-0">

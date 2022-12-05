@@ -6,7 +6,7 @@
       id={@id}
     />
   </div> -->
-<section class="w-full px-4 mx-auto">
+<section class="">
   {#case @selected_tab}
     {#match "dashboard"}
       <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} />
@@ -20,6 +20,13 @@
       <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive selected_tab={@selected_tab} />
     {#match "account"}
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
+    {#match "roles"}
+      <Dynamic.LiveComponent
+        :if={module_enabled?(Bonfire.Boundaries.Web.RolesLive) and @current_user}
+        module={Bonfire.Boundaries.Web.RolesLive}
+        id="roles"
+        scope={nil}
+      />
     {#match "circles"}
       <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and @current_user}
