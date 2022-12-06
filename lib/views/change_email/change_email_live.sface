@@ -1,0 +1,30 @@
+<div class="p-3">
+  <Form for={@form || :change_email}>
+    <div class="">
+      <p>{@error}</p>
+
+      <div class="">
+        <div class="mb-2 form-control">
+          <label for="old_email" class="label">
+            <span class="label-text">
+              {l("Current email address")}
+            </span>
+          </label>
+          <input id="old_email" name="old_email" type="email" class="w-full input input-bordered">
+        </div>
+
+        <div class="form-control">
+          <label for="email" class="label">
+            <span class="label-text">
+              {l("New email address")}
+            </span>
+          </label>
+          <input type="email" name="email" id="email" autocomplete="none" class="input input-bordered">
+        </div>
+      </div>
+      <div class="mt-3">
+        <button type="submit" phx-disable-with="Saving..." class="w-full btn btn-primary btn-wide">{l("Submit")}</button>
+      </div>
+    </div>
+  </Form>
+</div>

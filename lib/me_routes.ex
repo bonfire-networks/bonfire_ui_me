@@ -116,6 +116,11 @@ defmodule Bonfire.UI.Me.Routes do
           as: :change_password
         )
 
+        resources("/account/email/change", ChangeEmailController,
+          only: [:index, :create],
+          as: :change_email
+        )
+
         live("/settings/instance", InstanceSettingsLive)
         live("/settings/instance/:tab", InstanceSettingsLive)
 

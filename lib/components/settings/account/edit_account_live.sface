@@ -4,6 +4,7 @@
       {l("Account settings")}
     </div>
     <LiveRedirect to={path(:change_password)} class="normal-case btn btn-primary btn-wide">{l("Change my password")}</LiveRedirect>
+    <LiveRedirect to={path(:change_email)} class="normal-case btn btn-primary btn-wide">{l("Change my email address")}</LiveRedirect>
 
     <!--    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
       label={l "I want my profiles to appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden in each user's settings)"}
