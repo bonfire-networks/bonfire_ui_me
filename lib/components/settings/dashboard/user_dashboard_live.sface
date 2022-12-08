@@ -1,4 +1,4 @@
-<div class="my-6">
+<div class="my-6 mx-3">
   <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("General")}</div>
   <div class="grid grid-cols-1 gap-3 mt-8 md:grid-cols-2">
     <LivePatch
