@@ -6,8 +6,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     with {:ok, settings} <-
            keys
            |> String.split(":")
-           |> input_to_atoms()
-           |> debug()
+           #  |> debug()
            |> Bonfire.Me.Settings.put(value, socket) do
       # debug(settings, "done")
       {:noreply,
