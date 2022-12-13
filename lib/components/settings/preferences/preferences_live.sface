@@ -1,14 +1,4 @@
 <div class="pb-6">
-  <div class="py-4 mb-6 text-2xl font-bold text-base-content">
-    <div class="text-sm breadcrumbs">
-      <ul>
-        <li><a>Settings</a></li>
-        <li class="font-normal text-base-content/70">General</li>
-      </ul>
-    </div>
-    {l("User Preferences")}
-  </div>
-
   <div class="divide-y divide-base-300">
     <div x-data="{open: false}" class="p-6 shadow bg-base-100">
       <div class="flex items-center justify-between">

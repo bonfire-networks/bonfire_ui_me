@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="flex flex-col items-center px-0 mx-auto md:px-4 md:flex-row md:items-start">
-        <div class="flex flex-col flex-1 gap-3 px-6 desktop-lg:px-0 desktop-lg:items-start desktop-lg:flex-row desktop-lg:gap-6">
+        <div class="flex flex-col flex-1 gap-2">
           <Bonfire.UI.Common.AvatarLive
             class="inline-block object-cover w-[120px] h-[120px] mx-auto -mt-12 rounded md:mx-0 ring-4 ring-base-100 bg-base-200"
             size="100%"

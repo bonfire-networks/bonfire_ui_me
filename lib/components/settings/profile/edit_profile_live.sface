@@ -3,19 +3,12 @@
   phx-submit="Bonfire.Me.Profiles:save"
   method="POST"
 >
-  <div class="flex items-center justify-between py-8 mb-6 border-b border-base-content/10">
-    <!-- <div class="text-2xl font-bold text-base-content">
-      {l("Edit your profile")}
-    </div> -->
-    <button type="submit" class="normal-case btn-sm btn-wide btn btn-primary">{l("Save")}</button>
-  </div>
-
 
      <div class="m-6 pb-2 rounded-lg shadow bg-base-300">
         <div
           data-id="upload_image"
           phx-drop-target={@uploads.image.ref}
-          class="relative  rounded-t-lg flex justify-center px-6 py-10 bg-center bg-cover h-[130px]"
+          class="relative  rounded-t-lg flex justify-center px-6 py-10 bg-center bg-cover h-[200px]"
           style={"background-image: url('" <> banner_url(@current_user) <> "')"}
           >
           <div class="space-y-1 text-center">
@@ -46,15 +39,15 @@
           <div
             data-id="upload_icon"
             phx-drop-target={@uploads.icon.ref}
-            class="relative block w-16 h-16 overflow-hidden rounded-full ring-2 ring-base-100"
+            class="relative block w-24 h-24 overflow-hidden rounded-full -mt-10 ring-6 ring-base-300"
           >
             <Bonfire.UI.Common.AvatarLive
-              class="inline-block w-16 h-16 rounded-full bg-base-100"
+              class="inline-block w-24 h-24 rounded-full bg-base-100"
               user={@current_user}
             />
             <label
               for={@uploads.icon.ref}
-              class="absolute inset-0 flex items-center justify-center w-full h-full text-sm font-medium text-white transition duration-150 ease-in-out opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60"
+              class="absolute inset-0 flex items-center text-center justify-center w-full h-full text-sm font-medium text-white hover:bg-black transition duration-150 ease-in-out opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60"
             >
               <span>{l("Upload or drop")}</span>
               <span class="sr-only">
@@ -79,7 +72,7 @@
             <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
           <div x-show="open" x-collapse>
-            <div class="form-control">
+            <div class="form-control mt-4">
               <!-- <label for="name" class="label">
                 <span class="label-text">
                   {l("Full name")}
@@ -105,7 +98,7 @@
             <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
           <div x-show="open" x-collapse>
-            <div class="form-control">
+            <div class="form-control mt-4">
               <!-- <label for="about" class="label">
                 <span class="label-text">{l("Bio")}</span>
               </label> -->
@@ -125,7 +118,7 @@
             <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
           <div x-show="open" x-collapse>
-            <div class="form-control">
+            <div class="form-control mt-4">
               <!-- <label for="website" class="label">
                 <span class="label-text">{l("Website")}</span>
               </label> -->
@@ -133,6 +126,7 @@
                 type="text"
                 name="profile[website]"
                 id="website"
+                placeholder="Neptune"
                 autocomplete="website"
                 class="input input-bordered"
                 value={e(@current_user, :profile, :website, "")}
@@ -149,14 +143,12 @@
             <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
           <div x-show="open" x-collapse>
-            <div class="form-control">
-              <label for="location" class="label">
-                <span class="label-text">{l("Location")}</span>
-              </label>
+            <div class="form-control mt-4">
               <input
                 type="text"
                 name="profile[location]"
                 id="location"
+                placeholder="https://example.com"
                 autocomplete="location"
                 class="input input-bordered"
                 value={e(@current_user, :profile, :location, "")}
@@ -171,60 +163,8 @@
 
       </div>
 
-  <div class="max-w-screen-md p-3 mx-auto my-3 rounded-md shadow bg-base-100">
-    <div class="max-w-screen-md mt-1 sm:mt-0">
-      
 
-      <!-- <div>
-          <label for="name" class="block text-sm font-medium text-primary-content-700 ">
-            {l "Full name"}
-          </label>
-          <div class="flex mt-1 rounded shadow-sm">
-        </div> -->
-      <!-- </div> -->
-      <!-- <div>
-        <label for="username" class="block text-sm font-medium text-primary-content-700 ">
-          {l "Username"}
-        </label>
-        <div class="flex mt-1 rounded shadow-sm">
-          <span class="inline-flex items-center px-3 border border-r-0 border-gray-300 rounded-l text-primary-content-500 bg-base-100 sm:text-sm">
-            @
-          </span>
-          <input type="text" name="character[username]" id="username" autocomplete="username" class="flex-grow block w-full min-w-0 border-gray-300 rounded-none focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(@current_user, :character, :username, "")}>
-          <span class="inline-flex items-center px-3 border border-l-0 border-gray-300 rounded-r text-primary-content-500 bg-base-100 sm:text-sm">
-            @{Config.get(:host)}
-          </span>
-        </div>
-      </div> -->
-      <!-- <div>
-        <label for="about" class="block text-sm font-medium text-primary-content-700 ">
-          {l "About"}
-        </label>
-        <div class="mt-1">
-          <textarea id="about" name="profile[summary]" rows="3" class="block w-full mt-1 border-gray-300 rounded shadow-sm focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm">
-            {e(@current_user, :profile, :summary, "")}
-          </textarea>
-        </div>
-        <p class="mt-2 text-sm text-primary-content-500 ">
-          {l "Brief description for your profile. URLs are hyperlinked."}
-        </p>
-      </div> -->
-      <!-- <div>
-        <label for="website" class="block text-sm font-medium text-primary-content-700 ">
-          {l "Website"}
-        </label>
-        <div class="flex mt-1 rounded shadow-sm">
-          <input type="text" name="profile[website]" id="website" autocomplete="website" class="flex-grow block w-full min-w-0 border-gray-300 rounded focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(@current_user, :profile, :website, "")}>
-        </div>
-      </div>
-      <div>
-        <label for="location" class="block text-sm font-medium text-primary-content-700 ">
-          {l "Location"}
-        </label>
-        <div class="flex mt-1 rounded-md shadow-sm">
-          <input type="text" name="profile[location]" id="location" autocomplete="location" class="flex-grow block w-full min-w-0 border-gray-300 rounded focus:ring-light-blue-500 focus:border-light-blue-500 sm:text-sm" value={e(@current_user, :profile, :location, "")}>
-        </div>
-      </div> -->
-    </div>
-  </div>
+    <button type="submit" class="normal-case ml-6 btn-sm btn-wide btn btn-primary">{l("Save")}</button>
+
+  
 </form>
