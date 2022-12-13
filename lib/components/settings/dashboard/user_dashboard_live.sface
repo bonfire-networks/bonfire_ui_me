@@ -78,7 +78,7 @@
       </div>
     </LivePatch>
 
-    <LivePatch
+    <!-- <LivePatch
       to={~p"/settings/ghosted"}
       class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
     >
@@ -89,9 +89,9 @@
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Ghosted")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("People and instances who shouldn't see you")}</div>
       </div>
-    </LivePatch>
+    </LivePatch> -->
 
-    <LivePatch
+    <!-- <LivePatch
       to={~p"/settings/silenced"}
       class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
     >
@@ -102,7 +102,7 @@
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Ignored / Silenced")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("People and instances you don't want to see")}</div>
       </div>
-    </LivePatch>
+    </LivePatch> -->
   </div>
 
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Advanced")}</div>
