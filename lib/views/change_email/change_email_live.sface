@@ -1,5 +1,4 @@
 <div class="w-full md:w-[360px] mx-auto p-3 rounded-lg bg-base-100 shadow">
-
   <Form for={@form || :change_email}>
     <div class="">
       <p>{@error}</p>

@@ -104,7 +104,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         feed_title: l("User timeline"),
         # without_sidebar: true,
         # the user to display
-        nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social), 
+        nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),
         user: user,
         canonical_url: canonical_url(user),
         name: name,
