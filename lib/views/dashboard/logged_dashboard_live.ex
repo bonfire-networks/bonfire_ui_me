@@ -24,7 +24,7 @@ defmodule Bonfire.UI.Me.LoggedDashboardLive do
         socket,
         page: "dashboard",
         smart_input: true,
-        page_title: l("Bonfire Dashboard"),
+        page_title: l("Dashboard"),
         feed_title: l("My feed"),
         selected_tab: "feed",
         go: "",
