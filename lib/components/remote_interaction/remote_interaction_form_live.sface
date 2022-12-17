@@ -1,16 +1,16 @@
 <div>
   <#slot {@header} />
 
-  <div class="flex">
+  <div class="flex max-w-[520px] mx-auto">
     <div class="w-full mx-auto">
       <Form for={:outgoing} action="/pub/remote_interaction">
         <HiddenInput name={:type} value={@interaction_type} />
         <HiddenInput name={:object} value={@canonical_url} />
 
-        <div class="p-5 mx-auto pt-0">
+        <div class="p-5 pt-0 mx-auto">
           <Field name={:me}>
             <Label class="label">
-              <span class="text-base font-medium text-base-content/80">{l("Enter your fediverse nick to %{verb} %{user_name} remotely:",
+              <span class="mb-3 text-base font-medium text-base-content/80">{l("Enter your fediverse nick to %{verb} %{user_name} remotely",
                   user_name: @name,
                   verb: @interaction_type
                 )}</span>
@@ -33,13 +33,13 @@
 
           <p class="mt-4 text-sm">{l("Are you a user of this instance?")} <a class="link link-primary" href={"/login?go=#{@canonical_url}"}>{l("Sign in instead.")}</a></p>
 
-          <div class="alert alert-info justify-start text-sm shadow-lg mt-3 rounded">
-            <div>
+          <div class="items-start justify-start mt-3 text-sm rounded shadow-lg alert alert-info">
+            <div class="flex items-start gap-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                class="stroke-current flex-shrink-0 w-6 h-6"
+                class="flex-shrink-0 w-6 h-6 stroke-current"
               ><path
                   stroke-linecap="round"
                   stroke-linejoin="round"
