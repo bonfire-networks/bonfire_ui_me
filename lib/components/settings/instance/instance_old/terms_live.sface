@@ -35,7 +35,7 @@
               <div class="text-sm font-bold">{l("Terms of Use / Code of Conduct")}</div>
               <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
             </div>
-            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+            <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
           <div x-show="open" x-collapse>
             <div class="w-full mt-8 form-control">
@@ -62,7 +62,7 @@
               <div class="text-sm font-bold">{l("Privacy Policy")}</div>
               <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
             </div>
-            <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+            <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
           <div x-show="open" x-collapse>
             <div class="w-full mt-8 form-control">

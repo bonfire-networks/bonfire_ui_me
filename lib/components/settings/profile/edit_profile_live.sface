@@ -68,7 +68,7 @@
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Edit your full name")}</div>
           </div>
-          <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+          <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
         <div x-show="open" x-collapse>
           <div class="form-control mt-4">
@@ -94,7 +94,7 @@
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Edit your bio")}</div>
           </div>
-          <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+          <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
         <div x-show="open" x-collapse>
           <div class="form-control mt-4">
@@ -114,7 +114,7 @@
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Edit your website")}</div>
           </div>
-          <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+          <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
         <div x-show="open" x-collapse>
           <div class="form-control mt-4">
@@ -139,7 +139,7 @@
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Edit your location")}</div>
           </div>
-          <button type="button" @click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+          <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
         <div x-show="open" x-collapse>
           <div class="form-control mt-4">
