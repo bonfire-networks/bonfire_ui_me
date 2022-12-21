@@ -107,6 +107,16 @@ defmodule Bonfire.UI.Me.ProfileLive do
         nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),
         user: user,
         canonical_url: canonical_url(user),
+        sidebar_widgets: [
+          users: [
+            secondary: [
+              {Bonfire.Tag.Web.WidgetTagsLive, []}
+            ]
+          ],
+          guests: [
+            secondary: nil
+          ]
+        ],
         name: name,
         interaction_type: l("follow"),
         follows_me: following,
