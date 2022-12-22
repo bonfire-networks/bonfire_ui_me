@@ -13,7 +13,6 @@ defmodule Bonfire.UI.Me.SignupLive do
      |> assign(:page_title, l("Sign up"))
      |> assign(:invite, e(session, "invite", nil))
      |> assign(:registered, e(session, "registered", nil))
-     |> assign_new(:nav_header, fn -> false end)
      |> assign_new(:without_sidebar, fn -> true end)
      |> assign_new(:current_account, fn -> nil end)
      |> assign_new(:current_account_id, fn -> nil end)
