@@ -99,7 +99,7 @@
           <LiveRedirect
             :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
             to={~p"/settings"}
-            class="normal-case btn btn-sm btn-outline opacity-70"
+            class="normal-case rounded btn btn-sm btn-outline opacity-70"
           >
             {l("Edit profile")}
           </LiveRedirect>
