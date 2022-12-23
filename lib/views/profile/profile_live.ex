@@ -253,6 +253,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     )
   end
 
+
   def handle_params(params, uri, socket),
     do:
       Bonfire.UI.Common.LiveHandlers.handle_params(

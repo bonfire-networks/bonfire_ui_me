@@ -2,7 +2,7 @@
   data-id="profile"
   data-user-id={e(@user, :id, "")}
   class={
-    "max-w-[680px] mx-auto bg-base-100": !@current_user
+    "": !@current_user
   }
 >
   <Dynamic.Component
@@ -20,6 +20,7 @@
         follows_me={e(@follows_me, false)}
       />
     </:header>
+
     <!-- <:widget>
         <Dynamic.Component
           :if={module_enabled?(Bonfire.UI.Me.WidgetProfileLive)}

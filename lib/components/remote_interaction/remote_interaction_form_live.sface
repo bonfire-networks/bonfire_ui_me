@@ -1,16 +1,16 @@
 <div>
   <#slot {@header} />
 
-  <div class="flex max-w-[520px] mx-auto">
+  <div class="flex max-w-[680px] relative z-[99999] mt-[-60px] bg-base-100 rounded shadow mx-auto">
     <div class="w-full mx-auto">
       <Form for={:outgoing} action="/pub/remote_interaction">
         <HiddenInput name={:type} value={@interaction_type} />
         <HiddenInput name={:object} value={@canonical_url} />
 
-        <div class="p-5 pt-0 mx-auto">
+        <div class="p-5 mx-auto">
           <Field name={:me}>
-            <Label class="label">
-              <span class="mb-3 text-base font-medium text-base-content/80">{l("Enter your fediverse nick to %{verb} %{user_name} remotely",
+            <Label class="block p-0 mb-4 text-center label">
+              <span class="text-base font-medium text-base-content/80">{l("Enter your fediverse nick to %{verb} %{user_name} remotely",
                   user_name: @name,
                   verb: @interaction_type
                 )}</span>

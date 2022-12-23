@@ -1,6 +1,6 @@
 <main id="switch-user">
   <div class="flex-1 mt-3 max-w-[680px] mx-auto">
-    <div class="mt-12 mb-6 shadow-lg alert alert-info">
+    <div class="mb-6 rounded shadow-lg alert alert-info">
       <div>
         <svg
           xmlns="http://www.w3.org/2000/svg"
