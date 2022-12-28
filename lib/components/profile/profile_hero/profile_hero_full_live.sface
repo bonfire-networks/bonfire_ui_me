@@ -207,7 +207,9 @@
       </div>
       <Bonfire.UI.Common.TabsLive
         selected_tab={@selected_tab}
-        class="flex items-center bg-base-100 max-w-[680px] gap-8 mx-auto border-t border-base-content/10"
+        class={
+          "flex items-center bg-base-100 max-w-[680px] gap-8 mx-auto border-t border-base-content/10",
+          "!border-none rounded-t-xl": !@current_user}
         tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium tracking-wide text-base-content/60 p-4"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
         tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
