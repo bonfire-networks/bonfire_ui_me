@@ -1,13 +1,13 @@
 <div class={
-  "relative", 
+  "relative",
   "-mt-6": !@current_user
-  }>
+}>
   <div class="border-b border-base-300">
     <div class="">
       <div
         class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[250px]"
         style={"background-image: url('#{banner_url(@user)}')"}
-       > 
+      >
         <!-- FOLLOWS YOU LABEL -->
         <div :if={@follows_me} class="absolute rounded right-2 bottom-2 opacity-90 badge badge-lg">
           {"Follows you"}
@@ -16,7 +16,7 @@
       <div class={
         "flex items-start max-w-[680px] mb-8 mx-auto",
         "px-4 !mb-4": @current_user
-        }>
+      }>
         <div class="flex flex-col flex-1 gap-2">
           <Bonfire.UI.Common.AvatarLive
             class="inline-block object-cover w-[120px] h-[120px] -mt-12 rounded md:mx-0 ring-4 ring-base-100 bg-base-200"
@@ -209,7 +209,8 @@
         selected_tab={@selected_tab}
         class={
           "flex items-center bg-base-100 max-w-[680px] gap-8 mx-auto border-t border-base-content/10",
-          "!border-none rounded-t-xl": !@current_user}
+          "!border-none rounded-t-xl": !@current_user
+        }
         tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium tracking-wide text-base-content/60 p-4"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
         tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
