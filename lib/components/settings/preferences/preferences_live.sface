@@ -91,7 +91,9 @@
       </div>
     </div>
 
-    <Bonfire.UI.Common.AvatarsSettingsLive scope={:user} />
+    <form name="settings" phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.AvatarsSettingsLive />
+    </form>
 
     <div x-data="{open: false}" class="p-6 rounded-t bg-base-100">
       <div class="flex items-center justify-between">
@@ -102,10 +104,7 @@
         <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
       </div>
       <div x-show="open" x-collapse>
-        <Bonfire.UI.Social.Settings.MyFeedItemsLive
-          title={l("What activities to include in home feeds by default")}
-          scope={:user}
-        />
+        <Bonfire.UI.Social.Settings.MyFeedItemsLive title={l("What activities to include in home feeds by default")} />
       </div>
     </div>
 

@@ -163,7 +163,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
            }) do
       {:noreply,
        socket
-       |> assign(current_user: deep_merge(user, %{profile: %{icon: uploaded_media}}))
+       |> assign_global(current_user: deep_merge(user, %{profile: %{icon: uploaded_media}}))
        |> assign_flash(:info, l("Avatar changed!"))}
     end
   end
@@ -178,7 +178,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
            }) do
       {:noreply,
        socket
-       |> assign(current_user: deep_merge(user, %{profile: %{image: uploaded_media}}))
+       |> assign_global(current_user: deep_merge(user, %{profile: %{image: uploaded_media}}))
        |> assign_flash(:info, l("Background image changed!"))}
     end
   end
