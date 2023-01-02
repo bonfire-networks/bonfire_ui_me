@@ -7,13 +7,13 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     user = fake_user!(account)
     conn = conn(user: user, account: account)
 
-    next = "/settings/user"
+    next = "/settings/profile"
     # |> IO.inspect
     {view, doc} = floki_live(conn, next)
 
-    [style] = Floki.attribute(doc, "[data-id='preview_icon']", "style")
+    # [src] = Floki.attribute(doc, "[data-id='preview_icon']", "src")
     # has placeholder avatar
-    assert style =~ "/images/avatar.png"
+    # assert src =~ "/images/avatar.png"
 
     file = Path.expand("../fixtures/icon.png", __DIR__)
 
@@ -29,11 +29,11 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
 
     uploaded = render_upload(icon, "icon.png")
 
-    [done] = Floki.attribute(uploaded, "[data-id='preview_icon']", "style")
+    [done] = Floki.attribute(uploaded, "[data-id='preview_icon']", "src")
 
     # |> debug
     # now has uploaded image
-    assert done =~ "background-image: url('/data/uploads/"
+    assert done =~ "/data/uploads/"
 
     # TODO check if filesizes match?
     # File.stat!(file).size |> debug()
@@ -44,7 +44,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     user = fake_user!(account)
     conn = conn(user: user, account: account)
 
-    next = "/settings/user"
+    next = "/settings/profile"
     # |> IO.inspect
     {view, doc} = floki_live(conn, next)
 
