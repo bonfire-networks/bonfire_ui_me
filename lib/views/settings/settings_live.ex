@@ -32,14 +32,16 @@ defmodule Bonfire.UI.Me.SettingsLive do
        #  page_header_aside: [
        #    {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
        #  ],
-       sidebar_widgets: [
-         users: [
-           main: []
-         ],
-         users: [
-           secondary: []
-         ]
-       ],
+      sidebar_widgets: [
+          users: [
+            secondary: [
+              {Bonfire.Tag.Web.WidgetTagsLive, []}
+            ]
+          ],
+          guests: [
+            secondary: nil
+          ]
+        ],
        selected_tab: "dashboard",
        id: nil,
        #  smart_input_opts: [hide_buttons: true],
@@ -196,7 +198,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
     {:noreply,
      assign(
        socket,
-       selected_tab: tab
+       selected_tab: tab,
      )}
   end
 

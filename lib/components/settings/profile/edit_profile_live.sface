@@ -3,7 +3,7 @@
   phx-submit="Bonfire.Me.Profiles:save"
   method="POST"
 >
-  <div class="m-6 pb-2 rounded-lg shadow bg-base-300">
+  <div class="pb-2 m-6 rounded-lg shadow bg-base-300">
     <div
       data-id="upload_image"
       phx-drop-target={@uploads.image.ref}
@@ -38,16 +38,16 @@
       <div
         data-id="upload_icon"
         phx-drop-target={@uploads.icon.ref}
-        class="relative block w-24 h-24 overflow-hidden rounded-full -mt-10 ring-6 ring-base-300"
+        class="relative block w-24 h-24 -mt-10 overflow-hidden rounded-md ring-4 ring-base-300"
       >
         <Bonfire.UI.Common.AvatarLive
-          class="inline-block w-24 h-24 rounded-full bg-base-100"
+          class="inline-block w-24 h-24 rounded-md bg-base-100"
           user={@current_user}
           opts={%{"data-id" => "preview_icon"}}
         />
         <label
           for={@uploads.icon.ref}
-          class="absolute inset-0 flex items-center text-center justify-center w-full h-full text-sm font-medium text-white hover:bg-black transition duration-150 ease-in-out opacity-0 cursor-pointer bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60"
+          class="absolute inset-0 flex items-center justify-center w-full h-full text-sm font-medium text-center text-white transition duration-150 ease-in-out opacity-0 cursor-pointer hover:bg-black bg-base-100 bg-opacity-40 hover:opacity-60 focus-within:opacity-60"
         >
           <span>{l("Upload or drop")}</span>
           <span class="sr-only">
@@ -63,7 +63,7 @@
       </div>
     </div>
 
-    <div class="m-3 rounded-lg bg-base-content/5 divide-y divide-base-300">
+    <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
       <div x-data="{open: false}" class="p-3">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
@@ -72,7 +72,7 @@
           <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
         <div x-show="open" x-collapse>
-          <div class="form-control mt-4">
+          <div class="mt-4 form-control">
             <!-- <label for="name" class="label">
                 <span class="label-text">
                   {l("Full name")}
@@ -98,7 +98,7 @@
           <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
         <div x-show="open" x-collapse>
-          <div class="form-control mt-4">
+          <div class="mt-4 form-control">
             <!-- <label for="about" class="label">
                 <span class="label-text">{l("Bio")}</span>
               </label> -->
@@ -118,7 +118,7 @@
           <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
         <div x-show="open" x-collapse>
-          <div class="form-control mt-4">
+          <div class="mt-4 form-control">
             <!-- <label for="website" class="label">
                 <span class="label-text">{l("Website")}</span>
               </label> -->
@@ -126,7 +126,7 @@
               type="text"
               name="profile[website]"
               id="website"
-              placeholder="Neptune"
+              placeholder="https://example.com
               autocomplete="website"
               class="input input-bordered"
               value={e(@current_user, :profile, :website, "")}
@@ -143,12 +143,12 @@
           <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
         </div>
         <div x-show="open" x-collapse>
-          <div class="form-control mt-4">
+          <div class="mt-4 form-control">
             <input
               type="text"
               name="profile[location]"
               id="location"
-              placeholder="https://example.com"
+              placeholder="Neptune"
               autocomplete="location"
               class="input input-bordered"
               value={e(@current_user, :profile, :location, "")}
@@ -159,5 +159,5 @@
     </div>
   </div>
 
-  <button type="submit" class="normal-case ml-6 btn-sm btn-wide btn btn-primary">{l("Save")}</button>
+  <button type="submit" class="ml-6 normal-case btn-sm btn-wide btn btn-primary">{l("Save")}</button>
 </form>
