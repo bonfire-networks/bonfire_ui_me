@@ -18,7 +18,10 @@
     </div>
     <div class="p-4 m-6 mt-0 rounded-lg shadow bg-base-300">
       <div class="form-control">
-        <label for="shared_user_label" class="flex flex-col items-start justify-start mb-2 text-left label label-text">
+        <label
+          for="shared_user_label"
+          class="flex flex-col items-start justify-start mb-2 text-left label label-text"
+        >
           <span class="text-left">
             {l("What kind of team or organisation is it?")}
           </span>
@@ -37,7 +40,10 @@
       </div>
 
       <div class="mt-8 form-control">
-        <label for="add_shared_user" class="flex flex-col items-start justify-start mb-2 text-left label label-text">
+        <label
+          for="add_shared_user"
+          class="flex flex-col items-start justify-start mb-2 text-left label label-text"
+        >
           <span class="text-left">
             {l(
               "Share full access to this user identity (@%{username}) with the following users.",
@@ -48,7 +54,7 @@
             {l("Please note they need to already be signed up on this instance.")}
           </span>
         </label>
-        
+
         <input
           type="text"
           id="add_shared_user"

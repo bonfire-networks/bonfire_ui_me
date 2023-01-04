@@ -17,7 +17,7 @@
       <LiveRedirect to={path(:change_email)} class="normal-case btn btn-sm">{l("Change")}</LiveRedirect>
     </div>
   </div>
-  <div x-data="{open: false}" class="p-4 ">
+  <div x-data="{open: false}" class="p-4">
     <div class="flex items-center justify-between">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold">{l("Theme & font")}</div>
@@ -33,7 +33,6 @@
             <span class="label-text text-base-content/70">
               {l("Default theme")}</span>
           </label>
-
 
           <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
             <div class="flex max-w-lg">
