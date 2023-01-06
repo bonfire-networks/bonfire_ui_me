@@ -22,23 +22,22 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
 
     {:ok,
      socket
-     # |> assign(:without_sidebar,  true)
      |> assign(
        page_title: l("Instance Settings"),
-       #  without_widgets: true,
-       #  without_sidebar: true,
        nav_items: [Bonfire.UI.Common.SidebarInstanceSettingsLive.declared_nav()],
-       sidebar_widgets: [
+      sidebar_widgets: [
          users: [
-           main: []
+           secondary: [
+             {Bonfire.Tag.Web.WidgetTagsLive, []}
+           ]
          ],
-         users: [
-           secondary: []
+         guests: [
+           secondary: nil
          ]
        ],
        selected_tab: "dashboard",
        id: nil,
-       smart_input_opts: [hide_buttons: true],
+      #  smart_input_opts: [hide_buttons: true],
        page: "instance_settings",
        trigger_submit: false,
        uploaded_files: []

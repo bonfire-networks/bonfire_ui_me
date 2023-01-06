@@ -1,20 +1,11 @@
-<div class="pb-6 space-y-6 sm:space-y-5">
+<div class="pb-6">
   {#if Bonfire.Me.Users.is_admin?(@current_user) ||
       Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
-    <div class="py-4 mb-6 text-2xl font-bold text-base-content">
-      <div class="text-sm breadcrumbs">
-        <ul>
-          <li><a>Settings</a></li>
-          <li class="font-normal text-base-content/70">General</li>
-        </ul>
-      </div>
-      {l("Instance preferences")}
-    </div>
+    
+    <div class="!mt-8 m-3 text-xs font-medium tracking-wide uppercase text-base-content/70">{l("Appearance")}</div>
 
-    <div class="text-xs tracking-wide uppercase text-base-content">{l("Appearance")}</div>
-
-    <div class="divide-y divide-base-300">
-      <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
+    <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
+      <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Name & description")}</div>
@@ -67,7 +58,7 @@
       <form phx-change="Bonfire.Me.Profiles:validate" name="images">
         <input name="scope" value={:instance} type="hidden">
 
-        <div x-data="{open: false}" class="p-6 shadow bg-base-100">
+        <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Icon & banner")}</div>
@@ -136,7 +127,7 @@
         </div>
       </form>
 
-      <div x-data="{open: false}" class="p-6 shadow bg-base-100">
+      <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Theme & font")}</div>
@@ -175,7 +166,7 @@
         </div>
       </div>
 
-      <div x-data="{open: false}" class="p-6 rounded-b shadow bg-base-100">
+      <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-bold">{l("Language")}</div>
@@ -201,11 +192,11 @@
     </div>
     <!-- </form> -->
 
-    <div class="!mt-12 text-xs tracking-wide uppercase text-base-content">{l("Default behaviours")}</div>
+    <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Default behaviours")}</div>
     <form name="settings" phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:instance} type="hidden">
-      <div class="divide-y divide-base-300">
-        <div class="p-6 shadow rounder-t bg-base-100">
+      <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
+        <div class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Make invite only")}</div>
@@ -222,7 +213,7 @@
           </div>
         </div>
 
-        <div class="p-6 shadow bg-base-100">
+        <div class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Show list of admins on public homepage")}</div>
@@ -240,7 +231,7 @@
           </div>
         </div>
 
-        <div class="p-6 shadow bg-base-100">
+        <div class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Hide the number of total users on this instance")}</div>
@@ -259,7 +250,7 @@
 
         <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} />
 
-        <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
+        <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Who can see the list of local users?")}</div>
@@ -326,7 +317,7 @@
           </div>
         </div>
 
-        <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
+        <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("What activities to include in home feeds by default")}</div>
@@ -343,9 +334,9 @@
         </div>
       </div>
 
-      <div class="!mt-12 mb-6 text-xs tracking-wide uppercase text-base-content">{l("Advanced settings")}</div>
-      <div class="divide-y divide-base-300">
-        <div class="p-6 rounded-t shadow bg-base-100">
+      <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div>
+      <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
+        <div class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Enable federation")}</div>
