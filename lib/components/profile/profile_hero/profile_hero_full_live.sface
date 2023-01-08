@@ -122,8 +122,9 @@
 
           <div :if={ulid(@current_user) != maybe_get(@user, :id)}>
             <Bonfire.UI.Common.FollowButtonLive
-              id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, @user)}
-              object={@user}
+              id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, ulid(@user))}
+              object_id={ulid(@user)}
+              path={path(@user)}
               hide_icon
               class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-outline border-base-content/50"
             />
