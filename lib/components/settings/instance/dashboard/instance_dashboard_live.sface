@@ -1,7 +1,10 @@
 <div class="mx-3 my-6">
   <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Website")}</div>
   <div class="grid grid-cols-1 gap-3 mt-4 md:grid-cols-2">
-    <LivePatch to={~p"/settings/instance/instance_info"} class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group">
+    <LivePatch
+      to={~p"/settings/instance/instance_info"}
+      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+    >
       <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon solid="Cog" class="w-7 h-7" />
       </div>
@@ -11,8 +14,10 @@
       </div>
     </LivePatch>
 
-
-    <LivePatch to={~p"/settings/instance/terms"} class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group">
+    <LivePatch
+      to={~p"/settings/instance/terms"}
+      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+    >
       <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon solid="Scale" class="w-7 h-7" />
       </div>
@@ -23,10 +28,12 @@
     </LivePatch>
   </div>
 
-
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Members")}</div>
   <div class="grid grid-cols-1 gap-3 mt-4 md:grid-cols-2">
-    <LivePatch to={~p"/settings/instance/members"} class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group">
+    <LivePatch
+      to={~p"/settings/instance/members"}
+      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+    >
       <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon solid="Users" class="w-7 h-7" />
       </div>
@@ -36,7 +43,10 @@
       </div>
     </LivePatch>
 
-    <LivePatch to={~p"/settings/instance/invites"} class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group">
+    <LivePatch
+      to={~p"/settings/instance/invites"}
+      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+    >
       <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon solid="Mail" class="w-7 h-7" />
       </div>
@@ -46,7 +56,10 @@
       </div>
     </LivePatch>
 
-    <LivePatch to={~p"/settings/instance/flags"} class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group">
+    <LivePatch
+      to={~p"/settings/instance/flags"}
+      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+    >
       <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon solid="Flag" class="w-7 h-7" />
       </div>
@@ -55,13 +68,14 @@
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Customize your site and manage themes</div>
       </div>
     </LivePatch>
-
   </div>
 
-  
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Advanced")}</div>
   <div class="grid grid-cols-1 gap-3 mt-4 md:grid-cols-2">
-    <LivePatch to={~p"/settings/instance/extensions"} class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group">
+    <LivePatch
+      to={~p"/settings/instance/extensions"}
+      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+    >
       <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
         <Icon solid="Puzzle" class="w-7 h-7" />
       </div>

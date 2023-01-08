@@ -52,7 +52,6 @@
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Email and password")}</div>
       </div>
     </LivePatch>
-
   </div>
   <!-- <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Members")}</div>
   <div class="grid grid-cols-1 gap-3 mt-8 md:grid-cols-2">

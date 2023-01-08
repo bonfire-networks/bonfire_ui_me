@@ -25,7 +25,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      |> assign(
        page_title: l("Instance Settings"),
        nav_items: [Bonfire.UI.Common.SidebarInstanceSettingsLive.declared_nav()],
-      sidebar_widgets: [
+       sidebar_widgets: [
          users: [
            secondary: [
              {Bonfire.Tag.Web.WidgetTagsLive, []}
@@ -37,7 +37,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
        ],
        selected_tab: "dashboard",
        id: nil,
-      #  smart_input_opts: [hide_buttons: true],
+       #  smart_input_opts: [hide_buttons: true],
        page: "instance_settings",
        trigger_submit: false,
        uploaded_files: []

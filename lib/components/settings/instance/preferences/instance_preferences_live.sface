@@ -1,7 +1,6 @@
 <div class="pb-6">
   {#if Bonfire.Me.Users.is_admin?(@current_user) ||
       Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
-    
     <div class="!mt-8 m-3 text-xs font-medium tracking-wide uppercase text-base-content/70">{l("Appearance")}</div>
 
     <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
