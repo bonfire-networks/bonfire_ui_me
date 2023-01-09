@@ -14,18 +14,194 @@
         </div>
       </div>
       <div class={
-        "flex items-start mb-8 mx-auto",
+        "flex flex-col items-start mb-8 mx-auto",
         "px-4 !mb-4": @current_user,
         "max-w-[680px]": !@current_user
       }>
-        <div class="flex flex-col flex-1 gap-2">
+        <div class="flex justify-between w-full">
           <Bonfire.UI.Common.AvatarLive
             class="inline-block object-cover w-[120px] h-[120px] -mt-12 rounded md:mx-0 ring-4 ring-base-100 bg-base-200"
             size="100%"
             user={@user}
           />
+          <div class="flex items-center gap-3">
+            <LiveRedirect
+              :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
+              to={~p"/settings/profile"}
+              class="normal-case rounded btn btn-sm btn-primary"
+            >
+              {l("Edit profile")}
+            </LiveRedirect>
+            <a
+              :if={e(@user, :character, :peered, :canonical_uri, nil)}
+              href={e(@user, :character, :peered, :canonical_uri, "#")}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hidden btn btn-sm lg:flex btn-info btn-circle"
+            >
+              <Icon solid="ExternalLink" class="w-4 h-4" />
+            </a>
+
+            <div :if={ulid(@current_user) != maybe_get(@user, :id)}>
+              <Bonfire.UI.Common.FollowButtonLive
+                id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, ulid(@user))}
+                object_id={ulid(@user)}
+                path={path(@user)}
+                hide_icon
+                class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
+              />
+            </div>
+
+            <!-- <LiveRedirect
+              :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}
+              to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
+              class="hidden btn lg:flex btn-sm h-[34px] w-[34px] btn-outline btn-circle border-base-content/50"
+            >
+              <Icon solid="Mail" class="w-4 h-4" />
+            </LiveRedirect> -->
+
+            <div
+              aria-haspopup="true"
+              class="dropdown dropdown-end"
+            >
+              <label
+                tabindex="0"
+                class="btn h-[34px] w-[34px] btn-sm btn-square rounded"
+              >
+                <Icon solid="DotsHorizontal" class="w-4 h-4" />
+              </label>
+              <ul
+                tabindex="0"
+                role="menu"
+                aria-orientation="vertical"
+                class="!block mt-1 rounded shadow dropdown_actions w-48 menu menu-compact dropdown-content bg-neutral"
+              >
+                <li 
+                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                  <LiveRedirect to={~p"/settings/preferences"} class="flex items-center gap-2 text-sm text-neutral-content/80">
+                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                    {l("Preferences")}
+                  </LiveRedirect>
+                </li>
+                <!-- if current user is also an admin -->
+                <li 
+                  :if={is_admin?(@current_user) && @current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                  <LiveRedirect
+                    to={~p"/settings/instance"}
+                    class="flex items-center gap-2 text-sm text-neutral-content/80"
+                  >
+                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                    {l("Admin Settings")}
+                  </LiveRedirect>
+                </li>
+                <li 
+                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                  <LiveRedirect
+                    to={~p"/feed/likes"}
+                    class="flex items-center gap-2 text-sm text-neutral-content/80"
+                  >
+                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                    {l("Favourites")}
+                  </LiveRedirect>
+                </li>
+
+                <li 
+                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)} class="border-t border-neutral-content/10">
+                  <LiveRedirect
+                    to={~p"/boundaries/silenced"}
+                    class="flex items-center gap-2 text-sm text-neutral-content/80"
+                  >
+                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                    {l("Silenced")}
+                  </LiveRedirect>
+                </li>
+                <li 
+                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                  <LiveRedirect
+                    to={~p"/boundaries/ghosted"}
+                    class="flex items-center gap-2 text-sm text-neutral-content/80"
+                  >
+                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                    {l("Ghosted")}
+                  </LiveRedirect>
+                </li>
+                <li 
+                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                  <LiveRedirect
+                    to={~p"/boundaries/circles"}
+                    class="flex items-center gap-2 text-sm text-neutral-content/80"
+                  >
+                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                    {l("My circles")}
+                  </LiveRedirect>
+                </li>
+                <li 
+                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                  <LiveRedirect
+                    to={~p"/boundaries/acls"}
+                    class="flex items-center gap-2 text-sm text-neutral-content/80"
+                  >
+                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                    {l("My boundaries")}
+                  </LiveRedirect>
+                </li>
+                <li 
+                  :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}>
+                  <LiveRedirect
+                    class="flex items-center gap-2 text-sm text-neutral-content/80"
+                    to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
+                  >
+                    <Icon solid="Mail" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                    <span>{l("Send a message")}</span>
+                  </LiveRedirect>
+                </li>
+                <li 
+                  :if={e(@user, :character, :peered, :canonical_uri, nil)} class="lg:hidden">
+                  <a
+                    href={e(@user, :character, :peered, :canonical_uri, "#")}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="flex items-center gap-2 text-sm text-neutral-content/80"
+                  >
+                    <Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                    <span>{l("Visit the original url")}</span>
+                  </a>
+                </li>
+                <li
+                  phx-click="Bonfire.Me.Users:make_admin"
+                  phx-value-username_or_id={maybe_get(@user, :id)}
+                  :if={is_admin?(@current_user) && !is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)}
+                >
+                  <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
+                    <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                    <span>{l("Make admin")}</span>
+                  </button>
+                </li>
+                <li
+                  :if={is_admin?(@current_user) && is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)}
+                  phx-click="Bonfire.Me.Users:revoke_admin"
+                  phx-value-username_or_id={maybe_get(@user, :id)}
+                >
+                  <button class="flex items-center gap-2 py-2 text-sm">
+                    <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                    <span>{l("Revoke admin")}</span>
+                  </button>
+                </li>
+                <li :if={ulid(@current_user) != maybe_get(@user, :id)}>
+                  <Bonfire.UI.Common.FlagActionLive
+                    object={@user}
+                    label={l("Report") <> " " <> e(@user, :profile, :name, "this user")}
+                    class="flex items-center p-4 text-sm text-neutral"
+                  />
+                </li>
+                <Bonfire.Boundaries.Web.BlockMenuButtonsLive object={@user} />
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-col flex-1 gap-2">
           <div class="flex flex-col gap-1 md:mt-3">
-            <div class="flex items-center text-2xl font-bold text-base-content">
+            <div class="flex items-center text-xl font-bold text-base-content">
               <LivePatch to={~p"/user/#{e(@user, :character, :username, "")}/timeline"}>
                 {e(@user, :profile, :name, "Anonymous")}
               </LivePatch>
@@ -46,7 +222,7 @@
 
             <div class="mt-3">
               <div class="w-full !text-base-content prose-sm prose prose-p:pt-2">
-                {markdown(e(@user, :profile, :summary, ""))}
+                <p>{rich(e(@user, :profile, :summary, ""))}</p>
               </div>
 
               <div
@@ -102,110 +278,7 @@
             </div>
           </div>
         </div>
-        <div class="flex items-center gap-3 mt-3">
-          <LiveRedirect
-            :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
-            to={~p"/settings"}
-            class="normal-case rounded btn btn-sm btn-outline opacity-70"
-          >
-            {l("Edit profile")}
-          </LiveRedirect>
-          <a
-            :if={e(@user, :character, :peered, :canonical_uri, nil)}
-            href={e(@user, :character, :peered, :canonical_uri, "#")}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="hidden btn btn-sm lg:flex btn-info btn-circle"
-          >
-            <Icon solid="ExternalLink" class="w-4 h-4" />
-          </a>
-
-          <div :if={ulid(@current_user) != maybe_get(@user, :id)}>
-            <Bonfire.UI.Common.FollowButtonLive
-              id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, ulid(@user))}
-              object_id={ulid(@user)}
-              path={path(@user)}
-              hide_icon
-              class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-outline border-base-content/50"
-            />
-          </div>
-
-          <LiveRedirect
-            :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}
-            to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
-            class="hidden btn lg:flex btn-sm h-[34px] w-[34px] btn-outline btn-circle border-base-content/50"
-          >
-            <Icon solid="Mail" class="w-4 h-4" />
-          </LiveRedirect>
-
-          <div
-            :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}
-            aria-haspopup="true"
-            class="dropdown dropdown-end"
-          >
-            <label
-              tabindex="0"
-              class="btn btn-outline h-[34px] w-[34px] btn-sm btn-circle border-base-content/50"
-            >
-              <Icon solid="DotsHorizontal" class="w-4 h-4" />
-            </label>
-            <ul
-              tabindex="0"
-              role="menu"
-              aria-orientation="vertical"
-              class="!block rounded shadow dropdown_actions w-52 menu dropdown-content bg-neutral"
-            >
-              <li if={ulid(@current_user) != maybe_get(@user, :id)} class="lg:hidden">
-                <LiveRedirect
-                  class="flex items-center gap-2 text-sm text-neutral-content/80"
-                  to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
-                >
-                  <Icon solid="Mail" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                  <span>{l("Send a message")}</span>
-                </LiveRedirect>
-              </li>
-              <li :if={e(@user, :character, :peered, :canonical_uri, nil)} class="lg:hidden">
-                <a
-                  href={e(@user, :character, :peered, :canonical_uri, "#")}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="flex items-center gap-2 text-sm text-neutral-content/80"
-                >
-                  <Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                  <span>{l("Visit the original url")}</span>
-                </a>
-              </li>
-              <li
-                phx-click="Bonfire.Me.Users:make_admin"
-                phx-value-username_or_id={maybe_get(@user, :id)}
-                :if={is_admin?(@current_user) && !is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)}
-              >
-                <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
-                  <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                  <span>{l("Make admin")}</span>
-                </button>
-              </li>
-              <li
-                :if={is_admin?(@current_user) && is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)}
-                phx-click="Bonfire.Me.Users:revoke_admin"
-                phx-value-username_or_id={maybe_get(@user, :id)}
-              >
-                <button class="flex items-center gap-2 py-2 text-sm">
-                  <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                  <span>{l("Revoke admin")}</span>
-                </button>
-              </li>
-              <li :if={ulid(@current_user) != maybe_get(@user, :id)}>
-                <Bonfire.UI.Common.FlagActionLive
-                  object={@user}
-                  label={l("Flag") <> " " <> e(@user, :profile, :name, "this user")}
-                  class="flex items-center p-4 text-sm text-neutral"
-                />
-              </li>
-              <Bonfire.Boundaries.Web.BlockMenuButtonsLive object={@user} />
-            </ul>
-          </div>
-        </div>
+        
       </div>
       <Bonfire.UI.Common.TabsLive
         selected_tab={@selected_tab}
@@ -213,7 +286,7 @@
           "flex items-center bg-base-100  gap-8 mx-auto border-t border-base-content/10",
           "max-w-[680px] !border-none rounded-t-xl": !@current_user
         }
-        tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium tracking-wide text-base-content/60 p-4"
+        tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium capitalize tracking-wide text-base-content/60 p-4"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
         tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
       />

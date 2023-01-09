@@ -24,7 +24,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
      socket
      # |> assign(:without_sidebar,  true)
      |> assign(
-       show_less_menu_items: true,
        page_title: l("Settings"),
        #  without_widgets: true,
        #  without_sidebar: true,
