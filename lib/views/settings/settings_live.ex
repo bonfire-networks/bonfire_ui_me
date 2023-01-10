@@ -193,13 +193,24 @@ defmodule Bonfire.UI.Me.SettingsLive do
      )}
   end
 
+  def do_handle_params(%{"tab" => "shared_user" = tab}, _url, socket) do
+    {:noreply,
+     assign(
+       socket,
+       page_title: l("Team profile"),
+       selected_tab: tab
+     )}
+  end
+  
   def do_handle_params(%{"tab" => tab}, _url, socket) do
     {:noreply,
      assign(
        socket,
+       page_title: tab,
        selected_tab: tab
      )}
   end
+
 
   def do_handle_params(_, _url, socket) do
     {:noreply, socket}

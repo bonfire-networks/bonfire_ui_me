@@ -2,7 +2,7 @@
   "relative",
   "-mt-6": !@current_user
 }>
-  <div class="border-b border-base-300">
+  <div class="border-b border-base-300 bg-base-200">
     <div class="">
       <div
         class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[250px]"
@@ -60,9 +60,15 @@
               <Icon solid="Mail" class="w-4 h-4" />
             </LiveRedirect> -->
 
-            <div aria-haspopup="true" class="dropdown dropdown-end">
-              <label tabindex="0" class="btn h-[34px] w-[34px] btn-sm btn-square rounded">
-                <Icon solid="DotsHorizontal" class="w-4 h-4" />
+            <div
+              aria-haspopup="true"
+              class="dropdown dropdown-end"
+            >
+              <label
+                tabindex="0"
+                class="btn h-[34px] w-[34px] btn-sm btn-square btn-ghost rounded"
+              >
+                <Icon solid="DotsVertical" class="w-4 h-4" />
               </label>
               <ul
                 tabindex="0"
@@ -273,7 +279,7 @@
       <Bonfire.UI.Common.TabsLive
         selected_tab={@selected_tab}
         class={
-          "flex items-center bg-base-100  gap-8 mx-auto border-t border-base-content/10",
+          "flex items-center bg-base-200  gap-8 mx-auto border-t border-base-content/5",
           "max-w-[680px] !border-none rounded-t-xl": !@current_user
         }
         tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium capitalize tracking-wide text-base-content/60 p-4"
