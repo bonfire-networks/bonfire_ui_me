@@ -24,7 +24,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      socket
      |> assign(
        page_title: l("Instance Settings"),
-       nav_items: [Bonfire.UI.Common.SidebarInstanceSettingsLive.declared_nav()],
+       nav_items: [Bonfire.UI.Common.InstanceSidebarSettingsNavLive.declared_nav()],
        sidebar_widgets: [
          users: [
            secondary: [

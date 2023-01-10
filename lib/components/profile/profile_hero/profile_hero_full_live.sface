@@ -60,14 +60,8 @@
               <Icon solid="Mail" class="w-4 h-4" />
             </LiveRedirect> -->
 
-            <div
-              aria-haspopup="true"
-              class="dropdown dropdown-end"
-            >
-              <label
-                tabindex="0"
-                class="btn h-[34px] w-[34px] btn-sm btn-square rounded"
-              >
+            <div aria-haspopup="true" class="dropdown dropdown-end">
+              <label tabindex="0" class="btn h-[34px] w-[34px] btn-sm btn-square rounded">
                 <Icon solid="DotsHorizontal" class="w-4 h-4" />
               </label>
               <ul
@@ -76,16 +70,17 @@
                 aria-orientation="vertical"
                 class="!block mt-1 rounded shadow dropdown_actions w-48 menu menu-compact dropdown-content bg-neutral"
               >
-                <li 
-                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
-                  <LiveRedirect to={~p"/settings/preferences"} class="flex items-center gap-2 text-sm text-neutral-content/80">
+                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                  <LiveRedirect
+                    to={~p"/settings/preferences"}
+                    class="flex items-center gap-2 text-sm text-neutral-content/80"
+                  >
                     <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
                     {l("Preferences")}
                   </LiveRedirect>
                 </li>
                 <!-- if current user is also an admin -->
-                <li 
-                  :if={is_admin?(@current_user) && @current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                <li :if={is_admin?(@current_user) && @current_user && ulid(@current_user) == maybe_get(@user, :id)}>
                   <LiveRedirect
                     to={~p"/settings/instance"}
                     class="flex items-center gap-2 text-sm text-neutral-content/80"
@@ -94,8 +89,7 @@
                     {l("Admin Settings")}
                   </LiveRedirect>
                 </li>
-                <li 
-                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
                   <LiveRedirect
                     to={~p"/feed/likes"}
                     class="flex items-center gap-2 text-sm text-neutral-content/80"
@@ -105,8 +99,10 @@
                   </LiveRedirect>
                 </li>
 
-                <li 
-                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)} class="border-t border-neutral-content/10">
+                <li
+                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
+                  class="border-t border-neutral-content/10"
+                >
                   <LiveRedirect
                     to={~p"/boundaries/silenced"}
                     class="flex items-center gap-2 text-sm text-neutral-content/80"
@@ -115,8 +111,7 @@
                     {l("Silenced")}
                   </LiveRedirect>
                 </li>
-                <li 
-                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
                   <LiveRedirect
                     to={~p"/boundaries/ghosted"}
                     class="flex items-center gap-2 text-sm text-neutral-content/80"
@@ -125,8 +120,7 @@
                     {l("Ghosted")}
                   </LiveRedirect>
                 </li>
-                <li 
-                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
                   <LiveRedirect
                     to={~p"/boundaries/circles"}
                     class="flex items-center gap-2 text-sm text-neutral-content/80"
@@ -135,8 +129,7 @@
                     {l("My circles")}
                   </LiveRedirect>
                 </li>
-                <li 
-                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
+                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
                   <LiveRedirect
                     to={~p"/boundaries/acls"}
                     class="flex items-center gap-2 text-sm text-neutral-content/80"
@@ -145,8 +138,7 @@
                     {l("My boundaries")}
                   </LiveRedirect>
                 </li>
-                <li 
-                  :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}>
+                <li :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}>
                   <LiveRedirect
                     class="flex items-center gap-2 text-sm text-neutral-content/80"
                     to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
@@ -155,8 +147,7 @@
                     <span>{l("Send a message")}</span>
                   </LiveRedirect>
                 </li>
-                <li 
-                  :if={e(@user, :character, :peered, :canonical_uri, nil)} class="lg:hidden">
+                <li :if={e(@user, :character, :peered, :canonical_uri, nil)} class="lg:hidden">
                   <a
                     href={e(@user, :character, :peered, :canonical_uri, "#")}
                     target="_blank"
@@ -278,7 +269,6 @@
             </div>
           </div>
         </div>
-        
       </div>
       <Bonfire.UI.Common.TabsLive
         selected_tab={@selected_tab}
