@@ -2,7 +2,9 @@
   "relative",
   "-mt-6": !@current_user
 }>
-  <div class="border-b border-base-300 bg-base-200">
+  <div class={
+    "border-b border-base-300",
+    "bg-base-200": @current_user}>
     <div class="">
       <div
         class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[250px]"
@@ -14,8 +16,8 @@
         </div>
       </div>
       <div class={
-        "flex flex-col items-start mb-8 mx-auto",
-        "px-4 !mb-4": @current_user,
+        "flex px-4 flex-col items-start mb-8 mx-auto",
+        "!mb-4": @current_user,
         "max-w-[680px]": !@current_user
       }>
         <div class="flex justify-between w-full">
@@ -197,7 +199,7 @@
           </div>
         </div>
         <div class="flex flex-col flex-1 gap-2">
-          <div class="flex flex-col gap-1 md:mt-3">
+          <div class="flex flex-col gap-1 mt-3">
             <div class="flex items-center text-xl font-bold text-base-content">
               <LivePatch to={~p"/user/#{e(@user, :character, :username, "")}/timeline"}>
                 {e(@user, :profile, :name, "Anonymous")}
