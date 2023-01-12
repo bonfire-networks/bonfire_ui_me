@@ -117,7 +117,7 @@
         {/case}
       </div>
 
-      <div class="w-full md:w-[360px] mx-auto">
+      <div class="w-[90%] md:w-[360px] mx-auto">
         <Bonfire.UI.Me.SignupFormLive
           form={@form}
           error={@error}
