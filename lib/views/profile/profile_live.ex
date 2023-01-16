@@ -195,7 +195,6 @@ defmodule Bonfire.UI.Me.ProfileLive do
     end
   end
 
-
   def do_handle_params(%{"tab" => tab} = params, _url, socket)
       when tab in ["posts", "boosts", "timeline"] do
     debug(tab, "load tab")

@@ -56,14 +56,8 @@
               <Icon solid="Mail" class="w-4 h-4" />
             </LiveRedirect> -->
 
-            <div
-              aria-haspopup="true"
-              class="dropdown dropdown-end"
-            >
-              <label
-                tabindex="0"
-                class="btn h-[34px] w-[34px] btn-sm btn-square btn-ghost rounded"
-              >
+            <div aria-haspopup="true" class="dropdown dropdown-end">
+              <label tabindex="0" class="btn h-[34px] w-[34px] btn-sm btn-square btn-ghost rounded">
                 <Icon solid="DotsVertical" class="w-4 h-4" />
               </label>
               <ul
