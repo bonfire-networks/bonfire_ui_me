@@ -114,7 +114,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
             ]
           ],
           guests: [
-            secondary: nil
+            {Bonfire.Tag.Web.WidgetTagsLive, []}
           ]
         ],
         name: name,

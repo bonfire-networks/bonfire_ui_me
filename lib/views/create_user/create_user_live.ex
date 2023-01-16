@@ -25,6 +25,7 @@ defmodule Bonfire.UI.Me.CreateUserLive do
      |> assign_new(:form, fn -> user_form(current_account(socket)) end)
      |> assign_new(:error, fn -> nil end)
      |> assign(:without_sidebar, true)
+     |> assign(:without_widgets, true)
      |> assign(:smart_input_opts, hide_buttons: true)}
   end
 

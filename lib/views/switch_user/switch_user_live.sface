@@ -1,23 +1,21 @@
 <main id="switch-user">
   <div class="flex-1 mt-3 max-w-[680px] mx-auto">
-    <div class="mb-6 rounded shadow-lg alert alert-info">
-      <div>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          class="flex-shrink-0 w-6 h-6 stroke-current"
-        ><path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-          /></svg>
-        <span>{l(
+
+   <div class="p-4 my-6 rounded-md bg-info/10">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <Icon solid="InformationCircle" class="w-5 h-5 text-info" />
+        </div>
+        <div class="flex-1 ml-3 md:flex md:justify-between">
+          <p class="text-sm text-info">
+            {l(
             "You can have multiple user profiles for different online identities, or for your organizations or projects."
-          )}</span>
+          )}</p>
+        </div>
       </div>
     </div>
+
+
 
     <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive
       go={@go}

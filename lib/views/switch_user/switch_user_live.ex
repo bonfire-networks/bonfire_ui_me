@@ -22,6 +22,7 @@ defmodule Bonfire.UI.Me.SwitchUserLive do
          socket,
          current_user: nil,
          without_sidebar: true,
+         without_widgets: true,
          go: Map.get(socket.assigns, :go, ""),
          page_title: l("Switch user profile")
        )}

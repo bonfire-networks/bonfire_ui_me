@@ -1,27 +1,23 @@
 <div class="mx-3 my-6">
   <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("General")}</div>
-  <div class="grid grid-cols-1 gap-3 mt-4 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-3 mt-4">
     <LivePatch
       to={~p"/settings/profile"}
-      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+      class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="User" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
+      <Icon solid="User" class="w-5 h-5 font-normal text-base-content/80" />
+      <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Profile")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("How you present yourself")}</div>
-      </div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Your profile information")}</div>
+        </div>
     </LivePatch>
 
     <LivePatch
       to={~p"/settings/preferences"}
-      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+      class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="PaperAirplane" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
+      <Icon solid="Adjustments" class="w-5 h-5 font-normal text-base-content/80" />
+      <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Preferences")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("How things should behave")}</div>
       </div>
@@ -29,12 +25,10 @@
 
     <LivePatch
       to={~p"/settings/account"}
-      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+      class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="Key" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
+        <Icon solid="Key" class="w-5 h-5 font-normal text-base-content/80" />
+      <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Edit account")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Email and password")}</div>
       </div>
@@ -42,92 +36,64 @@
 
     <LivePatch
       to={~p"/settings/shared_user"}
-      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+      class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="Key" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Shared User")}</div>
+        <Icon  solid="UserGroup" class="w-5 h-5 font-normal text-base-content/80" />
+      <div class="flex flex-col flex-1">
+        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Team profiles")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Email and password")}</div>
       </div>
     </LivePatch>
+
+    <LivePatch
+      to={~p"/settings/flags"}
+      class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
+    >
+        <Icon solid="Flag" class="w-5 h-5 font-normal text-base-content/80" />
+      <div class="flex flex-col flex-1">
+        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Your flags")}</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Review what you've flagged")}</div>
+      </div>
+    </LivePatch>
+
   </div>
   <!-- <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Members")}</div>
-  <div class="grid grid-cols-1 gap-3 mt-8 md:grid-cols-2">
-    <LivePatch to="/settings/members" class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group">
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="Users" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
+  <div class="grid grid-cols-1 gap-3 mt-4">
+    <LivePatch to="/settings/members" class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group">
+        <Icon outline="Users" class="w-5 h-5 font-normal text-base-content/80" />
+      <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Members")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Basic publication details and site metadata</div>
       </div>
     </LivePatch>
 
-    <LivePatch to="/settings/invites" class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group">
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="Mail" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
+    <LivePatch to="/settings/invites" class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group">
+        <Icon outline="Mail" class="w-5 h-5 font-normal text-base-content/80" />
+      <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Invites")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Customize your site and manage themes</div>
       </div>
     </LivePatch>
   </div> -->
 
-  <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Moderation")}</div>
-  <div class="grid grid-cols-1 gap-3 mt-4 md:grid-cols-2">
-    <LivePatch
-      to={~p"/settings/flags"}
-      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
-    >
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="Flag" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Flagged")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Review what you've flagged")}</div>
-      </div>
-    </LivePatch>
 
-    <!-- <LivePatch
-      to={~p"/settings/ghosted"}
-      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
-    >
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="Ban" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Ghosted")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("People and instances who shouldn't see you")}</div>
-      </div>
-    </LivePatch> -->
-
-    <!-- <LivePatch
-      to={~p"/settings/silenced"}
-      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
-    >
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="Ban" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Ignored / Silenced")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("People and instances you don't want to see")}</div>
-      </div>
-    </LivePatch> -->
-  </div>
+<ul>
+   <Bonfire.UI.Common.ExtensionsSidebarSettingsNavLive
+      showing_within={:dashboard}
+      page={"settings"}
+      selected_tab={@selected_tab}
+      scope={:user}
+    />
+</ul>
 
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Advanced")}</div>
-  <div class="grid grid-cols-1 gap-3 mt-8 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-3 mt-4">
     <LivePatch
       to={~p"/settings/extensions"}
-      class="flex items-center gap-4 p-3 rounded-md shadow bg-base-content/5 group"
+      class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      <div class="flex items-center transition rounded-full no-shrink w-14 h-14 bg-accent/90 group-hover:bg-accent place-content-center">
-        <Icon outline="Puzzle" class="w-7 h-7" />
-      </div>
-      <div class="flex flex-col flex-1 gap-1">
+      <Icon solid="Puzzle" class="w-5 h-5 font-normal text-base-content/80" />
+      <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Extensions")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("A la carte")}</div>
       </div>

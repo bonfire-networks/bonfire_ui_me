@@ -1,48 +1,36 @@
-<div class="pb-1">
+<div class="pb-1 m-3">
   {#if Bonfire.Me.Users.is_admin?(@current_user) ||
       Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
     <form name="settings" phx-submit="Bonfire.Me.Settings:save">
       <input name="scope" value={:instance} type="hidden">
-      <div class="flex items-center justify-between py-8 mb-6">
-        <div class="text-2xl font-bold text-base-content">
-          {l("Terms / Policies")}
-        </div>
-        <button type="submit" class="btn btn-primary">{l("Save")}</button>
-      </div>
+      
+      
 
-      <div class="mb-3 shadow-lg alert alert-info">
-        <div>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="flex-shrink-0 w-6 h-6 stroke-current"
-          ><path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-            /></svg>
-          <span>{l(
-              "Protip: instead of text you can paste the URL of a remote markdown-formated document, and its contents will be pulled in."
-            )}</span>
+      <div  class="p-4 mb-0 rounded-md bg-info/10">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <Icon solid="InformationCircle" class="w-5 h-5 text-info" />
+          </div>
+          <div class="flex-1 ml-3 md:flex md:justify-between">
+            <p class="text-sm text-info">
+              {l("Protip: instead of text you can paste the URL of a remote markdown-formated document, and its contents will be pulled in.")}</p>
+          </div>
         </div>
       </div>
-      <div class="divide-y divide-base-300">
-        <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
+      
+      
+      <div class="mt-6 divide-y rounded-lg bg-base-content/5 divide-base-300">
+        <div x-data="{open: false}" class="p-4 rounded-t">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Terms of Use / Code of Conduct")}</div>
-              <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
+              <div class="text-sm font-light text-base-content/70">{l("The terms of use that will be in place in your instance")}</div>
             </div>
             <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
-          <div x-show="open" x-collapse>
-            <div class="w-full mt-8 form-control">
-              <label for="instance_name" class="label">
-                <span class="label-text text-base-content/70">{l("The terms of use that will be in place in your instance")}</span>
-              </label>
-              <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
+          <div x-show="open" x-cloak x-collapse>
+            <div class="w-full mt-4 form-control">
+              <div class="mt-0 mb-4 sm:mt-0 sm:col-span-2">
                 <div class="flex">
                   <textarea
                     id="conduct"
@@ -56,20 +44,18 @@
           </div>
         </div>
 
-        <div x-data="{open: false}" class="p-6 rounded-t shadow bg-base-100">
+        <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-bold">{l("Privacy Policy")}</div>
-              <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div>
+              <div class="text-sm font-light text-base-content/70">{l("The terms of use that will be in place in your instance")}</div>
             </div>
             <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
-          <div x-show="open" x-collapse>
-            <div class="w-full mt-8 form-control">
-              <label for="instance_name" class="label">
-                <span class="label-text text-base-content/70">{l("The terms of use that will be in place in your instance")}</span>
-              </label>
-              <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
+          <div x-show="open" x-cloak x-collapse>
+            <div class="w-full mt-4 form-control">
+             
+              <div class="mt-0 mb-4 sm:mt-0 sm:col-span-2">
                 <div class="flex">
                   <textarea
                     id="privacy"
@@ -83,6 +69,7 @@
           </div>
         </div>
       </div>
+      <button type="submit" class="justify-end mt-4 normal-case rounded btn btn-sm btn-primary">{l("Save")}</button>
     </form>
   {#else}
     {l("You don't have permission to configure the instance, sorry!")}

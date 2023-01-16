@@ -20,6 +20,7 @@ defmodule Bonfire.UI.Me.ChangePasswordLive do
      socket
      |> assign(:page_title, l("Change my password"))
      |> assign(:without_sidebar, true)
+     |> assign(:without_widgets, true)
      |> assign(:form, session["form"])
      |> assign(:error, session["error"])
      |> assign(:resetting_password, session["resetting_password"])

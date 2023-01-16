@@ -152,6 +152,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
     {:noreply,
      assign(
        socket,
+       page_title: tab,
        selected_tab: tab
      )}
   end

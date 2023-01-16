@@ -1,10 +1,8 @@
 <div class={
-  "relative",
-  "-mt-6": !@current_user
+  "relative"
 }>
   <div class={
-    "border-b border-base-300",
-    "bg-base-200": @current_user}>
+    "bg-base-200 border-b border-base-300"}>
     <div class="">
       <div
         class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[250px]"
@@ -15,14 +13,10 @@
           {"Follows you"}
         </div>
       </div>
-      <div class={
-        "flex px-4 flex-col items-start mb-8 mx-auto",
-        "!mb-4": @current_user,
-        "max-w-[680px]": !@current_user
-      }>
+      <div class={"flex px-4 mb-4 flex-col items-start mx-auto"}>
         <div class="flex justify-between w-full">
           <Bonfire.UI.Common.AvatarLive
-            class="inline-block object-cover w-[120px] h-[120px] -mt-12 rounded md:mx-0 ring-4 ring-base-100 bg-base-200"
+            class="inline-block object-cover w-[120px] h-[120px] -mt-12 rounded md:mx-0 ring-4 ring-base-200 bg-base-200"
             size="100%"
             user={@user}
           />
@@ -216,7 +210,7 @@
               </span>
             </div>
             <div class="flex items-center">
-              <span class="text-sm font-normal text-base-content text-opacity-70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
+              <span class="text-sm font-normal text-base-content/60">{Bonfire.Me.Characters.display_username(@user, true)}</span>
             </div>
 
             <div class="mt-3">
@@ -226,59 +220,64 @@
 
               <div
                 :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)}
-                class="flex items-center mt-3 space-x-4"
+                class="flex items-center mt-4 space-x-4"
               >
                 <div :if={e(@user, :profile, :location, nil)} class="flex items-center">
-                  <Icon solid="LocationMarker" class="w-5 h-5 text-base-content text-opacity-70" />
-                  <span class="ml-2 text-sm text-base-content text-opacity-70">
+                  <Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
+                  <span class="ml-2 text-xs text-base-content/70">
                     {e(@user, :profile, :location, "")}
                   </span>
                 </div>
                 <div :if={e(@user, :profile, :website, nil)} class="flex items-center">
                   {#case Bonfire.Files.FaviconStore.favicon_url(e(@user, :profile, :website, nil))}
                     {#match nil}
-                      <Icon solid="ExternalLink" class="w-5 h-5 text-base-content text-opacity-70" />
+                      <Icon solid="ExternalLink" class="w-5 h-5 text-base-content/70" />
                     {#match image}
-                      <img src={image} class="w-4 h-4 text-base-content text-opacity-70">
+                      <img src={image} class="w-4 h-4 text-base-content/70">
                   {/case}
 
-                  <a href={"#{e(@user, :profile, :website, "")}"} target="blank" class="ml-2 text-sm link">
+                  <a href={"#{e(@user, :profile, :website, "")}"} target="blank" class="ml-2 text-xs link link-hover text-base-content/70">
                     {display_url(e(@user, :profile, :website, ""))}
                   </a>
                 </div>
               </div>
             </div>
 
-            <div class="flex items-center mt-2 text-base-content">
-              <Icon solid="Users" class="w-5 h-5 text-base-content text-opacity-70" />
-              <LivePatch to={~p"/user/#{e(@user, :character, :username, "")}/followers"}>
-                <span class="ml-2 mr-2 text-sm text-base-content text-opacity-70 hover:underline">
-                  <strong
-                    :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, @__context__)}
-                    class="text-base-content"
-                  >
-                    {e(@user, :character, :follow_count, :object_count, 0)}
-                  </strong>
-                  {l("Followers")}
-                </span>
+            <div class="flex items-center gap-8 mt-4 text-base-content">
+              <LivePatch class={"flex items-baseline gap-2 text-sm text-base-content/70 hover:underline", "font-medium text-primary": @selected_tab in ["timeline", "posts", "boosts"]} to={~p"/user/#{e(@user, :character, :username, "")}"}>
+                <strong
+                  :if={Bonfire.Me.Settings.get([:ui, :metrics, :posts_count], nil, @__context__)}
+                  class="text-base-content"
+                >
+                  {e(@user, :character, :posts_count, 0)}
+                </strong>
+                <span>{l("Posts")}</span>
               </LivePatch>
-              <span class="text-base-content text-opacity-70">·</span>
-              <LivePatch to={~p"/user/#{e(@user, :character, :username, "")}/followed"}>
-                <span class="ml-2 text-sm text-base-content text-opacity-70 hover:underline">
+
+              <LivePatch class={"flex items-baseline gap-2 text-sm text-base-content/70 hover:underline", "font-medium text-primary": @selected_tab == "followers" } to={~p"/user/#{e(@user, :character, :username, "")}/followers"}>
+                <strong
+                  :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, @__context__)}
+                  class="text-base-content"
+                >
+                  {e(@user, :character, :follow_count, :object_count, 0)}
+                </strong>
+                <span>{l("Followers")}</span>
+              </LivePatch>
+
+              <LivePatch class={"flex items-baseline gap-2 text-sm text-base-content/70 hover:underline", "font-medium text-primary": @selected_tab == "followed"} to={~p"/user/#{e(@user, :character, :username, "")}/followed"}>
                   <strong
                     :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, @__context__)}
                     class="text-base-content"
                   >
                     {e(@user, :character, :follow_count, :subject_count, 0)}
                   </strong>
-                  {l("Following")}
-                </span>
+                <span>{l("Following")}</span>
               </LivePatch>
             </div>
           </div>
         </div>
       </div>
-      <Bonfire.UI.Common.TabsLive
+      <!-- <Bonfire.UI.Common.TabsLive
         selected_tab={@selected_tab}
         class={
           "flex items-center bg-base-200 gap-4 md:gap-8 justify-evenly md:justify-start mx-auto border-t border-base-content/5",
@@ -287,7 +286,7 @@
         tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium capitalize tracking-wide text-base-content/60 p-4"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
         tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
-      />
+      /> -->
     </div>
   </div>
 </div>

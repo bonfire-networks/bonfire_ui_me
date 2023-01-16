@@ -7,6 +7,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailLive do
     {:ok,
      socket
      |> assign(:without_sidebar, true)
+     |> assign(:without_widgets, true)
      |> assign(:error, session["error"])
      |> assign(:requested, session["requested"])
      |> assign_new(:current_account, fn -> nil end)
