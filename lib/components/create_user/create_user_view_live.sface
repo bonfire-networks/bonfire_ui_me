@@ -99,7 +99,7 @@
         </Field>
       </Inputs>
 
-      <button type="submit" class="w-full btn btn-primary">
+      <button type="submit" class="w-full normal-case rounded btn btn-primary">
         {l("Create")}
       </button>
     </div>
