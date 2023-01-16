@@ -4,51 +4,50 @@
     "grid items-start grid-cols-1",
     "max-w-[680px] mx-auto": !@current_user
   }>
-  <main class="flex flex-col bg-base-100">
-
-    <div :if={@selected_tab == "followed"}>
-      <div class="flow-root">
-        <ul class="divide-y divide-base-300">
-          {#for follow <- @feed}
-            <li class="p-4">
-              <Bonfire.UI.Common.ProfileItemLive
-                wrapper_class="flex items-center justify-between"
-                profile={e(follow, :edge, :object, :profile, nil)}
-                lg
-                character={e(follow, :edge, :object, :character, nil)}
-                class="normal-case rounded btn-sm btn btn-primary"
-              />
-            </li>
-          {#else}
-            <div id="followed-empty-feed" class="flex items-center my-12 place-content-center">
-              <Bonfire.UI.Common.EmptyFeed feedback_title={l("Not following anyone")} />
-            </div>
-          {/for}
-        </ul>
+    <main class="flex flex-col bg-base-100">
+      <div :if={@selected_tab == "followed"}>
+        <div class="flow-root">
+          <ul class="divide-y divide-base-300">
+            {#for follow <- @feed}
+              <li class="p-4">
+                <Bonfire.UI.Common.ProfileItemLive
+                  wrapper_class="flex items-center justify-between"
+                  profile={e(follow, :edge, :object, :profile, nil)}
+                  lg
+                  character={e(follow, :edge, :object, :character, nil)}
+                  class="normal-case rounded btn-sm btn btn-primary"
+                />
+              </li>
+            {#else}
+              <div id="followed-empty-feed" class="flex items-center my-12 place-content-center">
+                <Bonfire.UI.Common.EmptyFeed feedback_title={l("Not following anyone")} />
+              </div>
+            {/for}
+          </ul>
+        </div>
       </div>
-    </div>
 
-    <div :if={@selected_tab == "followers"}>
-      <div class="flow-root">
-        <ul class="divide-y divide-base-300">
-          {#for follow <- @feed}
-            <li class="p-4">
-              <Bonfire.UI.Common.ProfileItemLive
-                lg
-                wrapper_class="flex items-center justify-between"
-                profile={e(follow, :edge, :subject, :profile, nil)}
-                character={e(follow, :edge, :subject, :character, nil)}
-                class="normal-case rounded btn-sm btn btn-primary"
-              />
-            </li>
-          {#else}
-            <div id="followers-empty-feed" class="flex items-center my-12 place-content-center">
-              <Bonfire.UI.Common.EmptyFeed feedback_title={l("Nobody following")} />
-            </div>
-          {/for}
-        </ul>
+      <div :if={@selected_tab == "followers"}>
+        <div class="flow-root">
+          <ul class="divide-y divide-base-300">
+            {#for follow <- @feed}
+              <li class="p-4">
+                <Bonfire.UI.Common.ProfileItemLive
+                  lg
+                  wrapper_class="flex items-center justify-between"
+                  profile={e(follow, :edge, :subject, :profile, nil)}
+                  character={e(follow, :edge, :subject, :character, nil)}
+                  class="normal-case rounded btn-sm btn btn-primary"
+                />
+              </li>
+            {#else}
+              <div id="followers-empty-feed" class="flex items-center my-12 place-content-center">
+                <Bonfire.UI.Common.EmptyFeed feedback_title={l("Nobody following")} />
+              </div>
+            {/for}
+          </ul>
+        </div>
       </div>
-    </div>
-  </main>
+    </main>
   </div>
 </div>

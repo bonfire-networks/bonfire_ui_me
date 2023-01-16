@@ -7,6 +7,6 @@
     href="/"
   />
   <div class="w-[90%] md:w-[360px] mx-auto">
-  <Bonfire.UI.Me.CreateUserViewLive form={@form} error={@error} />
+    <Bonfire.UI.Me.CreateUserViewLive form={@form} error={@error} />
   </div>
 </div>

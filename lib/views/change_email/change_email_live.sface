@@ -23,7 +23,11 @@
         </div>
       </div>
       <div class="mt-3">
-        <button type="submit" phx-disable-with="Saving..." class="w-full normal-case btn btn-primary btn-wide">{l("Submit")}</button>
+        <button
+          type="submit"
+          phx-disable-with="Saving..."
+          class="w-full normal-case btn btn-primary btn-wide"
+        >{l("Submit")}</button>
       </div>
     </div>
   </Form>

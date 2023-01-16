@@ -9,7 +9,7 @@
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Profile")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Your profile information")}</div>
-        </div>
+      </div>
     </LivePatch>
 
     <LivePatch
@@ -27,7 +27,7 @@
       to={~p"/settings/account"}
       class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-        <Icon solid="Key" class="w-5 h-5 font-normal text-base-content/80" />
+      <Icon solid="Key" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Edit account")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Email and password")}</div>
@@ -38,7 +38,7 @@
       to={~p"/settings/shared_user"}
       class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-        <Icon  solid="UserGroup" class="w-5 h-5 font-normal text-base-content/80" />
+      <Icon solid="UserGroup" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Team profiles")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Email and password")}</div>
@@ -49,13 +49,12 @@
       to={~p"/settings/flags"}
       class="flex items-center gap-3 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-        <Icon solid="Flag" class="w-5 h-5 font-normal text-base-content/80" />
+      <Icon solid="Flag" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Your flags")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Review what you've flagged")}</div>
       </div>
     </LivePatch>
-
   </div>
   <!-- <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Members")}</div>
   <div class="grid grid-cols-1 gap-3 mt-4">
@@ -76,15 +75,14 @@
     </LivePatch>
   </div> -->
 
-
-<ul>
-   <Bonfire.UI.Common.ExtensionsSidebarSettingsNavLive
+  <ul>
+    <Bonfire.UI.Common.ExtensionsSidebarSettingsNavLive
       showing_within={:dashboard}
-      page={"settings"}
+      page="settings"
       selected_tab={@selected_tab}
       scope={:user}
     />
-</ul>
+  </ul>
 
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Advanced")}</div>
   <div class="grid grid-cols-1 gap-3 mt-4">

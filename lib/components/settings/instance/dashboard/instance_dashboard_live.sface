@@ -5,8 +5,7 @@
       to={~p"/settings/instance/preferences"}
       class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      
-        <Icon solid="Cog" class="w-5 h-5 font-normal text-base-content/80" />
+      <Icon solid="Cog" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Preferences")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Basic publication details and site metadata</div>
@@ -17,8 +16,7 @@
       to={~p"/settings/instance/terms"}
       class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      
-        <Icon solid="Scale" class="w-5 h-5 font-normal text-base-content/80" />
+      <Icon solid="Scale" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Terms / Policies")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
@@ -32,8 +30,7 @@
       to={~p"/settings/instance/members"}
       class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      
-        <Icon solid="Users" class="w-5 h-5 font-normal text-base-content/80" />
+      <Icon solid="Users" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Members")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Basic publication details and site metadata</div>
@@ -44,8 +41,7 @@
       to={~p"/settings/instance/invites"}
       class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      
-        <Icon solid="Mail" class="w-5 h-5 font-normal text-base-content/80" />
+      <Icon solid="Mail" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Invites")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Customize your site and manage themes</div>
@@ -56,8 +52,7 @@
       to={~p"/settings/instance/flags"}
       class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      
-        <Icon solid="Flag" class="w-5 h-5 font-normal text-base-content/80" />
+      <Icon solid="Flag" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Flagged")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Customize your site and manage themes</div>
@@ -65,15 +60,14 @@
     </LivePatch>
   </div>
 
-<ul>
-   <Bonfire.UI.Common.ExtensionsSidebarSettingsNavLive
+  <ul>
+    <Bonfire.UI.Common.ExtensionsSidebarSettingsNavLive
       showing_within={:dashboard}
-      page={"settings"}
+      page="settings"
       selected_tab={@selected_tab}
       scope={:instance}
     />
-</ul>
-
+  </ul>
 
   <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Advanced")}</div>
   <div class="grid grid-cols-1 gap-3 mt-4">
@@ -81,8 +75,7 @@
       to={~p"/settings/instance/extensions"}
       class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
     >
-      
-        <Icon solid="Puzzle" class="w-5 h-5 font-normal text-base-content/80" />
+      <Icon solid="Puzzle" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Extensions")}</div>
         <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
