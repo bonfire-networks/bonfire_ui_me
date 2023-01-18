@@ -1,21 +1,22 @@
 <div class="pb-6">
   <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
-    <div x-data="{open: false}" class="p-4">
+    <div x-data="{
+        open: false, 
+        custom_theme: false
+      }" class="p-4">
       <div class="flex items-center justify-between">
         <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Theme & font")}</div>
+          <div class="text-sm font-bold">{l("Theme")}</div>
           <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
         </div>
-        <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+        <button type="button" x-on:click="open = !open" x-text={"open ? '#{l("Collapse")}' : '#{l("Expand")}'"} class="normal-case rounded btn btn-sm">{l("Expand")}</button>
+
       </div>
-      <div x-show="open" x-collapse>
+      <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
           <input name="scope" value={:user} type="hidden">
-          <div class="w-full max-w-lg mt-8 form-control">
-            <label for="instance_theme" class="label">
-              <span class="label-text text-base-content/70">
-                {l("Default theme")}</span>
-            </label>
+          <div class="w-full max-w-lg mt-4 form-control">
+
 
             <!-- <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
               <div class="flex max-w-lg">
@@ -34,9 +35,33 @@
                 </form>
               </div>
             </div> -->
-
-            <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
-              <div class="flex max-w-lg">
+            <div class="flex items-center gap-2">
+              <button class="normal-case rounded btn btn-outline border-base-content/30">
+                <span><Icon outline="Moon" class="w-4 h-4" /></span>
+                <span class="ml-2">{l("Dark Mode")}</span>
+              </button>
+              <button class="normal-case rounded btn btn-outline border-base-content/30">
+                <span><Icon outline="Sun" class="w-4 h-4" /></span>
+                <span class="ml-2">{l("Light Mode")}</span>
+              </button>
+              
+              <button class="normal-case rounded btn btn-outline border-base-content/30">
+                <span><Icon outline="ComputerDesktop" class="w-4 h-4" /></span>
+                <span class="ml-2">{l("System")}</span>
+              </button>
+            </div>
+            <div 
+              x-on:click="custom_theme = !custom_theme" 
+              class="flex items-center gap-2 mt-5 text-sm link link-hover">
+              <Icon iconify="lucide:paintbrush-2" class="w-4 h-4" />
+              <span class="">{l("Select dark and light themes")}</span>
+            </div>
+            <div 
+              x-show="custom_theme"
+              x-cloak
+              x-collapse
+              class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
+              <div class="flex max-w-lg gap-3 mt-3">
                 <Bonfire.UI.Common.ChangeThemesLive
                   theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_user)}
                   theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_user)}
@@ -45,15 +70,7 @@
             </div>
           </div>
 
-          <div class="w-full max-w-lg mt-2 form-control">
-            <label for="font_family" class="label">
-              <span class="label-text text-base-content/70">
-                {l("Default font")}</span>
-            </label>
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
-              <Bonfire.UI.Common.ChangeFontLive font_family={Settings.get([:ui, :font_family], "Inter", :instance)} />
-            </div>
-          </div>
+          
         </form>
       </div>
     </div>
@@ -61,20 +78,41 @@
     <div x-data="{open: false}" class="p-4">
       <div class="flex items-center justify-between">
         <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Language")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
+          <div class="text-sm font-bold">{l("Font")}</div>
+          <div class="text-sm font-light text-base-content/70">{l("Select the default font for the interface")}</div>
         </div>
-        <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+                <button type="button" x-on:click="open = !open" x-text={"open ? '#{l("Collapse")}' : '#{l("Expand")}'"} class="normal-case rounded btn btn-sm">{l("Expand")}</button>
+
       </div>
-      <div x-show="open" x-collapse>
+      <div x-show="open" x-cloak  x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
           <input name="scope" value={:user} type="hidden">
           <div class="w-full max-w-lg mt-8 form-control">
-            <label for="default" class="label">
-              <span class="label-text text-base-content/70">
-                {l("Default language")}</span>
-            </label>
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
+
+            <div class="w-full max-w-lg form-control">
+              <div class="mt-1 sm:mt-0 sm:col-span-2">
+                <Bonfire.UI.Common.ChangeFontLive font_family={Settings.get([:ui, :font_family], "Inter", :instance)} />
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <div x-data="{open: false}" class="p-4">
+      <div class="flex items-center justify-between">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-bold">{l("Language")}</div>
+          <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
+        </div>
+                <button type="button" x-on:click="open = !open" x-text={"open ? '#{l("Collapse")}' : '#{l("Expand")}'"} class="normal-case rounded btn btn-sm">{l("Expand")}</button>
+
+      </div>
+      <div x-show="open" x-cloak  x-collapse>
+        <form name="settings" phx-change="Bonfire.Me.Settings:set">
+          <input name="scope" value={:user} type="hidden">
+          <div class="w-full max-w-lg mt-8 form-control">
+            <div class="sm:mt-0 sm:col-span-2">
               <Bonfire.UI.Common.ChangeLocaleLive locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", :instance)} />
             </div>
           </div>
@@ -92,9 +130,11 @@
           <div class="text-sm font-bold">{l("What activities to include in home feeds by default")}</div>
           <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
         </div>
-        <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
-      </div>
-      <div x-show="open" x-collapse>
+        <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
+        <button type="button" x-on:click="open = !open" x-text={"open ? '#{l("Collapse")}' : '#{l("Expand")}'"} class="normal-case rounded btn btn-sm">{l("Expand")}</button>
+
+        </div>
+      <div x-show="open" x-cloak  x-collapse>
         <Bonfire.UI.Social.Settings.MyFeedItemsLive title={l("What activities to include in home feeds by default")} />
       </div>
     </div>

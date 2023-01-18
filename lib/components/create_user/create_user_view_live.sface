@@ -64,7 +64,7 @@
               {l("Enter your name or a pseudonym")}
             </span>
           </Label>
-          <TextInput required class="w-full input bg-base-content/5 h-9" opts={"x-model": "username"} />
+          <TextInput required class="w-full input bg-base-content/5" opts={"x-model": "username"} />
           <ErrorTag />
         </Field>
       </Inputs>
@@ -78,7 +78,7 @@
           <label class="text-sm input-group input-group-md text-base-content/80">
             <span class="text-sm">@</span>
             <TextInput
-              class="flex-1 w-full bg-base-content/5 input h-9"
+              class="flex-1 w-full bg-base-content/5 input"
               required
               opts={"x-bind:value": "suggest_username(username)"}
             />

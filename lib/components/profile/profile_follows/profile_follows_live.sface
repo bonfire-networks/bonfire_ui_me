@@ -15,7 +15,6 @@
                   profile={e(follow, :edge, :object, :profile, nil)}
                   lg
                   character={e(follow, :edge, :object, :character, nil)}
-                  class="normal-case rounded btn-sm btn btn-primary"
                 />
               </li>
             {#else}
@@ -37,7 +36,6 @@
                   wrapper_class="flex items-center justify-between"
                   profile={e(follow, :edge, :subject, :profile, nil)}
                   character={e(follow, :edge, :subject, :character, nil)}
-                  class="normal-case rounded btn-sm btn btn-primary"
                 />
               </li>
             {#else}
