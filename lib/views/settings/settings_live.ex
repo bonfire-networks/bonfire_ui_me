@@ -204,8 +204,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
      )}
   end
 
-<<<<<<< HEAD
-=======
   def do_handle_params(%{"tab" => "profile" = tab}, _url, socket) do
     {:noreply,
      assign(
@@ -215,7 +213,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
      )}
   end
   
->>>>>>> cd9e0fa (ui)
   def do_handle_params(%{"tab" => tab}, _url, socket) do
     {:noreply,
      assign(
