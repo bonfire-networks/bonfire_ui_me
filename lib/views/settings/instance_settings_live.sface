@@ -73,6 +73,10 @@
         id="my_acls"
         scope={:instance}
       />
+    {#match "icons"}
+      <Bonfire.UI.Common.SettingsViewsLive.IconsLive
+        selected_tab={@selected_tab}
+      />
     {#match _}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive selected_tab={@selected_tab} />
   {/case}
