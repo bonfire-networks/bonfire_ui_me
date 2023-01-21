@@ -82,7 +82,7 @@
               required
               opts={"x-bind:value": "suggest_username(username)"}
             />
-            <span class="hidden text-sm md:flex">@{Config.get(:host)}</span>
+            <span class="hidden text-sm md:flex">@{instance_domain()}</span>
           </label>
           <ErrorTag />
         </Field>
