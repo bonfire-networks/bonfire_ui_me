@@ -17,7 +17,8 @@ defmodule Bonfire.Me.Settings.LiveHandler do
   end
 
   def handle_event("set", attrs, socket) when is_map(attrs) do
-    with {:ok, settings} <- Map.drop(attrs, ["_target"]) |> Bonfire.Me.Settings.set(socket) do
+    with {:ok, settings} <-
+           Map.drop(attrs, ["_target"]) |> Bonfire.Me.Settings.set(socket: socket) do
       # debug(settings, "done")
       {:noreply,
        socket
@@ -28,11 +29,13 @@ defmodule Bonfire.Me.Settings.LiveHandler do
 
   def handle_event("save", attrs, socket) when is_map(attrs) do
     with {:ok, settings} <- Map.drop(attrs, ["_target"]) |> Bonfire.Me.Settings.set(socket) do
-      {:noreply,
-       socket
-       |> maybe_assign_context(settings)
-       |> assign_flash(:info, "Settings saved :-)")
-       |> redirect_to("/")}
+      {
+        :noreply,
+        socket
+        |> maybe_assign_context(settings)
+        |> assign_flash(:info, "Settings saved :-)")
+        #  |> redirect_to("/")
+      }
     end
   end
 

@@ -36,7 +36,7 @@
                     name="terms[conduct]"
                     rows="10"
                     class="w-full h-50 textarea textarea-bordered"
-                  >{Bonfire.Me.Settings.get([:bonfire, :terms, :conduct], "")}</textarea>
+                  >{Config.get([:terms, :conduct])}</textarea>
                 </div>
               </div>
             </div>
@@ -60,7 +60,7 @@
                     name="terms[privacy]"
                     rows="10"
                     class="w-full h-50 textarea textarea-bordered"
-                  >{Bonfire.Me.Settings.get([:bonfire, :terms, :privacy], "")}</textarea>
+                  >{Config.get([:terms, :privacy])}</textarea>
                 </div>
               </div>
             </div>
