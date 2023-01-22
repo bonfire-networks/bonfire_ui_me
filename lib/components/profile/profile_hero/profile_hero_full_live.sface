@@ -132,13 +132,27 @@
                   </LiveRedirect>
                 </li>
                 <li :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}>
-                  <LiveRedirect
+                  <Bonfire.UI.Common.SmartInputButtonLive
+                    create_object_type={:message}
+                    smart_input_opts={%{
+                      to_circles: [
+                        %{
+                          (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+                            id(@user)
+                        }
+                      ]
+                    }}
+                    prompt={l("Send a message")}
+                    icon="heroicons-solid:mail"
+                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                  />
+                  <!-- <LiveRedirect
                     class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                     to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
                   >
                     <Icon solid="Mail" class="w-4 h-4 shrink-0 text-neutral-content/80" />
                     <span>{l("Send a message")}</span>
-                  </LiveRedirect>
+                  </LiveRedirect> -->
                 </li>
                 <li :if={e(@user, :character, :peered, :canonical_uri, nil)} class="lg:hidden">
                   <a
