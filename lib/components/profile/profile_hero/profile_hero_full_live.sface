@@ -237,7 +237,7 @@
 
             <div class="mt-3">
               <div class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
-                <p>{rich(e(@user, :profile, :summary, ""))}</p>
+                {rich(e(@user, :profile, :summary, ""))}
               </div>
 
               <div
