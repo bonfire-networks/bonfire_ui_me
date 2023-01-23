@@ -268,7 +268,7 @@
                 >
                   {e(@user, :character, :posts_count, 0)}
                 </strong>
-                <span>{l("Posts")}</span>
+                <span>{l("Activities")}</span>
               </LivePatch>
 
               <LivePatch
