@@ -19,7 +19,7 @@
           />
           <div class="flex items-center gap-3">
             <LiveRedirect
-              :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
+              :if={@current_user && id(@current_user) == id(@user)}
               to={~p"/settings/profile"}
               class="normal-case rounded btn btn-sm btn-primary"
             >
@@ -35,7 +35,7 @@
               <Icon solid="ExternalLink" class="w-4 h-4" />
             </a>
 
-            <div :if={ulid(@current_user) != maybe_get(@user, :id)}>
+            <div :if={id(@current_user) != id(@user)}>
               <Bonfire.UI.Common.FollowButtonLive
                 id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, ulid(@user))}
                 object_id={ulid(@user)}
@@ -46,7 +46,7 @@
             </div>
 
             <!-- <LiveRedirect
-              :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}
+              :if={@current_user && id(@current_user) != id(@user)}
               to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
               class="hidden btn lg:flex btn-sm h-[34px] w-[34px] btn-outline btn-circle border-base-content/50"
             >
@@ -63,97 +63,6 @@
                 aria-orientation="vertical"
                 class="!block mt-1 rounded shadow dropdown_actions w-60 md:w-48 menu md:menu-compact dropdown-content bg-neutral"
               >
-                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
-                  <LiveRedirect
-                    to={~p"/settings/preferences"}
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                  >
-                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
-                    {l("Preferences")}
-                  </LiveRedirect>
-                </li>
-                <!-- if current user is also an admin -->
-                <li :if={is_admin?(@current_user) && @current_user && ulid(@current_user) == maybe_get(@user, :id)}>
-                  <LiveRedirect
-                    to={~p"/settings/instance"}
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                  >
-                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
-                    {l("Admin Settings")}
-                  </LiveRedirect>
-                </li>
-                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
-                  <LiveRedirect
-                    to={~p"/feed/likes"}
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                  >
-                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
-                    {l("Favourites")}
-                  </LiveRedirect>
-                </li>
-
-                <li
-                  :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}
-                  class="border-t border-neutral-content/10"
-                >
-                  <LiveRedirect
-                    to={~p"/boundaries/silenced"}
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                  >
-                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
-                    {l("Silenced")}
-                  </LiveRedirect>
-                </li>
-                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
-                  <LiveRedirect
-                    to={~p"/boundaries/ghosted"}
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                  >
-                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
-                    {l("Ghosted")}
-                  </LiveRedirect>
-                </li>
-                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
-                  <LiveRedirect
-                    to={~p"/boundaries/circles"}
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                  >
-                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
-                    {l("My circles")}
-                  </LiveRedirect>
-                </li>
-                <li :if={@current_user && ulid(@current_user) == maybe_get(@user, :id)}>
-                  <LiveRedirect
-                    to={~p"/boundaries/acls"}
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                  >
-                    <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
-                    {l("My boundaries")}
-                  </LiveRedirect>
-                </li>
-                <li :if={@current_user && ulid(@current_user) != maybe_get(@user, :id)}>
-                  <Bonfire.UI.Common.SmartInputButtonLive
-                    create_object_type={:message}
-                    smart_input_opts={%{
-                      to_circles: [
-                        %{
-                          (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
-                            id(@user)
-                        }
-                      ]
-                    }}
-                    prompt={l("Send a message")}
-                    icon="heroicons-solid:mail"
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                  />
-                  <!-- <LiveRedirect
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                    to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
-                  >
-                    <Icon solid="Mail" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                    <span>{l("Send a message")}</span>
-                  </LiveRedirect> -->
-                </li>
                 <li :if={e(@user, :character, :peered, :canonical_uri, nil)} class="lg:hidden">
                   <a
                     href={e(@user, :character, :peered, :canonical_uri, "#")}
@@ -165,34 +74,127 @@
                     <span>{l("Visit the original url")}</span>
                   </a>
                 </li>
-                <li
-                  phx-click="Bonfire.Me.Users:make_admin"
-                  phx-value-username_or_id={maybe_get(@user, :id)}
-                  :if={is_admin?(@current_user) && !is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)}
-                >
-                  <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
-                    <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                    <span>{l("Make admin")}</span>
-                  </button>
-                </li>
-                <li
-                  :if={is_admin?(@current_user) && is_admin?(@user) && ulid(@current_user) != maybe_get(@user, :id)}
-                  phx-click="Bonfire.Me.Users:revoke_admin"
-                  phx-value-username_or_id={maybe_get(@user, :id)}
-                >
-                  <button class="flex items-center gap-2 py-2 text-sm">
-                    <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                    <span>{l("Revoke admin")}</span>
-                  </button>
-                </li>
-                <li :if={ulid(@current_user) != maybe_get(@user, :id)}>
+
+                {#if @current_user}
+                  {#if id(@current_user) == id(@user)}
+                    <li>
+                      <LiveRedirect
+                        to={~p"/settings/preferences"}
+                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                      >
+                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        {l("Preferences")}
+                      </LiveRedirect>
+                    </li>
+                    <!-- if current user is also an admin -->
+                    <!-- <li :if={is_admin?(@current_user)}>
+                  <LiveRedirect
+                    to={~p"/settings/instance"}
+                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                  >
+                    {l("Admin Settings")}
+                  </LiveRedirect>
+                </li> -->
+                    <li>
+                      <LiveRedirect
+                        to={~p"/feed/likes"}
+                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                      >
+                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        {l("Favourites")}
+                      </LiveRedirect>
+                    </li>
+
+                    <li class="border-t border-neutral-content/10">
+                      <LiveRedirect
+                        to={~p"/boundaries/silenced"}
+                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                      >
+                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        {l("Silenced")}
+                      </LiveRedirect>
+                    </li>
+                    <li>
+                      <LiveRedirect
+                        to={~p"/boundaries/ghosted"}
+                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                      >
+                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        {l("Ghosted")}
+                      </LiveRedirect>
+                    </li>
+                    <li class="border-t border-neutral-content/10">
+                      <LiveRedirect
+                        to={~p"/boundaries/circles"}
+                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                      >
+                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        {l("Circles")}
+                      </LiveRedirect>
+                    </li>
+                    <li>
+                      <LiveRedirect
+                        to={~p"/boundaries/acls"}
+                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                      >
+                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        {l("Boundaries")}
+                      </LiveRedirect>
+                    </li>
+                  {#else}
+                    <li>
+                      <Bonfire.UI.Common.SmartInputButtonLive
+                        create_object_type={:message}
+                        smart_input_opts={%{
+                          to_circles: [
+                            %{
+                              (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+                                id(@user)
+                            }
+                          ]
+                        }}
+                        prompt={l("Send a message")}
+                        icon="heroicons-solid:mail"
+                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                      />
+                      <!-- <LiveRedirect
+                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                    to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
+                  >
+                    <Icon solid="Mail" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                    <span>{l("Send a message")}</span>
+                  </LiveRedirect> -->
+                    </li>
+
+                    <Bonfire.Boundaries.Web.BlockMenuButtonsLive object={@user} />
+
+                    {#if is_admin?(@current_user)}
+                      {#if !is_admin?(@user)}
+                        <li phx-click="Bonfire.Me.Users:make_admin" phx-value-username_or_id={id(@user)}>
+                          <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
+                            <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                            <span>{l("Make admin")}</span>
+                          </button>
+                        </li>
+                      {#else}
+                        <li phx-click="Bonfire.Me.Users:revoke_admin" phx-value-username_or_id={id(@user)}>
+                          <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
+                            <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                            <span>{l("Revoke admin")}</span>
+                          </button>
+                        </li>
+                      {/if}
+                    {/if}
+                  {/if}
+                {/if}
+
+                <li>
                   <Bonfire.UI.Common.FlagActionLive
                     object={@user}
                     label={l("Report") <> " " <> e(@user, :profile, :name, "this user")}
                     class="flex items-center p-4 text-sm text-neutral"
                   />
                 </li>
-                <Bonfire.Boundaries.Web.BlockMenuButtonsLive object={@user} />
               </ul>
             </div>
           </div>
