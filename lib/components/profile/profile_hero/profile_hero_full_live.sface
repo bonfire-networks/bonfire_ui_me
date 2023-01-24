@@ -95,7 +95,7 @@
                     {l("Admin Settings")}
                   </LiveRedirect>
                 </li> -->
-                    <li>
+                    <li class="border-t border-neutral-content/10">
                       <LiveRedirect
                         to={~p"/feed/likes"}
                         class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
@@ -166,18 +166,33 @@
                   </LiveRedirect> -->
                     </li>
 
+                    <li class="border-t border-neutral-content/10">
+                      <Bonfire.UI.Common.FlagActionLive
+                        object={@user}
+                        label={l("Flag") <> " " <> e(@user, :profile, :name, "this user")}
+                        class="flex items-center p-4 text-sm text-neutral"
+                      />
+                    </li>
                     <Bonfire.Boundaries.Web.BlockMenuButtonsLive object={@user} />
 
                     {#if is_admin?(@current_user)}
                       {#if !is_admin?(@user)}
-                        <li phx-click="Bonfire.Me.Users:make_admin" phx-value-username_or_id={id(@user)}>
+                        <li
+                          phx-click="Bonfire.Me.Users:make_admin"
+                          phx-value-username_or_id={id(@user)}
+                          class="border-t border-neutral-content/10"
+                        >
                           <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
                             <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
                             <span>{l("Make admin")}</span>
                           </button>
                         </li>
                       {#else}
-                        <li phx-click="Bonfire.Me.Users:revoke_admin" phx-value-username_or_id={id(@user)}>
+                        <li
+                          phx-click="Bonfire.Me.Users:revoke_admin"
+                          phx-value-username_or_id={id(@user)}
+                          class="border-t border-neutral-content/10"
+                        >
                           <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
                             <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
                             <span>{l("Revoke admin")}</span>
@@ -186,15 +201,15 @@
                       {/if}
                     {/if}
                   {/if}
+                {#else}
+                  <li class="border-t border-neutral-content/10">
+                    <Bonfire.UI.Common.FlagActionLive
+                      object={@user}
+                      label={l("Flag") <> " " <> e(@user, :profile, :name, "this user")}
+                      class="flex items-center p-4 text-sm text-neutral"
+                    />
+                  </li>
                 {/if}
-
-                <li>
-                  <Bonfire.UI.Common.FlagActionLive
-                    object={@user}
-                    label={l("Report") <> " " <> e(@user, :profile, :name, "this user")}
-                    class="flex items-center p-4 text-sm text-neutral"
-                  />
-                </li>
               </ul>
             </div>
           </div>
