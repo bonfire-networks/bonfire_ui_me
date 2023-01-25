@@ -28,8 +28,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       # debug(icon: Map.get(params, "icon"))
       cond do
         # handle controller-based upload
-        strlen(Map.get(params, "icon")) > 0 or
-            strlen(Map.get(params, "image")) > 0 ->
+        Text.strlen(Map.get(params, "icon")) > 0 or
+            Text.strlen(Map.get(params, "image")) > 0 ->
           {
             :noreply,
             assign(socket, trigger_submit: true)
