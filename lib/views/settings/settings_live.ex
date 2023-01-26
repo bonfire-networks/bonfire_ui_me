@@ -25,8 +25,10 @@ defmodule Bonfire.UI.Me.SettingsLive do
      # |> assign(:without_sidebar,  true)
      |> assign(
        page_title: l("Settings"),
+       page_header_icon: "heroicons-solid:cog",
        #  without_widgets: true,
        #  without_sidebar: true,
+       smart_input_opts: [disable: true],
        nav_items: [Bonfire.UI.Common.SidebarSettingsNavLive.declared_nav()],
        #  page_header_aside: [
        #    {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
@@ -202,6 +204,18 @@ defmodule Bonfire.UI.Me.SettingsLive do
      )}
   end
 
+<<<<<<< HEAD
+=======
+  def do_handle_params(%{"tab" => "profile" = tab}, _url, socket) do
+    {:noreply,
+     assign(
+       socket,
+       page_title: l("Edit profile"),
+       selected_tab: tab
+     )}
+  end
+  
+>>>>>>> cd9e0fa (ui)
   def do_handle_params(%{"tab" => tab}, _url, socket) do
     {:noreply,
      assign(

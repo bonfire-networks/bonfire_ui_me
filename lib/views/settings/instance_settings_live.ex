@@ -24,6 +24,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      socket
      |> assign(
        page_title: l("Instance Settings"),
+       page_header_icon: "heroicons-solid:cog",
        nav_items: [Bonfire.UI.Common.InstanceSidebarSettingsNavLive.declared_nav()],
        sidebar_widgets: [
          users: [
