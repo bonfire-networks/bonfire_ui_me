@@ -1,4 +1,4 @@
-<div class="box-border transition duration-300 ease-in-out rounded-lg shadow hover:opacity-80 bg-base-content/10 component_user_preview hover:!shadow-xl ring-2 ring-primary ring-opacity-70 hover:ring-4">
+<div class="box-border transition duration-300 ease-in-out rounded-lg shadow hover:opacity-80 bg-base-200 component_user_preview hover:!shadow-xl ring-2 ring-primary ring-opacity-70 hover:ring-4">
   <LiveRedirect to={"#{@path_prefix}#{e(@user, :character, :username, "")}#{@go}"}>
     <div
       aria-hidden="true"
@@ -16,7 +16,7 @@
         </div>
         <div class="mt-1">
           <div class="flex items-center space-x-2">
-            <span class="text-lg font-bold text-base-content">{e(@user, :profile, :name, "Anonymous")}</span>
+            <span class="text-base font-bold text-base-content">{e(@user, :profile, :name, "Anonymous")}</span>
           </div>
 
           <div class="flex items-center space-x-2">
@@ -30,7 +30,7 @@
             >
               {e(@user, :shared_user, :label, "")}
             </span>
-            <span :if={is_admin?(@user)} class="ml-3 badge-smbadge badge-info badge-outline">
+            <span :if={is_admin?(@user)} class="ml-3 badge-sm badge badge-info badge-outline">
               {l("Admin")}
             </span>
           </div>

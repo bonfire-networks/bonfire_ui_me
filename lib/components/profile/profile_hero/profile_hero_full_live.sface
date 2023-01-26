@@ -1,5 +1,5 @@
 <div class="relative">
-  <div class="bg-base-200 border-b border-base-300">
+  <div class="border-b bg-base-200 border-base-300">
     <div class="">
       <div
         class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[250px]"
@@ -10,7 +10,7 @@
           {"Follows you"}
         </div>
       </div>
-      <div class="flex px-4 mb-4 flex-col items-start mx-auto">
+      <div class="flex flex-col items-start px-4 mx-auto mb-4">
         <div class="flex justify-between w-full">
           <Bonfire.UI.Common.AvatarLive
             class="inline-block object-cover w-[120px] h-[120px] -mt-12 rounded md:mx-0 ring-4 ring-base-200 bg-base-200"
