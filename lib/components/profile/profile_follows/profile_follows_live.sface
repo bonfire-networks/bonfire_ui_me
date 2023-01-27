@@ -4,16 +4,17 @@
     "grid items-start grid-cols-1",
     "max-w-[680px] mx-auto": !@current_user
   }>
-
     <main class="flex flex-col bg-base-100">
-    <Bonfire.UI.Common.TabsLive
-      selected_tab={@selected_tab}
-      class="flex gap-3 p-4 bg-base-100"
-      tab_class="btn btn-sm rounded-full font-normal capitalize bg-base-content/10 text-neutral-content/80 feed_tab border-none"
-      path_prefix={"/@#{e(@user, :character, :username, "")}/"}
-      tabs={Config.get([:ui, :profile, :network], followers: l("Followers"))}
-    />
-      <div :if={@selected_tab == "followed"}>
+      <Bonfire.UI.Common.TabsLive
+        selected_tab={@selected_tab}
+        class="flex gap-3 p-4 bg-base-100"
+        tab_class="btn btn-sm rounded-full font-normal capitalize bg-base-content/10 text-neutral-content/80 feed_tab border-none"
+        path_prefix={"/@#{e(@user, :character, :username, "")}/"}
+        tabs={if @current_user,
+          do: Config.get([:ui, :profile, :my_network], followers: l("Followers")),
+          else: Config.get([:ui, :profile, :network], followers: l("Followers"))}
+      />
+      <div :if={@selected_tab in ["requested", "followed"]}>
         <div class="flow-root">
           <ul class="divide-y divide-base-300">
             {#for follow <- @feed |> debug("ffff")}
@@ -34,7 +35,7 @@
         </div>
       </div>
 
-      <div :if={@selected_tab == "followers"}>
+      <div :if={@selected_tab in ["requests", "followers"]}>
         <div class="flow-root">
           <ul class="divide-y divide-base-300">
             {#for follow <- @feed}

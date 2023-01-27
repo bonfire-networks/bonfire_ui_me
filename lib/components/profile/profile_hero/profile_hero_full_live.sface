@@ -293,7 +293,6 @@
                 }
                 to={~p"/user/#{e(@user, :character, :username, "")}/followers"}
               >
-
                 <span>{l("Network")}</span>
               </LivePatch>
 
