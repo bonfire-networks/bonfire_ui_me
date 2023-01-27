@@ -16,7 +16,7 @@
       <div :if={@selected_tab == "followed"}>
         <div class="flow-root">
           <ul class="divide-y divide-base-300">
-            {#for follow <- @feed}
+            {#for follow <- @feed |> debug("ffff")}
               <li class="p-4">
                 <Bonfire.UI.Common.ProfileItemLive
                   wrapper_class="flex items-center justify-between"

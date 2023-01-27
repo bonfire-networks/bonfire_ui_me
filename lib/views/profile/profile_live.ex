@@ -209,7 +209,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   def do_handle_params(%{"tab" => tab} = params, _url, socket)
-      when tab in ["followers", "followed"] do
+      when tab in ["followers", "followed", "requested"] do
     debug(tab, "load tab")
 
     {:noreply,
