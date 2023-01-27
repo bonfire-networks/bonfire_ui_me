@@ -10,7 +10,7 @@
           {"Follows you"}
         </div>
       </div>
-      <div class="flex flex-col items-start px-4 mx-auto mb-4">
+      <div class="flex flex-col items-start px-4 mx-auto mb-3">
         <div class="flex justify-between w-full">
           <Bonfire.UI.Common.AvatarLive
             class="inline-block object-cover w-[120px] h-[120px] -mt-12 rounded md:mx-0 ring-4 ring-base-200 bg-base-200"
@@ -269,11 +269,11 @@
               </div>
             </div>
 
-            <div class="flex items-center gap-8 mt-4 text-base-content">
+            <div class="flex items-center gap-8 mt-6 text-base-content">
               <LivePatch
                 class={
-                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline",
-                  "font-medium text-primary": @selected_tab in ["timeline", "posts", "boosts"]
+                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline relative",
+                  "font-medium text-primary with_tab": @selected_tab in ["timeline", "posts", "boosts"]
                 }
                 to={~p"/user/#{e(@user, :character, :username, "")}"}
               >
@@ -288,8 +288,19 @@
 
               <LivePatch
                 class={
-                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline",
-                  "font-medium text-primary": @selected_tab == "followers"
+                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline relative",
+                  "font-medium text-primary with_tab": @selected_tab == "followers" or @selected_tab == "followed"
+                }
+                to={~p"/user/#{e(@user, :character, :username, "")}/followers"}
+              >
+
+                <span>{l("Network")}</span>
+              </LivePatch>
+
+              <!-- <LivePatch
+                class={
+                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline relative",
+                  "font-medium text-primary with_tab": @selected_tab == "followers"
                 }
                 to={~p"/user/#{e(@user, :character, :username, "")}/followers"}
               >
@@ -304,8 +315,8 @@
 
               <LivePatch
                 class={
-                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline",
-                  "font-medium text-primary": @selected_tab == "followed"
+                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline relative",
+                  "font-medium text-primary with_tab": @selected_tab == "followed"
                 }
                 to={~p"/user/#{e(@user, :character, :username, "")}/followed"}
               >
@@ -316,7 +327,7 @@
                   {e(@user, :character, :follow_count, :subject_count, 0)}
                 </strong>
                 <span>{l("Following")}</span>
-              </LivePatch>
+              </LivePatch> -->
             </div>
           </div>
         </div>
