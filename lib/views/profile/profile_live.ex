@@ -82,7 +82,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       title =
         if current_username == e(user, :character, :username, ""),
           do: l("Your profile"),
-          else: name 
+          else: name
 
       # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
       smart_input_prompt = nil
@@ -102,7 +102,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         page: "profile",
         page_title: title,
         feed_title: l("User timeline"),
-        back: true, 
+        back: true,
         # without_sidebar: true,
         # the user to display
         nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),

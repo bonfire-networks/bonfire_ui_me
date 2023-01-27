@@ -212,7 +212,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        selected_tab: tab
      )}
   end
-  
+
   def do_handle_params(%{"tab" => tab}, _url, socket) do
     {:noreply,
      assign(

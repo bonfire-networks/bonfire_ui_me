@@ -3,7 +3,7 @@ defmodule Bonfire.UI.Me.UserPreviewLive do
   import Bonfire.UI.Me.Integration, only: [is_admin?: 1]
   import Bonfire.Common.Utils
   import Bonfire.Common.Media
-  
+
   prop user, :map
   prop path_prefix, :string, default: "/@"
   prop go, :string, default: nil

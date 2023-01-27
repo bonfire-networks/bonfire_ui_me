@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   use Bonfire.UI.Common.Web, :stateless_component
   import Bonfire.UI.Me.Integration
   import Bonfire.Common.Media
-  
+
   prop user, :map
   prop follows_me, :boolean, default: false
   prop selected_tab, :string
