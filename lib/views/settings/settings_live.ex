@@ -25,7 +25,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
      # |> assign(:without_sidebar,  true)
      |> assign(
        page_title: l("Settings"),
-       page_header_icon: "heroicons-solid:cog",
+       back: true,
        #  without_widgets: true,
        #  without_sidebar: true,
        smart_input_opts: [disable: true],
@@ -190,6 +190,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
     # debug(id)
     {:noreply,
      assign(socket,
+       back: true,
        selected_tab: tab,
        id: id
      )}
@@ -199,6 +200,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
     {:noreply,
      assign(
        socket,
+       back: true,
        page_title: l("Team profile"),
        selected_tab: tab
      )}
@@ -208,6 +210,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
     {:noreply,
      assign(
        socket,
+       back: true,
        page_title: l("Edit profile"),
        selected_tab: tab
      )}
@@ -217,6 +220,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
     {:noreply,
      assign(
        socket,
+       back: true,
        page_title: tab,
        selected_tab: tab
      )}
