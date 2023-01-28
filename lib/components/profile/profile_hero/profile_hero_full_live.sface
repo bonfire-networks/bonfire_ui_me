@@ -19,7 +19,7 @@
           />
           <div class="flex items-center gap-3">
             <LiveRedirect
-              :if={@current_user && id(@current_user) == id(@user)}
+              :if={@current_user && current_user_id(@__context__) == id(@user)}
               to={~p"/settings/profile"}
               class="normal-case rounded btn btn-sm btn-primary"
             >
@@ -35,10 +35,10 @@
               <Icon solid="ExternalLink" class="w-4 h-4" />
             </a>
 
-            <div :if={id(@current_user) != id(@user)}>
+            <div :if={current_user_id(@__context__) != id(@user)}>
               <Bonfire.UI.Common.FollowButtonLive
-                id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, ulid(@user))}
-                object_id={ulid(@user)}
+                id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user))}
+                object_id={id(@user)}
                 path={path(@user)}
                 hide_icon
                 class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
@@ -46,7 +46,7 @@
             </div>
 
             <!-- <LiveRedirect
-              :if={@current_user && id(@current_user) != id(@user)}
+              :if={@current_user && current_user_id(@__context__) != id(@user)}
               to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
               class="hidden btn lg:flex btn-sm h-[34px] w-[34px] btn-outline btn-circle border-base-content/50"
             >
@@ -76,7 +76,7 @@
                 </li>
 
                 {#if @current_user}
-                  {#if id(@current_user) == id(@user)}
+                  {#if current_user_id(@__context__) == id(@user)}
                     <li>
                       <LiveRedirect
                         to={~p"/settings/preferences"}
