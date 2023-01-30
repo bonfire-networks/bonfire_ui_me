@@ -45,7 +45,7 @@
                   wrapper_class="flex items-center justify-between"
                   profile={e(follow, :edge, :subject, :profile, nil)}
                   character={e(follow, :edge, :subject, :character, nil)}
-                  show_controls={if @selected_tab == "requests", do: [:follow, :accept]}
+                  show_controls={if @selected_tab == "requests", do: [:follow, :accept], else: []}
                   activity_id={id(follow)}
                 />
               </li>
