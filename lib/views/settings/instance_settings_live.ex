@@ -66,12 +66,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
   defp handle_progress(:icon = type, entry, socket) do
     user = current_user_required!(socket)
 
-    scope =
-      if e(socket, :assigns, :selected_tab, nil) == "admin",
-        do: :instance,
-        else: user
-
-    if user && entry.done? do
+    if user && Bonfire.Boundaries.can?(user, :describe, :instance) && entry.done? do
       with %{} = uploaded_media <-
              maybe_consume_uploaded_entry(socket, entry, fn %{path: path} = metadata ->
                # debug(metadata, "icon consume_uploaded_entry meta")
@@ -83,7 +78,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
                # |> debug("uploaded")
              end) do
         # debug(uploaded_media)
-        save(type, scope, uploaded_media, socket)
+        save(type, :instance, uploaded_media, socket)
       end
     else
       debug("Skip uploading because we don't know current_user")
@@ -94,12 +89,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
   defp handle_progress(:image = type, entry, socket) do
     user = current_user_required!(socket)
 
-    scope =
-      if e(socket, :assigns, :selected_tab, nil) == "admin",
-        do: :instance,
-        else: user
-
-    if user && entry.done? do
+    if user && Bonfire.Boundaries.can?(user, :describe, :instance) && entry.done? do
       with %{} = uploaded_media <-
              maybe_consume_uploaded_entry(socket, entry, fn %{path: path} = metadata ->
                # debug(metadata, "image consume_uploaded_entry meta")
@@ -111,7 +101,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
                # |> debug("uploaded")
              end) do
         # debug(uploaded_media)
-        save(type, scope, uploaded_media, socket)
+        save(type, :instance, uploaded_media, socket)
       end
     else
       debug("Skip uploading because we don't know current_user")
@@ -120,7 +110,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
   end
 
   def save(:icon, :instance, uploaded_media, socket) do
-    with :ok <-
+    with {:ok, _} <-
            Bonfire.Me.Settings.put(
              [:bonfire, :ui, :theme, :instance_icon],
              Bonfire.Files.IconUploader.remote_url(uploaded_media),
@@ -130,12 +120,12 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
       {:noreply,
        socket
        |> assign_flash(:info, l("Icon changed!"))
-       |> redirect_to("/")}
+       |> redirect_to(~p"/about")}
     end
   end
 
   def save(:image, :instance, uploaded_media, socket) do
-    with :ok <-
+    with {:ok, _} <-
            Bonfire.Me.Settings.put(
              [:bonfire, :ui, :theme, :instance_image],
              Bonfire.Files.BannerUploader.remote_url(uploaded_media),
@@ -145,7 +135,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
       {:noreply,
        socket
        |> assign_flash(:info, l("Image changed!"))
-       |> redirect_to("/")}
+       |> redirect_to(~p"/about")}
     end
   end
 

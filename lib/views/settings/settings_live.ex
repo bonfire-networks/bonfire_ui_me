@@ -73,11 +73,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
   defp handle_progress(:icon = type, entry, socket) do
     user = current_user_required!(socket)
 
-    scope =
-      if e(socket, :assigns, :selected_tab, nil) == "admin",
-        do: :instance,
-        else: user
-
     if user && entry.done? do
       with %{} = uploaded_media <-
              maybe_consume_uploaded_entry(socket, entry, fn %{path: path} = metadata ->
@@ -90,7 +85,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
                # |> debug("uploaded")
              end) do
         # debug(uploaded_media)
-        save(type, scope, uploaded_media, socket)
+        save(type, user, uploaded_media, socket)
       end
     else
       debug("Skip uploading because we don't know current_user")
@@ -100,11 +95,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
 
   defp handle_progress(:image = type, entry, socket) do
     user = current_user_required!(socket)
-
-    scope =
-      if e(socket, :assigns, :selected_tab, nil) == "admin",
-        do: :instance,
-        else: user
 
     if user && entry.done? do
       with %{} = uploaded_media <-
@@ -118,41 +108,11 @@ defmodule Bonfire.UI.Me.SettingsLive do
                # |> debug("uploaded")
              end) do
         # debug(uploaded_media)
-        save(type, scope, uploaded_media, socket)
+        save(type, user, uploaded_media, socket)
       end
     else
       debug("Skip uploading because we don't know current_user")
       {:noreply, socket}
-    end
-  end
-
-  def save(:icon, :instance, uploaded_media, socket) do
-    with :ok <-
-           Bonfire.Me.Settings.put(
-             [:bonfire, :ui, :theme, :instance_icon],
-             Bonfire.Files.IconUploader.remote_url(uploaded_media),
-             scope: :instance,
-             socket: socket
-           ) do
-      {:noreply,
-       socket
-       |> assign_flash(:info, l("Icon changed!"))
-       |> redirect_to("/")}
-    end
-  end
-
-  def save(:image, :instance, uploaded_media, socket) do
-    with :ok <-
-           Bonfire.Me.Settings.put(
-             [:bonfire, :ui, :theme, :instance_image],
-             Bonfire.Files.BannerUploader.remote_url(uploaded_media),
-             scope: :instance,
-             socket: socket
-           ) do
-      {:noreply,
-       socket
-       |> assign_flash(:info, l("Image changed!"))
-       |> redirect_to("/")}
     end
   end
 
