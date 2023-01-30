@@ -21,7 +21,7 @@
               <li class="p-4">
                 <Bonfire.UI.Common.ProfileItemLive
                   wrapper_class="flex items-center justify-between"
-                  profile={e(follow, :edge, :object, :profile, nil)}
+                  profile={e(follow |> debug("fff"), :edge, :object, :profile, nil)}
                   lg
                   character={e(follow, :edge, :object, :character, nil)}
                 />
@@ -45,7 +45,9 @@
                   wrapper_class="flex items-center justify-between"
                   profile={e(follow, :edge, :subject, :profile, nil)}
                   character={e(follow, :edge, :subject, :character, nil)}
-                  show_controls={if @selected_tab == "requests", do: [:follow, :accept], else: []}
+                  show_controls={if Types.object_type(follow) == Bonfire.Data.Social.Request or @selected_tab == "requests",
+                    do: [:follow, :accept],
+                    else: []}
                   activity_id={id(follow)}
                 />
               </li>

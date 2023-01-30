@@ -108,10 +108,19 @@
 
                     <li class="border-t border-neutral-content/10">
                       <LiveRedirect
-                        to={~p"/boundaries/silenced"}
+                        to={~p"/boundaries/acls"}
                         class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                       >
                         <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        {l("Boundaries")}
+                      </LiveRedirect>
+                    </li>
+
+                    <!-- <li>
+                      <LiveRedirect
+                        to={~p"/boundaries/silenced"}
+                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                      >
                         {l("Silenced")}
                       </LiveRedirect>
                     </li>
@@ -120,7 +129,6 @@
                         to={~p"/boundaries/ghosted"}
                         class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                       >
-                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
                         {l("Ghosted")}
                       </LiveRedirect>
                     </li>
@@ -129,19 +137,9 @@
                         to={~p"/boundaries/circles"}
                         class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                       >
-                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
                         {l("Circles")}
                       </LiveRedirect>
-                    </li>
-                    <li>
-                      <LiveRedirect
-                        to={~p"/boundaries/acls"}
-                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                      >
-                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
-                        {l("Boundaries")}
-                      </LiveRedirect>
-                    </li>
+                    </li> -->
                   {#else}
                     <li>
                       <Bonfire.UI.Common.SmartInputButtonLive
