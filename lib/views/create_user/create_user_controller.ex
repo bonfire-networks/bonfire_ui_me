@@ -15,11 +15,16 @@ defmodule Bonfire.UI.Me.CreateUserController do
   end
 
   def create(conn, params) do
+    debug(params)
+
     form = Map.get(params, "user", %{})
 
     changeset = Users.changeset(:create, form, e(conn.assigns, :current_account, nil))
 
-    case Users.create(changeset, e(conn.assigns, :current_account, nil)) do
+    case Users.create(changeset,
+           undiscoverable: not empty?(Map.get(params, "undiscoverable")),
+           request_before_follow: not is_nil(Map.get(params, "request_before_follow"))
+         ) do
       {:ok, %{id: id, profile: %{name: name}} = _user} ->
         greet(conn, params, id, name)
 

@@ -99,6 +99,23 @@
         </Field>
       </Inputs>
 
+      <div class="flex items-center justify-between gap-6">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm">{l(
+              "Show my profile and content publicly in search engines? (in Bonfire, the fediverse, and the web in general)"
+            )}</div>
+        </div>
+        <input name="undiscoverable" value="true" type="hidden">
+        <input name="undiscoverable" value="" type="checkbox" class="toggle" checked="checked">
+      </div>
+
+      <div class="flex items-center justify-between gap-6">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm">{l("People need to make a request before they can follow me")}</div>
+        </div>
+        <input name="request_before_follow" value="true" type="checkbox" class="toggle">
+      </div>
+
       <button type="submit" class="w-full normal-case rounded btn btn-primary">
         {l("Create")}
       </button>

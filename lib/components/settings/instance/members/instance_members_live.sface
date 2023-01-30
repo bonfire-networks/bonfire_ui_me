@@ -4,8 +4,8 @@
     <thead>
       <tr>
         <th>{l("Name")}</th>
-        <th>{l("Roles")}</th>
-        <th>{l("Last login")}</th>
+        <!-- <th>{l("Roles")}</th> -->
+        <th>{l("Signed up")}</th>
         <th />
       </tr>
     </thead>
@@ -29,15 +29,24 @@
             </div>
           </div>
         </td>
-        <td class="flex-1">
+        <!-- <td class="flex-1">
           <span class="badge badge-sm badge-info">Desktop</span>
-        </td>
+        </td> -->
         <td class="flex-1">
-          <span class="text-xs">{l("21 Nov 2021")}</span>
+          <span class="text-xs">{DatesTimes.date_from_now(id(user))}</span>
         </td>
 
         <th>
-          <button class="normal-case rounded btn btn-error btn-xs">Deactivate</button>
+          <Dynamic.Component
+            :if={module_enabled?(Bonfire.Boundaries.Web.BlockButtonLive) and @current_user &&
+              current_user_id(@__context__) != id(user)}
+            module={Bonfire.Boundaries.Web.BlockButtonLive}
+            id={ComponentID.new(Bonfire.Boundaries.Web.BlockButtonLive, id(user))}
+            object={user}
+            label={e(user, :profile, :name, l("this user"))}
+            open_btn_label={l("Block")}
+            class="normal-case rounded btn btn-error btn-xs"
+          />
         </th>
       </tr>
     </tbody>
