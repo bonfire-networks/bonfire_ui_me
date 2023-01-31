@@ -99,29 +99,35 @@
         </Field>
       </Inputs>
 
-        <div class="p-4 my-6 rounded-md bg-info/10">
-          <div class="flex items-center justify-between gap-6">
-            <div class="flex-1 ml-3 md:flex md:justify-between">
-              <p class="text-sm text-info">
-                {l(
-                  "Show my profile and content publicly in search engines? (in Bonfire, the fediverse, and the web in general)"
-                )}</p>
-            </div>
-            <input name="undiscoverable" value="true" type="hidden">
-            <input name="undiscoverable" value="" type="checkbox" class="toggle toggle-info" checked="checked">            
+      <div class="p-4 my-6 rounded-md bg-info/10">
+        <div class="flex items-center justify-between gap-6">
+          <div class="flex-1 ml-3 md:flex md:justify-between">
+            <p class="text-sm text-info">
+              {l(
+                "Show my profile and content publicly in search engines? (in Bonfire, the fediverse, and the web in general)"
+              )}</p>
           </div>
+          <input name="undiscoverable" value="true" type="hidden">
+          <input
+            name="undiscoverable"
+            value=""
+            type="checkbox"
+            class="toggle toggle-info"
+            checked="checked"
+          />
         </div>
+      </div>
 
-        <div class="p-4 my-6 rounded-md bg-info/10">
-          <div class="flex items-center justify-between gap-6">
-            <div class="flex-1 ml-3 md:flex md:justify-between">
-              <p class="text-sm text-info">
-                {l("People need to make a request before they can follow me")}
-              </p>
-            </div>
-            <input name="request_before_follow" value="true" type="checkbox" class="toggle toggle-info">
+      <div class="p-4 my-6 rounded-md bg-info/10">
+        <div class="flex items-center justify-between gap-6">
+          <div class="flex-1 ml-3 md:flex md:justify-between">
+            <p class="text-sm text-info">
+              {l("People need to make a request before they can follow me")}
+            </p>
           </div>
+          <input name="request_before_follow" value="true" type="checkbox" class="toggle toggle-info">
         </div>
+      </div>
 
       <button type="submit" class="w-full normal-case rounded btn btn-primary">
         {l("Create")}

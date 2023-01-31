@@ -2,7 +2,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
   use Bonfire.UI.Common.Web, :live_handler
   # import Bonfire.Boundaries.Integration
 
-  def handle_event("put", %{"keys" => keys, "value" => value} = params, socket) do
+  def handle_event("put", %{"keys" => keys, "values" => value} = params, socket) do
     with {:ok, settings} <-
            keys
            |> String.split(":")
