@@ -28,21 +28,12 @@
     <div x-show="open" x-collapse>
       <form name="settings" phx-change="Bonfire.Me.Settings:set">
         <input name="scope" value={:account} type="hidden">
-        <div class="w-full max-w-lg mt-8 form-control">
-          <label for="instance_theme" class="label">
-            <span class="label-text text-base-content/70">
-              {l("Default theme")}</span>
-          </label>
-
-          <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
-            <div class="flex max-w-lg">
-              <Bonfire.UI.Common.ChangeThemesLive
-                theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_user)}
-                theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_user)}
-              />
-            </div>
-          </div>
-        </div>
+        <Bonfire.UI.Common.ChangeThemesLive
+          scope={:account}
+          scoped={@current_account}
+          theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_account)}
+          theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_account)}
+        />
       </form>
     </div>
   </div>

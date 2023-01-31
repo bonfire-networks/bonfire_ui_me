@@ -2,12 +2,12 @@ defmodule Bonfire.Me.Settings.LiveHandler do
   use Bonfire.UI.Common.Web, :live_handler
   # import Bonfire.Boundaries.Integration
 
-  def handle_event("put", %{"keys" => keys, "value" => value}, socket) do
+  def handle_event("put", %{"keys" => keys, "value" => value} = params, socket) do
     with {:ok, settings} <-
            keys
            |> String.split(":")
            #  |> debug()
-           |> Bonfire.Me.Settings.put(value, socket) do
+           |> Bonfire.Me.Settings.put(value, scope: params["scope"], socket: socket) do
       # debug(settings, "done")
       {:noreply,
        socket
@@ -58,11 +58,23 @@ defmodule Bonfire.Me.Settings.LiveHandler do
   end
 
   defp maybe_assign_context(socket, %{assign_context: assigns}) do
+    debug(assigns, "assign updated data with settings")
+
     socket
     |> assign_global(assigns)
   end
 
-  defp maybe_assign_context(socket, _), do: socket
+  defp maybe_assign_context(socket, %{id: "3SERSFR0MY0VR10CA11NSTANCE", data: settings}) do
+    debug(settings, "assign updated instance settings")
+
+    socket
+    |> assign(instance_settings: settings)
+  end
+
+  defp maybe_assign_context(socket, ret) do
+    debug(ret, "cannot assign updated data with settings")
+    socket
+  end
 
   defp extension_toggle(extension, disabled?, attrs, socket) do
     scope =

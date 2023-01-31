@@ -142,14 +142,12 @@
                 <span class="label-text text-base-content/70">
                   {l("Instance default theme")}</span>
               </label>
-              <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
-                <div class="flex max-w-lg">
-                  <Bonfire.UI.Common.ChangeThemesLive
-                    theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", :instance)}
-                    theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", :instance)}
-                  />
-                </div>
-              </div>
+              <Bonfire.UI.Common.ChangeThemesLive
+                scope={:instance}
+                scoped={:instance}
+                theme={Config.get([:ui, :theme, :instance_theme], "bonfire")}
+                theme_light={Config.get([:ui, :theme, :instance_theme_light], "light")}
+              />
             </div>
 
             <div class="w-full max-w-lg mt-2 form-control">

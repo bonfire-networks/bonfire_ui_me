@@ -2,8 +2,7 @@
   <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
     <div
       x-data="{
-        open: false, 
-        custom_theme: false
+        open: false
       }"
       class="p-4"
     >
@@ -22,55 +21,11 @@
       <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
           <input name="scope" value={:user} type="hidden">
-          <div class="w-full max-w-lg mt-4 form-control">
-            <!-- <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
-              <div class="flex max-w-lg">
-                <div class="flex flex-col gap-1">
-                  <div class="text-sm font-bold">{l("Use device theme")}</div>
-                </div>
-                <form name="settings" phx-change="Bonfire.Me.Settings:set">
-                <input name="scope" value={:user} type="hidden">
-                <input
-                  type="radio"
-                  name="ui[device_theme]"
-                  {if Settings.get([:ui, :device_theme, false], false, :user), do: "checked", else: ""}
-                  value={Settings.get([:ui, :device_theme, false], false, :user)}
-                  class="toggle"
-                />
-                </form>
-              </div>
-            </div> -->
-            <div class="flex items-center gap-2">
-              <button class="normal-case rounded btn btn-outline border-base-content/30">
-                <span><Icon outline="Moon" class="w-4 h-4" /></span>
-                <span class="ml-2">{l("Dark Mode")}</span>
-              </button>
-              <button class="normal-case rounded btn btn-outline border-base-content/30">
-                <span><Icon outline="Sun" class="w-4 h-4" /></span>
-                <span class="ml-2">{l("Light Mode")}</span>
-              </button>
-
-              <button class="normal-case rounded btn btn-outline border-base-content/30">
-                <span><Icon outline="ComputerDesktop" class="w-4 h-4" /></span>
-                <span class="ml-2">{l("System")}</span>
-              </button>
-            </div>
-            <div
-              x-on:click="custom_theme = !custom_theme"
-              class="flex items-center gap-2 mt-5 text-sm link link-hover"
-            >
-              <Icon iconify="lucide:paintbrush-2" class="w-4 h-4" />
-              <span class="">{l("Select dark and light themes")}</span>
-            </div>
-            <div x-show="custom_theme" x-cloak x-collapse class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
-              <div class="flex max-w-lg gap-3 mt-3">
-                <Bonfire.UI.Common.ChangeThemesLive
-                  theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_user)}
-                  theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_user)}
-                />
-              </div>
-            </div>
-          </div>
+          <Bonfire.UI.Common.ChangeThemesLive
+            scoped={@current_user}
+            theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_user)}
+            theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_user)}
+          />
         </form>
       </div>
     </div>
