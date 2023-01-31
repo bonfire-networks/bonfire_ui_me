@@ -13,8 +13,8 @@
       <div class="flex flex-col items-start px-4 mx-auto mb-3">
         <div class="flex justify-between w-full">
           <Bonfire.UI.Common.AvatarLive
-            class="inline-block object-cover w-[120px] h-[120px] -mt-12 md:mx-0"
-            bg_class="rounded ring-4 ring-base-200 bg-base-200 fill-base-200"
+            class="inline-block object-cover w-[120px] h-[120px] -mt-12 md:mx-0 rounded-3xl ring-4 ring-base-200 bg-base-200 fill-base-200"
+            bg_class=""
             size="100%"
             user={@user}
           />
@@ -234,7 +234,7 @@
               <span class="text-sm font-normal text-base-content/60">{Bonfire.Me.Characters.display_username(@user, true)}</span>
             </div>
 
-            <div class="mt-3">
+            <div class="mt-1">
               <div class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
                 {rich(e(@user, :profile, :summary, ""))}
               </div>

@@ -6,7 +6,7 @@
     name_class="text-2xl  font-bold tracking-wider"
     href="/"
   />
-  <div class="w-[90%] md:w-[360px] mx-auto">
+  <div class="w-[90%] md:w-[460px] mx-auto">
     <Bonfire.UI.Me.CreateUserViewLive form={@form} error={@error} />
   </div>
 </div>
