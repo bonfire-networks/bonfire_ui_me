@@ -63,7 +63,7 @@
             {e(@current_user, :character, :username, "")}@{instance_domain()}
           </div>
         </div>
-        <button type="submit" class="normal-case rounded btn-wide btn-sm btn btn-primary">{l("Save")}</button>
+        <button type="submit" class="normal-case rounded md:btn-wide btn-sm btn btn-primary">{l("Save")}</button>
       </div>
     </div>
 
