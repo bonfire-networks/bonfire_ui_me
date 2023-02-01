@@ -101,7 +101,11 @@
         >{l("Expand")}</button>
       </div>
       <div x-show="open" x-cloak x-collapse>
-        <Bonfire.UI.Social.Settings.MyFeedItemsLive title={l("What activities to include in home feeds by default")} />
+        <Dynamic.Component
+          :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
+          module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
+          title={l("What activities to include in home feeds by default")}
+        />
       </div>
     </div>
 

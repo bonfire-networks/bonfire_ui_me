@@ -22,7 +22,12 @@
         data={Bonfire.Common.Extensions.data()}
       />
     {#match "flags"}
-      <Bonfire.UI.Social.FlagsLive id="flags" selected_tab={@selected_tab} scope={:instance} />
+      <Dynamic.LiveComponent
+        module={Bonfire.UI.Social.FlagsLive}
+        id="flags"
+        selected_tab={@selected_tab}
+        scope={:instance}
+      />
     {#match "silenced"}
       <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="silenced" />
     {#match "ghosted"}

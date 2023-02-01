@@ -1,3 +1,4 @@
+<div>
 <div class="flex items-center justify-between py-8 mb-6">
   <div class="text-2xl font-bold text-base-content">
     {l("Posts")}
@@ -32,4 +33,5 @@
       </LiveRedirect>
     </div>
   </div>
+</div>
 </div>

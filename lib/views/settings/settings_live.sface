@@ -54,7 +54,12 @@
         data={Bonfire.Common.Extensions.data()}
       />
     {#match "flags"}
-      <Bonfire.UI.Social.FlagsLive id="flags" selected_tab={@selected_tab} />
+      <Dynamic.LiveComponent
+        :if={module_enabled?(Bonfire.UI.Social.FlagsLive) and @current_user}
+        module={Bonfire.UI.Social.FlagsLive}
+        selected_tab={@selected_tab}
+        id="flags"
+      />
     {#match "silenced"}
       <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="silenced" />
     {#match "ghosted"}
