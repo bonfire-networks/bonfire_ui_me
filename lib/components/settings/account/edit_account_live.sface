@@ -20,7 +20,7 @@
   <div x-data="{open: false}" class="p-4">
     <div class="flex items-center justify-between">
       <div class="flex flex-col gap-1">
-        <div class="text-sm font-bold">{l("Theme & font")}</div>
+        <div class="text-sm font-bold">{l("Theme")}</div>
         <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
       </div>
       <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
