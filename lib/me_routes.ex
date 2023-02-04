@@ -91,6 +91,8 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:account_required)
 
         live("/settings/extensions/diff", UI.Common.ExtensionDiffLive)
+        live("/settings/extensions/code/:module", UI.Common.ViewCodeLive)
+        live("/settings/extensions/code/:module/:function", UI.Common.ViewCodeLive)
       end
 
       # pages you need an account to view
