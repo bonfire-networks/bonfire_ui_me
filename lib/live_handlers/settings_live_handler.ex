@@ -12,7 +12,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
       {:noreply,
        socket
        |> maybe_assign_context(settings)
-       |> assign_flash(:info, "Settings saved :-)")}
+       |> assign_flash(:info, l("Settings saved :-)"))}
     end
   end
 
@@ -23,7 +23,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
       {:noreply,
        socket
        |> maybe_assign_context(settings)
-       |> assign_flash(:info, "Settings saved :-)")}
+       |> assign_flash(:info, l("Settings saved :-)"))}
     end
   end
 
@@ -33,9 +33,24 @@ defmodule Bonfire.Me.Settings.LiveHandler do
         :noreply,
         socket
         |> maybe_assign_context(settings)
-        |> assign_flash(:info, "Settings saved :-)")
+        |> assign_flash(:info, l("Settings saved :-)"))
         #  |> redirect_to("/")
       }
+    end
+  end
+
+  def handle_event("put_theme", %{"keys" => keys, "values" => value} = params, socket) do
+    with {:ok, settings} <-
+           keys
+           |> String.split(":")
+           #  |> debug()
+           |> Bonfire.Me.Settings.put(value, scope: params["scope"], socket: socket) do
+      # debug(settings, "done")
+      {:noreply,
+       socket
+       #  |> maybe_assign_context(settings)
+       |> assign_flash(:info, l("Theme changed and loaded :-)"))
+       |> redirect(to: current_url(socket) || "/")}
     end
   end
 
