@@ -147,14 +147,14 @@
                     <li>
                       <Bonfire.UI.Common.SmartInputButtonLive
                         create_object_type={:message}
-                        smart_input_opts={%{
+                        smart_input_opts={
                           to_circles: [
                             %{
                               (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
                                 id(@user)
                             }
                           ]
-                        }}
+                        }
                         prompt={l("Send a message")}
                         icon="heroicons-solid:mail"
                         class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
