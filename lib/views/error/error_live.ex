@@ -14,10 +14,12 @@ defmodule Bonfire.UI.Me.ErrorLive do
   end
 
   def mounted(_params, _session, socket) do
-    {:ok,
-     socket
-     |> assign_new(:page, fn -> nil end)
-     |> assign_new(:without_sidebar, fn -> true end)}
+    {
+      :ok,
+      socket
+      |> assign_new(:page, fn -> nil end)
+      #  |> assign_new(:without_sidebar, fn -> true end)
+    }
   end
 
   defdelegate handle_params(params, attrs, socket),
