@@ -48,21 +48,21 @@
         </div>
       </div>
     {#else}
-    <div class="grid items-start gap-4 md:grid-cols-2">
-      <div class="w-[90%] md:w-full mx-auto md:mx-0 md:pb-4" x-data="{ active: 1 }">
-        <div class="shadow rounded-xl bg-base-100">
-          <div
-            class="bg-center rounded-t-xl mx-auto bg-no-repeat bg-cover h-[250px] w-full"
-            style={"background-image: url(#{Config.get([:ui, :theme, :instance_image], nil)})"}
-          />
-          <h1 class="p-4 font-medium leading-relaxed tracking-wider text-center text-md text-base-content/90">
-            {Config.get([:ui, :theme, :instance_description], "")}
-          </h1>
-        
-          {#case Config.get([:terms, :conduct], nil)}
-            {#match terms when is_binary(terms)}
-              <div
-                x-data="{
+      <div class="grid items-start gap-4 md:grid-cols-2">
+        <div class="w-[90%] md:w-full mx-auto md:mx-0 md:pb-4" x-data="{ active: 1 }">
+          <div class="shadow rounded-xl bg-base-100">
+            <div
+              class="bg-center rounded-t-xl mx-auto bg-no-repeat bg-cover h-[250px] w-full"
+              style={"background-image: url(#{Config.get([:ui, :theme, :instance_image], nil)})"}
+            />
+            <h1 class="p-4 font-medium leading-relaxed tracking-wider text-center text-md text-base-content/90">
+              {Config.get([:ui, :theme, :instance_description], "")}
+            </h1>
+
+            {#case Config.get([:terms, :conduct], nil)}
+              {#match terms when is_binary(terms)}
+                <div
+                  x-data="{
                   id: 0,
                   get expanded() {
                       return this.active === this.id
@@ -71,32 +71,32 @@
                       this.active = value ? this.id : null
                   },
                 }"
-                role="region"
-                class="border-t border-b border-base-content/10"
-              >
-                <button
-                  x-on:click="expanded = !expanded"
-                  :aria-expanded="expanded"
-                  class="flex items-center justify-between w-full px-6 py-2 text-lg font-semibold"
+                  role="region"
+                  class="border-t border-b border-base-content/10"
                 >
-                  <span>{l("Read our code of conduct")}</span>
-                  <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
-                  <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
-                </button>
+                  <button
+                    x-on:click="expanded = !expanded"
+                    :aria-expanded="expanded"
+                    class="flex items-center justify-between w-full px-6 py-2 text-lg font-semibold"
+                  >
+                    <span>{l("Read our code of conduct")}</span>
+                    <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
+                    <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
+                  </button>
 
-                <div x-cloak x-show="expanded" x-collapse>
-                  <div class="p-3 prose">
-                    {templated_or_remote_markdown(terms)}
+                  <div x-cloak x-show="expanded" x-collapse>
+                    <div class="p-3 prose">
+                      {templated_or_remote_markdown(terms)}
+                    </div>
                   </div>
                 </div>
-              </div>
-            {#match _}
-          {/case}
+              {#match _}
+            {/case}
 
-          {#case Config.get([:terms, :privacy], nil)}
-            {#match terms when is_binary(terms)}
-              <div
-                x-data="{
+            {#case Config.get([:terms, :privacy], nil)}
+              {#match terms when is_binary(terms)}
+                <div
+                  x-data="{
                   id: 2,
                   get expanded() {
                       return this.active === this.id
@@ -105,40 +105,40 @@
                       this.active = value ? this.id : null
                   },
                 }"
-                role="region"
-                class=""
-              >
-                <h2>
-                  <button
-                    x-on:click="expanded = !expanded"
-                    :aria-expanded="expanded"
-                    class="flex items-center justify-between w-full px-6 py-2 text-lg font-semibold"
-                  >
-                    <span>{l("Read our privacy policy")}</span>
-                    <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
-                    <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
-                  </button>
-                </h2>
+                  role="region"
+                  class=""
+                >
+                  <h2>
+                    <button
+                      x-on:click="expanded = !expanded"
+                      :aria-expanded="expanded"
+                      class="flex items-center justify-between w-full px-6 py-2 text-lg font-semibold"
+                    >
+                      <span>{l("Read our privacy policy")}</span>
+                      <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
+                      <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
+                    </button>
+                  </h2>
 
-                <div x-cloak x-show="expanded" x-collapse>
-                  <div class="p-3 prose">
-                    {templated_or_remote_markdown(terms)}
+                  <div x-cloak x-show="expanded" x-collapse>
+                    <div class="p-3 prose">
+                      {templated_or_remote_markdown(terms)}
+                    </div>
                   </div>
                 </div>
-              </div>
-            {#match _}
-          {/case}
+              {#match _}
+            {/case}
+          </div>
+        </div>
+
+        <div class="w-[90%] md:w-[360px] mx-auto md:mx-0 sticky top-4">
+          <Bonfire.UI.Me.SignupFormLive
+            form={@form}
+            error={@error}
+            auth_second_factor_secret={@auth_second_factor_secret}
+          />
         </div>
       </div>
-
-      <div class="w-[90%] md:w-[360px] mx-auto md:mx-0 sticky top-4">
-        <Bonfire.UI.Me.SignupFormLive
-          form={@form}
-          error={@error}
-          auth_second_factor_secret={@auth_second_factor_secret}
-        />
-      </div>
-    </div>
     {/if}
   {/if}
 </div>

@@ -159,11 +159,9 @@
           </div>
         </div>
       </div>
-
-
     </div>
     <div class="flex justify-end mx-3">
-    <button type="submit" class="normal-case rounded btn-sm btn btn-primary">{l("Save")}</button>
+      <button type="submit" class="normal-case rounded btn-sm btn btn-primary">{l("Save")}</button>
     </div>
   </div>
 </form>
