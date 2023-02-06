@@ -1,4 +1,5 @@
 <Bonfire.UI.Me.WidgetUsersLive
   :if={@current_user || Settings.get([Bonfire.UI.Me.WidgetAdminsLive, :show_guests], true, @__context__)}
   widget_title={e(@widget_title, l("Admins"))}
+  users={Bonfire.UI.Me.WidgetUsersLive.list_admins()}
 />

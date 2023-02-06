@@ -344,7 +344,7 @@
             </div>
             <input name="activity_pub[instance][federating]" value="false" type="hidden">
             <input
-              name="Bonfire.UI.Me.WidgetUsersLive[show_guests]"
+              name="activity_pub[instance][federating]"
               value="true"
               type="checkbox"
               checked={if Bonfire.Me.Settings.get([:activity_pub, :instance, :federating], true, :instance),

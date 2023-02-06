@@ -47,14 +47,14 @@
       <Inputs for={:email}>
         <Field name={:email_address}>
           <label for="signup-form_email_email_address" class="label">
-            <span class="label-text text-xs">
+            <span class="text-xs label-text">
               {l("Email address")}
             </span>
           </label>
           <EmailInput
             opts={placeholder: "alice@email.com"}
             required
-            class="w-full h-10 rounded input input-bordered"
+            class="w-full h-10 text-sm rounded input input-bordered"
           />
           <ErrorTag />
         </Field>
@@ -63,14 +63,14 @@
         <div class="mt-3">
           <Field name={:password}>
             <Label class="label">
-              <span class="label-text text-xs">
+              <span class="text-xs label-text">
                 {l("Choose a password")} ({l("10 characters minimum")})
               </span>
             </Label>
             <PasswordInput
               opts={placeholder: l("Type a strong password")}
               required
-              class="w-full h-10 rounded input input-bordered"
+              class="w-full h-10 text-sm rounded input input-bordered"
             />
             <ErrorTag />
           </Field>
@@ -78,14 +78,14 @@
         <div class="mt-3">
           <Field name={:password_confirmation}>
             <Label class="label">
-              <span class="label-text text-xs">
+              <span class="text-xs label-text">
                 {l("Confirm your password")}
               </span>
             </Label>
             <PasswordInput
               opts={placeholder: l("Enter the same password again")}
               required
-              class="w-full input h-10 rounded input-bordered"
+              class="w-full h-10 text-sm rounded input input-bordered"
             />
             <ErrorTag />
           </Field>
@@ -155,13 +155,13 @@
 
       <div class="mt-6">
         <span class="block w-full rounded-md shadow-sm">
-          <button type="submit" class="flex w-full  normal-case btn btn-primary place-content-center">
+          <button type="submit" class="flex w-full normal-case btn btn-primary place-content-center">
             {l("Sign up")}
           </button>
         </span>
       </div>
 
-      <div class="flex py-4 pb-2 mt-6 border-t text-xs border-base-content/10 place-content-center">
+      <div class="flex py-4 pb-2 mt-6 text-xs border-t border-base-content/10 place-content-center">
         <p>
           {l("Do you already have an account?")}
           <LiveRedirect class="link link-primary" to={path(:login, :index)}>{l("Log in")}</LiveRedirect>
