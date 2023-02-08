@@ -28,7 +28,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        back: true,
        #  without_widgets: true,
        #  without_sidebar: true,
-       #  smart_input_opts: [disable: true], # Note: do not disable as it prevents preserving input as you browse the app
+       #  smart_input_opts: %{disable: true}, # Note: do not disable as it prevents preserving input as you browse the app
        nav_items: [Bonfire.UI.Common.SidebarSettingsNavLive.declared_nav()],
        #  page_header_aside: [
        #    {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
@@ -45,7 +45,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        ],
        selected_tab: "dashboard",
        id: nil,
-       #  smart_input_opts: [hide_buttons: true],
+       #  smart_input_opts: %{hide_buttons: true},
        page: "settings",
        trigger_submit: false,
        uploaded_files: []

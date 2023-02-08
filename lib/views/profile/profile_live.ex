@@ -128,7 +128,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       |> assign_global(
         # following: following || [],
         # search_placeholder: search_placeholder,
-        smart_input_opts: [prompt: smart_input_prompt, text: smart_input_text]
+        smart_input_opts: %{prompt: smart_input_prompt, text: smart_input_text}
 
         # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}]
       )
