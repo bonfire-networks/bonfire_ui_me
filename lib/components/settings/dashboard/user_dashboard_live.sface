@@ -41,7 +41,7 @@
       <Icon solid="UserGroup" class="w-6 h-6 ml-2 font-normal text-info/70" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Team profiles")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Email and password")}</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Share access to this identity with your team")}</div>
       </div>
     </LivePatch>
 

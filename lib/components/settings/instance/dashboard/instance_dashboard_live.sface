@@ -8,7 +8,7 @@
       <Icon solid="Cog" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Preferences")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Basic publication details and site metadata</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l "General instance settings"}</div>
       </div>
     </LivePatch>
 
@@ -19,7 +19,7 @@
       <Icon solid="Scale" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Terms / Policies")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Manage roles and collaborators</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l "Edit documents like the code of conduct and privacy policy"}</div>
       </div>
     </LivePatch>
   </div>
@@ -33,7 +33,7 @@
       <Icon solid="Users" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Members")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Basic publication details and site metadata</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l "Browse the list of instance members"}</div>
       </div>
     </LivePatch>
 
@@ -44,7 +44,7 @@
       <Icon solid="Mail" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Invites")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Customize your site and manage themes</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l "Invite people to join the instance"}</div>
       </div>
     </LivePatch>
 
@@ -55,7 +55,7 @@
       <Icon solid="Flag" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Flagged")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Customize your site and manage themes</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l "Review flagged content and users"}</div>
       </div>
     </LivePatch>
   </div>
@@ -78,7 +78,7 @@
       <Icon solid="Puzzle" class="w-5 h-5 font-normal text-base-content/80" />
       <div class="flex flex-col flex-1">
         <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Extensions")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">Setup primary and secondary menu</div>
+        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">A la carte</div>
       </div>
     </LivePatch>
 
