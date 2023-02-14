@@ -129,7 +129,7 @@
               type="text"
               name="profile[website]"
               id="website"
-              placeholder="https://example.com"
+              placeholder="https://example.local"
               autocomplete="website"
               class="input input-bordered"
               value={e(@current_user, :profile, :website, "")}
