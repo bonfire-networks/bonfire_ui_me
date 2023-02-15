@@ -40,7 +40,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
   end
 
   def handle_event("put_theme", %{"keys" => keys, "values" => value} = params, socket) do
-    with {:ok, settings} <-
+    with {:ok, _settings} <-
            keys
            |> String.split(":")
            #  |> debug()

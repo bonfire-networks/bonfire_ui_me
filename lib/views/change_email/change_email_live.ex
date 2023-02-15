@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.ChangeEmailLive do
   use Bonfire.UI.Common.Web, :surface_live_view
   alias Bonfire.UI.Me.LivePlugs
   alias Bonfire.UI.Me.ChangeEmailController
-  alias Bonfire.Me.Accounts
+  # alias Bonfire.Me.Accounts
 
   def mount(params, session, socket) do
     live_plug(params, session, socket, [

@@ -52,7 +52,7 @@ defmodule Bonfire.UI.Me.SignupController do
     end
   end
 
-  def render_view(conn, params, changeset \\ nil) do
+  def render_view(conn, params, _changeset \\ nil) do
     live_render(
       conn,
       SignupLive,

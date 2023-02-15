@@ -1,6 +1,6 @@
 defmodule Bonfire.UI.Me.SignupLive do
   use Bonfire.UI.Common.Web, :surface_live_view
-  alias Bonfire.Me.Accounts
+  # alias Bonfire.Me.Accounts
   alias Bonfire.UI.Me.SignupController
 
   # because this isn't a live link and it will always be accessed by a

@@ -170,7 +170,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     init(params, socket)
   end
 
-  defp maybe_init(params, socket) do
+  defp maybe_init(_params, socket) do
     debug("skip (re)loading user")
     socket
   end
@@ -229,7 +229,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
   def do_handle_params(
         %{"username" => "%40" <> username} = _params,
-        url,
+        _url,
         socket
       ) do
     debug("rewrite encoded @ in URL")
