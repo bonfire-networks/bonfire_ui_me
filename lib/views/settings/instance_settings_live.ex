@@ -152,10 +152,6 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
     {:noreply, socket}
   end
 
-  def handle_event("validate", _params, socket) do
-    {:noreply, socket}
-  end
-
   def handle_params(params, uri, socket),
     do:
       Bonfire.UI.Common.LiveHandlers.handle_params(
@@ -168,6 +164,10 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
 
   def handle_info(info, socket),
     do: Bonfire.UI.Common.LiveHandlers.handle_info(info, socket, __MODULE__)
+
+  def handle_event("validate", _params, socket) do
+    {:noreply, socket}
+  end
 
   def handle_event(
         action,

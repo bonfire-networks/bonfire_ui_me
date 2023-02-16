@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.LoggedDashboardLive do
-  @deprecated
+  @moduledoc deprecated: "Dashboard is bonfire_spark extension instead"
   use Bonfire.UI.Common.Web, :surface_live_view
   alias Bonfire.UI.Me.LivePlugs
 

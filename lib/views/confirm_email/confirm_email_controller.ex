@@ -45,7 +45,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
     end
   end
 
-  defp form_cs(params \\ %{}), do: Accounts.changeset(:confirm_email, params)
+  defp form_cs(params), do: Accounts.changeset(:confirm_email, params)
 
   defp confirmed(conn, account) do
     conn

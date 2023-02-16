@@ -55,15 +55,15 @@ defmodule Bonfire.UI.Me.SwitchUserController do
     |> redirect(to: path(:switch_user) <> copy_go(params))
   end
 
-  defp greet(%{profile: %{name: name}}) when is_binary(name) do
-    name
-  end
+  # defp greet(%{profile: %{name: name}}) when is_binary(name) do
+  #   name
+  # end
 
-  defp greet(%{character: %{username: username}}) when is_binary(username) do
-    "@#{username}"
-  end
+  # defp greet(%{character: %{username: username}}) when is_binary(username) do
+  #   "@#{username}"
+  # end
 
-  defp greet(_) do
-    "stranger"
-  end
+  # defp greet(_) do
+  #   "stranger"
+  # end
 end

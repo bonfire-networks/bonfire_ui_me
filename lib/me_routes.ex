@@ -155,7 +155,7 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:browser)
         pipe_through(:admin_required)
 
-        live("/settings/", SettingsLive, as: :admin_settings)
+        # live("/settings/", SettingsLive, as: :admin_settings)
       end
     end
   end
