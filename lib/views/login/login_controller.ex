@@ -28,7 +28,7 @@ defmodule Bonfire.UI.Me.LoginController do
     end
   end
 
-  defp form_cs(params \\ %{}), do: Accounts.changeset(:login, params)
+  defp form_cs(params), do: Accounts.changeset(:login, params)
 
   # the user logged in via email and have more than one user in the
   # account, so we must show them the user switcher.

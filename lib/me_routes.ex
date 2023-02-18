@@ -33,20 +33,17 @@ defmodule Bonfire.UI.Me.Routes do
         # order matters!
         live("/@:username/:tab", ProfileLive, as: Bonfire.Data.Identity.User)
         live("/@:username", ProfileLive, as: Bonfire.Data.Identity.User)
-        live("/user/", ProfileLive, as: Bonfire.Data.Identity.User)
+        # live("/user/", ProfileLive, as: Bonfire.Data.Identity.User)
 
         live("/user/@:username", ProfileLive)
-        live("/user/:username", ProfileLive, as: :user_profile)
         live("/user/:id", ProfileLive, as: :user_profile)
+        # live("/user/:username", ProfileLive, as: :user_profile)
         live("/user/:username/:tab", ProfileLive, as: :user_profile)
 
         live("/profile/:id", CharacterLive, as: Bonfire.Data.Social.Profile)
-
         live("/character/:id", CharacterLive, as: Bonfire.Data.Identity.Character)
-
-        live("/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile)
-
-        live("/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character)
+        # live("/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile)
+        # live("/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character)
 
         resources("/login/forgot-password", ForgotPasswordController,
           only: [:index, :create],
@@ -142,7 +139,7 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:browser)
         pipe_through(:user_required)
 
-        live("/user", ProfileLive, as: :user_profile)
+        live("/user", ProfileLive, as: Bonfire.Data.Identity.User)
         live("/settings", SettingsLive)
 
         live("/user/circles", CirclesLive)
