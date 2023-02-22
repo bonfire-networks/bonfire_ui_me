@@ -29,15 +29,7 @@
             >
               {l("Edit profile")}
             </LiveRedirect>
-            <a
-              :if={e(@user, :character, :peered, :canonical_uri, nil)}
-              href={e(@user, :character, :peered, :canonical_uri, "#")}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hidden btn btn-sm lg:flex btn-info btn-circle"
-            >
-              <Icon solid="ExternalLink" class="w-4 h-4" />
-            </a>
+           
 
             <div :if={current_user_id(@__context__) != id(@user)}>
               <Bonfire.UI.Common.FollowButtonLive
@@ -67,7 +59,7 @@
                 aria-orientation="vertical"
                 class="!block mt-1 rounded shadow dropdown_actions w-60 md:w-48 menu md:menu-compact dropdown-content bg-neutral"
               >
-                <li :if={e(@user, :character, :peered, :canonical_uri, nil)} class="lg:hidden">
+                <li :if={e(@user, :character, :peered, :canonical_uri, nil)}>
                   <a
                     href={e(@user, :character, :peered, :canonical_uri, "#")}
                     target="_blank"
@@ -75,7 +67,7 @@
                     class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                   >
                     <Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                    <span>{l("Visit the original url")}</span>
+                    <span>{l("Visit the original site")}</span>
                   </a>
                 </li>
 
