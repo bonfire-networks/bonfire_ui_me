@@ -1,5 +1,5 @@
 <div class="pb-6">
-  <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
+  <div class="divide-y divide-base-300">
     <div
       x-data="{
         open: false
@@ -11,12 +11,26 @@
           <div class="text-sm font-bold">{l("Theme")}</div>
           <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
         </div>
+
+        <button
+          type="button"
+          x-cloak
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="open"
+        >
+          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
         <button
           type="button"
           x-on:click="open = !open"
-          x-text={"open ? '#{l("Collapse")}' : '#{l("Expand")}'"}
-          class="normal-case rounded btn btn-sm"
-        >{l("Expand")}</button>
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+
+        
       </div>
       <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
@@ -38,10 +52,21 @@
         </div>
         <button
           type="button"
+          x-cloak
           x-on:click="open = !open"
-          x-text={"open ? '#{l("Collapse")}' : '#{l("Expand")}'"}
-          class="normal-case rounded btn btn-sm"
-        >{l("Expand")}</button>
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="open"
+        >
+          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button
+          type="button"
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
       </div>
       <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
@@ -65,10 +90,21 @@
         </div>
         <button
           type="button"
+          x-cloak
           x-on:click="open = !open"
-          x-text={"open ? '#{l("Collapse")}' : '#{l("Expand")}'"}
-          class="normal-case rounded btn btn-sm"
-        >{l("Expand")}</button>
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="open"
+        >
+          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button
+          type="button"
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
       </div>
       <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
@@ -95,10 +131,21 @@
         <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
         <button
           type="button"
+          x-cloak
           x-on:click="open = !open"
-          x-text={"open ? '#{l("Collapse")}' : '#{l("Expand")}'"}
-          class="normal-case rounded btn btn-sm"
-        >{l("Expand")}</button>
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="open"
+        >
+          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button
+          type="button"
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
       </div>
       <div x-show="open" x-cloak x-collapse>
         <Dynamic.Component

@@ -10,18 +10,34 @@
             <div class="text-sm font-bold">{l("Name & description")}</div>
             <div class="text-sm font-light text-base-content/70">{l("Identify this instance")}</div>
           </div>
-          <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+            <button
+            type="button"
+            x-cloak
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="open"
+          >
+            <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+          <button
+            type="button"
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="!open"
+          >
+            <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
         </div>
         <div x-show="open" x-collapse>
           <form name="settings" phx-submit="Bonfire.Me.Settings:save">
             <input name="scope" value={:instance} type="hidden">
 
-            <div class="w-full max-w-lg mt-8 form-control">
+            <div class="w-full mt-6 form-control">
               <label for="instance_name" class="label">
                 <span class="label-text text-base-content/70">{l("The name of your instance")}</span>
               </label>
               <div class="mt-1 mb-4 sm:mt-0 sm:col-span-2">
-                <div class="flex max-w-lg">
+                <div class="flex ">
                   <input
                     type="text"
                     name="ui[theme][instance_name]"
@@ -63,7 +79,23 @@
               <div class="text-sm font-bold">{l("Icon & banner")}</div>
               <div class="text-sm font-light text-base-content/70">{l("Provide some visuals")}</div>
             </div>
-            <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+            <button
+          type="button"
+          x-cloak
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="open"
+        >
+          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button
+          type="button"
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
           </div>
           <div x-show="open" x-collapse>
             <div class="w-full max-w-lg mt-8 form-control">
@@ -132,12 +164,28 @@
             <div class="text-sm font-bold">{l("Theme & font")}</div>
             <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
           </div>
-          <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+          <button
+          type="button"
+          x-cloak
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="open"
+        >
+          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button
+          type="button"
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
         </div>
         <div x-show="open" x-collapse>
           <form name="settings" phx-change="Bonfire.Me.Settings:set">
             <input name="scope" value={:instance} type="hidden">
-            <div class="w-full max-w-lg mt-8 form-control">
+            <div class="w-full mt-4 form-control">
               <label for="instance_theme" class="label">
                 <span class="label-text text-base-content/70">
                   {l("Instance default theme")}</span>
@@ -150,7 +198,7 @@
               />
             </div>
 
-            <div class="w-full max-w-lg mt-2 form-control">
+            <div class="w-full mt-2 form-control">
               <label for="font_family" class="label">
                 <span class="label-text text-base-content/70">
                   {l("Default font")}</span>
@@ -169,7 +217,23 @@
             <div class="text-sm font-bold">{l("Language")}</div>
             <div class="text-sm font-light text-base-content/70">{l("What language do most new users understand?")}</div>
           </div>
-          <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+          <button
+          type="button"
+          x-cloak
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="open"
+        >
+          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button
+          type="button"
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
         </div>
         <div x-show="open" x-collapse>
           <form name="settings" phx-change="Bonfire.Me.Settings:set">
@@ -253,7 +317,23 @@
               <div class="text-sm font-bold">{l("Who can see the list of local users?")}</div>
               <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
             </div>
-            <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+            <button
+          type="button"
+          x-cloak
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="open"
+        >
+          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button
+          type="button"
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
           </div>
           <div x-show="open" x-collapse>
             <div class="mt-4 sm:col-span-2">
@@ -320,7 +400,23 @@
               <div class="text-sm font-bold">{l("What activities to include in home feeds by default")}</div>
               <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
             </div>
-            <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+            <button
+          type="button"
+          x-cloak
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="open"
+        >
+          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button
+          type="button"
+          x-on:click="open = !open"
+          class="rounded btn btn-square btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
           </div>
           <div x-show="open" x-collapse>
             <Dynamic.Component
