@@ -3,6 +3,7 @@
     {#for user <- users(@users)}
       <div class="px-2">
         <Bonfire.UI.Common.ProfileItemLive
+          show_controls={[]}
           character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
           profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
           class="btn btn-square btn-ghost btn-sm"

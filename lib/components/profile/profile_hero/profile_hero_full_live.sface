@@ -226,7 +226,7 @@
               </span>
             </div>
             <div class="flex items-center">
-              <span class="text-sm font-normal text-base-content/60">{Bonfire.Me.Characters.display_username(@user, true)}</span>
+              <span class="text-sm font-normal text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
             </div>
 
             <div class="mt-1">
@@ -331,7 +331,7 @@
           "flex items-center bg-base-200 gap-4 md:gap-8 justify-evenly md:justify-start mx-auto border-t border-base-content/5",
           "max-w-[680px] !border-none rounded-t-xl": !@current_user
         }
-        tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium capitalize tracking-wide text-base-content/60 p-4"
+        tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium capitalize tracking-wide text-base-content/70 p-4"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
         tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
       /> -->
