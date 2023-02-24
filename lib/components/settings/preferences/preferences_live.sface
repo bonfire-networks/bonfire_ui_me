@@ -29,8 +29,6 @@
         >
           <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
-
-        
       </div>
       <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">

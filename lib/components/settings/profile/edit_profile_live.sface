@@ -73,22 +73,22 @@
             <div class="text-sm font-bold">{l("Edit your full name")}</div>
           </div>
           <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="open"
-        >
-          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="!open"
-        >
-          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
+            type="button"
+            x-cloak
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="open"
+          >
+            <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+          <button
+            type="button"
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="!open"
+          >
+            <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
         </div>
         <div x-show="open" x-collapse>
           <div class="mt-4 form-control">
@@ -115,22 +115,22 @@
             <div class="text-sm font-bold">{l("Edit your bio")}</div>
           </div>
           <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="open"
-        >
-          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="!open"
-        >
-          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
+            type="button"
+            x-cloak
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="open"
+          >
+            <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+          <button
+            type="button"
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="!open"
+          >
+            <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
         </div>
         <div x-show="open" x-collapse>
           <div class="mt-4 form-control">
@@ -151,22 +151,22 @@
             <div class="text-sm font-bold">{l("Edit your website")}</div>
           </div>
           <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="open"
-        >
-          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="!open"
-        >
-          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
+            type="button"
+            x-cloak
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="open"
+          >
+            <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+          <button
+            type="button"
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="!open"
+          >
+            <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
         </div>
         <div x-show="open" x-collapse>
           <div class="mt-4 form-control">
@@ -192,22 +192,22 @@
             <div class="text-sm font-bold">{l("Edit your location")}</div>
           </div>
           <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="open"
-        >
-          <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="!open"
-        >
-          <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
+            type="button"
+            x-cloak
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="open"
+          >
+            <Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+          <button
+            type="button"
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="!open"
+          >
+            <Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
         </div>
         <div x-show="open" x-collapse>
           <div class="mt-4 form-control">

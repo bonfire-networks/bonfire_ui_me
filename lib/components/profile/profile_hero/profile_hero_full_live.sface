@@ -29,7 +29,6 @@
             >
               {l("Edit profile")}
             </LiveRedirect>
-           
 
             <div :if={current_user_id(@__context__) != id(@user)}>
               <Bonfire.UI.Common.FollowButtonLive
