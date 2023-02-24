@@ -134,7 +134,7 @@
                       class="w-full h-auto mx-auto"
                       src={Bonfire.Me.Settings.get([:bonfire, :ui, :theme, :instance_image], "")}
                     />
-                    <div class="flex items-center w-full text-sm text-center text-base-content/80 place-content-center">
+                    <div class="flex items-center w-full text-sm text-center text-base-content/70 place-content-center">
                       <label for={@uploads.image.ref} class="btn btn-xs btn-secondary">
                         <span>{l("Upload an image")}</span>
                         {live_file_input(@uploads.image, class: "sr-only")}

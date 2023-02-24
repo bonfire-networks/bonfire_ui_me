@@ -1,94 +1,10 @@
-<div class="mx-3 my-6">
-  <div class="pb-2 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Website")}</div>
-  <div class="grid grid-cols-1 gap-3 mt-4">
-    <LivePatch
-      to={~p"/settings/instance/preferences"}
-      class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
-    >
-      <Icon solid="Cog" class="w-5 h-5 font-normal text-base-content/80" />
-      <div class="flex flex-col flex-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Preferences")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("General instance settings")}</div>
-      </div>
-    </LivePatch>
-
-    <LivePatch
-      to={~p"/settings/instance/terms"}
-      class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
-    >
-      <Icon solid="Scale" class="w-5 h-5 font-normal text-base-content/80" />
-      <div class="flex flex-col flex-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Terms / Policies")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Edit documents like the code of conduct and privacy policy")}</div>
-      </div>
-    </LivePatch>
+<div class="flex-col items-center hidden mx-auto my-24 md:flex place-content-center">
+  <div class="flex flex-col items-center gap-6 place-content-center">
+    <Icon iconify="ph:gear-fill" class="w-9 h-9 text-base-content/70" />
+    <div class="text-lg font-semibold text-center">{l "Select a setting"}</div>
   </div>
+</div>
 
-  <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Members")}</div>
-  <div class="grid grid-cols-1 gap-3 mt-4">
-    <LivePatch
-      to={~p"/settings/instance/members"}
-      class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
-    >
-      <Icon solid="Users" class="w-5 h-5 font-normal text-base-content/80" />
-      <div class="flex flex-col flex-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Members")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Browse the list of instance members")}</div>
-      </div>
-    </LivePatch>
-
-    <LivePatch
-      to={~p"/settings/instance/invites"}
-      class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
-    >
-      <Icon solid="Mail" class="w-5 h-5 font-normal text-base-content/80" />
-      <div class="flex flex-col flex-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Invites")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Invite people to join the instance")}</div>
-      </div>
-    </LivePatch>
-
-    <LivePatch
-      to={~p"/settings/instance/flags"}
-      class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
-    >
-      <Icon solid="Flag" class="w-5 h-5 font-normal text-base-content/80" />
-      <div class="flex flex-col flex-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Flagged")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("Review flagged content and users")}</div>
-      </div>
-    </LivePatch>
-  </div>
-
-  <ul>
-    <Bonfire.UI.Common.ExtensionsSidebarSettingsNavLive
-      showing_within={:dashboard}
-      page="settings"
-      selected_tab={@selected_tab}
-      scope={:instance}
-    />
-  </ul>
-
-  <div class="pb-2 mt-12 mb-3 text-xs uppercase border-b text-base-content border-base-content/10">{l("Advanced")}</div>
-  <div class="grid grid-cols-1 gap-3 mt-4">
-    <LivePatch
-      to={~p"/settings/instance/extensions"}
-      class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group"
-    >
-      <Icon solid="Puzzle" class="w-5 h-5 font-normal text-base-content/80" />
-      <div class="flex flex-col flex-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("Extensions")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">A la carte</div>
-      </div>
-    </LivePatch>
-
-    <!-- <div class="flex items-center gap-4 p-5 rounded-md shadow hover:bg-base-content/10 bg-base-content/5 group">
-      
-        <Icon solid="Calendar" class="w-5 h-5 font-normal text-base-content/80" />
-      <div class="flex flex-col flex-1">
-        <div class="text-sm font-bold transition text-base-content/80 group-hover:text-base-content/100">{l("History")}</div>
-        <div class="text-sm font-light text-base-content/70 group-hover:text-base-content/80">{l("View system event log")}</div>
-      </div>
-    </div> -->
-  </div>
+<div class="m-4 md:hidden bg-base-100">
+  <Bonfire.UI.Common.InstanceSidebarSettingsNavLive showing_within={:sidebar} />
 </div>

@@ -60,7 +60,7 @@
       <Inputs for={:profile}>
         <Field name={:name}>
           <Label class="label">
-            <span class="text-sm label-text text-base-content/80">
+            <span class="text-sm label-text text-base-content/70">
               {l("Enter your name or a pseudonym")}
             </span>
           </Label>
@@ -75,7 +75,7 @@
               {l("Choose a username")}
             </span>
           </Label>
-          <label class="text-sm input-group input-group-md text-base-content/80">
+          <label class="text-sm input-group input-group-md text-base-content/70">
             <span class="text-sm">@</span>
             <TextInput
               class="flex-1 w-full bg-base-content/5 input"
@@ -90,7 +90,7 @@
       <Inputs for={:profile}>
         <Field name={:summary}>
           <Label>
-            <span class="text-sm label-text text-base-content/80">
+            <span class="text-sm label-text text-base-content/70">
               {l("Tell people a bit about yourself")}
             </span>
           </Label>
