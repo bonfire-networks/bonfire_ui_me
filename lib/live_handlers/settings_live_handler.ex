@@ -83,7 +83,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     debug(settings, "assign updated instance settings")
 
     socket
-    |> assign(instance_settings: settings)
+    |> assign_global(instance_settings: settings)
   end
 
   defp maybe_assign_context(socket, ret) do
