@@ -43,34 +43,36 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
   defp init(params, socket) do
     # info(params)
+    username = Map.get(params, "username")
 
     current_user = current_user(socket)
     current_username = e(current_user, :character, :username, nil)
 
     user =
-      case Map.get(params, "username") do
-        nil ->
-          current_user
+      params[:user] ||
+        case username do
+          nil ->
+            current_user
 
-        username when username == current_username ->
-          current_user
+          username when username == current_username ->
+            current_user
 
-        "@" <> username ->
-          get(username)
+          "@" <> username ->
+            get(username)
 
-        username ->
-          get(username)
-      end
-      |> repo().maybe_preload(:shared_user)
+          username ->
+            get(username)
+        end
+        |> repo().maybe_preload(:shared_user)
 
     # debug(user)
 
     # show remote users only to logged in users
     if user && (current_username || Integration.is_local?(user)) do
-      debug(
-        Bonfire.Boundaries.Controlleds.list_on_object(user),
-        "boundaries on user profile"
-      )
+      # debug(
+      #   Bonfire.Boundaries.Controlleds.list_on_object(user),
+      #   "boundaries on user profile"
+      # )
 
       following =
         current_user && current_user.id != user.id &&
@@ -153,9 +155,19 @@ defmodule Bonfire.UI.Me.ProfileLive do
           )
         end
       else
-        socket
-        |> assign_flash(:error, l("Profile not found"))
-        |> redirect_to(path(:error))
+        with true <- String.trim(username, "@") |> String.contains?("@"),
+             {:ok, user} <-
+               Bonfire.Federate.ActivityPub.AdapterUtils.get_or_fetch_and_create_by_username(
+                 username,
+                 fetch_collection: :async
+               ) do
+          init(params |> Map.put(:user, user), socket)
+        else
+          _ ->
+            socket
+            |> assign_flash(:error, l("Profile not found"))
+            |> redirect_to(path(:error))
+        end
       end
     end
   end
