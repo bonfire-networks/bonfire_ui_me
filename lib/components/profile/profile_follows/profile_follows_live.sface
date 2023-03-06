@@ -11,8 +11,8 @@
         tab_class="btn btn-sm !max-h-[1.75rem] !min-h-[1.75rem] !h-[1.75rem] rounded-full font-normal capitalize bg-base-content/10 text-base-content/70 feed_tab border-none"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
         tabs={if id(@current_user) == id(@user),
-          do: Config.get([:ui, :profile, :my_network], followers: l("Followers")),
-          else: Config.get([:ui, :profile, :network], followers: l("Followers"))}
+          do: Config.get([:ui, @showing_within, :my_network], followers: l("Followers")),
+          else: Config.get([:ui, @showing_within, :network], followers: l("Followers"))}
       />
       <div :if={@selected_tab in ["requested", "followed"]}>
         <div class="flow-root">
@@ -35,7 +35,7 @@
         </div>
       </div>
 
-      <div :if={@selected_tab in ["requests", "followers"]}>
+      <div :if={@selected_tab in ["requests", "followers", "members"]}>
         <div class="flow-root">
           <ul class="divide-y divide-base-300">
             {#for follow <- @feed}

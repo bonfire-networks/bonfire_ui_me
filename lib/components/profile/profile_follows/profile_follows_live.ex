@@ -5,6 +5,7 @@ defmodule Bonfire.UI.Social.ProfileFollowsLive do
   prop selected_tab, :string
   prop feed, :list
   prop page_info, :any
+  prop showing_within, :atom, default: :profile
 
   slot header
   slot widget
