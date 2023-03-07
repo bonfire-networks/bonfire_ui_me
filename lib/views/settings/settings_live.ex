@@ -16,6 +16,15 @@ defmodule Bonfire.UI.Me.SettingsLive do
     ])
   end
 
+
+  def tab(selected_tab) do
+    case maybe_to_atom(selected_tab) do
+      tab when is_atom(tab) -> tab
+      _ -> :timeline
+    end
+    |> debug(selected_tab)
+  end
+
   defp mounted(_params, _session, socket) do
     # make configurable
     allowed = ~w(.jpg .jpeg .png .gif .svg .tiff .webp)
