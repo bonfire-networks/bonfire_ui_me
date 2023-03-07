@@ -16,7 +16,6 @@ defmodule Bonfire.UI.Me.SettingsLive do
     ])
   end
 
-
   def tab(selected_tab) do
     case maybe_to_atom(selected_tab) do
       tab when is_atom(tab) -> tab

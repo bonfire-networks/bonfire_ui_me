@@ -34,7 +34,7 @@ defmodule Bonfire.UI.Me.RuntimeConfig do
           roles: Bonfire.UI.Me.SettingsViewsLive.PreferencesLive,
           acls: Bonfire.UI.Me.SettingsViewsLive.PreferencesLive,
           acl: Bonfire.UI.Me.SettingsViewsLive.PreferencesLive,
-          extensions: Bonfire.UI.Me.SettingsViewsLive.PreferencesLive,
+          extensions: Bonfire.UI.Me.SettingsViewsLive.PreferencesLive
         ],
         navigation: Bonfire.UI.Common.SidebarSettingsNavLive.declared_nav()
       ]
