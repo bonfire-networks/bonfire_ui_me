@@ -116,7 +116,6 @@
       </div>
     </div>
 
-
     <div x-data="{open: false}" class="p-4">
       <div class="flex items-center justify-between">
         <div class="flex flex-col gap-1">
@@ -147,54 +146,51 @@
           <div class="w-full max-w-lg mt-8 form-control">
             <div class="sm:mt-0 sm:col-span-2">
               <div class="mt-4 sm:col-span-2">
-              <fieldset>
-                <div class="flex flex-col gap-4 -space-y-px">
-                  <label class="relative flex items-center flex-1 border-r cursor-pointer border-base-200 focus:outline-none">
-                    <input
-                      type="radio"
-                      name="ui[smart_input_type]"
-                      value="non_blocking"
-                      checked={if Bonfire.Me.Settings.get(
-                           [:bonfire, :ui, :smart_input_type],
-                           "non_blocking",
-                           @current_user
-                         ) ==
-                           "non_blocking",
-                         do: "checked"}
-                      class="radio radio-secondary"
-                    />
-                    <div class="flex flex-col ml-3">
-                      <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
-                      <span id="admin-info-0-label" class="block text-sm font-medium">
-                        {l("Non-blocking layout")}
-                      </span>
-                    </div>
-                  </label>
+                <fieldset>
+                  <div class="flex flex-col gap-4 -space-y-px">
+                    <label class="relative flex items-center flex-1 border-r cursor-pointer border-base-200 focus:outline-none">
+                      <input
+                        type="radio"
+                        name="ui[smart_input_as]"
+                        value={:non_blocking}
+                        checked={if Bonfire.Me.Settings.get(
+                             [:bonfire, :ui, :smart_input_as],
+                             :non_blocking,
+                             @current_user
+                           ) == :non_blocking,
+                           do: "checked"}
+                        class="radio radio-secondary"
+                      />
+                      <div class="flex flex-col ml-3">
+                        <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
+                        <span id="admin-info-0-label" class="block text-sm font-medium">
+                          {l("Non-blocking layout")}
+                        </span>
+                      </div>
+                    </label>
 
-                  <label class="relative flex items-center flex-1 cursor-pointer focus:outline-none">
-                    <input
-                      type="radio"
-                      name="ui[smart_input_type]"
-                      value="focused"
-                      checked={if Bonfire.Me.Settings.get(
-                           [:bonfire, :ui, :smart_input_type],
-                           "non_blocking",
-                           @current_user
-                         ) ==
-                           "focused",
-                         do: "checked"}
-                      class="radio radio-secondary"
-                    />
-                    <div class="flex flex-col ml-3">
-                      <span id="admin-info-2-label" class="block text-sm font-medium">
-                        {l("Focused layout")}
-                      </span>
-                    </div>
-                  </label>
-
-                </div>
-              </fieldset>
-            </div>
+                    <label class="relative flex items-center flex-1 cursor-pointer focus:outline-none">
+                      <input
+                        type="radio"
+                        name="ui[smart_input_as]"
+                        value={:focused}
+                        checked={if Bonfire.Me.Settings.get(
+                             [:bonfire, :ui, :smart_input_as],
+                             :non_blocking,
+                             @current_user
+                           ) == :focused,
+                           do: "checked"}
+                        class="radio radio-secondary"
+                      />
+                      <div class="flex flex-col ml-3">
+                        <span id="admin-info-2-label" class="block text-sm font-medium">
+                          {l("Focused layout")}
+                        </span>
+                      </div>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
             </div>
           </div>
         </form>

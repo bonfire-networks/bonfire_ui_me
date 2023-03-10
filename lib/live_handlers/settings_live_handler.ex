@@ -28,7 +28,8 @@ defmodule Bonfire.Me.Settings.LiveHandler do
   end
 
   def handle_event("save", attrs, socket) when is_map(attrs) do
-    with {:ok, settings} <- Map.drop(attrs, ["_target"]) |> Bonfire.Me.Settings.set(socket) do
+    with {:ok, settings} <-
+           Map.drop(attrs, ["_target"]) |> Bonfire.Me.Settings.set(socket: socket) do
       {
         :noreply,
         socket
