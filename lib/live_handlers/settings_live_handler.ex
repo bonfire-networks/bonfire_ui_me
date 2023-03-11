@@ -111,4 +111,46 @@ defmodule Bonfire.Me.Settings.LiveHandler do
       }
     end
   end
+
+  def set_image_setting(:icon, scope, uploaded_media, settings_key, socket) do
+    url = Bonfire.Files.IconUploader.remote_url(uploaded_media)
+
+    with {:ok, settings} <-
+           Bonfire.Me.Settings.put(
+             settings_key,
+             url,
+             scope: scope,
+             socket: socket
+           ) do
+      {
+        :noreply,
+        socket
+        |> assign_flash(:info, l("Icon changed!"))
+        |> assign(src: url)
+        |> maybe_assign_context(settings)
+        #  |> redirect_to(~p"/about")
+      }
+    end
+  end
+
+  def set_image_setting(:banner, scope, uploaded_media, settings_key, socket) do
+    url = Bonfire.Files.BannerUploader.remote_url(uploaded_media)
+
+    with {:ok, settings} <-
+           Bonfire.Me.Settings.put(
+             settings_key,
+             url,
+             scope: scope,
+             socket: socket
+           ) do
+      {
+        :noreply,
+        socket
+        |> assign_flash(:info, l("Image changed!"))
+        |> assign(src: url)
+        |> maybe_assign_context(settings)
+        #  |> redirect_to(~p"/about")
+      }
+    end
+  end
 end

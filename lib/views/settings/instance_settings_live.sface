@@ -9,10 +9,7 @@
     {#match "dashboard"}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive selected_tab={@selected_tab} />
     {#match "preferences"}
-      <Bonfire.UI.Me.SettingsViewsLive.InstancePreferencesLive
-        selected_tab={@selected_tab}
-        uploads={@uploads}
-      />
+      <Bonfire.UI.Me.SettingsViewsLive.InstancePreferencesLive selected_tab={@selected_tab} />
       <!-- {#match "navigation"}
         <Bonfire.UI.Me.SettingsViewsLive.InstanceNavigationLive selected_tab={@selected_tab} /> -->
     {#match "extensions"}

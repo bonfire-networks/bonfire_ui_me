@@ -5,7 +5,6 @@
     {#match "profile"}
       <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
         :if={current_user_id(@__context__)}
-        uploads={@uploads}
         selected_tab={@selected_tab}
       />
     {#match "preferences"}

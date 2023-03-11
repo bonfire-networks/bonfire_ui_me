@@ -48,13 +48,13 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     # |> IO.inspect
     {view, doc} = floki_live(conn, next)
 
-    [style] = Floki.attribute(doc, "[data-id='upload_image']", "style")
+    [style] = Floki.attribute(doc, "[data-id='upload_banner']", "style")
     refute style =~ "background-image: url('/data/uploads/"
 
     file = Path.expand("../fixtures/icon.png", __DIR__)
 
     icon =
-      file_input(view, "[data-id='upload_image']", :image, [
+      file_input(view, "[data-id='upload_banner']", :image, [
         %{
           last_modified: 1_594_171_879_000,
           name: "image.png",
@@ -65,7 +65,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
 
     uploaded = render_upload(icon, "image.png")
 
-    [done] = Floki.attribute(uploaded, "[data-id='upload_image']", "style")
+    [done] = Floki.attribute(uploaded, "[data-id='upload_banner']", "style")
 
     # |> debug
     # now has uploaded image
