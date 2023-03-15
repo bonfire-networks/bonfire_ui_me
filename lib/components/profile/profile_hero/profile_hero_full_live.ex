@@ -4,6 +4,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   # import Bonfire.Common.Media
 
   prop user, :map
+  prop character_type, :atom, default: nil
   prop follows_me, :boolean, default: false
   prop selected_tab, :string
   prop transparent_header, :boolean, default: false

@@ -1,0 +1,27 @@
+<main
+  data-id="profile"
+  data-user-id={e(@user, :id, "")}
+  class={
+    "": !@current_user
+  }
+>
+  <Dynamic.Component module={Bonfire.UI.Social.ProfileTimelineLive} {...assigns}>
+    <:header>
+      <Dynamic.Component
+        module={Bonfire.UI.Me.ProfileHeroFullLive}
+        user={@user}
+        transparent_header={@transparent_header}
+        selected_tab={@selected_tab}
+        follows_me={e(@follows_me, false)}
+      />
+    </:header>
+
+    <!-- <:widget>
+        <Dynamic.Component
+          :if={module_enabled?(Bonfire.UI.Me.WidgetProfileLive)}
+          module={Bonfire.UI.Me.WidgetProfileLive}
+          user={@user}
+        />
+      </:widget> -->
+  </Dynamic.Component>
+</main>

@@ -137,6 +137,7 @@
                   {#else}
                     <li>
                       <Bonfire.UI.Common.SmartInputButtonLive
+                        :if={@character_type == :user}
                         create_object_type={:message}
                         smart_input_opts={%{
                           to_circles: [
@@ -168,7 +169,7 @@
                     </li>
                     <Bonfire.Boundaries.Web.BlockMenuButtonsLive object={@user} />
 
-                    {#if is_admin?(@current_user)}
+                    {#if @character_type == :user and is_admin?(@current_user)}
                       {#if !is_admin?(@user)}
                         <li
                           phx-click="Bonfire.Me.Users:make_admin"

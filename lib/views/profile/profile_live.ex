@@ -41,6 +41,21 @@ defmodule Bonfire.UI.Me.ProfileLive do
     {:ok, init(params, socket)}
   end
 
+  defp maybe_init(
+         %{"username" => load_username} = params,
+         %{assigns: %{user: %{character: %{username: loaded_username}}}} = socket
+       )
+       when load_username != loaded_username do
+    debug(loaded_username, "old user")
+    debug(load_username, "load new user")
+    init(params, socket)
+  end
+
+  defp maybe_init(_params, socket) do
+    debug("skip (re)loading user")
+    socket
+  end
+
   defp init(params, socket) do
     # info(params)
     username = Map.get(params, "username")
@@ -74,17 +89,10 @@ defmodule Bonfire.UI.Me.ProfileLive do
       #   "boundaries on user profile"
       # )
 
-      following =
+      following? =
         current_user && current_user.id != user.id &&
           module_enabled?(Bonfire.Social.Follows, current_user) &&
           Bonfire.Social.Follows.following?(user, current_user)
-
-      name = e(user, :profile, :name, l("Someone"))
-
-      title =
-        if current_username == e(user, :character, :username, ""),
-          do: l("Your profile"),
-          else: name
 
       # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
       smart_input_prompt = nil
@@ -94,39 +102,11 @@ defmodule Bonfire.UI.Me.ProfileLive do
           do: "",
           else: "@" <> e(user, :character, :username, "") <> " "
 
-      # search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
       socket
+      |> assign(default_assigns())
+      |> assign(user_assigns(user, current_username, following?))
       |> assign_new(:selected_tab, fn -> "timeline" end)
-      |> assign(
-        smart_input: true,
-        feed: nil,
-        page_info: [],
-        page: "profile",
-        page_title: title,
-        feed_title: l("User timeline"),
-        transparent_header: true,
-        back: true,
-        # without_sidebar: true,
-        # the user to display
-        nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),
-        user: user,
-        canonical_url: canonical_url(user),
-        sidebar_widgets: [
-          users: [
-            secondary: [
-              {Bonfire.Tag.Web.WidgetTagsLive, []}
-            ]
-          ],
-          guests: [
-            {Bonfire.Tag.Web.WidgetTagsLive, []}
-          ]
-        ],
-        name: name,
-        interaction_type: l("follow"),
-        follows_me: following,
-        no_index:
-          Bonfire.Me.Settings.get([Bonfire.Me.Users, :undiscoverable], false, current_user: user)
-      )
+      |> assign_new(:character_type, fn -> :user end)
       |> assign_global(
         # following: following || [],
         # search_placeholder: search_placeholder,
@@ -172,21 +152,6 @@ defmodule Bonfire.UI.Me.ProfileLive do
     end
   end
 
-  defp maybe_init(
-         %{"username" => load_username} = params,
-         %{assigns: %{user: %{character: %{username: loaded_username}}}} = socket
-       )
-       when load_username != loaded_username do
-    debug(loaded_username, "old user")
-    debug(load_username, "load new user")
-    init(params, socket)
-  end
-
-  defp maybe_init(_params, socket) do
-    debug("skip (re)loading user")
-    socket
-  end
-
   def get(username) do
     username =
       String.trim_trailing(
@@ -199,14 +164,61 @@ defmodule Bonfire.UI.Me.ProfileLive do
     else
       _ ->
         # handle other character types beyond User
-        with {:ok, character} <- Bonfire.Me.Characters.by_username(username) do
-          # FIXME? this results in extra queries
-          Bonfire.Common.Pointers.get!(character.id)
-        else
-          _ ->
-            nil
+        with {:ok, character} <- Bonfire.Common.Pointers.get!(username) do
+          character
         end
     end
+  end
+
+  def default_assigns() do
+    [
+      smart_input: true,
+      feed: nil,
+      page_info: [],
+      page: "profile",
+      page_title: l("Profile"),
+      feed_title: l("User timeline"),
+      transparent_header: true,
+      back: true,
+      # without_sidebar: true,
+      # the user to display
+      nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),
+      user: %{},
+      canonical_url: nil,
+      sidebar_widgets: [
+        users: [
+          secondary: [
+            {Bonfire.Tag.Web.WidgetTagsLive, []}
+          ]
+        ],
+        guests: [
+          {Bonfire.Tag.Web.WidgetTagsLive, []}
+        ]
+      ],
+      interaction_type: l("follow"),
+      follows_me: false,
+      no_index: false
+    ]
+  end
+
+  def user_assigns(user, current_username, following? \\ false) do
+    name = e(user, :profile, :name, l("Someone"))
+
+    title =
+      if current_username == e(user, :character, :username, ""),
+        do: l("Your profile"),
+        else: name
+
+    # search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
+    [
+      page_title: title,
+      user: user,
+      canonical_url: canonical_url(user),
+      name: name,
+      follows_me: following?,
+      no_index:
+        Bonfire.Me.Settings.get([Bonfire.Me.Users, :undiscoverable], false, current_user: user)
+    ]
   end
 
   def do_handle_params(%{"tab" => tab} = params, _url, socket)
