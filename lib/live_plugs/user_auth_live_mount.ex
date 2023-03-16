@@ -1,8 +1,7 @@
 defmodule UserAuthLiveMount do
-  # import Phoenix.LiveView
+  # used for Rauversion extension
 
-  def on_mount(:default, params, session, socket) do
-    {:ok, socket} = Bonfire.UI.Me.LivePlugs.LoadCurrentUser.mount(params, session, socket)
-    {:cont, socket}
+  def on_mount(type, params, session, socket) do
+    Bonfire.UI.Me.LivePlugs.LoadCurrentUser.on_mount(type, params, session, socket)
   end
 end

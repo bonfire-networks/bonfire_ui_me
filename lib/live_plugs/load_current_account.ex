@@ -3,8 +3,16 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentAccount do
   alias Bonfire.Me.Accounts
   alias Bonfire.Data.Identity.Account
 
+  def on_mount(:default, params, session, socket) do
+    with {:ok, socket} <- mount(params, session, socket) do
+      {:cont, socket}
+    end
+  end
+
+  def mount(params \\ nil, session, socket)
+
   # the non-live plug already supplied the current account
-  def mount(_, _, %{assigns: %{current_account: %Account{}}} = socket) do
+  def mount(_, _, %{assigns: %{current_account: _}} = socket) do
     {:ok, socket}
   end
 
@@ -12,7 +20,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentAccount do
   def mount(
         _,
         _,
-        %{assigns: %{__context__: %{current_account: %Account{}}}} = socket
+        %{assigns: %{__context__: %{current_account: _}}} = socket
       ) do
     {:ok, socket}
   end

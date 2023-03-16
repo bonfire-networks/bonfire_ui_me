@@ -4,17 +4,25 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   # alias Bonfire.UI.Me.SwitchUserLive
   alias Bonfire.Data.Identity.User
 
+  def on_mount(:default, params, session, socket) do
+    with {:ok, socket} <- mount(params, session, socket) do
+      {:cont, socket}
+    end
+  end
+
+  def mount(params \\ nil, session, socket)
+
   # current user is already in context
-  def mount(_, _, %{assigns: %{__context__: %{current_user: %User{}}}} = socket) do
+  def mount(_, _, %{assigns: %{__context__: %{current_user: _}}} = socket) do
     {:ok, socket}
   end
 
   # the non-live plug already supplied the current user
-  def mount(_, _, %{assigns: %{current_user: %User{id: id} = user}} = socket) do
+  def mount(_, _, %{assigns: %{current_user: user}} = socket) do
     {:ok,
      assign_global(socket,
        current_user: user,
-       current_user_id: id
+       current_user_id: id(user)
      )}
   end
 
@@ -24,7 +32,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
     {:ok,
      assign_global(socket,
        current_user: user,
-       current_user_id: ulid(user)
+       current_user_id: id(user)
      )}
   end
 

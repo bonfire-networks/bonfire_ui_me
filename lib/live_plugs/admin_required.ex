@@ -2,6 +2,12 @@ defmodule Bonfire.UI.Me.LivePlugs.AdminRequired do
   use Bonfire.UI.Common.Web, :live_plug
   # alias Bonfire.Data.Identity.User
 
+  def on_mount(:default, params, session, socket) do
+    with {:ok, socket} <- mount(params, session, socket) do
+      {:cont, socket}
+    end
+  end
+
   def mount(_params, _session, socket), do: check(current_user(socket), socket)
 
   defp check(user, socket) do

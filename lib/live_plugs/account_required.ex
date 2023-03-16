@@ -2,12 +2,23 @@ defmodule Bonfire.UI.Me.LivePlugs.AccountRequired do
   use Bonfire.UI.Common.Web, :live_plug
   alias Bonfire.Data.Identity.Account
 
-  def mount(_params, _session, socket),
-    do: check(current_account(socket), socket)
+  def on_mount(:default, params, session, socket) do
+    with {:ok, socket} <- mount(params, session, socket) do
+      {:cont, socket}
+    end
+  end
 
-  defp check(%Account{}, socket), do: {:ok, socket}
+  def mount(_params \\ nil, session \\ nil, socket),
+    do: check(current_account(socket), session, socket)
 
-  defp check(_, socket) do
+  defp check(%Account{id: _}, _, socket), do: {:ok, socket}
+
+  defp check(nil, session, socket) when is_map(session),
+    do: Bonfire.UI.Me.LivePlugs.LoadCurrentAccount.mount(session, socket) ~> mount()
+
+  defp check(_, _, socket), do: no(socket)
+
+  defp no(socket) do
     {:halt,
      socket
      |> assign_flash(:error, l("You need to log in to view that page."))

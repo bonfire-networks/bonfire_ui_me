@@ -5,20 +5,31 @@ defmodule Bonfire.UI.Me.LivePlugs.UserRequired do
 
   # alias Plug.Conn.Query
 
-  def mount(_params, _session, %{assigns: the} = socket) do
-    check(e(the, :current_user, nil), e(the, :current_account, nil), socket)
+  def on_mount(:default, params, session, socket) do
+    with {:ok, socket} <- mount(params, session, socket) do
+      {:cont, socket}
+    end
   end
 
-  defp check(%User{}, _account, socket), do: {:ok, socket}
+  def mount(params \\ nil, session \\ nil, socket) do
+    check(current_user(socket), current_account(socket), session, socket)
+  end
 
-  defp check(_user, %Account{}, socket) do
+  defp check(%User{}, _account, _, socket), do: {:ok, socket}
+
+  defp check(nil, _, session, socket) when is_map(session),
+    do: Bonfire.UI.Me.LivePlugs.LoadCurrentUser.mount(session, socket) ~> mount()
+
+  defp check(_, account, _, socket), do: no(account, socket)
+
+  defp no(%Account{}, socket) do
     {:halt,
      socket
      |> assign_flash(:info, l("You need to choose a user to see that page."))
      |> redirect_to(path(:switch_user))}
   end
 
-  defp check(_user, _account, socket) do
+  defp no(_account, socket) do
     {:halt,
      socket
      |> assign_flash(:info, l("You need to log in to see that page."))
