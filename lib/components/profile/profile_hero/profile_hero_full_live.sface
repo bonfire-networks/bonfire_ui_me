@@ -23,7 +23,7 @@
           />
           <div class="flex items-center gap-3">
             <LiveRedirect
-              :if={@current_user && current_user_id(@__context__) == id(@user)}
+              :if={current_user_id(@__context__) == id(@user)}
               to={~p"/settings/profile"}
               class="normal-case rounded btn btn-sm btn-primary"
             >
@@ -41,7 +41,7 @@
             </div>
 
             <!-- <LiveRedirect
-              :if={@current_user && current_user_id(@__context__) != id(@user)}
+              :if={current_user_id(@__context__) != id(@user)}
               to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
               class="hidden btn lg:flex btn-sm h-[34px] w-[34px] btn-outline btn-circle border-base-content/50"
             >
@@ -70,7 +70,7 @@
                   </a>
                 </li>
 
-                {#if @current_user}
+                {#if current_user_id(@__context__)}
                   {#if current_user_id(@__context__) == id(@user)}
                     <li>
                       <LiveRedirect
@@ -82,7 +82,7 @@
                       </LiveRedirect>
                     </li>
                     <!-- if current user is also an admin -->
-                    <!-- <li :if={is_admin?(@current_user)}>
+                    <!-- <li :if={is_admin?(current_user(@__context__))}>
                   <LiveRedirect
                     to={~p"/settings/instance"}
                     class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
@@ -167,9 +167,10 @@
                         class="flex items-center p-4 text-sm text-neutral"
                       />
                     </li>
+
                     <Bonfire.Boundaries.Web.BlockMenuButtonsLive object={@user} />
 
-                    {#if @character_type == :user and is_admin?(@current_user)}
+                    {#if @character_type == :user and is_admin?(current_user(@__context__))}
                       {#if !is_admin?(@user)}
                         <li
                           phx-click="Bonfire.Me.Users:make_admin"
@@ -329,7 +330,7 @@
         selected_tab={@selected_tab}
         class={
           "flex items-center bg-base-200 gap-4 md:gap-8 justify-evenly md:justify-start mx-auto border-t border-base-content/5",
-          "max-w-[680px] !border-none rounded-t-xl": !@current_user
+          "max-w-[680px] !border-none rounded-t-xl": !current_user_id(@__context__)
         }
         tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium capitalize tracking-wide text-base-content/70 p-4"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}

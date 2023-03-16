@@ -19,6 +19,7 @@
         transparent_header={@transparent_header}
         selected_tab={@selected_tab}
         follows_me={e(@follows_me, false)}
+        character_type={@character_type}
       />
     </:header>
 
