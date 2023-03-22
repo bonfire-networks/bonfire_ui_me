@@ -16,6 +16,7 @@
       <div class="flex flex-col items-start px-4 mx-auto mb-3">
         <div class="flex justify-between w-full">
           <Bonfire.UI.Common.AvatarLive
+            parent_id="profile-hero"
             class="inline-block object-cover w-[120px] h-[120px] -mt-12 md:mx-0 rounded-3xl ring-4 ring-base-200 bg-base-200 fill-base-200"
             bg_class=""
             size="100%"
