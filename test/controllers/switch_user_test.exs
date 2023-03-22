@@ -67,7 +67,7 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       account = fake_account!()
 
       user =
-        fake_user!(account, %{profile: %{name: "tester"}})
+        fake_user!(account, %{name: "tester"})
         |> repo().preload([:character, :profile])
 
       conn = conn(account: account)
