@@ -1,23 +1,11 @@
 defmodule Bonfire.UI.Me.UsersDirectoryLive do
   use Bonfire.UI.Common.Web, :surface_live_view
-  alias Bonfire.UI.Me.LivePlugs
+
   import Bonfire.UI.Me.Integration
 
-  def mount(params, session, socket) do
-    live_plug(params, session, socket, [
-      LivePlugs.LoadCurrentAccount,
-      LivePlugs.LoadCurrentUser,
-      # LivePlugs.AccountRequired,
-      # LivePlugs.LoadCurrentUserCircles,
-      # LivePlugs.LoadCurrentAccountUsers,
-      Bonfire.UI.Common.LivePlugs.StaticChanged,
-      Bonfire.UI.Common.LivePlugs.Csrf,
-      Bonfire.UI.Common.LivePlugs.Locale,
-      &mounted/3
-    ])
-  end
+  on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
-  defp mounted(_params, _session, socket) do
+  def mount(_params, _session, socket) do
     current_user = current_user(socket)
 
     show_to =

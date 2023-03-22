@@ -2,22 +2,13 @@ defmodule Bonfire.UI.Me.CreateUserLive do
   use Bonfire.UI.Common.Web, :surface_live_view
   # alias Bonfire.Data.Identity.User
   alias Bonfire.Me.Users
-  alias Bonfire.UI.Me.LivePlugs
+
   # alias Bonfire.UI.Me.CreateUserLive
 
-  def mount(params, session, socket) do
-    live_plug(params, session, socket, [
-      LivePlugs.LoadCurrentAccount,
-      LivePlugs.LoadCurrentUser,
-      LivePlugs.AccountRequired,
-      Bonfire.UI.Common.LivePlugs.StaticChanged,
-      Bonfire.UI.Common.LivePlugs.Csrf,
-      Bonfire.UI.Common.LivePlugs.Locale,
-      &mounted/3
-    ])
-  end
+  on_mount {LivePlugs,
+            [Bonfire.UI.Me.LivePlugs.LoadCurrentUser, Bonfire.UI.Me.LivePlugs.AccountRequired]}
 
-  defp mounted(_params, _session, socket) do
+  def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(:page, l("Create a new user profile"))

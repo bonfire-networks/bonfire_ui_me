@@ -6,18 +6,20 @@ defmodule Bonfire.UI.Me.ProfileLive do
   # alias Bonfire.Me.Fake
   # declare_nav_link(l("Profile"), page: "feed", icon: "heroicons-solid:newspaper")
 
-  alias Bonfire.UI.Me.LivePlugs
+  on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
-  def mount(params, session, socket) do
-    live_plug(params, session, socket, [
-      LivePlugs.LoadCurrentAccount,
-      LivePlugs.LoadCurrentUser,
-      # LivePlugs.LoadCurrentUserCircles,
-      Bonfire.UI.Common.LivePlugs.StaticChanged,
-      Bonfire.UI.Common.LivePlugs.Csrf,
-      Bonfire.UI.Common.LivePlugs.Locale,
-      &mounted/3
-    ])
+  def mount(
+        %{"remote_follow" => _, "username" => _username} = _params,
+        _session,
+        socket
+      ) do
+    # TODO?
+    {:ok, socket}
+  end
+
+  def mount(params, _session, socket) do
+    # debug(params)
+    {:ok, socket |> assign(default_assigns())}
   end
 
   def tab(selected_tab) do
@@ -28,57 +30,44 @@ defmodule Bonfire.UI.Me.ProfileLive do
     |> debug(selected_tab)
   end
 
-  defp mounted(
-         %{"remote_follow" => _, "username" => _username} = _params,
-         _session,
-         _socket
-       ) do
-    # TODO?
-  end
-
-  defp mounted(params, _session, socket) do
-    # debug(params)
-    {:ok, init(params, socket)}
-  end
-
   defp maybe_init(
          %{"username" => load_username} = params,
          %{assigns: %{user: %{character: %{username: loaded_username}}}} = socket
        )
-       when load_username != loaded_username do
+       when load_username == loaded_username do
+    debug("skip (re)loading user")
     debug(loaded_username, "old user")
     debug(load_username, "load new user")
-    init(params, socket)
-  end
-
-  defp maybe_init(_params, socket) do
-    debug("skip (re)loading user")
     socket
   end
 
+  defp maybe_init(params, socket) do
+    init(params, socket)
+  end
+
   defp init(params, socket) do
-    # info(params)
-    username = Map.get(params, "username")
+    debug(params)
+    username = Map.get(params, "username") || Map.get(params, "id")
 
     current_user = current_user(socket)
     current_username = e(current_user, :character, :username, nil)
 
     user =
-      params[:user] ||
-        case username do
-          nil ->
-            current_user
+      (params[:user] ||
+         case username do
+           nil ->
+             current_user
 
-          username when username == current_username ->
-            current_user
+           username when username == current_username ->
+             current_user
 
-          "@" <> username ->
-            get(username)
+           "@" <> username ->
+             get(username)
 
-          username ->
-            get(username)
-        end
-        |> repo().maybe_preload(:shared_user)
+           username ->
+             get(username)
+         end)
+      |> repo().maybe_preload(:shared_user)
 
     # debug(user)
 
@@ -103,7 +92,6 @@ defmodule Bonfire.UI.Me.ProfileLive do
           else: "@" <> e(user, :character, :username, "") <> " "
 
       socket
-      |> assign(default_assigns())
       |> assign(user_assigns(user, current_username, following?))
       |> assign_new(:selected_tab, fn -> "timeline" end)
       |> assign_new(:character_type, fn -> :user end)
@@ -146,7 +134,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
           _ ->
             socket
             |> assign_flash(:error, l("Profile not found"))
-            |> redirect_to(path(:error))
+            |> redirect_to(path(:error, :not_found))
         end
       end
     end
@@ -164,8 +152,11 @@ defmodule Bonfire.UI.Me.ProfileLive do
     else
       _ ->
         # handle other character types beyond User
-        with {:ok, character} <- Bonfire.Common.Pointers.get!(username) do
+        with {:ok, character} <- Bonfire.Common.Pointers.get(username) do
           character
+        else
+          _ ->
+            nil
         end
     end
   end
@@ -185,6 +176,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),
       user: %{},
       canonical_url: nil,
+      character_type: nil,
       sidebar_widgets: [
         users: [
           secondary: [

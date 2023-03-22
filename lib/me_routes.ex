@@ -29,6 +29,7 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:browser)
 
         live("/error", ErrorLive, as: :error)
+        live("/error/:code", ErrorLive, as: :error)
 
         # order matters!
         live("/@:username/:tab", ProfileLive, as: Bonfire.Data.Identity.User)

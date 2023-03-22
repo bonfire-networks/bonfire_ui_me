@@ -4,22 +4,12 @@ defmodule Bonfire.UI.Me.CharacterLive do
   import Untangle
 
   # alias Bonfire.Me.Fake
-  alias Bonfire.UI.Me.LivePlugs
+
   alias Bonfire.UI.Me.ProfileLive
 
-  def mount(params, session, socket) do
-    live_plug(params, session, socket, [
-      LivePlugs.LoadCurrentAccount,
-      LivePlugs.LoadCurrentUser,
-      # LivePlugs.LoadCurrentUserCircles,
-      Bonfire.UI.Common.LivePlugs.StaticChanged,
-      Bonfire.UI.Common.LivePlugs.Csrf,
-      Bonfire.UI.Common.LivePlugs.Locale,
-      &mounted/3
-    ])
-  end
+  on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
-  defp mounted(_params, _session, socket) do
+  def mount(_params, _session, socket) do
     # info(params)
     {:ok,
      socket
@@ -109,7 +99,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
       {:noreply,
        socket
        |> assign_flash(:error, l("Not found"))
-       |> redirect_to(path(:error))}
+       |> redirect_to(path(:error, :not_found))}
     end
   end
 

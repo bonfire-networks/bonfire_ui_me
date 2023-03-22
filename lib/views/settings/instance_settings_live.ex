@@ -2,21 +2,10 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
   use Bonfire.UI.Common.Web, :surface_live_view
   import Untangle
   # import Bonfire.UI.Me.Integration, only: [is_admin?: 1]
-  alias Bonfire.UI.Me.LivePlugs
 
-  def mount(params, session, socket) do
-    live_plug(params, session, socket, [
-      LivePlugs.LoadCurrentAccount,
-      LivePlugs.LoadCurrentUser,
-      LivePlugs.UserRequired,
-      Bonfire.UI.Common.LivePlugs.StaticChanged,
-      Bonfire.UI.Common.LivePlugs.Csrf,
-      Bonfire.UI.Common.LivePlugs.Locale,
-      &mounted/3
-    ])
-  end
+  on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
-  defp mounted(_params, _session, socket) do
+  def mount(_params, _session, socket) do
     {:ok,
      socket
      |> assign(
