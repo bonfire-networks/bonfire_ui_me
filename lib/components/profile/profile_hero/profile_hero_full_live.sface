@@ -33,7 +33,7 @@
 
             <div :if={current_user_id(@__context__) != id(@user)}>
               <Bonfire.UI.Common.FollowButtonLive
-                id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user))}
+                id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
                 object_id={id(@user)}
                 path={path(@user)}
                 hide_icon
@@ -164,12 +164,13 @@
                     <li class="border-t border-neutral-content/10">
                       <Bonfire.UI.Common.FlagActionLive
                         object={@user}
+                        parent_id="profile_hero"
                         label={l("Flag") <> " " <> e(@user, :profile, :name, "this user")}
                         class="flex items-center p-4 text-sm text-neutral"
                       />
                     </li>
 
-                    <Bonfire.Boundaries.Web.BlockMenuButtonsLive object={@user} />
+                    <Bonfire.Boundaries.Web.BlockMenuButtonsLive parent_id="profile_hero" object={@user} />
 
                     {#if @character_type == :user and is_admin?(current_user(@__context__))}
                       {#if !is_admin?(@user)}
@@ -201,6 +202,7 @@
                   <li class="border-t border-neutral-content/10">
                     <Bonfire.UI.Common.FlagActionLive
                       object={@user}
+                      parent_id="profile_hero"
                       label={l("Flag") <> " " <> e(@user, :profile, :name, "this user")}
                       class="flex items-center p-4 text-sm text-neutral"
                     />
