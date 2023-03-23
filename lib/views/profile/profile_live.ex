@@ -86,10 +86,10 @@ defmodule Bonfire.UI.Me.ProfileLive do
       # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
       smart_input_prompt = nil
 
-      smart_input_text =
-        if current_username == e(user, :character, :username, ""),
-          do: "",
-          else: "@" <> e(user, :character, :username, "") <> " "
+      # smart_input_text =
+      #   if current_username == e(user, :character, :username, ""),
+      #     do: "",
+      #     else: "@" <> e(user, :character, :username, "") <> " "
 
       socket
       |> assign(user_assigns(user, current_username, following?))
@@ -98,7 +98,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       |> assign_global(
         # following: following || [],
         # search_placeholder: search_placeholder,
-        smart_input_opts: %{prompt: smart_input_prompt, text_suggestion: smart_input_text}
+        # smart_input_opts: %{prompt: smart_input_prompt, text_suggestion: smart_input_text}
 
         # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}]
       )
