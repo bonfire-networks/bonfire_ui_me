@@ -95,12 +95,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
       |> assign(user_assigns(user, current_username, following?))
       |> assign_new(:selected_tab, fn -> "timeline" end)
       |> assign_new(:character_type, fn -> :user end)
-      # |> assign_global(
-        # following: following || [],
-        # search_placeholder: search_placeholder,
-        # smart_input_opts: %{prompt: smart_input_prompt, text_suggestion: smart_input_text}
 
-        # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}]
+      # |> assign_global(
+      # following: following || [],
+      # search_placeholder: search_placeholder,
+      # smart_input_opts: %{prompt: smart_input_prompt, text_suggestion: smart_input_text}
+
+      # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}]
       # )
     else
       if user do
