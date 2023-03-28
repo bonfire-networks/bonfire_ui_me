@@ -17,7 +17,7 @@
         <div class="p-4 rounded-md bg-success/10">
           <div class="flex">
             <div class="flex-shrink-0">
-              <Icon solid="CheckCircle" class="w-5 h-5 text-success" />
+              <#Icon solid="CheckCircle" class="w-5 h-5 text-success" />
             </div>
             <div class="flex-col flex-1 ml-3 md:flex md:justify-between">
               <h3 class="text-sm font-medium text-success">{l("Hooray! You are registered")}</h3>

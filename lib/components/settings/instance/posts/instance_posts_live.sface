@@ -21,14 +21,14 @@
           target="_blank"
           class="gap-2 normal-case rounded-md btn btn-sm"
         >
-          <Icon outline="Eye" class="w-5 h-5" />
+          <#Icon outline="Eye" class="w-5 h-5" />
           <span class="tracking-wide">{l("View")}</span>
         </a>
         <LiveRedirect
           to={~p"/pages/edit/#{page_id}"}
           class="gap-2 normal-case rounded-md btn btn-sm text-base-content/70 border-base-content/70 btn-outline"
         >
-          <Icon outline="Pencil" class="w-5 h-5" />
+          <#Icon outline="Pencil" class="w-5 h-5" />
           <span class="tracking-wide">{l("Edit")}</span>
         </LiveRedirect>
       </div>

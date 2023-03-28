@@ -42,7 +42,7 @@
         :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts])}
         class="flex items-center mt-2 mb-4 space-x-2 text-base-content text-opacity-70"
       >
-        <Icon solid="Users" class="w-5 h-5" />
+        <#Icon solid="Users" class="w-5 h-5" />
         <div class="text-sm">
           <b>{e(@user, :character, :follow_count, :follower_count, 0)}</b>
           {l("Followers")}

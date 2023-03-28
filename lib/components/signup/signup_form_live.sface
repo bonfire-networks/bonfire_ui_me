@@ -7,7 +7,7 @@
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
             <div class="flex-shrink-0">
-              <Icon solid="Exclamation" />
+              <#Icon solid="Exclamation" />
             </div>
             <div class="ml-3">
               <h3 class="text-sm font-medium">
@@ -20,7 +20,7 @@
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
             <div class="flex-shrink-0">
-              <Icon solid="Exclamation" />
+              <#Icon solid="Exclamation" />
             </div>
             <div class="ml-3">
               <h3 class="text-sm font-medium">
@@ -33,7 +33,7 @@
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
             <div class="flex-shrink-0">
-              <Icon solid="Exclamation" />
+              <#Icon solid="Exclamation" />
             </div>
             <div class="ml-3">
               <h3 class="text-sm font-medium">
@@ -116,7 +116,7 @@
                 class="flex items-center justify-between w-full px-6 py-2 font-medium text-info"
               >
                 <span class="flex items-center space-x-2">
-                  <Icon outline="Key" class="w-5 h-5 text-info/40" />
+                  <#Icon outline="Key" class="w-5 h-5 text-info/40" />
                   <span>{l("Enable two-factor authentication (recommended)")}</span>
                 </span>
                 <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>

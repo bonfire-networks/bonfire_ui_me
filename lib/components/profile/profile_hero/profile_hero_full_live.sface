@@ -46,12 +46,12 @@
               to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
               class="hidden btn lg:flex btn-sm h-[34px] w-[34px] btn-outline btn-circle border-base-content/50"
             >
-              <Icon solid="Mail" class="w-4 h-4" />
+              <#Icon solid="Mail" class="w-4 h-4" />
             </LiveRedirect> -->
 
             <div aria-haspopup="true" class="dropdown dropdown-end">
               <label tabindex="0" class="btn h-[34px] w-[34px] btn-sm btn-square btn-ghost rounded">
-                <Icon solid="DotsVertical" class="w-4 h-4" />
+                <#Icon solid="DotsVertical" class="w-4 h-4" />
               </label>
               <ul
                 tabindex="0"
@@ -66,7 +66,7 @@
                     rel="noopener noreferrer"
                     class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                   >
-                    <Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                    <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-neutral-content/80" />
                     <span>{l("Visit the original site")}</span>
                   </a>
                 </li>
@@ -78,7 +78,7 @@
                         to={~p"/settings/preferences"}
                         class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                       >
-                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
                         {l("Preferences")}
                       </LiveRedirect>
                     </li>
@@ -96,7 +96,7 @@
                         to={~p"/feed/likes"}
                         class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                       >
-                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
                         {l("Favourites")}
                       </LiveRedirect>
                     </li>
@@ -106,7 +106,7 @@
                         to={~p"/boundaries/acls"}
                         class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                       >
-                        <!-- <Icon solid="Cog" class="w-4 h-4" /> -->
+                        <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
                         {l("Boundaries")}
                       </LiveRedirect>
                     </li>
@@ -156,7 +156,7 @@
                     class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                     to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
                   >
-                    <Icon solid="Mail" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                    <#Icon solid="Mail" class="w-4 h-4 shrink-0 text-neutral-content/80" />
                     <span>{l("Send a message")}</span>
                   </LiveRedirect> -->
                     </li>
@@ -180,7 +180,7 @@
                           class="border-t border-neutral-content/10"
                         >
                           <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
-                            <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                            <#Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
                             <span>{l("Make admin")}</span>
                           </button>
                         </li>
@@ -191,7 +191,7 @@
                           class="border-t border-neutral-content/10"
                         >
                           <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
-                            <Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                            <#Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
                             <span>{l("Revoke admin")}</span>
                           </button>
                         </li>
@@ -243,7 +243,7 @@
                 class="flex items-center mt-4 space-x-4"
               >
                 <div :if={e(@user, :profile, :location, nil)} class="flex items-center">
-                  <Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
+                  <#Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
                   <span class="ml-2 text-xs text-base-content/70">
                     {e(@user, :profile, :location, "")}
                   </span>
@@ -251,7 +251,7 @@
                 <div :if={e(@user, :profile, :website, nil)} class="flex items-center">
                   {#case Bonfire.Files.FaviconStore.favicon_url(e(@user, :profile, :website, nil))}
                     {#match nil}
-                      <Icon solid="ExternalLink" class="w-5 h-5 text-base-content/70" />
+                      <#Icon solid="ExternalLink" class="w-5 h-5 text-base-content/70" />
                     {#match image}
                       <img src={image} class="w-4 h-4 text-base-content/70">
                   {/case}

@@ -94,14 +94,14 @@
           x-on:click="show = true"
           class="absolute cursor-pointer top-1 right-2 btn btn-ghost btn-circle btn-sm"
         >
-          <Icon solid="EyeOff" class="w-4 h-4" />
+          <#Icon solid="EyeOff" class="w-4 h-4" />
         </div>
         <div
           x-show="show == true"
           x-on:click="show = false"
           class="absolute cursor-pointer top-1 right-2 btn btn-ghost btn-circle btn-sm"
         >
-          <Icon solid="Eye" class="w-3 h-3 text-primary" />
+          <#Icon solid="Eye" class="w-3 h-3 text-primary" />
         </div>
       </div>
 

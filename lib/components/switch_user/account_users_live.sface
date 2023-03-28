@@ -32,7 +32,7 @@
 {#else}
   <LiveRedirect to={path(:create_user)}>
     <div class="flex flex-col items-center flex-1 py-4">
-      <Icon solid="PlusCircle" class="w-32 h-32" />
+      <#Icon solid="PlusCircle" class="w-32 h-32" />
       <h3 class="mt-4 text-lg font-medium text-primary-content-700">{l("Create a user profile")}</h3>
     </div>
   </LiveRedirect>
