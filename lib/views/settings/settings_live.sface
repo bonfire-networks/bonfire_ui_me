@@ -48,10 +48,7 @@
         id="acl"
       />
     {#match "extensions"}
-      <Bonfire.UI.Common.ExtensionsLive
-        selected_tab={@selected_tab}
-        data={Bonfire.Common.Extensions.data()}
-      />
+      <Bonfire.UI.Common.ExtensionsLive selected_tab={@selected_tab} />
     {#match "flags"}
       <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.UI.Social.FlagsLive) and @current_user}
