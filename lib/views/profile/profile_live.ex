@@ -84,7 +84,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
           Bonfire.Social.Follows.following?(user, current_user)
 
       # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
-      smart_input_prompt = nil
+      # smart_input_prompt = nil
 
       # smart_input_text =
       #   if current_username == e(user, :character, :username, ""),
