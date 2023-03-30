@@ -2,7 +2,7 @@
   <LiveRedirect to={"#{@path_prefix}#{e(@user, :character, :username, "")}#{@go}"}>
     <div
       aria-hidden="true"
-      class="h-32 bg-center bg-cover rounded-t-lg bg-base-300"
+      class="h-24 bg-center bg-cover rounded-t-lg bg-base-300"
       style={"background-image: url('#{Media.banner_url(@user)}')"}
     />
     <div class="px-3 pb-2 -mt-8">
@@ -10,8 +10,8 @@
         <div class="flex items-center justify-between">
           <Bonfire.UI.Common.AvatarLive
             parent_id="user_preview"
-            class="inline-block object-cover w-16 h-16"
-            bg_class="rounded-full ring-2 ring-base-100 bg-base-200"
+            class="inline-block object-cover w-16 h-16 rounded-full bg-base-300"
+            bg_class="rounded-full ring-2 ring-base-100 bg-base-300"
             size="64"
             user={@user}
           />
@@ -55,4 +55,6 @@
       </div>
     </div>
   </LiveRedirect>
+  <#slot {@actions}></#slot>
+    
 </div>

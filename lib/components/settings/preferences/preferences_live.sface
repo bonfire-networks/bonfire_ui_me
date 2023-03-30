@@ -116,7 +116,7 @@
       </div>
     </div>
 
-    <div x-data="{open: false}" class="p-4">
+    <!-- <div x-data="{open: false}" class="p-4">
       <div class="flex items-center justify-between">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-bold">{l("Composer")}</div>
@@ -162,7 +162,6 @@
                         class="radio radio-secondary"
                       />
                       <div class="flex flex-col ml-3">
-                        <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
                         <span id="admin-info-0-label" class="block text-sm font-medium">
                           {l("Non-blocking layout")}
                         </span>
@@ -195,7 +194,7 @@
           </div>
         </form>
       </div>
-    </div>
+    </div> -->
 
     <form name="settings" phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.AvatarsSettingsLive />
