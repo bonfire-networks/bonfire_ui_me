@@ -1,5 +1,5 @@
 <div class="grid grid-cols-1 gap-3 p-3 lg:gap-3 lg:grid-cols-3">
   <div :for={user <- @users} class="col-span-1">
-    <Bonfire.UI.Me.UserPreviewLive user={user} />
+    <Bonfire.UI.Common.UserPreviewLive user={user} />
   </div>
 </div>
