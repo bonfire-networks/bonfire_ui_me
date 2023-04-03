@@ -3,7 +3,7 @@
 
   <div class="flex max-w-[680px] relative z-[99999] bg-base-100 rounded shadow mx-auto">
     <div class="w-full mx-auto">
-      <Form for={:outgoing} action="/pub/remote_interaction">
+      <Form for={%{}} as={:outgoing} action="/pub/remote_interaction">
         <HiddenInput name={:type} value={@interaction_type} />
         <HiddenInput name={:object} value={@canonical_url} />
 
