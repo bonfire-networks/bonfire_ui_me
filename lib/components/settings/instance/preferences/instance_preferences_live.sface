@@ -458,12 +458,8 @@
               name="activity_pub[instance][federating]"
               value="true"
               type="checkbox"
-              checked={if Bonfire.Me.Settings.get(
-                   [:activity_pub, :instance, :federating],
-                   true,
-                   @__context__[:instance_settings] || :instance
-                 ),
-                 do: "checked"}
+              checked={if Config.get([:activity_pub, :instance, :federating]),
+                do: "checked"}
               class="toggle"
             />
           </div>
