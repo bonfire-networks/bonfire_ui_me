@@ -1,7 +1,7 @@
 <div>
   <#slot {@header} />
   <div class={
-    "grid items-start grid-cols-1",
+    "grid items-start grid-cols-1 mt-2 md:mt-0",
     "max-w-[680px] mx-auto": !@current_user
   }>
     <main class="flex flex-col bg-base-100">
@@ -22,6 +22,7 @@
                   wrapper_class="flex items-center justify-between"
                   profile={e(follow |> debug("fff"), :edge, :object, :profile, nil)}
                   lg
+                  avatar_class="w-10 h-10 rounded bg-base-300"
                   character={e(follow, :edge, :object, :character, nil)}
                 />
               </li>
@@ -41,6 +42,7 @@
               <li class="p-4">
                 <Bonfire.UI.Common.ProfileItemLive
                   lg
+                  avatar_class="w-10 h-10 rounded bg-base-300"
                   wrapper_class="flex items-center justify-between"
                   profile={e(follow, :edge, :subject, :profile, nil)}
                   character={e(follow, :edge, :subject, :character, nil)}
