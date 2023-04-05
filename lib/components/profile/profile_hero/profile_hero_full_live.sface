@@ -294,51 +294,10 @@
                 <span>{l("Network")}</span>
               </LivePatch>
 
-              <!-- <LivePatch
-                class={
-                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline relative",
-                  "font-medium text-primary with_tab": @selected_tab == "followers"
-                }
-                to={~p"/user/#{e(@user, :character, :username, "")}/followers"}
-              >
-                <strong
-                  :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, @__context__)}
-                  class="text-base-content"
-                >
-                  {e(@user, :character, :follow_count, :object_count, 0)}
-                </strong>
-                <span>{l("Followers")}</span>
-              </LivePatch>
-
-              <LivePatch
-                class={
-                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline relative",
-                  "font-medium text-primary with_tab": @selected_tab == "followed"
-                }
-                to={~p"/user/#{e(@user, :character, :username, "")}/followed"}
-              >
-                <strong
-                  :if={Bonfire.Me.Settings.get([:ui, :show_activity_counts], nil, @__context__)}
-                  class="text-base-content"
-                >
-                  {e(@user, :character, :follow_count, :subject_count, 0)}
-                </strong>
-                <span>{l("Following")}</span>
-              </LivePatch> -->
             </div>
           </div>
         </div>
       </div>
-      <!-- <Bonfire.UI.Common.TabsLive
-        selected_tab={@selected_tab}
-        class={
-          "flex items-center bg-base-200 gap-4 md:gap-8 justify-evenly md:justify-start mx-auto border-t border-base-content/5",
-          "max-w-[680px] !border-none rounded-t-xl": !current_user_id(@__context__)
-        }
-        tab_class="feed_tab px-4 text-sm cursor-pointer hover:bg-base-content/5 font-medium capitalize tracking-wide text-base-content/70 p-4"
-        path_prefix={"/@#{e(@user, :character, :username, "")}/"}
-        tabs={Config.get([:ui, :profile, :navigation], timeline: l("Timeline"))}
-      /> -->
     </div>
   </div>
 </div>

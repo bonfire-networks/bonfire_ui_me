@@ -226,6 +226,27 @@ defmodule Bonfire.UI.Me.ProfileLive do
     )
   end
 
+  # WIP: Include circles in profile without redirecting to circles page
+  # def do_handle_params(%{"tab" => tab} = params, _url, socket)
+  #     when tab in ["circles"] do
+  #   debug(tab, "load tab")
+  #   current_user = current_user(socket)
+  #   user = e(socket, :assigns, :user, nil)
+  #   circles =
+  #     Bonfire.Boundaries.Circles.list_my_with_counts(current_user, exclude_stereotypes: true)
+  #     |> repo().maybe_preload(encircles: [subject: [:profile]])
+
+  #     {:noreply,
+  #     assign(
+  #       socket,
+  #       loading: false,
+  #       user: user,
+  #       showing_within: e(socket, :assigns, :showing_within, nil),
+  #       selected_tab: "circles",
+  #       circles: circles,
+  #     )}
+  # end
+
   def do_handle_params(%{"tab" => tab} = params, _url, socket)
       when tab in ["followers", "followed", "requests", "requested"] do
     debug(tab, "load tab")
