@@ -2,11 +2,11 @@
   <div class="border-b border-base-content/10">
     <div class="">
       <div
-        class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[250px]"
+        class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[200px]"
         style={"background-image: url('#{Media.banner_url(@user)}')"}
       >
         {#if @transparent_header}
-          <div class="absolute md:hidden z-10 top-0 left-0 w-full h-[250px] bg-gradient-to-b from-black/80 to-transparent" />
+          <div class="absolute md:hidden z-10 top-0 left-0 w-full h-[200px] bg-gradient-to-b from-black/80 to-transparent" />
         {/if}
         <!-- FOLLOWS YOU LABEL -->
         <div :if={@follows_me} class="absolute rounded right-2 bottom-2 opacity-90 badge h-[1.75rem]">
@@ -17,7 +17,7 @@
         <div class="flex justify-between w-full px-6">
           <Bonfire.UI.Common.AvatarLive
             parent_id="profile-hero"
-            class="inline-block object-cover w-[120px] h-[120px] -mt-12 md:mx-0 rounded-3xl ring-4 ring-base-200 bg-base-200 fill-base-200"
+            class="inline-block object-cover w-[140px] h-[140px] -mt-[70px] md:mx-0 rounded-full ring-4 ring-base-300 bg-base-200 fill-base-200"
             bg_class=""
             size="100%"
             user={@user}
@@ -266,11 +266,11 @@
                 </div>
               </div>
             </div>
-            <div class="w-full px-6 pt-3 mt-3 border-t border-base-content/10">
+            <div class="w-full px-6 pt-3 mt-3">
               <div class="flex items-center gap-8 text-base-content">
                 <LivePatch
                   class={
-                    "flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
+                    "text-sm flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
                     "text-base-content/100 with_tab": @selected_tab in ["timeline", "posts", "boosts"]
                   }
                   to={~p"/user/#{e(@user, :character, :username, "")}"}
@@ -286,7 +286,7 @@
 
                 <LivePatch
                   class={
-                    "flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
+                    "text-sm flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
                     "text-base-content/100 with_tab": @selected_tab == "followers" or @selected_tab == "followed"
                   }
                   to={~p"/user/#{e(@user, :character, :username, "")}/followers"}
