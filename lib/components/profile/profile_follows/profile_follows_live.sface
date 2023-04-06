@@ -15,14 +15,14 @@
       />
       <div :if={@selected_tab in ["requested", "followed"]}>
         <div class="flow-root">
-          <ul class="divide-y divide-base-300">
+          <ul class="divide-y divide-base-content/10">
             {#for follow <- @feed}
               <li class="p-4">
                 <Bonfire.UI.Common.ProfileItemLive
                   wrapper_class="flex items-center justify-between"
                   profile={e(follow |> debug("fff"), :edge, :object, :profile, nil)}
                   lg
-                  avatar_class="w-10 h-10 rounded bg-base-300"
+                  avatar_class="w-10 h-10 rounded bg-base-100"
                   character={e(follow, :edge, :object, :character, nil)}
                 />
               </li>
@@ -37,12 +37,12 @@
 
       <div :if={@selected_tab in ["requests", "followers", "members"]}>
         <div class="flow-root">
-          <ul class="divide-y divide-base-300">
+          <ul class="divide-y divide-base-content/10">
             {#for follow <- @feed}
               <li class="p-4">
                 <Bonfire.UI.Common.ProfileItemLive
                   lg
-                  avatar_class="w-10 h-10 rounded bg-base-300"
+                  avatar_class="w-10 h-10 rounded bg-base-100"
                   wrapper_class="flex items-center justify-between"
                   profile={e(follow, :edge, :subject, :profile, nil)}
                   character={e(follow, :edge, :subject, :character, nil)}

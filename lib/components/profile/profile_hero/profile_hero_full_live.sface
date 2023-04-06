@@ -1,5 +1,5 @@
 <div class="relative">
-  <div class="border-b border-base-300">
+  <div class="border-b border-base-content/10">
     <div class="">
       <div
         class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[250px]"
@@ -13,8 +13,8 @@
           {"Follows you"}
         </div>
       </div>
-      <div class="flex flex-col items-start px-4 mx-auto mb-3">
-        <div class="flex justify-between w-full">
+      <div class="flex flex-col items-start mx-auto mb-3">
+        <div class="flex justify-between w-full px-6">
           <Bonfire.UI.Common.AvatarLive
             parent_id="profile-hero"
             class="inline-block object-cover w-[120px] h-[120px] -mt-12 md:mx-0 rounded-3xl ring-4 ring-base-200 bg-base-200 fill-base-200"
@@ -26,7 +26,7 @@
             <LiveRedirect
               :if={current_user_id(@__context__) == id(@user)}
               to={~p"/settings/profile"}
-              class="normal-case rounded btn btn-sm btn-primary"
+              class="normal-case rounded btn btn-sm btn-outline border-base-content/30"
             >
               {l("Edit profile")}
             </LiveRedirect>
@@ -212,9 +212,9 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col flex-1 gap-2">
+        <div class="flex flex-col flex-1 w-full gap-2">
           <div class="flex flex-col gap-1 mt-3">
-            <div class="flex items-center text-xl font-bold text-base-content">
+            <div class="flex items-center pl-6 text-xl font-bold text-base-content">
               <LivePatch to={~p"/@#{e(@user, :character, :username, "")}"}>
                 {e(@user, :profile, :name, "Anonymous")}
               </LivePatch>
@@ -229,11 +229,11 @@
                 {l("Admin")}
               </span>
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center pl-6">
               <span class="text-sm font-normal text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
             </div>
 
-            <div class="mt-1">
+            <div class="px-4 mt-1">
               <div class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
                 {rich(e(@user, :profile, :summary, ""))}
               </div>
@@ -266,34 +266,35 @@
                 </div>
               </div>
             </div>
-
-            <div class="flex items-center gap-8 mt-6 text-base-content">
-              <LivePatch
-                class={
-                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline relative",
-                  "font-medium text-primary with_tab": @selected_tab in ["timeline", "posts", "boosts"]
-                }
-                to={~p"/user/#{e(@user, :character, :username, "")}"}
-              >
-                <strong
-                  :if={Bonfire.Me.Settings.get([:ui, :metrics, :posts_count], nil, @__context__)}
-                  class="text-base-content"
+            <div class="w-full px-6 pt-3 mt-3 border-t border-base-content/10">
+              <div class="flex items-center gap-8 text-base-content">
+                <LivePatch
+                  class={
+                    "flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
+                    "text-base-content/100 with_tab": @selected_tab in ["timeline", "posts", "boosts"]
+                  }
+                  to={~p"/user/#{e(@user, :character, :username, "")}"}
                 >
-                  {e(@user, :character, :posts_count, 0)}
-                </strong>
-                <span>{l("Activities")}</span>
-              </LivePatch>
+                  <strong
+                    :if={Bonfire.Me.Settings.get([:ui, :metrics, :posts_count], nil, @__context__)}
+                    class="text-base-content"
+                  >
+                    {e(@user, :character, :posts_count, 0)}
+                  </strong>
+                  <span>{l("Activities")}</span>
+                </LivePatch>
 
-              <LivePatch
-                class={
-                  "flex items-baseline gap-2 text-sm text-base-content/70 hover:underline relative",
-                  "font-medium text-primary with_tab": @selected_tab == "followers" or @selected_tab == "followed"
-                }
-                to={~p"/user/#{e(@user, :character, :username, "")}/followers"}
-              >
-                <span>{l("Network")}</span>
-              </LivePatch>
+                <LivePatch
+                  class={
+                    "flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
+                    "text-base-content/100 with_tab": @selected_tab == "followers" or @selected_tab == "followed"
+                  }
+                  to={~p"/user/#{e(@user, :character, :username, "")}/followers"}
+                >
+                  <span>{l("Network")}</span>
+                </LivePatch>
 
+              </div>
             </div>
           </div>
         </div>
