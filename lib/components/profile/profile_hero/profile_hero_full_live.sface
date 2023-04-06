@@ -293,7 +293,6 @@
                 >
                   <span>{l("Network")}</span>
                 </LivePatch>
-
               </div>
             </div>
           </div>
