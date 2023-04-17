@@ -48,6 +48,13 @@
             >
               <#Icon solid="Mail" class="w-4 h-4" />
             </LiveRedirect> -->
+            <!-- <Button
+              :if={current_user_id(@__context__) != id(@user)}
+              
+              class="hidden btn lg:flex btn-sm h-[34px] w-[34px] btn-outline btn-circle border-base-content/50"
+            >
+              <#Icon solid="Mail" class="w-4 h-4" />
+            </Button> -->
 
             <div aria-haspopup="true" class="dropdown dropdown-end">
               <label tabindex="0" class="btn h-[34px] w-[34px] btn-sm btn-square btn-ghost rounded">
@@ -67,7 +74,7 @@
                     class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                   >
                     <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                    <span>{l("Visit the original site")}</span>
+                    <span>{l("View on the original instance")}</span>
                   </a>
                 </li>
 
@@ -136,6 +143,22 @@
                       </LiveRedirect>
                     </li> -->
                   {#else}
+                    <!-- <li>
+                      <Bonfire.UI.Common.SmartInputButtonLive
+                        :if={@character_type == :user}
+                        smart_input_opts={%{
+                          text_suggestion: "@#{e(@user, :character, :username, nil)}",
+                          to_circles: [
+                            %{
+                              (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+                                id(@user)
+                            }
+                          ]
+                        }}
+                        prompt={l("@ mention")}
+                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                      />
+                    </li> -->
                     <li>
                       <Bonfire.UI.Common.SmartInputButtonLive
                         :if={@character_type == :user}
@@ -152,13 +175,6 @@
                         icon="heroicons-solid:mail"
                         class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
                       />
-                      <!-- <LiveRedirect
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
-                    to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
-                  >
-                    <#Icon solid="Mail" class="w-4 h-4 shrink-0 text-neutral-content/80" />
-                    <span>{l("Send a message")}</span>
-                  </LiveRedirect> -->
                     </li>
 
                     <li class="border-t border-neutral-content/10">
@@ -215,7 +231,7 @@
         <div class="flex flex-col flex-1 w-full gap-2">
           <div class="flex flex-col gap-1 mt-3">
             <div class="flex items-center pl-6 text-xl font-bold text-base-content">
-              <LivePatch to={~p"/@#{e(@user, :character, :username, "")}"}>
+              <LivePatch to={~p"/@#{e(@user, :character, :username, nil)}"}>
                 {e(@user, :profile, :name, "Anonymous")}
               </LivePatch>
 

@@ -94,7 +94,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       socket
       |> assign(user_assigns(user, current_username, following?))
       |> assign_new(:selected_tab, fn -> "timeline" end)
-      |> assign_new(:character_type, fn -> :user end)
+      |> assign(:character_type, :user)
 
       # |> assign_global(
       # following: following || [],

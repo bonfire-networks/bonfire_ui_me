@@ -458,7 +458,7 @@
               name="activity_pub[instance][federating]"
               value="true"
               type="checkbox"
-              checked={if Config.get([:activity_pub, :instance, :federating]),
+              checked={if ActivityPub.Config.federating?(),
                 do: "checked"}
               class="toggle"
             />
