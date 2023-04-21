@@ -64,16 +64,16 @@
                 tabindex="0"
                 role="menu"
                 aria-orientation="vertical"
-                class="!block mt-1 rounded shadow dropdown_actions w-60 md:w-48 menu md:menu-compact dropdown-content bg-neutral"
+                class="!block mt-1 rounded-xl p-2 shadow-xl dropdown_actions w-64 menu md:menu-compact dropdown-content bg-base-100"
               >
                 <li :if={e(@user, :character, :peered, :canonical_uri, nil)}>
                   <a
                     href={e(@user, :character, :peered, :canonical_uri, "#")}
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                    class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                   >
-                    <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                    <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/80" />
                     <span>{l("View on the original instance")}</span>
                   </a>
                 </li>
@@ -83,7 +83,7 @@
                     <li>
                       <LiveRedirect
                         to={~p"/settings/preferences"}
-                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                       >
                         <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
                         {l("Preferences")}
@@ -93,25 +93,25 @@
                     <!-- <li :if={is_admin?(current_user(@__context__))}>
                   <LiveRedirect
                     to={~p"/settings/instance"}
-                    class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                    class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                   >
                     {l("Admin Settings")}
                   </LiveRedirect>
                 </li> -->
-                    <li class="border-t border-neutral-content/10">
+                    <li class="">
                       <LiveRedirect
                         to={~p"/feed/likes"}
-                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                       >
                         <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
                         {l("Favourites")}
                       </LiveRedirect>
                     </li>
 
-                    <li class="border-t border-neutral-content/10">
+                    <li class="">
                       <LiveRedirect
                         to={~p"/boundaries/acls"}
-                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                       >
                         <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
                         {l("Boundaries")}
@@ -121,7 +121,7 @@
                     <!-- <li>
                       <LiveRedirect
                         to={~p"/boundaries/silenced"}
-                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                       >
                         {l("Silenced")}
                       </LiveRedirect>
@@ -129,15 +129,15 @@
                     <li>
                       <LiveRedirect
                         to={~p"/boundaries/ghosted"}
-                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                       >
                         {l("Ghosted")}
                       </LiveRedirect>
                     </li>
-                    <li class="border-t border-neutral-content/10">
+                    <li class="">
                       <LiveRedirect
                         to={~p"/boundaries/circles"}
-                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                       >
                         {l("Circles")}
                       </LiveRedirect>
@@ -156,7 +156,7 @@
                           ]
                         }}
                         prompt={l("@ mention")}
-                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                       />
                     </li> -->
                     <li>
@@ -173,16 +173,16 @@
                         }}
                         prompt={l("Send a message")}
                         icon="heroicons-solid:mail"
-                        class="flex items-center gap-2 text-base md:text-sm text-neutral-content/80"
+                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
                       />
                     </li>
 
-                    <li class="border-t border-neutral-content/10">
+                    <li class="">
                       <Bonfire.UI.Common.FlagActionLive
                         object={@user}
                         parent_id="profile_hero"
                         label={l("Flag") <> " " <> e(@user, :profile, :name, "this user")}
-                        class="flex items-center p-4 text-sm text-neutral"
+                        class="flex items-center p-4 text-sm text-base-content/80"
                       />
                     </li>
 
@@ -193,10 +193,10 @@
                         <li
                           phx-click="Bonfire.Me.Users:make_admin"
                           phx-value-username_or_id={id(@user)}
-                          class="border-t border-neutral-content/10"
+                          class=""
                         >
-                          <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
-                            <#Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                          <button class="flex items-center gap-2 py-2 text-sm text-base-content/80">
+                            <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/80" />
                             <span>{l("Make admin")}</span>
                           </button>
                         </li>
@@ -204,10 +204,10 @@
                         <li
                           phx-click="Bonfire.Me.Users:revoke_admin"
                           phx-value-username_or_id={id(@user)}
-                          class="border-t border-neutral-content/10"
+                          class=""
                         >
-                          <button class="flex items-center gap-2 py-2 text-sm text-neutral-content/80">
-                            <#Icon solid="Key" class="w-4 h-4 shrink-0 text-neutral-content/80" />
+                          <button class="flex items-center gap-2 py-2 text-sm text-base-content/80">
+                            <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/80" />
                             <span>{l("Revoke admin")}</span>
                           </button>
                         </li>
@@ -215,7 +215,7 @@
                     {/if}
                   {/if}
                 {#else}
-                  <li class="border-t border-neutral-content/10">
+                  <li class="">
                     <Bonfire.UI.Common.FlagActionLive
                       object={@user}
                       parent_id="profile_hero"

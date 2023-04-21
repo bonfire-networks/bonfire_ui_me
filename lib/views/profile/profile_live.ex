@@ -179,13 +179,17 @@ defmodule Bonfire.UI.Me.ProfileLive do
       canonical_url: nil,
       character_type: nil,
       sidebar_widgets: [
-        users: [
+        guests: [
           secondary: [
-            {Bonfire.Tag.Web.WidgetTagsLive, []}
+            {Bonfire.Tag.Web.WidgetTagsLive, []},
+            {Bonfire.UI.Me.WidgetAdminsLive, []}
           ]
         ],
-        guests: [
-          {Bonfire.Tag.Web.WidgetTagsLive, []}
+        users: [
+          secondary: [
+            {Bonfire.Tag.Web.WidgetTagsLive, []},
+            {Bonfire.UI.Me.WidgetAdminsLive, []}
+          ]
         ]
       ],
       interaction_type: l("follow"),
