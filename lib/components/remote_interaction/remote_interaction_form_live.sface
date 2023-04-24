@@ -1,7 +1,7 @@
 <div>
   <#slot {@header} />
 
-  <div class="flex max-w-[680px] relative z-[99999] bg-base-100 rounded shadow mx-auto">
+  <div class="flex max-w-[680px] relative z-[99999]  mx-auto">
     <div class="w-full mx-auto">
       <Form for={%{}} as={:outgoing} action="/pub/remote_interaction">
         <HiddenInput name={:type} value={@interaction_type} />
@@ -10,7 +10,7 @@
         <div class="p-5 mx-auto">
           <Field name={:me}>
             <Label class="block p-0 mb-4 text-center label">
-              <span class="text-base font-medium text-base-content/70">{l("Enter your fediverse nick to %{verb} %{user_name} remotely",
+              <span class="text-base font-medium">{l("Enter your fediverse nick to %{verb} %{user_name} remotely",
                   user_name: @name,
                   verb: @interaction_type
                 )}</span>
@@ -33,7 +33,7 @@
 
           <p class="mt-4 text-sm">{l("Are you a user of this instance?")} <a class="link link-primary" href={"/login?go=#{@canonical_url}"}>{l("Sign in instead.")}</a></p>
 
-          <div class="items-start justify-start mt-3 text-sm rounded shadow-lg alert alert-info">
+          <div class="items-start justify-start mt-3 text-sm rounded text-info alert bg-info/10 alert-info">
             <div class="flex items-start gap-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
