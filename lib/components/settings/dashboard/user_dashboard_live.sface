@@ -5,6 +5,6 @@
   </div>
 </div>
 
-<div class="m-4 md:hidden bg-base-100">
+<div class="m-4 md:hidden ">
   <Bonfire.UI.Common.SidebarSettingsNavLive showing_within={:sidebar} />
 </div>

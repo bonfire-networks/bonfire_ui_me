@@ -1,4 +1,4 @@
-<div class="w-full mt-24" id="create_user">
+<div class="w-full mt-8" id="create_user">
   <!-- <Bonfire.UI.Common.LogoGuestLive /> -->
   <Bonfire.UI.Common.LogoLinkLive
     with_name

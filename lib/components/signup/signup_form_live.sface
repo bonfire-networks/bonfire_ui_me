@@ -1,4 +1,4 @@
-<div class="p-3 w-full md:w-[360px] bg-base-100 rounded shadow">
+<div class="p-4 w-full md:w-[360px] border border-base-content/10 rounded-lg">
   <div class="mx-auto">
     {#case @error || e(@form, :errors, :form, nil)}
       {#match nil}
