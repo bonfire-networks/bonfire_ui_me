@@ -71,7 +71,7 @@
       <Inputs for={:character}>
         <Field name={:username}>
           <Label class="label">
-             <span class="text-sm label-text text-base-content/70">
+            <span class="text-sm label-text text-base-content/70">
               {l("Choose a username")}
             </span>
           </Label>
@@ -88,17 +88,17 @@
         </Field>
       </Inputs>
       <div class="!mt-4">
-      <Inputs for={:profile}>
-        <Field name={:summary}>
-          <Label>
-            <span class="text-sm  label-text text-base-content/70">
-              {l("Tell people a bit about yourself")}
-            </span>
-          </Label>
-          <TextArea class="w-full h-24 mt-1 textarea-bordered textarea" placeholder="Type your bio" />
-          <ErrorTag />
-        </Field>
-      </Inputs>
+        <Inputs for={:profile}>
+          <Field name={:summary}>
+            <Label>
+              <span class="text-sm  label-text text-base-content/70">
+                {l("Tell people a bit about yourself")}
+              </span>
+            </Label>
+            <TextArea class="w-full h-24 mt-1 textarea-bordered textarea" placeholder="Type your bio" />
+            <ErrorTag />
+          </Field>
+        </Inputs>
       </div>
       <div class="p-4 my-6 rounded-md bg-info/10">
         <div class="flex items-center justify-between gap-6">
