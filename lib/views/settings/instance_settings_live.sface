@@ -56,7 +56,7 @@
         current_user={@current_user |> repo().maybe_preload(:shared_user)}
         selected_tab={@selected_tab}
       />
-    {#match "instance_circles"}
+      <!-- {#match "instance_circles"}
       <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and @current_user}
         module={Bonfire.Boundaries.Web.MyCirclesLive}
@@ -70,7 +70,7 @@
         selected_tab="acls"
         id="my_acls"
         scope={:instance}
-      />
+      /> -->
     {#match "icons"}
       <Bonfire.UI.Common.SettingsViewsLive.IconsLive selected_tab={@selected_tab} />
     {#match _}
