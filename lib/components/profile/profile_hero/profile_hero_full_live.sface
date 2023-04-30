@@ -181,7 +181,7 @@
                       <Bonfire.UI.Common.FlagActionLive
                         object={@user}
                         parent_id="profile_hero"
-                        label={l("Flag") <> " " <> e(@user, :profile, :name, "this user")}
+                        object_type={e(@user, :profile, :name, "this user")}
                         class="flex items-center p-4 text-sm text-base-content/80"
                       />
                     </li>
@@ -211,7 +211,7 @@
                     <Bonfire.UI.Common.FlagActionLive
                       object={@user}
                       parent_id="profile_hero"
-                      label={l("Flag") <> " " <> e(@user, :profile, :name, "this user")}
+                      object_type={e(@user, :profile, :name, "this user")}
                       class="flex items-center p-4 text-sm text-neutral"
                     />
                   </li>
