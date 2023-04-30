@@ -47,10 +47,10 @@
         id={:instance_members}
         selected_tab={@selected_tab}
       />
-    {#match "instance_silenced"}
-      <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" />
+      <!-- {#match "instance_silenced"}
+      <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" name={l "Ghosted instance-wide"} />
     {#match "instance_ghosted"}
-      <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="ghosted" />
+      <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="ghosted" name={l "Silenced instance-wide"} /> -->
     {#match "shared_user"}
       <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
         current_user={@current_user |> repo().maybe_preload(:shared_user)}
