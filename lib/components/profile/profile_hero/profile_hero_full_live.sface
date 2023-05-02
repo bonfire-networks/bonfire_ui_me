@@ -31,7 +31,7 @@
               {l("Edit profile")}
             </LiveRedirect>
 
-            <div :if={current_user_id(@__context__) != id(@user)}>
+            <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
               <Bonfire.UI.Common.FollowButtonLive
                 id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
                 object_id={id(@user)}
