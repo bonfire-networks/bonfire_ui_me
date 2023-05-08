@@ -83,18 +83,20 @@ defmodule Bonfire.UI.Me.ProfileLive do
           module_enabled?(Bonfire.Social.Follows, current_user) &&
           Bonfire.Social.Follows.following?(user, current_user)
 
-      # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
-      # smart_input_prompt = nil
+          # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
+          # smart_input_prompt = nil
 
       # smart_input_text =
-      #   if current_username == e(user, :character, :username, ""),
+        #   if current_username == e(user, :character, :username, ""),
       #     do: "",
       #     else: "@" <> e(user, :character, :username, "") <> " "
 
+      # preload(user, socket)
       socket
       |> assign(user_assigns(user, current_username, following?))
       |> assign_new(:selected_tab, fn -> "timeline" end)
       |> assign(:character_type, :user)
+      |> assign(:ghosted, nil)
 
       # |> assign_global(
       # following: following || [],
@@ -140,6 +142,31 @@ defmodule Bonfire.UI.Me.ProfileLive do
       end
     end
   end
+
+  # defp preload(user, socket) do
+  #   view_pid = self()
+  #   # Here we're checking if the user is ghosted / silenced by user or instance
+  #   IO.inspect("preload test")
+  #   Task.start(fn ->
+  #     ghosted? = Bonfire.Boundaries.Blocks.is_blocked?(user, :ghost, current_user: current_user(socket)) |> debug("ghosted?")
+  #     ghosted_instance_wide? = Bonfire.Boundaries.Blocks.is_blocked?(user, :ghost, :instance_wide) |> debug("ghosted_instance_wide?")
+  #     silenced? = Bonfire.Boundaries.Blocks.is_blocked?(user, :silence, current_user: current_user(socket)) |> debug("silenced?")
+  #     silenced_instance_wide? = Bonfire.Boundaries.Blocks.is_blocked?(user, :silence, :instance_wide) |> debug("silenced_instance_wide?")
+  #     result = %{
+  #       ghosted?: ghosted?,
+  #       ghosted_instance_wide?: ghosted_instance_wide?,
+  #       silenced?: silenced?,
+  #       silenced_instance_wide?: silenced_instance_wide?
+  #     }
+  #     send(view_pid, {:block_status, result})
+  #   end)
+
+  # end
+
+  # def handle_info({:block_status, result}, socket) do
+  #   IO.inspect(result, label: "API CALL DONE")
+  #   {:noreply, assign(socket, block_status: result)}
+  # end
 
   def get(username) do
     username =

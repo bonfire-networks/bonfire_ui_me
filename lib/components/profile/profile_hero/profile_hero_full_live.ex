@@ -8,6 +8,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop follows_me, :boolean, default: false
   prop selected_tab, :string
   prop transparent_header, :boolean, default: false
+  prop block_status, :any, default: nil
   prop showing_within, :atom, default: :profile
   def display_url("https://" <> url), do: url
   def display_url("http://" <> url), do: url

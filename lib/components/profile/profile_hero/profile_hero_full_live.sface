@@ -30,17 +30,75 @@
             >
               {l("Edit profile")}
             </LiveRedirect>
+            <Bonfire.UI.Common.BlockButtonProfileLive 
+              id={ComponentID.new(Bonfire.UI.Common.BlockButtonLive, id(@user), __MODULE__)}
+              object_id={id(@user)}
+              object={@user}
+              hide_icon
+              show_follow_button
+              path={path(@user)}
+            />
+            <!-- {#if e(@block_status, nil) == nil or e(@follows_me, nil) == nil}
+              <button disabled class="normal-case rounded btn btn-disabled btn-sm">{l("loading...")}</button>
+            {#else}
+              {#if e(@block_status, :ghosted_instance_wide?, nil) or e(@block_status, :silenced_instance_wide?, nil)}
+                <button 
+                  :if={e(@block_status, :ghosted_instance_wide?, nil) and e(@block_status, :silenced_instance_wide?, nil)}
+                  class="btn-disabled btn btn-sm btn-error gap-2 rounded normal-case">
+                  <#Icon iconify="heroicons-solid:ban" class="w-4 h-4 shrink-0" />
+                  <span>{l "blocked instance-wide"}</span>
+                </button> 
 
-            <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
-              <Bonfire.UI.Common.FollowButtonLive
-                id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
-                object_id={id(@user)}
-                path={path(@user)}
-                hide_icon
-                class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
-              />
-            </div>
+                <button 
+                  :if={e(@block_status, :ghosted_instance_wide?, nil) and !e(@block_status, :silenced_instance_wide?, nil)}
+                  class="btn-disabled btn btn-sm btn-error gap-2 rounded normal-case">
+                  <#Icon iconify="mingcute:ghost-fill" class="w-4 h-4 shrink-0" />
+                  <span>{l "ghosted instance-wide"}</span>
+                </button> 
 
+                <button 
+                  :if={!e(@block_status, :ghosted_instance_wide?, nil) and e(@block_status, :silenced_instance_wide?, nil)}
+                  class="btn-disabled btn btn-sm btn-error gap-2 rounded normal-case">
+                  <#Icon iconify="heroicons-solid:volume-off" class="w-4 h-4 shrink-0" />
+                  <span>{l "silenced instance-wide"}</span>
+                </button>
+              {#elseif e(@block_status, :ghosted?, nil) or e(@block_status, :silenced?, nil)}
+                <button 
+                  :on-click="Bonfire.Social.Block:unblock"
+                  phx-value-id={id(@user)}
+                  :if={e(@block_status, :ghosted?, nil) and e(@block_status, :silenced?, nil)}
+                  class="btn btn-sm btn-error gap-2 rounded normal-case">
+                  <#Icon iconify="heroicons-solid:ban" class="w-4 h-4 shrink-0" />
+                  <span>{l "blocked"}</span>
+                </button>
+                <button 
+                  :on-click="Bonfire.Social.Block:unghost"
+                  phx-value-id={id(@user)}
+                  :if={e(@block_status, :ghosted?, nil) and !e(@block_status, :silenced?, nil)}
+                  class="btn btn-sm btn-warning rounded normal-case gap-2">
+                  <#Icon iconify="mingcute:ghost-fill" class="w-4 h-4 shrink-0" />
+                  <span>{l "ghosted"}</span>
+                </button>
+                <button 
+                  :on-click="Bonfire.Social.Block:unsilence"
+                  phx-value-id={id(@user)}
+                  :if={!e(@block_status, :ghosted?, nil) and e(@block_status, :silenced?, nil)}
+                  class="btn btn-sm btn-warning gap-2 rounded normal-case">
+                  <#Icon iconify="heroicons-solid:volume-off" class="w-4 h-4 shrink-0" />
+                  <span>{l "silenced"}</span>
+                </button>
+              {#else}
+                <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
+                  <Bonfire.UI.Common.FollowButtonLive
+                    id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
+                    object_id={id(@user)}
+                    path={path(@user)}
+                    hide_icon
+                    class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
+                  />
+                </div>
+              {/if}
+            {/if} -->
             <!-- <LiveRedirect
               :if={current_user_id(@__context__) != id(@user)}
               to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
@@ -64,7 +122,7 @@
                 tabindex="0"
                 role="menu"
                 aria-orientation="vertical"
-                class="!block mt-1 rounded-xl p-2 shadow-xl dropdown_actions w-64 menu md:menu-compact dropdown-content bg-base-100"
+                class="!block mt-1 rounded-xl shadow-xl dropdown_actions w-64 menu md:menu-compact dropdown-content bg-base-100"
               >
                 <li :if={e(@user, :character, :peered, :canonical_uri, nil)}>
                   <a

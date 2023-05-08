@@ -16,6 +16,7 @@
           Bonfire.UI.Me.ProfileHeroFullLive
         )}
         user={@user}
+        block_status={e(assigns, :block_status, nil)}
         transparent_header={@transparent_header}
         selected_tab={@selected_tab}
         follows_me={e(@follows_me, false)}
