@@ -23,99 +23,8 @@
             user={@user}
           />
           <div class="flex items-center gap-3">
-            <LiveRedirect
-              :if={current_user_id(@__context__) == id(@user)}
-              to={~p"/settings/profile"}
-              class="normal-case rounded btn btn-sm btn-outline border-base-content/30"
-            >
-              {l("Edit profile")}
-            </LiveRedirect>
-            <Bonfire.UI.Common.BlockButtonProfileLive 
-              id={ComponentID.new(Bonfire.UI.Common.BlockButtonLive, id(@user), __MODULE__)}
-              object_id={id(@user)}
-              object={@user}
-              hide_icon
-              show_follow_button
-              path={path(@user)}
-            />
-            <!-- {#if e(@block_status, nil) == nil or e(@follows_me, nil) == nil}
-              <button disabled class="normal-case rounded btn btn-disabled btn-sm">{l("loading...")}</button>
-            {#else}
-              {#if e(@block_status, :ghosted_instance_wide?, nil) or e(@block_status, :silenced_instance_wide?, nil)}
-                <button 
-                  :if={e(@block_status, :ghosted_instance_wide?, nil) and e(@block_status, :silenced_instance_wide?, nil)}
-                  class="btn-disabled btn btn-sm btn-error gap-2 rounded normal-case">
-                  <#Icon iconify="heroicons-solid:ban" class="w-4 h-4 shrink-0" />
-                  <span>{l "blocked instance-wide"}</span>
-                </button> 
-
-                <button 
-                  :if={e(@block_status, :ghosted_instance_wide?, nil) and !e(@block_status, :silenced_instance_wide?, nil)}
-                  class="btn-disabled btn btn-sm btn-error gap-2 rounded normal-case">
-                  <#Icon iconify="mingcute:ghost-fill" class="w-4 h-4 shrink-0" />
-                  <span>{l "ghosted instance-wide"}</span>
-                </button> 
-
-                <button 
-                  :if={!e(@block_status, :ghosted_instance_wide?, nil) and e(@block_status, :silenced_instance_wide?, nil)}
-                  class="btn-disabled btn btn-sm btn-error gap-2 rounded normal-case">
-                  <#Icon iconify="heroicons-solid:volume-off" class="w-4 h-4 shrink-0" />
-                  <span>{l "silenced instance-wide"}</span>
-                </button>
-              {#elseif e(@block_status, :ghosted?, nil) or e(@block_status, :silenced?, nil)}
-                <button 
-                  :on-click="Bonfire.Social.Block:unblock"
-                  phx-value-id={id(@user)}
-                  :if={e(@block_status, :ghosted?, nil) and e(@block_status, :silenced?, nil)}
-                  class="btn btn-sm btn-error gap-2 rounded normal-case">
-                  <#Icon iconify="heroicons-solid:ban" class="w-4 h-4 shrink-0" />
-                  <span>{l "blocked"}</span>
-                </button>
-                <button 
-                  :on-click="Bonfire.Social.Block:unghost"
-                  phx-value-id={id(@user)}
-                  :if={e(@block_status, :ghosted?, nil) and !e(@block_status, :silenced?, nil)}
-                  class="btn btn-sm btn-warning rounded normal-case gap-2">
-                  <#Icon iconify="mingcute:ghost-fill" class="w-4 h-4 shrink-0" />
-                  <span>{l "ghosted"}</span>
-                </button>
-                <button 
-                  :on-click="Bonfire.Social.Block:unsilence"
-                  phx-value-id={id(@user)}
-                  :if={!e(@block_status, :ghosted?, nil) and e(@block_status, :silenced?, nil)}
-                  class="btn btn-sm btn-warning gap-2 rounded normal-case">
-                  <#Icon iconify="heroicons-solid:volume-off" class="w-4 h-4 shrink-0" />
-                  <span>{l "silenced"}</span>
-                </button>
-              {#else}
-                <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
-                  <Bonfire.UI.Common.FollowButtonLive
-                    id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
-                    object_id={id(@user)}
-                    path={path(@user)}
-                    hide_icon
-                    class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
-                  />
-                </div>
-              {/if}
-            {/if} -->
-            <!-- <LiveRedirect
-              :if={current_user_id(@__context__) != id(@user)}
-              to={path(Bonfire.Data.Social.Message, e(@user, :character, :username, ""))}
-              class="hidden btn lg:flex btn-sm h-[34px] w-[34px] btn-outline btn-circle border-base-content/50"
-            >
-              <#Icon solid="Mail" class="w-4 h-4" />
-            </LiveRedirect> -->
-            <!-- <Button
-              :if={current_user_id(@__context__) != id(@user)}
-              
-              class="hidden btn lg:flex btn-sm h-[34px] w-[34px] btn-outline btn-circle border-base-content/50"
-            >
-              <#Icon solid="Mail" class="w-4 h-4" />
-            </Button> -->
-
             <div aria-haspopup="true" class="dropdown dropdown-end">
-              <label tabindex="0" class="btn h-[34px] w-[34px] btn-sm btn-square btn-ghost rounded">
+              <label tabindex="0" class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30">
                 <#Icon solid="DotsVertical" class="w-4 h-4" />
               </label>
               <ul
@@ -147,15 +56,7 @@
                         {l("Preferences")}
                       </LiveRedirect>
                     </li>
-                    <!-- if current user is also an admin -->
-                    <!-- <li :if={is_admin?(current_user(@__context__))}>
-                  <LiveRedirect
-                    to={~p"/settings/instance"}
-                    class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
-                  >
-                    {l("Admin Settings")}
-                  </LiveRedirect>
-                </li> -->
+                  
                     <li class="">
                       <LiveRedirect
                         to={~p"/feed/likes"}
@@ -176,65 +77,7 @@
                       </LiveRedirect>
                     </li>
 
-                    <!-- <li>
-                      <LiveRedirect
-                        to={~p"/boundaries/silenced"}
-                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
-                      >
-                        {l("Silenced")}
-                      </LiveRedirect>
-                    </li>
-                    <li>
-                      <LiveRedirect
-                        to={~p"/boundaries/ghosted"}
-                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
-                      >
-                        {l("Ghosted")}
-                      </LiveRedirect>
-                    </li>
-                    <li class="">
-                      <LiveRedirect
-                        to={~p"/boundaries/circles"}
-                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
-                      >
-                        {l("Circles")}
-                      </LiveRedirect>
-                    </li> -->
                   {#else}
-                    <!-- <li>
-                      <Bonfire.UI.Common.SmartInputButtonLive
-                        :if={@character_type == :user}
-                        smart_input_opts={%{
-                          text_suggestion: "@#{e(@user, :character, :username, nil)}",
-                          to_circles: [
-                            %{
-                              (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
-                                id(@user)
-                            }
-                          ]
-                        }}
-                        prompt={l("@ mention")}
-                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
-                      />
-                    </li> -->
-                    <li>
-                      <Bonfire.UI.Common.SmartInputButtonLive
-                        :if={@character_type == :user}
-                        create_object_type={:message}
-                        smart_input_opts={%{
-                          to_circles: [
-                            %{
-                              (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
-                                id(@user)
-                            }
-                          ]
-                        }}
-                        prompt={l("Send a message")}
-                        icon="heroicons-solid:mail"
-                        class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
-                      />
-                    </li>
-
                     <li class="">
                       <Bonfire.UI.Common.FlagActionLive
                         object={@user}
@@ -245,6 +88,7 @@
                     </li>
 
                     <Bonfire.Boundaries.Web.BlockMenuButtonsLive parent_id="profile_hero" object={@user} />
+                    
 
                     {#if @character_type == :user and is_admin?(current_user(@__context__))}
                       {#if !is_admin?(@user)}
@@ -276,6 +120,39 @@
                 {/if}
               </ul>
             </div>
+            <Bonfire.UI.Common.SmartInputButtonLive
+              :if={@character_type == :user && current_user_id(@__context__) != id(@user)}
+              create_object_type={:message}
+              smart_input_opts={%{
+                to_circles: [
+                  %{
+                    (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+                      id(@user)
+                  }
+                ]
+              }}
+              icon="ri:mail-line"
+              class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
+            />
+            <LiveRedirect
+              :if={current_user_id(@__context__) == id(@user)}
+              to={~p"/settings/profile"}
+              class="normal-case rounded btn btn-sm btn-outline border-base-content/30"
+            >
+              {l("Edit profile")}
+            </LiveRedirect>
+            <div 
+              data-role="follow_wrapper" 
+              :if={current_user_id(@__context__) != id(@user)}>
+              <Bonfire.UI.Common.FollowButtonLive
+                id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
+                object_id={id(@user)}
+                object={@user}
+                path={path(@user)}
+                hide_icon
+                class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
+              />
+            </div>
           </div>
         </div>
         <div class="flex flex-col flex-1 w-full gap-2">
@@ -284,7 +161,6 @@
               <LivePatch to={~p"/@#{e(@user, :character, :username, nil)}"}>
                 {e(@user, :profile, :name, "Anonymous")}
               </LivePatch>
-
               <span
                 :if={module_enabled?(Bonfire.Data.SharedUser) && e(@user, :shared_user, :label, nil)}
                 class="ml-3 badge badge-sm badge-info badge-outline"
@@ -332,6 +208,130 @@
                 </div>
               </div>
             </div>
+            <!-- <div class="px-6 mt-3">
+              <Bonfire.UI.Common.BlockButtonProfileLive 
+                id={ComponentID.new(Bonfire.UI.Common.BlockButtonLive, id(@user), __MODULE__)}
+                object_id={id(@user)}
+                object={@user}
+                hide_icon
+                show_follow_button
+                path={path(@user)}
+              /> 
+            </div> -->
+             {#if 
+              @ghosted_instance_wide? == nil and 
+              @silenced_instance_wide? == nil and 
+              @ghosted? == nil and 
+              @silenced? == nil}
+              <div></div>
+            {#else}
+              <div class="px-6">
+                {#if @ghosted_instance_wide? or @silenced_instance_wide?}
+
+                <div 
+                  :if={@ghosted_instance_wide? and @silenced_instance_wide?}
+                  class="flex items-baseline gap-2">
+                  <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "Admins have blocked this user."}</div>
+                  <div :if={is_admin?(@user)}>
+                  <Bonfire.Boundaries.Web.BlockButtonLive
+                    object={@object}
+                    type="block"
+                    only_admin
+                    label={e(@object, :profile, :name, l("this user"))}
+                    open_btn_label={l("Unblock instance-wide")}
+                    parent_id={"user-#{id(@user)}"}
+                    class="link link-error text-sm"
+                  />
+                  </div>
+                </div>
+                <div 
+                  :if={@ghosted_instance_wide? and !@silenced_instance_wide?}
+                  class="flex items-baseline gap-2">
+                  <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "Admins have ghosted this user."}</div>
+                 <div :if={is_admin?(@user)}>
+                  <Bonfire.Boundaries.Web.BlockButtonLive
+                    object={@object}
+                    type="ghost"
+                    only_admin
+                    label={e(@object, :profile, :name, l("this user"))}
+                    open_btn_label={l("Unghost instance-wide")}
+                    parent_id={"user-#{id(@user)}"}
+                    class="link link-primary text-sm"
+                  />
+                  </div>
+                </div>
+                <div 
+                  :if={!@ghosted_instance_wide? and @silenced_instance_wide?}
+                  class="flex items-baseline gap-2">
+                  <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "Admins have silenced this user."}</div>
+                  <div :if={is_admin?(@user)}>
+                    <Bonfire.Boundaries.Web.BlockButtonLive
+                      object={@object}
+                      type="silence"
+                      only_admin
+                      title={l("Unsilence %{user} instance-wide", user: e(@object, :profile, :name, ""))}
+                      label={e(@object, :profile, :name, l("this user"))}
+                      open_btn_label={l("Unsilence instance-wide")}
+                      parent_id={"user-#{id(@user)}"}
+                      class="link link-primary text-sm"
+                    />
+                    </div>
+                </div>
+                {#elseif @ghosted? != nil or @silenced? != nil}
+                <div 
+                  :if={@ghosted? and @silenced?}
+                  class="flex items-baseline gap-2">
+                  <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "You have blocked this user."} </div>
+                  <div>
+                  <Bonfire.Boundaries.Web.BlockButtonLive
+                    object={@object}
+                    type="block"
+                    only_user
+                    label={e(@object, :profile, :name, l("this user"))}
+                    open_btn_label={l("Unblock")}
+                    parent_id={"user-#{id(@user)}"}
+                    class="link link-error text-sm"
+                  />
+                  </div>
+                </div>
+                <div 
+                  :if={!@ghosted? and @silenced?}
+                  class="flex items-baseline gap-2">
+                  <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "You have silenced this user."} </div>
+                  <div>
+                  <Bonfire.Boundaries.Web.BlockButtonLive
+                    object={@object}
+                    type="silence"
+                    only_user
+                    title={l("Unsilence %{user}", user: e(@object, :profile, :name, ""))}
+                    label={e(@object, :profile, :name, l("this user"))}
+                    open_btn_label={l("Unsilence")}
+                    parent_id={"user-#{id(@user)}"}
+                    class="link link-primary text-sm"
+                  />
+                  </div>
+                </div>
+                <div 
+                  :if={@ghosted? and !@silenced?}
+                  class="flex items-baseline gap-2">
+                  <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "You have ghosted this user."} </div>
+                  <div>
+                  <Bonfire.Boundaries.Web.BlockButtonLive
+                    object={@object}
+                    type="ghost"
+                    only_user
+                    label={e(@object, :profile, :name, l("this user"))}
+                    open_btn_label={l("Unghost")}
+                    parent_id={"user-#{id(@user)}"}
+                    class="link link-primary text-sm"
+                  />
+                  </div>
+                  <!-- <button class="link link-primary link-sm">{l "Unghost"}</button> -->
+                </div>
+                {/if}
+              </div>
+            {/if}
+
             <div class="w-full px-6 pt-3 mt-3">
               <div class="flex items-center gap-8 text-base-content">
                 <LivePatch

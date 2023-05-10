@@ -10,11 +10,14 @@
     {...assigns}
   >
     <:header>
-      <Dynamic.Component
+      <Dynamic.LiveComponent
         module={Config.get(
           [:ui, :profile, :hero_component],
           Bonfire.UI.Me.ProfileHeroFullLive
         )}
+        id={ComponentID.new(Bonfire.UI.Me.ProfileHeroFullLive, id(@user), __MODULE__)}
+        object_id={id(@user)}
+        object={@user}
         user={@user}
         block_status={e(assigns, :block_status, nil)}
         transparent_header={@transparent_header}
