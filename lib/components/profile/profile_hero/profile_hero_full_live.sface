@@ -141,6 +141,11 @@
             >
               {l("Edit profile")}
             </LiveRedirect>
+            {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or (@ghosted? == true && @silenced? == true)}
+            <button disabled class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-disabled">
+              {l("Blocked")}
+            </button>
+            {#else}
             <div 
               data-role="follow_wrapper" 
               :if={current_user_id(@__context__) != id(@user)}>
@@ -153,6 +158,7 @@
                 class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
               />
             </div>
+            {/if}
           </div>
         </div>
         <div class="flex flex-col flex-1 w-full gap-2">
@@ -232,7 +238,7 @@
                   :if={@ghosted_instance_wide? and @silenced_instance_wide?}
                   class="flex items-baseline gap-2">
                   <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "Admins have blocked this user."}</div>
-                  <div :if={is_admin?(@user)}>
+                  <div :if={is_admin?(@current_user)}>
                   <Bonfire.Boundaries.Web.BlockButtonLive
                     object={@object}
                     type="block"
@@ -248,7 +254,7 @@
                   :if={@ghosted_instance_wide? and !@silenced_instance_wide?}
                   class="flex items-baseline gap-2">
                   <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "Admins have ghosted this user."}</div>
-                 <div :if={is_admin?(@user)}>
+                 <div :if={is_admin?(@current_user)}>
                   <Bonfire.Boundaries.Web.BlockButtonLive
                     object={@object}
                     type="ghost"
@@ -264,7 +270,7 @@
                   :if={!@ghosted_instance_wide? and @silenced_instance_wide?}
                   class="flex items-baseline gap-2">
                   <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "Admins have silenced this user."}</div>
-                  <div :if={is_admin?(@user)}>
+                  <div :if={is_admin?(@current_user)}>
                     <Bonfire.Boundaries.Web.BlockButtonLive
                       object={@object}
                       type="silence"
