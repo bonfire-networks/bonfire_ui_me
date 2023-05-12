@@ -7,10 +7,10 @@
 >
   <Dynamic.Component module={Bonfire.UI.Social.ProfileTimelineLive} {...assigns}>
     <:header>
-      <Dynamic.Component
+      <Dynamic.LiveComponent
         module={Bonfire.UI.Me.ProfileHeroFullLive}
+        id={ComponentID.new(Bonfire.UI.Me.ProfileHeroFullLive, id(@user), __MODULE__)}
         user={@user}
-        transparent_header={@transparent_header}
         selected_tab={@selected_tab}
         follows_me={e(@follows_me, false)}
       />

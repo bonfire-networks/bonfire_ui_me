@@ -3,6 +3,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   import Bonfire.UI.Me.Integration
   # import Bonfire.Common.Media
 
+  prop hero_type, :atom, default: :test
   prop user, :map
   prop object, :map
   prop object_id, :string, default: nil
@@ -13,7 +14,6 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop character_type, :atom, default: nil
   prop follows_me, :boolean, default: false
   prop selected_tab, :string
-  prop transparent_header, :boolean, default: false
   prop block_status, :any, default: nil
   prop showing_within, :atom, default: :profile
   def display_url("https://" <> url), do: url

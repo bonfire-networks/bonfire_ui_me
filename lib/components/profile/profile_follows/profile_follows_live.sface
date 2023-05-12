@@ -4,7 +4,7 @@
     "grid items-start grid-cols-1 mt-2 md:mt-0",
     "max-w-[680px] mx-auto": !@current_user
   }>
-    <main class="flex flex-col bg-base-100">
+    <main class="flex flex-col">
       <Bonfire.UI.Common.TabsLive
         :if={@showing_within !== :group}
         selected_tab={@selected_tab}

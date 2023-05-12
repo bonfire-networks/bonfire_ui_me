@@ -1,0 +1,29 @@
+<div class="w-full px-6 pt-3 mt-3">
+  <div class="flex items-center gap-8 text-base-content">
+    <LivePatch
+      class={
+        "text-sm flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
+        "text-base-content/100 with_tab": @selected_tab in ["timeline", "posts", "boosts"]
+      }
+      to={~p"/user/#{e(@user, :character, :username, "")}"}
+    >
+      <strong
+        :if={Bonfire.Me.Settings.get([:ui, :metrics, :posts_count], nil, @__context__)}
+        class="text-base-content"
+      >
+        {e(@user, :character, :posts_count, 0)}
+      </strong>
+      <span>{l("Activities")}</span>
+    </LivePatch>
+
+    <LivePatch
+      class={
+        "text-sm flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
+        "text-base-content/100 with_tab": @selected_tab == "followers" or @selected_tab == "followed"
+      }
+      to={~p"/user/#{e(@user, :character, :username, "")}/followers"}
+    >
+      <span>{l("Network")}</span>
+    </LivePatch>
+  </div>
+</div>
