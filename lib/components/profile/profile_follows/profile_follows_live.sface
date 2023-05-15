@@ -6,7 +6,7 @@
   }>
     <main class="flex flex-col">
       <Bonfire.UI.Common.TabsLive
-        :if={@showing_within !== :group}
+        :if={!@hide_tabs}
         selected_tab={@selected_tab}
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
         tabs={if id(@current_user) == id(@user),

@@ -3,6 +3,6 @@ defmodule Bonfire.UI.Me.ProfileNavLive do
 
   prop user, :map
   prop selected_tab, :any, default: nil
-  prop path, :string, default: "/user/"
+  prop path, :string, default: "@"
 
 end

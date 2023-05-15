@@ -15,7 +15,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop selected_tab, :string
   prop block_status, :any, default: nil
   prop showing_within, :atom, default: :profile
-  prop path, :string, default: "user"
+  prop path, :string, default: "@"
   def display_url("https://" <> url), do: url
   def display_url("http://" <> url), do: url
   def display_url(url), do: url
