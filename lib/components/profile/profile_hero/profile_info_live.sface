@@ -67,10 +67,10 @@
         <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "Admins have blocked this user."}</div>
         <div :if={is_admin?(@current_user)}>
         <Bonfire.Boundaries.Web.BlockButtonLive
-          object={@object}
+          object={@user}
           type="block"
           only_admin
-          label={e(@object, :profile, :name, l("this user"))}
+          label={e(@user, :profile, :name, l("this user"))}
           open_btn_label={l("Unblock instance-wide")}
           parent_id={"user-#{id(@user)}"}
           class="link link-error text-sm"
@@ -83,10 +83,10 @@
         <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "Admins have ghosted this user."}</div>
       <div :if={is_admin?(@current_user)}>
         <Bonfire.Boundaries.Web.BlockButtonLive
-          object={@object}
+          object={@user}
           type="ghost"
           only_admin
-          label={e(@object, :profile, :name, l("this user"))}
+          label={e(@user, :profile, :name, l("this user"))}
           open_btn_label={l("Unghost instance-wide")}
           parent_id={"user-#{id(@user)}"}
           class="link link-primary text-sm"
@@ -99,11 +99,11 @@
         <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "Admins have silenced this user."}</div>
         <div :if={is_admin?(@current_user)}>
           <Bonfire.Boundaries.Web.BlockButtonLive
-            object={@object}
+            object={@user}
             type="silence"
             only_admin
-            title={l("Unsilence %{user} instance-wide", user: e(@object, :profile, :name, ""))}
-            label={e(@object, :profile, :name, l("this user"))}
+            title={l("Unsilence %{user} instance-wide", user: e(@user, :profile, :name, ""))}
+            label={e(@user, :profile, :name, l("this user"))}
             open_btn_label={l("Unsilence instance-wide")}
             parent_id={"user-#{id(@user)}"}
             class="link link-primary text-sm"
@@ -117,10 +117,10 @@
         <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "You have blocked this user."} </div>
         <div>
         <Bonfire.Boundaries.Web.BlockButtonLive
-          object={@object}
+          object={@user}
           type="block"
           only_user
-          label={e(@object, :profile, :name, l("this user"))}
+          label={e(@user, :profile, :name, l("this user"))}
           open_btn_label={l("Unblock")}
           parent_id={"user-#{id(@user)}"}
           class="link link-error text-sm"
@@ -133,11 +133,11 @@
         <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "You have silenced this user."} </div>
         <div>
         <Bonfire.Boundaries.Web.BlockButtonLive
-          object={@object}
+          object={@user}
           type="silence"
           only_user
-          title={l("Unsilence %{user}", user: e(@object, :profile, :name, ""))}
-          label={e(@object, :profile, :name, l("this user"))}
+          title={l("Unsilence %{user}", user: e(@user, :profile, :name, ""))}
+          label={e(@user, :profile, :name, l("this user"))}
           open_btn_label={l("Unsilence")}
           parent_id={"user-#{id(@user)}"}
           class="link link-primary text-sm"
@@ -150,10 +150,10 @@
         <div class="prose prose-sm text-sm font-normal text-base-content/70">{l "You have ghosted this user."} </div>
         <div>
         <Bonfire.Boundaries.Web.BlockButtonLive
-          object={@object}
+          object={@user}
           type="ghost"
           only_user
-          label={e(@object, :profile, :name, l("this user"))}
+          label={e(@user, :profile, :name, l("this user"))}
           open_btn_label={l("Unghost")}
           parent_id={"user-#{id(@user)}"}
           class="link link-primary text-sm"

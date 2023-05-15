@@ -121,6 +121,7 @@
   </div>
   <Bonfire.UI.Common.SmartInputButtonLive
     :if={@character_type == :user && current_user_id(@__context__) != id(@user)}
+    as_icon
     create_object_type={:message}
     smart_input_opts={%{
       to_circles: [
@@ -135,6 +136,7 @@
   />
   <Bonfire.UI.Common.SmartInputButtonLive
     :if={@character_type == :group && current_user(@__context__)}
+    as_icon
     create_object_type={:message}
     smart_input_opts={%{
       to_circles: [
