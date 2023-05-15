@@ -3,7 +3,6 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   import Bonfire.UI.Me.Integration
   # import Bonfire.Common.Media
 
-  prop hero_type, :atom, default: :test
   prop user, :map
   prop object, :map
   prop object_id, :string, default: nil
