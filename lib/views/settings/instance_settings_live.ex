@@ -22,7 +22,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
            secondary: nil
          ]
        ],
-       selected_tab: "dashboard",
+       selected_tab: "instance_dashboard",
        id: nil,
        #  smart_input_opts: %{hide_buttons: true},
        page: "instance_settings",
