@@ -1,4 +1,3 @@
 <Bonfire.UI.Common.MembersLive 
-    ghosted_instance_wide?={@ghosted_instance_wide?}
-    silenced_instance_wide?={@silenced_instance_wide?}
-    users={@users} />
+  users={@users} 
+/>

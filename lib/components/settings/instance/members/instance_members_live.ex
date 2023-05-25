@@ -10,33 +10,44 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
   end
 
   def preload(list_of_assigns) do
-    Bonfire.Social.Block.LiveHandler.preload(list_of_assigns, caller_module: __MODULE__)
+    users = Bonfire.Me.Users.list_all()
+
+    users = Enum.map(users, fn user ->
+      user
+      |> Map.put(:ghosted_instance_wide?, Bonfire.Boundaries.Blocks.is_blocked?(id(user), :ghost, :instance_wide))
+      |> Map.put(:silenced_instance_wide?, Bonfire.Boundaries.Blocks.is_blocked?(id(user), :silence, :instance_wide))
+    end)
+
+    Enum.map(list_of_assigns, fn assigns ->
+      Map.put(assigns, :users, users)
+    end)
+
   end
 
-  def update(assigns, socket) do
-    IO.inspect(assigns, label: "assigns")
-    current_user = current_user(assigns)
-    tab = e(assigns, :selected_tab, nil)
+  # def update(assigns, socket) do
+    # IO.inspect(assigns, label: "assigns")
+    # current_user = current_user(assigns)
+    # tab = e(assigns, :selected_tab, nil)
 
-    users = Bonfire.Me.Users.list(current_user)
-    count = Bonfire.Me.Users.maybe_count()
+    # users = Bonfire.Me.Users.list(current_user)
+    # count = Bonfire.Me.Users.maybe_count()
 
-    {:ok,
-     assign(
-       socket,
-       selected_tab: tab,
-       ghosted_instance_wide?: nil,
-       silenced_instance_wide?: nil,
-       current_user: current_user,
-       page_title:
-         if(count,
-           do: l("Users directory (%{total})", total: count),
-           else: l("Users directory")
-         ),
-       page: "users",
-       users: users
-     )}
-  end
+  #   {:ok,
+  #    assign(
+  #      socket,
+  #      selected_tab: tab,
+  #      ghosted_instance_wide?: nil,
+  #      silenced_instance_wide?: nil,
+  #      current_user: current_user,
+  #      page_title:
+  #        if(count,
+  #          do: l("Users directory (%{total})", total: count),
+  #          else: l("Users directory")
+  #        ),
+  #      page: "users",
+  #      users: users
+  #    )}
+  # end
 
   def handle_event(
         action,
