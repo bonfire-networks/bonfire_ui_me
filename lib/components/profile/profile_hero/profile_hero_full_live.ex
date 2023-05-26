@@ -41,6 +41,4 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
           __MODULE__
           # &do_handle_event/3
         )
-
-
 end

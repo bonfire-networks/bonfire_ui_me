@@ -1,3 +1,1 @@
-<Bonfire.UI.Common.MembersLive 
-  users={@users} 
-/>
+<Bonfire.UI.Common.MembersLive users={@users} />

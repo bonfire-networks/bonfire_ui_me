@@ -12,25 +12,31 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
   def preload(list_of_assigns) do
     users = Bonfire.Me.Users.list_all()
 
-    users = Enum.map(users, fn user ->
-      user
-      |> Map.put(:ghosted_instance_wide?, Bonfire.Boundaries.Blocks.is_blocked?(id(user), :ghost, :instance_wide))
-      |> Map.put(:silenced_instance_wide?, Bonfire.Boundaries.Blocks.is_blocked?(id(user), :silence, :instance_wide))
-    end)
+    users =
+      Enum.map(users, fn user ->
+        user
+        |> Map.put(
+          :ghosted_instance_wide?,
+          Bonfire.Boundaries.Blocks.is_blocked?(id(user), :ghost, :instance_wide)
+        )
+        |> Map.put(
+          :silenced_instance_wide?,
+          Bonfire.Boundaries.Blocks.is_blocked?(id(user), :silence, :instance_wide)
+        )
+      end)
 
     Enum.map(list_of_assigns, fn assigns ->
       Map.put(assigns, :users, users)
     end)
-
   end
 
   # def update(assigns, socket) do
-    # IO.inspect(assigns, label: "assigns")
-    # current_user = current_user(assigns)
-    # tab = e(assigns, :selected_tab, nil)
+  # IO.inspect(assigns, label: "assigns")
+  # current_user = current_user(assigns)
+  # tab = e(assigns, :selected_tab, nil)
 
-    # users = Bonfire.Me.Users.list(current_user)
-    # count = Bonfire.Me.Users.maybe_count()
+  # users = Bonfire.Me.Users.list(current_user)
+  # count = Bonfire.Me.Users.maybe_count()
 
   #   {:ok,
   #    assign(

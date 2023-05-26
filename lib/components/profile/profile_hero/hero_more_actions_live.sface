@@ -1,6 +1,9 @@
 <div class="flex items-center gap-3">
   <div aria-haspopup="true" class="dropdown dropdown-end">
-    <label tabindex="0" class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30">
+    <label
+      tabindex="0"
+      class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
+    >
       <#Icon solid="DotsVertical" class="w-4 h-4" />
     </label>
     <ul
@@ -55,7 +58,7 @@
               {l("Preferences")}
             </LiveRedirect>
           </li>
-        
+
           <li class="">
             <LiveRedirect
               to={~p"/feed/likes"}
@@ -75,7 +78,6 @@
               {l("Boundaries")}
             </LiveRedirect>
           </li>
-
         {#else}
           <li class="">
             <Bonfire.UI.Common.FlagActionLive
@@ -87,7 +89,6 @@
           </li>
 
           <Bonfire.Boundaries.Web.BlockMenuButtonsLive parent_id="profile_hero" object={@user} />
-          
 
           {#if @character_type == :user and is_admin?(current_user(@__context__))}
             {#if !is_admin?(@user)}
@@ -156,53 +157,49 @@
   >
     {l("Edit profile")}
   </LiveRedirect>
-  {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or (@ghosted? == true && @silenced? == true)}
-  <button disabled class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-disabled">
-    {l("Blocked")}
-  </button>
+  {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
+      (@ghosted? == true && @silenced? == true)}
+    <button disabled class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-disabled">
+      {l("Blocked")}
+    </button>
   {#else}
-  {#case @character_type}
-    {#match :user}
-      <div 
-        data-role="follow_wrapper" 
-        :if={current_user_id(@__context__) != id(@user)}>
+    {#case @character_type}
+      {#match :user}
+        <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
+          <Bonfire.UI.Common.FollowButtonLive
+            id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
+            object_id={id(@user)}
+            object={@user}
+            path={path(@user)}
+            hide_icon
+            class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
+          />
+        </div>
+      {#match :group}
         <Bonfire.UI.Common.FollowButtonLive
+          :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
+            e(@boundary_preset, "visible", nil) || Boundaries.can?(@current_user, :follow, @user)}
           id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
-          object_id={id(@user)}
-          object={@user}
+          object_id={ulid(@user)}
           path={path(@user)}
           hide_icon
-          class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
+          class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn rounded-full"
+          verb={if e(@user, :type, nil) == :group,
+            do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
+          verb_undo={if e(@user, :type, nil) == :group, do: l("Leave")}
+          verb_already={if e(@user, :type, nil) == :group, do: l("Joined")}
         />
-      </div>
-    {#match :group}
-      <Bonfire.UI.Common.FollowButtonLive
-        :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
-          e(@boundary_preset, "visible", nil) || Boundaries.can?(@current_user, :follow, @user)}
-        id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
-        object_id={ulid(@user)}
-        path={path(@user)}
-        hide_icon
-        class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn rounded-full"
-        verb={if e(@user, :type, nil) == :group,
-          do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
-        verb_undo={if e(@user, :type, nil) == :group, do: l("Leave")}
-        verb_already={if e(@user, :type, nil) == :group, do: l("Joined")}
-      />
-    {#match _}
-    <div 
-      data-role="follow_wrapper" 
-      :if={current_user_id(@__context__) != id(@user)}>
-      <Bonfire.UI.Common.FollowButtonLive
-        id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
-        object_id={id(@user)}
-        object={@user}
-        path={path(@user)}
-        hide_icon
-        class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
-      />
-    </div>
-  {/case}
-  
+      {#match _}
+        <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
+          <Bonfire.UI.Common.FollowButtonLive
+            id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
+            object_id={id(@user)}
+            object={@user}
+            path={path(@user)}
+            hide_icon
+            class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
+          />
+        </div>
+    {/case}
   {/if}
 </div>

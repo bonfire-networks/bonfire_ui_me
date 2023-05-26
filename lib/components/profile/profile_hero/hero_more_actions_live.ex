@@ -9,5 +9,4 @@ defmodule Bonfire.UI.Me.HeroMoreActionsLive do
   prop ghosted?, :boolean, default: false
   prop silenced?, :boolean, default: false
   prop boundary_preset, :any, default: nil
-
 end
