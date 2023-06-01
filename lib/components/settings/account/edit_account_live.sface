@@ -47,7 +47,7 @@
         <Bonfire.UI.Common.ChangeThemesLive
           scope={:account}
           scoped={@current_account}
-          theme={Settings.get([:ui, :theme, :instance_theme], "dark", @current_account)}
+          theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_account)}
           theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_account)}
         />
       </form>

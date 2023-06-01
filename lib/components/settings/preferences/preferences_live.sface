@@ -35,7 +35,7 @@
           <input name="scope" value={:user} type="hidden">
           <Bonfire.UI.Common.ChangeThemesLive
             scoped={@current_user}
-            theme={Settings.get([:ui, :theme, :instance_theme], "dark", @current_user)}
+            theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_user)}
             theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_user)}
           />
         </form>

@@ -60,10 +60,7 @@
           </li>
 
           <li class="">
-            <LiveRedirect
-              to={~p"/feed/likes"}
-              class="flex items-center gap-2 text-sm text-base-content/80"
-            >
+            <LiveRedirect to={~p"/feed/likes"} class="flex items-center gap-2 text-sm text-base-content/80">
               <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
               {l("Favourites")}
             </LiveRedirect>
