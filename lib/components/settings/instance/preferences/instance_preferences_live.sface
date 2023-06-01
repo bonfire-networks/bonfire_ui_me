@@ -179,7 +179,7 @@
               <Bonfire.UI.Common.ChangeThemesLive
                 scope={:instance}
                 scoped={:instance}
-                theme={Config.get([:ui, :theme, :instance_theme], "bonfire")}
+                theme={Config.get([:ui, :theme, :instance_theme], "dark")}
                 theme_light={Config.get([:ui, :theme, :instance_theme_light], "light")}
               />
             </div>

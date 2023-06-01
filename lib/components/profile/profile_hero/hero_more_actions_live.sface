@@ -10,7 +10,7 @@
       tabindex="0"
       role="menu"
       aria-orientation="vertical"
-      class="!block mt-1 rounded-xl shadow-xl dropdown_actions w-64 menu md:menu-compact dropdown-content bg-base-100"
+      class="!block mt-1 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-100"
     >
       {#if @character_type == :group}
         <li>
