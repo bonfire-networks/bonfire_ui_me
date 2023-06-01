@@ -40,7 +40,7 @@
           href={e(@user, :character, :peered, :canonical_uri, "#")}
           target="_blank"
           rel="noopener noreferrer"
-          class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
+          class="flex items-center gap-2 text-sm text-base-content/80"
         >
           <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/80" />
           <span>{l("View on the original instance")}</span>
@@ -52,7 +52,7 @@
           <li>
             <LiveRedirect
               to={~p"/settings/preferences"}
-              class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
+              class="flex items-center gap-2 text-sm text-base-content/80"
             >
               <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
               {l("Preferences")}
@@ -62,7 +62,7 @@
           <li class="">
             <LiveRedirect
               to={~p"/feed/likes"}
-              class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
+              class="flex items-center gap-2 text-sm text-base-content/80"
             >
               <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
               {l("Favourites")}
@@ -72,7 +72,7 @@
           <li class="">
             <LiveRedirect
               to={~p"/boundaries/acls"}
-              class="flex items-center gap-2 text-base md:text-sm text-base-content/80"
+              class="flex items-center gap-2 text-sm text-base-content/80"
             >
               <!-- <#Icon solid="Cog" class="w-4 h-4" /> -->
               {l("Boundaries")}
