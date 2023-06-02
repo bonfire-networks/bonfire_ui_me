@@ -46,20 +46,23 @@ defmodule Bonfire.UI.Me.Routes do
         # live("/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile)
         # live("/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character)
 
+        live("/remote_interaction", RemoteInteractionLive)
+
+        # throttle the routes below
+        pipe_through(:throttle_plug_attacks)
+
         resources("/login/forgot-password", ForgotPasswordController,
           only: [:index, :create],
           as: :forgot_password
         )
 
         live("/users", UsersDirectoryLive)
-
-        live("/remote_interaction", RemoteInteractionLive)
       end
 
       # pages only guests can view
       scope "/", Bonfire.UI.Me do
-        pipe_through(:browser)
-        pipe_through(:guest_only)
+        pipe_through([:throttle_plug_attacks, :browser, :guest_only])
+        # throttling POST to the routes below
 
         resources("/signup", SignupController,
           only: [:index, :create],
@@ -107,11 +110,6 @@ defmodule Bonfire.UI.Me.Routes do
           as: :switch_user
         )
 
-        resources("/create-user", CreateUserController,
-          only: [:index, :create],
-          as: :create_user
-        )
-
         # live "/account/password/change", ChangePasswordLive
         resources("/account/password/change", ChangePasswordController,
           only: [:index, :create],
@@ -133,6 +131,14 @@ defmodule Bonfire.UI.Me.Routes do
         # resources "/settings/account/delete", AccountDeleteController, only: [:index, :create]
 
         resources("/logout", LogoutController, only: [:index, :create])
+
+        # throttling POST to the routes below
+        pipe_through(:throttle_plug_attacks)
+
+        resources("/create-user", CreateUserController,
+          only: [:index, :create],
+          as: :create_user
+        )
       end
 
       # pages you need to view as a user

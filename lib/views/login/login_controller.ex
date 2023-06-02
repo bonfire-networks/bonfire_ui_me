@@ -20,6 +20,7 @@ defmodule Bonfire.UI.Me.LoginController do
         logged_in(account, user, conn, form)
 
       {:error, changeset} ->
+        warn(changeset)
         paint(conn, changeset)
 
       other ->
