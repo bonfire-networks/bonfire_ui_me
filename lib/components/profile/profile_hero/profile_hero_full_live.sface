@@ -12,7 +12,7 @@
       </div>
       <div class="flex flex-col items-start mx-auto mb-3">
         <div class="flex justify-between w-full px-6">
-          {#if @character_type != :group}
+          {#if @character_type == :user}
             <Bonfire.UI.Common.AvatarLive
               parent_id="profile-hero"
               class="inline-block object-cover w-[140px] h-[140px] -mt-[70px] md:mx-0 rounded-full ring-4 ring-base-300 bg-base-200 fill-base-200"
@@ -21,7 +21,7 @@
               user={@user}
             />
             <Bonfire.UI.Me.HeroMoreActionsLive
-              character_type={:user}
+              character_type={@character_type}
               ghosted_instance_wide?={@ghosted_instance_wide?}
               silenced_instance_wide?={@silenced_instance_wide?}
               ghosted?={@ghosted?}
@@ -31,7 +31,7 @@
           {/if}
         </div>
         <div class="w-full">
-          <div class={"flex items-start justify-between w-full pr-6 flex-1": @character_type == :group}>
+          <div class={"flex items-start justify-between w-full pr-6 flex-1": @character_type != :user}>
             <Bonfire.UI.Me.ProfileInfoLive
               ghosted_instance_wide?={@ghosted_instance_wide?}
               silenced_instance_wide?={@silenced_instance_wide?}
@@ -40,13 +40,13 @@
               character_type={@character_type}
               user={@user}
             />
-            <div :if={@character_type == :group} class="mt-3">
+            <div :if={@character_type != :user} class="mt-3">
               <Bonfire.UI.Me.HeroMoreActionsLive
                 ghosted_instance_wide?={@ghosted_instance_wide?}
                 silenced_instance_wide?={@silenced_instance_wide?}
                 ghosted?={@ghosted?}
                 silenced?={@silenced?}
-                character_type={:group}
+                character_type={@character_type}
                 boundary_preset={@boundary_preset}
                 user={@user}
               />

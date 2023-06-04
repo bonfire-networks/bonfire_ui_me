@@ -206,6 +206,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       user: %{},
       canonical_url: nil,
       character_type: nil,
+      path: "@",
       sidebar_widgets: [
         guests: [
           secondary: [
@@ -284,7 +285,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     debug(tab, "load tab")
 
     {:noreply,
-     assign(
+     Bonfire.Social.Feeds.LiveHandler.assign_feed(
        socket,
        Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(
          tab,

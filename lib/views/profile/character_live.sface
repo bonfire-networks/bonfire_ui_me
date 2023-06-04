@@ -13,7 +13,8 @@
         user={@user}
         selected_tab={@selected_tab}
         follows_me={e(@follows_me, false)}
-        character_type={:character}
+        character_type={@character_type}
+        path={@path}
       />
     </:header>
 

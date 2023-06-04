@@ -25,6 +25,17 @@
             <span>{l("Copy invite link")}</span>
           </button>
         </li>
+        <li
+          class="create_new_topic"
+          :if={module_enabled?(Bonfire.UI.Topics.NewTopicLive) and
+            Bonfire.Boundaries.can?(@current_user, :edit, @user) && current_user_id(@__context__)}
+        >
+          <Dynamic.Component
+            module={Bonfire.UI.Topics.NewTopicLive}
+            parent={@user}
+            label={l("New topic")}
+          />
+        </li>
         <li :if={current_user_id(@__context__)}>
           <LiveRedirect
             to={path(@user, :settings) <> "/general"}
@@ -76,7 +87,7 @@
             </LiveRedirect>
           </li>
         {#else}
-          <li>
+          <li :if={@character_type == :user}>
             <Dynamic.Component
               :if={module_enabled?(Bonfire.Boundaries.Web.AddToCircleLive) and @current_user}
               module={Bonfire.Boundaries.Web.AddToCircleLive}
@@ -140,21 +151,7 @@
     icon="ri:mail-line"
     class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
   />
-  <Bonfire.UI.Common.SmartInputButtonLive
-    :if={@character_type == :group && current_user(@__context__)}
-    as_icon
-    create_object_type={:message}
-    smart_input_opts={%{
-      to_circles: [
-        %{
-          (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
-            id(@user)
-        }
-      ]
-    }}
-    icon="mdi:pencil"
-    class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
-  />
+
   <LiveRedirect
     :if={current_user_id(@__context__) == id(@user)}
     to={~p"/settings/profile"}
@@ -185,7 +182,7 @@
           :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
             e(@boundary_preset, "visible", nil) || Boundaries.can?(@current_user, :follow, @user)}
           id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
-          object_id={ulid(@user)}
+          object_id={id(@user)}
           path={path(@user)}
           hide_icon
           class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn rounded-full"
@@ -193,7 +190,27 @@
             do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
           verb_undo={if e(@user, :type, nil) == :group, do: l("Leave")}
           verb_already={if e(@user, :type, nil) == :group, do: l("Joined")}
-        />
+        >
+          <:if_followed>
+            <Bonfire.UI.Common.SmartInputButtonLive
+              :if={@character_type == :group && current_user(@__context__)}
+              prompt={l("Post to group")}
+              smart_input_opts={%{
+                context_id: id(@user),
+                mentions: [id(@user)],
+                to_boundaries: [{:clone_context, elem(@boundary_preset, 1)}],
+                to_circles: [
+                  %{
+                    (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+                      id(@user)
+                  }
+                ]
+              }}
+              icon="mdi:pencil"
+              class="flex btn btn-sm flex-1 btn-primary rounded rounded-full shadow items-center gap-2 normal-case"
+            />
+          </:if_followed>
+        </Bonfire.UI.Common.FollowButtonLive>
       {#match _}
         <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
           <Bonfire.UI.Common.FollowButtonLive

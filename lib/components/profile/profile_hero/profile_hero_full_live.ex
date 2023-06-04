@@ -6,6 +6,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop user, :map
   prop object, :map
   prop object_id, :string, default: nil
+  prop boundary_preset, :any, default: nil
   prop ghosted?, :boolean, default: nil
   prop ghosted_instance_wide?, :boolean, default: nil
   prop silenced?, :boolean, default: nil

@@ -21,26 +21,26 @@ defmodule Bonfire.UI.Me.CharacterLive do
     current_user = current_user(socket)
     current_username = e(current_user, :character, :username, nil)
 
-    user_etc =
+    {path, user_etc} =
       case Map.get(params, "username") || Map.get(params, "id") do
         nil ->
-          current_user
+          {"@", current_user}
 
         username when username == current_username ->
-          current_user
+          {"@", current_user}
 
         "@" <> username ->
-          "/@" <> username
+          {"@", "/@" <> username}
 
         "+" <> username ->
-          "/+" <> username
+          {"+", "/+" <> username}
 
         "&" <> username ->
-          "/&" <> username
+          {"&", "/&" <> username}
 
         username ->
           # TODO: really need to query here?
-          ProfileLive.get(username)
+          {"@", ProfileLive.get(username)}
       end
       |> debug("user_etc")
 
@@ -84,7 +84,11 @@ defmodule Bonfire.UI.Me.CharacterLive do
                  "The extension needed to display this doesn't seem installed or enabled. Showing a simplified profile instead..."
                )
              )
-             |> assign(ProfileLive.user_assigns(user_etc, current_username))}
+             |> assign(ProfileLive.user_assigns(user_etc, current_username))
+             |> assign(
+               character_type: :unknown,
+               path: path
+             )}
           end
         else
           debug("redir to remote profile")
