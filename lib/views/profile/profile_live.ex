@@ -83,7 +83,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
           module_enabled?(Bonfire.Social.Follows, current_user) &&
           Bonfire.Social.Follows.following?(user, current_user)
 
-      # situation = Bonfire.Social.Block.LiveHandler.preload([%{__context__: socket.assigns.__context__, id: id(user), object_id: id(user), object: user, current_user: current_user}], caller_module: __MODULE__)
+      # situation = Bonfire.Boundaries.Blocks.LiveHandler.preload([%{__context__: socket.assigns.__context__, id: id(user), object_id: id(user), object: user, current_user: current_user}], caller_module: __MODULE__)
       # IO.inspect(situation, label: "situation2")
       # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
       # smart_input_prompt = nil

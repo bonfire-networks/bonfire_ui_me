@@ -26,7 +26,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   end
 
   def preload(list_of_assigns) do
-    Bonfire.Social.Block.LiveHandler.preload(list_of_assigns, caller_module: __MODULE__)
+    Bonfire.Boundaries.Blocks.LiveHandler.preload(list_of_assigns, caller_module: __MODULE__)
   end
 
   def handle_event(
