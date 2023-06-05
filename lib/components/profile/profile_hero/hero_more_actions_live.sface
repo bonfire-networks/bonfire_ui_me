@@ -1,5 +1,5 @@
 <div class="flex items-center gap-3">
-  <div aria-haspopup="true" class="dropdown dropdown-end dropdown-right">
+  <div aria-haspopup="true" class="dropdown dropdown-end">
     <label
       tabindex="0"
       class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
@@ -10,7 +10,7 @@
       tabindex="0"
       role="menu"
       aria-orientation="vertical"
-      class="!block mt-1 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-100"
+      class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-100"
     >
       {#if @character_type == :group}
         <!-- <li>
@@ -155,7 +155,7 @@
   <LiveRedirect
     :if={current_user_id(@__context__) == id(@user)}
     to={~p"/settings/profile"}
-    class="normal-case rounded btn btn-sm btn-outline border-base-content/30"
+    class="normal-case rounded-full btn btn-sm btn-outline border-base-content/30"
   >
     {l("Edit profile")}
   </LiveRedirect>
@@ -194,7 +194,7 @@
           <:if_followed>
             <Bonfire.UI.Common.SmartInputButtonLive
               :if={@character_type == :group && current_user(@__context__)}
-              prompt={l("Post to group")}
+              prompt={l("Post")}
               smart_input_opts={%{
                 context_id: id(@user),
                 mentions: [id(@user)],
