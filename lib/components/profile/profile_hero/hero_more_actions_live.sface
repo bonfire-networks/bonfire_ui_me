@@ -178,6 +178,7 @@
           />
         </div>
       {#match :group}
+      <div data-role="follow_wrapper">
         <Bonfire.UI.Common.FollowButtonLive
           :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
             e(@boundary_preset, "visible", nil) || Boundaries.can?(@current_user, :follow, @user)}
@@ -211,6 +212,7 @@
             />
           </:if_followed>
         </Bonfire.UI.Common.FollowButtonLive>
+      </div>
       {#match _}
         <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
           <Bonfire.UI.Common.FollowButtonLive

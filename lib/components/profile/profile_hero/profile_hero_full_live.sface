@@ -40,18 +40,8 @@
               character_type={@character_type}
               user={@user}
             />
-            <div :if={@character_type != :user} class="mt-3">
-              <Bonfire.UI.Me.HeroMoreActionsLive
-                ghosted_instance_wide?={@ghosted_instance_wide?}
-                silenced_instance_wide?={@silenced_instance_wide?}
-                ghosted?={@ghosted?}
-                silenced?={@silenced?}
-                character_type={@character_type}
-                boundary_preset={@boundary_preset}
-                user={@user}
-              />
-            </div>
           </div>
+          
           <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} />
         </div>
       </div>
