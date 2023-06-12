@@ -223,7 +223,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
       ],
       interaction_type: l("follow"),
       follows_me: false,
-      no_index: false
+      no_index: false,
+      boundary_preset: nil
     ]
   end
 
