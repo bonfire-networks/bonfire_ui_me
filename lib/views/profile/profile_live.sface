@@ -18,6 +18,7 @@
         id={ComponentID.new(Bonfire.UI.Me.ProfileHeroFullLive, id(@user), __MODULE__)}
         object_id={id(@user)}
         object={@user}
+        boundary_preset={@boundary_preset}
         user={@user}
         path={@path}
         block_status={e(assigns, :block_status, nil)}
