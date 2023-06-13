@@ -178,7 +178,7 @@
           />
         </div>
       {#match :group}
-        <div data-role="follow_wrapper">
+        <div class="flex items-center gap-2" data-role="follow_wrapper">
           <Bonfire.UI.Common.FollowButtonLive
             :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
               e(@boundary_preset, "visible", nil) || Boundaries.can?(@current_user, :follow, @user)}
