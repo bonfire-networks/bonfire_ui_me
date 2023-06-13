@@ -27,7 +27,6 @@
         ghosted?={@ghosted?}
         silenced?={@silenced?}
         character_type={@character_type}
-        boundary_preset={@boundary_preset}
         user={@user}
       />
     </div>

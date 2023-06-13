@@ -8,7 +8,7 @@ defmodule Bonfire.UI.Me.ProfileInfoLive do
   prop ghosted_instance_wide?, :boolean, default: false
   prop ghosted?, :boolean, default: false
   prop silenced?, :boolean, default: false
-  prop boundary_preset, :any, default: nil
+  # prop boundary_preset, :any, default: nil
 
   def display_url("https://" <> url), do: url
   def display_url("http://" <> url), do: url
