@@ -1,5 +1,40 @@
-<div class="w-full px-6 pt-3 mt-3">
-  <div class="flex items-center gap-8 text-base-content">
+<div class="w-full mt-3">
+
+<nav
+  role="tabpanel"
+  class="flex justify-between w-full mb-2 border-b bg-base-300 tabs border-base-content border-opacity-10"
+  aria-label="Switch between search filter tabs"
+>
+  <!-- ALL TYPES -->
+  <LivePatch
+    class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center"
+    to={"/" <> @path <> e(@user, :character, :username, "")}
+  >
+    <div class={
+      "text-base-content/70 text-sm pb-3 border-b-2 border-transparent font-semibold",
+      " border-primary text-base-content/100": @selected_tab in ["timeline", "posts", "boosts"]
+    }>
+      {l("Activities")}
+    </div>
+  </LivePatch>
+
+  <LivePatch
+    class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center"
+    to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
+  >
+    <div class={
+      "text-base-content/70 text-sm pb-3 border-b-2 border-transparent font-semibold",
+      " border-primary text-base-content/100": @selected_tab == "followers" or @selected_tab == "followed"
+    }>
+      {l("Network")}
+    </div>
+  </LivePatch>
+      
+      
+</nav>
+
+
+  <!-- <div class="flex items-center gap-8 text-base-content">
     <LivePatch
       class={
         "text-sm flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
@@ -25,5 +60,5 @@
     >
       <span>{l("Network")}</span>
     </LivePatch>
-  </div>
+  </div> -->
 </div>
