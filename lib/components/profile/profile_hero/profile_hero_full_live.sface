@@ -10,7 +10,7 @@
           {"Follows you"}
         </div>
       </div>
-      <div class="flex flex-col items-start mx-auto mb-3">
+      <div class="flex flex-col items-start mx-auto ">
         <div class="flex justify-between w-full px-6">
           {#if @character_type == :user}
             <Bonfire.UI.Common.AvatarLive
