@@ -72,7 +72,7 @@
                   },
                 }"
                   role="region"
-                  class="border-t border-b border-base-content/10"
+                  class="border-t border-b border-base-content/20"
                 >
                   <button
                     x-on:click="expanded = !expanded"

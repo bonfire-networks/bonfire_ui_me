@@ -50,7 +50,7 @@
   <Form
     for={@form}
     action={path(:create_user, :create)}
-    opts={[class: "rounded-lg p-4 mb-12 border border-base-content/10", id: "create-form"]}
+    opts={[class: "rounded-lg p-4 mb-12 border border-base-content/20", id: "create-form"]}
   >
     <div class="flex items-center gap-2 mb-3 text-base font-semibold">
       <!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> -->

@@ -2,7 +2,7 @@
   <div class="">
     <div class="">
       <div
-        class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[200px]"
+        class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[140px] md:h-[200px]"
         style={"background-image: url('#{Media.banner_url(@user)}')"}
       >
         <!-- FOLLOWS YOU LABEL -->
@@ -15,7 +15,7 @@
           {#if @character_type == :user}
             <Bonfire.UI.Common.AvatarLive
               parent_id="profile-hero"
-              class="inline-block object-cover w-[140px] h-[140px] -mt-[70px] md:mx-0 rounded-full ring-4 ring-base-300 bg-base-200 fill-base-200"
+              class="inline-block object-cover w-[92px] h-[92px] md:w-[140px] md:h-[140px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full ring-4 ring-base-300 bg-base-200 fill-base-200"
               bg_class=""
               size="100%"
               user={@user}
