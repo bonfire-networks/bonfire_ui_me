@@ -2,7 +2,7 @@
   <div class="">
     <div class="">
       <div
-        class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[140px] md:h-[200px]"
+        class="relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200 h-[140px] md:just updateh-[200px]"
         style={"background-image: url('#{Media.banner_url(@user)}')"}
       >
         <!-- FOLLOWS YOU LABEL -->
@@ -42,10 +42,12 @@
               character_type={@character_type}
               boundary_preset={@boundary_preset}
               user={@user}
+              path={@path}
+              selected_tab={@selected_tab}
             />
           </div>
 
-          <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} />
+          <!-- <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} /> -->
         </div>
       </div>
     </div>

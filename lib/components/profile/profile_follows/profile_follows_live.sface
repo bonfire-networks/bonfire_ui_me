@@ -1,5 +1,5 @@
 <div>
-  <#slot {@header} />
+  <!-- <#slot {@header} /> -->
   <div class={
     "grid items-start grid-cols-1 mt-2 md:mt-0",
     "max-w-[680px] mx-auto": !@current_user
@@ -8,6 +8,9 @@
       <Bonfire.UI.Common.TabsLive
         :if={!@hide_tabs}
         selected_tab={@selected_tab}
+        class="flex justify-between w-full border-b bg-base-300 tabs border-base-content border-opacity-20"
+        tab_class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center lined_tab"
+        item_class="text-base-content/70 text-sm pb-3 border-b-2 border-transparent font-semibold"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
         tabs={if id(@current_user) == id(@user),
           do: Config.get([:ui, @showing_within, :network], followers: l("Followers")),

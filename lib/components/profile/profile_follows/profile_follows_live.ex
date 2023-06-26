@@ -8,5 +8,5 @@ defmodule Bonfire.UI.Social.ProfileFollowsLive do
   prop showing_within, :atom, default: :profile
   prop hide_tabs, :boolean, default: false
 
-  slot header
+  # slot header
 end

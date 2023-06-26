@@ -3,6 +3,8 @@ defmodule Bonfire.UI.Me.ProfileInfoLive do
   import Bonfire.UI.Me.Integration
 
   prop user, :map
+  prop path, :string, default: "@"
+  prop selected_tab, :any, default: nil
   prop character_type, :atom, default: :user
   prop silenced_instance_wide?, :boolean, default: false
   prop ghosted_instance_wide?, :boolean, default: false
