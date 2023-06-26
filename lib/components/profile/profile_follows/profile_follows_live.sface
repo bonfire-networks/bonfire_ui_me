@@ -27,6 +27,7 @@
                   lg
                   avatar_class="w-12 h-12 rounded-full bg-base-100"
                   character={e(follow, :edge, :object, :character, nil)}
+                  parent_id="profile_follows"
                 />
               </li>
             {#else}
@@ -53,6 +54,7 @@
                     do: [:follow, :accept],
                     else: []}
                   activity_id={id(follow)}
+                  parent_id="profile_follows"
                 />
               </li>
             {#else}
