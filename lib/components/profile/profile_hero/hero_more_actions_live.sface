@@ -153,7 +153,7 @@
             object={@user}
             path={path(@user)}
             hide_icon
-            class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
+            class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded-full btn btn-primary"
           />
         </div>
       {#match :group}
@@ -200,7 +200,7 @@
             object={@user}
             path={path(@user)}
             hide_icon
-            class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-primary"
+            class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded-full btn btn-primary"
           />
         </div>
     {/case}
