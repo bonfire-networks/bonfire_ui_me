@@ -37,14 +37,17 @@
       {rich(e(@user, :profile, :summary, ""))}
     </div>
 
-      <!-- :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)} -->
+    <!-- :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)} -->
     <div class="flex items-center mt-4 w-full space-x-4">
-      <LivePatch class="flex items-center" to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}>
-         <#Icon iconify="eos-icons:network" class="w-5 h-5 text-base-content/70" />
+      <LivePatch
+        class="flex items-center"
+        to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
+      >
+        <#Icon iconify="eos-icons:network" class="w-5 h-5 text-base-content/70" />
         <span class="link link-hover ml-2 text-sm text-base-content font-medium">
-        {l("Network")}
+          {l("Network")}
         </span>
-    </LivePatch>
+      </LivePatch>
       <div :if={e(@user, :profile, :location, nil)} class="flex items-center">
         <#Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
         <span class="ml-2 text-sm text-base-content/70">
@@ -69,9 +72,8 @@
       </div>
     </div>
   </div>
-<div>
- 
-</div>
+  <div>
+  </div>
   {#if @ghosted_instance_wide? == nil and
       @silenced_instance_wide? == nil and
       @ghosted? == nil and
