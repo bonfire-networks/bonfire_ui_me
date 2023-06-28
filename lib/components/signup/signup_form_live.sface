@@ -6,9 +6,7 @@
       {#match :taken}
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
-            <div class="flex-shrink-0">
-              <#Icon solid="Exclamation" />
-            </div>
+              <#Icon class="shrink-0 w-5 h-5" solid="Exclamation" />
             <div class="ml-3">
               <h3 class="text-sm font-medium">
                 {l("This email is taken.")} Did you mean to <LiveRedirect to={~p"/login"}>log in</LiveRedirect>?
@@ -19,9 +17,7 @@
       {#match {error, _} when is_binary(error)}
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
-            <div class="flex-shrink-0">
-              <#Icon solid="Exclamation" />
-            </div>
+              <#Icon class="shrink-0 w-5 h-5" solid="Exclamation" />
             <div class="ml-3">
               <h3 class="text-sm font-medium">
                 {l("An error occurred:")} {error}
@@ -32,9 +28,7 @@
       {#match error}
         <div role="status" class="mb-4 alert alert-error">
           <div class="flex">
-            <div class="flex-shrink-0">
-              <#Icon solid="Exclamation" />
-            </div>
+              <#Icon class="shrink-0 w-5 h-5" solid="Exclamation" />
             <div class="ml-3">
               <h3 class="text-sm font-medium">
                 {l("An error occurred:")} {error}

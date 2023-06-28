@@ -1,12 +1,12 @@
 <div class="max-w-[680px] mx-3 mt-3 md:mx-auto">
   <div class="my-2">
-    <div class="p-4 rounded-md bg-warning/10">
+    <div class="p-4 rounded-md bg-warning">
       <div class="flex">
         <div class="flex-shrink-0">
-          <#Icon solid="InformationCircle" class="w-5 h-5 text-warning" />
+          <#Icon solid="InformationCircle" class="w-5 h-5 text-warning-content" />
         </div>
         <div class="flex-1 ml-3 md:flex md:justify-between">
-          <p class="text-sm text-warning">
+          <p class="text-sm text-warning-content">
             {l("This information will be displayed publicly so be careful what you share.")}</p>
         </div>
       </div>

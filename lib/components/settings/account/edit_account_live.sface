@@ -5,7 +5,7 @@
         <div class="text-sm font-bold">{l("Change password")}</div>
         <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
       </div>
-      <LiveRedirect to={path(:change_password)} class="normal-case btn btn-sm">{l("Change")}</LiveRedirect>
+      <LiveRedirect to={path(:change_password)} class="normal-case btn-outline rounded-full btn btn-sm">{l("Change")}</LiveRedirect>
     </div>
   </div>
   <div class="p-4">
@@ -14,7 +14,7 @@
         <div class="text-sm font-bold">{l("Change my email address")}</div>
         <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
       </div>
-      <LiveRedirect to={path(:change_email)} class="normal-case btn btn-sm">{l("Change")}</LiveRedirect>
+      <LiveRedirect to={path(:change_email)} class="normal-case btn-outline rounded-full btn btn-sm">{l("Change")}</LiveRedirect>
     </div>
   </div>
   <div x-data="{open: false}" class="p-4">
@@ -41,7 +41,7 @@
         <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
     </div>
-    <div x-show="open" x-collapse>
+    <div x-show="open" x-cloak x-collapse>
       <form name="settings" phx-change="Bonfire.Me.Settings:set">
         <input name="scope" value={:account} type="hidden">
         <Bonfire.UI.Common.ChangeThemesLive
@@ -53,4 +53,146 @@
       </form>
     </div>
   </div>
+
+  <div x-data="{open: false}" class="p-4">
+    <div class="flex items-center justify-between">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-bold">{l("Move to a different account")}</div>
+        <div class="text-sm font-light text-base-content/70">{l("You can redirect this account to a different one")}</div>
+      </div>
+      <button
+        type="button"
+        x-cloak
+        x-on:click="open = !open"
+        class="rounded btn btn-square btn-sm btn-ghost"
+        x-show="open"
+      >
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button
+        type="button"
+        x-on:click="open = !open"
+        class="rounded btn btn-square btn-sm btn-ghost"
+        x-show="!open"
+      >
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse>
+      <div class="p-4 mt-4 mb-0 rounded-md bg-info/10">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <#Icon solid="InformationCircle" class="w-5 h-5 text-info" />
+          </div>
+          <div class="flex-1 ml-3 md:flex md:justify-between">
+
+            <div class="prose prose-sm text-info">
+              Before proceeding, please read these notes carefully:
+                <ul>
+                <li>This action will move all followers from the current account to the new account</li>
+                <li>Your current account's profile will be updated with a redirect notice and be excluded from searches</li>
+                <li>No other data will be moved automatically</li>
+                <li>The new account must first be configured to back-reference this one</li>
+                <li>After moving there is a waiting period during which you will not be able to move again</li>
+                <li>Your current account will not be fully usable afterwards. However, you will have access to data export as well as re-activation.</li>
+              </ul>
+              Alternatively, you can only put up a redirect on your profile.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-control  mt-4 w-full">
+        <div class="text-base  font-medium">{l "Handle of the new account"}</div>
+        <label class="label">
+          <span class="label-text">{l "Specify the username@domain of the account you want to move to"}</span>
+        </label>
+        <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+        
+        <div class="text-base mt-5 font-medium">{l "Current password"}</div>
+        <label class="label">
+          <span class="label-text">{l "For security purposes please enter the password of the current account"}</span>
+        </label>
+        <input type="password" placeholder="Type here" class="input input-bordered w-full" />
+        <button class="w-full rounded-full btn btn-primary mt-4">{l "Move followers"}</button>
+      </div>
+    </div>
+  </div>
+
+  <div x-data="{open: false}" class="p-4">
+    <div class="flex items-center justify-between">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-bold">{l("Moving from a different account")}</div>
+        <div class="text-sm font-light text-base-content/70">{l("Move from another account to this one")}</div>
+      </div>
+      <button
+        type="button"
+        x-cloak
+        x-on:click="open = !open"
+        class="rounded btn btn-square btn-sm btn-ghost"
+        x-show="open"
+      >
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button
+        type="button"
+        x-on:click="open = !open"
+        class="rounded btn btn-square btn-sm btn-ghost"
+        x-show="!open"
+      >
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse>
+      <div class="prose prose-sm mt-6">{l "If you want to move from another account to this one, here you can create an alias, which is required before you can proceed with moving followers from the old account to this one. This action by itself is harmless and reversible. The account migration is initiated from the old account."}</div>
+      <div class="form-control  mt-4 w-full">
+        <div class="text-base  font-medium">{l "Handle of the old account"}</div>
+        <label class="label">
+          <span class="label-text">{l "Specify the username@domain of the account you want to move from"}</span>
+        </label>
+        <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+        
+        <button class="w-full rounded-full btn btn-primary mt-4">{l "Create alias"}</button>
+      </div>
+    
+    </div>
+  </div>
+
+  <div x-data="{open: false}" class="p-4">
+    <div class="flex items-center justify-between">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm text-error font-bold">{l("Delete Account")}</div>
+        <div class="text-sm font-light text-base-content/70">{l("Delete all the data associated with your account")}</div>
+      </div>
+      <button
+        type="button"
+        x-cloak
+        x-on:click="open = !open"
+        class="rounded btn btn-square btn-sm btn-ghost"
+        x-show="open"
+      >
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button
+        type="button"
+        x-on:click="open = !open"
+        class="rounded btn btn-square btn-sm btn-ghost"
+        x-show="!open"
+      >
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse>
+      <div class="prose prose-sm mt-4">
+        <p>{l("Deleting your account will remove all your data from this server. This includes all your posts, comments, and any other data associated with your account.")}</p>
+        <p>{l("This action cannot be undone.")}</p>
+        <p>{l("If you are sure you want to delete your account, please enter your password below to confirm.")}</p>
+      </div>
+      <div class="mt-3">
+        <input type="text" placeholder="Type here" class="input input-bordered w-full" />
+        <button class="btn-error btn mt-3 rounded-full w-full">{l("Delete my account")}</button>
+      </div>
+    </div>
+  </div>
+
+
 </div>

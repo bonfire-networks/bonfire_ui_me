@@ -14,14 +14,14 @@
   {#if @registered}
     <div class="max-w-[680px] mx-auto">
       <div class="">
-        <div class="p-4 rounded-md bg-success/10">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              <#Icon solid="CheckCircle" class="w-5 h-5 text-success" />
+        <div class="w-[90%] md:w-[360px] mx-auto p-3 rounded-xl border border-base-content/20">
+          <div class="flex flex-col place-content-center">
+            <div class="flex-shrink-0 text-3xl place-content-center items-center text-center">
+              🎉🎉🎉
             </div>
-            <div class="flex-col flex-1 ml-3 md:flex md:justify-between">
-              <h3 class="text-sm font-medium text-success">{l("Hooray! You are registered")}</h3>
-              <div class="mt-2 text-sm text-success/80" data-id="confirmation_success">
+            <div class="flex-col flex-1 md:flex md:justify-between text-center">
+              <h3 class="text-xl font-bold text-base-content mt-4">{l("Hooray! You are registered")}</h3>
+              <div class="mt-2 text-base text-base-content/80" data-id="confirmation_success">
                 {#if @registered == :check_email}
                   {l(
                     "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."
@@ -30,7 +30,7 @@
                   {l("You can now log in.")}
                 {/if}
               </div>
-              <LiveRedirect class="mt-3 font-bold link link-sm text-success" to={path(Config.get!(:home_page))}>
+              <LiveRedirect class="mt-6 btn btn-outline btn-primary normal-case" to={path(Config.get!(:home_page))}>
                 {l("Back to home page")}
               </LiveRedirect>
             </div>

@@ -1,4 +1,10 @@
-<div class="w-[90%] mt-24 md:w-[360px] mx-auto p-3 rounded-lg bg-base-100 shadow">
+ <Bonfire.UI.Common.LogoLinkLive
+    with_name
+    container_class="flex mt-16  items-center mb-8 justify-center gap-2"
+    name_class="text-2xl font-bold tracking-wider"
+    href="/"
+  />
+<div class="w-[90%] md:w-[360px] mx-auto p-3 rounded-xl border border-base-content/20">  
   <Form for={@form || :change_email}>
     <div class="">
       <p>{@error}</p>
@@ -27,7 +33,7 @@
           type="submit"
           phx-disable-with="Saving..."
           class="w-full normal-case btn btn-primary btn-wide"
-        >{l("Submit")}</button>
+        >{l("Update email")}</button>
       </div>
     </div>
   </Form>
