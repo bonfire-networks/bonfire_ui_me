@@ -16,14 +16,44 @@
         </tr>
         <!-- row 3 -->
         <tr>
-          <td>Follows</td>
+          <td>Following</td>
           <td>160</td>
           <td>
-            <button class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2">
+            <a
+              download
+              href="/settings/export_csv/following"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
+            >
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
               <span>CSV</span>
-            </button>
+            </a>
           </td>
+        </tr>
+        <tr>
+          <td>Follow Requests</td>
+          <td>1</td>
+          <td>
+            <a
+              download
+              href="/settings/export_csv/requests"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>CSV</span>
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td>Followers</td>
+          <td>23</td>
+          <td><a
+              download
+              href="/settings/export_csv/followers"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>CSV</span>
+            </a></td>
         </tr>
         <tr>
           <td>Circles</td>
@@ -41,14 +71,7 @@
               <span>CSV</span>
             </button></td>
         </tr>
-        <tr>
-          <td>Followers</td>
-          <td>23</td>
-          <td><button class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2">
-              <#Icon iconify="pajamas:import" class="w-4 h-4" />
-              <span>CSV</span>
-            </button></td>
-        </tr>
+
         <tr>
           <td>Your silenced</td>
           <td>23</td>
