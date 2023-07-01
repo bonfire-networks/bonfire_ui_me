@@ -1,42 +1,51 @@
-<div class="p-5">
-  <div class="p-4 mb-0 rounded-md bg-info/10">
-    <div class="flex">
-      <div class="flex-shrink-0">
-        <div iconify="heroicons-solid:information-circle" class="w-5 h-5 text-info" aria-hidden="true" />
+<Form multipart submit="import" change="validate" opts={"phx-target": @myself}>
+  <div class="p-5">
+    <div class="p-4 mb-0 rounded-md bg-info/10">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <div iconify="heroicons-solid:information-circle" class="w-5 h-5 text-info" aria-hidden="true" />
+        </div>
+        <div class="flex-1 ml-3 md:flex md:justify-between">
+          <p class="text-sm text-info">You can import your web of relationships from others compatible platforms, this is a key feature of the fediverse.</p>
+        </div>
       </div>
-      <div class="flex-1 ml-3 md:flex md:justify-between">
-        <p class="text-sm text-info">You can import your web of relationships from others compatible platforms, this is a key feature of the fediverse.</p>
+    </div>
+
+    <div class="flex mt-5  items-start gap-6">
+      <span class="w-12 h-12 shrink-0  rounded-full flex place-content-center items-center bg-info/10">
+        <b>1</b>
+      </span>
+      <div class="flex flex-col gap-1" phx-update="ignore">
+        <h2 class="font-semibold">{l("Select what kind of data you want to import")}</h2>
+        <div class="text-sm text-base-content/70">{l("You can import data that you have previously exported from another instance in CVS format")}</div>
+        <Select
+          field={:type}
+          class="select mt-4  select-bordered w-full max-w-md"
+          options={%{
+            "" => nil,
+            "List of users I follow" => :follows,
+            "Users/instances I ghosted" => :ghosts,
+            "Users/instances I silenced" => :silences,
+            "Users/instances I fully blocked" => :blocks
+          }}
+        />
       </div>
     </div>
-  </div>
 
-  <div class="flex mt-5  items-start gap-6">
-    <span class="w-12 h-12 shrink-0  rounded-full flex place-content-center items-center bg-info/10">
-      <b>1</b>
-    </span>
-    <div class="flex flex-col gap-1">
-      <h2 class="font-semibold">{l("Select what kind of data you want to import")}</h2>
-      <div class="text-sm text-base-content/70">{l("You can import data that you have previously exported from another instance in CVS format")}</div>
-      <select class="select mt-4  select-bordered w-full max-w-md">
-        <option>Following list</option>
-        <option>Follower list</option>
-        <option>Ghosted list</option>
-        <option>Silenced list</option>
-        <option>Blocked list</option>
-      </select>
+    <div class="mt-10 flex items-start gap-6">
+      <span class="w-12 h-12 shrink-0  rounded-full flex place-content-center items-center bg-info/10">
+        <b>2</b>
+      </span>
+      <div class="flex flex-col gap-1">
+        <div class="font-semibold">{l("Select the file you want to import")}</div>
+        <!-- <FileInput field="file" class="mt-4 file-input file-input-bordered w-full max-w-md" opts={"accepts": ".csv"} /> -->
+        <label for={@uploads.file.ref} class="mt-4  w-full max-w-md">
+          <span>{l("Upload or drop")}</span>
+          {live_file_input(@uploads.file, class: "file-input file-input-bordered")}
+        </label>
+      </div>
     </div>
-  </div>
-
-  <div class="mt-10 flex items-start gap-6">
-    <span class="w-12 h-12 shrink-0  rounded-full flex place-content-center items-center bg-info/10">
-      <b>2</b>
-    </span>
-    <div class="flex flex-col gap-1">
-      <div class="font-semibold">{l("Select the file you want to import")}</div>
-      <input type="file" class="mt-4 file-input file-input-bordered w-full max-w-md">
-    </div>
-  </div>
-
+    <!-- 
   <div class="mt-10 flex items-start gap-6">
     <span class="w-12 h-12 shrink-0  rounded-full flex place-content-center items-center bg-info/10">
       <b>3</b>
@@ -64,7 +73,8 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
-  <button class="btn mt-12 btn-primary w-full rounded-full normal-case">{l("Upload")}</button>
-</div>
+    <button class="btn mt-12 btn-primary w-full rounded-full normal-case">{l("Upload")}</button>
+  </div>
+</Form>

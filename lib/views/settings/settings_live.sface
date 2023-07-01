@@ -12,7 +12,7 @@
     {#match "account"}
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
     {#match "import"}
-      <Bonfire.UI.Me.SettingsViewsLive.ImportLive selected_tab={@selected_tab} />
+      <Bonfire.UI.Me.SettingsViewsLive.ImportLive selected_tab={@selected_tab} id="import" />
     {#match "export"}
       <Bonfire.UI.Me.SettingsViewsLive.ExportLive selected_tab={@selected_tab} />
       <!-- {#match "roles"}
