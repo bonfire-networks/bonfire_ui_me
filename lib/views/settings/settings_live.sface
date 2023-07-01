@@ -12,9 +12,9 @@
     {#match "account"}
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
     {#match "import"}
-    <Bonfire.UI.Me.SettingsViewsLive.ImportLive selected_tab={@selected_tab} />
+      <Bonfire.UI.Me.SettingsViewsLive.ImportLive selected_tab={@selected_tab} />
     {#match "export"}
-    <Bonfire.UI.Me.SettingsViewsLive.ExportLive selected_tab={@selected_tab} />
+      <Bonfire.UI.Me.SettingsViewsLive.ExportLive selected_tab={@selected_tab} />
       <!-- {#match "roles"}
       <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.RolesLive) and @current_user}
