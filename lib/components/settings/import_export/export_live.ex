@@ -72,6 +72,24 @@ defmodule Bonfire.UI.Me.ExportController do
     |> debug()
   end
 
+  defp csv_content(conn, "posts" = type) do
+    fields = ["ID", "Date", "CW", "Summary", "Text"]
+
+    current_user = current_user_required!(conn)
+
+    {:ok, conn} = chunk(conn, [fields] |> CSV.dump_to_iodata())
+
+    Bonfire.Social.Posts.list_by(current_user,
+      current_user: current_user,
+      paginate: false,
+      return: :stream,
+      stream_callback: fn stream ->
+        stream_callback(type, stream, conn)
+      end
+    )
+    |> debug()
+  end
+
   defp csv_content(conn, type) when type in ["silenced", "ghosted"] do
     fields = ["Account address"]
     current_user = current_user_required!(conn)
@@ -101,10 +119,11 @@ defmodule Bonfire.UI.Me.ExportController do
 
   defp stream_callback(type, stream, conn) do
     # for result <- stream do
-    #   debug(result)
     #   Plug.Conn.chunk(conn, prepare_rows(type, result) |> debug())
     # end
     Enum.reduce_while(stream, conn, fn result, conn ->
+      debug(result)
+
       case Plug.Conn.chunk(conn, prepare_rows(type, result) |> debug()) do
         {:ok, conn} ->
           {:cont, conn}
@@ -124,12 +143,27 @@ defmodule Bonfire.UI.Me.ExportController do
     prepare_csv([prepare_record(type, record)])
   end
 
+  defp preload_assocs(records, type) when type in ["following", "requests"] do
+    records |> repo().preload(edge: [object: [:character]])
+  end
+
+  defp preload_assocs(records, type) when type in ["followers"] do
+    records |> repo().preload(edge: [subject: [:character]])
+  end
+
+  defp preload_assocs(records, type) when type in ["posts"] do
+    records |> repo().preload([:post_content, :peered])
+  end
+
+  defp preload_assocs(records, type) do
+    records
+  end
+
   defp prepare_record(type, record) when type in ["following", "requests"] do
     [
       record
       |> preload_assocs(type)
       |> e(:edge, :object, nil)
-      |> debug()
       |> Bonfire.Me.Characters.display_username(true)
     ]
   end
@@ -139,7 +173,6 @@ defmodule Bonfire.UI.Me.ExportController do
       record
       |> preload_assocs(type)
       |> e(:edge, :subject, nil)
-      |> debug()
       |> Bonfire.Me.Characters.display_username(true)
     ]
   end
@@ -152,16 +185,19 @@ defmodule Bonfire.UI.Me.ExportController do
     ]
   end
 
-  defp preload_assocs(records, type) when type in ["following", "requests"] do
-    records |> repo().preload(edge: [object: [:character]])
-  end
+  defp prepare_record(type, record) when type in ["posts"] do
+    record =
+      record
+      |> preload_assocs(type)
+      |> debug()
 
-  defp preload_assocs(records, type) when type in ["followers"] do
-    records |> repo().preload(edge: [subject: [:character]])
-  end
-
-  defp preload_assocs(records, type) do
-    records
+    [
+      URIs.canonical_url(record),
+      DatesTimes.date_from_pointer(record),
+      e(record, :post_content, :name, nil),
+      e(record, :post_content, :summary, nil),
+      e(record, :post_content, :html_body, nil)
+    ]
   end
 
   defp prepare_csv(records) do
