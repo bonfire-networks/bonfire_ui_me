@@ -17,6 +17,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> send_chunked(:ok)
     # |> send_resp(200, csv_content(conn, type))
     |> csv_content(type)
+    |> ok_unwrap()
   end
 
   defp csv_content(conn, "following" = type) do
@@ -31,15 +32,12 @@ defmodule Bonfire.UI.Me.ExportController do
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
-        for result <- stream do
-          chunk(conn, prepare_rows(type, result))
-        end
+        stream_callback(type, stream, conn)
       end
     )
   end
 
   defp csv_content(conn, "followers" = type) do
-    # ,"Show boosts","Notify on new posts","Languages"]
     fields = ["Account address"]
 
     current_user = current_user_required!(conn)
@@ -50,15 +48,12 @@ defmodule Bonfire.UI.Me.ExportController do
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
-        for result <- stream do
-          chunk(conn, prepare_rows(type, result))
-        end
+        stream_callback(type, stream, conn)
       end
     )
   end
 
   defp csv_content(conn, "requests" = type) do
-    # ,"Show boosts","Notify on new posts","Languages"]
     fields = ["Account address"]
 
     current_user = current_user_required!(conn)
@@ -71,18 +66,54 @@ defmodule Bonfire.UI.Me.ExportController do
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
-        for result <- stream do
-          debug(result)
-          chunk(conn, prepare_rows(type, result) |> debug())
-        end
+        stream_callback(type, stream, conn)
       end
     )
     |> debug()
   end
 
+  defp csv_content(conn, type) when type in ["silenced", "ghosted"] do
+    fields = ["Account address"]
+    current_user = current_user_required!(conn)
+    scope = nil
+
+    block_type = if type == "ghosted", do: :ghost, else: :silence
+
+    {:ok, conn} = chunk(conn, [fields] |> CSV.dump_to_iodata())
+
+    if scope == :instance_wide do
+      Bonfire.Boundaries.Blocks.instance_wide_circles(block_type)
+    else
+      Bonfire.Boundaries.Blocks.user_block_circles(scope || current_user, block_type)
+    end
+    |> List.first()
+    |> repo().maybe_preload(encircles: [subject: [:character]])
+    |> e(:encircles, [])
+    |> prepare_rows(type, ...)
+    |> debug
+    |> Plug.Conn.chunk(conn, ...)
+  end
+
   defp csv_content(conn, type) do
     warn(type, "type not implemented")
-    {:cont, conn}
+    conn
+  end
+
+  defp stream_callback(type, stream, conn) do
+    # for result <- stream do
+    #   debug(result)
+    #   Plug.Conn.chunk(conn, prepare_rows(type, result) |> debug())
+    # end
+    Enum.reduce_while(stream, conn, fn result, conn ->
+      case Plug.Conn.chunk(conn, prepare_rows(type, result) |> debug()) do
+        {:ok, conn} ->
+          {:cont, conn}
+
+        other ->
+          error(other)
+          {:halt, conn}
+      end
+    end)
   end
 
   defp prepare_rows(type, records) when is_list(records) do
@@ -109,6 +140,14 @@ defmodule Bonfire.UI.Me.ExportController do
       |> preload_assocs(type)
       |> e(:edge, :subject, nil)
       |> debug()
+      |> Bonfire.Me.Characters.display_username(true)
+    ]
+  end
+
+  defp prepare_record(type, record) when type in ["silenced", "ghosted"] do
+    [
+      record
+      |> e(:subject, nil)
       |> Bonfire.Me.Characters.display_username(true)
     ]
   end

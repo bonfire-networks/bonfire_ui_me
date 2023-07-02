@@ -55,7 +55,7 @@
               <span>CSV</span>
             </a></td>
         </tr>
-        <tr>
+        <!-- <tr>
           <td>Circles</td>
           <td>2</td>
           <td><button class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2">
@@ -70,32 +70,40 @@
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
               <span>CSV</span>
             </button></td>
-        </tr>
+        </tr> -->
 
         <tr>
-          <td>Your silenced</td>
+          <td>Silenced</td>
           <td>23</td>
-          <td><button class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2">
+          <td><a
+              download
+              href="/settings/export_csv/silenced"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
+            >
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
               <span>CSV</span>
-            </button></td>
+            </a></td>
         </tr>
         <tr>
-          <td>Your ghosted</td>
+          <td>Ghosted</td>
+          <td>23</td>
+          <td><a
+              download
+              href="/settings/export_csv/ghosted"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>CSV</span>
+            </a></td>
+        </tr>
+        <!-- <tr>
+          <td>Blocks</td>
           <td>23</td>
           <td><button class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2">
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
               <span>CSV</span>
             </button></td>
-        </tr>
-        <tr>
-          <td>Yourr block</td>
-          <td>23</td>
-          <td><button class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2">
-              <#Icon iconify="pajamas:import" class="w-4 h-4" />
-              <span>CSV</span>
-            </button></td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   </div>
@@ -105,5 +113,5 @@
       "You can request an archive of your posts and uploaded media. The exported data will be in the ActivityPub format, readable by any compliant software. You can request an archive every 7 days."
     )}
   </div>
-  <button class="btn mt-4 btn-primary normal-case btn-sm">{l("Request your archive")}</button>
+  <button class="btn mt-4 btn-primary normal-case btn-sm">{l("Request your archive")} (coming soon)</button>
 </div>
