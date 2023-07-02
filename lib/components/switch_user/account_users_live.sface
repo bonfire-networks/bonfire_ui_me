@@ -1,7 +1,7 @@
 {#if is_list(@current_account_users) && length(@current_account_users) > 0}
   <div class="flex-1 mt-2">
     <div class="grid grid-cols-1 gap-3 mx-4 lg:mx-0 sm:grid-cols-2 lg:gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {#for user <- @current_account_users}
+      {#for %{character: %{}} = user <- @current_account_users}
         <div class="col-span-1">
           <Bonfire.UI.Common.UserPreviewLive user={user} path_prefix="/switch-user/" go={@go} />
         </div>

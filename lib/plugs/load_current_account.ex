@@ -4,6 +4,10 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentAccount do
 
   def init(opts), do: opts
 
+  def call(%{assigns: %{current_account: current_account}} = conn, _opts) do
+    conn
+  end
+
   def call(conn, _opts) do
     assign(
       conn,

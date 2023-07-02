@@ -330,8 +330,22 @@
       <p>{l("If you are sure you want to delete your user, please enter your password below to confirm.")}</p>
     </div>
     <div class="mt-3">
-      <input type="password" placeholder="Type here" class="input input-bordered w-full">
-      <button class="btn-error btn mt-3 rounded-full w-full">{l("Delete my user")} (coming soon)</button>
+      <!-- <input type="password" placeholder="Type here" class="input input-bordered w-full"> -->
+      <!-- <button class="btn-error btn mt-3 rounded-full w-full">{l("Delete my user")} (coming soon)</button> -->
+
+      <Bonfire.UI.Social.Activity.DeleteObjectLive
+        skip_permission_check
+        action="Bonfire.Me.Settings:delete_user"
+        object={@current_user}
+        object_type_readable={l("user & data")}
+        creator_id={@current_user}
+        parent_id={"delete-user-#{id(@current_user)}"}
+        open_btn_class="btn-error btn mt-3 rounded-full w-full"
+        explanation={l(
+          "Deleting your user profile means that this user (%{username}) and all related data and activities (but not any other user profiles under this account) will be deleted.",
+          username: Bonfire.Me.Characters.display_username(@current_user)
+        )}
+      />
     </div>
   </div>
 </div>

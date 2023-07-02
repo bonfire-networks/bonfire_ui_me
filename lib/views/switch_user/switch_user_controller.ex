@@ -18,7 +18,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
 
   defp index([_ | _] = users, _, conn, _params) do
     conn
-    |> assign(:current_account_users, users)
+    |> assign(:current_account_users, filter_empty(users, []) |> debug("current_account_userss"))
     |> assign(:go, go_query(conn))
     |> live_render(SwitchUserLive)
   end

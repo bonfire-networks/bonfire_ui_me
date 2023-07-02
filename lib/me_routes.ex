@@ -7,10 +7,6 @@ defmodule Bonfire.UI.Me.Routes do
         plug(Bonfire.UI.Me.Plugs.GuestOnly)
       end
 
-      pipeline :account_required do
-        plug(Bonfire.UI.Me.Plugs.AccountRequired)
-      end
-
       pipeline :user_required do
         plug(Bonfire.UI.Me.Plugs.UserRequired)
       end
@@ -18,6 +14,11 @@ defmodule Bonfire.UI.Me.Routes do
       # an alias
       pipeline :require_authenticated_user do
         plug(Bonfire.UI.Me.Plugs.UserRequired)
+      end
+
+      pipeline :account_required do
+        plug(Bonfire.UI.Me.Plugs.LoadCurrentAccount)
+        plug(Bonfire.UI.Me.Plugs.AccountRequired)
       end
 
       pipeline :admin_required do

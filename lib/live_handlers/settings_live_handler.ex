@@ -73,6 +73,33 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     |> handle_event("set", ..., socket)
   end
 
+  def handle_event("delete_user", _, socket) do
+    do_delete(Bonfire.Me.DeleteWorker.do_delete(current_user_id(socket)), "/switch-user", socket)
+  end
+
+  def handle_event("delete_account", _, socket) do
+    do_delete(Bonfire.Me.Accounts.queue_delete(current_account(socket)), "/logout", socket)
+  end
+
+  defp do_delete(result, redirect_after, socket) do
+    with {:ok, _} <- result do
+      Bonfire.UI.Common.OpenModalLive.close()
+
+      {:noreply,
+       socket
+       |> assign_flash(
+         :info,
+         l(
+           "Queued for deletion. Should be done in a few minutes... So long, and thanks for all the fish!"
+         )
+       )
+       |> redirect_to(
+         redirect_after,
+         fallback: current_url(socket)
+       )}
+    end
+  end
+
   defp maybe_assign_context(socket, %{assign_context: assigns}) do
     debug(assigns, "assign updated data with settings")
 
