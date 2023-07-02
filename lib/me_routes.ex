@@ -125,6 +125,7 @@ defmodule Bonfire.UI.Me.Routes do
         live("/settings/instance/:tab", InstanceSettingsLive)
 
         get "/settings/export_csv/:type", ExportController, :download
+        get "/settings/export_archive", ExportController, :export_archive
 
         live("/settings/:tab", SettingsLive)
         live("/settings/:tab/:id", SettingsLive)
