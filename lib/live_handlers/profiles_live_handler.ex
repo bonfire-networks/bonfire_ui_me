@@ -5,6 +5,51 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   # TODO: use Profiles context instead?
   alias Bonfire.Me.Users
 
+  def handle_event("add_alias", %{"actor" => actor}, socket) do
+    with {:ok, added} <- Bonfire.Social.Aliases.add(current_user_required!(socket), actor) do
+      {
+        :noreply,
+        socket
+        |> assign_flash(:info, l("Added the alias!"))
+      }
+    end
+  end
+
+  def handle_event("move_away", %{"actor" => actor}, socket) do
+    with {:ok, added} <- Bonfire.Social.Aliases.add(current_user_required!(socket), actor) do
+      debug(added)
+      handle_event("move_away", %{"user" => added}, socket)
+    end
+  end
+
+  def handle_event("move_away", %{"user" => target}, socket) do
+    user = current_user_required!(socket)
+
+    with {:ok, added} <- Bonfire.Social.Aliases.move(user, target) do
+      {
+        :noreply,
+        socket
+        |> assign_flash(
+          :info,
+          l("The move is underway... Followers will be transferred over the next few hours...")
+        )
+      }
+    else
+      {:error, :not_in_also_known_as} ->
+        {
+          :noreply,
+          socket
+          |> assign_flash(
+            :error,
+            l(
+              "You need to first add this user (%{username}) as an alias on the instance you want to migrate to. If you have already done so please try again in an hour or so.",
+              username: Bonfire.Me.Characters.display_username(user, true)
+            )
+          )
+        }
+    end
+  end
+
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
