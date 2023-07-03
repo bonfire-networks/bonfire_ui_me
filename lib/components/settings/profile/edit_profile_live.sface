@@ -193,7 +193,7 @@
   </div>
 </form>
 
-<div x-data="{open: false}" class="p-4">
+<div x-data="{open: false}" class="p-4" {...pry()}>
   <div class="flex items-center justify-between">
     <div class="flex flex-col gap-1">
       <div class="text-sm font-bold">{l("Moving from a different profile")}</div>
