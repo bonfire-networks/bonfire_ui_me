@@ -171,9 +171,9 @@
                 <li>The new account must first be configured (i.e. follow the <em>move from a different profile</em> process in the settings of your new profile first) with a reference this old one ({Bonfire.Me.Characters.display_username(@current_user, true)})</li>
                 <li>This action will move all followers from <a href={path(@current_user)}>this profile</a> to your new profile</li>
                 <li>No other data will be moved automatically</li>
-                <li>This profile will be updated with a redirect notice and be excluded from searches</li>
+                <li>This profile will be updated with a redirect notice <!-- and be excluded from searches --></li>
                 <li>After moving there may be a waiting period during which you will not be able to move again</li>
-                <li>Your current profile will not be fully usable afterwards. However, you will have access to data export as well as re-activation.</li>
+                <li>Your current profile will not be fully usable afterwards, but you will at least have access to data export as well as re-activation</li>
               </ul>
               Alternatively, you can just put up a redirect on your profile.
             </div>
@@ -219,7 +219,7 @@
           <span class="label-text">{l("For security purposes please enter the password of the current account")}</span>
         </label>
         <input type="password" placeholder="Type here" class="input input-bordered w-full">
-        <button class="w-full rounded-full btn btn-primary mt-4">{l("Move followers")} (coming soon)</button>
+        <button class="w-full rounded-full btn btn-primary mt-4">{l("Move followers")}</button>
       </div>
     </div>
   </div>
