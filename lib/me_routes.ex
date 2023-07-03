@@ -58,6 +58,8 @@ defmodule Bonfire.UI.Me.Routes do
         )
 
         live("/users", UsersDirectoryLive)
+
+        resources("/signup/email/confirm/:id", ConfirmEmailController, only: [:show])
       end
 
       # pages only guests can view
@@ -76,8 +78,6 @@ defmodule Bonfire.UI.Me.Routes do
         )
 
         resources("/signup/email/confirm", ConfirmEmailController, only: [:index, :create, :show])
-
-        resources("/signup/email/confirm/:id", ConfirmEmailController, only: [:show])
 
         resources("/login", LoginController, only: [:index, :create], as: :login)
 

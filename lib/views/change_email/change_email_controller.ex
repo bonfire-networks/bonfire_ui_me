@@ -23,10 +23,12 @@ defmodule Bonfire.UI.Me.ChangeEmailController do
         |> live_render(ChangeEmailLive)
 
       {:error, changeset} ->
+        error(changeset)
+
         conn
         |> assign_flash(
           :error,
-          l("Unable to change your email. Try entering a correct email address...")
+          l("Unable to change your email. Try entering a valid email address...")
         )
         |> assign(:error, :invalid)
         |> assign(:form, changeset)
@@ -40,9 +42,7 @@ defmodule Bonfire.UI.Me.ChangeEmailController do
     conn
     |> assign_flash(
       :info,
-      l(
-        "You have now changed your email. We recommend updating it in your password manager app if you use one."
-      )
+      l("Please check your email for a confirmation link...")
     )
     |> redirect(to: path(:home))
   end
