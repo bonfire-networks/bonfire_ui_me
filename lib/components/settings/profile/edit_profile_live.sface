@@ -195,28 +195,17 @@
 
 <form phx-submit="Bonfire.Me.Profiles:add_alias">
   <div x-data="{open: false}" class="p-4" {...pry()}>
-    <div class="flex items-center justify-between">
+    <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold">{l("Other profiles")}</div>
         <div class="text-sm font-light text-base-content/70">{l(
             "You can indicate your different profiles across the fediverse (including on other apps like Peertube, Pixelfed or Mobilizon)"
           )}</div>
       </div>
-      <button
-        type="button"
-        x-cloak
-        x-on:click="open = !open"
-        class="rounded btn btn-square btn-sm btn-ghost"
-        x-show="open"
-      >
+      <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
         <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
-      <button
-        type="button"
-        x-on:click="open = !open"
-        class="rounded btn btn-square btn-sm btn-ghost"
-        x-show="!open"
-      >
+      <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
         <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
     </div>
@@ -252,45 +241,41 @@
 </form>
 
 <div x-data="{open: false}" class="p-4">
-  <div class="flex items-center justify-between">
+  <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
     <div class="flex flex-col gap-1">
       <div class="text-sm text-error font-bold">{l("Delete User & Data")}</div>
       <div class="text-sm font-light text-base-content/70">{l("Delete all the data associated with this user profile")}</div>
     </div>
-    <button
-      type="button"
-      x-cloak
-      x-on:click="open = !open"
-      class="rounded btn btn-square btn-sm btn-ghost"
-      x-show="open"
-    >
+    <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
       <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
     </button>
-    <button
-      type="button"
-      x-on:click="open = !open"
-      class="rounded btn btn-square btn-sm btn-ghost"
-      x-show="!open"
-    >
+    <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
       <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
     </button>
   </div>
   <div x-show="open" x-cloak x-collapse>
-    <div class="prose prose-sm mt-4">
-      <p>{l(
-          "Deleting your user will remove all associated data from this server. This includes all posts, comments, and any other data associated with this user profile."
-        )}</p>
-      <p>Note: You can also delete <LivePatch to="/settings/account">your entire account</LivePatch> and all associated users instead.</p>
-      <p>{l("This action cannot be undone.")}</p>
-      <p>{l("If you are sure you want to delete your user, please enter your password below to confirm.")}</p>
+    <div class="p-4 mt-4 mb-0 rounded-md bg-info/10">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <#Icon solid="InformationCircle" class="w-5 h-5 text-info" />
+        </div>
+        <div class="flex-1 ml-3 md:flex md:justify-between">
+          <div class="prose prose-sm text-info">
+            <p>{l(
+                "Deleting your user will remove all associated data from this server. This includes all posts, comments, and any other data associated with this user profile."
+              )}</p>
+            <p>Note: You can also delete <LivePatch to="/settings/account">your entire account</LivePatch> and all associated users instead.</p>
+            <p>{l("This action cannot be undone.")}</p>
+            <p>{l("If you are sure you want to delete your user, please enter your password below to confirm.")}</p>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="mt-3">
-      <!-- <input type="password" placeholder="Type here" class="input input-bordered w-full"> -->
-      <!-- <button class="btn-error btn mt-3 rounded-full w-full">{l("Delete my user")} (coming soon)</button> -->
-
       <Bonfire.UI.Social.Activity.DeleteObjectLive
+        with_password_prompt
         skip_permission_check
-        action="Bonfire.Me.Settings:delete_user"
+        form_opts={"phx-submit": "Bonfire.Me.Settings:delete_user"}
         object={@current_user}
         object_type_readable={l("user & data")}
         creator_id={@current_user}

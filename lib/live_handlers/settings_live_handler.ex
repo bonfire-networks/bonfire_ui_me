@@ -73,15 +73,22 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     |> handle_event("set", ..., socket)
   end
 
-  def handle_event("delete_user", _, socket) do
-    do_delete(Bonfire.Me.DeleteWorker.do_delete(current_user_id(socket)), "/switch-user", socket)
+  def handle_event("delete_user", %{"password" => password}, socket) do
+    current_user_auth!(socket, password)
+
+    after_delete(
+      Bonfire.Me.DeleteWorker.do_delete(current_user_id(socket)),
+      "/switch-user",
+      socket
+    )
   end
 
-  def handle_event("delete_account", _, socket) do
-    do_delete(Bonfire.Me.Accounts.queue_delete(current_account(socket)), "/logout", socket)
+  def handle_event("delete_account", %{"password" => password}, socket) do
+    current_account_auth!(socket, password)
+    after_delete(Bonfire.Me.Accounts.queue_delete(current_account(socket)), "/logout", socket)
   end
 
-  defp do_delete(result, redirect_after, socket) do
+  defp after_delete(result, redirect_after, socket) do
     with {:ok, _} <- result do
       Bonfire.UI.Common.OpenModalLive.close()
 

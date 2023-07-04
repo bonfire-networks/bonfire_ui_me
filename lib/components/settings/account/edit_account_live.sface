@@ -18,26 +18,15 @@
     </div>
   </div>
   <div x-data="{open: false}" class="p-4">
-    <div class="flex items-center justify-between">
+    <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-bold">{l("Theme")}</div>
         <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
       </div>
-      <button
-        type="button"
-        x-cloak
-        x-on:click="open = !open"
-        class="rounded btn btn-square btn-sm btn-ghost"
-        x-show="open"
-      >
+      <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
         <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
-      <button
-        type="button"
-        x-on:click="open = !open"
-        class="rounded btn btn-square btn-sm btn-ghost"
-        x-show="!open"
-      >
+      <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
         <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
     </div>
@@ -55,46 +44,43 @@
   </div>
 
   <div x-data="{open: false}" class="p-4">
-    <div class="flex items-center justify-between">
+    <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-sm text-error font-bold">{l("Delete Account, All Users & Data")}</div>
         <div class="text-sm font-light text-base-content/70">{l("Delete all the data associated with your account")}</div>
       </div>
-      <button
-        type="button"
-        x-cloak
-        x-on:click="open = !open"
-        class="rounded btn btn-square btn-sm btn-ghost"
-        x-show="open"
-      >
+      <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
         <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
-      <button
-        type="button"
-        x-on:click="open = !open"
-        class="rounded btn btn-square btn-sm btn-ghost"
-        x-show="!open"
-      >
+      <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
         <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
-      <div class="prose prose-sm mt-4">
-        <p>{l(
-            "Deleting your account will remove all your data from this server. This includes all your posts, comments, and any other data associated with your account."
-          )}</p>
-        <p>Note: You can also delete <LivePatch to="/settings/profile">a single user profile</LivePatch> and its associated data instead.</p>
-        <p>{l("This action cannot be undone.")}</p>
-        <p>{l("If you are sure you want to delete your account, please enter your password below to confirm.")}</p>
+      <div class="p-4 mt-4 mb-0 rounded-md bg-info/10">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <#Icon solid="InformationCircle" class="w-5 h-5 text-info" />
+          </div>
+          <div class="flex-1 ml-3 md:flex md:justify-between">
+            <div class="prose prose-sm text-info">
+              <p>{l(
+                  "Deleting your account will remove all your data from this server. This includes all your posts, comments, and any other data associated with your account."
+                )}</p>
+              <p class="aside">
+                Note: You can also delete <LivePatch to="/settings/profile">a single user profile</LivePatch> and its associated data instead.</p>
+              <p>{l("This action cannot be undone.")}</p>
+              <p>{l("If you are sure you want to delete your account, please enter your password below to confirm.")}</p>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="mt-3">
-        <!-- <input type="password" placeholder="Type here" class="input input-bordered w-full">
-        <button class="btn-error btn mt-3 rounded-full w-full">{l("Delete my account")} (coming soon)</button> -->
-
         <Bonfire.UI.Social.Activity.DeleteObjectLive
+          with_password_prompt
           skip_permission_check
-          action="Bonfire.Me.Settings:delete_account"
-          object={current_account(@__context__ |> debug("__context__tt")) |> debug("current_accounttt")}
+          form_opts={"phx-submit": "Bonfire.Me.Settings:delete_account"}
+          object={current_account(@__context__)}
           object_type_readable={l("account, along with user profiles & data")}
           parent_id="delete-account"
           open_btn_class="btn-error btn mt-3 rounded-full w-full"
