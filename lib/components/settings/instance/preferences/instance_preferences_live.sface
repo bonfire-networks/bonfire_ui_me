@@ -231,10 +231,16 @@
       </div>
     </div>
     <!-- </form> -->
+  {#else}
+    {l("You don't have permission to describe the instance, sorry!")}
+  {/if}
 
-    <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Instance behaviour")}</div>
-    <form name="settings" phx-change="Bonfire.Me.Settings:set" phx-throttle="500">
+  {#if Bonfire.Me.Users.is_admin?(@current_user) ||
+      Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
+    <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:instance} type="hidden">
+
+      <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Instance behaviour")}</div>
       <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
         <div class="p-4">
           <div class="flex items-center justify-between">
@@ -260,52 +266,6 @@
           field_key="Bonfire.UI.Common.SmartInputLive[max_length]"
           unit={l("words")}
         />
-
-        <div class="p-4">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Show list of admins on public homepage")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("Show list of admins on public homepage")}</div>
-            </div>
-            <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
-            <input
-              name="Bonfire.UI.Me.WidgetUsersLive[show_guests]"
-              value="true"
-              type="checkbox"
-              checked={if Bonfire.Me.Settings.get(
-                   [Bonfire.UI.Me.WidgetUsersLive, :show_guests],
-                   true,
-                   @__context__[:instance_settings] || :instance
-                 ),
-                 do: "checked"}
-              class="toggle"
-            />
-          </div>
-        </div>
-
-        <div class="p-4">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Hide the number of total users on this instance")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("Hide the number of total users on this instance")}</div>
-            </div>
-            <input name="Bonfire.Me.Users[public_count]" value="true" type="hidden">
-            <input
-              name="Bonfire.Me.Users[public_count]"
-              value="false"
-              type="checkbox"
-              checked={if !Bonfire.Me.Settings.get(
-                   [Bonfire.Me.Users, :public_count],
-                   true,
-                   @__context__[:instance_settings] || :instance
-                 ),
-                 do: "checked"}
-              class="toggle"
-            />
-          </div>
-        </div>
-
-        <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} />
 
         <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
@@ -372,7 +332,7 @@
                       class="radio radio-secondary"
                     />
                     <div class="flex flex-col ml-3">
-                      <span id="admin-info-2-label" class="block text-sm font-medium">
+                      <span class="block text-sm font-medium">
                         {l("Users")}
                       </span>
                     </div>
@@ -387,7 +347,7 @@
                       class="radio radio-secondary"
                     />
                     <div class="flex flex-col ml-3">
-                      <span id="admin-info-2-label" class="block text-sm font-medium">
+                      <span class="block text-sm font-medium">
                         {l("Admins")}
                       </span>
                     </div>
@@ -397,6 +357,52 @@
             </div>
           </div>
         </div>
+
+        <div class="p-4">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-bold">{l("Show list of admins on public homepage")}</div>
+              <div class="text-sm font-light text-base-content/70">{l("Show list of admins on public homepage")}</div>
+            </div>
+            <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
+            <input
+              name="Bonfire.UI.Me.WidgetUsersLive[show_guests]"
+              value="true"
+              type="checkbox"
+              checked={if Bonfire.Me.Settings.get(
+                   [Bonfire.UI.Me.WidgetUsersLive, :show_guests],
+                   true,
+                   @__context__[:instance_settings] || :instance
+                 ),
+                 do: "checked"}
+              class="toggle"
+            />
+          </div>
+        </div>
+
+        <div class="p-4">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-bold">{l("Hide the number of total users on this instance")}</div>
+              <div class="text-sm font-light text-base-content/70">{l("Hide the number of total users on this instance")}</div>
+            </div>
+            <input name="Bonfire.Me.Users[public_count]" value="true" type="hidden">
+            <input
+              name="Bonfire.Me.Users[public_count]"
+              value="false"
+              type="checkbox"
+              checked={if !Bonfire.Me.Settings.get(
+                   [Bonfire.Me.Users, :public_count],
+                   true,
+                   @__context__[:instance_settings] || :instance
+                 ),
+                 do: "checked"}
+              class="toggle"
+            />
+          </div>
+        </div>
+
+        <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} />
 
         <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
@@ -431,38 +437,44 @@
             />
           </div>
         </div>
-      </div>
 
-      <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div>
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Actions on activities (eg. reply, boost, etc)")}
+          description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
+          keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
+          scope={:instance}
+        />
+
+        <Bonfire.UI.Common.SettingsToggleLive
+          description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
+          keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
+          scope={:instance}
+        />
+      </div>
+    </form>
+
+    <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div>
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:instance} type="hidden">
+
       <div class="m-3 divide-y rounded-lg bg-base-content/5 divide-base-300">
-        <div class="p-4">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Enable federation")}</div>
-              <div class="text-sm font-light text-base-content/70">
-                {l("Push local activities to the fediverse, and accept remote activities")}</div>
-            </div>
-            <input name="activity_pub[instance][federating]" value="false" type="hidden">
-            <input
-              name="activity_pub[instance][federating]"
-              value="true"
-              type="checkbox"
-              checked={if ActivityPub.Config.federating?(),
-                do: "checked"}
-              class="toggle"
-            />
-          </div>
-        </div>
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Enable federation")}
+          description={l("Push local activities to the fediverse, and accept remote activities?")}
+          input="activity_pub[instance][federating]"
+          scope={:instance}
+          current_value={ActivityPub.Config.federating?()}
+        />
 
         <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
           label={l(
-            "New users and their content should appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default (this can be overriden by each user)"
+            "Should new users and their content NOT appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default?"
           )}
           scope={:instance}
         />
       </div>
     </form>
   {#else}
-    {l("You don't have permission to describe the instance, sorry!")}
+    {l("You don't have permission to configure the instance, sorry!")}
   {/if}
 </div>

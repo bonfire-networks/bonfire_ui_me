@@ -185,48 +185,62 @@
       </div>
     </div> -->
 
-    <form name="settings" phx-change="Bonfire.Me.Settings:set">
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:user} type="hidden">
       <Bonfire.UI.Common.AvatarsSettingsLive />
+
+      <div x-data="{open: false}" class="p-4">
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-bold">{l("What activities to include in home feeds by default")}</div>
+            <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
+          </div>
+          <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
+          <button
+            type="button"
+            x-cloak
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="open"
+          >
+            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+          <button
+            type="button"
+            x-on:click="open = !open"
+            class="rounded btn btn-square btn-sm btn-ghost"
+            x-show="!open"
+          >
+            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+        </div>
+        <div x-show="open" x-cloak x-collapse>
+          <Dynamic.Component
+            :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
+            module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
+            title={l("What activities to include in home feeds by default")}
+          />
+        </div>
+      </div>
     </form>
 
-    <div x-data="{open: false}" class="p-4">
-      <div class="flex items-center justify-between">
-        <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("What activities to include in home feeds by default")}</div>
-          <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
-        </div>
-        <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
-        <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="open"
-        >
-          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="!open"
-        >
-          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-      </div>
-      <div x-show="open" x-cloak x-collapse>
-        <Dynamic.Component
-          :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
-          module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
-          title={l("What activities to include in home feeds by default")}
-        />
-      </div>
-    </div>
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:user} type="hidden">
 
-    <!-- <Bonfire.UI.Common.SmartInputSettingsLive /> -->
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Actions on activities (eg. reply, boost, etc)")}
+        description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
+        keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
+      />
+
+      <Bonfire.UI.Common.SettingsToggleLive
+        description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
+        keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
+      />
+    </form>
 
     <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive label={l(
-      "I want my profile (@%{username}) and content to appear publicly in search engines (in Bonfire, the fediverse, and the web in general)",
+      "I DO NOT want my profile (@%{username}) and content to appear publicly in search engines (in Bonfire, the fediverse, and the web in general)",
       username: e(@current_user, :character, :username, "")
     )} />
   </div>
