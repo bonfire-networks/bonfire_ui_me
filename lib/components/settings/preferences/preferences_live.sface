@@ -237,6 +237,8 @@
         description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
         keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
       />
+
+      <Bonfire.UI.Common.SettingsToggleLive name={l("Prefer compact layouts")} keys={[:ui, :compact]} />
     </form>
 
     <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive label={l(
