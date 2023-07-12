@@ -21,7 +21,7 @@
             </div>
             <div class="flex-col flex-1 md:flex md:justify-between text-center">
               <h3 class="text-xl font-bold text-base-content mt-4">{l("Hooray! You are registered")}</h3>
-              <div class="mt-2 text-base text-base-content/80" data-id="confirmation_success">
+              <div class="mt-2 text-base text-base-content/70" data-id="confirmation_success">
                 {#if @registered == :check_email}
                   {l(
                     "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."
