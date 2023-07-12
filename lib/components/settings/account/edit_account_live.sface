@@ -76,7 +76,9 @@
         </div>
       </div>
       <div class="mt-3">
-        <Bonfire.UI.Social.Activity.DeleteObjectLive
+        <Dynamic.Component
+          :if={module_enabled?(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
+          module={Bonfire.UI.Social.Activity.DeleteObjectLive}
           with_password_prompt
           skip_permission_check
           form_opts={"phx-submit": "Bonfire.Me.Settings:delete_account"}
