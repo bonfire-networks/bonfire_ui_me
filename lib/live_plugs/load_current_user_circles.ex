@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserCircles do
   end
 
   def mount(_, _, %{assigns: %{current_user: %User{} = user}} = socket) do
-    {:ok, assign(socket, :my_circles, Circles.list_my(user))}
+    {:ok, assign_global(socket, :my_circles, Circles.list_my(user))}
   end
 
   def mount(
@@ -18,10 +18,10 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserCircles do
         _,
         %{assigns: %{__context__: %{current_user: %User{} = user}}} = socket
       ) do
-    {:ok, assign(socket, :my_circles, Circles.list_my(user))}
+    {:ok, assign_global(socket, :my_circles, Circles.list_my(user))}
   end
 
   def mount(_, _, socket) do
-    {:ok, assign(socket, :my_circles, [])}
+    {:ok, assign_global(socket, :my_circles, [])}
   end
 end
