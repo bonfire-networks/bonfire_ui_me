@@ -186,7 +186,7 @@
                 avatar_class="w-10 h-10 rounded-full"
               >
                 <Bonfire.UI.Common.OpenModalLive
-                  id={ComponentID.new(Bonfire.UI.Common.OpenModalLive, id(al), __MODULE__)}
+                  id={Text.random_string()}
                   title_text={l("Migrate followers to") <> " " <> e(al, :character, :username, nil)}
                   form_opts={"phx-submit": "Bonfire.Me.Profiles:move_away"}
                 >

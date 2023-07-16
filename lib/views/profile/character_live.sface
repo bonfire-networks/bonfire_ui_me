@@ -9,7 +9,7 @@
     <:header>
       <Dynamic.LiveComponent
         module={Bonfire.UI.Me.ProfileHeroFullLive}
-        id={ComponentID.new(Bonfire.UI.Me.ProfileHeroFullLive, id(@user), __MODULE__)}
+        id={Text.random_string()}
         user={@user}
         boundary_preset={@boundary_preset}
         selected_tab={@selected_tab}

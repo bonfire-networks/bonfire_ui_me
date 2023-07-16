@@ -15,7 +15,7 @@
           [:ui, :profile, :hero_component],
           Bonfire.UI.Me.ProfileHeroFullLive
         )}
-        id={ComponentID.new(Bonfire.UI.Me.ProfileHeroFullLive, id(@user), __MODULE__)}
+        id={Text.random_string()}
         object_id={id(@user)}
         object={@user}
         boundary_preset={@boundary_preset}
