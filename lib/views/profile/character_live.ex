@@ -61,6 +61,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
             case path(user_etc) do
               "/discussion/" <> _ -> false
               "/character/" <> _ -> false
+              "/%26" <> username -> "/group/" <> username
               path -> path
             end
             |> debug(url)
@@ -71,7 +72,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
             {:noreply,
              redirect_to(
                socket,
-               path(user_etc)
+               redirect_to_path
              )}
           else
             debug("show a simple fallback profile")
