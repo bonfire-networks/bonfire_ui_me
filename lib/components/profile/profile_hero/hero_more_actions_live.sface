@@ -24,10 +24,15 @@
           </button>
         </li> -->
         <li>
-          <button class="flex items-center gap-2 text-sm text-base-content/70">
+          <a
+            phx-hook="Copy"
+            id="hero_copy_invite"
+            href="##"
+            class="flex items-center gap-2 text-sm text-base-content/70"
+          >
             <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
             <span>{l("Copy invite link")}</span>
-          </button>
+          </a>
         </li>
         <li
           class="create_new_topic"
