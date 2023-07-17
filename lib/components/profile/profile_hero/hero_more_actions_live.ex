@@ -3,7 +3,7 @@ defmodule Bonfire.UI.Me.HeroMoreActionsLive do
   import Bonfire.UI.Me.Integration
 
   prop user, :map
-  prop character_type, :atom, default: :user
+  prop character_type, :atom, default: nil
   prop boundary_preset, :any, default: nil
   prop silenced_instance_wide?, :boolean, default: false
   prop ghosted_instance_wide?, :boolean, default: false

@@ -71,6 +71,7 @@
             parent_id="profile_hero"
           />
         </li>
+
         <li class="">
           <Bonfire.UI.Common.FlagActionLive
             object={@user}

@@ -5,7 +5,7 @@ defmodule Bonfire.UI.Me.ProfileInfoLive do
   prop user, :map
   prop path, :string, default: "@"
   prop selected_tab, :any, default: nil
-  prop character_type, :atom, default: :user
+  prop character_type, :atom, default: nil
   prop silenced_instance_wide?, :boolean, default: false
   prop ghosted_instance_wide?, :boolean, default: false
   prop ghosted?, :boolean, default: false
