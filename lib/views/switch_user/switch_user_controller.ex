@@ -38,6 +38,8 @@ defmodule Bonfire.UI.Me.SwitchUserController do
   end
 
   defp show({:ok, user}, conn, params) do
+    maybe_apply(Bonfire.Boundaries.Users, :create_missing_boundaries, user)
+
     conn
     |> put_session(:user_id, user.id)
     # |> assign_flash(:info, l("Welcome back, %{name}!", name: greet(user)))

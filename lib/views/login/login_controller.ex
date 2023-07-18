@@ -46,6 +46,8 @@ defmodule Bonfire.UI.Me.LoginController do
   # just send them straight to the homepage and avoid the user
   # switcher.
   defp logged_in(account, user, conn, form) do
+    maybe_apply(Bonfire.Boundaries.Users, :create_missing_boundaries, user)
+
     conn
     |> put_session(:account_id, account.id)
     |> put_session(:user_id, user.id)
