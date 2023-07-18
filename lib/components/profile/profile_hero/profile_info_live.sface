@@ -19,7 +19,6 @@
         <span class="text-sm font-normal text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
       </div>
     </div>
-
   </div>
 
   <div class="pl-6 mt-1">
@@ -66,17 +65,17 @@
       <div class="avatar-group -space-x-4">
         <div class="avatar">
           <div class="w-8">
-            <img src="https://picsum.photos/seed/picsum/32" />
+            <img src="https://picsum.photos/seed/picsum/32">
           </div>
         </div>
         <div class="avatar">
           <div class="w-8">
-            <img src="https://picsum.photos/seed/picsum/32" />
+            <img src="https://picsum.photos/seed/picsum/32">
           </div>
         </div>
         <div class="avatar">
           <div class="w-8">
-            <img src="https://picsum.photos/seed/picsum/32" />
+            <img src="https://picsum.photos/seed/picsum/32">
           </div>
         </div>
         <div class="avatar placeholder">
