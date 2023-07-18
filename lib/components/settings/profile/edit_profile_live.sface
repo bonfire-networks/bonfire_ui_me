@@ -275,9 +275,9 @@
       <Dynamic.Component
         :if={module_enabled?(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
         module={Bonfire.UI.Social.Activity.DeleteObjectLive}
+        form_opts={%{"phx-submit" => "Bonfire.Me.Settings:delete_user"}}
         with_password_prompt
         skip_permission_check
-        form_opts={"phx-submit": "Bonfire.Me.Settings:delete_user"}
         object={@current_user}
         object_type_readable={l("user & data")}
         creator_id={@current_user}

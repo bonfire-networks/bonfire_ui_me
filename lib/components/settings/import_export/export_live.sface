@@ -188,7 +188,7 @@
                 <Bonfire.UI.Common.OpenModalLive
                   id={Text.random_string()}
                   title_text={l("Migrate followers to") <> " " <> e(al, :character, :username, nil)}
-                  form_opts={"phx-submit": "Bonfire.Me.Profiles:move_away"}
+                  form_opts={%{"phx-submit" => "Bonfire.Me.Profiles:move_away"}}
                 >
                   <input name="user" value={id(al)} type="hidden">
 
