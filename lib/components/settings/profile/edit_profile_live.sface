@@ -188,8 +188,8 @@
     </div>
   </div>
   <div class="flex justify-end pb-8 mx-3 mt-4 gap-3">
-    <LiveRedirect to="/user" type="button" class="normal-case rounded btn-wide btn btn-secondary">{l("View Profile")}</LiveRedirect>
-    <button type="submit" class="normal-case rounded btn-wide btn btn-primary">{l("Save")}</button>
+    <LiveRedirect to="/user" type="button" class="normal-case rounded-full btn-wide btn btn-outline">{l("View Profile")}</LiveRedirect>
+    <button type="submit" class="normal-case rounded-full btn-wide btn btn-primary">{l("Save")}</button>
   </div>
 </form>
 
