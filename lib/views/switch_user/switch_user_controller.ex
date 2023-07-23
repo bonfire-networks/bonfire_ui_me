@@ -18,13 +18,18 @@ defmodule Bonfire.UI.Me.SwitchUserController do
 
   defp index([_ | _] = users, _, conn, _params) do
     conn
-    |> assign(:current_account_users, filter_empty(users, []) |> debug("current_account_userss"))
+    |> assign(
+      :current_account_users,
+      filter_empty(users, []) |> Users.check_active!() |> debug("current_account_users_active")
+    )
     |> assign(:go, go_query(conn))
     |> live_render(SwitchUserLive)
   end
 
   defp index(nil, %Account{} = account, conn, params),
     do: index(Users.by_account(account), account, conn, params)
+
+  # TODO: optimise by just checking if a user exists
 
   defp index(nil, _account, _conn, _params) do
     error("[SwitchUserController.index] Missing :current_account")

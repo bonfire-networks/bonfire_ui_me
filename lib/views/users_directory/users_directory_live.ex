@@ -33,10 +33,10 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
            users: users
          )}
       else
-        error(l("You need to log in before browsing the user directory"))
+        throw(l("You need to log in before browsing the user directory"))
       end
     else
-      error(l("The user directory is disabled on this instance"))
+      throw(l("The user directory is disabled on this instance"))
     end
   end
 
