@@ -1,9 +1,5 @@
 <div class="flex items-center gap-3">
-  <div
-    :if={current_user_id(@__context__) != id(@user)}
-    aria-haspopup="true"
-    class="dropdown dropdown-end"
-  >
+  <div :if={current_user_id(@__context__) != id(@user)} aria-haspopup="true" class="dropdown">
     <label
       tabindex="0"
       class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
@@ -47,7 +43,7 @@
         </li>
         <li :if={current_user_id(@__context__)}>
           <LiveRedirect
-            to={path(@user, :settings) <> "/general"}
+            to={path(@user, :settings)}
             class="flex items-center gap-2 text-sm text-base-content/70"
           >
             <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
@@ -121,6 +117,7 @@
       {/if}
     </ul>
   </div>
+
   <Bonfire.UI.Common.SmartInputButtonLive
     :if={@character_type == :user && current_user_id(@__context__) != id(@user)}
     as_icon
@@ -144,6 +141,7 @@
   >
     {l("Edit profile")}
   </LiveRedirect>
+
   {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
       (@ghosted? == true && @silenced? == true)}
     <button disabled class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-disabled">
@@ -174,8 +172,9 @@
             class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn rounded-full"
             verb={if e(@user, :type, nil) == :group,
               do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
-            verb_undo={if e(@user, :type, nil) == :group, do: l("Leave")}
-            verb_already={if e(@user, :type, nil) == :group, do: l("Joined")}
+            verb_undo={l("Leave")}
+            verb_already={l("Joined")}
+            disabled={Enums.ids(@current_user) |> debug("c111") == Enums.ids(@moderators) |> debug("m111")}
           >
             <:if_followed>
               <Bonfire.UI.Common.SmartInputButtonLive

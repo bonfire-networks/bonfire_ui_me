@@ -26,9 +26,10 @@
               silenced_instance_wide?={@silenced_instance_wide?}
               ghosted?={@ghosted?}
               silenced?={@silenced?}
-              character_type={@character_type}
               boundary_preset={@boundary_preset}
               user={@user}
+              members={@members}
+              moderators={@moderators}
             />
           {/if}
         </div>
@@ -44,6 +45,8 @@
               user={@user}
               path={@path}
               selected_tab={@selected_tab}
+              members={@members}
+              moderators={@moderators}
             />
           </div>
 
