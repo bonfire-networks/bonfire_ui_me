@@ -123,11 +123,9 @@
     as_icon
     create_object_type={:message}
     smart_input_opts={%{
+      recipients_editable: true,
       to_circles: [
-        %{
-          (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
-            id(@user)
-        }
+        {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
       ]
     }}
     icon="ri:mail-line"
