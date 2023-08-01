@@ -13,29 +13,17 @@ defmodule Bonfire.UI.Me.SignupController do
     |> render_view(Map.put(params, "auth_second_factor_secret", secret))
   end
 
-  def create(conn, params) do
-    {account_attrs, params} = Map.pop(params, "account", %{})
-    # debug(Plug.Conn.get_session(conn, :auth_second_factor_secret))
-    # changeset = form_cs(conn, params)
-    case Accounts.signup(account_attrs,
-           invite: params["invite"],
-           auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret)
-         ) do
-      {:ok, %{email: %{confirmed_at: confirmed_at}}}
-      when not is_nil(confirmed_at) ->
-        conn
-        |> assign(:registered, :confirmed)
-        |> render_view(Map.put(params, "registered", :confirmed))
+  def create(conn, form) do
+    {account_attrs, form} = Map.pop(form, "account", %{})
 
-      {:ok, _account} ->
+    case attempt(conn, account_attrs, form) do
+      {:ok, conn} ->
         conn
-        |> assign(:registered, :check_email)
-        |> render_view(Map.put(params, "registered", :check_email))
 
       {:error, :taken} ->
         conn
         |> assign(:error, :taken)
-        |> render_view(params)
+        |> render_view(form)
 
       {:error, changeset} ->
         conn
@@ -48,7 +36,31 @@ defmodule Bonfire.UI.Me.SignupController do
         )
         # FIXME
         |> assign(:form, changeset)
-        |> render_view(params, changeset)
+        |> render_view(form, changeset)
+    end
+  end
+
+  def attempt(conn, account_attrs, form \\ %{}) do
+    # debug(Plug.Conn.get_session(conn, :auth_second_factor_secret))
+    # changeset = form_cs(conn, params)
+    case Accounts.signup(account_attrs,
+           invite: form["invite"] || account_attrs["invite"],
+           auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret)
+         ) do
+      {:ok, %{email: %{confirmed_at: confirmed_at}}} when not is_nil(confirmed_at) ->
+        {:ok,
+         conn
+         |> assign(:registered, :confirmed)
+         |> render_view(Map.put(form, "registered", :confirmed))}
+
+      {:ok, _account} ->
+        {:ok,
+         conn
+         |> assign(:registered, :check_email)
+         |> render_view(Map.put(form, "registered", :check_email))}
+
+      other ->
+        error(other)
     end
   end
 
