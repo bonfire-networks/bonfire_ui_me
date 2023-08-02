@@ -127,10 +127,10 @@
     x-on:click="buttonDisabled = true"
     x-bind:disabled="buttonDisabled"
   >
-      <!-- download
+    <!-- download
     href="/settings/export_archive" -->
 
-  {l("Request your archive")}</a>
+    {l("Request your archive")}</a>
 </div>
 
 <div x-data="{open: false}" class="p-4">

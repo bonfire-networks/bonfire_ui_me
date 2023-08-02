@@ -2,16 +2,16 @@ defmodule Bonfire.Me.Settings.LiveHandler do
   use Bonfire.UI.Common.Web, :live_handler
   # import Bonfire.Boundaries.Integration
 
-
   def handle_event("prepare_archive", _params, socket) do
-    
     with :ok <- prepare_archive_async(socket) do
-
-    
       {:noreply,
        socket
-       |> assign_flash(:info, l("Preparing your archive... You will notified here when it is ready to download (you can continue browsing Bonfire but please keep it open)."))}
-       
+       |> assign_flash(
+         :info,
+         l(
+           "Preparing your archive... You will notified here when it is ready to download (you can continue browsing Bonfire but please keep it open)."
+         )
+       )}
     end
   end
 

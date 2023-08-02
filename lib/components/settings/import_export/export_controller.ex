@@ -30,7 +30,6 @@ defmodule Bonfire.UI.Me.ExportController do
     |> ok_unwrap()
   end
 
-
   def zip_archive(conn_or_context, user) do
     name = String.trim_trailing("bonfire_export", ".zip")
 
@@ -65,7 +64,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
     stream
     |> Enum.reduce_while(conn, fn result, conn ->
-      #debug(result)
+      # debug(result)
 
       case maybe_chunk(conn, result) do
         {:ok, conn} ->
@@ -77,22 +76,35 @@ defmodule Bonfire.UI.Me.ExportController do
       end
     end)
   end
+
   defp zip_stream_process(stream, user_id, context) do
     path = "/tmp/#{user_id}"
-    file = "#{path}/archive.zip"
-    |> debug()
+
+    file =
+      "#{path}/archive.zip"
+      |> debug()
 
     with :ok <- File.mkdir_p(path),
-    :ok <- stream
-    |> Stream.into(File.stream!(file))
-    |> Stream.run()
-    |> debug() do
-      Bonfire.UI.Common.PersistentLive.notify(context, %{title: l("Your archive is ready"), message: file})
+         :ok <-
+           stream
+           |> Stream.into(File.stream!(file))
+           |> Stream.run()
+           |> debug() do
+      Bonfire.UI.Common.PersistentLive.notify(context, %{
+        title: l("Your archive is ready"),
+        message: file
+      })
+
       :ok
-      else other ->
-      error(other)
-      Bonfire.UI.Common.PersistentLive.notify(context, %{title: l("Error preparing your archive is ready"), message: inspect other})
-    end 
+    else
+      other ->
+        error(other)
+
+        Bonfire.UI.Common.PersistentLive.notify(context, %{
+          title: l("Error preparing your archive is ready"),
+          message: inspect(other)
+        })
+    end
   end
 
   defp outbox(user) do
