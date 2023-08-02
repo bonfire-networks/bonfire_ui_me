@@ -3,11 +3,10 @@
     <table class="table table-zebra">
       <tbody>
         <!-- row 1 -->
-        <tr>
+        <!-- <tr>
           <td>Media Storage</td>
-          <!-- <td>4.38 MB</td> -->
           <td />
-        </tr>
+        </tr> -->
         <!-- row 2 -->
         <tr>
           <td>Posts</td>
@@ -118,17 +117,20 @@
 
   <div class="mt-6 text-sm text-base-content/70">
     {l(
-      "You can request an archive of your activities in the ActivityPub format, copies of uploaded media, along with all of the above data. You can request an archive every 7 days."
+      "You can also request an archive of all your activities (in the ActivityPub format), copies of uploaded media, along with all of the above data (in CSV format). You can download a new archive every 7 days."
     )}
   </div>
   <a
-    download
-    href="/settings/export_archive"
+    phx-click="Bonfire.Me.Settings:prepare_archive"
     class="btn mt-4 btn-primary normal-case btn-sm"
     x-data="{ buttonDisabled: false }"
     x-on:click="buttonDisabled = true"
     x-bind:disabled="buttonDisabled"
-  >{l("Request your archive")}</a>
+  >
+      <!-- download
+    href="/settings/export_archive" -->
+
+  {l("Request your archive")}</a>
 </div>
 
 <div x-data="{open: false}" class="p-4">

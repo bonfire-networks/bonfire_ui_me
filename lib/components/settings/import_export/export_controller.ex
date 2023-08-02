@@ -5,6 +5,17 @@ defmodule Bonfire.UI.Me.ExportController do
 
   # TODO: move some of the logic to backend module(s)
 
+  def download(conn, %{"type" => type} = _params) do
+    conn
+    |> put_resp_content_type("text/csv")
+    |> put_resp_header("content-disposition", "attachment; filename=\"export_#{type}.csv\"")
+    |> put_root_layout(false)
+    |> send_chunked(:ok)
+    # |> send_resp(200, csv_content(conn, type))
+    |> csv_content(type)
+    |> ok_unwrap()
+  end
+
   def export_archive(conn, _params) do
     conn
     |> put_resp_content_type("application/zip")
@@ -19,18 +30,8 @@ defmodule Bonfire.UI.Me.ExportController do
     |> ok_unwrap()
   end
 
-  def download(conn, %{"type" => type} = _params) do
-    conn
-    |> put_resp_content_type("text/csv")
-    |> put_resp_header("content-disposition", "attachment; filename=\"export_#{type}.csv\"")
-    |> put_root_layout(false)
-    |> send_chunked(:ok)
-    # |> send_resp(200, csv_content(conn, type))
-    |> csv_content(type)
-    |> ok_unwrap()
-  end
 
-  def zip_archive(conn, user) do
+  def zip_archive(conn_or_context, user) do
     name = String.trim_trailing("bonfire_export", ".zip")
 
     {:ok, actor} = ActivityPub.Actor.get_cached(pointer: user)
@@ -56,8 +57,15 @@ defmodule Bonfire.UI.Me.ExportController do
           Zstream.entry(upload, File.stream!(upload, [], 512))
         end
     )
+    |> zip_stream_process(id(user), conn_or_context)
+  end
+
+  defp zip_stream_process(stream, _, %Plug.Conn{} = conn) do
+    debug("download by chunks")
+
+    stream
     |> Enum.reduce_while(conn, fn result, conn ->
-      debug(result)
+      #debug(result)
 
       case maybe_chunk(conn, result) do
         {:ok, conn} ->
@@ -68,6 +76,23 @@ defmodule Bonfire.UI.Me.ExportController do
           {:halt, conn}
       end
     end)
+  end
+  defp zip_stream_process(stream, user_id, context) do
+    path = "/tmp/#{user_id}"
+    file = "#{path}/archive.zip"
+    |> debug()
+
+    with :ok <- File.mkdir_p(path),
+    :ok <- stream
+    |> Stream.into(File.stream!(file))
+    |> Stream.run()
+    |> debug() do
+      Bonfire.UI.Common.PersistentLive.notify(context, %{title: l("Your archive is ready"), message: file})
+      :ok
+      else other ->
+      error(other)
+      Bonfire.UI.Common.PersistentLive.notify(context, %{title: l("Error preparing your archive is ready"), message: inspect other})
+    end 
   end
 
   defp outbox(user) do
