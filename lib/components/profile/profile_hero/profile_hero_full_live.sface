@@ -6,8 +6,58 @@
         style={"background-image: url('#{Media.banner_url(@user)}')"}
       >
         <!-- FOLLOWS YOU LABEL -->
-        <div :if={@follows_me} class="absolute rounded right-2 bottom-2 opacity-90 badge h-[1.75rem]">
-          {"Follows you"}
+        <div class="absolute right-2 bottom-2 opacity-90">
+          {#if @follows_me}
+            <p class="badge rounded h-[1.75rem]">{"Follows you"}</p>
+          {/if}
+          {#case is_nil(@current_user) or Bonfire.Social.Graph.graph_distance(@current_user, @user)}
+            {#match false}
+            {#match nil}
+              <progress title={l("Connection score unknown")} class="progress w-32" value="0" max="100" />
+            {#match 0}
+            {#match distance when distance <= 1}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-success w-32"
+                value="100"
+                max="100"
+              />
+            {#match distance when distance <= 2}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-success w-32"
+                value="80"
+                max="100"
+              />
+            {#match distance when distance <= 3}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-info w-32"
+                value="60"
+                max="100"
+              />
+            {#match distance when distance <= 4}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-info w-32"
+                value="40"
+                max="100"
+              />
+            {#match distance when distance <= 5}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-warning w-32"
+                value="20"
+                max="100"
+              />
+            {#match distance when distance > 5}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-warning w-32"
+                value="10"
+                max="100"
+              />
+          {/case}
         </div>
       </div>
       <div class="flex flex-col items-start mx-auto">

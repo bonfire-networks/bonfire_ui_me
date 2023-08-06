@@ -78,7 +78,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       #   "boundaries on user profile"
       # )
 
-      following? =
+      follows_me =
         current_user && current_user.id != user.id &&
           module_enabled?(Bonfire.Social.Follows, current_user) &&
           Bonfire.Social.Follows.following?(user, current_user)
@@ -95,7 +95,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
       # preload(user, socket)
       socket
-      |> assign(user_assigns(user, current_username, following?))
+      |> assign(user_assigns(user, current_user, follows_me))
       |> assign_new(:selected_tab, fn -> "timeline" end)
       |> assign(:character_type, :user)
       |> assign(:ghosted, nil)
@@ -228,13 +228,20 @@ defmodule Bonfire.UI.Me.ProfileLive do
     ]
   end
 
-  def user_assigns(user, current_username, following? \\ false) do
+  def user_assigns(user, current_user, follows_me \\ false) do
     name = e(user, :profile, :name, l("Someone"))
 
+    viewing_username = e(user, :character, :username, "")
+
     title =
-      if current_username == e(user, :character, :username, ""),
+      if current_user.id == user.id,
         do: l("Your profile"),
         else: name
+
+    # my_follow =
+    #     current_user && current_user.id != user.id &&
+    #       module_enabled?(Bonfire.Social.Follows, current_user) &&
+    #       Bonfire.Social.Follows.following?(current_user, user)
 
     # search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
     [
@@ -242,7 +249,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       user: user,
       canonical_url: canonical_url(user),
       name: name,
-      follows_me: following?,
+      follows_me: follows_me,
       no_index:
         Bonfire.Me.Settings.get([Bonfire.Me.Users, :undiscoverable], false, current_user: user)
     ]

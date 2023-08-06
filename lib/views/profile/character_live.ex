@@ -85,7 +85,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
                  "The extension needed to display this doesn't seem installed or enabled. Showing a simplified profile instead..."
                )
              )
-             |> assign(ProfileLive.user_assigns(user_etc, current_username))
+             |> assign(ProfileLive.user_assigns(user_etc, current_user))
              |> assign(
                character_type: :unknown,
                path: path

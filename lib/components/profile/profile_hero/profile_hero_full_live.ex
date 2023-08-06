@@ -4,8 +4,8 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   # import Bonfire.Common.Media
 
   prop user, :map
-  prop object, :map
-  prop object_id, :string, default: nil
+  # prop object, :map
+  # prop object_id, :string, default: nil
   prop boundary_preset, :any, default: nil
   prop ghosted?, :boolean, default: nil
   prop ghosted_instance_wide?, :boolean, default: nil
