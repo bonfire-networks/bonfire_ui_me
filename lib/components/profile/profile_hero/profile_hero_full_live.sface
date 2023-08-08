@@ -11,6 +11,7 @@
             <p class="badge rounded h-[1.75rem]">{"Follows you"}</p>
           {/if}
           {#case is_nil(@current_user) or Bonfire.Social.Graph.graph_distance(@current_user, @user)}
+            {#match true}
             {#match false}
             {#match nil}
               <progress title={l("Connection score unknown")} class="progress w-32" value="0" max="100" />
