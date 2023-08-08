@@ -79,7 +79,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       # )
 
       follows_me =
-        current_user && current_user.id != user.id &&
+        current_user && id(current_user) != id(user) &&
           module_enabled?(Bonfire.Social.Follows, current_user) &&
           Bonfire.Social.Follows.following?(user, current_user)
 
@@ -234,12 +234,12 @@ defmodule Bonfire.UI.Me.ProfileLive do
     viewing_username = e(user, :character, :username, "")
 
     title =
-      if current_user.id == user.id,
+      if id(current_user) == id(user),
         do: l("Your profile"),
         else: name
 
     # my_follow =
-    #     current_user && current_user.id != user.id &&
+    #     current_user && id(current_user) != id(user) &&
     #       module_enabled?(Bonfire.Social.Follows, current_user) &&
     #       Bonfire.Social.Follows.following?(current_user, user)
 
