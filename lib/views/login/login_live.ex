@@ -6,8 +6,12 @@ defmodule Bonfire.UI.Me.LoginLive do
   # guest, it will always be offline
   def mount(params, session, socket) do
     {:ok,
-     socket
-     |> assign(:page, "login")
+     assign_defaults(params, session, socket)}
+  end
+
+  def assign_defaults(params \\ %{}, session \\ %{}, socket_or_assigns) do
+    socket_or_assigns
+    |> assign(:page, "login")
      |> assign(:page_title, l("Log in"))
      |> assign_new(:without_sidebar, fn -> true end)
      |> assign_new(:without_widgets, fn -> true end)
@@ -19,7 +23,12 @@ defmodule Bonfire.UI.Me.LoginLive do
      |> assign_new(:error, fn -> nil end)
      |> assign_new(:feed_title, fn -> "Public Feed" end)
      |> assign_new(:form, fn -> login_form(params) end)
-     |> assign_new(:conn, fn -> session["conn"] end)}
+     |> assign_new(:conn, fn -> session["conn"] end)
+  end
+
+  def custom_render(socket_or_assigns \\ %{}) do
+     assign_defaults(socket_or_assigns)
+     |> render()
   end
 
   defp login_form(params), do: Accounts.changeset(:login, params)

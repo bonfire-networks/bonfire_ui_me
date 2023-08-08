@@ -41,7 +41,6 @@ defmodule Bonfire.UI.Me.LoginController do
     end
   end
 
-  defp form_cs(params), do: Accounts.changeset(:login, params)
 
   # the user logged in via email and have more than one user in the
   # account, so we must show them the user switcher.
@@ -71,8 +70,10 @@ defmodule Bonfire.UI.Me.LoginController do
     # )
     |> redirect_to_previous_go(form, "/", "/login")
   end
+  
+  def form_cs(params \\ %{}), do: Accounts.changeset(:login, params)
 
-  defp paint(conn, changeset) do
+  def paint(conn, changeset \\ form_cs()) do
     conn
     |> assign(:form, changeset)
     |> live_render(LoginLive)
