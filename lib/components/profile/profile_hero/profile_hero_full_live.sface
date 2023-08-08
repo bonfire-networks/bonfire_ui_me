@@ -60,7 +60,7 @@
           {/case}
         </div>
       </div>
-      <div class=" mb-4">
+      <div class="mb-4">
         <div class="flex justify-between w-full px-6">
           {#if @character_type == :user}
             <Bonfire.UI.Common.AvatarLive
