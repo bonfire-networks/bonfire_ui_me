@@ -1,6 +1,6 @@
 <div class="flex flex-col w-full gap-1 mt-3">
   <div class="flex items-top w-full justify-between">
-    <div class="flex flex-col gap-1 pl-6">
+    <div class="flex flex-col pl-6">
       <div class="flex items-center  text-xl font-bold text-base-content">
         <LivePatch to={~p"/@#{e(@user, :character, :username, nil)}"}>
           {e(@user, :profile, :name, "Anonymous")}
@@ -11,13 +11,13 @@
         >
           {e(@user, :shared_user, :label, "")}
         </span>
-        <span :if={is_admin?(@user)} class="ml-3 badge badge-sm badge-info">
-          {l("Admin")}
-        </span>
       </div>
       <div class="flex items-center">
-        <span class="text-sm font-normal text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
+        <span class="font-normal text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
       </div>
+      <span :if={is_admin?(@user)} class="badge badge-outline mt-4 rounded badge-info">
+        {l("Admin")}
+      </span>
     </div>
   </div>
 
@@ -28,7 +28,7 @@
 
     <!-- :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)} -->
     <div :if={@character_type == :user} class="flex items-center mt-4 w-full space-x-4">
-      <LivePatch
+      <!-- <LivePatch
         class="flex items-center"
         to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
       >
@@ -36,7 +36,7 @@
         <span class="link link-hover ml-2 text-sm text-base-content font-medium">
           {l("Network")}
         </span>
-      </LivePatch>
+      </LivePatch> -->
       <div :if={e(@user, :profile, :location, nil)} class="flex items-center">
         <#Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
         <span class="ml-2 text-sm text-base-content/70">
@@ -197,4 +197,23 @@
       {/if}
     </div>
   {/if}
+
+  <div class="flex ml-6 items-center gap-6">
+    <LivePatch
+      class="flex items-center"
+      to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
+    >
+      <span class="text-sm text-base-content/50 font-medium">
+        <b class="text-base-content/100">39</b> {l("Followed")}
+      </span>
+    </LivePatch>
+    <LivePatch
+      class="flex items-center"
+      to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
+    >
+      <span class="text-sm text-base-content/50 font-medium">
+        <b class="text-base-content/100">39</b> {l("Followers")}
+      </span>
+    </LivePatch>
+  </div>
 </div>
