@@ -21,13 +21,13 @@
     </div>
   </div>
 
-  <div class="pl-6 mt-1">
-    <div :if={@character_type == :user} class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
+  <div class="pl-6">
+    <div :if={@character_type == :user} class="w-full leading-6  mt-1 prose md:prose-sm prose-p:pt-2">
       {rich(e(@user, :profile, :summary, ""))}
     </div>
 
     <!-- :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)} -->
-    <div :if={@character_type == :user} class="flex items-center mt-4 w-full space-x-4">
+    <div :if={@character_type == :user} class="flex items-center  w-full space-x-4">
       <!-- <LivePatch
         class="flex items-center"
         to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
@@ -37,13 +37,13 @@
           {l("Network")}
         </span>
       </LivePatch> -->
-      <div :if={e(@user, :profile, :location, nil)} class="flex items-center">
+      <div :if={e(@user, :profile, :location, nil)} class="flex mt-4 items-center">
         <#Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
         <span class="ml-2 text-sm text-base-content/70">
           {e(@user, :profile, :location, "")}
         </span>
       </div>
-      <div :if={e(@user, :profile, :website, nil)} class="flex items-center">
+      <div :if={e(@user, :profile, :website, nil)} class="flex  mt-4 items-center">
         {#case Bonfire.Files.FaviconStore.favicon_url(e(@user, :profile, :website, nil))}
           {#match nil}
             <#Icon solid="ExternalLink" class="w-5 h-5 text-base-content/70" />
@@ -204,7 +204,8 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <span class="text-sm text-base-content/50 font-medium">
-        <b class="text-base-content/100">39</b> {l("Followed")}
+        <!-- <b class="text-base-content/100">39</b>  -->
+        {l("Followed")}
       </span>
     </LivePatch>
     <LivePatch
@@ -212,7 +213,8 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <span class="text-sm text-base-content/50 font-medium">
-        <b class="text-base-content/100">39</b> {l("Followers")}
+        <!-- <b class="text-base-content/100">39</b>  -->
+        {l("Followers")}
       </span>
     </LivePatch>
   </div>
