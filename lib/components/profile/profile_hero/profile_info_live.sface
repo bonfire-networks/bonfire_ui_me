@@ -204,7 +204,7 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <span class="text-sm text-base-content/50 font-medium">
-        <!-- <b class="text-base-content/100">39</b>  -->
+        <!-- <b class="text-base-content/100">39</b> -->
         {l("Followed")}
       </span>
     </LivePatch>
@@ -213,7 +213,7 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <span class="text-sm text-base-content/50 font-medium">
-        <!-- <b class="text-base-content/100">39</b>  -->
+        <!-- <b class="text-base-content/100">39</b> -->
         {l("Followers")}
       </span>
     </LivePatch>
