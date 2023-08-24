@@ -7,7 +7,7 @@
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
-            <div class="text-sm font-bold">{l("Name & description")}</div>
+            <div class="text-sm font-medium">{l("Name & description")}</div>
             <div class="text-sm font-light text-base-content/70">{l("Identify this instance")}</div>
           </div>
           <button
@@ -81,7 +81,7 @@
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
-            <div class="text-sm font-bold">{l("Icon & banner")}</div>
+            <div class="text-sm font-medium">{l("Icon & banner")}</div>
             <div class="text-sm font-light text-base-content/70">{l("Provide some visuals")}</div>
           </div>
           <button
@@ -147,7 +147,7 @@
       <div x-data="{open: false}" class="p-4">
         <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
           <div class="flex flex-col gap-1">
-            <div class="text-sm font-bold">{l("Theme & font")}</div>
+            <div class="text-sm font-medium">{l("Theme & font")}</div>
             <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
           </div>
           <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
@@ -189,7 +189,7 @@
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
-            <div class="text-sm font-bold">{l("Language")}</div>
+            <div class="text-sm font-medium">{l("Language")}</div>
             <div class="text-sm font-light text-base-content/70">{l("What language do most new users understand?")}</div>
           </div>
           <button
@@ -245,7 +245,7 @@
         <div class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Make invite only")}</div>
+              <div class="text-sm font-medium">{l("Make invite only")}</div>
               <div class="text-sm font-light text-base-content/70">{l("Only people with a valid invite link can sign up to this instance.")}</div>
             </div>
             <input name="invite_only" value="false" type="hidden">
@@ -270,7 +270,7 @@
         <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Who can see the list of local users?")}</div>
+              <div class="text-sm font-medium">{l("Who can see the list of local users?")}</div>
               <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
             </div>
             <button
@@ -361,7 +361,7 @@
         <div class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Show list of admins on public homepage")}</div>
+              <div class="text-sm font-medium">{l("Show list of admins on public homepage")}</div>
               <div class="text-sm font-light text-base-content/70">{l("Show list of admins on public homepage")}</div>
             </div>
             <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
@@ -383,7 +383,7 @@
         <div class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("Hide the number of total users on this instance")}</div>
+              <div class="text-sm font-medium">{l("Hide the number of total users on this instance")}</div>
               <div class="text-sm font-light text-base-content/70">{l("Hide the number of total users on this instance")}</div>
             </div>
             <input name="Bonfire.Me.Users[public_count]" value="true" type="hidden">
@@ -407,7 +407,7 @@
         <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
-              <div class="text-sm font-bold">{l("What activities to include in home feeds by default")}</div>
+              <div class="text-sm font-medium">{l("What activities to include in home feeds by default")}</div>
               <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
             </div>
             <button

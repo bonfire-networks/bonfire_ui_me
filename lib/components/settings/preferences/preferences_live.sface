@@ -1,21 +1,17 @@
 <div class="pb-6">
   <div class="divide-y divide-base-content/10">
-    <div
-      x-data="{
-        open: false
-      }"
-      class="p-4"
-    >
-      <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
+    <div class="p-4 font-bold bg-base-content/5">{l("User Interface")}</div>
+    <div x-data="{open: false}" class="p-4">
+      <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer gap-4">
         <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Theme")}</div>
+          <div class="text-sm font-medium">{l("Theme")}</div>
           <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
         </div>
 
-        <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
-        <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
@@ -32,16 +28,16 @@
     </div>
 
     <div x-data="{open: false}" class="p-4">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Font")}</div>
+          <div class="text-sm font-medium">{l("Font")}</div>
           <div class="text-sm font-light text-base-content/70">{l("Select the default font for the interface")}</div>
         </div>
         <button
           type="button"
           x-cloak
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="open"
         >
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -49,7 +45,7 @@
         <button
           type="button"
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="!open"
         >
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -70,16 +66,16 @@
     </div>
 
     <div x-data="{open: false}" class="p-4">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Language")}</div>
+          <div class="text-sm font-medium">{l("Language")}</div>
           <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
         </div>
         <button
           type="button"
           x-cloak
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="open"
         >
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -87,7 +83,7 @@
         <button
           type="button"
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="!open"
         >
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -105,102 +101,41 @@
       </div>
     </div>
 
-    <!-- <div x-data="{open: false}" class="p-4">
-      <div class="flex items-center justify-between">
-        <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Composer")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("How do you want to use the composer?")}</div>
-        </div>
-        <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="open"
-        >
-          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
-          x-show="!open"
-        >
-          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-      </div>
-      <div x-show="open" x-cloak x-collapse>
-        <form name="settings" phx-change="Bonfire.Me.Settings:set">
-          <input name="scope" value={:user} type="hidden">
-          <div class="w-full max-w-lg mt-8 form-control">
-            <div class="sm:mt-0 sm:col-span-2">
-              <div class="mt-4 sm:col-span-2">
-                <fieldset>
-                  <div class="flex flex-col gap-4 -space-y-px">
-                    <label class="relative flex items-center flex-1 border-r cursor-pointer border-base-200 focus:outline-none">
-                      <input
-                        type="radio"
-                        name="ui[smart_input_as]"
-                        value={:non_blocking}
-                        checked={if Bonfire.Me.Settings.get(
-                             [:bonfire, :ui, :smart_input_as],
-                             :non_blocking,
-                             @current_user
-                           ) == :non_blocking,
-                           do: "checked"}
-                        class="radio radio-secondary"
-                      />
-                      <div class="flex flex-col ml-3">
-                        <span id="admin-info-0-label" class="block text-sm font-medium">
-                          {l("Non-blocking layout")}
-                        </span>
-                      </div>
-                    </label>
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name="Brand"
+        description={l("Show only the instance logo")}
+        keys={[Bonfire.UI.Common.LogoLive, :only_logo]}
+      />
+    </form>
+    <!-- name={l("Missing avatars")} -->
+     <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:user} type="hidden">
+    <Bonfire.UI.Common.SettingsToggleLive
+      description={l("Show randomly-generated animal avatars for users without a profile picture?")}
+      keys={[Bonfire.UI.Common.AvatarLive, :animal_avatars]}
+      default_value
+      name="Animal avatars"
+      scope={:user}
+    />
+</form>
 
-                    <label class="relative flex items-center flex-1 cursor-pointer focus:outline-none">
-                      <input
-                        type="radio"
-                        name="ui[smart_input_as]"
-                        value={:focused}
-                        checked={if Bonfire.Me.Settings.get(
-                             [:bonfire, :ui, :smart_input_as],
-                             :non_blocking,
-                             @current_user
-                           ) == :focused,
-                           do: "checked"}
-                        class="radio radio-secondary"
-                      />
-                      <div class="flex flex-col ml-3">
-                        <span id="admin-info-2-label" class="block text-sm font-medium">
-                          {l("Focused layout")}
-                        </span>
-                      </div>
-                    </label>
-                  </div>
-                </fieldset>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div> -->
-
+    <div class="p-4 font-bold bg-base-content/5">{l("Behaviours")}</div>
+    
     <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:user} type="hidden">
-      <Bonfire.UI.Common.AvatarsSettingsLive />
-
       <div x-data="{open: false}" class="p-4">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between gap-4">
           <div class="flex flex-col gap-1">
-            <div class="text-sm font-bold">{l("What activities to include in home feeds by default")}</div>
-            <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
+            <div class="text-sm font-medium">{l("Feed activities")}</div>
+            <div class="text-sm font-light text-base-content/70">{l("What activities to include in home feeds by default")}</div>
           </div>
           <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
           <button
             type="button"
             x-cloak
             x-on:click="open = !open"
-            class="rounded btn btn-square btn-sm btn-ghost"
+            class="btn btn-circle btn-sm btn-ghost"
             x-show="open"
           >
             <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -208,7 +143,7 @@
           <button
             type="button"
             x-on:click="open = !open"
-            class="rounded btn btn-square btn-sm btn-ghost"
+            class="btn btn-circle btn-sm btn-ghost"
             x-show="!open"
           >
             <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -224,26 +159,228 @@
       </div>
     </form>
 
+
+    <!-- TODO -->
+
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:user} type="hidden">
+      <div x-data="{open: false}" class="p-4">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-medium">{l("Default Feed")}</div>
+            <div class="text-sm font-light text-base-content/70">{l("Select the feed you want to display when visiting the activities and dashboard pages")}</div>
+          </div>
+          <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
+          <button
+            type="button"
+            x-cloak
+            x-on:click="open = !open"
+            class="btn btn-circle btn-sm btn-ghost"
+            x-show="open"
+          >
+            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+          <button
+            type="button"
+            x-on:click="open = !open"
+            class="btn btn-circle btn-sm btn-ghost"
+            x-show="!open"
+          >
+            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+        </div>
+        <div x-show="open" x-cloak x-collapse>
+          
+        </div>
+      </div>
+    </form>
+
+
+    <!-- TODO -->
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:user} type="hidden">
+      <div x-data="{open: false}" class="p-4">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-medium">{l("Feed default time limit")}</div>
+            <div class="text-sm font-light text-base-content/70">{l("Select the time limit you want to use by default (can always change in the feed controls options)")}</div>
+          </div>
+          <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
+          <button
+            type="button"
+            x-cloak
+            x-on:click="open = !open"
+            class="btn btn-circle btn-sm btn-ghost"
+            x-show="open"
+          >
+            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+          <button
+            type="button"
+            x-on:click="open = !open"
+            class="btn btn-circle btn-sm btn-ghost"
+            x-show="!open"
+          >
+            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+        </div>
+        <div x-show="open" x-cloak x-collapse>
+          
+        </div>
+      </div>
+    </form>
+
+    <!-- TODO -->
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:user} type="hidden">
+      <div x-data="{open: false}" class="p-4">
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-medium">{l("Feed default sorting")}</div>
+            <div class="text-sm font-light text-base-content/70">{l("Select the default sorting options for your feeds (can always change in the feed controls options)")}</div>
+          </div>
+          <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
+          <button
+            type="button"
+            x-cloak
+            x-on:click="open = !open"
+            class="btn btn-circle btn-sm btn-ghost"
+            x-show="open"
+          >
+            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+          <button
+            type="button"
+            x-on:click="open = !open"
+            class="btn btn-circle btn-sm btn-ghost"
+            x-show="!open"
+          >
+            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+          </button>
+        </div>
+        <div x-show="open" x-cloak x-collapse>
+          
+        </div>
+      </div>
+    </form>
+
+
+    <!-- TODO -->
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        label="Dark Pattern"
+        name={l("Infinite scrolling")}
+        description={l("Enable infinite scrolling on long lists of items")}
+        keys={[]}
+      />
+    </form>
+
+
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        label="Dark Pattern"
+        name="Show counter for unread notifications"
+        description={l("Show the number of unread notifications in the notification indicator")}
+        keys={[Bonfire.UI.Common.BadgeCounterLive, :hide_counter]}
+      />
+    </form>
+
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        label="Dark Pattern"
+        name="Highlight notifications indicator"
+        description={l("Use the primary color to highlight the notifications indicator")}
+        keys={[Bonfire.UI.Common.BadgeCounterLive, :highlited]}
+      />
+    </form>
+
+    <!-- TODO -->
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        label="Vanity Metric"
+        name={l("Show reaction counts (likes / boosts)")}
+        description={l("You will see the number of reactions to activities (may not indicate the real amount for federated posts)")}
+        keys={[]}
+      />
+    </form>
+
+
+    <!-- TODO -->
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        label="Vanity Metric"
+        name={l("Show follower counts")}
+        description={l("You will see the amount of followers (may not indicate the real amount for federated users)")}
+        keys={[]}
+      />
+    </form>
+
     <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:user} type="hidden">
 
       <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Actions on activities (eg. reply, boost, etc)")}
+        name={l("Actions on feed activities (eg. reply, boost, etc)")}
         description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
         keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
       />
+    </form>
 
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:user} type="hidden">
       <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Actions on discussions (eg. reply, boost, etc)")}
         description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
         keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
       />
-
-      <Bonfire.UI.Common.SettingsToggleLive name={l("Prefer compact layouts")} keys={[:ui, :compact]} />
     </form>
 
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:user} type="hidden">
+      <Bonfire.UI.Common.SettingsToggleLive 
+        name={l("Prefer compact layouts")} 
+        description={l("Compact layouts are more dense and may show less contents.")}
+        keys={[:ui, :compact]} />
+    </form>
+
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={:user} type="hidden">
+      <Bonfire.UI.Common.AvatarsSettingsLive />
+    </form>
+
+
+    <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
     <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive label={l(
       "I DO NOT want my profile (@%{username}) and content to appear publicly in search engines (in Bonfire, the fediverse, and the web in general)",
       username: e(@current_user, :character, :username, "")
     )} />
+
+    <div x-data="{open: false}" class="p-4">
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Default boundary")}</div>
+          <div class="text-sm font-light text-base-content/70">{l("Specify your default boundary when publishing a new activity")}</div>
+        </div>
+        <button
+          type="button"
+          x-cloak
+          x-on:click="open = !open"
+          class="btn btn-circle btn-sm btn-ghost"
+          x-show="open"
+        >
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button
+          type="button"
+          x-on:click="open = !open"
+          class="btn btn-circle btn-sm btn-ghost"
+          x-show="!open"
+        >
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+      </div>
+      <div x-show="open" x-cloak x-collapse>
+        <!-- TODO -->
+      </div>
+    </div>
   </div>
 </div>

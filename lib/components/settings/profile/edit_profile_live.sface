@@ -4,24 +4,27 @@
   set_field={:current_user}
   set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
 />
-<div class="flex items-center gap-3 p-3">
-  <Bonfire.Files.Web.UploadIconLive
-    id={:upload_icon}
-    container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
-    class="inline-block w-32 h-32"
-    object={@current_user}
-    set_field={:current_user}
-    set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
-    opts={%{"data-id" => "preview_icon"}}
-  />
-  <div class="flex items-center justify-between w-full -mt-3">
-    <div class="flex flex-col">
-      <div class="text-2xl font-semibold">{e(@current_user, :profile, :name, "")}</div>
-      <div class="text-sm font-light text-base-content/70">
-        {e(@current_user, :character, :username, "")}@{instance_domain()}
+<div class="flex justify-between items-center pr-4">
+  <div class="flex items-center gap-3 p-3">
+    <Bonfire.Files.Web.UploadIconLive
+      id={:upload_icon}
+      container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
+      class="inline-block w-32 h-32"
+      object={@current_user}
+      set_field={:current_user}
+      set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
+      opts={%{"data-id" => "preview_icon"}}
+    />
+    <div class="flex items-center justify-between w-full -mt-3">
+      <div class="flex flex-col">
+        <div class="text-2xl font-semibold">{e(@current_user, :profile, :name, "")}</div>
+        <div class="text-sm font-light text-base-content/70">
+          {e(@current_user, :character, :username, "")}@{instance_domain()}
+        </div>
       </div>
     </div>
   </div>
+  <LiveRedirect to="/user" type="button" class="normal-case rounded-full btn btn-sm !border !border-base-content/30 btn btn-outline">{l("View Profile")}</LiveRedirect>
 </div>
 
 <form
@@ -29,17 +32,17 @@
   phx-submit="Bonfire.Me.Profiles:save"
   method="POST"
 >
-  <div class="mx-3 mt-4 divide-y rounded-lg divide-base-content/10 bg-base-200">
+  <div class="mx-3 mt-4 divide-y rounded-box divide-base-content/10 border border-base-content/20">
     <div x-data="{open: false}" class="p-3">
       <div class="flex items-center justify-between">
         <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Edit your full name")}</div>
+          <div class="text-sm font-medium">{l("Edit your full name")}</div>
         </div>
         <button
           type="button"
           x-cloak
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="open"
         >
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -47,13 +50,13 @@
         <button
           type="button"
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="!open"
         >
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
-      <div x-show="open" x-collapse>
+      <div x-cloak x-show="open" x-collapse>
         <div class="mt-4 form-control">
           <!-- <label for="name" class="label">
                 <span class="label-text">
@@ -75,13 +78,13 @@
     <div x-data="{open: false}" class="p-3">
       <div class="flex items-center justify-between">
         <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Edit your bio")}</div>
+          <div class="text-sm font-medium">{l("Edit your bio")}</div>
         </div>
         <button
           type="button"
           x-cloak
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="open"
         >
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -89,13 +92,13 @@
         <button
           type="button"
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="!open"
         >
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
-      <div x-show="open" x-collapse>
+      <div x-cloak x-show="open" x-collapse>
         <div class="mt-4 form-control">
           <!-- <label for="about" class="label">
                 <span class="label-text">{l("Bio")}</span>
@@ -111,13 +114,13 @@
     <div x-data="{open: false}" class="p-3">
       <div class="flex items-center justify-between">
         <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Edit your website")}</div>
+          <div class="text-sm font-medium">{l("Edit your website")}</div>
         </div>
         <button
           type="button"
           x-cloak
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="open"
         >
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -125,13 +128,13 @@
         <button
           type="button"
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="!open"
         >
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
-      <div x-show="open" x-collapse>
+      <div x-cloak x-show="open" x-collapse>
         <div class="mt-4 form-control">
           <!-- <label for="website" class="label">
                 <span class="label-text">{l("Website")}</span>
@@ -152,13 +155,13 @@
     <div x-data="{open: false}" class="p-3">
       <div class="flex items-center justify-between">
         <div class="flex flex-col gap-1">
-          <div class="text-sm font-bold">{l("Edit your location")}</div>
+          <div class="text-sm font-medium">{l("Edit your location")}</div>
         </div>
         <button
           type="button"
           x-cloak
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="open"
         >
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
@@ -166,13 +169,13 @@
         <button
           type="button"
           x-on:click="open = !open"
-          class="rounded btn btn-square btn-sm btn-ghost"
+          class="btn btn-circle btn-sm btn-ghost"
           x-show="!open"
         >
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
-      <div x-show="open" x-collapse>
+      <div x-cloak x-show="open" x-collapse>
         <div class="mt-4 form-control">
           <input
             type="text"
@@ -188,49 +191,52 @@
     </div>
   </div>
   <div class="flex justify-end pb-8 mx-3 mt-4 gap-3">
-    <LiveRedirect to="/user" type="button" class="normal-case rounded-full btn-wide btn btn-outline">{l("View Profile")}</LiveRedirect>
     <button type="submit" class="normal-case rounded-full btn-wide btn btn-primary">{l("Save")}</button>
   </div>
 </form>
 
 <form phx-submit="Bonfire.Me.Profiles:add_alias">
-  <div x-data="{open: false}" class="p-4" {...pry()}>
-    <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
+  <div x-data="{open: false}" class="p-4 border-t border-base-content/20" {...pry()}>
+    <div x-on:click="open = !open" class="flex items-center gap-4 justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
-        <div class="text-sm font-bold">{l("Other profiles")}</div>
+        <div class="font-bold">{l("Other profiles")}</div>
         <div class="text-sm font-light text-base-content/70">{l(
             "You can indicate your different profiles across the fediverse (including on other apps like Peertube, Pixelfed or Mobilizon)"
           )}</div>
       </div>
-      <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
         <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
-      <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
         <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
       <div class="form-control  mt-4 w-full">
-        <div class="text-base  font-medium">{l("Existing aliases")}</div>
-        <ul>
-          <li :for={al <-
-            Bonfire.Social.Aliases.list_my_aliases(@current_user)
-            |> e(:edges, [])
-            |> debug("list_my_aliases")}>
-            <Bonfire.UI.Common.ProfileItemLive
-              show_controls={[]}
-              character={e(al, :edge, :object, :character, nil) |> debug("my_aliasss")}
-              profile={e(al, :edge, :object, :profile, nil)}
-              class="btn btn-square btn-ghost btn-sm"
-              avatar_class="w-10 h-10 rounded-full"
-            />
-          </li>
-        </ul>
+        {#if Bonfire.Social.Aliases.list_my_aliases(@current_user) |> e(:edges, []) |> length() > 0}
+          <div class="text-sm">{l("Existing aliases")}</div>
+          <ul class="mt-3 flex flex-col gap-2 p-3 border rounded-box border-base-content/20 divide-y divide-base-content/20">
+            <li :for={al <-
+              Bonfire.Social.Aliases.list_my_aliases(@current_user)
+              |> e(:edges, [])
+              |> debug("list_my_aliases")}>
+              <Bonfire.UI.Common.ProfileItemLive
+                show_controls={[]}
+                character={e(al, :edge, :object, :character, nil) |> debug("my_aliasss")}
+                profile={e(al, :edge, :object, :profile, nil)}
+                class="btn btn-circle btn-ghost btn-sm"
+                avatar_class="w-10 h-10 rounded-full"
+              />
+            </li>
+          </ul>
+        {#else}
+          <div class="text-warning bg-warning/10 border-warning/30 border rounded p-2 px-4 text-sm font-medium">{l("You don't have any alias yet")}</div>
+        {/if}
       </div>
-      <div class="form-control  mt-4 w-full">
-        <div class="text-base  font-medium">{l("Add an alias")}</div>
-        <label class="label">
-          <span class="label-text">{markdown(l("Specify the *@username@domain.com* of the account"))}</span>
+      <div class="form-control mt-6 w-full">
+        <div class="text-sm">{l("Add an alias")}</div>
+        <label class="label px-0">
+          <span class="label-text text-base-content/70">{markdown(l("Specify the *@username@domain.com* of the account"))}</span>
         </label>
         <input name="actor" type="text" placeholder="Type here" class="input input-bordered w-full">
 
@@ -240,16 +246,16 @@
   </div>
 </form>
 
-<div x-data="{open: false}" class="p-4">
-  <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
+<div x-data="{open: false}" class="p-4 border-t border-base-content/20">
+  <div x-on:click="open = !open" class="flex items-center gap-4 justify-between cursor-pointer">
     <div class="flex flex-col gap-1">
-      <div class="text-sm text-error font-bold">{l("Delete User & Data")}</div>
+      <div class="text-error font-bold">{l("Delete User & Data")}</div>
       <div class="text-sm font-light text-base-content/70">{l("Delete all the data associated with this user profile")}</div>
     </div>
-    <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
+    <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
       <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
     </button>
-    <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
+    <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
       <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
     </button>
   </div>
