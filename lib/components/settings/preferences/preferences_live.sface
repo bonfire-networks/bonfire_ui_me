@@ -190,7 +190,24 @@
           </button>
         </div>
         <div x-show="open" x-cloak x-collapse>
-          
+          <div class="form-control mt-4">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked />
+              <span class="label-text">{l "My Feed"}</span> 
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
+              <span class="label-text">{l "Local"}</span> 
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
+              <span class="label-text">{l "Remote"}</span> 
+            </label>
+          </div>
         </div>
       </div>
     </form>
@@ -225,7 +242,36 @@
           </button>
         </div>
         <div x-show="open" x-cloak x-collapse>
-          
+          <div class="form-control mt-4">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked />
+              <span class="label-text">{l "Day"}</span> 
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
+              <span class="label-text">{l "Week"}</span> 
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
+              <span class="label-text">{l "Month"}</span> 
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
+              <span class="label-text">{l "Year"}</span> 
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
+              <span class="label-text">{l "all time"}</span> 
+            </label>
+          </div>
         </div>
       </div>
     </form>
@@ -259,7 +305,30 @@
           </button>
         </div>
         <div x-show="open" x-cloak x-collapse>
-          
+          <div class="form-control mt-4">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked />
+              <span class="label-text">{l "Chronological"}</span> 
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
+              <span class="label-text">{l "Amount of replies"}</span> 
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
+              <span class="label-text">{l "Amount of boosts"}</span> 
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
+              <span class="label-text">{l "Amount of likes"}</span> 
+            </label>
+          </div>
         </div>
       </div>
     </form>
