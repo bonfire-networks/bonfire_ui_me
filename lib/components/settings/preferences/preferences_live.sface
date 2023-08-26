@@ -179,8 +179,8 @@
 
     <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Default Feed")}
-        description={l("Select the feed you want to display when visiting the activities and dashboard pages")}
+        name={l("Default feed")}
+        description={l("Select the feed you want to display on the homepage")}
         keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
         options={[my: l("My Feed"), local: l("Local"), fediverse: l("Remote"), likes: "Liked"]}
         default_value={:my}
