@@ -469,12 +469,12 @@
           current_value={ActivityPub.Config.federating?()}
         />
 
-        <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
+        <!-- <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
           label={l(
             "Should new users and their content NOT appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default?"
           )}
           scope={:instance}
-        />
+        /> -->
       </div>
     </form>
   {#else}

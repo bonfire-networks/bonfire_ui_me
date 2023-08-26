@@ -56,7 +56,10 @@
           <div class="w-full max-w-lg mt-8 form-control">
             <div class="w-full max-w-lg form-control">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <Bonfire.UI.Common.ChangeFontLive font_family={Settings.get([:ui, :font_family], "Inter", :instance)} />
+                <Bonfire.UI.Common.ChangeFontLive
+                  font_family={Settings.get([:ui, :font_family], "Inter", :instance)}
+                  scope={@scope}
+                />
               </div>
             </div>
           </div>
@@ -64,7 +67,7 @@
       </div>
     </div>
 
-    <div x-data="{open: false}" class="p-4">
+    <div :if={@scope == :user} x-data="{open: false}" class="p-4">
       <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Language")}</div>
@@ -93,7 +96,10 @@
           <input name="scope" value={@scope} type="hidden">
           <div class="w-full max-w-lg mt-8 form-control">
             <div class="sm:mt-0 sm:col-span-2">
-              <Bonfire.UI.Common.ChangeLocaleLive locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", :instance)} />
+              <Bonfire.UI.Common.ChangeLocaleLive
+                locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", :instance)}
+                scope={@scope}
+              />
             </div>
           </div>
         </form>
@@ -153,6 +159,7 @@
             :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
             module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
             title={l("What activities to include in home feeds by default")}
+            scope={@scope}
           />
         </div>
       </div>
@@ -347,6 +354,7 @@
         name={l("Infinite scrolling")}
         description={l("Enable infinite scrolling on long lists of items")}
         keys={[]}
+        scope={@scope}
       />
     </form>
 
@@ -356,6 +364,7 @@
         name="Show counter for unread notifications"
         description={l("Show the number of unread notifications in the notification indicator")}
         keys={[Bonfire.UI.Common.BadgeCounterLive, :hide_counter]}
+        scope={@scope}
       />
     </form>
 
@@ -365,6 +374,7 @@
         name="Highlight notifications indicator"
         description={l("Use the primary color to highlight the notifications indicator")}
         keys={[Bonfire.UI.Common.BadgeCounterLive, :highlited]}
+        scope={@scope}
       />
     </form>
 
@@ -377,6 +387,7 @@
           "You will see the number of reactions to activities (may not indicate the real amount for federated posts)"
         )}
         keys={[]}
+        scope={@scope}
       />
     </form>
 
@@ -387,6 +398,7 @@
         name={l("Show follower counts")}
         description={l("You will see the amount of followers (may not indicate the real amount for federated users)")}
         keys={[]}
+        scope={@scope}
       />
     </form>
 
@@ -397,6 +409,7 @@
         name={l("Actions on feed activities (eg. reply, boost, etc)")}
         description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
         keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
+        scope={@scope}
       />
     </form>
 
@@ -406,6 +419,7 @@
         name={l("Actions on discussions (eg. reply, boost, etc)")}
         description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
         keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
+        scope={@scope}
       />
     </form>
 
@@ -415,19 +429,17 @@
         name={l("Prefer compact layouts")}
         description={l("Compact layouts are more dense and may show less contents.")}
         keys={[:ui, :compact]}
+        scope={@scope}
       />
     </form>
 
     <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
-      <Bonfire.UI.Common.AvatarsSettingsLive />
+      <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
     </form>
 
     <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
-    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive label={l(
-      "I DO NOT want my profile (@%{username}) and content to appear publicly in search engines (in Bonfire, the fediverse, and the web in general)",
-      username: e(@current_user, :character, :username, "")
-    )} />
+    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
 
     <div x-data="{open: false}" class="p-4">
       <div class="flex items-center justify-between gap-4">

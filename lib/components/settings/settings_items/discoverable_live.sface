@@ -1,7 +1,26 @@
 <form name="settings" phx-change="Bonfire.Me.Settings:set">
+  <input type="hidden" name="scope" value={@scope}>
+
   <Bonfire.UI.Common.SettingsToggleLive
     name={l("Discoverability")}
-    description={@label}
+    description={@label ||
+      case @scope do
+        :instance ->
+          l(
+            "Should new users and their content NOT APPEAR publicly in search engines (in Bonfire, the fediverse, and the web in general) by default?"
+          )
+
+        :account ->
+          l(
+            "I DO NOT want my profiles and content to appear publicly in search engines by default (in Bonfire, the fediverse, and the web in general)"
+          )
+
+        _ ->
+          l(
+            "I DO NOT want my profile (%{username}) and content to appear publicly in search engines (in Bonfire, the fediverse, and the web in general)",
+            username: e(@scope, :character, :username, nil) || ""
+          )
+      end}
     keys={[Bonfire.Me.Users, :undiscoverable]}
     scope={@scope}
   />
