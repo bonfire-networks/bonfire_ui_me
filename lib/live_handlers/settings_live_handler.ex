@@ -207,4 +207,41 @@ defmodule Bonfire.Me.Settings.LiveHandler do
       }
     end
   end
+
+  def maybe_assign_input_value_from_keys(assigns) do
+    assigns
+    |> update(:input, fn custom_input ->
+      custom_input || input_name(assigns.keys)
+    end)
+    |> update(:current_value, fn
+      :load_from_settings ->
+        Bonfire.Me.Settings.get(
+          assigns.keys,
+          assigns[:default_value],
+          scoped(assigns[:scope], assigns[:__context__])
+        )
+
+      custom_value ->
+        custom_value
+    end)
+  end
+
+  def scoped(scope, context) do
+    case scope do
+      :account -> current_account(context)
+      :instance -> context[:instance_settings] || :instance
+      _ -> current_user(context)
+    end
+  end
+
+  def input_name(keys) do
+    keys
+    |> Enum.with_index()
+    |> Enum.map(fn
+      {k, 0} -> "#{k}"
+      {k, _} -> "[#{k}]"
+    end)
+
+    # |> Enum.reverse() |> Enum.reduce(& "#{&1}[#{&2}]")
+  end
 end

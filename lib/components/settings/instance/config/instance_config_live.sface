@@ -260,21 +260,28 @@
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
           name={l("Maximum length of text inputs (e.g. posts)")}
-          settings_key={[Bonfire.UI.Common.SmartInputLive, :max_length]}
-          field_key="Bonfire.UI.Common.SmartInputLive[max_length]"
+          keys={[Bonfire.UI.Common.SmartInputLive, :max_length]}
+          input="Bonfire.UI.Common.SmartInputLive[max_length]"
           unit={l("words")}
+          default_value={nil}
         />
 
-        <div x-data="{open: false}" class="p-4">
-          <div class="flex items-center justify-between">
+        <Bonfire.UI.Common.SettingsRadiosLive
+          name={l("Who can see the list of local users?")}
+          keys={[Bonfire.UI.Me.UsersDirectoryLive, :show_to]}
+          options={[guests: l("Guests"), users: l("Users"), admins: l("Admins")]}
+          scope={:instance}
+        />
+
+        <!-- <div x-data="{open: false}" class="p-4">
+          <div               x-on:click="open = !open"
+class="flex items-center justify-between cursor-pointer">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Who can see the list of local users?")}</div>
-              <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
             </div>
             <button
               type="button"
               x-cloak
-              x-on:click="open = !open"
               class="rounded btn btn-square btn-sm btn-ghost"
               x-show="open"
             >
@@ -282,7 +289,6 @@
             </button>
             <button
               type="button"
-              x-on:click="open = !open"
               class="rounded btn btn-square btn-sm btn-ghost"
               x-show="!open"
             >
@@ -308,7 +314,6 @@
                       class="radio radio-secondary"
                     />
                     <div class="flex flex-col ml-3">
-                      <!-- Checked: "text-indigo-900", Not Checked: "text-primary-content-900" -->
                       <span id="admin-info-0-label" class="block text-sm font-medium">
                         {l("Guests")}
                       </span>
@@ -354,7 +359,7 @@
               </fieldset>
             </div>
           </div>
-        </div>
+        </div> -->
 
         <div class="p-4">
           <div class="flex items-center justify-between">

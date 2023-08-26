@@ -26,7 +26,17 @@
       </div>
     </div>
 
-    <div x-data="{open: false}" class="p-4">
+    <form name="settings" phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsSelectLive
+        name={l("Font")}
+        description={l("Select the default font for the interface")}
+        keys={[:ui, :font_family]}
+        options={Settings.get([:ui, :font_families], ["Inter"], @scoped)}
+        scope={@scope}
+      />
+    </form>
+
+    <!-- <div x-data="{open: false}" class="p-4">
       <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Font")}</div>
@@ -60,12 +70,13 @@
                   font_family={Settings.get([:ui, :font_family], "Inter", :instance)}
                   scope={@scope}
                 />
+                
               </div>
             </div>
           </div>
         </form>
       </div>
-    </div>
+    </div> -->
 
     <div :if={@scope == :user} x-data="{open: false}" class="p-4">
       <div class="flex items-center justify-between gap-4">
@@ -111,6 +122,7 @@
         name="Brand"
         description={l("Show only the instance logo")}
         keys={[Bonfire.UI.Common.LogoLive, :only_logo]}
+        scope={@scope}
       />
     </form>
     <!-- name={l("Missing avatars")} -->
@@ -165,9 +177,18 @@
       </div>
     </form>
 
-    <!-- TODO -->
-
     <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsRadiosLive
+        name={l("Default Feed")}
+        description={l("Select the feed you want to display when visiting the activities and dashboard pages")}
+        keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
+        options={[my: l("My Feed"), local: l("Local"), fediverse: l("Remote"), likes: "Liked"]}
+        default_value={:my}
+        scope={@scope}
+      />
+    </form>
+
+    <!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -175,7 +196,6 @@
             <div class="text-sm font-medium">{l("Default Feed")}</div>
             <div class="text-sm font-light text-base-content/70">{l("Select the feed you want to display when visiting the activities and dashboard pages")}</div>
           </div>
-          <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
           <button
             type="button"
             x-cloak
@@ -221,10 +241,22 @@
           </div>
         </div>
       </div>
+    </form> -->
+
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsRadiosLive
+        name={l("Feed default time limit")}
+        description={l(
+          "Select the time limit you want to use by default (can always change in the feed controls options)"
+        )}
+        keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
+        options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
+        default_value={7}
+        scope={@scope}
+      />
     </form>
 
-    <!-- TODO -->
-    <form phx-change="Bonfire.Me.Settings:set">
+    <!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -234,7 +266,6 @@
                 "Select the time limit you want to use by default (can always change in the feed controls options)"
               )}</div>
           </div>
-          <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
           <button
             type="button"
             x-cloak
@@ -286,10 +317,57 @@
           </div>
         </div>
       </div>
+    </form> -->
+
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsRadiosLive
+        name={l("Feed default sort")}
+        description={l(
+          "Select the default sorting options for your feeds (can always change in the feed controls options)"
+        )}
+        keys={[Bonfire.UI.Social.FeedLive, :sort_by]}
+        options={[
+          nil: l("Chronological"),
+          num_replies: l("Amount of replies"),
+          num_boosts: l("Amount of boosts"),
+          num_likes: l("Amount of likes")
+        ]}
+        default_value={nil}
+        scope={@scope}
+      />
     </form>
 
-    <!-- TODO -->
     <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsRadiosLive
+        name={l("Discussions default layout")}
+        description={l("Select the default way to view discussions (can always change in the feed controls options)")}
+        keys={[Bonfire.UI.Social.ThreadLive, :thread_mode]}
+        options={[flat: l("Flat"), nested: l("Nested threads")]}
+        default_value={:nested}
+        scope={@scope}
+      />
+    </form>
+
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsRadiosLive
+        name={l("Discussions default sort")}
+        description={l(
+          "Select the default sorting options for viewing discussions (can always change in the feed controls options)"
+        )}
+        keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
+        options={[
+          nil: l("Chronological"),
+          latest_reply: l("Surface latest replies"),
+          num_replies: l("Amount of replies"),
+          num_boosts: l("Amount of boosts"),
+          num_likes: l("Amount of likes")
+        ]}
+        default_value={nil}
+        scope={@scope}
+      />
+    </form>
+
+    <!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -299,7 +377,6 @@
                 "Select the default sorting options for your feeds (can always change in the feed controls options)"
               )}</div>
           </div>
-          <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
           <button
             type="button"
             x-cloak
@@ -345,7 +422,7 @@
           </div>
         </div>
       </div>
-    </form>
+    </form> -->
 
     <!-- TODO -->
     <form phx-change="Bonfire.Me.Settings:set">

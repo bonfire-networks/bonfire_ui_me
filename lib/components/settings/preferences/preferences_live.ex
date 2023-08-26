@@ -5,12 +5,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.PreferencesLive do
   prop scope, :atom, default: :user
 
   def render(assigns) do
-    scoped =
-      case assigns[:scope] do
-        :account -> current_account(assigns[:__context__])
-        :instance -> :instance
-        _ -> current_user(assigns[:__context__])
-      end
+    scoped = Bonfire.Me.Settings.LiveHandler.scoped(assigns[:scope], assigns[:__context__])
 
     assigns
     |> assign(scoped: scoped)
