@@ -2,7 +2,10 @@
   <div class="divide-y divide-base-content/10">
     <div class="p-4 font-bold bg-base-content/5">{l("User Interface")}</div>
     <div x-data="{open: false}" class="p-4">
-      <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer gap-4">
+      <div
+        x-on:click="open = !open"
+        class="flex items-center justify-between gap-4 cursor-pointer gap-4"
+      >
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Theme")}</div>
           <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
@@ -17,12 +20,8 @@
       </div>
       <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
-          <input name="scope" value={:user} type="hidden">
-          <Bonfire.UI.Common.ChangeThemesLive
-            scoped={@current_user}
-            theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_user)}
-            theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_user)}
-          />
+          <input name="scope" value={@scope} type="hidden">
+          <Bonfire.UI.Common.ChangeThemesLive scope={@scope} />
         </form>
       </div>
     </div>
@@ -53,7 +52,7 @@
       </div>
       <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
-          <input name="scope" value={:user} type="hidden">
+          <input name="scope" value={@scope} type="hidden">
           <div class="w-full max-w-lg mt-8 form-control">
             <div class="w-full max-w-lg form-control">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -91,7 +90,7 @@
       </div>
       <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
-          <input name="scope" value={:user} type="hidden">
+          <input name="scope" value={@scope} type="hidden">
           <div class="w-full max-w-lg mt-8 form-control">
             <div class="sm:mt-0 sm:col-span-2">
               <Bonfire.UI.Common.ChangeLocaleLive locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", :instance)} />
@@ -109,21 +108,21 @@
       />
     </form>
     <!-- name={l("Missing avatars")} -->
-     <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={:user} type="hidden">
-    <Bonfire.UI.Common.SettingsToggleLive
-      description={l("Show randomly-generated animal avatars for users without a profile picture?")}
-      keys={[Bonfire.UI.Common.AvatarLive, :animal_avatars]}
-      default_value
-      name="Animal avatars"
-      scope={:user}
-    />
-</form>
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={@scope} type="hidden">
+      <Bonfire.UI.Common.SettingsToggleLive
+        description={l("Show randomly-generated animal avatars for users without a profile picture?")}
+        keys={[Bonfire.UI.Common.AvatarLive, :animal_avatars]}
+        default_value
+        name="Animal avatars"
+        scope={@scope}
+      />
+    </form>
 
     <div class="p-4 font-bold bg-base-content/5">{l("Behaviours")}</div>
-    
+
     <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={:user} type="hidden">
+      <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
           <div class="flex flex-col gap-1">
@@ -159,11 +158,10 @@
       </div>
     </form>
 
-
     <!-- TODO -->
 
     <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={:user} type="hidden">
+      <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
           <div class="flex flex-col gap-1">
@@ -192,35 +190,42 @@
         <div x-show="open" x-cloak x-collapse>
           <div class="form-control mt-4">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked />
-              <span class="label-text">{l "My Feed"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked>
+              <span class="label-text">{l("My Feed")}</span>
             </label>
           </div>
           <div class="form-control">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
-              <span class="label-text">{l "Local"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("Local")}</span>
             </label>
           </div>
           <div class="form-control">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
-              <span class="label-text">{l "Remote"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("Remote")}</span>
+            </label>
+          </div>
+          <div class="form-control">
+            <label class="label cursor-pointer px-0 gap-4 justify-start">
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("Liked")}</span>
             </label>
           </div>
         </div>
       </div>
     </form>
 
-
     <!-- TODO -->
     <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={:user} type="hidden">
+      <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Feed default time limit")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("Select the time limit you want to use by default (can always change in the feed controls options)")}</div>
+            <div class="text-sm font-light text-base-content/70">{l(
+                "Select the time limit you want to use by default (can always change in the feed controls options)"
+              )}</div>
           </div>
           <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
           <button
@@ -244,32 +249,32 @@
         <div x-show="open" x-cloak x-collapse>
           <div class="form-control mt-4">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked />
-              <span class="label-text">{l "Day"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked>
+              <span class="label-text">{l("Day")}</span>
             </label>
           </div>
           <div class="form-control">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
-              <span class="label-text">{l "Week"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("Week")}</span>
             </label>
           </div>
           <div class="form-control">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
-              <span class="label-text">{l "Month"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("Month")}</span>
             </label>
           </div>
           <div class="form-control">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
-              <span class="label-text">{l "Year"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("Year")}</span>
             </label>
           </div>
           <div class="form-control">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
-              <span class="label-text">{l "all time"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("all time")}</span>
             </label>
           </div>
         </div>
@@ -278,12 +283,14 @@
 
     <!-- TODO -->
     <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={:user} type="hidden">
+      <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Feed default sorting")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("Select the default sorting options for your feeds (can always change in the feed controls options)")}</div>
+            <div class="text-sm font-light text-base-content/70">{l(
+                "Select the default sorting options for your feeds (can always change in the feed controls options)"
+              )}</div>
           </div>
           <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
           <button
@@ -307,32 +314,31 @@
         <div x-show="open" x-cloak x-collapse>
           <div class="form-control mt-4">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked />
-              <span class="label-text">{l "Chronological"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked>
+              <span class="label-text">{l("Chronological")}</span>
             </label>
           </div>
           <div class="form-control">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
-              <span class="label-text">{l "Amount of replies"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("Amount of replies")}</span>
             </label>
           </div>
           <div class="form-control">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
-              <span class="label-text">{l "Amount of boosts"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("Amount of boosts")}</span>
             </label>
           </div>
           <div class="form-control">
             <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" />
-              <span class="label-text">{l "Amount of likes"}</span> 
+              <input type="radio" name="radio-10" class="radio checked:bg-primary">
+              <span class="label-text">{l("Amount of likes")}</span>
             </label>
           </div>
         </div>
       </div>
     </form>
-
 
     <!-- TODO -->
     <form phx-change="Bonfire.Me.Settings:set">
@@ -343,7 +349,6 @@
         keys={[]}
       />
     </form>
-
 
     <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
@@ -368,11 +373,12 @@
       <Bonfire.UI.Common.SettingsToggleLive
         label="Vanity Metric"
         name={l("Show reaction counts (likes / boosts)")}
-        description={l("You will see the number of reactions to activities (may not indicate the real amount for federated posts)")}
+        description={l(
+          "You will see the number of reactions to activities (may not indicate the real amount for federated posts)"
+        )}
         keys={[]}
       />
     </form>
-
 
     <!-- TODO -->
     <form phx-change="Bonfire.Me.Settings:set">
@@ -385,7 +391,7 @@
     </form>
 
     <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={:user} type="hidden">
+      <input name="scope" value={@scope} type="hidden">
 
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Actions on feed activities (eg. reply, boost, etc)")}
@@ -395,7 +401,7 @@
     </form>
 
     <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={:user} type="hidden">
+      <input name="scope" value={@scope} type="hidden">
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Actions on discussions (eg. reply, boost, etc)")}
         description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
@@ -404,18 +410,18 @@
     </form>
 
     <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={:user} type="hidden">
-      <Bonfire.UI.Common.SettingsToggleLive 
-        name={l("Prefer compact layouts")} 
+      <input name="scope" value={@scope} type="hidden">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Prefer compact layouts")}
         description={l("Compact layouts are more dense and may show less contents.")}
-        keys={[:ui, :compact]} />
+        keys={[:ui, :compact]}
+      />
     </form>
 
     <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={:user} type="hidden">
+      <input name="scope" value={@scope} type="hidden">
       <Bonfire.UI.Common.AvatarsSettingsLive />
     </form>
-
 
     <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
     <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive label={l(

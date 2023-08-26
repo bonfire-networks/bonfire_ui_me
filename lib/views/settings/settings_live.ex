@@ -13,15 +13,13 @@ defmodule Bonfire.UI.Me.SettingsLive do
      socket
      # |> assign(:without_sidebar,  true)
      |> assign(
+       scope: e(socket, :assigns, :live_action, :user),
        page_title: l("Settings"),
        back: true,
        #  without_widgets: true,
        #  without_sidebar: true,
        #  smart_input_opts: %{disable: true}, # Note: do not disable as it prevents preserving input as you browse the app
        nav_items: [Bonfire.UI.Common.SidebarSettingsNavLive.declared_nav()],
-       #  page_header_aside: [
-       #    {Bonfire.UI.Me.SettingsViewsLive.HeaderAsideMobileMenuLive, []}
-       #  ],
        sidebar_widgets: [
          users: [
            secondary: [
@@ -61,6 +59,24 @@ defmodule Bonfire.UI.Me.SettingsLive do
      )}
   end
 
+  def do_handle_params(%{"tab" => "preferences" = tab}, _url, socket) do
+    scope = socket.assigns[:scope]
+
+    {:noreply,
+     assign(
+       socket,
+       back: true,
+       page_title: String.capitalize(to_string(scope)) <> " " <> l("Preferences"),
+       selected_tab: tab,
+       page_header_aside: [
+         {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
+          [
+            scope: scope
+          ]}
+       ]
+     )}
+  end
+
   def do_handle_params(%{"tab" => "shared_user" = tab}, _url, socket) do
     {:noreply,
      assign(
@@ -86,7 +102,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
      assign(
        socket,
        back: true,
-       page_title: tab,
+       page_title: String.capitalize(tab),
        selected_tab: tab
      )}
   end

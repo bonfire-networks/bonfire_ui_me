@@ -144,7 +144,7 @@
         </div>
       </div>
 
-      <div x-data="{open: false}" class="p-4">
+      <!-- <div x-data="{open: false}" class="p-4">
         <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Theme & font")}</div>
@@ -167,9 +167,7 @@
               </label>
               <Bonfire.UI.Common.ChangeThemesLive
                 scope={:instance}
-                scoped={:instance}
-                theme={Config.get([:ui, :theme, :instance_theme], "bonfire")}
-                theme_light={Config.get([:ui, :theme, :instance_theme_light], "light")}
+                
               />
             </div>
 
@@ -184,9 +182,9 @@
             </div>
           </form>
         </div>
-      </div>
+      </div> -->
 
-      <div x-data="{open: false}" class="p-4">
+      <!-- <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Language")}</div>
@@ -228,7 +226,7 @@
             </div>
           </form>
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- </form> -->
   {#else}
@@ -402,13 +400,12 @@
           </div>
         </div>
 
-        <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} />
+        <!-- <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} /> -->
 
-        <div x-data="{open: false}" class="p-4">
+        <!-- <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("What activities to include in home feeds by default")}</div>
-              <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
             </div>
             <button
               type="button"
@@ -455,7 +452,7 @@
           name={l("Prefer compact layouts")}
           keys={[:ui, :compact]}
           scope={:instance}
-        />
+        /> -->
       </div>
     </form>
 

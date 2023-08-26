@@ -1,4 +1,4 @@
-defmodule Bonfire.UI.Me.SettingsViewsLive.InstancePreferencesLive do
+defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
   prop selected_tab, :string

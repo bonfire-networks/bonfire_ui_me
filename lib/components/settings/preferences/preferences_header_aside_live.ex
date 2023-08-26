@@ -1,6 +1,5 @@
-defmodule Bonfire.UI.Me.SettingsViewsLive.PreferencesLive do
+defmodule Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
-  prop selected_tab, :string
   prop scope, :atom, default: :user
 end

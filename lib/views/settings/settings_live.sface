@@ -1,14 +1,18 @@
 <section class="">
-  {#case @selected_tab}
+  {#case @selected_tab || "dashboard"}
     {#match "dashboard"}
-      <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} />
+      {#if @scope == :account}
+        <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
+      {#else}
+        <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} />
+      {/if}
     {#match "profile"}
       <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
         :if={current_user_id(@__context__)}
         selected_tab={@selected_tab}
       />
     {#match "preferences"}
-      <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive selected_tab={@selected_tab} />
+      <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive selected_tab={@selected_tab} scope={@scope} />
     {#match "account"}
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
     {#match "import"}

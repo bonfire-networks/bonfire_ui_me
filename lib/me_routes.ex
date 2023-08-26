@@ -122,15 +122,26 @@ defmodule Bonfire.UI.Me.Routes do
           as: :change_email
         )
 
-        live("/settings/instance", InstanceSettingsLive)
-        live("/settings/instance/:tab", InstanceSettingsLive)
-
         get "/settings/export_csv/:type", ExportController, :download
         get "/settings/export_archive", ExportController, :export_archive
 
-        live("/settings/:tab", SettingsLive)
-        live("/settings/:tab/:id", SettingsLive)
-        live("/settings/:tab/:id/:section", SettingsLive, as: :settings)
+        live("/settings", SettingsLive, :user, as: :settings)
+
+        live("/settings/account", SettingsLive, :account, as: :account_settings)
+        live("/settings/account/:tab", SettingsLive, :account, as: :account_settings)
+        live("/settings/account/:tab/:id", SettingsLive, :account, as: :account_settings)
+        live("/settings/account/:tab/:id/:section", SettingsLive, :account, as: :account_settings)
+
+        live("/settings/instance", InstanceSettingsLive, :instance, as: :instance_settings)
+        live("/settings/instance/:tab", InstanceSettingsLive, :instance, as: :instance_settings)
+
+        live("/settings/instance/:tab/:id", InstanceSettingsLive, :instance,
+          as: :instance_settings
+        )
+
+        live("/settings/instance/:tab/:id/:section", InstanceSettingsLive, :instance,
+          as: :instance_settings
+        )
 
         # resources "/settings/account/delete", AccountDeleteController, only: [:index, :create]
 
@@ -151,7 +162,10 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:user_required)
 
         live("/user", ProfileLive, as: Bonfire.Data.Identity.User)
-        live("/settings", SettingsLive)
+
+        live("/settings/user/:tab", SettingsLive, :user, as: :user_settings)
+        live("/settings/user/:tab/:id", SettingsLive, :user, as: :user_settings)
+        live("/settings/user/:tab/:id/:section", SettingsLive, :user, as: :user_settings)
 
         live("/user/circles", CirclesLive)
 

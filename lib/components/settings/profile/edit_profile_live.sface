@@ -24,7 +24,11 @@
       </div>
     </div>
   </div>
-  <LiveRedirect to="/user" type="button" class="normal-case rounded-full btn btn-sm !border !border-base-content/30 btn btn-outline">{l("View Profile")}</LiveRedirect>
+  <LiveRedirect
+    to="/user"
+    type="button"
+    class="normal-case rounded-full btn btn-sm !border !border-base-content/30 btn btn-outline"
+  >{l("View Profile")}</LiveRedirect>
 </div>
 
 <form

@@ -5,7 +5,10 @@
         <div class="text-sm font-medium">{l("Change password")}</div>
         <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
       </div>
-      <LiveRedirect to={path(:change_password)} class="!border !border-base-content/30 normal-case btn-outline rounded-full btn btn-sm">{l("Change")}</LiveRedirect>
+      <LiveRedirect
+        to={path(:change_password)}
+        class="!border !border-base-content/30 normal-case btn-outline rounded-full btn btn-sm"
+      >{l("Change")}</LiveRedirect>
     </div>
   </div>
   <div class="p-4">
@@ -14,10 +17,13 @@
         <div class="text-sm font-medium">{l("Change my email address")}</div>
         <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
       </div>
-      <LiveRedirect to={path(:change_email)} class="!border !border-base-content/30 normal-case btn-outline rounded-full btn btn-sm">{l("Change")}</LiveRedirect>
+      <LiveRedirect
+        to={path(:change_email)}
+        class="!border !border-base-content/30 normal-case btn-outline rounded-full btn btn-sm"
+      >{l("Change")}</LiveRedirect>
     </div>
   </div>
-  <div x-data="{open: false}" class="p-4">
+  <!-- <div x-data="{open: false}" class="p-4">
     <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Theme")}</div>
@@ -35,13 +41,11 @@
         <input name="scope" value={:account} type="hidden">
         <Bonfire.UI.Common.ChangeThemesLive
           scope={:account}
-          scoped={@current_account}
-          theme={Settings.get([:ui, :theme, :instance_theme], "bonfire", @current_account)}
-          theme_light={Settings.get([:ui, :theme, :instance_theme_light], "light", @current_account)}
+          
         />
       </form>
     </div>
-  </div>
+  </div> -->
 
   <div x-data="{open: false}" class="p-4">
     <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">

@@ -1,0 +1,45 @@
+<div class="dropdown dropdown-end">
+  <label
+    tabindex="0"
+    class="flex rounded-full btn-sm btn btn-ghost normal-case text-base-content/70"
+  >
+    <#Icon iconify="fa-solid:theater-masks" class="w-5 h-5 text-base-content/70" />
+    {String.capitalize(to_string(@scope))}
+  </label>
+  <ul
+    tabindex="0"
+    class="dropdown-content mt-1 z-[999] menu p-1 shadow bg-base-100 rounded-box w-52"
+  >
+    <li>
+      <LiveRedirect
+        to="/settings/user/preferences"
+        class={
+          "flex gap-2 text-base-content/70",
+          "active !text-base-content/100 font-semibold": @scope == :user
+        }
+      >
+        {l("User")}
+      </LiveRedirect></li>
+    <li>
+      <LiveRedirect
+        to="/settings/account/preferences"
+        class={
+          "flex gap-2 text-base-content/70",
+          "active !text-base-content/100 font-semibold": @scope == :account
+        }
+      >
+        {l("Account")}
+      </LiveRedirect></li>
+
+    <li :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
+      <LiveRedirect
+        to="/settings/instance/preferences"
+        class={
+          "flex gap-2 text-base-content/70",
+          "active !text-base-content/100 font-semibold": @scope == :instance
+        }
+      >
+        {l("Instance")}
+      </LiveRedirect></li>
+  </ul>
+</div>
