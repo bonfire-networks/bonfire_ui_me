@@ -424,6 +424,15 @@
       </div>
     </form> -->
 
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.Settings.NumberLive
+        scope={:instance}
+        name={l("How many items to show in feeds and other lists")}
+        keys={[:default_pagination_limit]}
+        unit={l("items")}
+      />
+      <!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} -->
+    </form>
     <!-- TODO -->
     <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive

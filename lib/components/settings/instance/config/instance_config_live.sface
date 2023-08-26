@@ -261,9 +261,16 @@
           scope={:instance}
           name={l("Maximum length of text inputs (e.g. posts)")}
           keys={[Bonfire.UI.Common.SmartInputLive, :max_length]}
-          input="Bonfire.UI.Common.SmartInputLive[max_length]"
           unit={l("words")}
           default_value={nil}
+        />
+
+        <Bonfire.UI.Common.Settings.NumberLive
+          scope={:instance}
+          name={l("Maximum number of items to query in lists")}
+          description={l("Please note that a high limit may be desired in order to properly display nested threads")}
+          keys={[:pagination_hard_max_limit]}
+          unit={l("items")}
         />
 
         <Bonfire.UI.Common.SettingsRadiosLive
