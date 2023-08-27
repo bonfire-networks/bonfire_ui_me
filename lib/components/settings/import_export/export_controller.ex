@@ -90,18 +90,14 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp zip_stream_process(stream, _, %Plug.Conn{} = conn) do
-    debug("download by chunks")
-
     stream
     |> Enum.reduce_while(conn, fn result, conn ->
-      # debug(result)
-
       case maybe_chunk(conn, result) do
         {:ok, conn} ->
           {:cont, conn}
 
         other ->
-          error(other)
+          IO.inspect(other, label: "unexpected zip_stream_process with conn")
           {:halt, conn}
       end
     end)
@@ -114,10 +110,7 @@ defmodule Bonfire.UI.Me.ExportController do
          :ok <-
            stream
            |> Stream.into(File.stream!(file))
-           |> Stream.run()
-           |> debug() do
-      debug("ZIP done")
-
+           |> Stream.run() do
       Bonfire.UI.Common.PersistentLive.notify(context, %{
         title: l("Your archive is ready"),
         message:
@@ -127,7 +120,7 @@ defmodule Bonfire.UI.Me.ExportController do
       :ok
     else
       other ->
-        error(other)
+        IO.inspect(other, label: "unexpected zip_stream_process without conn")
 
         Bonfire.UI.Common.PersistentLive.notify(context, %{
           title: l("Error preparing your archive"),
@@ -268,23 +261,21 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp csv_content(conn, type) do
-    warn(type, "type not implemented")
+    IO.inspect(type, label: "type not implemented")
     conn
   end
 
   defp stream_callback(type, stream, %Plug.Conn{} = conn) do
     # for result <- stream do
-    #   maybe_chunk(conn, prepare_rows(type, result) |> debug())
+    #   maybe_chunk(conn, prepare_rows(type, result))
     # end
     Enum.reduce_while(stream, conn, fn result, conn ->
-      debug(result)
-
-      case maybe_chunk(conn, prepare_rows(type, result) |> debug()) do
+      case maybe_chunk(conn, prepare_rows(type, result)) do
         {:ok, conn} ->
           {:cont, conn}
 
         other ->
-          error(other)
+          IO.inspect(other, label: "unexpected stream_callback")
           {:halt, conn}
       end
     end)
@@ -292,7 +283,6 @@ defmodule Bonfire.UI.Me.ExportController do
 
   defp stream_callback(type, stream, user) do
     prepare_rows(type, stream)
-    |> debug()
   end
 
   defp maybe_chunk(%Plug.Conn{} = conn, data) do
@@ -380,7 +370,6 @@ defmodule Bonfire.UI.Me.ExportController do
     record =
       record
       |> preload_assocs(type)
-      |> debug()
 
     [
       URIs.canonical_url(record),
@@ -396,7 +385,6 @@ defmodule Bonfire.UI.Me.ExportController do
     #   record
     #   |> preload_assocs(type)
     #   |> e(:activity, nil)
-    #   |> debug()
 
     with {:ok, json} <- ActivityPub.Web.ActivityPubController.json_object_with_cache(id(record)) do
       """
@@ -406,12 +394,12 @@ defmodule Bonfire.UI.Me.ExportController do
       _ ->
         ""
     end
-    |> debug("jsssson")
+
+    # |> IO.inspect(label: "jsssson")
   end
 
   defp prepare_csv(records) do
     records
-    |> debug()
     |> CSV.dump_to_iodata()
 
     # |> IO.iodata_to_binary()
