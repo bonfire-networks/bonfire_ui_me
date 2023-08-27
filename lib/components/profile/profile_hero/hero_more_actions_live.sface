@@ -1,4 +1,18 @@
 <div class="flex items-center gap-3">
+  {#case e(@user, :character, :peered, :canonical_uri, nil)}
+    {#match nil}
+    {#match canonical_uri}
+      <a
+        href={canonical_uri}
+        title={l("View on the original instance")}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
+      >
+        <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/70" />
+      </a>
+  {/case}
+
   <div :if={current_user_id(@__context__) != id(@user)} aria-haspopup="true" class="dropdown">
     <label
       tabindex="0"
@@ -51,17 +65,6 @@
           </LiveRedirect>
         </li>
       {/if}
-      <li :if={e(@user, :character, :peered, :canonical_uri, nil)}>
-        <a
-          href={e(@user, :character, :peered, :canonical_uri, "#")}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="flex items-center gap-2 text-sm text-base-content/70"
-        >
-          <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/70" />
-          <span>{l("View on the original instance")}</span>
-        </a>
-      </li>
 
       {#if current_user_id(@__context__)}
         <li :if={@character_type == :user}>
@@ -115,6 +118,22 @@
           />
         </li>
       {/if}
+
+      {#case e(@user, :character, :peered, :canonical_uri, nil)}
+        {#match nil}
+        {#match canonical_uri}
+          <li>
+            <a
+              href={canonical_uri}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-2 text-sm text-base-content/70"
+            >
+              <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/70" />
+              <span>{l("View on the original instance")}</span>
+            </a>
+          </li>
+      {/case}
     </ul>
   </div>
 

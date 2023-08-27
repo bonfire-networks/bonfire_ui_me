@@ -316,7 +316,7 @@
         )}
         keys={[Bonfire.UI.Social.FeedLive, :sort_by]}
         options={[
-          nil: l("Chronological"),
+          false: l("Chronological"),
           num_replies: l("Amount of replies"),
           num_boosts: l("Amount of boosts"),
           num_likes: l("Amount of likes")
