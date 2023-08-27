@@ -40,7 +40,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
         "ok_msg" =>
           l(
             "Added the alias! If you have also added this user (%{username}) as an alias on the instance you want to migrate to, you can proceed by clicking the big red *Migrate* button.",
-            username: Bonfire.Me.Characters.display_username(current_user, true)
+            username: Bonfire.Me.Characters.display_username(current_user, true, true)
           )
       },
       socket
@@ -68,7 +68,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
             :error,
             l(
               "You need to first add this user (%{username}) as an alias on the instance you want to migrate to. If you have already done so please try again in an hour or so.",
-              username: Bonfire.Me.Characters.display_username(current_user, true)
+              username: Bonfire.Me.Characters.display_username(current_user, true, true)
             )
           )
           |> redirect_to(current_url(socket))

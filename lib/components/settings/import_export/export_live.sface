@@ -13,7 +13,7 @@
           <!-- <td>42</td> -->
           <td><a
               download
-              href="/settings/export_csv/posts"
+              href="/settings/export/csv/posts"
               class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
             >
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
@@ -27,7 +27,7 @@
           <td>
             <a
               download
-              href="/settings/export_csv/following"
+              href="/settings/export/csv/following"
               class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
             >
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
@@ -41,7 +41,7 @@
           <td>
             <a
               download
-              href="/settings/export_csv/requests"
+              href="/settings/export/csv/requests"
               class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
             >
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
@@ -54,7 +54,7 @@
           <!-- <td>23</td> -->
           <td><a
               download
-              href="/settings/export_csv/followers"
+              href="/settings/export/csv/followers"
               class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
             >
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
@@ -84,7 +84,7 @@
           <!-- <td>23</td> -->
           <td><a
               download
-              href="/settings/export_csv/silenced"
+              href="/settings/export/csv/silenced"
               class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
             >
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
@@ -96,7 +96,7 @@
           <!-- <td>23</td> -->
           <td><a
               download
-              href="/settings/export_csv/ghosted"
+              href="/settings/export/csv/ghosted"
               class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
             >
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
@@ -128,7 +128,7 @@
     x-bind:disabled="buttonDisabled"
   >
     <!-- download
-    href="/settings/export_archive" -->
+    href="/settings/export/archive" -->
 
     {l("Request your archive")}</a>
 </div>
@@ -158,7 +158,7 @@
           <div class="prose prose-sm text-info">
             Before proceeding, please read these notes carefully:
             <ul>
-              <li>The new account must first be configured (i.e. follow the <em>move from a different profile</em> process in the settings of your new profile first) with a reference this old one ({Bonfire.Me.Characters.display_username(@current_user, true)})</li>
+              <li>The new account must first be configured (i.e. follow the <em>move from a different profile</em> process in the settings of your new profile first) with a reference this old one ({Bonfire.Me.Characters.display_username(@current_user, true, true)})</li>
               <li>This action will move all followers from <a href={path(@current_user)}>this profile</a> to your new profile</li>
               <li>No other data will be moved automatically</li>
               <li>This profile will be updated with a redirect notice <!-- and be excluded from searches --></li>

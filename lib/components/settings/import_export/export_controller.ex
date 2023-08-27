@@ -5,7 +5,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
   # TODO: move some of the logic to backend module(s)
 
-  def download(conn, %{"type" => type} = _params) do
+  def csv_download(conn, %{"type" => type} = _params) do
     conn
     |> put_resp_content_type("text/csv")
     |> put_resp_header("content-disposition", "attachment; filename=\"export_#{type}.csv\"")
@@ -16,7 +16,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> ok_unwrap()
   end
 
-  def export_archive(conn, _params) do
+  def archive_export(conn, _params) do
     conn
     |> put_resp_content_type("application/zip")
     |> put_resp_header(
@@ -28,6 +28,25 @@ defmodule Bonfire.UI.Me.ExportController do
     # |> send_resp(200, csv_content(conn, type))
     |> zip_archive(current_user_required!(conn))
     |> ok_unwrap()
+  end
+
+  def archive_download(conn, _params) do
+    current_user = current_user_required!(conn)
+    {_path, file} = zip_path_file(id(current_user))
+
+    conn
+    |> put_resp_content_type("application/zip")
+    |> put_resp_header(
+      "content-disposition",
+      "attachment; filename=\"bonfire_export_archive.zip\""
+    )
+    |> put_root_layout(false)
+    |> Plug.Conn.send_file(200, file)
+  end
+
+  def trigger_prepare_archive_async(context) do
+    current_user = current_user_required!(context)
+    Task.async(fn -> Bonfire.UI.Me.ExportController.zip_archive(context, current_user) end)
   end
 
   def zip_archive(conn_or_context, user) do
@@ -78,11 +97,7 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp zip_stream_process(stream, user_id, context) do
-    path = "/tmp/#{user_id}"
-
-    file =
-      "#{path}/archive.zip"
-      |> debug()
+    {path, file} = zip_path_file(user_id)
 
     with :ok <- File.mkdir_p(path),
          :ok <-
@@ -90,9 +105,12 @@ defmodule Bonfire.UI.Me.ExportController do
            |> Stream.into(File.stream!(file))
            |> Stream.run()
            |> debug() do
+      debug("ZIP done")
+
       Bonfire.UI.Common.PersistentLive.notify(context, %{
         title: l("Your archive is ready"),
-        message: file
+        message:
+          "<a href='/settings/export/archive_download' download class='btn btn-success'>Download it here</a>"
       })
 
       :ok
@@ -101,10 +119,16 @@ defmodule Bonfire.UI.Me.ExportController do
         error(other)
 
         Bonfire.UI.Common.PersistentLive.notify(context, %{
-          title: l("Error preparing your archive is ready"),
+          title: l("Error preparing your archive"),
           message: inspect(other)
         })
     end
+  end
+
+  defp zip_path_file(user_id) do
+    path = "/tmp/#{user_id}"
+
+    {path, "#{path}/archive.zip"}
   end
 
   defp outbox(user) do
@@ -118,6 +142,7 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback("outbox", stream, user)
       end
     )
+    |> IO.inspect(label: "outbx")
   end
 
   defp csv_content(conn, "following" = type) do
@@ -135,6 +160,7 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback(type, stream, conn)
       end
     )
+    |> IO.inspect(label: "folg")
   end
 
   defp csv_content(conn, "followers" = type) do
@@ -151,6 +177,7 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback(type, stream, conn)
       end
     )
+    |> IO.inspect(label: "fols")
   end
 
   defp csv_content(conn, "requests" = type) do
@@ -169,7 +196,7 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback(type, stream, conn)
       end
     )
-    |> debug()
+    |> IO.inspect(label: "req")
   end
 
   defp csv_content(conn, "posts" = type) do
@@ -187,7 +214,7 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback(type, stream, conn)
       end
     )
-    |> debug()
+    |> IO.inspect(label: "postss")
   end
 
   defp csv_content(conn, type) when type in ["silenced", "ghosted"] do
@@ -208,7 +235,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> repo().maybe_preload(encircles: [subject: [:character]])
     |> e(:encircles, [])
     |> prepare_rows(type, ...)
-    |> debug
+    |> IO.inspect(label: "bloq")
     |> maybe_chunk(conn, ...)
   end
 

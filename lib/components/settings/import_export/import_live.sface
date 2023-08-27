@@ -107,7 +107,7 @@
               {markdown(
                 l(
                   "If you want to move from another profile to this one (%{username}), here you can create an alias, which you must do *before* you can proceed with moving followers from the old account to this new one. This action by itself is harmless and reversible. After adding the alias here, you need to trigger the actual account migration from the old account.",
-                  username: Bonfire.Me.Characters.display_username(@current_user, true)
+                  username: Bonfire.Me.Characters.display_username(@current_user, true, true)
                 )
               )}
             </div>
