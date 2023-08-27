@@ -142,7 +142,8 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback("outbox", stream, user)
       end
     )
-    |> IO.inspect(label: "outbx")
+
+    # |> IO.inspect(label: "outbx")
   end
 
   defp csv_content(conn, "following" = type) do
@@ -160,7 +161,8 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback(type, stream, conn)
       end
     )
-    |> IO.inspect(label: "folg")
+
+    # |> IO.inspect(label: "folg")
   end
 
   defp csv_content(conn, "followers" = type) do
@@ -177,7 +179,8 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback(type, stream, conn)
       end
     )
-    |> IO.inspect(label: "fols")
+
+    # |> IO.inspect(label: "fols")
   end
 
   defp csv_content(conn, "requests" = type) do
@@ -196,7 +199,8 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback(type, stream, conn)
       end
     )
-    |> IO.inspect(label: "req")
+
+    # |> IO.inspect(label: "req")
   end
 
   defp csv_content(conn, "posts" = type) do
@@ -214,7 +218,8 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback(type, stream, conn)
       end
     )
-    |> IO.inspect(label: "postss")
+
+    # |> IO.inspect(label: "postss")
   end
 
   defp csv_content(conn, type) when type in ["silenced", "ghosted"] do
@@ -235,7 +240,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> repo().maybe_preload(encircles: [subject: [:character]])
     |> e(:encircles, [])
     |> prepare_rows(type, ...)
-    |> IO.inspect(label: "bloq")
+    # |> IO.inspect(label: "bloq")
     |> maybe_chunk(conn, ...)
   end
 
