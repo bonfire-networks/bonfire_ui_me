@@ -67,7 +67,7 @@
             <div class="w-full max-w-lg form-control">
               <div class="mt-1 sm:mt-0 sm:col-span-2">
                 <Bonfire.UI.Common.ChangeFontLive
-                  font_family={Settings.get([:ui, :font_family], "Inter", :instance)}
+                  font_family={Settings.get([:ui, :font_family], "Inter", @scoped)}
                   scope={@scope}
                 />
                 
@@ -108,7 +108,7 @@
           <div class="w-full max-w-lg mt-8 form-control">
             <div class="sm:mt-0 sm:col-span-2">
               <Bonfire.UI.Common.ChangeLocaleLive
-                locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", :instance)}
+                locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", @scoped)}
                 scope={@scope}
               />
             </div>
@@ -142,27 +142,16 @@
     <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
-        <div class="flex items-center justify-between gap-4">
+        <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Feed activities")}</div>
             <div class="text-sm font-light text-base-content/70">{l("What activities to include in home feeds by default")}</div>
           </div>
           <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
-          <button
-            type="button"
-            x-cloak
-            x-on:click="open = !open"
-            class="btn btn-circle btn-sm btn-ghost"
-            x-show="open"
-          >
+          <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
             <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
           </button>
-          <button
-            type="button"
-            x-on:click="open = !open"
-            class="btn btn-circle btn-sm btn-ghost"
-            x-show="!open"
-          >
+          <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
             <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
           </button>
         </div>
@@ -426,15 +415,16 @@
 
     <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.Settings.NumberLive
-        scope={:instance}
+        scope={@scope}
         name={l("How many items to show in feeds and other lists")}
         keys={[:default_pagination_limit]}
         unit={l("items")}
       />
       <!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} -->
     </form>
+
     <!-- TODO -->
-    <form phx-change="Bonfire.Me.Settings:set">
+    <!-- <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         label="Dark Pattern"
         name={l("Infinite scrolling")}
@@ -442,7 +432,7 @@
         keys={[]}
         scope={@scope}
       />
-    </form>
+    </form> -->
 
     <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
@@ -459,12 +449,11 @@
         label="Dark Pattern"
         name="Highlight notifications indicator"
         description={l("Use the primary color to highlight the notifications indicator")}
-        keys={[Bonfire.UI.Common.BadgeCounterLive, :highlited]}
+        keys={[Bonfire.UI.Common.BadgeCounterLive, :highlight]}
         scope={@scope}
       />
     </form>
 
-    <!-- TODO -->
     <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         label="Vanity Metric"
@@ -472,21 +461,21 @@
         description={l(
           "You will see the number of reactions to activities (may not indicate the real amount for federated posts)"
         )}
-        keys={[]}
+        keys={[:ui, :show_activity_counts]}
         scope={@scope}
       />
     </form>
 
     <!-- TODO -->
-    <form phx-change="Bonfire.Me.Settings:set">
+    <!-- <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         label="Vanity Metric"
         name={l("Show follower counts")}
         description={l("You will see the amount of followers (may not indicate the real amount for federated users)")}
-        keys={[]}
+        keys={[:ui, :show_activity_counts]}
         scope={@scope}
       />
-    </form>
+    </form> -->
 
     <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
@@ -524,35 +513,47 @@
       <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
     </form>
 
+    <form phx-change="Bonfire.Me.Settings:set">
+      <input name="scope" value={@scope} type="hidden">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Hide trending topics")}
+        description={l("Do not show a list of trending tags or groups")}
+        keys={[:ui, :show_trending_tags, :disabled]}
+        scope={@scope}
+      />
+      <Bonfire.UI.Common.Settings.NumberLive
+        scope={@scope}
+        name={l("How many days of activity to take include when calculating trending topics")}
+        keys={[:ui, :show_trending_tags, :for_last_x_days]}
+        unit={l("days")}
+      />
+      <Bonfire.UI.Common.Settings.NumberLive
+        scope={@scope}
+        name={l("How many trending topics to show")}
+        keys={[:ui, :show_trending_tags, :limit]}
+        unit={l("topics")}
+      />
+    </form>
+
     <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
     <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
 
     <div x-data="{open: false}" class="p-4">
-      <div class="flex items-center justify-between gap-4">
+      <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Default boundary")}</div>
           <div class="text-sm font-light text-base-content/70">{l("Specify your default boundary when publishing a new activity")}</div>
         </div>
-        <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="open"
-        >
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="!open"
-        >
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse>
         <!-- TODO -->
+        Coming soon.
       </div>
     </div>
   </div>
