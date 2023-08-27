@@ -123,6 +123,7 @@ defmodule Bonfire.UI.Me.Routes do
         )
 
         get "/settings/export/csv/:type", ExportController, :csv_download
+        get "/settings/export/json/:type", ExportController, :json_download
         get "/settings/export/archive", ExportController, :archive_export
         get "/settings/export/archive_download", ExportController, :archive_download
 

@@ -111,6 +111,18 @@
               <span>CSV</span>
             </button></td>
         </tr> -->
+        <tr>
+          <td>My actitivities</td>
+          <!-- <td>23</td> -->
+          <td><a
+              download
+              href="/settings/export/json/outbox"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>JSON</span>
+            </a></td>
+        </tr>
       </tbody>
     </table>
   </div>

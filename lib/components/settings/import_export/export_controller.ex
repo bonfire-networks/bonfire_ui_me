@@ -16,6 +16,17 @@ defmodule Bonfire.UI.Me.ExportController do
     |> ok_unwrap()
   end
 
+  def json_download(conn, %{"type" => type} = _params) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> put_resp_header("content-disposition", "attachment; filename=\"export_#{type}.json\"")
+    |> put_root_layout(false)
+    |> send_chunked(:ok)
+    # |> send_resp(200, csv_content(conn, type))
+    |> json_content(type)
+    |> ok_unwrap()
+  end
+
   def archive_export(conn, _params) do
     conn
     |> put_resp_content_type("application/zip")
@@ -131,15 +142,27 @@ defmodule Bonfire.UI.Me.ExportController do
     {path, "#{path}/archive.zip"}
   end
 
-  defp outbox(user) do
+  defp json_content(conn_or_user, "outbox" = type) do
+    {:ok, conn} = maybe_chunk(conn_or_user, collection_header(type))
+
+    {:ok, conn} = outbox(conn_or_user)
+
+    {:ok, conn} = maybe_chunk(conn_or_user, collection_footer())
+  end
+
+  defp outbox(conn_or_user) do
+    user = current_user(conn_or_user)
+
     feed_id = Bonfire.Social.Feeds.feed_id(:outbox, user)
 
     Bonfire.Social.FeedActivities.feed(feed_id,
       paginate: false,
+      preload: [],
+      exclude_verbs: false,
       current_user: user,
       return: :stream,
       stream_callback: fn stream ->
-        stream_callback("outbox", stream, user)
+        stream_callback("outbox", stream, conn_or_user)
       end
     )
 
