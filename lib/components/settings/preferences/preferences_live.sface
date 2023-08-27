@@ -423,16 +423,21 @@
       <!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} -->
     </form>
 
-    <!-- TODO -->
-    <!-- <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        label="Dark Pattern"
+    <form phx-change="Bonfire.Me.Settings:set">
+      <Bonfire.UI.Common.SettingsRadiosLive
         name={l("Infinite scrolling")}
         description={l("Enable infinite scrolling on long lists of items")}
-        keys={[]}
+        label="Dark Pattern"
+        keys={[:ui, :infinite_scroll]}
+        options={[
+          preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
+          true: l("Enable doom scrolling"),
+          false: "Disable"
+        ]}
+        default_value={:preload}
         scope={@scope}
       />
-    </form> -->
+    </form>
 
     <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
