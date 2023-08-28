@@ -1,1 +1,3 @@
-<Bonfire.UI.Common.MembersLive users={@users} />
+{#if Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}
+  <Bonfire.UI.Common.MembersLive users={@users} />
+{/if}

@@ -15,7 +15,10 @@
       <div class="flex items-center">
         <span class="font-normal text-sm text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
       </div>
-      <span :if={is_admin?(@user)} class="badge badge-outline mt-4 rounded badge-info">
+      <span
+        :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
+        class="badge badge-outline mt-4 rounded badge-info"
+      >
         {l("Admin")}
       </span>
     </div>
@@ -99,7 +102,7 @@
       {#if @ghosted_instance_wide? or @silenced_instance_wide?}
         <div :if={@ghosted_instance_wide? and @silenced_instance_wide?} class="flex items-baseline gap-2">
           <div class="prose prose-sm text-sm font-normal text-base-content/70">{l("Admins have blocked this user.")}</div>
-          <div :if={is_admin?(@current_user)}>
+          <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
             <Bonfire.Boundaries.Web.BlockButtonLive
               object={@user}
               type="block"
@@ -116,7 +119,7 @@
           class="flex items-baseline gap-2"
         >
           <div class="prose prose-sm text-sm font-normal text-base-content/70">{l("Admins have ghosted this user.")}</div>
-          <div :if={is_admin?(@current_user)}>
+          <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
             <Bonfire.Boundaries.Web.BlockButtonLive
               object={@user}
               type="ghost"
@@ -133,7 +136,7 @@
           class="flex items-baseline gap-2"
         >
           <div class="prose prose-sm text-sm font-normal text-base-content/70">{l("Admins have silenced this user.")}</div>
-          <div :if={is_admin?(@current_user)}>
+          <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
             <Bonfire.Boundaries.Web.BlockButtonLive
               object={@user}
               type="silence"

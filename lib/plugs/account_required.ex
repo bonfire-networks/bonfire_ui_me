@@ -4,7 +4,7 @@ defmodule Bonfire.UI.Me.Plugs.AccountRequired do
 
   def init(opts), do: opts
 
-  def call(conn, _opts), do: check(conn.assigns[:current_account], conn)
+  def call(conn, _opts), do: check(current_account(conn.assigns), conn)
 
   defp check(%Account{}, conn), do: conn
 

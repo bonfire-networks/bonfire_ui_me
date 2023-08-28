@@ -9,7 +9,7 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentAccount do
   end
 
   def call(conn, _opts) do
-    assign(
+    assign_global(
       conn,
       :current_account,
       Accounts.get_current(get_session(conn, :account_id))

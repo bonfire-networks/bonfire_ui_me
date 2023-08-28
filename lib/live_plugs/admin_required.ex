@@ -8,10 +8,10 @@ defmodule Bonfire.UI.Me.LivePlugs.AdminRequired do
     end
   end
 
-  def mount(_params, _session, socket), do: check(current_user(socket), socket)
+  def mount(_params, _session, socket), do: check(current_account(socket), socket)
 
-  defp check(user, socket) do
-    if e(user, :instance_admin, :is_instance_admin, nil) == true do
+  defp check(context, socket) do
+    if Bonfire.Me.Accounts.is_admin?(context) do
       {:ok, socket}
     else
       {:halt,

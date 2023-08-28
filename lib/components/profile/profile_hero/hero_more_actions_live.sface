@@ -47,7 +47,7 @@
         <li
           class="create_new_topic"
           :if={module_enabled?(Bonfire.UI.Topics.NewTopicLive) and
-            Bonfire.Boundaries.can?(@current_user, :edit, @user) && current_user_id(@__context__)}
+            Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
         >
           <Dynamic.Component
             module={Bonfire.UI.Topics.NewTopicLive}
@@ -87,8 +87,8 @@
 
         <Bonfire.Boundaries.Web.BlockMenuButtonsLive parent_id="profile_hero" object={@user} />
 
-        {#if @character_type == :user and is_admin?(current_user(@__context__))}
-          {#if !is_admin?(@user)}
+        {#if @character_type == :user and maybe_apply(Bonfire.Me.Accounts, :is_admin?, @__context__) == true}
+          {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
             <li phx-click="Bonfire.Me.Users:make_admin" phx-value-username_or_id={id(@user)} class="">
               <div>
                 <button class="flex items-center gap-2 text-sm text-base-content/70">
@@ -181,7 +181,7 @@
         <div class="flex items-center gap-2" data-role="follow_wrapper">
           <Bonfire.UI.Common.FollowButtonLive
             :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
-              e(@boundary_preset, "visible", nil) || Boundaries.can?(@current_user, :follow, @user)}
+              e(@boundary_preset, "visible", nil) || Boundaries.can?(@__context__, :follow, @user)}
             id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
             object_id={id(@user)}
             path={path(@user)}

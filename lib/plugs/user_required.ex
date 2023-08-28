@@ -5,8 +5,8 @@ defmodule Bonfire.UI.Me.Plugs.UserRequired do
 
   def init(opts), do: opts
 
-  def call(%{assigns: the} = conn, _opts) do
-    check(the[:current_user], the[:current_account], conn)
+  def call(%{assigns: assigns} = conn, _opts) do
+    check(current_user(assigns), current_account(assigns), conn)
   end
 
   defp check(%User{}, _account, conn), do: conn
