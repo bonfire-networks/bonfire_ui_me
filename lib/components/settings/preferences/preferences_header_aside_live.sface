@@ -12,7 +12,7 @@
   >
     <li>
       <LiveRedirect
-        to="/settings/user/preferences"
+        to={"/settings/user/preferences/#{@id}"}
         class={
           "flex gap-2 text-base-content/70",
           "active !text-base-content/100 font-semibold": @scope == :user
@@ -22,7 +22,7 @@
       </LiveRedirect></li>
     <li>
       <LiveRedirect
-        to="/settings/account/preferences"
+        to={"/settings/account/preferences/#{@id}"}
         class={
           "flex gap-2 text-base-content/70",
           "active !text-base-content/100 font-semibold": @scope == :account
@@ -33,7 +33,7 @@
 
     <li :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
       <LiveRedirect
-        to="/settings/instance/preferences"
+        to={"/settings/instance/preferences/#{@id}"}
         class={
           "flex gap-2 text-base-content/70",
           "active !text-base-content/100 font-semibold": @scope == :instance

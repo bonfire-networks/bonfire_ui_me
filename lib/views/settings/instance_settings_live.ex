@@ -31,17 +31,21 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
     # |> IO.inspect
   end
 
-  def do_handle_params(%{"tab" => "preferences" = tab}, _url, socket) do
+  def do_handle_params(%{"tab" => "preferences" = tab} = params, _url, socket) do
+    id = params["id"]
+
     {:noreply,
      assign(
        socket,
        back: true,
        page_title: l("Default User Preferences"),
        selected_tab: tab,
+       id: id,
        page_header_aside: [
          {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
           [
-            scope: :instance
+            scope: :instance,
+            id: id
           ]}
        ]
      )}

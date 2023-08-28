@@ -1,42 +1,52 @@
-<div class="pb-6">
-  <div class="divide-y divide-base-content/10">
-    <div class="p-4 font-bold bg-base-content/5">{l("Appeareance")}</div>
-    <div x-data="{open: false}" class="p-4">
-      <div
-        x-on:click="open = !open"
-        class="flex items-center justify-between gap-4 cursor-pointer gap-4"
-      >
-        <div class="flex flex-col gap-1">
-          <div class="text-sm font-medium">{l("Theme")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+{#case @id}
+  {#match "appearance"}
+    <Bonfire.UI.Me.SettingsViewsLive.AppearanceLive selected_tab={@selected_tab} scope={@scope} />
+  {#match "behaviours"}
+    <Bonfire.UI.Me.SettingsViewsLive.BehavioursLive selected_tab={@selected_tab} scope={@scope} />
+  {#match "safety"}
+    <Bonfire.UI.Me.SettingsViewsLive.SafetyLive selected_tab={@selected_tab} scope={@scope} />
+  {#match _}
+    TODO: remove in favour of the sub-categories
+
+    <div class="pb-6">
+      <div class="divide-y divide-base-content/10">
+        <div class="p-4 font-bold bg-base-content/5">{l("Appeareance")}</div>
+        <div x-data="{open: false}" class="p-4">
+          <div
+            x-on:click="open = !open"
+            class="flex items-center justify-between gap-4 cursor-pointer gap-4"
+          >
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-medium">{l("Theme")}</div>
+              <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+            </div>
+
+            <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+              <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+            </button>
+            <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+              <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+            </button>
+          </div>
+          <div x-show="open" x-cloak x-collapse>
+            <form name="settings" phx-change="Bonfire.Me.Settings:set">
+              <input name="scope" value={@scope} type="hidden">
+              <Bonfire.UI.Common.ChangeThemesLive scope={@scope} />
+            </form>
+          </div>
         </div>
 
-        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-      </div>
-      <div x-show="open" x-cloak x-collapse>
         <form name="settings" phx-change="Bonfire.Me.Settings:set">
-          <input name="scope" value={@scope} type="hidden">
-          <Bonfire.UI.Common.ChangeThemesLive scope={@scope} />
+          <Bonfire.UI.Common.SettingsSelectLive
+            name={l("Font")}
+            description={l("Select the default font for the interface")}
+            keys={[:ui, :font_family]}
+            options={Settings.get([:ui, :font_families], ["Inter"], @scoped)}
+            scope={@scope}
+          />
         </form>
-      </div>
-    </div>
 
-    <form name="settings" phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsSelectLive
-        name={l("Font")}
-        description={l("Select the default font for the interface")}
-        keys={[:ui, :font_family]}
-        options={Settings.get([:ui, :font_families], ["Inter"], @scoped)}
-        scope={@scope}
-      />
-    </form>
-
-    <!-- <div x-data="{open: false}" class="p-4">
+        <!-- <div x-data="{open: false}" class="p-4">
       <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Font")}</div>
@@ -78,106 +88,106 @@
       </div>
     </div> -->
 
-    <div :if={@scope == :user} x-data="{open: false}" class="p-4">
-      <div class="flex items-center justify-between gap-4">
-        <div class="flex flex-col gap-1">
-          <div class="text-sm font-medium">{l("Language")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
+        <div :if={@scope == :user} x-data="{open: false}" class="p-4">
+          <div class="flex items-center justify-between gap-4">
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-medium">{l("Language")}</div>
+              <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
+            </div>
+            <button
+              type="button"
+              x-cloak
+              x-on:click="open = !open"
+              class="btn btn-circle btn-sm btn-ghost"
+              x-show="open"
+            >
+              <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+            </button>
+            <button
+              type="button"
+              x-on:click="open = !open"
+              class="btn btn-circle btn-sm btn-ghost"
+              x-show="!open"
+            >
+              <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+            </button>
+          </div>
+          <div x-show="open" x-cloak x-collapse>
+            <form name="settings" phx-change="Bonfire.Me.Settings:set">
+              <input name="scope" value={@scope} type="hidden">
+              <div class="w-full max-w-lg mt-8 form-control">
+                <div class="sm:mt-0 sm:col-span-2">
+                  <Bonfire.UI.Common.ChangeLocaleLive
+                    locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", @scoped)}
+                    scope={@scope}
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
-        <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="open"
-        >
-          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="!open"
-        >
-          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-      </div>
-      <div x-show="open" x-cloak x-collapse>
-        <form name="settings" phx-change="Bonfire.Me.Settings:set">
+
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsToggleLive
+            name="Brand"
+            description={l("Show only the instance logo")}
+            keys={[Bonfire.UI.Common.LogoLive, :only_logo]}
+            scope={@scope}
+          />
+        </form>
+        <!-- name={l("Missing avatars")} -->
+        <form phx-change="Bonfire.Me.Settings:set">
           <input name="scope" value={@scope} type="hidden">
-          <div class="w-full max-w-lg mt-8 form-control">
-            <div class="sm:mt-0 sm:col-span-2">
-              <Bonfire.UI.Common.ChangeLocaleLive
-                locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", @scoped)}
+          <Bonfire.UI.Common.SettingsToggleLive
+            description={l("Show randomly-generated animal avatars for users without a profile picture?")}
+            keys={[Bonfire.UI.Common.AvatarLive, :animal_avatars]}
+            default_value
+            name="Animal avatars"
+            scope={@scope}
+          />
+        </form>
+
+        <div class="p-4 font-bold bg-base-content/5">{l("Behaviours")}</div>
+
+        <form phx-change="Bonfire.Me.Settings:set">
+          <input name="scope" value={@scope} type="hidden">
+          <div x-data="{open: false}" class="p-4">
+            <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+              <div class="flex flex-col gap-1">
+                <div class="text-sm font-medium">{l("Feed activities")}</div>
+                <div class="text-sm font-light text-base-content/70">{l("What activities to include in home feeds by default")}</div>
+              </div>
+              <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
+              <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+                <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+              </button>
+              <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+                <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+              </button>
+            </div>
+            <div x-show="open" x-cloak x-collapse>
+              <Dynamic.Component
+                :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
+                module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
+                title={l("What activities to include in home feeds by default")}
                 scope={@scope}
               />
             </div>
           </div>
         </form>
-      </div>
-    </div>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name="Brand"
-        description={l("Show only the instance logo")}
-        keys={[Bonfire.UI.Common.LogoLive, :only_logo]}
-        scope={@scope}
-      />
-    </form>
-    <!-- name={l("Missing avatars")} -->
-    <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <Bonfire.UI.Common.SettingsToggleLive
-        description={l("Show randomly-generated animal avatars for users without a profile picture?")}
-        keys={[Bonfire.UI.Common.AvatarLive, :animal_avatars]}
-        default_value
-        name="Animal avatars"
-        scope={@scope}
-      />
-    </form>
-
-    <div class="p-4 font-bold bg-base-content/5">{l("Behaviours")}</div>
-
-    <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <div x-data="{open: false}" class="p-4">
-        <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
-          <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Feed activities")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("What activities to include in home feeds by default")}</div>
-          </div>
-          <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
-          <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-          <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-        </div>
-        <div x-show="open" x-cloak x-collapse>
-          <Dynamic.Component
-            :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
-            module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
-            title={l("What activities to include in home feeds by default")}
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsRadiosLive
+            name={l("Default feed")}
+            description={l("Select the feed you want to display on the homepage")}
+            keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
+            options={[my: l("My Feed"), local: l("Local"), fediverse: l("Remote"), likes: "Liked"]}
+            default_value={:my}
             scope={@scope}
           />
-        </div>
-      </div>
-    </form>
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Default feed")}
-        description={l("Select the feed you want to display on the homepage")}
-        keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
-        options={[my: l("My Feed"), local: l("Local"), fediverse: l("Remote"), likes: "Liked"]}
-        default_value={:my}
-        scope={@scope}
-      />
-    </form>
-
-    <!-- <form phx-change="Bonfire.Me.Settings:set">
+        <!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -232,20 +242,20 @@
       </div>
     </form> -->
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Feed default time limit")}
-        description={l(
-          "Select the time limit you want to use by default (can always change in the feed controls options)"
-        )}
-        keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
-        options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
-        default_value={7}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsRadiosLive
+            name={l("Feed default time limit")}
+            description={l(
+              "Select the time limit you want to use by default (can always change in the feed controls options)"
+            )}
+            keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
+            options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
+            default_value={7}
+            scope={@scope}
+          />
+        </form>
 
-    <!-- <form phx-change="Bonfire.Me.Settings:set">
+        <!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -308,55 +318,55 @@
       </div>
     </form> -->
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Feed default sort")}
-        description={l(
-          "Select the default sorting options for your feeds (can always change in the feed controls options)"
-        )}
-        keys={[Bonfire.UI.Social.FeedLive, :sort_by]}
-        options={[
-          false: l("Chronological"),
-          num_replies: l("Amount of replies"),
-          num_boosts: l("Amount of boosts"),
-          num_likes: l("Amount of likes")
-        ]}
-        default_value={nil}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsRadiosLive
+            name={l("Feed default sort")}
+            description={l(
+              "Select the default sorting options for your feeds (can always change in the feed controls options)"
+            )}
+            keys={[Bonfire.UI.Social.FeedLive, :sort_by]}
+            options={[
+              false: l("Chronological"),
+              num_replies: l("Amount of replies"),
+              num_boosts: l("Amount of boosts"),
+              num_likes: l("Amount of likes")
+            ]}
+            default_value={nil}
+            scope={@scope}
+          />
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Discussions default layout")}
-        description={l("Select the default way to view discussions (can always change in the feed controls options)")}
-        keys={[Bonfire.UI.Social.ThreadLive, :thread_mode]}
-        options={[flat: l("Flat"), nested: l("Nested threads")]}
-        default_value={:nested}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsRadiosLive
+            name={l("Discussions default layout")}
+            description={l("Select the default way to view discussions (can always change in the feed controls options)")}
+            keys={[Bonfire.UI.Social.ThreadLive, :thread_mode]}
+            options={[flat: l("Flat"), nested: l("Nested threads")]}
+            default_value={:nested}
+            scope={@scope}
+          />
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Discussions default sort")}
-        description={l(
-          "Select the default sorting options for viewing discussions (can always change in the feed controls options)"
-        )}
-        keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
-        options={[
-          nil: l("Chronological"),
-          latest_reply: l("Surface latest replies"),
-          num_replies: l("Amount of replies"),
-          num_boosts: l("Amount of boosts"),
-          num_likes: l("Amount of likes")
-        ]}
-        default_value={nil}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsRadiosLive
+            name={l("Discussions default sort")}
+            description={l(
+              "Select the default sorting options for viewing discussions (can always change in the feed controls options)"
+            )}
+            keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
+            options={[
+              nil: l("Chronological"),
+              latest_reply: l("Surface latest replies"),
+              num_replies: l("Amount of replies"),
+              num_boosts: l("Amount of boosts"),
+              num_likes: l("Amount of likes")
+            ]}
+            default_value={nil}
+            scope={@scope}
+          />
+        </form>
 
-    <!-- <form phx-change="Bonfire.Me.Settings:set">
+        <!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -413,66 +423,66 @@
       </div>
     </form> -->
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.Settings.NumberLive
-        scope={@scope}
-        name={l("How many items to show in feeds and other lists")}
-        keys={[:default_pagination_limit]}
-        unit={l("items")}
-      />
-      <!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} -->
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.Settings.NumberLive
+            scope={@scope}
+            name={l("How many items to show in feeds and other lists")}
+            keys={[:default_pagination_limit]}
+            unit={l("items")}
+          />
+          <!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} -->
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Infinite scrolling")}
-        description={l("Enable infinite scrolling on long lists of items")}
-        label="Dark Pattern"
-        keys={[:ui, :infinite_scroll]}
-        options={[
-          preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
-          true: l("Enable doom scrolling"),
-          false: "Disable"
-        ]}
-        default_value={:preload}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsRadiosLive
+            name={l("Infinite scrolling")}
+            description={l("Enable infinite scrolling on long lists of items")}
+            label="Dark Pattern"
+            keys={[:ui, :infinite_scroll]}
+            options={[
+              preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
+              true: l("Enable doom scrolling"),
+              false: "Disable"
+            ]}
+            default_value={:preload}
+            scope={@scope}
+          />
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        label="Dark Pattern"
-        name="Show counter for unread notifications"
-        description={l("Show the number of unread notifications in the notification indicator")}
-        keys={[Bonfire.UI.Common.BadgeCounterLive, :hide_counter]}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsToggleLive
+            label="Dark Pattern"
+            name="Show counter for unread notifications"
+            description={l("Show the number of unread notifications in the notification indicator")}
+            keys={[Bonfire.UI.Common.BadgeCounterLive, :hide_counter]}
+            scope={@scope}
+          />
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        label="Dark Pattern"
-        name="Highlight notifications indicator"
-        description={l("Use the primary color to highlight the notifications indicator")}
-        keys={[Bonfire.UI.Common.BadgeCounterLive, :highlight]}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsToggleLive
+            label="Dark Pattern"
+            name="Highlight notifications indicator"
+            description={l("Use the primary color to highlight the notifications indicator")}
+            keys={[Bonfire.UI.Common.BadgeCounterLive, :highlight]}
+            scope={@scope}
+          />
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        label="Vanity Metric"
-        name={l("Show reaction counts (likes / boosts)")}
-        description={l(
-          "You will see the number of reactions to activities (may not indicate the real amount for federated posts)"
-        )}
-        keys={[:ui, :show_activity_counts]}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <Bonfire.UI.Common.SettingsToggleLive
+            label="Vanity Metric"
+            name={l("Show reaction counts (likes / boosts)")}
+            description={l(
+              "You will see the number of reactions to activities (may not indicate the real amount for federated posts)"
+            )}
+            keys={[:ui, :show_activity_counts]}
+            scope={@scope}
+          />
+        </form>
 
-    <!-- TODO -->
-    <!-- <form phx-change="Bonfire.Me.Settings:set">
+        <!-- TODO -->
+        <!-- <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         label="Vanity Metric"
         name={l("Show follower counts")}
@@ -482,84 +492,85 @@
       />
     </form> -->
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
+        <form phx-change="Bonfire.Me.Settings:set">
+          <input name="scope" value={@scope} type="hidden">
 
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Actions on feed activities (eg. reply, boost, etc)")}
-        description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
-        keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
-        scope={@scope}
-      />
-    </form>
+          <Bonfire.UI.Common.SettingsToggleLive
+            name={l("Actions on feed activities (eg. reply, boost, etc)")}
+            description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
+            keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
+            scope={@scope}
+          />
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Actions on discussions (eg. reply, boost, etc)")}
-        description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
-        keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <input name="scope" value={@scope} type="hidden">
+          <Bonfire.UI.Common.SettingsToggleLive
+            name={l("Actions on discussions (eg. reply, boost, etc)")}
+            description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
+            keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
+            scope={@scope}
+          />
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Prefer compact layouts")}
-        description={l("Compact layouts are more dense and may show less contents.")}
-        keys={[:ui, :compact]}
-        scope={@scope}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <input name="scope" value={@scope} type="hidden">
+          <Bonfire.UI.Common.SettingsToggleLive
+            name={l("Prefer compact layouts")}
+            description={l("Compact layouts are more dense and may show less contents.")}
+            keys={[:ui, :compact]}
+            scope={@scope}
+          />
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <input name="scope" value={@scope} type="hidden">
+          <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
+        </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Hide trending topics")}
-        description={l("Do not show a list of trending tags or groups")}
-        keys={[:ui, :show_trending_tags, :disabled]}
-        scope={@scope}
-      />
-      <Bonfire.UI.Common.Settings.NumberLive
-        scope={@scope}
-        name={l("How many days of activity to take include when calculating trending topics")}
-        keys={[:ui, :show_trending_tags, :for_last_x_days]}
-        unit={l("days")}
-      />
-      <Bonfire.UI.Common.Settings.NumberLive
-        scope={@scope}
-        name={l("How many trending topics to show")}
-        keys={[:ui, :show_trending_tags, :limit]}
-        unit={l("topics")}
-      />
-    </form>
+        <form phx-change="Bonfire.Me.Settings:set">
+          <input name="scope" value={@scope} type="hidden">
+          <Bonfire.UI.Common.SettingsToggleLive
+            name={l("Hide trending topics")}
+            description={l("Do not show a list of trending tags or groups")}
+            keys={[:ui, :show_trending_tags, :disabled]}
+            scope={@scope}
+          />
+          <Bonfire.UI.Common.Settings.NumberLive
+            scope={@scope}
+            name={l("How many days of activity to take include when calculating trending topics")}
+            keys={[:ui, :show_trending_tags, :for_last_x_days]}
+            unit={l("days")}
+          />
+          <Bonfire.UI.Common.Settings.NumberLive
+            scope={@scope}
+            name={l("How many trending topics to show")}
+            keys={[:ui, :show_trending_tags, :limit]}
+            unit={l("topics")}
+          />
+        </form>
 
-    <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
-    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
+        <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
+        <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
 
-    <div x-data="{open: false}" class="p-4">
-      <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
-        <div class="flex flex-col gap-1">
-          <div class="text-sm font-medium">{l("Default boundary")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("Specify your default boundary when publishing a new activity")}</div>
+        <div x-data="{open: false}" class="p-4">
+          <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-medium">{l("Default boundary")}</div>
+              <div class="text-sm font-light text-base-content/70">{l("Specify your default boundary when publishing a new activity")}</div>
+            </div>
+            <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+              <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+            </button>
+            <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+              <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+            </button>
+          </div>
+          <div x-show="open" x-cloak x-collapse>
+            <!-- TODO -->
+            Coming soon.
+          </div>
         </div>
-        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-      </div>
-      <div x-show="open" x-cloak x-collapse>
-        <!-- TODO -->
-        Coming soon.
       </div>
     </div>
-  </div>
-</div>
+{/case}

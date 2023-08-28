@@ -48,8 +48,9 @@ defmodule Bonfire.UI.Me.SettingsLive do
     |> debug(selected_tab)
   end
 
-  def do_handle_params(%{"tab" => "preferences" = tab, "id" => id}, _url, socket) do
+  def do_handle_params(%{"tab" => "preferences" = tab} = params, _url, socket) do
     scope = socket.assigns[:scope]
+    id = params["id"]
 
     {:noreply,
      assign(
@@ -61,7 +62,8 @@ defmodule Bonfire.UI.Me.SettingsLive do
        page_header_aside: [
          {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
           [
-            scope: scope
+            scope: scope,
+            id: id
           ]}
        ]
      )}

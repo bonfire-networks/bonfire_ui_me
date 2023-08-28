@@ -3,6 +3,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.PreferencesLive do
 
   prop selected_tab, :string
   prop scope, :atom, default: :user
+  prop id, :any, default: nil
 
   def render(assigns) do
     scoped = Bonfire.Me.Settings.LiveHandler.scoped(assigns[:scope], assigns[:__context__])
