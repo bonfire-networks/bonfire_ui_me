@@ -49,23 +49,15 @@ defmodule Bonfire.UI.Me.SettingsLive do
     |> debug(selected_tab)
   end
 
-  def do_handle_params(%{"tab" => tab, "id" => id}, _url, socket) do
-    # debug(id)
-    {:noreply,
-     assign(socket,
-       back: true,
-       selected_tab: tab,
-       id: id
-     )}
-  end
 
-  def do_handle_params(%{"tab" => "preferences" = tab}, _url, socket) do
+  def do_handle_params(%{"tab" => "preferences" = tab, "id" => id}, _url, socket) do
     scope = socket.assigns[:scope]
 
     {:noreply,
      assign(
        socket,
        back: true,
+       id: id,
        page_title: String.capitalize(to_string(scope)) <> " " <> l("Preferences"),
        selected_tab: tab,
        page_header_aside: [
@@ -76,6 +68,17 @@ defmodule Bonfire.UI.Me.SettingsLive do
        ]
      )}
   end
+
+  def do_handle_params(%{"tab" => tab, "id" => id}, _url, socket) do
+    {:noreply,
+     assign(socket,
+       back: true,
+       selected_tab: tab,
+       id: id
+     )}
+  end
+
+
 
   def do_handle_params(%{"tab" => "shared_user" = tab}, _url, socket) do
     {:noreply,

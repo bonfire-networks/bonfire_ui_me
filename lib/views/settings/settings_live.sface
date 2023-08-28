@@ -11,8 +11,18 @@
         :if={current_user_id(@__context__)}
         selected_tab={@selected_tab}
       />
+   
     {#match "preferences"}
-      <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive selected_tab={@selected_tab} scope={@scope} />
+      {#case @id}
+        {#match "appearance"}
+          <Bonfire.UI.Me.SettingsViewsLive.AppearanceLive selected_tab={@selected_tab} scope={@scope} />
+        {#match "behaviours"}
+          <Bonfire.UI.Me.SettingsViewsLive.BehavioursLive selected_tab={@selected_tab} scope={@scope} />
+        {#match "safety"}
+          <Bonfire.UI.Me.SettingsViewsLive.SafetyLive selected_tab={@selected_tab} scope={@scope} />
+        {#match _}
+          <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive selected_tab={@selected_tab} scope={@scope} />
+      {/case}
     {#match "account"}
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
     {#match "import"}
