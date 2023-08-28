@@ -1,52 +1,52 @@
-  <div class="p-4 m-2 bg-info/10 border-info/30 border text-info rounded flex flex-col">
-    <div class="font-bold">{l("Behaviours")}</div>
-    <div class="text-info/70 text-sm">{l "Adjust how you interact with the instance."}</div>
+<div class="p-4 m-2 bg-info/10 border-info/30 border text-info rounded flex flex-col">
+  <div class="font-bold">{l("Behaviours")}</div>
+  <div class="text-info/70 text-sm">{l("Adjust how you interact with the instance.")}</div>
+</div>
+<div class="divide-y divide-base-content/10">
+  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
+    <#Icon iconify="material-symbols:rss-feed" class="w-5 h-5 text-base-content/80" />
+    <span>{l("Feeds")}</span>
   </div>
-  <div class="divide-y divide-base-content/10">
-    <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-      <#Icon iconify="material-symbols:rss-feed" class="w-5 h-5 text-base-content/80" />
-      <span>{l("Feeds")}</span>
-    </div>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <div x-data="{open: false}" class="p-4">
-        <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
-          <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Feed activities")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("What activities to include in home feeds by default")}</div>
-          </div>
-          <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
-          <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-          <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <input name="scope" value={@scope} type="hidden">
+    <div x-data="{open: false}" class="p-4">
+      <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Feed activities")}</div>
+          <div class="text-sm font-light text-base-content/70">{l("What activities to include in home feeds by default")}</div>
         </div>
-        <div x-show="open" x-cloak x-collapse>
-          <Dynamic.Component
-            :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
-            module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
-            title={l("What activities to include in home feeds by default")}
-            scope={@scope}
-          />
-        </div>
+        <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
       </div>
-    </form>
+      <div x-show="open" x-cloak x-collapse>
+        <Dynamic.Component
+          :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
+          module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
+          title={l("What activities to include in home feeds by default")}
+          scope={@scope}
+        />
+      </div>
+    </div>
+  </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Default feed")}
-        description={l("Select the feed you want to display on the homepage")}
-        keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
-        options={[my: l("My Feed"), local: l("Local"), fediverse: l("Remote"), likes: "Liked"]}
-        default_value={:my}
-        scope={@scope}
-      />
-    </form>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsRadiosLive
+      name={l("Default feed")}
+      description={l("Select the feed you want to display on the homepage")}
+      keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
+      options={[my: l("My Feed"), local: l("Local"), fediverse: l("Remote"), likes: "Liked"]}
+      default_value={:my}
+      scope={@scope}
+    />
+  </form>
 
-    <!-- <form phx-change="Bonfire.Me.Settings:set">
+  <!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -101,20 +101,20 @@
       </div>
     </form> -->
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Feed default time limit")}
-        description={l(
-          "Select the time limit you want to use by default (can always change in the feed controls options)"
-        )}
-        keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
-        options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
-        default_value={7}
-        scope={@scope}
-      />
-    </form>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsRadiosLive
+      name={l("Feed default time limit")}
+      description={l(
+        "Select the time limit you want to use by default (can always change in the feed controls options)"
+      )}
+      keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
+      options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
+      default_value={7}
+      scope={@scope}
+    />
+  </form>
 
-    <!-- <form phx-change="Bonfire.Me.Settings:set">
+  <!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -177,86 +177,86 @@
       </div>
     </form> -->
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Feed default sort")}
-        description={l(
-          "Select the default sorting options for your feeds (can always change in the feed controls options)"
-        )}
-        keys={[Bonfire.UI.Social.FeedLive, :sort_by]}
-        options={[
-          false: l("Chronological"),
-          num_replies: l("Amount of replies"),
-          num_boosts: l("Amount of boosts"),
-          num_likes: l("Amount of likes")
-        ]}
-        default_value={nil}
-        scope={@scope}
-      />
-    </form>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsRadiosLive
+      name={l("Feed default sort")}
+      description={l(
+        "Select the default sorting options for your feeds (can always change in the feed controls options)"
+      )}
+      keys={[Bonfire.UI.Social.FeedLive, :sort_by]}
+      options={[
+        false: l("Chronological"),
+        num_replies: l("Amount of replies"),
+        num_boosts: l("Amount of boosts"),
+        num_likes: l("Amount of likes")
+      ]}
+      default_value={nil}
+      scope={@scope}
+    />
+  </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.Settings.NumberLive
-        scope={@scope}
-        name={l("How many items to show in feeds and other lists")}
-        keys={[:default_pagination_limit]}
-        unit={l("items")}
-      />
-      <!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} -->
-    </form>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.Settings.NumberLive
+      scope={@scope}
+      name={l("How many items to show in feeds and other lists")}
+      keys={[:default_pagination_limit]}
+      unit={l("items")}
+    />
+    <!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} -->
+  </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Infinite scrolling")}
-        description={l("Enable infinite scrolling on long lists of items")}
-        label="Dark Pattern"
-        keys={[:ui, :infinite_scroll]}
-        options={[
-          preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
-          true: l("Enable doom scrolling"),
-          false: "Disable"
-        ]}
-        default_value={:preload}
-        scope={@scope}
-      />
-    </form>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsRadiosLive
+      name={l("Infinite scrolling")}
+      description={l("Enable infinite scrolling on long lists of items")}
+      label="Dark Pattern"
+      keys={[:ui, :infinite_scroll]}
+      options={[
+        preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
+        true: l("Enable doom scrolling"),
+        false: "Disable"
+      ]}
+      default_value={:preload}
+      scope={@scope}
+    />
+  </form>
 
-    <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-      <#Icon iconify="mingcute:comment-fill" class="w-5 h-5 text-base-content/80" />
-      <span>{l("Discussions")}</span>
-    </div>
+  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
+    <#Icon iconify="mingcute:comment-fill" class="w-5 h-5 text-base-content/80" />
+    <span>{l("Discussions")}</span>
+  </div>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Discussions default layout")}
-        description={l("Select the default way to view discussions (can always change in the feed controls options)")}
-        keys={[Bonfire.UI.Social.ThreadLive, :thread_mode]}
-        options={[flat: l("Flat"), nested: l("Nested threads")]}
-        default_value={:nested}
-        scope={@scope}
-      />
-    </form>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsRadiosLive
+      name={l("Discussions default layout")}
+      description={l("Select the default way to view discussions (can always change in the feed controls options)")}
+      keys={[Bonfire.UI.Social.ThreadLive, :thread_mode]}
+      options={[flat: l("Flat"), nested: l("Nested threads")]}
+      default_value={:nested}
+      scope={@scope}
+    />
+  </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsRadiosLive
-        name={l("Discussions default sort")}
-        description={l(
-          "Select the default sorting options for viewing discussions (can always change in the feed controls options)"
-        )}
-        keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
-        options={[
-          nil: l("Chronological"),
-          latest_reply: l("Surface latest replies"),
-          num_replies: l("Amount of replies"),
-          num_boosts: l("Amount of boosts"),
-          num_likes: l("Amount of likes")
-        ]}
-        default_value={nil}
-        scope={@scope}
-      />
-    </form>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsRadiosLive
+      name={l("Discussions default sort")}
+      description={l(
+        "Select the default sorting options for viewing discussions (can always change in the feed controls options)"
+      )}
+      keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
+      options={[
+        nil: l("Chronological"),
+        latest_reply: l("Surface latest replies"),
+        num_replies: l("Amount of replies"),
+        num_boosts: l("Amount of boosts"),
+        num_likes: l("Amount of likes")
+      ]}
+      default_value={nil}
+      scope={@scope}
+    />
+  </form>
 
-    <!-- <form phx-change="Bonfire.Me.Settings:set">
+  <!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -313,55 +313,50 @@
       </div>
     </form> -->
 
+  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
+    <#Icon iconify="ri:notification-2-fill" class="w-5 h-5 text-base-content/80" />
+    <span>{l("Notifications")}</span>
+  </div>
 
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsToggleLive
+      label="Dark Pattern"
+      name="Show counter for unread notifications"
+      description={l("Show the number of unread notifications in the notification indicator")}
+      keys={[Bonfire.UI.Common.BadgeCounterLive, :hide_counter]}
+      scope={@scope}
+    />
+  </form>
 
-    <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-      <#Icon iconify="ri:notification-2-fill" class="w-5 h-5 text-base-content/80" />
-      <span>{l("Notifications")}</span>
-    </div>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsToggleLive
+      label="Dark Pattern"
+      name="Highlight notifications indicator"
+      description={l("Use the primary color to highlight the notifications indicator")}
+      keys={[Bonfire.UI.Common.BadgeCounterLive, :highlight]}
+      scope={@scope}
+    />
+  </form>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        label="Dark Pattern"
-        name="Show counter for unread notifications"
-        description={l("Show the number of unread notifications in the notification indicator")}
-        keys={[Bonfire.UI.Common.BadgeCounterLive, :hide_counter]}
-        scope={@scope}
-      />
-    </form>
+  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
+    <#Icon iconify="material-symbols:add-reaction" class="w-5 h-5 text-base-content/80" />
+    <span>{l("Reactions")}</span>
+  </div>
 
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        label="Dark Pattern"
-        name="Highlight notifications indicator"
-        description={l("Use the primary color to highlight the notifications indicator")}
-        keys={[Bonfire.UI.Common.BadgeCounterLive, :highlight]}
-        scope={@scope}
-      />
-    </form>
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsToggleLive
+      label="Vanity Metric"
+      name={l("Show reaction counts (likes / boosts)")}
+      description={l(
+        "You will see the number of reactions to activities (may not indicate the real amount for federated posts)"
+      )}
+      keys={[:ui, :show_activity_counts]}
+      scope={@scope}
+    />
+  </form>
 
-
-
-    <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-      <#Icon iconify="material-symbols:add-reaction" class="w-5 h-5 text-base-content/80" />
-      <span>{l("Reactions")}</span>
-    </div>
-
-
-    <form phx-change="Bonfire.Me.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        label="Vanity Metric"
-        name={l("Show reaction counts (likes / boosts)")}
-        description={l(
-          "You will see the number of reactions to activities (may not indicate the real amount for federated posts)"
-        )}
-        keys={[:ui, :show_activity_counts]}
-        scope={@scope}
-      />
-    </form>
-
-    <!-- TODO -->
-    <!-- <form phx-change="Bonfire.Me.Settings:set">
+  <!-- TODO -->
+  <!-- <form phx-change="Bonfire.Me.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         label="Vanity Metric"
         name={l("Show follower counts")}
@@ -371,34 +366,30 @@
       />
     </form> -->
 
-    
-
-    <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-      <#Icon iconify="material-symbols:trending-up" class="w-5 h-5 text-base-content/80" />
-      <span>{l("Trending topics")}</span>
-    </div>
-
-
-
-    <form phx-change="Bonfire.Me.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Hide trending topics")}
-        description={l("Do not show a list of trending tags or groups")}
-        keys={[:ui, :show_trending_tags, :disabled]}
-        scope={@scope}
-      />
-      <Bonfire.UI.Common.Settings.NumberLive
-        scope={@scope}
-        name={l("How many days of activity to take include when calculating trending topics")}
-        keys={[:ui, :show_trending_tags, :for_last_x_days]}
-        unit={l("days")}
-      />
-      <Bonfire.UI.Common.Settings.NumberLive
-        scope={@scope}
-        name={l("How many trending topics to show")}
-        keys={[:ui, :show_trending_tags, :limit]}
-        unit={l("topics")}
-      />
-    </form>
+  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
+    <#Icon iconify="material-symbols:trending-up" class="w-5 h-5 text-base-content/80" />
+    <span>{l("Trending topics")}</span>
   </div>
+
+  <form phx-change="Bonfire.Me.Settings:set">
+    <input name="scope" value={@scope} type="hidden">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Hide trending topics")}
+      description={l("Do not show a list of trending tags or groups")}
+      keys={[:ui, :show_trending_tags, :disabled]}
+      scope={@scope}
+    />
+    <Bonfire.UI.Common.Settings.NumberLive
+      scope={@scope}
+      name={l("How many days of activity to take include when calculating trending topics")}
+      keys={[:ui, :show_trending_tags, :for_last_x_days]}
+      unit={l("days")}
+    />
+    <Bonfire.UI.Common.Settings.NumberLive
+      scope={@scope}
+      name={l("How many trending topics to show")}
+      keys={[:ui, :show_trending_tags, :limit]}
+      unit={l("topics")}
+    />
+  </form>
+</div>

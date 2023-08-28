@@ -11,7 +11,6 @@
         :if={current_user_id(@__context__)}
         selected_tab={@selected_tab}
       />
-   
     {#match "preferences"}
       {#case @id}
         {#match "appearance"}
