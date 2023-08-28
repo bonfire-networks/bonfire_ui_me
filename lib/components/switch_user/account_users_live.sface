@@ -6,7 +6,9 @@
           <Bonfire.UI.Common.UserPreviewLive user={user} path_prefix="/switch-user/" go={@go} />
         </div>
       {/for}
-      <div class="flex flex-col col-span-1 text-center divide-y divide-gray-200 place-content-center group">
+      <div 
+        :if={length(@current_account_users) < Bonfire.Me.Settings.get([Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive, :max_users], 4, @__context__[:instance_settings])}
+        class="flex flex-col col-span-1 text-center divide-y divide-gray-200 place-content-center group">
         <LiveRedirect to={path(:create_user)}>
           <div class="flex flex-col items-center flex-1">
             <div class="w-32 h-32">
