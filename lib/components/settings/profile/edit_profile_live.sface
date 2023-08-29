@@ -1,6 +1,6 @@
 <Bonfire.Files.Web.UploadBannerLive
   id={:upload_banner}
-  object={@current_user}
+  object={current_user(@__context__)}
   set_field={:current_user}
   set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
 />
@@ -10,16 +10,16 @@
       id={:upload_icon}
       container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
       class="inline-block w-32 h-32"
-      object={@current_user}
+      object={current_user(@__context__)}
       set_field={:current_user}
       set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
       opts={%{"data-id" => "preview_icon"}}
     />
     <div class="flex items-center justify-between w-full -mt-3">
       <div class="flex flex-col">
-        <div class="text-2xl font-semibold">{e(@current_user, :profile, :name, "")}</div>
+        <div class="text-2xl font-semibold">{e(current_user(@__context__), :profile, :name, "")}</div>
         <div class="text-sm font-light text-base-content/70">
-          {e(@current_user, :character, :username, "")}@{instance_domain()}
+          {e(current_user(@__context__), :character, :username, "")}@{instance_domain()}
         </div>
       </div>
     </div>
@@ -73,7 +73,7 @@
             id="name"
             autocomplete="name"
             class="input input-bordered"
-            value={e(@current_user, :profile, :name, "")}
+            value={e(current_user(@__context__), :profile, :name, "")}
           />
         </div>
       </div>
@@ -107,7 +107,7 @@
           <!-- <label for="about" class="label">
                 <span class="label-text">{l("Bio")}</span>
               </label> -->
-          <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(@current_user, :profile, :summary, "")}</textarea>
+          <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(current_user(@__context__), :profile, :summary, "")}</textarea>
           <p class="mt-2 text-sm text-base-content text-opacity-70">
             {l("You can use markdown formatting.")}
           </p>
@@ -150,7 +150,7 @@
             placeholder="https://example.local"
             autocomplete="website"
             class="input input-bordered"
-            value={e(@current_user, :profile, :website, "")}
+            value={e(current_user(@__context__), :profile, :website, "")}
           />
         </div>
       </div>
@@ -188,7 +188,7 @@
             placeholder="Neptune"
             autocomplete="location"
             class="input input-bordered"
-            value={e(@current_user, :profile, :location, "")}
+            value={e(current_user(@__context__), :profile, :location, "")}
           />
         </div>
       </div>
@@ -217,11 +217,12 @@
     </div>
     <div x-show="open" x-cloak x-collapse>
       <div class="form-control  mt-4 w-full">
-        {#if Bonfire.Social.Aliases.list_my_aliases(@current_user) |> e(:edges, []) |> length() > 0}
+        {#if Bonfire.Social.Aliases.list_my_aliases(current_user(@__context__)) |> e(:edges, []) |> length() >
+            0}
           <div class="text-sm">{l("Existing aliases")}</div>
           <ul class="mt-3 flex flex-col gap-2 p-3 border rounded-box border-base-content/20 divide-y divide-base-content/20">
             <li :for={al <-
-              Bonfire.Social.Aliases.list_my_aliases(@current_user)
+              Bonfire.Social.Aliases.list_my_aliases(current_user(@__context__))
               |> e(:edges, [])
               |> debug("list_my_aliases")}>
               <Bonfire.UI.Common.ProfileItemLive
@@ -288,14 +289,14 @@
         form_opts={%{"phx-submit" => "Bonfire.Me.Settings:delete_user"}}
         with_password_prompt
         skip_permission_check
-        object={@current_user}
+        object={current_user(@__context__)}
         object_type_readable={l("user & data")}
-        creator_id={@current_user}
-        parent_id={"delete-user-#{id(@current_user)}"}
+        creator_id={current_user(@__context__)}
+        parent_id={"delete-user-#{id(current_user(@__context__))}"}
         open_btn_class="btn-error btn mt-3 rounded-full w-full"
         explanation={l(
           "Deleting your user profile means that this user (%{username}) and all related data and activities (but not any other user profiles under this account) will be deleted.",
-          username: Bonfire.Me.Characters.display_username(@current_user, true, true)
+          username: Bonfire.Me.Characters.display_username(current_user(@__context__), true, true)
         )}
       />
     </div>

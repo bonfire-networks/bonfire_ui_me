@@ -10,7 +10,7 @@
           {#if @follows_me}
             <p class="badge rounded h-[1.75rem]">{"Follows you"}</p>
           {/if}
-          <!-- {#case is_nil(@current_user) or Bonfire.Social.Graph.graph_distance(@current_user, @user)}
+          <!-- {#case is_nil(current_user(@__context__)) or Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user)}
             {#match true}
             {#match false}
             {#match nil}

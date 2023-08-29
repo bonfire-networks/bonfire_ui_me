@@ -170,8 +170,8 @@
           <div class="prose prose-sm text-info">
             Before proceeding, please read these notes carefully:
             <ul>
-              <li>The new account must first be configured (i.e. follow the <em>move from a different profile</em> process in the settings of your new profile first) with a reference this old one ({Bonfire.Me.Characters.display_username(@current_user, true, true)})</li>
-              <li>This action will move all followers from <a href={path(@current_user)}>this profile</a> to your new profile</li>
+              <li>The new account must first be configured (i.e. follow the <em>move from a different profile</em> process in the settings of your new profile first) with a reference this old one ({Bonfire.Me.Characters.display_username(current_user(@__context__), true, true)})</li>
+              <li>This action will move all followers from <a href={path(current_user(@__context__))}>this profile</a> to your new profile</li>
               <li>No other data will be moved automatically</li>
               <li>This profile will be updated with a redirect notice <!-- and be excluded from searches --></li>
               <li>After moving there may be a waiting period during which you will not be able to move again</li>
@@ -185,7 +185,9 @@
     <div class="form-control  mt-4 w-full">
       <div class="text-base font-medium">{l("Specify your new profile")}</div>
 
-      {#case Bonfire.Social.Aliases.list_my_aliases(@current_user) |> e(:edges, []) |> debug("list_my_aliases")}
+      {#case Bonfire.Social.Aliases.list_my_aliases(current_user(@__context__))
+        |> e(:edges, [])
+        |> debug("list_my_aliases")}
         {#match []}
           <span class="label-text">{l("Enter the username@domain of the account you want to move to")}</span>
         {#match aliases}

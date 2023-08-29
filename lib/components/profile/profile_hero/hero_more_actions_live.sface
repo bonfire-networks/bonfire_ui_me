@@ -69,7 +69,7 @@
       {#if current_user_id(@__context__)}
         <li :if={@character_type == :user}>
           <Dynamic.Component
-            :if={module_enabled?(Bonfire.Boundaries.Web.AddToCircleLive) and @current_user}
+            :if={module_enabled?(Bonfire.Boundaries.Web.AddToCircleLive) and current_user(@__context__)}
             module={Bonfire.Boundaries.Web.AddToCircleLive}
             user_id={id(@user)}
             parent_id="profile_hero"
@@ -191,7 +191,7 @@
               do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
             verb_undo={l("Leave")}
             verb_already={l("Joined")}
-            disabled={Enums.ids(@current_user) |> debug("c111") == Enums.ids(@moderators) |> debug("m111")}
+            disabled={Enums.ids(current_user(@__context__)) |> debug("c111") == Enums.ids(@moderators) |> debug("m111")}
           >
             <:if_followed>
               <Bonfire.UI.Common.SmartInputButtonLive

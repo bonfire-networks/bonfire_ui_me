@@ -2,7 +2,7 @@
   data-id="profile"
   data-user-id={e(@user, :id, "")}
   class={
-    "": !@current_user
+    "": !current_user(@__context__)
   }
 >
   <Dynamic.Component module={Bonfire.UI.Social.ProfileTimelineLive} {...assigns}>
