@@ -177,7 +177,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         "@" <> Bonfire.Common.URIs.instance_domain()
       )
 
-    with {:ok, user} <- Bonfire.Me.Users.by_username(username) do
+    with {:ok, user} <- Bonfire.Me.Users.by_username(username, preload: :profile) do
       user
     else
       _ ->

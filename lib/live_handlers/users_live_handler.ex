@@ -36,11 +36,12 @@ defmodule Bonfire.Me.Users.LiveHandler do
 
   def handle_event(
         "make_admin",
-        %{"username_or_id" => username_or_id} = _attrs,
+        params,
         socket
       ) do
     with true <- Bonfire.Me.Accounts.is_admin?(socket.assigns[:__context__]),
-         {:ok, user} <- Bonfire.Me.Users.make_admin(username_or_id) do
+         {:ok, user} <-
+           Bonfire.Me.Users.make_admin(socket.assigns[:user] || params["username_or_id"]) do
       {:noreply,
        socket
        |> assign_flash(:info, l("They are now an admin!"))
@@ -50,11 +51,12 @@ defmodule Bonfire.Me.Users.LiveHandler do
 
   def handle_event(
         "revoke_admin",
-        %{"username_or_id" => username_or_id} = _attrs,
+        params,
         socket
       ) do
     with true <- Bonfire.Me.Accounts.is_admin?(socket.assigns[:__context__]),
-         {:ok, user} <- Bonfire.Me.Users.revoke_admin(username_or_id) do
+         {:ok, user} <-
+           Bonfire.Me.Users.revoke_admin(socket.assigns[:user] || params["username_or_id"]) do
       {:noreply,
        socket
        |> assign_flash(:info, l("They are no longer an admin."))

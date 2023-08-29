@@ -6,23 +6,22 @@
       </div> -->
 
     <div class="divide-y divide-base-content/10 border-b border-base-content/10">
-
-    <Bonfire.UI.Common.SettingsInputLive 
-      scope={:instance}
-      input="ui[theme][instance_name]"
-      name={l("Name")}
-      description={l("The name of your instance")}
-      keys={[:ui, :theme, :instance_name]}
-      default_value={Config.get([:ui, :theme, :instance_name], Bonfire.Application.name())}
-    />
-    <Bonfire.UI.Common.SettingsTextareaLive 
-      scope={:instance}
-      input="ui[theme][instance_description]"
-      name={l("Description")}
-      description={l("A short summary shown in various places")}
-      keys={[:ui, :theme, :instance_description]}
-      default_value={Config.get([:ui, :theme, :instance_description], nil)}
-    />
+      <Bonfire.UI.Common.SettingsInputLive
+        scope={:instance}
+        input="ui[theme][instance_name]"
+        name={l("Name")}
+        description={l("The name of your instance")}
+        keys={[:ui, :theme, :instance_name]}
+        default_value={Config.get([:ui, :theme, :instance_name], Bonfire.Application.name())}
+      />
+      <Bonfire.UI.Common.SettingsTextareaLive
+        scope={:instance}
+        input="ui[theme][instance_description]"
+        name={l("Description")}
+        description={l("A short summary shown in various places")}
+        keys={[:ui, :theme, :instance_description]}
+        default_value={Config.get([:ui, :theme, :instance_description], nil)}
+      />
       <div x-data="{open: false}" class="p-4">
         <div x-on:click="open = !open" class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
@@ -221,7 +220,6 @@
           scope={:instance}
         />
 
-
         <!-- MAX AMOUNT OF FILES ONE CAN ATTACH TO A POST OR OTHER ACTIVITIES -->
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
@@ -268,7 +266,6 @@
           keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_banner]}
           unit={l("px")}
         />
-
 
         <!-- <div x-data="{open: false}" class="p-4">
           <div               x-on:click="open = !open"
