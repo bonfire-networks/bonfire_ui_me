@@ -4,7 +4,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstancePostsLive do
   prop selected_tab, :string
 
   def update(assigns, socket) do
-    current_user = current_user(assigns)
+    current_user = current_user(assigns) || current_user(socket.assigns)
     tab = e(assigns, :selected_tab, nil)
 
     {:ok,

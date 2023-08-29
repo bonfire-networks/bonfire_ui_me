@@ -6,7 +6,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
   def mount(_params, _session, socket) do
-    current_user = current_user(socket)
+    current_user = current_user(socket.assigns)
 
     show_to =
       Bonfire.Me.Settings.get(
@@ -16,7 +16,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
 
     if show_to ||
          maybe_apply(Bonfire.Me.Accounts, :is_admin?, socket.assigns[:__context__]) == true do
-      if show_to == :guests or current_user(socket) || current_account(socket) do
+      if show_to == :guests or current_user(socket.assigns) || current_account(socket) do
         users = Bonfire.Me.Users.list(current_user)
 
         count = Bonfire.Me.Users.maybe_count()

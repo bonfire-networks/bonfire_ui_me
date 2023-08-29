@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.LivePlugs.UserRequired do
   end
 
   def mount(params \\ nil, session \\ nil, socket) do
-    check(current_user(socket), current_account(socket), session, socket)
+    check(current_user(socket.assigns), current_account(socket), session, socket)
   end
 
   defp check(%User{}, _account, _, socket), do: {:ok, socket}

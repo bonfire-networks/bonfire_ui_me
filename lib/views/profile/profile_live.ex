@@ -49,7 +49,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     debug(params)
     username = Map.get(params, "username") || Map.get(params, "id")
 
-    current_user = current_user(socket)
+    current_user = current_user(socket.assigns)
     current_username = e(current_user, :character, :username, nil)
 
     user =
@@ -150,9 +150,9 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #   # Here we're checking if the user is ghosted / silenced by user or instance
   #   IO.inspect("preload test")
   #   Task.start(fn ->
-  #     ghosted? = Bonfire.Boundaries.Blocks.is_blocked?(user, :ghost, current_user: current_user(socket)) |> debug("ghosted?")
+  #     ghosted? = Bonfire.Boundaries.Blocks.is_blocked?(user, :ghost, current_user: current_user(socket.assigns)) |> debug("ghosted?")
   #     ghosted_instance_wide? = Bonfire.Boundaries.Blocks.is_blocked?(user, :ghost, :instance_wide) |> debug("ghosted_instance_wide?")
-  #     silenced? = Bonfire.Boundaries.Blocks.is_blocked?(user, :silence, current_user: current_user(socket)) |> debug("silenced?")
+  #     silenced? = Bonfire.Boundaries.Blocks.is_blocked?(user, :silence, current_user: current_user(socket.assigns)) |> debug("silenced?")
   #     silenced_instance_wide? = Bonfire.Boundaries.Blocks.is_blocked?(user, :silence, :instance_wide) |> debug("silenced_instance_wide?")
   #     result = %{
   #       ghosted?: ghosted?,
@@ -271,7 +271,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   # def do_handle_params(%{"tab" => tab} = params, _url, socket)
   #     when tab in ["circles"] do
   #   debug(tab, "load tab")
-  #   current_user = current_user(socket)
+  #   current_user = current_user(socket.assigns)
   #   user = e(socket, :assigns, :user, nil)
   #   circles =
   #     Bonfire.Boundaries.Circles.list_my_with_counts(current_user, exclude_stereotypes: true)

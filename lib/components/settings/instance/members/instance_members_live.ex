@@ -32,7 +32,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
 
   # def update(assigns, socket) do
   # IO.inspect(assigns, label: "assigns")
-  # current_user = current_user(assigns)
+  # current_user = current_user(assigns) || current_user(socket.assigns)
   # tab = e(assigns, :selected_tab, nil)
 
   # users = Bonfire.Me.Users.list(current_user)
