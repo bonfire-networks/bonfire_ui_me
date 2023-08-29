@@ -12,6 +12,10 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
 
   def mount(params \\ nil, session, socket)
 
+  def mount(params, session, {:ok, socket} = _) do
+    mount(params, session, socket)
+  end
+
   # current user is already in context
   def mount(_, _, %{assigns: %{__context__: %{current_user: _}}} = socket) do
     {:ok, socket}
