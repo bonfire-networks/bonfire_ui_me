@@ -1,5 +1,5 @@
 <div class="flex items-center gap-3">
-  {#case e(@user, :character, :peered, :canonical_uri, nil)}
+  <!-- {#case e(@user, :character, :peered, :canonical_uri, nil)}
     {#match nil}
     {#match canonical_uri}
       <a
@@ -11,7 +11,7 @@
       >
         <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/70" />
       </a>
-  {/case}
+  {/case} -->
 
   <div :if={current_user_id(@__context__) != id(@user)} aria-haspopup="true" class="dropdown">
     <label
