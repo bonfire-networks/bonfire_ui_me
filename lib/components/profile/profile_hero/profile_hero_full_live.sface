@@ -10,10 +10,11 @@
           {#if @follows_me}
             <p class="badge rounded h-[1.75rem]">{"Follows you"}</p>
           {/if}
-          {#case is_nil(current_user(@__context__)) or
-              Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user)}
-            {#match true}
+          {#case Settings.get(:experimental_features_enabled, false, @__context__) and
+              (is_nil(current_user(@__context__)) or
+                 Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
             {#match false}
+            {#match true}
             {#match nil}
               <progress title={l("Connection score unknown")} class="progress w-32" value="0" max="100" />
             {#match 0}
