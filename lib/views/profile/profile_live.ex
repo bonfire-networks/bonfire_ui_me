@@ -149,7 +149,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #   view_pid = self()
   #   # Here we're checking if the user is ghosted / silenced by user or instance
   #   IO.inspect("preload test")
-  #   Task.start(fn ->
+  #   apply_task(:start_link, fn ->
   #     ghosted? = Bonfire.Boundaries.Blocks.is_blocked?(user, :ghost, current_user: current_user(socket.assigns)) |> debug("ghosted?")
   #     ghosted_instance_wide? = Bonfire.Boundaries.Blocks.is_blocked?(user, :ghost, :instance_wide) |> debug("ghosted_instance_wide?")
   #     silenced? = Bonfire.Boundaries.Blocks.is_blocked?(user, :silence, current_user: current_user(socket.assigns)) |> debug("silenced?")

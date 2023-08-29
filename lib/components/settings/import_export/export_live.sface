@@ -127,22 +127,46 @@
     </table>
   </div>
 
-  <div class="mt-6 text-sm text-base-content/70">
-    {l(
-      "You can also request an archive of all your activities (in the ActivityPub format), copies of uploaded media, along with all of the above data (in CSV format). You can download a new archive every 7 days."
-    )}
-  </div>
-  <a
-    phx-click="Bonfire.Me.Settings:prepare_archive"
-    class="btn mt-4 btn-primary normal-case btn-sm"
-    x-data="{ buttonDisabled: false }"
-    x-on:click="buttonDisabled = true"
-    x-bind:disabled="buttonDisabled"
-  >
-    <!-- download
+  <div x-data="{ exporting: false }">
+    <div class="mt-6 text-sm text-base-content/70">
+      {l(
+        "You can also request an archive of all your activities (in the ActivityPub format), copies of uploaded media, along with all of the above data (in CSV format). You can export a new archive every 7 days."
+      )}
+    </div>
+
+    {#case Bonfire.UI.Me.ExportController.archive_previous_date(current_user_id(@__context__))}
+      {#match archive_days_old}
+        {#if archive_days_old}
+          <a
+            href="/settings/export/archive_download"
+            class="btn mt-4 btn-primary normal-case btn-sm"
+            download
+          >
+            {l("Download your existing archive")}</a>
+        {/if}
+        {#if !archive_days_old or archive_days_old >= 7}
+          <a
+            phx-click="Bonfire.Me.Settings:prepare_archive"
+            class="btn mt-4 btn-primary normal-case btn-sm"
+            x-on:click="exporting = true"
+            x-bind:disabled="exporting"
+          >
+            <!-- download
     href="/settings/export/archive" -->
 
-    {l("Request your archive")}</a>
+            {l("Request your archive")}</a>
+
+          <a
+            phx-click="Bonfire.Me.Settings:cancel_archive"
+            class="btn mt-4 btn-primary normal-case btn-sm"
+            x-show="exporting"
+            x-cloak
+            x-on:click="exporting = false"
+          >
+            {l("Cancel")}</a>
+        {/if}
+    {/case}
+  </div>
 </div>
 
 <div x-data="{open: false}" class="p-4">

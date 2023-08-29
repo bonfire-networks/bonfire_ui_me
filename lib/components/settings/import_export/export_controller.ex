@@ -43,7 +43,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
   def archive_download(conn, _params) do
     current_user = current_user_required!(conn)
-    {_path, file} = zip_path_file(id(current_user))
+    file = zip_filename(id(current_user))
 
     conn
     |> put_resp_content_type("application/zip")
@@ -55,9 +55,34 @@ defmodule Bonfire.UI.Me.ExportController do
     |> Plug.Conn.send_file(200, file)
   end
 
+  def archive_exists?(current_user_id) when is_binary(current_user_id) do
+    file = zip_filename(current_user_id)
+
+    File.exists?(file)
+  end
+
+  def archive_previous_date(current_user_id) when is_binary(current_user_id) do
+    file = zip_filename(current_user_id)
+
+    with {:ok, %{ctime: date}} <- File.stat(file, time: :posix) do
+      date
+      |> DateTime.from_unix!()
+      |> debug
+      |> DateTime.diff(DateTime.utc_now(), :day)
+      |> debug
+    else
+      _ ->
+        false
+    end
+  end
+
   def trigger_prepare_archive_async(context) do
     current_user = current_user_required!(context)
-    Task.async(fn -> Bonfire.UI.Me.ExportController.zip_archive(context, current_user) end)
+
+    apply_task(:start, fn ->
+      # Process.sleep(5000) # for debug only
+      Bonfire.UI.Me.ExportController.zip_archive(context, current_user)
+    end)
   end
 
   def zip_archive(conn_or_context, user) do
@@ -106,6 +131,9 @@ defmodule Bonfire.UI.Me.ExportController do
   defp zip_stream_process(stream, user_id, context) do
     {path, file} = zip_path_file(user_id)
 
+    # just in case
+    File.rm(file)
+
     with :ok <- File.mkdir_p(path),
          :ok <-
            stream
@@ -133,6 +161,12 @@ defmodule Bonfire.UI.Me.ExportController do
     path = "/tmp/#{user_id}"
 
     {path, "#{path}/archive.zip"}
+  end
+
+  defp zip_filename(user_id) do
+    {_path, file} = zip_path_file(user_id)
+
+    file
   end
 
   defp json_content(conn_or_user, "outbox" = type) do
