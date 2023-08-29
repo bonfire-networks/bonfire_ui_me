@@ -221,7 +221,7 @@
     />
   </form>
 
-   <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Me.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Sensitive media")}
       description="Mark all your uploaded media as sensitive by default (You can always change the preference in the composer)"
