@@ -221,6 +221,15 @@
     />
   </form>
 
+   <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Sensitive media")}
+      description="Mark all your uploaded media as sensitive by default (You can always change the preference in the composer)"
+      keys={[Bonfire.UI.Social.UploadPreviewsLive, :mark_as_sensitive]}
+      scope={@scope}
+    />
+  </form>
+
   <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
     <#Icon iconify="mingcute:comment-fill" class="w-5 h-5 text-base-content/80" />
     <span>{l("Discussions")}</span>
