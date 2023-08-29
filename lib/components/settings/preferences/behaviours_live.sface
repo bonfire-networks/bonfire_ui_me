@@ -224,8 +224,19 @@
   <form phx-change="Bonfire.Me.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Sensitive media")}
-      description="Mark all your uploaded media as sensitive by default (You can always change the preference in the composer)"
+      description={l(
+        "Mark all your uploaded media as sensitive by default (you can still mark *as not sensitive* when posting)"
+      )}
       keys={[Bonfire.UI.Social.UploadPreviewsLive, :mark_as_sensitive]}
+      scope={@scope}
+    />
+  </form>
+
+  <form phx-change="Bonfire.Me.Settings:set">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Hide media")}
+      description={l("Blur all media in feeds and discussions (and click to reveal)")}
+      keys={[Bonfire.UI.Social.Activity.MediaLive, :hide]}
       scope={@scope}
     />
   </form>
