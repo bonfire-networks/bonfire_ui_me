@@ -13,7 +13,13 @@
         <div class="flex-1 ml-3 md:flex md:justify-between">
           <p class="text-sm text-info">
             {l(
-              "You can have up to %{max_users} user profiles for different online identities, or for your organizations or projects.", max_users: Bonfire.Me.Settings.get([Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive, :max_users], 4, @__context__[:instance_settings])
+              "You can have up to %{max_users} user profiles for different online identities, or for your organizations or projects.",
+              max_users:
+                Bonfire.Me.Settings.get(
+                  [Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive, :max_users],
+                  4,
+                  @__context__[:instance_settings]
+                )
             )}</p>
         </div>
       </div>

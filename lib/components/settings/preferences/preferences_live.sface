@@ -538,7 +538,7 @@
           />
           <Bonfire.UI.Common.Settings.NumberLive
             scope={@scope}
-            name={l("How many days of activity to take include when calculating trending topics")}
+            name={l("How many days of activity to include when calculating trending topics")}
             keys={[:ui, :show_trending_tags, :for_last_x_days]}
             unit={l("days")}
           />
