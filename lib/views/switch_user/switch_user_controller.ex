@@ -5,9 +5,9 @@ defmodule Bonfire.UI.Me.SwitchUserController do
   alias Bonfire.UI.Me.SwitchUserLive
 
   @doc "A listing of users in the account."
-  def index(%{assigns: the} = conn, params) do
+  def index(%{assigns: assigns} = conn, params) do
     conn = fetch_query_params(conn)
-    index(the[:current_account_users], the[:current_account], conn, params)
+    index(assigns[:current_account_users], current_account(assigns), conn, params)
   end
 
   defp index([], _, conn, params) do
@@ -32,7 +32,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
   # TODO: optimise by just checking if a user exists
 
   defp index(nil, _account, _conn, _params) do
-    error("[SwitchUserController.index] Missing :current_account")
+    error("Missing current_account")
     throw(:missing_current_account)
   end
 

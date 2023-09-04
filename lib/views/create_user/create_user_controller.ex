@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.CreateUserController do
 
     paint(
       conn,
-      Users.changeset(:create, params, e(conn.assigns, :current_account, nil))
+      Users.changeset(:create, params, current_account(conn.assigns))
     )
   end
 
@@ -19,7 +19,7 @@ defmodule Bonfire.UI.Me.CreateUserController do
 
     form = Map.get(params, "user", %{})
 
-    changeset = Users.changeset(:create, form, e(conn.assigns, :current_account, nil))
+    changeset = Users.changeset(:create, form, current_account(conn.assigns))
 
     case Users.create(changeset,
            undiscoverable: not empty?(Map.get(params, "undiscoverable")),
