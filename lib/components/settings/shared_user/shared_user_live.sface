@@ -1,7 +1,7 @@
 <div class="">
   <form phx-submit="Bonfire.Me.Users:share_user" method="POST">
-    <div class="p-4 m-6 mb-3">
-      <h2 class="text-base font-bold text-center">{l("Give access to the @%{username} user to your team",
+    <div class="p-4 bg-base-content/10">
+      <h2 class="text-base font-bold pt-4 text-center">{l("Give access to the @%{username} user to your team",
           username: e(current_user(@__context__), :character, :username, "")
         )}</h2>
       <div class="my-3 prose-sm prose text-center">
