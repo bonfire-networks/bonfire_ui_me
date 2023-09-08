@@ -4,7 +4,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   import Untangle
 
   # alias Bonfire.Me.Fake
-  # declare_nav_link(l("Profile"), page: "feed", icon: "heroicons-solid:newspaper")
+  declare_nav_link(l("Profile"), page: "profile", icon: "ri:user-line", icon_active: "ri:user-fill")
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
