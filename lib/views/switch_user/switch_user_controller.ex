@@ -20,7 +20,11 @@ defmodule Bonfire.UI.Me.SwitchUserController do
     conn
     |> assign(
       :current_account_users,
-      filter_empty(users, []) |> Users.check_active!() |> debug("current_account_users_active")
+      filter_empty(users, [])
+      |> Users.check_active!()
+      |> debug(
+        "list of users for the account, unless one of them have been blocked instance-wide"
+      )
     )
     |> assign(:go, go_query(conn))
     |> live_render(SwitchUserLive)
