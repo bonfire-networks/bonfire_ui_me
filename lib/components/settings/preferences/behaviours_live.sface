@@ -338,7 +338,7 @@
     <span>{l("Notifications")}</span>
   </div>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <!-- <form phx-change="Bonfire.Me.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       label="Dark Pattern"
       name="Show counter for unread notifications"
@@ -346,7 +346,7 @@
       keys={[Bonfire.UI.Common.BadgeCounterLive, :hide_counter]}
       scope={@scope}
     />
-  </form>
+  </form> -->
 
   <form phx-change="Bonfire.Me.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
