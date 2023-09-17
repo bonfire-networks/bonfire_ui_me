@@ -21,7 +21,7 @@ defmodule Bonfire.UI.Me.LivePlugs.AccountRequired do
   defp no(socket) do
     {:halt,
      socket
-     |> assign_flash(:error, l("You need to log in to view that."))
+     |> assign_flash(:error, l("You need to log in first."))
      |> redirect_to(path(:login))}
   end
 end

@@ -47,9 +47,9 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
 
   defp form_cs(params), do: Accounts.changeset(:confirm_email, params)
 
-  defp confirmed(conn, account) do
+  defp confirmed(conn, %{id: id}) do
     conn
-    |> put_session(:account_id, account.id)
+    |> put_session(:account_id, id)
     |> assign_flash(
       :info,
       l(

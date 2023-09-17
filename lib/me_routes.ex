@@ -20,6 +20,7 @@ defmodule Bonfire.UI.Me.Routes do
 
       pipeline :account_required do
         # plug(Bonfire.UI.Me.Plugs.LoadCurrentAccount)
+        # ^ no need to call LoadCurrentAccount if also calling LoadCurrentUser
         plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
 
         # ^ because even though we only required the account we may want to know the user, and also we prefer having the account within `current_user` in assigns

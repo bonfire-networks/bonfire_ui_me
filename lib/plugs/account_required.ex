@@ -4,7 +4,7 @@ defmodule Bonfire.UI.Me.Plugs.AccountRequired do
 
   def init(opts), do: opts
 
-  def call(conn, _opts), do: check(current_account(conn.assigns), conn)
+  def call(conn, _opts), do: check(current_account(conn.assigns |> debug()), conn)
 
   defp check(%Account{}, conn), do: conn
 
@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.Plugs.AccountRequired do
     conn
     |> clear_session()
     |> set_go_after()
-    |> assign_flash(:error, l("You need to log in to view that page."))
+    |> assign_flash(:error, l("You need to log in first."))
     |> redirect(to: path(:login))
     |> halt()
   end
