@@ -13,7 +13,7 @@
       </a>
   {/case} -->
 
-  <div :if={current_user_id(@__context__) != id(@user)} aria-haspopup="true" class="dropdown">
+  <div :if={current_user_id(@__context__) != id(@user)} aria-haspopup="true" class="dropdown dropdown-end">
     <label
       tabindex="0"
       class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
@@ -24,7 +24,7 @@
       tabindex="0"
       role="menu"
       aria-orientation="vertical"
-      class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-100"
+      class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-200"
     >
       {#if @character_type == :group}
         <!-- <li>
