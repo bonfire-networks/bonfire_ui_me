@@ -68,10 +68,11 @@
           {#if @character_type == :user}
             <Bonfire.UI.Common.AvatarLive
               parent_id="profile-hero"
-              class="inline-block object-cover w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full ring-2 ring-base-300 bg-base-200 fill-base-200"
+              class="inline-block object-cover w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full"
               size="100%"
               user={@user}
             />
+            <!-- ring-2 ring-base-300 bg-base-200 fill-base-200 -->
             <Bonfire.UI.Me.HeroMoreActionsLive
               character_type={@character_type}
               ghosted_instance_wide?={@ghosted_instance_wide?}
