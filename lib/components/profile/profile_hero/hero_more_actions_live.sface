@@ -13,7 +13,11 @@
       </a>
   {/case} -->
 
-  <div :if={current_user_id(@__context__) != id(@user)} aria-haspopup="true" class="dropdown dropdown-end">
+  <div
+    :if={current_user_id(@__context__) != id(@user)}
+    aria-haspopup="true"
+    class="dropdown dropdown-end"
+  >
     <label
       tabindex="0"
       class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
