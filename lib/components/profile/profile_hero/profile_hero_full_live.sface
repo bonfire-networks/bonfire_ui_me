@@ -69,7 +69,6 @@
             <Bonfire.UI.Common.AvatarLive
               parent_id="profile-hero"
               class="inline-block object-cover w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full ring-2 ring-base-300 bg-base-200 fill-base-200"
-              bg_class=""
               size="100%"
               user={@user}
             />
