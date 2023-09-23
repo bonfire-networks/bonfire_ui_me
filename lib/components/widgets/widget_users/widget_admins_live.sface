@@ -1,5 +1,6 @@
 {#case Bonfire.UI.Me.WidgetUsersLive.list_admins() |> filter_empty([], :character)}
   {#match []}
+    <div />
   {#match admins}
     <Bonfire.UI.Me.WidgetUsersLive
       :if={current_user(@__context__) ||

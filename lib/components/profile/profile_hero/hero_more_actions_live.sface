@@ -125,6 +125,7 @@
 
       {#case e(@user, :character, :peered, :canonical_uri, nil)}
         {#match nil}
+          <div />
         {#match canonical_uri}
           <li>
             <a
