@@ -41,7 +41,7 @@
         <!-- <FileInput field="file" class="mt-4 file-input file-input-bordered w-full max-w-md" opts={"accepts": ".csv"} /> -->
         <label for={@uploads.file.ref} class="mt-4  w-full max-w-md">
           <span>{l("Upload or drop")}</span>
-          {live_file_input(@uploads.file, class: "file-input file-input-bordered")}
+          <.live_file_input upload={@uploads.file} class="file-input file-input-bordered" />
         </label>
       </div>
     </div>
@@ -80,7 +80,8 @@
 </Form>
 
 <form phx-submit="Bonfire.Me.Profiles:move_in">
-  <div x-data="{open: false}" class="p-4" {...pry()}>
+  <div x-data="{open: false}" class="p-4">
+    <!-- {...pry()} -->
     <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-md font-bold">{l("Move from a different profile")}</div>

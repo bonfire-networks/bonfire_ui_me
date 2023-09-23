@@ -200,7 +200,7 @@
 </form>
 
 <form phx-submit="Bonfire.Me.Profiles:add_alias">
-  <div x-data="{open: false}" class="p-4 border-t border-base-content/20" {...pry()}>
+  <div x-data="{open: false}" class="p-4 border-t border-base-content/20">
     <div x-on:click="open = !open" class="flex items-center gap-4 justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="font-bold">{l("Other profiles")}</div>
