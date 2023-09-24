@@ -1,6 +1,6 @@
 defmodule Bonfire.UI.Me.ProfileInfoLive do
   use Bonfire.UI.Common.Web, :stateless_component
-  import Bonfire.UI.Me.Integration
+  # import Bonfire.UI.Me.Integration
 
   prop user, :map
   prop path, :string, default: "@"
