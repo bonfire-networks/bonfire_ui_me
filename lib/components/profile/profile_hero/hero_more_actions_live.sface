@@ -158,7 +158,7 @@
 
   <LiveRedirect
     :if={current_user_id(@__context__) == id(@user)}
-    to={~p"/settings/profile"}
+    to={~p"/settings/user/profile"}
     class="normal-case rounded-full btn btn-sm btn-outline border-base-content/30"
   >
     {l("Edit profile")}

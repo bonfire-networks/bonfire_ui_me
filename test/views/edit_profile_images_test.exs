@@ -7,7 +7,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     user = fake_user!(account)
     conn = conn(user: user, account: account)
 
-    next = "/settings/profile"
+    next = "/settings/user/profile"
     # |> IO.inspect
     {view, doc} = floki_live(conn, next)
 
@@ -44,7 +44,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     user = fake_user!(account)
     conn = conn(user: user, account: account)
 
-    next = "/settings/profile"
+    next = "/settings/user/profile"
     # |> IO.inspect
     {view, doc} = floki_live(conn, next)
 

@@ -38,25 +38,14 @@
 >
   <div class="mx-3 mt-4 divide-y rounded-box divide-base-content/10 border border-base-content/10">
     <div x-data="{open: false}" class="p-3">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between" x-on:click="open = !open">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Edit your full name")}</div>
         </div>
-        <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="open"
-        >
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="!open"
-        >
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
@@ -80,25 +69,14 @@
     </div>
 
     <div x-data="{open: false}" class="p-3">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between" x-on:click="open = !open">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Edit your bio")}</div>
         </div>
-        <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="open"
-        >
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="!open"
-        >
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
@@ -116,25 +94,14 @@
     </div>
 
     <div x-data="{open: false}" class="p-3">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between" x-on:click="open = !open">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Edit your website")}</div>
         </div>
-        <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="open"
-        >
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="!open"
-        >
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
@@ -157,25 +124,14 @@
     </div>
 
     <div x-data="{open: false}" class="p-3">
-      <div class="flex items-center justify-between">
+      <div class="flex items-center justify-between" x-on:click="open = !open">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Edit your location")}</div>
         </div>
-        <button
-          type="button"
-          x-cloak
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="open"
-        >
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
           <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
-        <button
-          type="button"
-          x-on:click="open = !open"
-          class="btn btn-circle btn-sm btn-ghost"
-          x-show="!open"
-        >
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
         </button>
       </div>
