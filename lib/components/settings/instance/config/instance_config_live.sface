@@ -53,7 +53,6 @@
                 )}
                 set_field={[:bonfire, :ui, :theme, :instance_icon]}
                 set_fn={&Bonfire.Me.Settings.LiveHandler.set_image_setting/5}
-                opts={%{"data-id" => "preview_icon"}}
               />
             </div>
           </div>

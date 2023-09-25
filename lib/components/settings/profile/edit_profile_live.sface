@@ -13,7 +13,6 @@
       object={current_user(@__context__)}
       set_field={:current_user}
       set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
-      opts={%{"data-id" => "preview_icon"}}
     />
     <div class="flex items-center justify-between w-full -mt-3">
       <div class="flex flex-col">

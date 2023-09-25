@@ -16,9 +16,13 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     test "missing both" do
       conn = conn()
       conn = post(conn, "/login", %{"login_fields" => %{}})
+
+      # assert_raise RuntimeError, debug(floki_response(conn))
       doc = floki_response(conn)
       assert [form] = Floki.find(doc, "#login-form")
       refute [] == Floki.find(form, "input[type='text']")
+
+      # FIXME?
 
       # assert [email_error] = Floki.find(form, "span.invalid-feedback[phx-feedback-for='login-form_email']")
       # assert "can't be blank" == Floki.text(email_error)
@@ -73,6 +77,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     }
 
     conn = post(conn, "/login", params)
+    # assert_raise RuntimeError, debug(floki_response(conn))
     doc = floki_response(conn)
     assert [login] = Floki.find(doc, "#login")
     # assert [div] = Floki.find(doc, "div.box__warning")
@@ -94,10 +99,8 @@ defmodule Bonfire.UI.Me.LoginController.Test do
 
     conn = post(conn, "/login", params)
     # debug(conn: conn)
-    # assert redirected_to(conn) == "/switch-user"
-    # conn = get(recycle(conn), "/switch-user", params)
-    # assert redirected_to(conn) == "/create-user"
-    # conn = get(recycle(conn), "/create-user", params)
+
+    # assert_raise RuntimeError, debug(floki_response(conn))
     doc = floki_response(conn)
     assert [login] = Floki.find(doc, "#login-form")
     # assert [div] = Floki.find(doc, "div.box__warning")

@@ -1,10 +1,11 @@
-defmodule Bonfire.UI.Me.ProfileTest do
+defmodule Bonfire.UI.Me.ProfileComponentsTest do
   use Bonfire.UI.Me.ConnCase, async: true
   # alias Bonfire.Social.Fake
   alias Bonfire.Social.Follows
 
   import Phoenix.LiveViewTest
 
+  @tag :todo
   describe "Profile: Check if the profile hero section displays all the information correctly " do
     test "As a user I want to see the user background image" do
     end
@@ -52,6 +53,7 @@ defmodule Bonfire.UI.Me.ProfileTest do
     end
   end
 
+  @tag :todo
   describe "Profile: Navigation" do
     test "As a user, when I navigate to a user profile, I should see the timeline tab as the active default" do
     end

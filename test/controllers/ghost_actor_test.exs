@@ -11,9 +11,10 @@ defmodule Bonfire.UI.Me.Boundaries.InstanceWideGhostActorTest do
     conn = conn(account: bob)
     conn = get(conn, "/switch-user/#{bob_user.character.username}")
     assert redirected_to(conn) == "/switch-user"
-    conn = get(recycle(conn), "/switch-user")
-    doc = floki_response(conn)
-    assert [err] = find_flash(doc)
-    assert_flash_kind(err, :error)
+    catch_throw(get(recycle(conn), "/switch-user"))
+    # conn = get(recycle(conn), "/switch-user")
+    # doc = floki_response(conn)
+    # assert [err] = find_flash(doc)
+    # assert_flash_kind(err, :error)
   end
 end

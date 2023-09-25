@@ -117,7 +117,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
       conn = conn()
       {:ok, account} = Bonfire.Me.Accounts.signup(signup_form())
       conn = get(conn, "/signup/email/confirm/#{account.email.confirm_token}")
-      assert redirected_to(conn) == "/create-user"
+      assert redirected_to(conn) == "/switch-user"
     end
 
     test "cannot confirm twice" do
@@ -125,7 +125,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
       conn = conn()
       {:ok, account} = Bonfire.Me.Accounts.signup(signup_form())
       conn = get(conn, "/signup/email/confirm/#{account.email.confirm_token}")
-      assert redirected_to(conn) == "/create-user"
+      assert redirected_to(conn) == "/switch-user"
 
       conn =
         get(

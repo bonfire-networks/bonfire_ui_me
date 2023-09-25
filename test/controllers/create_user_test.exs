@@ -154,6 +154,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     }
 
     conn = post(conn, "/create-user", params)
+    # assert_raise RuntimeError, debug(floki_response(conn))
     assert redirected_to(conn) == "/"
     conn = get(recycle(conn), "/")
     doc = floki_response(conn)

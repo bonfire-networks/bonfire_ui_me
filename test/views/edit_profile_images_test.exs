@@ -29,6 +29,9 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
 
     uploaded = render_upload(icon, "icon.png")
 
+    Floki.find(uploaded, "[data-id='upload_icon']")
+    |> debug("dsdssddsds")
+
     [done] = Floki.attribute(uploaded, "[data-id='preview_icon']", "src")
 
     # |> debug
@@ -54,7 +57,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     file = Path.expand("../fixtures/icon.png", __DIR__)
 
     icon =
-      file_input(view, "[data-id='upload_banner']", :image, [
+      file_input(view, "[data-id='upload_banner']", :banner, [
         %{
           last_modified: 1_594_171_879_000,
           name: "image.png",
