@@ -50,7 +50,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
     maybe_apply(Bonfire.Boundaries.Users, :create_missing_boundaries, user)
 
     conn
-    |> put_session(:user_id, user_id)
+    |> put_session(:current_user_id, user_id)
     |> put_session(:live_socket_id, "socket_user:#{user_id}")
     # |> assign_flash(:info, l("Welcome back, %{name}!", name: greet(user)))
     |> redirect_to_previous_go(params, "/", "/switch-user")

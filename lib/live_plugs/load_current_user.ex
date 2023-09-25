@@ -34,8 +34,13 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
      )}
   end
 
-  def mount(_, %{"user_id" => user_id} = session, socket) when is_binary(user_id) do
-    user = Users.get_current(user_id, current_account_id(socket.assigns) || session["account_id"])
+  def mount(_, %{"current_user_id" => user_id} = session, socket) when is_binary(user_id) do
+    user =
+      Users.get_current(
+        user_id,
+        current_account_id(socket.assigns) || session["current_account_id"]
+      )
+
     account = e(user, :account, nil)
 
     {:ok,

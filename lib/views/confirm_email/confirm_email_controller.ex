@@ -49,7 +49,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
 
   defp confirmed(conn, %{id: id}) do
     conn
-    |> put_session(:account_id, id)
+    |> put_session(:current_account_id, id)
     |> assign_flash(
       :info,
       l(

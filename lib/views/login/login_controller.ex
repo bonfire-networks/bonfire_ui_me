@@ -45,9 +45,9 @@ defmodule Bonfire.UI.Me.LoginController do
   # account, so we must show them the user switcher.
   defp logged_in(%{id: account_id}, nil, conn, form) do
     conn
-    |> put_session(:account_id, account_id)
+    |> put_session(:current_account_id, account_id)
     |> put_session(:live_socket_id, "socket_account:#{account_id}")
-    |> put_session(:user_id, nil)
+    |> put_session(:current_user_id, nil)
     |> assign_flash(:info, l("Welcome back!"))
     |> redirect(to: path(:switch_user) <> copy_go(form))
   end
@@ -60,8 +60,8 @@ defmodule Bonfire.UI.Me.LoginController do
     maybe_apply(Bonfire.Boundaries.Users, :create_missing_boundaries, user)
 
     conn
-    |> put_session(:account_id, account_id)
-    |> put_session(:user_id, user_id)
+    |> put_session(:current_account_id, account_id)
+    |> put_session(:current_user_id, user_id)
     |> put_session(:live_socket_id, "socket_user:#{user_id}")
     # |> assign_flash(
     #   :info,

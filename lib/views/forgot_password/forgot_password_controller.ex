@@ -60,7 +60,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
 
   defp change_pw(conn, account) do
     conn
-    |> put_session(:account_id, account.id)
+    |> put_session(:current_account_id, account.id)
     # tell the change password form not to ask for the old password
     |> put_session(:resetting_password, true)
     |> assign_flash(

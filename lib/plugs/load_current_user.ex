@@ -7,15 +7,15 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
   def init(opts), do: opts
 
   def call(conn, opts) do
-    case get_session(conn, :user_id) do
+    case get_session(conn, :current_user_id) do
       nil ->
         Bonfire.UI.Me.Plugs.LoadCurrentAccount.call(conn, opts)
 
-      user_id ->
+      current_user_id ->
         assign(
           conn,
           :current_user,
-          Users.get_current(user_id, get_session(conn, :account_id))
+          Users.get_current(current_user_id, get_session(conn, :current_account_id))
         )
     end
   end
