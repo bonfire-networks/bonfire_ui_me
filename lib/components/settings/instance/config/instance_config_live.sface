@@ -1,9 +1,9 @@
 <div class="pb-6">
   {#if Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
-    <!-- <div class="p-4 m-2 bg-info/10 border-info/30 border text-info rounded flex flex-col">
+    {!-- <div class="p-4 m-2 bg-info/10 border-info/30 border text-info rounded flex flex-col">
         <div class="font-bold">{l("Appeareance")}</div>
         <div class="text-info/70 text-sm">{l "Customise the general look and feel of the instance"}</div>
-      </div> -->
+      </div> --}
 
     <div class="divide-y divide-base-content/10 border-b border-base-content/10">
       <Bonfire.UI.Common.SettingsInputLive
@@ -76,7 +76,7 @@
         </div>
       </div>
 
-      <!-- <div x-data="{open: false}" class="p-4">
+      {!-- <div x-data="{open: false}" class="p-4">
         <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Theme & font")}</div>
@@ -114,9 +114,9 @@
             </div>
           </form>
         </div>
-      </div> -->
+      </div> --}
 
-      <!-- <div x-data="{open: false}" class="p-4">
+      {!-- <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Language")}</div>
@@ -158,9 +158,9 @@
             </div>
           </form>
         </div>
-      </div> -->
+      </div> --}
     </div>
-    <!-- </form> -->
+    {!-- </form> --}
   {#else}
     {l("You don't have permission to describe the instance, sorry!")}
   {/if}
@@ -169,7 +169,7 @@
     <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:instance} type="hidden">
 
-      <!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Instance behaviour")}</div> -->
+      {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Instance behaviour")}</div> --}
       <div class="divide-y divide-base-content/10">
         <div class="p-4">
           <div class="flex items-center justify-between">
@@ -219,7 +219,7 @@
           scope={:instance}
         />
 
-        <!-- MAX AMOUNT OF FILES ONE CAN ATTACH TO A POST OR OTHER ACTIVITIES -->
+        {!-- MAX AMOUNT OF FILES ONE CAN ATTACH TO A POST OR OTHER ACTIVITIES --}
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
           name={l("Maximum amount of files one can attach to a post or other activity")}
@@ -228,7 +228,7 @@
           default_value={4}
         />
 
-        <!-- MAX FILE SIZE -->
+        {!-- MAX FILE SIZE --}
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
           name={l("Maximum file size of uploads attached to a post or other activity")}
@@ -266,7 +266,7 @@
           unit={l("px")}
         />
 
-        <!-- <div x-data="{open: false}" class="p-4">
+        {!-- <div x-data="{open: false}" class="p-4">
           <div               x-on:click="open = !open"
 class="flex items-center justify-between cursor-pointer">
             <div class="flex flex-col gap-1">
@@ -352,7 +352,7 @@ class="flex items-center justify-between cursor-pointer">
               </fieldset>
             </div>
           </div>
-        </div> -->
+        </div> --}
 
         <div class="p-4">
           <div class="flex items-center justify-between">
@@ -398,9 +398,9 @@ class="flex items-center justify-between cursor-pointer">
           </div>
         </div>
 
-        <!-- <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} /> -->
+        {!-- <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} /> --}
 
-        <!-- <div x-data="{open: false}" class="p-4">
+        {!-- <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("What activities to include in home feeds by default")}</div>
@@ -450,11 +450,11 @@ class="flex items-center justify-between cursor-pointer">
           name={l("Prefer compact layouts")}
           keys={[:ui, :compact]}
           scope={:instance}
-        /> -->
+        /> --}
       </div>
     </form>
 
-    <!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div> -->
+    {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div> --}
     <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={:instance} type="hidden">
 
@@ -467,12 +467,12 @@ class="flex items-center justify-between cursor-pointer">
           current_value={ActivityPub.Config.federating?()}
         />
 
-        <!-- <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
+        {!-- <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
           label={l(
             "Should new users and their content NOT appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default?"
           )}
           scope={:instance}
-        /> -->
+        /> --}
       </div>
     </form>
   {#else}

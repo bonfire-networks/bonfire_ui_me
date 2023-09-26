@@ -29,9 +29,9 @@
       {rich(e(@user, :profile, :summary, ""))}
     </div>
 
-    <!-- :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)} -->
+    {!-- :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)} --}
     <div :if={@character_type == :user} class="flex items-center  w-full space-x-4">
-      <!-- <LivePatch
+      {!-- <LivePatch
         class="flex items-center"
         to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
       >
@@ -39,7 +39,7 @@
         <span class="link link-hover ml-2 text-sm text-base-content font-medium">
           {l("Network")}
         </span>
-      </LivePatch> -->
+      </LivePatch> --}
       <div :if={e(@user, :profile, :location, nil)} class="flex mt-4 items-center">
         <#Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
         <span class="ml-2 text-sm text-base-content/70">
@@ -65,7 +65,7 @@
     </div>
 
     <div :if={@character_type != :user} class="mt-3 flex items-center justify-between">
-      <!-- <div class="avatar-group -space-x-4">
+      {!-- <div class="avatar-group -space-x-4">
         <div :for={m <- @members} class="avatar">
           <div class="w-8">
             <Bonfire.UI.Common.AvatarLive user={m} />
@@ -76,7 +76,7 @@
             <span>+99</span>
           </div>
         </div>
-      </div> -->
+      </div> --}
       <Bonfire.UI.Me.HeroMoreActionsLive
         ghosted_instance_wide?={@ghosted_instance_wide?}
         silenced_instance_wide?={@silenced_instance_wide?}
@@ -195,7 +195,7 @@
               class="link link-primary text-sm"
             />
           </div>
-          <!-- <button class="link link-primary link-sm">{l "Unghost"}</button> -->
+          {!-- <button class="link link-primary link-sm">{l "Unghost"}</button> --}
         </div>
       {/if}
     </div>
@@ -207,7 +207,7 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <span class="text-sm text-base-content/50 font-medium">
-        <!-- <b class="text-base-content/100">39</b> -->
+        {!-- <b class="text-base-content/100">39</b> --}
         {l("Followed")}
       </span>
     </LivePatch>
@@ -216,7 +216,7 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <span class="text-sm text-base-content/50 font-medium">
-        <!-- <b class="text-base-content/100">39</b> -->
+        {!-- <b class="text-base-content/100">39</b> --}
         {l("Followers")}
       </span>
     </LivePatch>

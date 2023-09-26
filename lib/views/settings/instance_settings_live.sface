@@ -1,9 +1,9 @@
-<!-- <div class="grid gap-8 grid-cols-[280px_1fr]">
+{!-- <div class="grid gap-8 grid-cols-[280px_1fr]">
   <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-base-content/20">
     <nav class="" role="navigation" aria-label={l("Instance  navigation")}>
       <Bonfire.UI.Common.InstanceSidebarSettingsNavLive selected_tab={@selected_tab} />
     </nav>
-  </div> -->
+  </div> --}
 <section class="">
   {#case @selected_tab}
     {#match "dashboard"}
@@ -16,8 +16,8 @@
         id={@id}
         scope={:instance}
       />
-      <!-- {#match "navigation"}
-        <Bonfire.UI.Me.SettingsViewsLive.InstanceNavigationLive selected_tab={@selected_tab} /> -->
+      {!-- {#match "navigation"}
+        <Bonfire.UI.Me.SettingsViewsLive.InstanceNavigationLive selected_tab={@selected_tab} /> --}
     {#match "extensions"}
       <Bonfire.UI.Common.ExtensionsLive scope={:instance} selected_tab={@selected_tab} />
     {#match "flags"}
@@ -44,25 +44,25 @@
         id={:instance_posts}
         selected_tab={@selected_tab}
       />
-      <!-- {#match "flags"}
+      {!-- {#match "flags"}
         <Bonfire.UI.Me.SettingsViewsLive.AdminReportsLive
           
-        /> -->
+        /> --}
     {#match "members"}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive
         id={:instance_members}
         selected_tab={@selected_tab}
       />
-      <!-- {#match "instance_silenced"}
+      {!-- {#match "instance_silenced"}
       <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" name={l "Ghosted instance-wide"} />
     {#match "instance_ghosted"}
-      <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="ghosted" name={l "Silenced instance-wide"} /> -->
+      <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="ghosted" name={l "Silenced instance-wide"} /> --}
     {#match "shared_user"}
       <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
         current_user={current_user(@__context__) |> repo().maybe_preload(:shared_user)}
         selected_tab={@selected_tab}
       />
-      <!-- {#match "instance_circles"}
+      {!-- {#match "instance_circles"}
       <Dynamic.LiveComponent
         :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and current_user(@__context__)}
         module={Bonfire.Boundaries.Web.MyCirclesLive}
@@ -76,11 +76,11 @@
         selected_tab="acls"
         id="my_acls"
         scope={:instance}
-      /> -->
+      /> --}
     {#match "icons"}
       <Bonfire.UI.Common.SettingsViewsLive.IconsLive selected_tab={@selected_tab} />
     {#match _}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive selected_tab={@selected_tab} />
   {/case}
 </section>
-<!-- </div> -->
+{!-- </div> --}

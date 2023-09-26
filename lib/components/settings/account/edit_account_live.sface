@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Change password")}</div>
-        <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
+        {!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> --}
       </div>
       <LiveRedirect
         to={path(:change_password)}
@@ -15,7 +15,7 @@
     <div class="flex items-center justify-between">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Change my email address")}</div>
-        <!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> -->
+        {!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> --}
       </div>
       <LiveRedirect
         to={path(:change_email)}
@@ -23,7 +23,7 @@
       >{l("Change")}</LiveRedirect>
     </div>
   </div>
-  <!-- <div x-data="{open: false}" class="p-4">
+  {!-- <div x-data="{open: false}" class="p-4">
     <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Theme")}</div>
@@ -45,7 +45,7 @@
         />
       </form>
     </div>
-  </div> -->
+  </div> --}
 
   <div x-data="{open: false}" class="p-4">
     <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">

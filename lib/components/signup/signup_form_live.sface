@@ -86,7 +86,7 @@
         </div>
       </Inputs>
 
-      <!-- {#case @auth_second_factor_secret}
+      {!-- {#case @auth_second_factor_secret}
         {#match nil}
         {#match secret}
           <div class="mt-5" x-data="{ active: 0 }">
@@ -145,7 +145,7 @@
               </div>
             </div>
           </div>
-      {/case} -->
+      {/case} --}
 
       <div class="mt-6">
         <span class="block w-full rounded-md shadow-sm">

@@ -1,5 +1,5 @@
 <div class="flex items-center gap-3">
-  <!-- {#case e(@user, :character, :peered, :canonical_uri, nil)}
+  {!-- {#case e(@user, :character, :peered, :canonical_uri, nil)}
     {#match nil}
     {#match canonical_uri}
       <a
@@ -11,7 +11,7 @@
       >
         <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/70" />
       </a>
-  {/case} -->
+  {/case} --}
 
   <div
     :if={current_user_id(@__context__) != id(@user)}
@@ -31,12 +31,12 @@
       class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-200"
     >
       {#if @character_type == :group}
-        <!-- <li>
+        {!-- <li>
           <button class="flex items-center gap-2 text-sm text-base-content/70">
             <#Icon iconify="ph:info-bold" class="w-4 h-4 shrink-0" />
             <span>{l("View group info")}</span>
           </button>
-        </li> -->
+        </li> --}
         <li>
           <a
             phx-hook="Copy"

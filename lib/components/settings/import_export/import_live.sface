@@ -38,14 +38,14 @@
       </span>
       <div class="flex flex-col gap-1">
         <div class="font-semibold">{l("Select the file you want to import")}</div>
-        <!-- <FileInput field="file" class="mt-4 file-input file-input-bordered w-full max-w-md" opts={"accepts": ".csv"} /> -->
+        {!-- <FileInput field="file" class="mt-4 file-input file-input-bordered w-full max-w-md" opts={"accepts": ".csv"} /> --}
         <label for={@uploads.file.ref} class="mt-4  w-full max-w-md">
           <span>{l("Upload or drop")}</span>
           <.live_file_input upload={@uploads.file} class="file-input file-input-bordered" />
         </label>
       </div>
     </div>
-    <!-- 
+    {!-- 
   <div class="mt-10 flex items-start gap-6">
     <span class="w-12 h-12 shrink-0  rounded-full flex place-content-center items-center bg-info/10">
       <b>3</b>
@@ -73,7 +73,7 @@
         </div>
       </div>
     </div>
-  </div> -->
+  </div> --}
 
     <button class="btn mt-12 btn-primary w-full rounded-full normal-case">{l("Upload")}</button>
   </div>
@@ -81,7 +81,7 @@
 
 <form phx-submit="Bonfire.Me.Profiles:move_in">
   <div x-data="{open: false}" class="p-4">
-    <!-- {...pry()} -->
+    {!-- {...pry()} --}
     <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-md font-bold">{l("Move from a different profile")}</div>

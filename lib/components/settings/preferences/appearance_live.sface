@@ -43,7 +43,7 @@
     />
   </form>
 
-  <!-- <div x-data="{open: false}" class="p-4">
+  {!-- <div x-data="{open: false}" class="p-4">
       <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Font")}</div>
@@ -83,7 +83,7 @@
           </div>
         </form>
       </div>
-    </div> -->
+    </div> --}
 
   <div :if={@scope == :user} class="p-4">
     <div class="flex items-center justify-between gap-4">
@@ -128,7 +128,7 @@
     <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
   </form>
 
-  <!-- name={l("Missing avatars")} -->
+  {!-- name={l("Missing avatars")} --}
   <form phx-change="Bonfire.Me.Settings:set">
     <input name="scope" value={@scope} type="hidden">
     <Bonfire.UI.Common.SettingsToggleLive

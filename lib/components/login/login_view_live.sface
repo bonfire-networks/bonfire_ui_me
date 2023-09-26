@@ -1,7 +1,7 @@
 <div class="w-full p-4 mx-auto rounded-lg border border-base-content/20">
   <Form for={@form} action={path(:login, :create)} class="w-full md:ml-0" opts={[id: "login-form"]}>
     <HiddenInput name={:go} value={e(@form, :changes, :go, nil)} />
-    <!-- <%= hidden_input f, :go %> -->
+    {!-- <%= hidden_input f, :go %> --}
 
     {#case maybe_apply(Bonfire.OpenID.Client, :providers_authorization_urls, [])}
       {#match providers when is_list(providers)}
@@ -9,11 +9,11 @@
           <Link to={url} class="btn btn-primary w-full mb-4">{name}</Link>
         {/for}
     {/case}
-    <!-- <%= f = form_for @form, path(:login, :create), class: "w-full md:ml-0" %> -->
-    <!-- <%= case @form.errors[:form] do %> -->
+    {!-- <%= f = form_for @form, path(:login, :create), class: "w-full md:ml-0" %> --}
+    {!-- <%= case @form.errors[:form] do %> --}
     {#case @error || @form.errors[:form]}
       {#match {"not_found", _}}
-        <!-- <%= {"not_found",_} -> %> -->
+        {!-- <%= {"not_found",_} -> %> --}
         <div role="status" class="alert alert-warning">
           <div class="flex flex-1">
             <label>
@@ -22,7 +22,7 @@
           </div>
         </div>
       {#match {"email_not_confirmed", _}}
-        <!-- <%= {"email_not_confirmed",_} -> %> -->
+        {!-- <%= {"email_not_confirmed",_} -> %> --}
         <div role="status" class="alert alert-warning">
           <div class="flex flex-1">
             <label>
@@ -33,11 +33,11 @@
           </div>
         </div>
       {#match {error, _}}
-        <!-- <%= {error,_} -> %> -->
+        {!-- <%= {error,_} -> %> --}
         <div role="status" class="p-4 mb-4 rounded-md bg-yellow-50">
           <div class="flex">
             <div class="flex-shrink-0">
-              <!-- Heroicon name: exclamation -->
+              {!-- Heroicon name: exclamation --}
               <svg
                 class="w-5 h-5 text-yellow-400"
                 xmlns="http://www.w3.org/2000/svg"
@@ -61,8 +61,8 @@
         </div>
       {#match nil}
         <div />
-        <!-- <%= nil -> %> -->
-        <!-- <% end %> -->
+        {!-- <%= nil -> %> --}
+        {!-- <% end %> --}
     {/case}
 
     <Field name={:email_or_username}>
@@ -77,7 +77,7 @@
         class="w-full h-10 text-sm rounded input input-bordered"
       />
       <ErrorTag />
-      <!-- <%= error_tag f, :email_or_username %> -->
+      {!-- <%= error_tag f, :email_or_username %> --}
     </Field>
 
     <Field name={:password} class="mt-3">
@@ -112,7 +112,7 @@
       </div>
 
       <ErrorTag />
-      <!-- <%= error_tag f, :password %> -->
+      {!-- <%= error_tag f, :password %> --}
     </Field>
 
     <Link
@@ -121,8 +121,8 @@
     >
       {l("Forgot password?")}</Link>
 
-    <!-- WIP: ADD A CONFIG TO ENABLE / DISABLE 2FA -->
-    <!-- {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
+    {!-- WIP: ADD A CONFIG TO ENABLE / DISABLE 2FA --}
+    {!-- {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
       {#match true}
         <div class="mt-4 rounded-md shadow alert bg-base-content/10">
           <p class="mb-2">{l(
@@ -137,7 +137,7 @@
           </Inputs>
         </div>
       {#match _}
-    {/case} -->
+    {/case} --}
 
     <div class="mt-6">
       <span class="block w-full rounded-md shadow-sm">

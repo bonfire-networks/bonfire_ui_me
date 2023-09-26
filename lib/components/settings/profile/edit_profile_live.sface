@@ -50,11 +50,11 @@
       </div>
       <div x-cloak x-show="open" x-collapse>
         <div class="mt-4 form-control">
-          <!-- <label for="name" class="label">
+          {!-- <label for="name" class="label">
                 <span class="label-text">
                   {l("Full name")}
                 </span>
-              </label> -->
+              </label> --}
           <input
             type="text"
             name="profile[name]"
@@ -81,9 +81,9 @@
       </div>
       <div x-cloak x-show="open" x-collapse>
         <div class="mt-4 form-control">
-          <!-- <label for="about" class="label">
+          {!-- <label for="about" class="label">
                 <span class="label-text">{l("Bio")}</span>
-              </label> -->
+              </label> --}
           <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(current_user(@__context__), :profile, :summary, "")}</textarea>
           <p class="mt-2 text-sm text-base-content text-opacity-70">
             {l("You can use markdown formatting.")}
@@ -106,9 +106,9 @@
       </div>
       <div x-cloak x-show="open" x-collapse>
         <div class="mt-4 form-control">
-          <!-- <label for="website" class="label">
+          {!-- <label for="website" class="label">
                 <span class="label-text">{l("Website")}</span>
-              </label> -->
+              </label> --}
           <input
             type="text"
             name="profile[website]"

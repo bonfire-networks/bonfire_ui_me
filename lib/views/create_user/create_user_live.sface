@@ -1,5 +1,5 @@
 <div class="w-full mt-8" id="create_user">
-  <!-- <Bonfire.UI.Common.LogoGuestLive /> -->
+  {!-- <Bonfire.UI.Common.LogoGuestLive /> --}
   <Bonfire.UI.Common.LogoLinkLive
     with_name
     container_class="flex items-center mb-8 justify-center gap-2"

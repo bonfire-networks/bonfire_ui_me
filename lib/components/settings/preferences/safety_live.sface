@@ -16,7 +16,7 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
-      <!-- TODO -->
+      {!-- TODO --}
       Coming soon.
     </div>
   </div>
