@@ -23,13 +23,13 @@
                   do: "background-color: #{color}",
                   else: "background-image: url('#{banner_url}')"}
               >
-                {!-- FOLLOWS YOU LABEL --}
+                {!-- FOLLOWS YOU LABEL + optional graph proximity score --}
                 <div class="absolute right-2 bottom-2 opacity-90">
                   {#if @follows_me}
                     <p class="badge rounded h-[1.75rem]">{"Follows you"}</p>
                   {/if}
                   {#case Settings.get(:experimental_features_enabled, false, @__context__) and
-                      (is_nil(current_user(@__context__)) or
+                      (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or
                          Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
                     {#match false}
                       <div />
