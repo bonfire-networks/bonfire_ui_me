@@ -14,7 +14,7 @@ defmodule Bonfire.UI.Me.SignupLive do
      |> assign(:invite, e(session, "invite", nil))
      |> assign(:registered, e(session, "registered", nil))
      |> assign_new(:without_sidebar, fn -> true end)
-     |> assign_new(:without_widgets, fn -> true end)
+     |> assign_new(:without_secondary_widgets, fn -> true end)
      |> assign_new(:current_account, fn -> nil end)
      |> assign_new(:current_account_id, fn -> nil end)
      |> assign_new(:current_user, fn -> nil end)

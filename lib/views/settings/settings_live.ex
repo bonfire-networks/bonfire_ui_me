@@ -15,7 +15,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        scope: e(socket, :assigns, :live_action, :user),
        page_title: l("Settings"),
        back: true,
-       #  without_widgets: true,
+       #  without_secondary_widgets: true,
        #  without_sidebar: true,
        #  smart_input_opts: %{disable: true}, # Note: do not disable as it prevents preserving input as you browse the app
        nav_items: [Bonfire.UI.Common.SidebarSettingsNavLive.declared_nav()],

@@ -17,7 +17,7 @@ defmodule Bonfire.UI.Me.CreateUserLive do
      |> assign_new(:error, fn -> nil end)
      |> assign(
        without_sidebar: true,
-       without_widgets: true,
+       without_secondary_widgets: true,
        smart_input_opts: %{hide_buttons: true}
      )}
   end
