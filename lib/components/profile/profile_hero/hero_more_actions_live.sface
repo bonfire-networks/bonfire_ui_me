@@ -171,17 +171,6 @@
     </button>
   {#else}
     {#case @character_type}
-      {#match :user}
-        <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
-          <Bonfire.UI.Common.FollowButtonLive
-            id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
-            object_id={id(@user)}
-            object={@user}
-            path={path(@user)}
-            hide_icon
-            class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded-full btn btn-primary"
-          />
-        </div>
       {#match :group}
         <div class="flex items-center gap-2" data-role="follow_wrapper">
           <Bonfire.UI.Common.FollowButtonLive
@@ -189,6 +178,7 @@
               e(@boundary_preset, "visible", nil) || Boundaries.can?(@__context__, :follow, @user)}
             id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
             object_id={id(@user)}
+            object={@user}
             path={path(@user)}
             hide_icon
             class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn rounded-full"
