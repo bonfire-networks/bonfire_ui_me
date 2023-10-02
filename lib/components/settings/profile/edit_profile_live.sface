@@ -154,6 +154,16 @@
   </div>
 </form>
 
+<form phx-change="Bonfire.Me.Settings:set" :if={ActivityPub.Config.federating?()}>
+  <div class="divide-y divide-base-content/10">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Enable federation")}
+      description={l("Push my activities to the fediverse, and accept remote mentions or messages?")}
+      keys={[:activity_pub, :instance, :federating]}
+    />
+  </div>
+</form>
+
 <form phx-submit="Bonfire.Me.Profiles:add_alias">
   <div x-data="{open: false}" class="p-4 border-t border-base-content/20">
     <div x-on:click="open = !open" class="flex items-center gap-4 justify-between cursor-pointer">

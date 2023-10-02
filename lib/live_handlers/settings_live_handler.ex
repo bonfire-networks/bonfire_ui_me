@@ -137,7 +137,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     end
   end
 
-  defp maybe_assign_context(socket, %{assign_context: assigns}) do
+  defp maybe_assign_context(socket, %{__context__: assigns}) do
     debug(assigns, "assign updated data with settings")
 
     socket

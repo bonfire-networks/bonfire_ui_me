@@ -461,18 +461,11 @@ class="flex items-center justify-between cursor-pointer">
       <div class="divide-y divide-base-content/10">
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Enable federation")}
-          description={l("Push local activities to the fediverse, and accept remote activities?")}
+          description={l("Push activities to the fediverse, and accept remote activities?")}
           input="activity_pub[instance][federating]"
           scope={:instance}
           current_value={ActivityPub.Config.federating?()}
         />
-
-        {!-- <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive
-          label={l(
-            "Should new users and their content NOT appear publicly in search engines (in Bonfire, the fediverse, and the web in general) by default?"
-          )}
-          scope={:instance}
-        /> --}
       </div>
     </form>
   {#else}
