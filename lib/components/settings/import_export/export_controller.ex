@@ -27,7 +27,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> ok_unwrap()
   end
 
-  def binary_download(conn, %{"type" => type, "ext"=>ext} = _params) do
+  def binary_download(conn, %{"type" => type, "ext" => ext} = _params) do
     conn
     |> put_resp_content_type("application/octet-stream")
     |> put_resp_header("content-disposition", "attachment; filename=\"export_#{type}.#{ext}\"")
@@ -37,7 +37,6 @@ defmodule Bonfire.UI.Me.ExportController do
     |> binary_content(type)
     |> ok_unwrap()
   end
-
 
   def archive_export(conn, _params) do
     conn
@@ -458,9 +457,8 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp actor(conn_or_user) do
-    
     with {:ok, actor} = ActivityPub.Actor.get_cached(pointer: current_user(conn_or_user)),
-        {:ok, json} <-
+         {:ok, json} <-
            ActivityPub.Web.ActorView.render("actor.json", %{actor: actor})
            #    |> Map.merge(%{"likes" => "likes.json", "bookmarks" => "bookmarks.json"})
            |> Jason.encode() do
@@ -472,6 +470,7 @@ defmodule Bonfire.UI.Me.ExportController do
     current_user(conn_or_user)
     |> repo().maybe_preload(character: [:actor])
     |> e(:character, :actor, :signing_key, nil)
+
     # |> debug()
   end
 

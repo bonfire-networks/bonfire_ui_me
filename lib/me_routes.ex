@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.Routes do
         plug(Bonfire.UI.Me.Plugs.UserRequired)
       end
 
-      # an alias
+      # an alias of :user_required
       pipeline :require_authenticated_user do
         plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
         plug(Bonfire.UI.Me.Plugs.UserRequired)
@@ -28,6 +28,7 @@ defmodule Bonfire.UI.Me.Routes do
       end
 
       pipeline :admin_required do
+        plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
         plug(Bonfire.UI.Me.Plugs.AdminRequired)
       end
 

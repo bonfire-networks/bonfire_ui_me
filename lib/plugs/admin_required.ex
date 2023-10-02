@@ -5,7 +5,11 @@ defmodule Bonfire.UI.Me.Plugs.AdminRequired do
   def init(opts), do: opts
 
   def call(conn, _opts),
-    do: check(conn.assigns[:__context__] || current_account(conn.assigns), conn)
+    do:
+      check(
+        conn.assigns[:__context__] || current_user(conn.assigns) || current_account(conn.assigns),
+        conn
+      )
 
   defp check(context, conn) do
     if Bonfire.Me.Accounts.is_admin?(context) do
@@ -14,7 +18,7 @@ defmodule Bonfire.UI.Me.Plugs.AdminRequired do
       e = l("That page is only accessible to instance administrators.")
       # debug(e)
       conn
-      |> clear_session()
+      # |> clear_session()
       |> assign_flash(:error, e)
       |> redirect(to: path(:home))
       |> halt()

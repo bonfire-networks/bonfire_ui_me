@@ -6,6 +6,11 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
 
   def init(opts), do: opts
 
+  # current user is already in context
+  def call(%{assigns: %{current_user: _}} = conn, _) do
+    conn
+  end
+
   def call(conn, opts) do
     case get_session(conn, :current_user_id) do
       nil ->
