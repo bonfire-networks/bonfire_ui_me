@@ -112,6 +112,30 @@
             </button></td>
         </tr> --}
         <tr>
+          <td>My profile</td>
+          {!-- <td>23</td> --}
+          <td><a
+              download
+              href="/settings/export/json/actor"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>JSON</span>
+            </a></td>
+        </tr>
+        <tr>
+          <td>My private key</td>
+          {!-- <td>23</td> --}
+          <td><a
+              download
+              href="/settings/export/binary/private_key/asc"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case rounded-full gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>Text</span>
+            </a></td>
+        </tr>
+        <tr>
           <td>My actitivities</td>
           {!-- <td>23</td> --}
           <td><a

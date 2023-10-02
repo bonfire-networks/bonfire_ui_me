@@ -27,6 +27,18 @@ defmodule Bonfire.UI.Me.ExportController do
     |> ok_unwrap()
   end
 
+  def binary_download(conn, %{"type" => type, "ext"=>ext} = _params) do
+    conn
+    |> put_resp_content_type("application/octet-stream")
+    |> put_resp_header("content-disposition", "attachment; filename=\"export_#{type}.#{ext}\"")
+    |> put_root_layout(false)
+    |> send_chunked(:ok)
+    # |> send_resp(200, csv_content(conn, type))
+    |> binary_content(type)
+    |> ok_unwrap()
+  end
+
+
   def archive_export(conn, _params) do
     conn
     |> put_resp_content_type("application/zip")
@@ -88,13 +100,11 @@ defmodule Bonfire.UI.Me.ExportController do
   def zip_archive(conn_or_context, user) do
     name = String.trim_trailing("bonfire_export", ".zip")
 
-    {:ok, actor} = ActivityPub.Actor.get_cached(pointer: user)
-
     uploads = media(user)
 
     Zstream.zip(
       [
-        Zstream.entry("actor.json", [actor(actor)]),
+        Zstream.entry("actor.json", [actor(user)]),
         Zstream.entry("outbox.json", [
           collection_header("outbox"),
           ok_unwrap(outbox(user)),
@@ -175,6 +185,14 @@ defmodule Bonfire.UI.Me.ExportController do
     {:ok, conn} = outbox(conn_or_user)
 
     {:ok, conn} = maybe_chunk(conn_or_user, collection_footer())
+  end
+
+  defp json_content(conn_or_user, "actor" = type) do
+    {:ok, conn} = maybe_chunk(conn_or_user, actor(conn_or_user))
+  end
+
+  defp binary_content(conn_or_user, "private_key" = type) do
+    {:ok, conn} = maybe_chunk(conn_or_user, private_key(conn_or_user))
   end
 
   defp outbox(conn_or_user) do
@@ -439,13 +457,22 @@ defmodule Bonfire.UI.Me.ExportController do
     # |> IO.iodata_to_binary()
   end
 
-  defp actor(actor) do
-    with {:ok, json} <-
+  defp actor(conn_or_user) do
+    
+    with {:ok, actor} = ActivityPub.Actor.get_cached(pointer: current_user(conn_or_user)),
+        {:ok, json} <-
            ActivityPub.Web.ActorView.render("actor.json", %{actor: actor})
            #    |> Map.merge(%{"likes" => "likes.json", "bookmarks" => "bookmarks.json"})
            |> Jason.encode() do
       json
     end
+  end
+
+  defp private_key(conn_or_user) do
+    current_user(conn_or_user)
+    |> repo().maybe_preload(character: [:actor])
+    |> e(:character, :actor, :signing_key, nil)
+    # |> debug()
   end
 
   defp collection_header(name) do
