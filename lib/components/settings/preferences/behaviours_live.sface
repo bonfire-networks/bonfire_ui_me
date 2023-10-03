@@ -42,7 +42,7 @@
       keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
       options={[
         my: l("My Feed"),
-        explore: l("Explore"),
+        explore: l("Everything"),
         local: l("Local"),
         fediverse: l("Remote"),
         likes: "Liked"
