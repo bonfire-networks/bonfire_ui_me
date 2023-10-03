@@ -176,7 +176,7 @@
           </div>
         </form>
 
-        <form phx-change="Bonfire.Me.Settings:set">
+        <!-- <form phx-change="Bonfire.Me.Settings:set">
           <Bonfire.UI.Common.SettingsRadiosLive
             name={l("Default feed")}
             description={l("Select the feed you want to display on the homepage")}
@@ -185,7 +185,7 @@
             default_value={:my}
             scope={@scope}
           />
-        </form>
+        </form> -->
 
         {!-- <form phx-change="Bonfire.Me.Settings:set">
       <input name="scope" value={@scope} type="hidden">
