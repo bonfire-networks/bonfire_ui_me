@@ -25,7 +25,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.ImportLive do
     {:noreply, socket}
   end
 
-  def do_handle_event("import", %{"type" => type} = params, socket) do
+  def do_handle_event("import", %{"type" => type} = _params, socket) do
     case uploaded_entries(socket, :file) do
       {[_ | _] = entries, []} ->
         with [%{ok: queued}] <-
@@ -33,7 +33,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.ImportLive do
                   maybe_consume_uploaded_entry(socket, entry, fn %{path: path} ->
                     debug(path)
                     # debug(entry)
-                    # with %{ok: num} <- 
+                    # with %{ok: num} <-
                     # do
                     Bonfire.Social.Import.import_from_csv_file(
                       maybe_to_atom(type),

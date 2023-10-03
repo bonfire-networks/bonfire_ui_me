@@ -1,7 +1,7 @@
 defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentAccount do
   use Bonfire.UI.Common.Web, :live_plug
   alias Bonfire.Me.Accounts
-  alias Bonfire.Data.Identity.Account
+  # alias Bonfire.Data.Identity.Account
 
   def on_mount(:default, params, session, socket) do
     with {:ok, socket} <- mount(params, session, socket) do

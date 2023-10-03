@@ -17,7 +17,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     {:ok, socket}
   end
 
-  def mount(params, _session, socket) do
+  def mount(_params, _session, socket) do
     # debug(params)
     {:ok, socket |> assign(default_assigns())}
   end
@@ -31,7 +31,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   defp maybe_init(
-         %{"username" => load_username} = params,
+         %{"username" => load_username} = _params,
          %{assigns: %{user: %{character: %{username: loaded_username}}}} = socket
        )
        when load_username == loaded_username do
@@ -231,7 +231,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   def user_assigns(user, current_user, follows_me \\ false) do
     name = e(user, :profile, :name, l("Someone"))
 
-    viewing_username = e(user, :character, :username, "")
+    # viewing_username = e(user, :character, :username, "")
 
     title =
       if id(current_user) == id(user),

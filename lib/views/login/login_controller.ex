@@ -23,7 +23,7 @@ defmodule Bonfire.UI.Me.LoginController do
         warn(changeset)
         paint(conn, changeset)
 
-      other ->
+      _other ->
         paint(conn, Accounts.changeset(:login, params))
     end
   end

@@ -6,7 +6,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
 
   def mount(_params, _session, socket) do
     # make configurable
-    allowed = ~w(.jpg .jpeg .png .gif .svg .tiff .webp)
+    _allowed = ~w(.jpg .jpeg .png .gif .svg .tiff .webp)
 
     {:ok,
      socket

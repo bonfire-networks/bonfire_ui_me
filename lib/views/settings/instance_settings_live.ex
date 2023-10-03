@@ -1,6 +1,6 @@
 defmodule Bonfire.UI.Me.InstanceSettingsLive do
   use Bonfire.UI.Common.Web, :surface_live_view
-  import Untangle
+  # import Untangle
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 

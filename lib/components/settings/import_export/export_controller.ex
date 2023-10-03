@@ -97,7 +97,7 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   def zip_archive(conn_or_context, user) do
-    name = String.trim_trailing("bonfire_export", ".zip")
+    # name = String.trim_trailing("bonfire_export", ".zip")
 
     uploads = media(user)
 
@@ -179,19 +179,19 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp json_content(conn_or_user, "outbox" = type) do
-    {:ok, conn} = maybe_chunk(conn_or_user, collection_header(type))
+    {:ok, _conn} = maybe_chunk(conn_or_user, collection_header(type))
 
-    {:ok, conn} = outbox(conn_or_user)
+    {:ok, _conn} = outbox(conn_or_user)
 
-    {:ok, conn} = maybe_chunk(conn_or_user, collection_footer())
+    {:ok, _conn} = maybe_chunk(conn_or_user, collection_footer())
   end
 
-  defp json_content(conn_or_user, "actor" = type) do
-    {:ok, conn} = maybe_chunk(conn_or_user, actor(conn_or_user))
+  defp json_content(conn_or_user, "actor" = _type) do
+    {:ok, _conn} = maybe_chunk(conn_or_user, actor(conn_or_user))
   end
 
-  defp binary_content(conn_or_user, "private_key" = type) do
-    {:ok, conn} = maybe_chunk(conn_or_user, private_key(conn_or_user))
+  defp binary_content(conn_or_user, "private_key" = _type) do
+    {:ok, _conn} = maybe_chunk(conn_or_user, private_key(conn_or_user))
   end
 
   defp outbox(conn_or_user) do
@@ -387,7 +387,7 @@ defmodule Bonfire.UI.Me.ExportController do
   #   defp preload_assocs(records, type) when type in ["outbox"] do
   #     records |> repo().preload([:activity])
   #   end
-  defp preload_assocs(records, type) do
+  defp preload_assocs(records, _type) do
     records
   end
 

@@ -11,7 +11,7 @@ defmodule Bonfire.UI.Me.LivePlugs.UserRequired do
     end
   end
 
-  def mount(params \\ nil, session \\ nil, socket) do
+  def mount(_params \\ nil, session \\ nil, socket) do
     check(current_user(socket.assigns), current_account(socket), session, socket)
   end
 

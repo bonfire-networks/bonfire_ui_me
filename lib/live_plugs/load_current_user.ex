@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   use Bonfire.UI.Common.Web, :live_plug
   alias Bonfire.Me.Users
   # alias Bonfire.UI.Me.SwitchUserLive
-  alias Bonfire.Data.Identity.User
+  # alias Bonfire.Data.Identity.User
 
   def on_mount(:default, params, session, socket) do
     with {:ok, socket} <- mount(params, session, socket) do
