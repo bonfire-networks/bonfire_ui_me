@@ -45,6 +45,18 @@
         <span class="ml-2 text-sm text-base-content/70">
           {e(@user, :profile, :location, "")}
         </span>
+
+        {#case Forecastr.forecast(:today, e(@user, :profile, :location, ""),
+            units: :metric,
+            renderer: Forecastr.Renderer.JSON
+          )}
+          {#match {:ok, %{"id" => weather_id, "temp" => temp}}}
+            {!-- TODO: query with lat/long if we have them --}
+            <Iconify.iconify icon={"meteocons:#{weather_id}"} class="w-5 h-5 text-info" />
+            <!-- <img src={Iconify.prepare("meteocons:#{weather_id}", :img_url)} class="w-4 h-4 text-info" /> -->
+            <span class="text-xs">{temp}℃</span>
+          {#match _}
+        {/case}
       </div>
       <div :if={e(@user, :profile, :website, nil)} class="flex  mt-4 items-center">
         {#case Bonfire.Files.FaviconStore.favicon_url(e(@user, :profile, :website, nil))}
