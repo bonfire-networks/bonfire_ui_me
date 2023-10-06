@@ -9,7 +9,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
     current_user = current_user(socket.assigns)
 
     show_to =
-      Bonfire.Me.Settings.get(
+      Bonfire.Common.Settings.get(
         [Bonfire.UI.Me.UsersDirectoryLive, :show_to],
         :users
       )

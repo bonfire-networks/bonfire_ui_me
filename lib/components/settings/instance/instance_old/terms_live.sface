@@ -1,6 +1,6 @@
 <div class="pb-1 m-3">
   {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
-    <form name="settings" phx-submit="Bonfire.Me.Settings:save">
+    <form name="settings" phx-submit="Bonfire.Common.Settings:save">
       <input name="scope" value={:instance} type="hidden">
 
       <div class="p-4 mb-0 rounded-md bg-info/10">

@@ -170,7 +170,7 @@
         {/if}
         {#if !archive_days_old or archive_days_old >= 7}
           <a
-            phx-click="Bonfire.Me.Settings:prepare_archive"
+            phx-click="Bonfire.Common.Settings:prepare_archive"
             class="btn mt-4 btn-primary normal-case btn-sm"
             x-on:click="exporting = true"
             x-bind:disabled="exporting"
@@ -181,7 +181,7 @@
             {l("Request your archive")}</a>
 
           <a
-            phx-click="Bonfire.Me.Settings:cancel_archive"
+            phx-click="Bonfire.Common.Settings:cancel_archive"
             class="btn mt-4 btn-primary normal-case btn-sm"
             x-show="exporting"
             x-cloak

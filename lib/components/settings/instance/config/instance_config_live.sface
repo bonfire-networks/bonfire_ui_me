@@ -46,13 +46,13 @@
                 label={l("icon")}
                 object={:instance}
                 boundary_verb={:describe}
-                src={Bonfire.Me.Settings.get(
+                src={Bonfire.Common.Settings.get(
                   [:bonfire, :ui, :theme, :instance_icon],
                   "",
                   @__context__[:instance_settings] || :instance
                 )}
                 set_field={[:bonfire, :ui, :theme, :instance_icon]}
-                set_fn={&Bonfire.Me.Settings.LiveHandler.set_image_setting/5}
+                set_fn={&Bonfire.Common.Settings.LiveHandler.set_image_setting/5}
               />
             </div>
           </div>
@@ -63,13 +63,13 @@
                 id={:upload_banner}
                 object={:instance}
                 boundary_verb={:describe}
-                src={Bonfire.Me.Settings.get(
+                src={Bonfire.Common.Settings.get(
                   [:bonfire, :ui, :theme, :instance_image],
                   "",
                   @__context__[:instance_settings] || :instance
                 )}
                 set_field={[:bonfire, :ui, :theme, :instance_image]}
-                set_fn={&Bonfire.Me.Settings.LiveHandler.set_image_setting/5}
+                set_fn={&Bonfire.Common.Settings.LiveHandler.set_image_setting/5}
               />
             </div>
           </div>
@@ -90,7 +90,7 @@
           </button>
         </div>
         <div x-show="open" x-collapse>
-          <form name="settings" phx-change="Bonfire.Me.Settings:set">
+          <form name="settings" phx-change="Bonfire.Common.Settings:set">
             <input name="scope" value={:instance} type="hidden">
             <div class="w-full mt-4 form-control">
               <label for="instance_theme" class="label">
@@ -141,7 +141,7 @@
           </button>
         </div>
         <div x-show="open" x-collapse>
-          <form name="settings" phx-change="Bonfire.Me.Settings:set">
+          <form name="settings" phx-change="Bonfire.Common.Settings:set">
             <input name="scope" value={:instance} type="hidden">
             <div class="w-full max-w-lg mt-8 form-control">
               <label for="default" class="label">
@@ -166,7 +166,7 @@
   {/if}
 
   {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
-    <form phx-change="Bonfire.Me.Settings:set">
+    <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={:instance} type="hidden">
 
       {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Instance behaviour")}</div> --}
@@ -297,7 +297,7 @@ class="flex items-center justify-between cursor-pointer">
                       type="radio"
                       name="Bonfire.UI.Me.UsersDirectoryLive[show_to]"
                       value="guests"
-                      checked={if Bonfire.Me.Settings.get(
+                      checked={if Bonfire.Common.Settings.get(
                            [Bonfire.UI.Me.UsersDirectoryLive, :show_to],
                            :users,
                            @__context__[:instance_settings] || :instance
@@ -318,7 +318,7 @@ class="flex items-center justify-between cursor-pointer">
                       type="radio"
                       name="Bonfire.UI.Me.UsersDirectoryLive[show_to]"
                       value="users"
-                      checked={if Bonfire.Me.Settings.get(
+                      checked={if Bonfire.Common.Settings.get(
                            [Bonfire.UI.Me.UsersDirectoryLive, :show_to],
                            :users,
                            @__context__[:instance_settings] || :instance
@@ -339,7 +339,7 @@ class="flex items-center justify-between cursor-pointer">
                       type="radio"
                       name="Bonfire.UI.Me.UsersDirectoryLive[show_to]"
                       value="false"
-                      checked={if !Bonfire.Me.Settings.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users), do: "checked"}
+                      checked={if !Bonfire.Common.Settings.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users), do: "checked"}
                       class="radio radio-secondary"
                     />
                     <div class="flex flex-col ml-3">
@@ -365,7 +365,7 @@ class="flex items-center justify-between cursor-pointer">
               name="Bonfire.UI.Me.WidgetUsersLive[show_guests]"
               value="true"
               type="checkbox"
-              checked={if Bonfire.Me.Settings.get(
+              checked={if Bonfire.Common.Settings.get(
                    [Bonfire.UI.Me.WidgetUsersLive, :show_guests],
                    true,
                    @__context__[:instance_settings] || :instance
@@ -387,7 +387,7 @@ class="flex items-center justify-between cursor-pointer">
               name="Bonfire.Me.Users[public_count]"
               value="false"
               type="checkbox"
-              checked={if !Bonfire.Me.Settings.get(
+              checked={if !Bonfire.Common.Settings.get(
                    [Bonfire.Me.Users, :public_count],
                    true,
                    @__context__[:instance_settings] || :instance
@@ -455,7 +455,7 @@ class="flex items-center justify-between cursor-pointer">
     </form>
 
     {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div> --}
-    <form phx-change="Bonfire.Me.Settings:set">
+    <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={:instance} type="hidden">
 
       <div class="divide-y divide-base-content/10">

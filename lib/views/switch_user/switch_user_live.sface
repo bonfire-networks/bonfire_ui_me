@@ -15,7 +15,7 @@
             {l(
               "You can have up to %{max_users} user profiles for different online identities, or for your organizations or projects.",
               max_users:
-                Bonfire.Me.Settings.get(
+                Bonfire.Common.Settings.get(
                   [Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive, :max_users],
                   4,
                   @__context__[:instance_settings]

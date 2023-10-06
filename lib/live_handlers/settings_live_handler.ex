@@ -1,4 +1,4 @@
-defmodule Bonfire.Me.Settings.LiveHandler do
+defmodule Bonfire.Common.Settings.LiveHandler do
   use Bonfire.UI.Common.Web, :live_handler
   # import Bonfire.Boundaries.Integration
 
@@ -37,7 +37,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
            keys
            |> String.split(":")
            #  |> debug()
-           |> Bonfire.Me.Settings.put(value, scope: params["scope"], socket: socket) do
+           |> Bonfire.Common.Settings.put(value, scope: params["scope"], socket: socket) do
       # debug(settings, "done")
       {:noreply,
        socket
@@ -48,7 +48,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
 
   def handle_event("set", attrs, socket) when is_map(attrs) do
     with {:ok, settings} <-
-           Map.drop(attrs, ["_target"]) |> Bonfire.Me.Settings.set(socket: socket) do
+           Map.drop(attrs, ["_target"]) |> Bonfire.Common.Settings.set(socket: socket) do
       # debug(settings, "done")
       {:noreply,
        socket
@@ -59,7 +59,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
 
   def handle_event("save", attrs, socket) when is_map(attrs) do
     with {:ok, settings} <-
-           Map.drop(attrs, ["_target"]) |> Bonfire.Me.Settings.set(socket: socket) do
+           Map.drop(attrs, ["_target"]) |> Bonfire.Common.Settings.set(socket: socket) do
       {
         :noreply,
         socket
@@ -75,7 +75,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
            keys
            |> String.split(":")
            #  |> debug()
-           |> Bonfire.Me.Settings.put(value, scope: params["scope"], socket: socket) do
+           |> Bonfire.Common.Settings.put(value, scope: params["scope"], socket: socket) do
       # debug(settings, "done")
       {:noreply,
        socket
@@ -162,7 +162,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
       |> debug("scope")
 
     with {:ok, settings} <-
-           Bonfire.Me.Settings.put([extension, :disabled], disabled?,
+           Bonfire.Common.Settings.put([extension, :disabled], disabled?,
              scope: scope,
              socket: socket
            ) do
@@ -183,7 +183,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     url = Bonfire.Files.IconUploader.remote_url(uploaded_media)
 
     with {:ok, settings} <-
-           Bonfire.Me.Settings.put(
+           Bonfire.Common.Settings.put(
              settings_key,
              url,
              scope: scope,
@@ -204,7 +204,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     url = Bonfire.Files.BannerUploader.remote_url(uploaded_media)
 
     with {:ok, settings} <-
-           Bonfire.Me.Settings.put(
+           Bonfire.Common.Settings.put(
              settings_key,
              url,
              scope: scope,
@@ -228,7 +228,7 @@ defmodule Bonfire.Me.Settings.LiveHandler do
     end)
     |> update(:current_value, fn
       :load_from_settings ->
-        Bonfire.Me.Settings.get(
+        Bonfire.Common.Settings.get(
           assigns.keys,
           assigns[:default_value],
           scoped(assigns[:scope], assigns[:__context__])

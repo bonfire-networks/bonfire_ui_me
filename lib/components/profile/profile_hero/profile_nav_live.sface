@@ -40,7 +40,7 @@
       to={"/" <> @path <> e(@user, :character, :username, "")}
     >
       <strong
-        :if={Bonfire.Me.Settings.get([:ui, :metrics, :posts_count], nil, @__context__)}
+        :if={Bonfire.Common.Settings.get([:ui, :metrics, :posts_count], nil, @__context__)}
         class="text-base-content"
       >
         {e(@user, :character, :posts_count, 0)}

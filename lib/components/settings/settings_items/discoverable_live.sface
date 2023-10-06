@@ -1,4 +1,4 @@
-<form name="settings" phx-change="Bonfire.Me.Settings:set">
+<form name="settings" phx-change="Bonfire.Common.Settings:set">
   <input type="hidden" name="scope" value={@scope}>
 
   <Bonfire.UI.Common.SettingsToggleLive

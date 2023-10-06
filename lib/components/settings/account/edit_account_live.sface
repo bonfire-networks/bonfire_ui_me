@@ -37,7 +37,7 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
-      <form name="settings" phx-change="Bonfire.Me.Settings:set">
+      <form name="settings" phx-change="Bonfire.Common.Settings:set">
         <input name="scope" value={:account} type="hidden">
         <Bonfire.UI.Common.ChangeThemesLive
           scope={:account}
@@ -85,7 +85,7 @@
           module={Bonfire.UI.Social.Activity.DeleteObjectLive}
           with_password_prompt
           skip_permission_check
-          form_opts={%{"phx-submit" => "Bonfire.Me.Settings:delete_account"}}
+          form_opts={%{"phx-submit" => "Bonfire.Common.Settings:delete_account"}}
           object={current_account(@__context__)}
           object_type_readable={l("account, along with user profiles & data")}
           parent_id="delete-account"

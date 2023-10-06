@@ -6,7 +6,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.PreferencesLive do
   prop id, :any, default: nil
 
   def render(assigns) do
-    scoped = Bonfire.Me.Settings.LiveHandler.scoped(assigns[:scope], assigns[:__context__])
+    scoped = Bonfire.Common.Settings.LiveHandler.scoped(assigns[:scope], assigns[:__context__])
 
     if assigns[:scope] == :instance and
          Bonfire.Boundaries.can?(assigns[:__context__], :configure, :instance) != true do

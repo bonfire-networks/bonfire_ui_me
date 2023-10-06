@@ -154,7 +154,7 @@
   </div>
 </form>
 
-<form phx-change="Bonfire.Me.Settings:set" :if={ActivityPub.Config.federating?()}>
+<form phx-change="Bonfire.Common.Settings:set" :if={ActivityPub.Config.federating?()}>
   <div class="divide-y divide-base-content/10">
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Enable federation")}
@@ -251,7 +251,7 @@
       <Dynamic.Component
         :if={module_enabled?(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
         module={Bonfire.UI.Social.Activity.DeleteObjectLive}
-        form_opts={%{"phx-submit" => "Bonfire.Me.Settings:delete_user"}}
+        form_opts={%{"phx-submit" => "Bonfire.Common.Settings:delete_user"}}
         with_password_prompt
         skip_permission_check
         object={current_user(@__context__)}

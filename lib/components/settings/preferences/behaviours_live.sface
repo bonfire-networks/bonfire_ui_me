@@ -8,7 +8,7 @@
     <span>{l("Feeds")}</span>
   </div>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
     <div x-data="{open: false}" class="p-4 cursor-pointer">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
@@ -35,7 +35,7 @@
     </div>
   </form>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsRadiosLive
       name={l("Default feed")}
       description={l("Select the feed you want to display on the homepage")}
@@ -52,7 +52,7 @@
     />
   </form>
 
-  {!-- <form phx-change="Bonfire.Me.Settings:set">
+  {!-- <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -107,7 +107,7 @@
       </div>
     </form> --}
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsRadiosLive
       name={l("Feed default time limit")}
       description={l(
@@ -120,7 +120,7 @@
     />
   </form>
 
-  {!-- <form phx-change="Bonfire.Me.Settings:set">
+  {!-- <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -183,7 +183,7 @@
       </div>
     </form> --}
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsRadiosLive
       name={l("Feed default sort")}
       description={l(
@@ -201,7 +201,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.Settings.NumberLive
       scope={@scope}
       name={l("How many items to show in feeds and other lists")}
@@ -211,7 +211,7 @@
     {!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} --}
   </form>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsRadiosLive
       name={l("Infinite scrolling")}
       description={l("Enable infinite scrolling on long lists of items")}
@@ -227,7 +227,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Sensitive media")}
       description={l(
@@ -238,7 +238,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Hide media")}
       description={l("Blur all media in feeds and discussions (and click to reveal)")}
@@ -252,7 +252,7 @@
     <span>{l("Discussions")}</span>
   </div>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsRadiosLive
       name={l("Discussions default layout")}
       description={l("Select the default way to view discussions (can always change in the feed controls options)")}
@@ -263,7 +263,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsRadiosLive
       name={l("Discussions default sort")}
       description={l(
@@ -282,7 +282,7 @@
     />
   </form>
 
-  {!-- <form phx-change="Bonfire.Me.Settings:set">
+  {!-- <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <div x-data="{open: false}" class="p-4">
         <div class="flex items-center justify-between gap-4">
@@ -344,7 +344,7 @@
     <span>{l("Notifications")}</span>
   </div>
 
-  {!-- <form phx-change="Bonfire.Me.Settings:set">
+  {!-- <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       label="Dark Pattern"
       name="Show counter for unread notifications"
@@ -354,7 +354,7 @@
     />
   </form> --}
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       label="Dark Pattern"
       name="Highlight notifications indicator"
@@ -369,7 +369,7 @@
     <span>{l("Reactions")}</span>
   </div>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       label="Vanity Metric"
       name={l("Show reaction counts (likes / boosts)")}
@@ -382,7 +382,7 @@
   </form>
 
   {!-- TODO --}
-  {!-- <form phx-change="Bonfire.Me.Settings:set">
+  {!-- <form phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         label="Vanity Metric"
         name={l("Show follower counts")}
@@ -397,7 +397,7 @@
     <span>{l("Trending topics")}</span>
   </div>
 
-  <form phx-change="Bonfire.Me.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Hide trending topics")}
