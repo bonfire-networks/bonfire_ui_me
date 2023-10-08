@@ -75,14 +75,7 @@ defmodule Bonfire.Common.Settings.LiveHandler do
     with {:ok, settings} <-
            keys
            |> String.split(":")
-           #  |> debug()
-<<<<<<< HEAD
            |> Bonfire.Common.Settings.put(value, scope: params["scope"], socket: socket) do
-      # debug(settings, "done")
-=======
-           |> Bonfire.Me.Settings.put(value, scope: params["scope"], socket: socket) do
-      debug(settings, "done")
->>>>>>> 208779e (theme)
       {:noreply,
        socket
        #  |> maybe_assign_context(settings)
