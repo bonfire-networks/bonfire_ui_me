@@ -72,6 +72,7 @@ defmodule Bonfire.Common.Settings.LiveHandler do
 
   def handle_event("put_theme", %{"keys" => keys, "values" => value} = params, socket) do
     IO.inspect(params, label: "CCCC")
+
     with {:ok, settings} <-
            keys
            |> String.split(":")
@@ -80,7 +81,7 @@ defmodule Bonfire.Common.Settings.LiveHandler do
        socket
        #  |> maybe_assign_context(settings)
        |> assign_flash(:info, l("Theme changed and loaded :-)"))
-        |> push_navigate(to: current_url(socket) || "/")}
+       |> push_navigate(to: current_url(socket) || "/")}
     end
   end
 
