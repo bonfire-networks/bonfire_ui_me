@@ -128,11 +128,12 @@ defmodule Bonfire.UI.Me.ProfileLive do
           )
         end
       else
+        #  remote actor
         with true <- String.trim(username, "@") |> String.contains?("@"),
              {:ok, user} <-
                Bonfire.Federate.ActivityPub.AdapterUtils.get_or_fetch_and_create_by_username(
-                 username,
-                 fetch_collection: :async
+                 username
+                 #  fetch_collection: :async
                ) do
           init(params |> Map.put(:user, user), socket)
         else
@@ -189,6 +190,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
             nil
         end
     end
+    |> debug("theuser")
   end
 
   def default_assigns() do

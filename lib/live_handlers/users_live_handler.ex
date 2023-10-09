@@ -16,6 +16,14 @@ defmodule Bonfire.Me.Users.LiveHandler do
     {:noreply, assign_global(socket, users_autocomplete: options)}
   end
 
+  def handle_event("fetch_outbox", _, socket) do
+    ActivityPub.Federator.Fetcher.fetch_outbox([pointer: socket.assigns[:user]],
+      fetch_collection: :async
+    )
+
+    {:noreply, socket}
+  end
+
   def handle_event(
         "share_user",
         %{"add_shared_user" => emails_or_usernames} = attrs,

@@ -128,6 +128,16 @@
           <div />
         {#match canonical_uri}
           <li>
+            <div
+              phx-click="Bonfire.Me.Users:fetch_outbox"
+              phx-value-canonical_uri={canonical_uri}
+              class="flex items-center gap-2 text-sm text-base-content/70"
+            >
+              <#Icon iconify="mdi:sprout" class="w-4 h-4 shrink-0 text-base-content/70" />
+              <span>{l("Get latest activities")}</span>
+            </div>
+          </li>
+          <li>
             <a
               href={canonical_uri}
               target="_blank"

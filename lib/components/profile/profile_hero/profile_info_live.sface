@@ -53,9 +53,9 @@
           {#match {:ok, %{"id" => weather_id, "temp" => temp}}}
             {!-- TODO: query with lat/long if we have them --}
             <div class="badge ml-2 badge-outline min-h-[1.75rem] !border-base-content/30">
-            <Iconify.iconify icon={"meteocons:#{weather_id}"} class="w-5 h-5 text-info" />
-            <!-- <img src={Iconify.prepare("meteocons:#{weather_id}", :img_url)} class="w-4 h-4 text-info" /> -->
-            <span class="text-xs">{temp}℃</span>
+              <Iconify.iconify icon={"meteocons:#{weather_id}"} class="w-5 h-5 text-info" />
+              <!-- <img src={Iconify.prepare("meteocons:#{weather_id}", :img_url)} class="w-4 h-4 text-info" /> -->
+              <span class="text-xs">{temp}℃</span>
             </div>
           {#match _}
         {/case}
