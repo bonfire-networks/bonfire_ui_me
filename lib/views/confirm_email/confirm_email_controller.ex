@@ -56,7 +56,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
         "Welcome back! Thanks for confirming your email address. You can now create a user profile."
       )
     )
-    |> redirect(to: path(:switch_user))
+    |> redirect_to(path(:switch_user))
   end
 
   defp already_confirmed(conn) do
@@ -65,7 +65,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
       :error,
       l("You've already confirmed your email address. You can log in now.")
     )
-    |> redirect(to: path(:login))
+    |> redirect_to(path(:login))
   end
 
   defp show_error(conn, text) do

@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
   defp index([], _, conn, params) do
     conn
     |> assign_flash(:info, l("Hey there! Let's fill out your profile!"))
-    |> redirect(to: path(:create_user) <> copy_go(params))
+    |> redirect_to("#{path(:create_user)}#{copy_go(params)}")
   end
 
   defp index([_ | _] = users, _, conn, _params) do
@@ -64,7 +64,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
       :error,
       l("You can only identify as valid users in your account.")
     )
-    |> redirect(to: path(:switch_user) <> copy_go(params))
+    |> redirect_to("#{path(:switch_user)}#{copy_go(params)}")
   end
 
   # defp greet(%{profile: %{name: name}}) when is_binary(name) do

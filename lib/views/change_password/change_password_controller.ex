@@ -44,6 +44,6 @@ defmodule Bonfire.UI.Me.ChangePasswordController do
       :info,
       l("You have now changed your password. We recommend saving it in a password manager app!")
     )
-    |> redirect(to: path(:home))
+    |> redirect_to(path(:home))
   end
 end

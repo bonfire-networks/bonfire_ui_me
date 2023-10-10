@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.Plugs.GuestOnly do
   defp not_permitted(conn) do
     conn
     |> maybe_error()
-    |> redirect(to: path(:dashboard) || path(:home))
+    |> redirect_to(path(:dashboard) || path(:home))
     |> halt()
   end
 

@@ -49,7 +49,7 @@ defmodule Bonfire.UI.Me.LoginController do
     |> put_session(:live_socket_id, "socket_account:#{account_id}")
     |> put_session(:current_user_id, nil)
     |> assign_flash(:info, l("Welcome back!"))
-    |> redirect(to: path(:switch_user) <> copy_go(form))
+    |> redirect_to(path(:switch_user) <> copy_go(form))
   end
 
   # the user logged in via username, or they logged in via email and

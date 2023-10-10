@@ -44,6 +44,6 @@ defmodule Bonfire.UI.Me.ChangeEmailController do
       :info,
       l("Please check your email for a confirmation link...")
     )
-    |> redirect(to: path(:home))
+    |> redirect_to(path(:home))
   end
 end

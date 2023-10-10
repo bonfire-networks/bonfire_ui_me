@@ -15,7 +15,7 @@ defmodule Bonfire.UI.Me.Plugs.UserRequired do
     conn
     |> assign_flash(:info, l("You need to choose a user to see that page."))
     |> set_go_after()
-    |> redirect(to: path(:switch_user))
+    |> redirect_to(path(:switch_user))
     |> halt()
   end
 
@@ -24,7 +24,7 @@ defmodule Bonfire.UI.Me.Plugs.UserRequired do
     |> clear_session()
     |> assign_flash(:info, l("You need to log in to see that page."))
     |> set_go_after()
-    |> redirect(to: path(:login))
+    |> redirect_to(path(:login))
     |> halt()
   end
 end

@@ -69,8 +69,8 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
         "Welcome back! Thanks for confirming your email address. You can now change your password."
       )
     )
-    |> redirect(to: path(Bonfire.UI.Me.ChangePasswordController))
+    |> redirect_to(path(Bonfire.UI.Me.ChangePasswordController))
 
-    # |> redirect(to: path(:home))
+    # |> redirect_to( path(:home))
   end
 end

@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.Plugs.AccountRequired do
     |> clear_session()
     |> set_go_after()
     |> assign_flash(:error, l("You need to log in first."))
-    |> redirect(to: path(:login))
+    |> redirect_to(path(:login))
     |> halt()
   end
 end
