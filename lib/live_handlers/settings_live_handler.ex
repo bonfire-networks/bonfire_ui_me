@@ -49,7 +49,7 @@ defmodule Bonfire.Common.Settings.LiveHandler do
   def handle_event("set", attrs, socket) when is_map(attrs) do
     with {:ok, settings} <-
            Map.drop(attrs, ["_target"]) |> Bonfire.Common.Settings.set(socket: socket) do
-      # debug(settings, "done")
+      # debug(settings, "settings saved")
       {:noreply,
        socket
        |> maybe_assign_context(settings)
@@ -70,8 +70,12 @@ defmodule Bonfire.Common.Settings.LiveHandler do
     end
   end
 
+  def handle_event("set_default_boundary", %{"id" => id, "scope" => scope} = params, socket) do
+    handle_event("set", %{"ui" => %{"boundary_preset" => id}, "scope" => scope}, socket)
+  end
+
   def handle_event("put_theme", %{"keys" => keys, "values" => value} = params, socket) do
-    IO.inspect(params, label: "CCCC")
+    # IO.inspect(params, label: "CCCC")
 
     with {:ok, settings} <-
            keys
@@ -242,7 +246,9 @@ defmodule Bonfire.Common.Settings.LiveHandler do
   def scoped(scope, context) do
     case scope do
       :account -> current_account(context)
+      "account" -> current_account(context)
       :instance -> context[:instance_settings] || :instance
+      "instance" -> context[:instance_settings] || :instance
       _ -> current_user(context)
     end
   end

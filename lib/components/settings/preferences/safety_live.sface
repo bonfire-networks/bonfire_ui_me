@@ -16,8 +16,19 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
-      {!-- TODO --}
-      Coming soon.
+      <Dynamic.Component
+        :if={module_enabled?(Bonfire.Boundaries.Web.BoundariesGeneralAccessLive)}
+        module={Bonfire.Boundaries.Web.BoundariesGeneralAccessLive}
+        hide_custom
+        set_action="Bonfire.Common.Settings:set_default_boundary"
+        set_opts={%{"phx-value-scope" => @scope}}
+        boundary_preset={Settings.get(
+          [:ui, :boundary_preset],
+          "public",
+          Bonfire.Common.Settings.LiveHandler.scoped(@scope, @__context__)
+        )
+        |> to_string()}
+      />
     </div>
   </div>
 </div>
