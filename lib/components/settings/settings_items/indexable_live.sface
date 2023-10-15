@@ -1,0 +1,26 @@
+<form name="settings" phx-change="Bonfire.Common.Settings:set">
+  <input type="hidden" name="scope" value={@scope}>
+
+  <Bonfire.UI.Common.SettingsToggleLive
+    name={l("Search indexing")}
+    description={@label ||
+      case @scope do
+        :instance ->
+          l(
+            "Should public content NOT APPEAR in search engines (in Bonfire, the fediverse, and the web in general) by default?"
+          )
+
+        :account ->
+          l(
+            "I DO NOT want my public content to appear in search engines by default (in Bonfire, the fediverse, and the web in general)"
+          )
+
+        _ ->
+          l(
+            "I DO NOT want my public content to appear in search engines (in Bonfire, the fediverse, and the web in general)"
+          )
+      end}
+    keys={[Bonfire.Search.Indexer, :disabled]}
+    scope={@scope}
+  />
+</form>

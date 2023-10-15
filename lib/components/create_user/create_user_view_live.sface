@@ -1,4 +1,4 @@
-<div class="max-w-[680px] mx-3 mt-3 md:mx-auto">
+<div class="max-w-[580px] mx-3 mt-3 md:mx-auto">
   <div class="my-2">
     <div class="p-4 rounded-md bg-warning">
       <div class="flex">
@@ -100,13 +100,12 @@
           </Field>
         </Inputs>
       </div>
+
       <div class="p-4 mx-4 my-6 rounded-md bg-info/10">
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <p class="text-sm text-info">
-              {l(
-                "Make my profile and content publicly discoverable in search engines (in Bonfire, the fediverse, and the web in general)"
-              )}</p>
+              {l("Make my profile publicly discoverable (in Bonfire, the fediverse, and search engines)")}</p>
           </div>
           <input name="undiscoverable" value="true" type="hidden">
           <input
@@ -116,6 +115,17 @@
             class="toggle toggle-info"
             checked="checked"
           />
+        </div>
+      </div>
+
+      <div class="p-4 mx-4 my-6 rounded-md bg-info/10">
+        <div class="flex items-center justify-between gap-6">
+          <div class="flex-1 ml-3 md:flex md:justify-between">
+            <p class="text-sm text-info">
+              {l("Make my public content fully searchable (in Bonfire, the fediverse, and web search engines)")}</p>
+          </div>
+          <input name="unindexable" value="true" type="hidden">
+          <input name="unindexable" value="" type="checkbox" class="toggle toggle-info" checked="checked">
         </div>
       </div>
 

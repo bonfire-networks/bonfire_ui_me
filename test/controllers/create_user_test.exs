@@ -161,4 +161,37 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert [ok] = find_flash(doc)
     assert_flash(ok, :info, ~r/nice/)
   end
+
+  test "successfully sets privacy options" do
+    alice = fake_account!()
+    conn = conn(account: alice)
+    username = username()
+
+    params = %{
+      "user" => %{
+        "profile" => %{"summary" => summary(), "name" => name()},
+        "character" => %{"username" => username}
+      },
+      "undiscoverable" => "true",
+      "unindexable" => "true"
+    }
+
+    conn = post(conn, "/create-user", params)
+    # assert_raise RuntimeError, debug(floki_response(conn))
+    assert redirected_to(conn) == "/"
+    conn = get(recycle(conn), "/")
+    doc = floki_response(conn)
+    assert [ok] = find_flash(doc)
+    assert_flash(ok, :info, ~r/nice/)
+
+    {:ok, user} =
+      Bonfire.Me.Users.by_username(username)
+      |> repo().maybe_preload(:settings)
+
+    assert Bonfire.Common.Settings.get([Bonfire.Me.Users, :undiscoverable], nil,
+             current_user: user
+           ) == true
+
+    assert Bonfire.Common.Extend.module_enabled?(Bonfire.Search.Indexer, user) == false
+  end
 end

@@ -1,6 +1,7 @@
 <div class="divide-y divide-base-content/10">
   <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
   <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
+  <Bonfire.UI.Me.SettingsViewsLive.IndexableLive scope={@scope} />
 
   <div x-data="{open: false}" class="p-4 cursor-pointer">
     <div x-on:click="open = !open" class="flex items-center justify-between gap-4">

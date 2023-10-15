@@ -67,7 +67,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
            username ->
              get(username)
          end)
-      |> repo().maybe_preload(:shared_user)
+      |> repo().maybe_preload([:shared_user, :settings])
 
     # debug(user)
 

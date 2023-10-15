@@ -7,18 +7,18 @@
       case @scope do
         :instance ->
           l(
-            "Should new users and their content NOT APPEAR publicly in search engines (in Bonfire, the fediverse, and the web in general) by default?"
+            "Should new users NOT be publicly discoverable (in Bonfire, the fediverse, and search engines) by default?"
           )
 
         :account ->
           l(
-            "I DO NOT want my profiles and content to appear publicly in search engines by default (in Bonfire, the fediverse, and the web in general)"
+            "I DO NOT want my profiles to be publicly discoverable (in Bonfire, the fediverse, and search engines)"
           )
 
         _ ->
           l(
-            "I DO NOT want my profile (%{username}) and content to appear publicly in search engines (in Bonfire, the fediverse, and the web in general)",
-            username: e(@scope, :character, :username, nil) || ""
+            "I DO NOT want my profile (%{username}) to be publicly discoverable (in Bonfire, the fediverse, and search engines)",
+            username: e(current_user(@__context__), :character, :username, nil) || ""
           )
       end}
     keys={[Bonfire.Me.Users, :undiscoverable]}
