@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.BehavioursLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
   prop selected_tab, :string
-  prop scope, :atom, default: :user
+  prop scope, :atom, default: nil
 
   def render(assigns) do
     scoped = Bonfire.Common.Settings.LiveHandler.scoped(assigns[:scope], assigns[:__context__])
