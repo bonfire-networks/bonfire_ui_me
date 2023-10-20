@@ -17,7 +17,7 @@
       </div>
       <span
         :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
-        class="badge badge-outline mt-4 rounded badge-info"
+        class="badge min-h-[1.75rem] rounded-md !border-info/30 badge-outline mt-4 rounded badge-info"
       >
         {l("Admin")}
       </span>
@@ -215,7 +215,7 @@
     </div>
   {/if}
 
-  <div class="flex ml-6 items-center gap-6">
+  <div :if={@character_type == :user} class="flex ml-6 items-center gap-6">
     <LivePatch
       class="flex items-center"
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}

@@ -16,7 +16,9 @@
   <div
     :if={current_user_id(@__context__) != id(@user)}
     aria-haspopup="true"
-    class="dropdown dropdown-end"
+    class={
+      "dropdown",
+      "dropdown-end": @character_type != :group, }
   >
     <label
       tabindex="0"
