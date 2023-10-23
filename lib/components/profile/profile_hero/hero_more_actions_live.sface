@@ -155,7 +155,7 @@
   </div>
 
   <Bonfire.UI.Common.SmartInputButtonLive
-    :if={@character_type == :user && current_user_id(@__context__) != id(@user)}
+    :if={@character_type == :user && current_user_id(@__context__) != id(@user) && current_user_id(@__context__)}
     as_icon
     create_object_type={:message}
     smart_input_opts={%{

@@ -103,6 +103,14 @@
       </form>
     </div>
   </div>
+  <form phx-change="Bonfire.Common.Settings:set">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name="Composer"
+      description={l("Show the focused composer")}
+      keys={[Bonfire.UI.Common.SmartInputContainerLive, :show_focused]}
+      scope={@scope}
+    />
+  </form>
 
   <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive

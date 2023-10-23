@@ -70,14 +70,14 @@ defmodule Bonfire.Common.Settings.LiveHandler do
     end
   end
 
-  def handle_event("set_default_boundary", %{"id" => id, "scope" => scope} = params, socket) do
+  def handle_event("set_default_boundary", %{"id" => id, "scope" => scope} = _params, socket) do
     handle_event("set", %{"ui" => %{"boundary_preset" => id}, "scope" => scope}, socket)
   end
 
   def handle_event("put_theme", %{"keys" => keys, "values" => value} = params, socket) do
     # IO.inspect(params, label: "CCCC")
 
-    with {:ok, settings} <-
+    with {:ok, _settings} <-
            keys
            |> String.split(":")
            |> Bonfire.Common.Settings.put(value, scope: params["scope"], socket: socket) do

@@ -9,8 +9,7 @@
               Path.join(Config.get(:project_path), avatar_url),
               10,
               nil
-            ])
-            |> debug("ccol")}
+            ])}
           {#match color}
             <div>
               <div

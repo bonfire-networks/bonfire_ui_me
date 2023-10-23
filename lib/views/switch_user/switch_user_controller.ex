@@ -48,7 +48,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
     |> show(conn, params)
   end
 
-  defp show({:ok, %{id: user_id} = user}, conn, params) do
+  defp show({:ok, %{id: user_id} = _user}, conn, params) do
     # maybe_apply(Bonfire.Boundaries.Users, :create_missing_boundaries, user)
 
     debug("ok to switch")
