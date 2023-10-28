@@ -12,7 +12,7 @@
         tab_class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center lined_tab"
         item_class="text-base-content/60 text-sm pb-3 border-b-4 border-transparent font-medium"
         path_prefix={"/@#{e(@user, :character, :username, "")}/"}
-        tabs={if id(current_user(@__context__)) == id(@user),
+        tabs={if current_user_id(@__context__) == id(@user),
           do: Config.get([:ui, @showing_within, :network], followers: l("Followers")),
           else: Config.get([:ui, @showing_within, :network], followers: l("Followers"))}
       />

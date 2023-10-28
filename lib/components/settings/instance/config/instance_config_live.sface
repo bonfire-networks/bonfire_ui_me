@@ -455,19 +455,6 @@ class="flex items-center justify-between cursor-pointer">
     </form>
 
     {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div> --}
-    <form phx-change="Bonfire.Common.Settings:set">
-      <input name="scope" value={:instance} type="hidden">
-
-      <div class="divide-y divide-base-content/10">
-        <Bonfire.UI.Common.SettingsToggleLive
-          name={l("Enable federation")}
-          description={l("Push activities to the fediverse, and accept remote activities?")}
-          input="activity_pub[instance][federating]"
-          scope={:instance}
-          current_value={ActivityPub.Config.federating?()}
-        />
-      </div>
-    </form>
   {#else}
     {l("You don't have permission to configure the instance, sorry!")}
   {/if}

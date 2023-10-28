@@ -154,16 +154,6 @@
   </div>
 </form>
 
-<form phx-change="Bonfire.Common.Settings:set" :if={ActivityPub.Config.federating?()}>
-  <div class="divide-y divide-base-content/10">
-    <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Enable federation")}
-      description={l("Push my activities to the fediverse, and accept remote mentions or messages?")}
-      keys={[:activity_pub, :instance, :federating]}
-    />
-  </div>
-</form>
-
 <form phx-submit="Bonfire.Me.Profiles:add_alias">
   <div x-data="{open: false}" class="p-4 border-t border-base-content/20">
     <div x-on:click="open = !open" class="flex items-center gap-4 justify-between cursor-pointer">
@@ -257,7 +247,7 @@
         object={current_user(@__context__)}
         object_type_readable={l("user & data")}
         creator_id={current_user(@__context__)}
-        parent_id={"delete-user-#{id(current_user(@__context__))}"}
+        parent_id={"delete-user-#{current_user_id(@__context__)}"}
         open_btn_class="btn-error btn mt-3 rounded-full w-full"
         explanation={l(
           "Deleting your user profile means that this user (%{username}) and all related data and activities (but not any other user profiles under this account) will be deleted.",
