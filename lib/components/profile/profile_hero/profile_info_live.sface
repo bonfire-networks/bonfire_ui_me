@@ -79,18 +79,7 @@
     </div>
 
     <div :if={@character_type != :user} class="mt-3 flex items-center justify-between">
-      {!-- <div class="avatar-group -space-x-4">
-        <div :for={m <- @members} class="avatar">
-          <div class="w-8">
-            <Bonfire.UI.Common.AvatarLive user={m} />
-          </div>
-        </div>
-        <div class="avatar placeholder">
-          <div class="w-8 bg-neutral-focus text-neutral-content text-xs">
-            <span>+99</span>
-          </div>
-        </div>
-      </div> --}
+
       <Bonfire.UI.Me.HeroMoreActionsLive
         ghosted_instance_wide?={@ghosted_instance_wide?}
         silenced_instance_wide?={@silenced_instance_wide?}
