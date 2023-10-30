@@ -79,7 +79,6 @@
     </div>
 
     <div :if={@character_type != :user} class="mt-3 flex items-center justify-between">
-
       <Bonfire.UI.Me.HeroMoreActionsLive
         ghosted_instance_wide?={@ghosted_instance_wide?}
         silenced_instance_wide?={@silenced_instance_wide?}
