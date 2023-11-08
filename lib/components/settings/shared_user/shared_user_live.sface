@@ -16,7 +16,7 @@
         )}
       </div>
     </div>
-    <div class="p-4 m-6 rounded-box border border-base-content/10">
+    <div class="p-4 m-6 rounded-box border border-base-content/20">
       <div class="form-control">
         <label
           for="shared_user_label"

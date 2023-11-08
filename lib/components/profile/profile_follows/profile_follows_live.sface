@@ -18,7 +18,7 @@
       />
       <div :if={@selected_tab in ["requested", "followed"]}>
         <div class="flow-root">
-          <ul class="divide-y divide-base-content/10">
+          <ul class="divide-y divide-base-content/20">
             {#for follow <- @feed}
               <li class="p-4">
                 <Bonfire.UI.Common.ProfileItemLive
@@ -41,7 +41,7 @@
 
       <div :if={@selected_tab in ["requests", "followers", "members"]}>
         <div class="flow-root">
-          <ul class="divide-y divide-base-content/10">
+          <ul class="divide-y divide-base-content/20">
             {#for follow <- @feed}
               <li class="p-4">
                 <Bonfire.UI.Common.ProfileItemLive

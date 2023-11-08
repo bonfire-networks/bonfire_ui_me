@@ -5,7 +5,7 @@
         <div class="text-info/70 text-sm">{l "Customise the general look and feel of the instance"}</div>
       </div> --}
 
-    <div class="divide-y divide-base-content/10 border-b border-base-content/10">
+    <div class="divide-y divide-base-content/20 border-b border-base-content/20">
       <Bonfire.UI.Common.SettingsInputLive
         scope={:instance}
         input="ui[theme][instance_name]"
@@ -170,7 +170,7 @@
       <input name="scope" value={:instance} type="hidden">
 
       {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Instance behaviour")}</div> --}
-      <div class="divide-y divide-base-content/10">
+      <div class="divide-y divide-base-content/20">
         <div class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
