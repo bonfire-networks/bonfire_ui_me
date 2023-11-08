@@ -5,8 +5,8 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
   prop ghosted_instance_wide?, :boolean, default: nil
   prop silenced_instance_wide?, :boolean, default: nil
 
-
   def mount(socket) do
+    # TODO: pagination
     users = Bonfire.Me.Users.list_all()
 
     users =
@@ -22,7 +22,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
         )
       end)
 
-    assign(socket, :users, users)
+    {:ok, assign(socket, :users, users)}
   end
 
   # def update(assigns, socket) do
