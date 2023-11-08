@@ -5,11 +5,8 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
   prop ghosted_instance_wide?, :boolean, default: nil
   prop silenced_instance_wide?, :boolean, default: nil
 
-  def preload([%{skip_preload: true}] = list_of_assigns) do
-    list_of_assigns
-  end
 
-  def preload(list_of_assigns) do
+  def mount(socket) do
     users = Bonfire.Me.Users.list_all()
 
     users =
@@ -25,9 +22,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
         )
       end)
 
-    Enum.map(list_of_assigns, fn assigns ->
-      Map.put(assigns, :users, users)
-    end)
+    assign(socket, :users, users)
   end
 
   # def update(assigns, socket) do

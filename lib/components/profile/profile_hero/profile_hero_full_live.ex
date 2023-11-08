@@ -25,12 +25,12 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   def display_url("http://" <> url), do: url
   def display_url(url), do: url
 
-  def preload([%{skip_preload: true}] = list_of_assigns) do
-    list_of_assigns
+  def update_many([{%{skip_preload: true}, _}] = assigns_sockets) do
+    assigns_sockets
   end
 
-  def preload(list_of_assigns) do
-    Bonfire.Boundaries.Blocks.LiveHandler.preload(list_of_assigns, caller_module: __MODULE__)
+  def update_many(assigns_sockets) do
+    Bonfire.Boundaries.Blocks.LiveHandler.update_many(assigns_sockets, caller_module: __MODULE__)
   end
 
   def handle_event(
