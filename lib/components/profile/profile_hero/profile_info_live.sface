@@ -62,10 +62,14 @@
       </div>
       <div :if={e(@user, :profile, :website, nil)} class="flex  mt-4 items-center">
         {#case Bonfire.Files.FaviconStore.favicon_url(e(@user, :profile, :website, nil))}
-          {#match nil}
+          {#match image when is_binary(image)}
+            <img
+              src={image}
+              class="w-4 h-4 text-base-content/70"
+              onerror="this.classList.add('iconify'); this.setAttribute('iconify','heroicons-solid:external-link')"
+            />
+          {#match _}
             <#Icon solid="ExternalLink" class="w-5 h-5 text-base-content/70" />
-          {#match image}
-            <img src={image} class="w-4 h-4 text-base-content/70">
         {/case}
 
         <a

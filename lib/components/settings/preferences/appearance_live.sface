@@ -124,7 +124,7 @@
   <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Avatar shape"
-      description={l("Change the avatar shape to a square")}
+      description={l("Show square avatars")}
       keys={[Bonfire.UI.Common.AvatarLive, :shape]}
       scope={@scope}
       default_value
