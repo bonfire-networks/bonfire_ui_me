@@ -25,7 +25,8 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
        id: nil,
        #  smart_input_opts: %{hide_buttons: true},
        page: "instance_settings",
-       trigger_submit: false
+       trigger_submit: false,
+       scope: :instance
      )}
 
     # |> IO.inspect

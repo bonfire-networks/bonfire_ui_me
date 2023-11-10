@@ -1,5 +1,29 @@
 <div class="divide-y divide-base-content/20">
   <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
+
+  <form
+    phx-change="Bonfire.Common.Settings:set"
+    :if={@scope != :instance and ActivityPub.Config.federating?() != false}
+  >
+    <input name="scope" value={@scope} type="hidden">
+    <div class="divide-y divide-base-content/20">
+      <Bonfire.UI.Common.SettingsRadiosLive
+        name={l("Enable federation?")}
+        keys={[:activity_pub, :user_federating]}
+        options={if ActivityPub.Config.federating?() == nil,
+          do: %{
+            "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+            "false" => l("Fully disabled")
+          },
+          else: %{
+            "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
+            "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+            "false" => l("Fully disabled")
+          }}
+      />
+    </div>
+  </form>
+
   <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
   <Bonfire.UI.Me.SettingsViewsLive.IndexableLive scope={@scope} />
 

@@ -168,6 +168,22 @@
   {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
     <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={:instance} type="hidden">
+      <div class="divide-y divide-base-content/20">
+        <Bonfire.UI.Common.SettingsRadiosLive
+          name={l("Enable federation?")}
+          keys={[:activity_pub, :instance, :federating]}
+          options={%{
+            "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
+            "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+            "false" => l("Fully disabled")
+          }}
+          scope={:instance}
+        />
+      </div>
+    </form>
+
+    <form phx-change="Bonfire.Common.Settings:set">
+      <input name="scope" value={:instance} type="hidden">
 
       {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Instance behaviour")}</div> --}
       <div class="divide-y divide-base-content/20">

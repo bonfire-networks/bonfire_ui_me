@@ -3,22 +3,6 @@
   <div class="text-info/70 text-sm">{l("Adjust how you interact with the instance.")}</div>
 </div>
 <div class="divide-y divide-base-content/20">
-  <form
-    phx-change="Bonfire.Common.Settings:set"
-    :if={@scope == :instance || ActivityPub.Config.federating?()}
-  >
-    <input name="scope" value={@scope} type="hidden">
-    <div class="divide-y divide-base-content/20">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Enable federation?")}
-        description={if @scope == :instance,
-          do: l("Push activities to the fediverse, and accept remote activities"),
-          else: l("Push my activities to the fediverse, and accept remote mentions or messages")}
-        keys={[:activity_pub, :instance, :federating]}
-      />
-    </div>
-  </form>
-
   <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
     <#Icon iconify="material-symbols:rss-feed" class="w-5 h-5 text-base-content/80" />
     <span>{l("Feeds")}</span>

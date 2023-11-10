@@ -48,7 +48,9 @@ defmodule Bonfire.Common.Settings.LiveHandler do
 
   def handle_event("set", attrs, socket) when is_map(attrs) do
     with {:ok, settings} <-
-           Map.drop(attrs, ["_target"]) |> Bonfire.Common.Settings.set(socket: socket) do
+           Map.drop(attrs, ["_target"])
+           |> Map.put("scope", e(attrs, "scope", nil) || e(socket.assigns, :scope, nil))
+           |> Bonfire.Common.Settings.set(socket: socket) do
       # debug(settings, "settings saved")
       {:noreply,
        socket
