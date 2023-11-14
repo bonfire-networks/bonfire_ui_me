@@ -56,7 +56,7 @@
       {!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> --}
       <span>{l("Create a new user")}</span>
     </div>
-    <div x-data="{username:''}" class="flex flex-col space-y-2">
+    <div x-data="{username:''}" class="flex flex-col space-y-4">
       <Inputs for={:profile}>
         <Field name={:name}>
           <Label class="label">
@@ -101,10 +101,21 @@
         </Inputs>
       </div>
 
-      <div class="p-4 mx-4 my-6 rounded-md bg-info/10">
+      <div class="p-4 my-6 rounded-md bg-info">
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
-            <p class="text-sm text-info">
+            <p class="text-sm text-info-content">
+              {l("People need to make a request before they can follow me")}
+            </p>
+          </div>
+          <input name="request_before_follow" value="true" type="checkbox" class="toggle toggle-info">
+        </div>
+      </div>
+
+      <div class="p-4 my-6 rounded-md bg-info">
+        <div class="flex items-center justify-between gap-6">
+          <div class="flex-1 ml-3 md:flex md:justify-between">
+            <p class="text-sm text-info-content">
               {l("Make my profile publicly discoverable (in Bonfire, the fediverse, and search engines)")}</p>
           </div>
           <input name="undiscoverable" value="true" type="hidden">
@@ -118,10 +129,10 @@
         </div>
       </div>
 
-      <div class="p-4 mx-4 my-6 rounded-md bg-info/10">
+      <div class="p-4 my-6 rounded-md bg-info">
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
-            <p class="text-sm text-info">
+            <p class="text-sm text-info-content">
               {l("Make my public content fully searchable (in Bonfire, the fediverse, and web search engines)")}</p>
           </div>
           <input name="unindexable" value="true" type="hidden">
@@ -129,18 +140,7 @@
         </div>
       </div>
 
-      <div class="p-4 mx-4 my-6 rounded-md bg-info/10">
-        <div class="flex items-center justify-between gap-6">
-          <div class="flex-1 ml-3 md:flex md:justify-between">
-            <p class="text-sm text-info">
-              {l("People need to make a request before they can follow me")}
-            </p>
-          </div>
-          <input name="request_before_follow" value="true" type="checkbox" class="toggle toggle-info">
-        </div>
-      </div>
-
-      <button type="submit" class="w-full normal-case rounded-full btn btn-primary">
+      <button type="submit" class="w-full mt-4 normal-case rounded-full btn btn-primary">
         {l("Create")}
       </button>
     </div>
