@@ -13,56 +13,34 @@
       </a>
   {/case} --}
 
-  <div
-    :if={current_user_id(@__context__) != id(@user)}
-    aria-haspopup="true"
-    class={
-      "dropdown",
-      "dropdown-end": @character_type != :group
-    }
-  >
-    <label
-      tabindex="0"
-      class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
+  {#if current_user_id(@__context__) == id(@user)}
+    <LiveRedirect
+      to={~p"/settings/user/profile"}
+      class="normal-case rounded-full btn btn-sm btn-outline border-base-content/30"
     >
-      <#Icon solid="DotsVertical" class="w-4 h-4" />
-    </label>
-    <ul
-      tabindex="0"
-      role="menu"
-      aria-orientation="vertical"
-      class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-200"
+      {l("Edit profile")}
+    </LiveRedirect>
+
+    <div
+      aria-haspopup="true"
+      class={
+        "dropdown",
+        "dropdown-end": @character_type != :group
+      }
     >
-      {#if @character_type == :group}
-        {!-- <li>
-          <button class="flex items-center gap-2 text-sm text-base-content/70">
-            <#Icon iconify="ph:info-bold" class="w-4 h-4 shrink-0" />
-            <span>{l("View group info")}</span>
-          </button>
-        </li> --}
+      <label
+        tabindex="0"
+        class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
+      >
+        <#Icon solid="DotsVertical" class="w-4 h-4" />
+      </label>
+      <ul
+        tabindex="0"
+        role="menu"
+        aria-orientation="vertical"
+        class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-200"
+      >
         <li>
-          <a
-            phx-hook="Copy"
-            id="hero_copy_invite"
-            href={URIs.canonical_url(@user)}
-            class="flex items-center gap-2 text-sm text-base-content/70"
-          >
-            <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
-            <span>{l("Copy invite link")}</span>
-          </a>
-        </li>
-        <li
-          class="create_new_topic"
-          :if={module_enabled?(Bonfire.UI.Topics.NewTopicLive) and
-            Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
-        >
-          <Dynamic.Component
-            module={Bonfire.UI.Topics.NewTopicLive}
-            parent={@user}
-            label={l("New topic")}
-          />
-        </li>
-        <li :if={current_user_id(@__context__)}>
           <LiveRedirect
             to={path(@user, :settings)}
             class="flex items-center gap-2 text-sm text-base-content/70"
@@ -70,170 +48,230 @@
             <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
             <span>{l("Settings")}</span>
           </LiveRedirect>
-        </li>
-      {/if}
 
-      {#if current_user_id(@__context__)}
-        <li :if={@character_type == :user}>
-          <Dynamic.Component
-            :if={module_enabled?(Bonfire.Boundaries.Web.AddToCircleLive) and current_user(@__context__)}
-            module={Bonfire.Boundaries.Web.AddToCircleLive}
-            user_id={id(@user)}
-            parent_id="profile_hero"
-          />
-        </li>
-
-        <li class="">
-          <Bonfire.UI.Common.FlagActionLive
-            object={@user}
-            parent_id="profile_hero"
-            object_type={e(@user, :profile, :name, "this user")}
-            class="flex items-center p-4 text-sm text-base-content/70"
-          />
-        </li>
-
-        <Bonfire.Boundaries.Web.BlockMenuButtonsLive parent_id="profile_hero" object={@user} />
-
-        {#if @character_type == :user and maybe_apply(Bonfire.Me.Accounts, :is_admin?, @__context__) == true}
-          {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
-            <li phx-click="Bonfire.Me.Users:make_admin" phx-value-username_or_id={id(@user)} class="">
-              <div>
-                <button class="flex items-center gap-2 text-sm text-base-content/70">
-                  <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/70" />
-                  <span>{l("Make admin")}</span>
-                </button>
-              </div>
-            </li>
-          {#else}
-            <li phx-click="Bonfire.Me.Users:revoke_admin" phx-value-username_or_id={id(@user)} class="">
-              <div>
-                <button class="flex items-center gap-2 text-sm text-base-content/70">
-                  <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/70" />
-                  <span>{l("Revoke admin")}</span>
-                </button>
-              </div>
-            </li>
-          {/if}
-        {/if}
-      {#else}
-        <li class="">
-          <Bonfire.UI.Common.FlagActionLive
-            object={@user}
-            parent_id="profile_hero"
-            object_type={e(@user, :profile, :name, "this user")}
-            class="flex items-center p-4 text-sm text-neutral"
-          />
-        </li>
-      {/if}
-
-      {#case e(@user, :character, :peered, :canonical_uri, nil)}
-        {#match nil}
-          <div />
-        {#match canonical_uri}
           <li>
-            <div
-              phx-click="Bonfire.Me.Users:fetch_outbox"
-              phx-value-canonical_uri={canonical_uri}
-              class="flex items-center gap-2 text-sm text-base-content/70"
-            >
-              <#Icon iconify="mdi:sprout" class="w-4 h-4 shrink-0 text-base-content/70" />
-              <span>{l("Get latest activities")}</span>
-            </div>
+            <LiveRedirect to="/feed/likes" class="flex items-center gap-2 text-sm text-base-content/70">
+              <#Icon iconify="mingcute:fire-line" class="w-4 h-4" />
+              <span>{l("Likes")}</span>
+            </LiveRedirect>
           </li>
+        </li>
+      </ul>
+    </div>
+  {#else}
+    <div
+      aria-haspopup="true"
+      class={
+        "dropdown",
+        "dropdown-end": @character_type != :group
+      }
+    >
+      <label
+        tabindex="0"
+        class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
+      >
+        <#Icon solid="DotsVertical" class="w-4 h-4" />
+      </label>
+      <ul
+        tabindex="0"
+        role="menu"
+        aria-orientation="vertical"
+        class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-200"
+      >
+        {#if @character_type == :group}
+          {!-- <li>
+          <button class="flex items-center gap-2 text-sm text-base-content/70">
+            <#Icon iconify="ph:info-bold" class="w-4 h-4 shrink-0" />
+            <span>{l("View group info")}</span>
+          </button>
+        </li> --}
           <li>
             <a
-              href={canonical_uri}
-              target="_blank"
-              rel="noopener noreferrer"
+              phx-hook="Copy"
+              id="hero_copy_invite"
+              href={URIs.canonical_url(@user)}
               class="flex items-center gap-2 text-sm text-base-content/70"
             >
-              <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/70" />
-              <span>{l("View on the original instance")}</span>
+              <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
+              <span>{l("Copy invite link")}</span>
             </a>
           </li>
-      {/case}
-    </ul>
-  </div>
-
-  <Bonfire.UI.Common.SmartInputButtonLive
-    :if={@character_type == :user && current_user_id(@__context__) != id(@user) &&
-      current_user_id(@__context__)}
-    as_icon
-    create_object_type={:message}
-    smart_input_opts={%{
-      recipients_editable: true,
-      to_circles: [
-        {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
-      ]
-    }}
-    icon="ri:mail-line"
-    class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
-  />
-
-  <LiveRedirect
-    :if={current_user_id(@__context__) == id(@user)}
-    to={~p"/settings/user/profile"}
-    class="normal-case rounded-full btn btn-sm btn-outline border-base-content/30"
-  >
-    {l("Edit profile")}
-  </LiveRedirect>
-
-  {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
-      (@ghosted? == true && @silenced? == true)}
-    <button disabled class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-disabled">
-      {l("Blocked")}
-    </button>
-  {#else}
-    {#case @character_type}
-      {#match :group}
-        <div class="flex items-center gap-2" data-role="follow_wrapper">
-          <Bonfire.UI.Common.FollowButtonLive
-            :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
-              e(@boundary_preset, "visible", nil) || Boundaries.can?(@__context__, :follow, @user)}
-            id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
-            object_id={id(@user)}
-            object={@user}
-            path={path(@user)}
-            hide_icon
-            class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn rounded-full"
-            verb={if e(@user, :type, nil) == :group,
-              do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
-            verb_undo={l("Leave")}
-            verb_already={l("Joined")}
-            disabled={Enums.ids(current_user(@__context__)) |> debug("c111") == Enums.ids(@moderators) |> debug("m111")}
+          <li
+            class="create_new_topic"
+            :if={module_enabled?(Bonfire.UI.Topics.NewTopicLive) and
+              Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
           >
-            <:if_followed>
-              <Bonfire.UI.Common.SmartInputButtonLive
-                :if={@character_type == :group && current_user(@__context__)}
-                prompt={l("Post")}
-                smart_input_opts={%{
-                  context_id: id(@user),
-                  mentions: [id(@user)],
-                  to_boundaries: set_clone_context(@boundary_preset || @user),
-                  to_circles: [
-                    %{
-                      (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
-                        id(@user)
-                    }
-                  ]
-                }}
-                icon="mdi:pencil"
-                class="flex btn btn-sm flex-1 btn-primary rounded-full items-center gap-2 normal-case"
-              />
-            </:if_followed>
-          </Bonfire.UI.Common.FollowButtonLive>
-        </div>
-      {#match _}
-        <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
-          <Bonfire.UI.Common.FollowButtonLive
-            id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
-            object_id={id(@user)}
-            object={@user}
-            path={path(@user)}
-            hide_icon
-            class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded-full btn btn-primary"
-          />
-        </div>
-    {/case}
+            <Dynamic.Component
+              module={Bonfire.UI.Topics.NewTopicLive}
+              parent={@user}
+              label={l("New topic")}
+            />
+          </li>
+          <li :if={current_user_id(@__context__)}>
+            <LiveRedirect
+              to={path(@user, :settings)}
+              class="flex items-center gap-2 text-sm text-base-content/70"
+            >
+              <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
+              <span>{l("Settings")}</span>
+            </LiveRedirect>
+          </li>
+        {/if}
+
+        {#if current_user_id(@__context__)}
+          <li :if={@character_type == :user}>
+            <Dynamic.Component
+              :if={module_enabled?(Bonfire.Boundaries.Web.AddToCircleLive) and current_user(@__context__)}
+              module={Bonfire.Boundaries.Web.AddToCircleLive}
+              user_id={id(@user)}
+              parent_id="profile_hero"
+            />
+          </li>
+
+          <li class="">
+            <Bonfire.UI.Common.FlagActionLive
+              object={@user}
+              parent_id="profile_hero"
+              object_type={e(@user, :profile, :name, "this user")}
+              class="flex items-center p-4 text-sm text-base-content/70"
+            />
+          </li>
+
+          <Bonfire.Boundaries.Web.BlockMenuButtonsLive parent_id="profile_hero" object={@user} />
+
+          {#if @character_type == :user and maybe_apply(Bonfire.Me.Accounts, :is_admin?, @__context__) == true}
+            {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
+              <li phx-click="Bonfire.Me.Users:make_admin" phx-value-username_or_id={id(@user)} class="">
+                <div>
+                  <button class="flex items-center gap-2 text-sm text-base-content/70">
+                    <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/70" />
+                    <span>{l("Make admin")}</span>
+                  </button>
+                </div>
+              </li>
+            {#else}
+              <li phx-click="Bonfire.Me.Users:revoke_admin" phx-value-username_or_id={id(@user)} class="">
+                <div>
+                  <button class="flex items-center gap-2 text-sm text-base-content/70">
+                    <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/70" />
+                    <span>{l("Revoke admin")}</span>
+                  </button>
+                </div>
+              </li>
+            {/if}
+          {/if}
+        {#else}
+          <li class="">
+            <Bonfire.UI.Common.FlagActionLive
+              object={@user}
+              parent_id="profile_hero"
+              object_type={e(@user, :profile, :name, "this user")}
+              class="flex items-center p-4 text-sm text-neutral"
+            />
+          </li>
+        {/if}
+
+        {#case e(@user, :character, :peered, :canonical_uri, nil)}
+          {#match nil}
+            <div />
+          {#match canonical_uri}
+            <li>
+              <div
+                phx-click="Bonfire.Me.Users:fetch_outbox"
+                phx-value-canonical_uri={canonical_uri}
+                class="flex items-center gap-2 text-sm text-base-content/70"
+              >
+                <#Icon iconify="mdi:sprout" class="w-4 h-4 shrink-0 text-base-content/70" />
+                <span>{l("Get latest activities")}</span>
+              </div>
+            </li>
+            <li>
+              <a
+                href={canonical_uri}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex items-center gap-2 text-sm text-base-content/70"
+              >
+                <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/70" />
+                <span>{l("View on the original instance")}</span>
+              </a>
+            </li>
+        {/case}
+      </ul>
+    </div>
+
+    <Bonfire.UI.Common.SmartInputButtonLive
+      :if={@character_type == :user &&
+        current_user_id(@__context__)}
+      as_icon
+      create_object_type={:message}
+      smart_input_opts={%{
+        recipients_editable: true,
+        to_circles: [
+          {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
+        ]
+      }}
+      icon="ri:mail-line"
+      class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
+    />
+
+    {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
+        (@ghosted? == true && @silenced? == true)}
+      <button disabled class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn btn-disabled">
+        {l("Blocked")}
+      </button>
+    {#else}
+      {#case @character_type}
+        {#match :group}
+          <div class="flex items-center gap-2" data-role="follow_wrapper">
+            <Bonfire.UI.Common.FollowButtonLive
+              :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
+                e(@boundary_preset, "visible", nil) || Boundaries.can?(@__context__, :follow, @user)}
+              id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
+              object_id={id(@user)}
+              object={@user}
+              path={path(@user)}
+              hide_icon
+              class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn rounded-full"
+              verb={if e(@user, :type, nil) == :group,
+                do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
+              verb_undo={l("Leave")}
+              verb_already={l("Joined")}
+              disabled={Enums.ids(current_user(@__context__)) |> debug("c111") == Enums.ids(@moderators) |> debug("m111")}
+            >
+              <:if_followed>
+                <Bonfire.UI.Common.SmartInputButtonLive
+                  :if={@character_type == :group && current_user(@__context__)}
+                  prompt={l("Post")}
+                  smart_input_opts={%{
+                    context_id: id(@user),
+                    mentions: [id(@user)],
+                    to_boundaries: set_clone_context(@boundary_preset || @user),
+                    to_circles: [
+                      %{
+                        (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+                          id(@user)
+                      }
+                    ]
+                  }}
+                  icon="mdi:pencil"
+                  class="flex btn btn-sm flex-1 btn-primary rounded-full items-center gap-2 normal-case"
+                />
+              </:if_followed>
+            </Bonfire.UI.Common.FollowButtonLive>
+          </div>
+        {#match _}
+          <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
+            <Bonfire.UI.Common.FollowButtonLive
+              id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
+              object_id={id(@user)}
+              object={@user}
+              path={path(@user)}
+              hide_icon
+              class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded-full btn btn-primary"
+            />
+          </div>
+      {/case}
+    {/if}
   {/if}
 </div>
