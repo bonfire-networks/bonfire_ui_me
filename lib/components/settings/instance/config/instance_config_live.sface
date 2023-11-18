@@ -413,60 +413,6 @@ class="flex items-center justify-between cursor-pointer">
             />
           </div>
         </div>
-
-        {!-- <Bonfire.UI.Common.AvatarsSettingsLive scope={:instance} /> --}
-
-        {!-- <div x-data="{open: false}" class="p-4">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-medium">{l("What activities to include in home feeds by default")}</div>
-            </div>
-            <button
-              type="button"
-              x-cloak
-              x-on:click="open = !open"
-              class="rounded btn btn-square btn-sm btn-ghost"
-              x-show="open"
-            >
-              <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-            </button>
-            <button
-              type="button"
-              x-on:click="open = !open"
-              class="rounded btn btn-square btn-sm btn-ghost"
-              x-show="!open"
-            >
-              <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-            </button>
-          </div>
-          <div x-show="open" x-collapse>
-            <Dynamic.Component
-              :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
-              module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
-              title={l("What activities to include in home feeds by default")}
-              scope={:instance}
-            />
-          </div>
-        </div>
-
-        <Bonfire.UI.Common.SettingsToggleLive
-          name={l("Actions on activities (eg. reply, boost, etc)")}
-          description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
-          keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
-          scope={:instance}
-        />
-
-        <Bonfire.UI.Common.SettingsToggleLive
-          description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
-          keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
-          scope={:instance}
-        />
-
-        <Bonfire.UI.Common.SettingsToggleLive
-          name={l("Prefer compact layouts")}
-          keys={[:ui, :compact]}
-          scope={:instance}
-        /> --}
       </div>
     </form>
 

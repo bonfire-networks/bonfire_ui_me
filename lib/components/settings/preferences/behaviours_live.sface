@@ -22,7 +22,7 @@
         <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
       </button>
     </div>
-    <div x-show="open" x-cloak x-collapse>
+    <div x-show="open" x-cloak x-collapse class="pt-2">
       <Dynamic.Component
         :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
         module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
