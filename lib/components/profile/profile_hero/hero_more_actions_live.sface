@@ -41,20 +41,44 @@
         class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-200"
       >
         <li>
-          <LiveRedirect
-            to={path(@user, :settings)}
-            class="flex items-center gap-2 text-sm text-base-content/70"
-          >
+          <LiveRedirect to={path(:settings)} class="flex items-center gap-2 text-sm text-base-content/70">
             <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
             <span>{l("Settings")}</span>
           </LiveRedirect>
+        </li>
+        <li>
+          <LiveRedirect to="/feed/likes" class="flex items-center gap-2 text-sm text-base-content/70">
+            <#Icon iconify="mingcute:fire-line" class="w-4 h-4" />
+            <span>{l("Likes")}</span>
+          </LiveRedirect>
+        </li>
 
-          <li>
-            <LiveRedirect to="/feed/likes" class="flex items-center gap-2 text-sm text-base-content/70">
-              <#Icon iconify="mingcute:fire-line" class="w-4 h-4" />
-              <span>{l("Likes")}</span>
-            </LiveRedirect>
-          </li>
+        <li>
+          <LiveRedirect to="/bookmarks" class="flex items-center gap-2 text-sm text-base-content/70">
+            <#Icon iconify="carbon:bookmark-filled" class="w-4 h-4" />
+            <span>{l("Bookmarks")}</span>
+          </LiveRedirect>
+        </li>
+
+        <li>
+          <LiveRedirect to="/notifications" class="flex items-center gap-2 text-sm text-base-content/70">
+            <#Icon iconify="ri:notification-2-line" class="w-4 h-4" />
+            <span>{l("Notifications")}</span>
+          </LiveRedirect>
+        </li>
+
+        <li>
+          <LiveRedirect to="/messages" class="flex items-center gap-2 text-sm text-base-content/70">
+            <#Icon iconify="ri:mail-line" class="w-4 h-4" />
+            <span>{l("Messages")}</span>
+          </LiveRedirect>
+        </li>
+        <li>
+          <LiveRedirect to={~p"/logout"} class="flex items-center gap-2 text-sm text-base-content/60">
+            <#Icon iconify="uil:exit" class="w-4 h-4" />
+
+            <span>{l("Logout")}</span>
+          </LiveRedirect>
         </li>
       </ul>
     </div>
