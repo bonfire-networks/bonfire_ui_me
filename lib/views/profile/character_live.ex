@@ -54,7 +54,8 @@ defmodule Bonfire.UI.Me.CharacterLive do
            user_etc
          )}
       else
-        if current_user || Integration.is_local?(user_etc) do
+        if not is_nil(id(current_user)) or Integration.is_local?(user_etc) or
+             id(user_etc) == Bonfire.Me.Users.remote_fetcher() do
           debug("show profile locally")
 
           redirect_to_path =
