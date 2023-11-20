@@ -75,14 +75,10 @@
               {l("Choose a username")}
             </span>
           </Label>
-          <label class="text-sm input-group input-group-md border border-base-content/30 rounded-lg text-base-content/70">
-            <span class="text-sm">@</span>
-            <TextInput
-              class="flex-1 w-full bg-base-content/5 input"
-              required
-              opts={"x-bind:value": "suggest_username(username)"}
-            />
-            <span class="hidden text-sm md:flex">@{instance_domain()}</span>
+          <label class="flex w-full border border-base-content/20 items-center rounded-md">
+            <span class="h-[48px] flex items-center place-content-center border-r px-2 border-base-content/20 text-sm">@</span>
+            <TextInput class="input flex-1" required opts={"x-bind:value": "suggest_username(username)"} />
+            <span class="hidden flex items-center place-content-center h-[48px] px-2 text-sm md:flex border-l border-base-content/20">@{instance_domain()}</span>
           </label>
           <ErrorTag />
         </Field>

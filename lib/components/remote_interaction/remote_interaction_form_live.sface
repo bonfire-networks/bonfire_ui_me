@@ -32,25 +32,13 @@
           </button>
 
           <p class="mt-4 text-sm">{l("Are you a user of this instance?")} <a class="link link-primary" href={"/login?go=#{@canonical_url}"}>{l("Sign in instead.")}</a></p>
-
-          <div class="items-start justify-start mt-3 text-sm rounded text-info alert bg-info/10 alert-info">
-            <div class="flex items-start gap-3">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                class="flex-shrink-0 w-6 h-6 stroke-current"
-              ><path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                /></svg>
-              <span>{l(
-                  "Why is this step necessary? This might not be the fediverse instance where you are registered, in which case we first need to redirect you to your home instance where you'll be able to proceed to %{verb}.",
-                  verb: @interaction_type
-                )}</span>
-            </div>
+          <div class="alert mt-3 alert-info" role="alert">
+            <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
+            <span class="">
+              {l(
+                "Why is this step necessary? This might not be the fediverse instance where you are registered, in which case we first need to redirect you to your home instance where you'll be able to proceed to %{verb}.",
+                verb: @interaction_type
+              )}</span>
           </div>
         </div>
       </Form>

@@ -1,15 +1,10 @@
-<div class="p-4 mb-0 bg-info/10">
-  <div class="flex">
-    <div class="flex-shrink-0">
-      <div iconify="heroicons-solid:information-circle" class="w-5 h-5 text-info" aria-hidden="true" />
-    </div>
-    <div class="flex-1 ml-3 md:flex md:justify-between">
-      <p class="text-sm text-info">
-        {l("Customise the general look and feel of the instance")}</p>
-    </div>
+<div class="m-4">
+  <div class="alert alert-info" role="alert">
+    <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
+    <span class="">
+      {l("Customise the general look and feel of the instance")}</span>
   </div>
 </div>
-
 <div class="divide-y divide-base-content/20">
   <div x-data="{open: false}" class="p-4">
     <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">

@@ -3,18 +3,11 @@
     <form name="settings" phx-submit="Bonfire.Common.Settings:save">
       <input name="scope" value={:instance} type="hidden">
 
-      <div class="p-4 mb-0 rounded-md bg-info/10">
-        <div class="flex">
-          <div class="flex-shrink-0">
-            <#Icon solid="InformationCircle" class="w-5 h-5 text-info" />
-          </div>
-          <div class="flex-1 ml-3 md:flex md:justify-between">
-            <p class="text-sm text-info">
-              {l(
-                "Protip: instead of text you can paste the URL of a remote markdown-formated document, and its contents will be pulled in."
-              )}</p>
-          </div>
-        </div>
+      <div class="alert alert-info" role="alert">
+        <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
+        <span class="">{l(
+            "Protip: instead of text you can paste the URL of a remote markdown-formated document, and its contents will be pulled in."
+          )}</span>
       </div>
 
       <div class="mt-6 divide-y rounded-lg bg-base-content/5 divide-base-300">
