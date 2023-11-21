@@ -51,6 +51,10 @@
         </div>
       </div>
     {#else}
+      <!-- <ul class="steps">
+        <li data-content="" class="step step-primary">Our Code of Conduct</li>
+        <li data-content="" class="step step-neutral">Signup</li>
+      </ul> -->
       <div class="grid items-start gap-4 md:grid-cols-2">
         <div class="w-[90%] md:w-full mx-auto md:mx-0 md:pb-4" x-data="{ active: 1 }">
           <div class="shadow rounded-xl bg-base-100">
