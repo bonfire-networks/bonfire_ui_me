@@ -252,7 +252,7 @@
       {#case @character_type}
         {#match :group}
           <div class="flex items-center gap-2" data-role="follow_wrapper">
-            <Dynamic.Component
+            <Dynamic.LiveComponent
               :if={module_enabled?(Bonfire.UI.Social.FollowButtonLive)}
               module={Bonfire.UI.Social.FollowButtonLive}
               :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
@@ -288,11 +288,11 @@
                   class="flex btn btn-sm flex-1 btn-primary rounded-full items-center gap-2 normal-case"
                 />
               </:if_followed>
-            </Dynamic.Component>
+            </Dynamic.LiveComponent>
           </div>
         {#match _}
           <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
-            <Dynamic.Component
+            <Dynamic.LiveComponent
               :if={module_enabled?(Bonfire.UI.Social.FollowButtonLive)}
               module={Bonfire.UI.Social.FollowButtonLive}
               id={ComponentID.new(Bonfire.UI.Social.FollowButtonLive, id(@user), __MODULE__)}

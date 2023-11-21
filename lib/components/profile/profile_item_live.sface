@@ -39,7 +39,7 @@
     {l("Accept")}
   </button>
 
-  <Dynamic.Component
+  <Dynamic.LiveComponent
     :if={module_enabled?(Bonfire.UI.Social.FollowButtonLive)}
     module={Bonfire.UI.Social.FollowButtonLive}
     :if={:follow in @show_controls and current_user_id(@__context__) &&
