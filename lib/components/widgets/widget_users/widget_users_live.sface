@@ -2,7 +2,7 @@
   <div class="grid grid-cols-1 gap-4 py-3">
     {#for user <- users(@users)}
       <div class="px-2">
-        <Bonfire.UI.Common.ProfileItemLive
+        <Bonfire.UI.Me.ProfileItemLive
           show_controls={[]}
           character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
           profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}

@@ -153,7 +153,9 @@
           </li>
 
           <li class="">
-            <Bonfire.UI.Common.FlagActionLive
+            <Dynamic.Component
+              :if={module_enabled?(Bonfire.UI.Social.FlagActionLive)}
+              module={Bonfire.UI.Social.FlagActionLive}
               object={@user}
               parent_id="profile_hero"
               object_type={e(@user, :profile, :name, "this user")}
@@ -186,7 +188,9 @@
           {/if}
         {#else}
           <li class="">
-            <Bonfire.UI.Common.FlagActionLive
+            <Dynamic.Component
+              :if={module_enabled?(Bonfire.UI.Social.FlagActionLive)}
+              module={Bonfire.UI.Social.FlagActionLive}
               object={@user}
               parent_id="profile_hero"
               object_type={e(@user, :profile, :name, "this user")}
@@ -248,10 +252,12 @@
       {#case @character_type}
         {#match :group}
           <div class="flex items-center gap-2" data-role="follow_wrapper">
-            <Bonfire.UI.Common.FollowButtonLive
+            <Dynamic.Component
+              :if={module_enabled?(Bonfire.UI.Social.FollowButtonLive)}
+              module={Bonfire.UI.Social.FollowButtonLive}
               :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
                 e(@boundary_preset, "visible", nil) || Boundaries.can?(@__context__, :follow, @user)}
-              id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
+              id={ComponentID.new(Bonfire.UI.Social.FollowButtonLive, id(@user), __MODULE__)}
               object_id={id(@user)}
               object={@user}
               path={path(@user)}
@@ -282,12 +288,14 @@
                   class="flex btn btn-sm flex-1 btn-primary rounded-full items-center gap-2 normal-case"
                 />
               </:if_followed>
-            </Bonfire.UI.Common.FollowButtonLive>
+            </Dynamic.Component>
           </div>
         {#match _}
           <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
-            <Bonfire.UI.Common.FollowButtonLive
-              id={ComponentID.new(Bonfire.UI.Common.FollowButtonLive, id(@user), __MODULE__)}
+            <Dynamic.Component
+              :if={module_enabled?(Bonfire.UI.Social.FollowButtonLive)}
+              module={Bonfire.UI.Social.FollowButtonLive}
+              id={ComponentID.new(Bonfire.UI.Social.FollowButtonLive, id(@user), __MODULE__)}
               object_id={id(@user)}
               object={@user}
               path={path(@user)}

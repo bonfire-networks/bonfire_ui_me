@@ -123,7 +123,7 @@
               Bonfire.Social.Aliases.list_my_aliases(current_user(@__context__))
               |> e(:edges, [])
               |> debug("list_my_aliases")}>
-              <Bonfire.UI.Common.ProfileItemLive
+              <Bonfire.UI.Me.ProfileItemLive
                 show_controls={[]}
                 character={e(al, :edge, :object, :character, nil) |> debug("my_aliasss")}
                 profile={e(al, :edge, :object, :profile, nil)}

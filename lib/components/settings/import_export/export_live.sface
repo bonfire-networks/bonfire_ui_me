@@ -242,7 +242,7 @@
           <div class="label-text">{l("You can migrate to one of your existing aliases, or enter a new one below")}</div>
           <ul>
             <li :for={%{edge: %{object: al}} <- aliases}>
-              <Bonfire.UI.Common.ProfileItemLive
+              <Bonfire.UI.Me.ProfileItemLive
                 show_controls={[]}
                 character={e(al, :character, nil)}
                 profile={e(al, :profile, nil)}
@@ -281,7 +281,7 @@
                     </button>
                   </:action_btns>
                 </Bonfire.UI.Common.OpenModalLive>
-              </Bonfire.UI.Common.ProfileItemLive>
+              </Bonfire.UI.Me.ProfileItemLive>
             </li>
           </ul>
 

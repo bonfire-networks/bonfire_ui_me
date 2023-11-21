@@ -21,7 +21,7 @@
           <ul class="divide-y divide-base-content/20">
             {#for follow <- @feed}
               <li class="p-4">
-                <Bonfire.UI.Common.ProfileItemLive
+                <Bonfire.UI.Me.ProfileItemLive
                   wrapper_class="flex items-center justify-between"
                   profile={e(follow, :edge, :object, :profile, nil)}
                   lg
@@ -44,7 +44,7 @@
           <ul class="divide-y divide-base-content/20">
             {#for follow <- @feed}
               <li class="p-4">
-                <Bonfire.UI.Common.ProfileItemLive
+                <Bonfire.UI.Me.ProfileItemLive
                   lg
                   avatar_class="w-12 h-12 rounded-full bg-base-300"
                   wrapper_class="flex items-center justify-between"
