@@ -8,6 +8,7 @@
   <div class="flex items-center gap-3 p-3">
     <Bonfire.Files.Web.UploadIconLive
       id={:upload_icon}
+      src={Bonfire.Common.Media.avatar_url(current_user(@__context__))}
       container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
       class="inline-block w-32 h-32"
       object={current_user(@__context__)}

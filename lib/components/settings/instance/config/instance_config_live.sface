@@ -257,7 +257,7 @@
           scope={:instance}
           name={l("Maximum file size of uploads like avatars or banners")}
           description={l("They will be automatically resized on the server")}
-          keys={[Bonfire.UI.Common.SmartInputLive, :max_file_size]}
+          keys={[Bonfire.Files, :max_user_images_file_size]}
           unit={l("MB")}
         />
 
