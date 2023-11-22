@@ -98,6 +98,7 @@
       </form>
     </div>
   </div>
+
   <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Composer"
