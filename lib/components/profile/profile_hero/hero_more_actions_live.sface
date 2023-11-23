@@ -62,14 +62,14 @@
 
         <li>
           <LiveRedirect to="/notifications" class="flex items-center gap-2 text-sm text-base-content/70">
-            <#Icon iconify="ri:notification-2-line" class="w-4 h-4" />
+            <#Icon iconify="carbon:notification" class="w-4 h-4" />
             <span>{l("Notifications")}</span>
           </LiveRedirect>
         </li>
 
         <li>
           <LiveRedirect to="/messages" class="flex items-center gap-2 text-sm text-base-content/70">
-            <#Icon iconify="ri:mail-line" class="w-4 h-4" />
+            <#Icon iconify="carbon:email" class="w-4 h-4" />
             <span>{l("Messages")}</span>
           </LiveRedirect>
         </li>
@@ -239,7 +239,7 @@
           {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
         ]
       }}
-      icon="ri:mail-line"
+      icon="carbon:email"
       class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
     />
 

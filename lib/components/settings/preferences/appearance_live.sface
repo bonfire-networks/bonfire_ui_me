@@ -21,14 +21,14 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
-      <form name="settings" phx-change="Bonfire.Common.Settings:set">
+      <form data-scope="set_theme" name="settings" phx-change="Bonfire.Common.Settings:set">
         <input name="scope" value={@scope} type="hidden">
         <Bonfire.UI.Common.ChangeThemesLive scope={@scope} />
       </form>
     </div>
   </div>
 
-  <form name="settings" phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_font" name="settings" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsSelectLive
       name={l("Font")}
       description={l("Select the default font for the interface")}
@@ -87,7 +87,7 @@
         <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
       </div>
 
-      <form name="settings" phx-change="Bonfire.Common.Settings:set">
+      <form data-scope="set_language" name="settings" phx-change="Bonfire.Common.Settings:set">
         <input name="scope" value={@scope} type="hidden">
         <div class="max-w-xs  form-control">
           <Bonfire.UI.Common.ChangeLocaleLive
@@ -99,7 +99,7 @@
     </div>
   </div>
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_composer" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Composer"
       description={l("Show the focused composer")}
@@ -108,7 +108,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_brand" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Brand"
       description={l("Show only the instance logo")}
@@ -117,7 +117,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_avatar_shape" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Avatar shape"
       description={l("Show square avatars")}
@@ -127,7 +127,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
     <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
   </form>
@@ -158,7 +158,7 @@
     <input name="scope" value={@scope} type="hidden">
 
     <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Actions on feed activities (eg. reply, boost, etc)")}
+      name={l("Hide actions on feed activities (eg. reply, boost, etc)")}
       description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
       keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
       scope={@scope}
@@ -168,7 +168,7 @@
   <form phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
     <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Actions on discussions (eg. reply, boost, etc)")}
+      name={l("Hide actions on discussions (eg. reply, boost, etc)")}
       description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
       keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
       scope={@scope}

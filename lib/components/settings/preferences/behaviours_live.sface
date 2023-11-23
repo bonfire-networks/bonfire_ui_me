@@ -340,7 +340,7 @@
     </form> --}
 
   <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-    <#Icon iconify="ri:notification-2-fill" class="w-5 h-5 text-base-content/80" />
+    <#Icon iconify="carbon:notification" class="w-5 h-5 text-base-content/80" />
     <span>{l("Notifications")}</span>
   </div>
 
