@@ -13,8 +13,8 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.ImportLive do
      |> assign(assigns)
      |> allow_upload(:file,
        accept: ~w(.csv),
-       # make extensions & size configurable
-       max_file_size: 10_000_000,
+       # TODO: make extensions & size configurable
+       max_file_size: 500_000_000,
        max_entries: 1,
        auto_upload: true
        #  progress: &handle_progress/3
