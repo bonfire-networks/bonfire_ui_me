@@ -84,7 +84,10 @@
                 </div>
               </div>
               <div class="mb-4">
-                <div class="flex justify-between w-full px-6">
+                <div
+                  :if={!Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
+                  class="flex justify-between w-full px-6"
+                >
                   {#if @character_type == :user}
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"

@@ -133,7 +133,7 @@
   </form>
 
   {!-- name={l("Missing avatars")} --}
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_animal_avatar" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
     <Bonfire.UI.Common.SettingsToggleLive
       description={l("Show randomly-generated animal avatars for users without a profile picture?")}
@@ -144,7 +144,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_compact_layout" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Prefer compact layouts")}
@@ -154,7 +154,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
 
     <Bonfire.UI.Common.SettingsToggleLive
@@ -165,7 +165,7 @@
     />
   </form>
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_hide_actions_on_discussion" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Hide actions on discussions (eg. reply, boost, etc)")}

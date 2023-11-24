@@ -1,5 +1,5 @@
 <div class="flex flex-col w-full gap-1 mt-3">
-  <div class="flex items-top w-full justify-between">
+  <div class="flex items-start w-full justify-between">
     <div class="flex flex-col pl-6">
       <div class="flex items-center text-lg font-bold text-base-content">
         <LivePatch to={~p"/@#{e(@user, :character, :username, nil)}"}>
@@ -22,6 +22,23 @@
         {l("Admin")}
       </span>
     </div>
+
+    <div
+      :if={Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
+      class="mt-3 mr-6 flex items-center justify-between"
+    >
+      <Bonfire.UI.Me.HeroMoreActionsLive
+        ghosted_instance_wide?={@ghosted_instance_wide?}
+        silenced_instance_wide?={@silenced_instance_wide?}
+        ghosted?={@ghosted?}
+        silenced?={@silenced?}
+        character_type={@character_type}
+        boundary_preset={@boundary_preset}
+        user={@user}
+        members={@members}
+        moderators={@moderators}
+      />
+    </div>
   </div>
 
   <div class="pl-6">
@@ -31,15 +48,6 @@
 
     {!-- :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)} --}
     <div :if={@character_type == :user} class="flex items-center  w-full space-x-4">
-      {!-- <LivePatch
-        class="flex items-center"
-        to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
-      >
-        <#Icon iconify="eos-icons:network" class="w-5 h-5 text-base-content/70" />
-        <span class="link link-hover ml-2 text-sm text-base-content font-medium">
-          {l("Network")}
-        </span>
-      </LivePatch> --}
       <div :if={e(@user, :profile, :location, nil)} class="flex mt-4 items-center">
         <#Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
         <span class="ml-2 text-sm text-base-content/70">
