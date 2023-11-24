@@ -3,6 +3,25 @@ defmodule Bonfire.UI.Me.SettingsTest do
   import Phoenix.LiveViewTest
   use Mneme
   alias Bonfire.Social.Posts
+  alias Bonfire.Social.Boosts
+  alias Bonfire.Social.Follows
+  alias Bonfire.Common.Config
+
+  setup_all do
+    orig1 = Config.get!(:pagination_hard_max_limit)
+
+    orig2 = Config.get!(:default_pagination_limit)
+
+    Config.put(:pagination_hard_max_limit, 10)
+
+    Config.put(:default_pagination_limit, 10)
+
+    on_exit(fn ->
+      Config.put(:pagination_hard_max_limit, orig1)
+
+      Config.put(:default_pagination_limit, orig2)
+    end)
+  end
 
   describe "Appearance" do
     test "As a user I want to select a different theme" do
@@ -33,9 +52,10 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> element("form[data-scope=set_font]")
       |> render_change(%{"ui" => %{"font_family" => "Luciole"}})
 
-      assert "Luciole" ==
-               view
-               |> element("body")
+      # force a refresh
+      {:ok, refreshed_view, html} = live(conn, next)
+
+      assert html =~ "fonts/luciole.css"
     end
 
     test "As a user I want to select a different language" do
@@ -268,6 +288,82 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
   describe "Behaviours" do
     test "Feed activities" do
+      Config.put(:pagination_hard_max_limit, 10)
+
+      Config.put(:default_pagination_limit, 10)
+
+      # create alice user
+      account = fake_account!()
+      alice = fake_user!(account)
+      # create bob user
+      bob = fake_user!(account)
+      # create post by alice
+      attrs = %{
+        post_content: %{summary: "summary", name: "test post name", html_body: "first post"}
+      }
+
+      assert {:ok, post} =
+               Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
+
+      # create a reply by bob
+      attrs_reply = %{
+        post_content: %{
+          summary: "summary",
+          name: "name 2",
+          html_body: "<p>reply to first post</p>"
+        },
+        reply_to_id: post.id
+      }
+
+      assert {:ok, post_reply} =
+               Posts.publish(current_user: bob, post_attrs: attrs_reply, boundary: "public")
+
+      # boost the post
+      assert {:ok, boost} = Boosts.boost(bob, post)
+      # bob follows alice
+      assert {:ok, follow} = Follows.follow(alice, bob)
+
+      assert {:ok, op2} =
+               Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+
+      # navigate to the feed
+      # I should see 3 posts: alice post, bob reply, boost
+      conn = conn(user: alice, account: account)
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      view
+      |> element("form[data-scope=boosts]")
+      |> render_change(%{
+        "Elixir.Bonfire.Social.Feeds" => %{"include" => %{"boost" => "false"}}
+      })
+
+      view
+      |> element("form[data-scope=replies]")
+      |> render_change(%{
+        "Elixir.Bonfire.Social.Feeds" => %{"include" => %{"reply" => "false"}}
+      })
+
+      view
+      |> element("form[data-scope=follows]")
+      |> render_change(%{
+        "Elixir.Bonfire.Social.Feeds" => %{"include" => %{"follow" => "true"}}
+      })
+
+      view
+      |> element("form[data-scope=outbox]")
+      |> render_change(%{
+        "Elixir.Bonfire.Social.Feeds" => %{"include" => %{"outbox" => "false"}}
+      })
+
+      # "Elixir.Bonfire.Social.Feeds" => %{"include" => %{"reply" => "false"}},
+      # "Elixir.Bonfire.Social.Feeds" => %{"include" => %{"outbox" => "false"}}
+
+      {:ok, refreshed_view, _html} = live(conn, "/feed/local")
+
+      open_browser(refreshed_view)
+
+      # assert refreshed_view
+      #   |> has_element?("div[data-id=feed_activity_list]")
     end
 
     test "default feed" do
