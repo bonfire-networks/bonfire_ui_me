@@ -359,8 +359,12 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # "Elixir.Bonfire.Social.Feeds" => %{"include" => %{"outbox" => "false"}}
 
       {:ok, refreshed_view, _html} = live(conn, "/feed/local")
-
-      open_browser(refreshed_view)
+      # assert that the feed contains only 1 element
+      assert refreshed_view
+        |> element("article[data-id=activity]")
+        |> length()
+        |> Kernel.==(1)
+      # open_browser(refreshed_view)
 
       # assert refreshed_view
       #   |> has_element?("div[data-id=feed_activity_list]")
