@@ -194,6 +194,10 @@ defmodule Bonfire.UI.Me.ExportController do
     {:ok, _conn} = maybe_chunk(conn_or_user, private_key(conn_or_user))
   end
 
+  defp binary_content(conn_or_user, "keys" = _type) do
+    {:ok, _conn} = maybe_chunk(conn_or_user, keys(conn_or_user))
+  end
+
   defp outbox(conn_or_user) do
     user = current_user(conn_or_user)
 
@@ -285,8 +289,24 @@ defmodule Bonfire.UI.Me.ExportController do
         stream_callback(type, stream, conn)
       end
     )
+  end
 
-    # |> IO.inspect(label: "postss")
+  defp csv_content(conn, "messages" = type) do
+    fields = ["ID", "Date", "From", "To", "CW", "Summary", "Text"]
+
+    current_user = current_user_required!(conn)
+
+    {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+
+    Bonfire.Social.Messages.list(current_user, nil,
+      paginate: false,
+      return: :stream,
+      stream_callback: fn stream ->
+        stream_callback(type, stream, conn)
+      end
+    )
+
+    # |> IO.inspect(label: "msgs")
   end
 
   defp csv_content(conn, type) when type in ["silenced", "ghosted"] do
@@ -380,6 +400,16 @@ defmodule Bonfire.UI.Me.ExportController do
     records |> repo().preload(edge: [subject: [:character]])
   end
 
+  defp preload_assocs(records, type) when type in ["messages"] do
+    # records |> repo().preload([:post_content, :peered, created: [creator: [:character]]])
+
+    Bonfire.Social.Activities.activity_preloads(
+      records,
+      [:with_object_posts, :with_subject, :with_reply_to, :tags],
+      skip_boundary_check: true
+    )
+  end
+
   defp preload_assocs(records, type) when type in ["posts"] do
     records |> repo().preload([:post_content, :peered])
   end
@@ -422,12 +452,37 @@ defmodule Bonfire.UI.Me.ExportController do
       record
       |> preload_assocs(type)
 
+    # |> debug()
+
     [
       URIs.canonical_url(record),
       DatesTimes.date_from_pointer(record),
       e(record, :post_content, :name, nil),
       e(record, :post_content, :summary, nil),
       e(record, :post_content, :html_body, nil)
+    ]
+  end
+
+  defp prepare_record(type, record) when type in ["messages"] do
+    record =
+      record
+      |> preload_assocs(type)
+      |> debug()
+
+    participants =
+      Bonfire.Social.Messages.LiveHandler.thread_participants(nil, record, nil, [])
+      |> debug()
+
+    msg = e(record, :activity, :object, :post_content, nil) || e(record, :post_content, nil)
+
+    [
+      URIs.canonical_url(record),
+      DatesTimes.date_from_pointer(record),
+      e(record, :activity, :subject, :character, :username, nil),
+      Enum.map(participants, &e(&1, :character, :username, nil)) |> Enum.join(" ; "),
+      e(msg, :name, nil),
+      e(msg, :summary, nil),
+      e(msg, :html_body, nil)
     ]
   end
 
@@ -472,6 +527,16 @@ defmodule Bonfire.UI.Me.ExportController do
     |> e(:character, :actor, :signing_key, nil)
 
     # |> debug()
+  end
+
+  defp keys(conn_or_user) do
+    keys = private_key(conn_or_user)
+
+    """
+    #{keys}
+
+    #{ok_unwrap(ActivityPub.Safety.Keys.public_key_from_data(%{keys: keys}))}
+    """
   end
 
   defp collection_header(name) do
