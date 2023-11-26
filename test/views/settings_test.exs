@@ -361,9 +361,10 @@ defmodule Bonfire.UI.Me.SettingsTest do
       {:ok, refreshed_view, _html} = live(conn, "/feed/local")
       # assert that the feed contains only 1 element
       assert refreshed_view
-        |> element("article[data-id=activity]")
-        |> length()
-        |> Kernel.==(1)
+             |> element("article[data-id=activity]")
+             |> length()
+             |> Kernel.==(1)
+
       # open_browser(refreshed_view)
 
       # assert refreshed_view
