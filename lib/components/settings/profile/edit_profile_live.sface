@@ -231,7 +231,7 @@
             <p>{l(
                 "Deleting your user will remove all associated data from this server. This includes all posts, comments, and any other data associated with this user profile."
               )}</p>
-            <p>Note: You can also delete <LivePatch to="/settings/account">your entire account</LivePatch> and all associated users instead.</p>
+            <p>Note: You can also delete <LiveRedirect to="/settings/account">your entire account</LiveRedirect> and all associated users instead.</p>
             <p>{l("This action cannot be undone.")}</p>
             <p>{l("If you are sure you want to delete your user, please enter your password below to confirm.")}</p>
           </div>
