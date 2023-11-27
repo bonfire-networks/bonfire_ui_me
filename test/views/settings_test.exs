@@ -4,6 +4,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
   use Mneme
   alias Bonfire.Social.Posts
   alias Bonfire.Social.Boosts
+  alias Bonfire.Social.Likes
   alias Bonfire.Social.Follows
   alias Bonfire.Common.Config
 
@@ -372,16 +373,163 @@ defmodule Bonfire.UI.Me.SettingsTest do
                     |> Floki.find("[data-id=feed] article")
                     |> List.first()
                     |> Floki.text() =~ "first post"
-
     end
 
     test "default feed" do
+      # create alice user
+      account = fake_account!()
+      alice = fake_user!(account)
+      # create bob user
+      bob = fake_user!(account)
+      # create post by alice
+      attrs = %{
+        post_content: %{html_body: "alice post"}
+      }
+
+      assert {:ok, post} =
+               Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+
+      # create a post by bob
+      attrs = %{
+        post_content: %{html_body: "bob post"}
+      }
+
+      assert {:ok, p} = Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
+      # default feed is set to myfeed
+      # check that the first post is the one alice created
+      conn = conn(user: alice, account: account)
+      {:ok, view, html} = live(conn, "/")
+
+      # ensure the first post in the feed is alice's post
+      auto_assert true <-
+                    html
+                    |> Floki.find("article")
+                    |> List.first()
+                    |> Floki.text() =~ "alice post"
+
+      # change default feed to local
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      view
+      |> element("form[data-scope=default_feed]")
+      |> render_change(%{
+        "Elixir.Bonfire.UI.Social.FeedLive" => %{"default_feed" => "local"}
+      })
+
+      # check that the first post is the one bob created
+      {:ok, refreshed_view, refreshed_html} = live(conn, "/")
+
+      auto_assert true <- html =~ "local"
+
+      auto_assert true <-
+                    refreshed_html
+                    |> Floki.find("article")
+                    |> List.first()
+                    |> Floki.text() =~ "bob post"
     end
 
+    # WIP: Not sure how to meaningfully test it
     test "feed default time limit" do
     end
 
-    test "feed defaykt sort" do
+    test "feed default sort" do
+      # create 2 users
+      account = fake_account!()
+      alice = fake_user!(account)
+      bob = fake_user!(account)
+      # create a post that has 2 replies
+      attrs = %{
+        post_content: %{html_body: "alice post"}
+      }
+
+      assert {:ok, post} =
+               Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+
+      attrs = %{
+        post_content: %{html_body: "reply 1"},
+        reply_to_id: post.id
+      }
+
+      assert {:ok, p1} = Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
+
+      attrs = %{
+        post_content: %{html_body: "reply 2"},
+        reply_to_id: post.id
+      }
+
+      assert {:ok, p2} = Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
+      # create a post that has 2 likes
+      assert {:ok, like} = Likes.like(alice, p1)
+      assert {:ok, like} = Likes.like(bob, p1)
+      # create a post that has 2 boosts
+      assert {:ok, boost} = Boosts.boost(alice, p2)
+      assert {:ok, boost} = Boosts.boost(bob, p2)
+
+      conn = conn(user: alice, account: account)
+      {:ok, view, html} = live(conn, "/feed/local")
+      open_browser(view)
+      # check the first post is the last created: p2
+      auto_assert true <-
+                    html
+                    |> Floki.find("article")
+                    |> List.first()
+                    |> Floki.text() =~ "reply 2"
+
+      # change the preferences to sort by likes
+      {:ok, v1, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      v1
+      |> element("form[data-scope=reactions_sort]")
+      |> render_change(%{
+        "Elixir.Bonfire.UI.Social.FeedLive" => %{"sorty_by" => :num_likes}
+      })
+
+      #  |> debug("QUI")
+      #  open_browser(v1)
+      {:ok, refreshed_view, refreshed_html} = live(conn, "/feed/local")
+      # check the first post is the one with most likes: p1
+      auto_assert true <-
+                    refreshed_html
+                    |> Floki.find("article")
+                    |> List.first()
+                    |> Floki.text() =~ "reply 1"
+
+      # change the preferences to sort by boost
+      {:ok, v2, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      v2
+      |> element("form[data-scope=reactions_sort]")
+      |> render_change(%{
+        "Elixir.Bonfire.UI.Social.FeedLive" => %{"sorty_by" => "num_boosts"}
+      })
+
+      {:ok, refreshed_view1, refreshed_html} = live(conn, "/feed/local")
+      # check the first post is the one with most boosts: p2
+      open_browser(refreshed_view1)
+
+      auto_assert true <-
+                    refreshed_html
+                    |> Floki.find("article")
+                    |> List.first()
+                    |> Floki.text() =~ "reply 1"
+
+      # change the preferences to sort by replies
+      {:ok, v3, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      v3
+      |> element("form[data-scope=reactions_sort]")
+      |> render_change(%{
+        "Elixir.Bonfire.UI.Social.FeedLive" => %{"sorty_by" => "num_replies"}
+      })
+
+      {:ok, refreshed_view2, refreshed_html} = live(conn, "/feed/local")
+      open_browser(refreshed_view2)
+      # check the first post is the one with most replies: post
+      auto_assert true <-
+                    refreshed_html
+                    |> Floki.find("article")
+                    |> List.first()
+                    |> Floki.text() =~ "alice post"
     end
 
     test "how many items to show in feeds and other lists" do

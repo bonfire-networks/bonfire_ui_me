@@ -35,78 +35,63 @@
     </div>
   </div>
 
-  <form phx-change="Bonfire.Common.Settings:set">
-    <Bonfire.UI.Common.SettingsRadiosLive
-      name={l("Default feed")}
-      description={l("Select the feed you want to display on the homepage")}
-      keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
-      options={[
-        my: l("My Feed"),
-        explore: l("Everything"),
-        local: l("Local"),
-        fediverse: l("Remote"),
-        likes: "Liked"
-      ]}
-      default_value={:my}
-      scope={@scope}
-    />
-  </form>
-
-  {!-- <form phx-change="Bonfire.Common.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <div x-data="{open: false}" class="p-4">
-        <div class="flex items-center justify-between gap-4">
-          <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Default Feed")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("Select the feed you want to display when visiting the activities and dashboard pages")}</div>
-          </div>
-          <button
-            type="button"
-            x-cloak
-            x-on:click="open = !open"
-            class="btn btn-circle btn-sm btn-ghost"
-            x-show="open"
-          >
-            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-          <button
-            type="button"
-            x-on:click="open = !open"
-            class="btn btn-circle btn-sm btn-ghost"
-            x-show="!open"
-          >
-            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-        </div>
-        <div x-show="open" x-cloak x-collapse>
-          <div class="form-control mt-4">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked>
-              <span class="label-text">{l("My Feed")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("Local")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("Remote")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("Liked")}</span>
-            </label>
-          </div>
-        </div>
+  <div x-data="{open: false}" class="p-4 cursor-pointer">
+    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-medium">{l("Default feed")}</div>
+        <div class="text-sm font-light text-base-content/70">{l("Select the feed you want to display on the homepage")}</div>
       </div>
-    </form> --}
+      {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse class="pt-2">
+      <form data-scope="default_feed" phx-change="Bonfire.Common.Settings:set">
+        <Bonfire.UI.Common.SettingsRadiosLive
+          keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
+          options={[
+            my: l("My Feed"),
+            explore: l("Everything"),
+            local: l("Local"),
+            fediverse: l("Remote"),
+            likes: "Liked"
+          ]}
+          default_value={:my}
+          scope={@scope}
+        />
+      </form>
+    </div>
+  </div>
 
+  <div x-data="{open: false}" class="p-4 cursor-pointer">
+    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-medium">{l("Feed default time limit")}</div>
+        <div class="text-sm font-light text-base-content/70">{l(
+            "Select the time limit you want to use by default (can always change in the feed controls options)"
+          )}</div>
+      </div>
+      {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse class="pt-2">
+      <Dynamic.Component
+        :if={module_enabled?(Bonfire.UI.Social.Settings.TimeSortItemsLive, @__context__)}
+        module={Bonfire.UI.Social.Settings.TimeSortItemsLive}
+        scope={:user}
+      />
+    </div>
+  </div>
+  <!-- 
   <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsRadiosLive
       name={l("Feed default time limit")}
@@ -118,7 +103,7 @@
       default_value={7}
       scope={@scope}
     />
-  </form>
+  </form> -->
 
   {!-- <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
@@ -183,7 +168,32 @@
       </div>
     </form> --}
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <div x-data="{open: false}" class="p-4 cursor-pointer">
+    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-medium">{l("Feed default sort")}</div>
+        <div class="text-sm font-light text-base-content/70">{l(
+            "Select the default sorting options for your feeds (can always change in the feed controls options)"
+          )}</div>
+      </div>
+      {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse class="pt-2">
+      <Dynamic.Component
+        :if={module_enabled?(Bonfire.UI.Social.Settings.ReactionsSortItemsLive, @__context__)}
+        module={Bonfire.UI.Social.Settings.ReactionsSortItemsLive}
+        scope={@scope}
+      />
+    </div>
+  </div>
+
+  <!-- <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsRadiosLive
       name={l("Feed default sort")}
       description={l(
@@ -199,7 +209,7 @@
       default_value={nil}
       scope={@scope}
     />
-  </form>
+  </form> -->
 
   <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.Settings.NumberLive
@@ -211,21 +221,37 @@
     {!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} --}
   </form>
 
-  <form phx-change="Bonfire.Common.Settings:set">
-    <Bonfire.UI.Common.SettingsRadiosLive
-      name={l("Infinite scrolling")}
-      description={l("Enable infinite scrolling on long lists of items")}
-      label="Dark Pattern"
-      keys={[:ui, :infinite_scroll]}
-      options={[
-        preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
-        true: l("Enable doom scrolling"),
-        false: "Disable"
-      ]}
-      default_value={:preload}
-      scope={@scope}
-    />
-  </form>
+  <div x-data="{open: false}" class="p-4 cursor-pointer">
+    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="badge mb-2 !border !border-warning/30 badge-outline badge-warning">Dark Pattern</div>
+        <div class="text-sm font-medium">{l("Infinite scrolling")}</div>
+        <!-- <div class="text-sm font-light text-base-content/70">{l("Infinite scrolling")}</div> -->
+      </div>
+      {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse class="pt-2">
+      <form phx-change="Bonfire.Common.Settings:set">
+        <Bonfire.UI.Common.SettingsRadiosLive
+          label="Dark Pattern"
+          keys={[:ui, :infinite_scroll]}
+          options={[
+            preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
+            true: l("Enable doom scrolling"),
+            false: "Disable"
+          ]}
+          default_value={:preload}
+          scope={@scope}
+        />
+      </form>
+    </div>
+  </div>
 
   <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
@@ -252,92 +278,65 @@
     <span>{l("Discussions")}</span>
   </div>
 
-  <form phx-change="Bonfire.Common.Settings:set">
-    <Bonfire.UI.Common.SettingsRadiosLive
-      name={l("Discussions default layout")}
-      description={l("Select the default way to view discussions (can always change in the feed controls options)")}
-      keys={[Bonfire.UI.Social.ThreadLive, :thread_mode]}
-      options={[flat: l("Flat"), nested: l("Nested threads")]}
-      default_value={:nested}
-      scope={@scope}
-    />
-  </form>
-
-  <form phx-change="Bonfire.Common.Settings:set">
-    <Bonfire.UI.Common.SettingsRadiosLive
-      name={l("Discussions default sort")}
-      description={l(
-        "Select the default sorting options for viewing discussions (can always change in the feed controls options)"
-      )}
-      keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
-      options={[
-        nil: l("Chronological"),
-        latest_reply: l("Surface latest replies"),
-        num_replies: l("Amount of replies"),
-        num_boosts: l("Amount of boosts"),
-        num_likes: l("Amount of likes")
-      ]}
-      default_value={nil}
-      scope={@scope}
-    />
-  </form>
-
-  {!-- <form phx-change="Bonfire.Common.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <div x-data="{open: false}" class="p-4">
-        <div class="flex items-center justify-between gap-4">
-          <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Feed default sorting")}</div>
-            <div class="text-sm font-light text-base-content/70">{l(
-                "Select the default sorting options for your feeds (can always change in the feed controls options)"
-              )}</div>
-          </div>
-          <button
-            type="button"
-            x-cloak
-            x-on:click="open = !open"
-            class="btn btn-circle btn-sm btn-ghost"
-            x-show="open"
-          >
-            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-          <button
-            type="button"
-            x-on:click="open = !open"
-            class="btn btn-circle btn-sm btn-ghost"
-            x-show="!open"
-          >
-            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-        </div>
-        <div x-show="open" x-cloak x-collapse>
-          <div class="form-control mt-4">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked>
-              <span class="label-text">{l("Chronological")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("Amount of replies")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("Amount of boosts")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("Amount of likes")}</span>
-            </label>
-          </div>
-        </div>
+  <div x-data="{open: false}" class="p-4 cursor-pointer">
+    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-medium">{l("Discussions default layout")}</div>
+        <div class="text-sm font-light text-base-content/70">{l("Select the default way to view discussions (can always change in the feed controls options)")}</div>
       </div>
-    </form> --}
+      {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse class="pt-2">
+      <form phx-change="Bonfire.Common.Settings:set">
+        <Bonfire.UI.Common.SettingsRadiosLive
+          keys={[Bonfire.UI.Social.ThreadLive, :thread_mode]}
+          options={[flat: l("Flat"), nested: l("Nested threads")]}
+          default_value={:nested}
+          scope={@scope}
+        />
+      </form>
+    </div>
+  </div>
+
+  <div x-data="{open: false}" class="p-4 cursor-pointer">
+    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-medium">{l("Discussions default sort")}</div>
+        <div class="text-sm font-light text-base-content/70">{l(
+            "Select the default sorting options for viewing discussions (can always change in the feed controls options)"
+          )}</div>
+      </div>
+      {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse class="pt-2">
+      <form phx-change="Bonfire.Common.Settings:set">
+        <Bonfire.UI.Common.SettingsRadiosLive
+          keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
+          options={[
+            nil: l("Chronological"),
+            latest_reply: l("Surface latest replies"),
+            num_replies: l("Amount of replies"),
+            num_boosts: l("Amount of boosts"),
+            num_likes: l("Amount of likes")
+          ]}
+          default_value={nil}
+          scope={@scope}
+        />
+      </form>
+    </div>
+  </div>
 
   <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
     <#Icon iconify="carbon:notification" class="w-5 h-5 text-base-content/80" />
