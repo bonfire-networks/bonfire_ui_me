@@ -147,6 +147,8 @@
               <span>PEM</span>
             </a></td>
         </tr>
+        <!-- 
+        TODO: optimise AP-based export
         <tr>
           <td>My actitivities</td>
           {!-- <td>23</td> --}
@@ -158,7 +160,7 @@
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
               <span>JSON</span>
             </a></td>
-        </tr>
+        </tr> -->
       </tbody>
     </table>
   </div>

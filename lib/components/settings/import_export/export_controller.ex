@@ -104,17 +104,20 @@ defmodule Bonfire.UI.Me.ExportController do
     Zstream.zip(
       [
         Zstream.entry("actor.json", [actor(user)]),
-        Zstream.entry("outbox.json", [
-          collection_header("outbox"),
-          ok_unwrap(outbox(user)),
-          collection_footer()
-        ]),
+        # TODO: optimise AP-based export
+        # Zstream.entry("outbox.json", [
+        #   collection_header("outbox"),
+        #   ok_unwrap(outbox(user)),
+        #   collection_footer()
+        # ]),
         Zstream.entry("following.csv", ok_unwrap(csv_content(user, "following"))),
         Zstream.entry("requests.csv", ok_unwrap(csv_content(user, "requests"))),
         Zstream.entry("followers.csv", ok_unwrap(csv_content(user, "followers"))),
         Zstream.entry("posts.csv", ok_unwrap(csv_content(user, "posts"))),
+        Zstream.entry("messages.csv", ok_unwrap(csv_content(user, "messages"))),
         Zstream.entry("ghosted.csv", ok_unwrap(csv_content(user, "ghosted"))),
-        Zstream.entry("silenced.csv", ok_unwrap(csv_content(user, "silenced")))
+        Zstream.entry("silenced.csv", ok_unwrap(csv_content(user, "silenced"))),
+        Zstream.entry("keys.asc", [keys(user)])
       ] ++
         for upload <- uploads do
           Zstream.entry(upload, File.stream!(upload, [], 512))
@@ -173,7 +176,9 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp zip_filename(user_id) do
-    {_path, file} = zip_path_file(user_id)
+    {_path, file} =
+      zip_path_file(user_id)
+      |> debug()
 
     file
   end
@@ -199,6 +204,8 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp outbox(conn_or_user) do
+    Process.put(:federating, :manual)
+
     user = current_user(conn_or_user)
 
     feed_id = Bonfire.Social.Feeds.feed_id(:outbox, user)
@@ -492,7 +499,10 @@ defmodule Bonfire.UI.Me.ExportController do
     #   |> preload_assocs(type)
     #   |> e(:activity, nil)
 
-    with {:ok, json} <- ActivityPub.Web.ActivityPubController.json_object_with_cache(id(record)) do
+    with {:ok, json} <-
+           ActivityPub.Web.ActivityPubController.json_object_with_cache(nil, id(record),
+             exporting: true
+           ) do
       """
       #{json},
       """
