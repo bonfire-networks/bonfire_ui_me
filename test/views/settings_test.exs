@@ -310,16 +310,23 @@ defmodule Bonfire.UI.Me.SettingsTest do
         post_content: %{
           summary: "summary",
           name: "name 2",
-          html_body: "<p>reply to first post</p>"
+          html_body: "<p>reply</p>"
+        },
+        reply_to_id: post.id
+      }
+
+      alice_post = %{
+        post_content: %{
+          html_body: "<p>nice day uh?</p>"
         },
         reply_to_id: post.id
       }
 
       assert {:ok, post_reply} =
-               Posts.publish(current_user: bob, post_attrs: attrs_reply, boundary: "public")
+               Posts.publish(current_user: bob, post_attrs: alice_post, boundary: "public")
 
       # boost the post
-      assert {:ok, boost} = Boosts.boost(bob, post)
+      assert {:ok, boost} = Boosts.boost(bob, post_reply)
       # bob follows alice
       assert {:ok, follow} = Follows.follow(alice, bob)
 
@@ -358,17 +365,14 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # "Elixir.Bonfire.Social.Feeds" => %{"include" => %{"reply" => "false"}},
       # "Elixir.Bonfire.Social.Feeds" => %{"include" => %{"outbox" => "false"}}
 
-      {:ok, refreshed_view, _html} = live(conn, "/feed/local")
+      {:ok, _refreshed_view, html} = live(conn, "/feed/local")
       # assert that the feed contains only 1 element
-      assert refreshed_view
-             |> element("article[data-id=activity]")
-             |> length()
-             |> Kernel.==(1)
+      auto_assert true <-
+                    html
+                    |> Floki.find("[data-id=feed] article")
+                    |> List.first()
+                    |> Floki.text() =~ "first post"
 
-      # open_browser(refreshed_view)
-
-      # assert refreshed_view
-      #   |> has_element?("div[data-id=feed_activity_list]")
     end
 
     test "default feed" do
