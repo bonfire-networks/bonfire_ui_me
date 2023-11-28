@@ -293,7 +293,7 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse class="pt-2">
-      <form phx-change="Bonfire.Common.Settings:set">
+      <form data-scope="set_thread_layout" phx-change="Bonfire.Common.Settings:set">
         <Bonfire.UI.Common.SettingsRadiosLive
           keys={[Bonfire.UI.Social.ThreadLive, :thread_mode]}
           options={[flat: l("Flat"), nested: l("Nested threads")]}
@@ -353,7 +353,7 @@
     />
   </form> --}
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="notification_highlight" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       label="Dark Pattern"
       name="Highlight notifications indicator"
@@ -368,7 +368,7 @@
     <span>{l("Reactions")}</span>
   </div>
 
-  <form phx-change="Bonfire.Common.Settings:set">
+  <form data-scope="set_show_reaction_counts" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       label="Vanity Metric"
       name={l("Show reaction counts (likes / boosts)")}

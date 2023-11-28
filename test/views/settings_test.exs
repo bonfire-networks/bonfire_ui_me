@@ -545,15 +545,138 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
 
     test "discussion default layout" do
+      account = fake_account!()
+      alice = fake_user!(account)
+      bob = fake_user!(account)
+      conn = conn(user: alice, account: account)
+
+      # create a post that has 2 replies
+      attrs = %{
+        post_content: %{html_body: "alice post"}
+      }
+
+      assert {:ok, post} =
+               Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+
+      attrs = %{
+        post_content: %{html_body: "reply 1"},
+        reply_to_id: post.id
+      }
+
+      assert {:ok, p1} = Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
+
+      # change the preferences to sort by replies
+
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      view
+      |> element("form[data-scope=set_thread_layout]")
+      |> render_change(%{
+        "Elixir.Bonfire.UI.Social.ThreadLive" => %{"thread_mode" => "flat"}
+      })
+
+      next = "/discussion/#{post.id}"
+      {:ok, refreshed_view, _html} = live(conn, next)
+      open_browser(refreshed_view)
+
+      auto_assert refreshed_view
+                  |> has_element?("[data-role=comment-flat]")
     end
 
     test "discussion default sort" do
     end
 
     test "highlight notifications indicator" do
+      account = fake_account!()
+      alice = fake_user!(account)
+      bob = fake_user!(account)
+      conn = conn(user: alice, account: account)
+
+      # create a post that has 2 replies
+      attrs = %{
+        post_content: %{html_body: "alice post"}
+      }
+
+      assert {:ok, post} =
+               Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+
+      attrs = %{
+        post_content: %{html_body: "reply 1"},
+        reply_to_id: post.id
+      }
+
+      assert {:ok, p1} = Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
+
+      # change the preferences to sort by replies
+
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      view
+      |> element("form[data-scope=notification_highlight]")
+      |> render_change(%{
+        "Bonfire.UI.Common.BadgeCounterLive" => %{"highlight" => "true"}
+      })
+
+      {:ok, refreshed_view, _html} = live(conn, "/")
+      open_browser(refreshed_view)
+
+      auto_assert refreshed_view
+                  |> has_element?("div#badge_counter_notifications.bg-primary")
     end
 
     test "show reaction counts (likes/boosts)" do
+      # Process.put(:feed_live_update_many_preloads, :inline)
+      Config.put(:feed_live_update_many_preloads, :inline)
+      account = fake_account!()
+      alice = fake_user!(account)
+      bob = fake_user!(account)
+      conn = conn(user: alice, account: account)
+      # create a post that has 2 replies
+      attrs = %{
+        post_content: %{html_body: "alice post"}
+      }
+
+      assert {:ok, post} =
+               Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+
+      attrs = %{
+        post_content: %{html_body: "reply 2"},
+        reply_to_id: post.id
+      }
+
+      assert {:ok, p1} = Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
+      # create a post that has 2 likes
+      assert {:ok, like} = Likes.like(alice, p1)
+      assert {:ok, like} = Likes.like(bob, p1)
+      # create a post that has 2 boosts
+      assert {:ok, boost} = Boosts.boost(alice, p1)
+      assert {:ok, boost} = Boosts.boost(bob, p1)
+
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/appearance")
+
+      view
+      |> element("form[data-scope=set_hide_actions_on_feed]")
+      |> render_change(%{
+        "Elixir.Bonfire.UI.Social.Activity.ActionsLive" => %{
+          "feed" => %{"hide_until_hovered" => "false"}
+        }
+      })
+
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      view
+      |> element("form[data-scope=set_show_reaction_counts]")
+      |> render_change(%{
+        "ui" => %{"show_activity_counts" => true}
+      })
+
+      {:ok, refreshed_view, _html} = live(conn, "/feed/local")
+      live_pubsub_wait(view)
+      open_browser(refreshed_view)
+
+      auto_assert true <-
+                    refreshed_view
+                    |> has_element?("[data-role=reply_count]")
     end
   end
 end
