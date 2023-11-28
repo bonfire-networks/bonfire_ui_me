@@ -110,18 +110,23 @@ defmodule Bonfire.Common.Settings.LiveHandler do
   end
 
   def handle_event("delete_user", %{"password" => password}, socket) do
-    current_user_auth!(socket, password)
+    delete = current_user_auth!(socket, password)
 
     after_delete(
-      Bonfire.Me.DeleteWorker.enqueue_delete(current_user_id(socket)),
-      "/switch-user",
+      Bonfire.Me.DeleteWorker.enqueue_delete(delete),
+      "/settings/deleted/user/#{id(delete)}",
       socket
     )
   end
 
   def handle_event("delete_account", %{"password" => password}, socket) do
-    current_account_auth!(socket, password)
-    after_delete(Bonfire.Me.Accounts.enqueue_delete(current_account(socket)), "/logout", socket)
+    delete = current_account_auth!(socket, password)
+
+    after_delete(
+      Bonfire.Me.DeleteWorker.enqueue_delete(delete),
+      "/settings/deleted/account/#{id(delete)}",
+      socket
+    )
   end
 
   defp after_delete(result, redirect_after, socket) do

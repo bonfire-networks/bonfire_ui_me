@@ -1,0 +1,6 @@
+<p class="mx-4">
+  {l(
+    "The %{type} has been queued for deletion. Should be done in a few minutes... So long, and thanks for all the fish!",
+    type: e(@__context__, :current_params, "type", nil) || l("object")
+  )}
+</p>

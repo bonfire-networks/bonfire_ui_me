@@ -67,6 +67,8 @@ defmodule Bonfire.UI.Me.Routes do
         live("/users", UsersDirectoryLive)
 
         resources("/signup/email/confirm/:id", ConfirmEmailController, only: [:show])
+
+        live "/settings/deleted/:type/:id", DeletedLive
       end
 
       # pages only guests can view
