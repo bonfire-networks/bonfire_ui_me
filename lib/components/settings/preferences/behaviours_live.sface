@@ -321,7 +321,7 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse class="pt-2">
-      <form phx-change="Bonfire.Common.Settings:set">
+      <form data-scope="set_thread_sorting" phx-change="Bonfire.Common.Settings:set">
         <Bonfire.UI.Common.SettingsRadiosLive
           keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
           options={[

@@ -481,12 +481,12 @@ defmodule Bonfire.UI.Me.SettingsTest do
       v1
       |> element("form[data-scope=reactions_sort]")
       |> render_change(%{
-        "Elixir.Bonfire.UI.Social.FeedLive" => %{"sorty_by" => :num_likes}
+        "Elixir.Bonfire.UI.Social.FeedLive" => %{"sorty_by" => "num_likes"}
       })
 
       #  |> debug("QUI")
-      #  open_browser(v1)
       {:ok, refreshed_view, refreshed_html} = live(conn, "/feed/local")
+      open_browser(refreshed_view)
       # check the first post is the one with most likes: p1
       auto_assert true <-
                     refreshed_html
@@ -536,12 +536,75 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
 
     test "infinite scrolling" do
+      account = fake_account!()
+      alice = fake_user!(account)
+
+      attrs = %{
+        post_content: %{html_body: "alice post"}
+      }
+
+      {:ok, post} = Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+      {:ok, p1} = Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+      {:ok, p2} = Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+      {:ok, p3} = Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+      {:ok, p4} = Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+      {:ok, p5} = Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+      conn = conn(user: alice, account: account)
+      # change the preferences to sort by replies
+      {:ok, view, _html} = live(conn, "/")
+
+      auto_assert true <-
+                    view
+                    |> has_element?("button[data-load-more-type]")
+
+      {:ok, settings_view, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      settings_view
+      |> element("form[data-scope=reactions_sort]")
+      |> render_change(%{
+        "ui" => %{"infinite_scroll" => false}
+      })
+
+      {:ok, refreshed_view, _html} = live(conn, "/feed/local")
+      open_browser(refreshed_view)
+
+      auto_assert false <-
+                    refreshed_view
+                    |> has_element?("button[data-load-more-type]")
     end
 
     test "sensitive media" do
     end
 
     test "hide media" do
+      account = fake_account!()
+      alice = fake_user!(account)
+
+      # login as alice
+      conn = conn(user: alice, account: account)
+      {:ok, view, _html} = live(conn, "/")
+
+      # create and upload an image
+      icon =
+        file_input(view, "[data-scope=composer_form]", :file_server, [
+          %{
+            last_modified: 1_594_171_879_000,
+            name: "image.png",
+            content: File.read!(@icon_file),
+            type: "image/png"
+          }
+        ])
+
+      uploaded = render_upload(icon, "image.png")
+
+      # create the post
+      post =
+        Bonfire.Social.Fake.fake_post!(alice, "public", nil, %{
+          upload_metadata: %{"0" => %{"label" => ""}}
+        })
+
+      {:ok, refreshed_view, _html} = live(conn, "/feed/local")
+      open_browser(refreshed_view)
     end
 
     test "discussion default layout" do
@@ -579,11 +642,49 @@ defmodule Bonfire.UI.Me.SettingsTest do
       {:ok, refreshed_view, _html} = live(conn, next)
       open_browser(refreshed_view)
 
-      auto_assert refreshed_view
-                  |> has_element?("[data-role=comment-flat]")
+      auto_assert true <-
+                    refreshed_view
+                    |> has_element?("[data-role=comment-flat]")
     end
 
     test "discussion default sort" do
+      account = fake_account!()
+      alice = fake_user!(account)
+      bob = fake_user!(account)
+      conn = conn(user: alice, account: account)
+
+      # create a post that has 2 replies
+      attrs = %{
+        post_content: %{html_body: "alice post"}
+      }
+
+      assert {:ok, post} =
+               Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+
+      attrs = %{
+        post_content: %{html_body: "reply 1"},
+        reply_to_id: post.id
+      }
+
+      assert {:ok, p1} = Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
+
+      # change the preferences to sort by replies
+
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      view
+      |> element("form[data-scope=set_thread_sorting]")
+      |> render_change(%{
+        "Elixir.Bonfire.UI.Social.ThreadLive" => %{"sort_by" => "num_replies"}
+      })
+
+      next = "/discussion/#{post.id}"
+      {:ok, refreshed_view, _html} = live(conn, next)
+      open_browser(refreshed_view)
+
+      auto_assert true <-
+                    refreshed_view
+                    |> has_element?("[data-sorted=num_replies]")
     end
 
     test "highlight notifications indicator" do
@@ -664,19 +765,43 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
       {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
 
-      view
-      |> element("form[data-scope=set_show_reaction_counts]")
-      |> render_change(%{
-        "ui" => %{"show_activity_counts" => true}
-      })
+      # view
+      # |> element("form[data-scope=set_show_reaction_counts]")
+      # |> render_change(%{
+      #   "ui" => %{"infinite_scroll" => true}
+      # })
 
+      # open_browser(refreshed_view)
       {:ok, refreshed_view, _html} = live(conn, "/feed/local")
       live_pubsub_wait(view)
-      open_browser(refreshed_view)
 
       auto_assert true <-
                     refreshed_view
                     |> has_element?("[data-role=reply_count]")
+    end
+  end
+
+  describe "Privacy & Settings" do
+    test "default boundary" do
+      account = fake_account!()
+      alice = fake_user!(account)
+      conn = conn(user: alice, account: account)
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/safety")
+
+      auto_assert true <-
+                    view
+                    |> has_element?("span[data-scope=public-boundary-set]")
+
+      view
+      |> element("[data-scope=safety_boundary_default] button[data-scope=local_boundary]")
+      |> render_click()
+
+      open_browser(view)
+      {:ok, refreshed_view, _html} = live(conn, "/")
+
+      auto_assert true <-
+                    refreshed_view
+                    |> has_element?("span[data-scope=local-boundary-set]")
     end
   end
 end
