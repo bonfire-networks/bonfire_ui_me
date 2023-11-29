@@ -20,7 +20,7 @@
         "flex gap-1 items-baseline": @inline
       }
     >
-      <p class={"text-base font-bold text-base-content", "text-base": @lg}>
+      <p class={"text-base font-bold text-base-content group-hover:underline", "text-base": @lg}>
         {e(@profile, :name, "Anon")}
       </p>
       <p :if={!@inline} class="text-sm text-base-content/70">
