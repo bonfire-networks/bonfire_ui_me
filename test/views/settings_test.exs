@@ -140,25 +140,6 @@ defmodule Bonfire.UI.Me.SettingsTest do
                     |> has_element?("div[data-scope=avatar] div[data-square]")
     end
 
-    test "As a user I want to hide avatar from the layout" do
-      account = fake_account!()
-      alice = fake_user!(account)
-      conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/appearance"
-      {:ok, view, _html} = live(conn, next)
-
-      view
-      |> element("form[data-scope=set_hide_avatar]")
-      |> render_change(%{"Elixir.Bonfire.UI.Common.AvatarLive" => %{"hide_avatars" => "true"}})
-
-      # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, next)
-
-      auto_assert false <-
-                    refreshed_view
-                    |> has_element?("div[data-scope=sticky_menu] div[data-scope=avatar]")
-    end
-
     test "As a user I want to set the animal avatar" do
       account = fake_account!()
       alice = fake_user!(account)
@@ -209,6 +190,27 @@ defmodule Bonfire.UI.Me.SettingsTest do
                     refreshed_view
                     |> has_element?("article[data-compact]")
     end
+  end
+
+  describe "Behaviours" do
+    test "As a user I want to hide avatar from the layout" do
+      account = fake_account!()
+      alice = fake_user!(account)
+      conn = conn(user: alice, account: account)
+      next = "/settings/user/preferences/behaviours"
+      {:ok, view, _html} = live(conn, next)
+
+      view
+      |> element("form[data-scope=set_hide_avatar]")
+      |> render_change(%{"Elixir.Bonfire.UI.Common.AvatarLive" => %{"hide_avatars" => "true"}})
+
+      # force a refresh
+      {:ok, refreshed_view, _html} = live(conn, next)
+
+      auto_assert false <-
+                    refreshed_view
+                    |> has_element?("div[data-scope=sticky_menu] div[data-scope=avatar]")
+    end
 
     test "As a user I want to hide actions on feed" do
       account = fake_account!()
@@ -222,7 +224,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
                Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
 
       conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/appearance"
+      next = "/settings/user/preferences/behaviours"
       {:ok, view, _html} = live(conn, next)
 
       view
@@ -266,7 +268,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
                Posts.publish(current_user: alice, post_attrs: attrs_reply, boundary: "public")
 
       conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/appearance"
+      next = "/settings/user/preferences/behaviours"
       {:ok, view, _html} = live(conn, next)
 
       view
@@ -285,9 +287,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
                     refreshed_view
                     |> has_element?("article div[data-id=activity_actions][data-hide]")
     end
-  end
 
-  describe "Behaviours" do
     test "Feed activities" do
       Config.put(:pagination_hard_max_limit, 10)
 
@@ -786,7 +786,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       account = fake_account!()
       alice = fake_user!(account)
       conn = conn(user: alice, account: account)
-      {:ok, view, _html} = live(conn, "/settings/user/preferences/safety")
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
 
       auto_assert true <-
                     view

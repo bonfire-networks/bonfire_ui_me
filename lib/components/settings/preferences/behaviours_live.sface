@@ -5,10 +5,10 @@
   </div>
 </div>
 
-<div class="divide-y divide-base-content/20">
-  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-    <#Icon iconify="material-symbols:rss-feed" class="w-5 h-5 text-base-content/80" />
-    <span>{l("Feeds")}</span>
+<div class="">
+  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/20">
+    <#Icon iconify="majesticons:list-box" class="w-6 h-6 text-base-content/80" />
+    <span>{l("Feeds and Threads options")}</span>
   </div>
 
   <div x-data="{open: false}" class="p-4 cursor-pointer">
@@ -91,82 +91,6 @@
       />
     </div>
   </div>
-  <!-- 
-  <form phx-change="Bonfire.Common.Settings:set">
-    <Bonfire.UI.Common.SettingsRadiosLive
-      name={l("Feed default time limit")}
-      description={l(
-        "Select the time limit you want to use by default (can always change in the feed controls options)"
-      )}
-      keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
-      options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
-      default_value={7}
-      scope={@scope}
-    />
-  </form> -->
-
-  {!-- <form phx-change="Bonfire.Common.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-      <div x-data="{open: false}" class="p-4">
-        <div class="flex items-center justify-between gap-4">
-          <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Feed default time limit")}</div>
-            <div class="text-sm font-light text-base-content/70">{l(
-                "Select the time limit you want to use by default (can always change in the feed controls options)"
-              )}</div>
-          </div>
-          <button
-            type="button"
-            x-cloak
-            x-on:click="open = !open"
-            class="btn btn-circle btn-sm btn-ghost"
-            x-show="open"
-          >
-            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-          <button
-            type="button"
-            x-on:click="open = !open"
-            class="btn btn-circle btn-sm btn-ghost"
-            x-show="!open"
-          >
-            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-        </div>
-        <div x-show="open" x-cloak x-collapse>
-          <div class="form-control mt-4">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary" checked>
-              <span class="label-text">{l("Day")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("Week")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("Month")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("Year")}</span>
-            </label>
-          </div>
-          <div class="form-control">
-            <label class="label cursor-pointer px-0 gap-4 justify-start">
-              <input type="radio" name="radio-10" class="radio checked:bg-primary">
-              <span class="label-text">{l("all time")}</span>
-            </label>
-          </div>
-        </div>
-      </div>
-    </form> --}
 
   <div x-data="{open: false}" class="p-4 cursor-pointer">
     <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
@@ -193,24 +117,6 @@
     </div>
   </div>
 
-  <!-- <form phx-change="Bonfire.Common.Settings:set">
-    <Bonfire.UI.Common.SettingsRadiosLive
-      name={l("Feed default sort")}
-      description={l(
-        "Select the default sorting options for your feeds (can always change in the feed controls options)"
-      )}
-      keys={[Bonfire.UI.Social.FeedLive, :sort_by]}
-      options={[
-        false: l("Chronological"),
-        num_replies: l("Amount of replies"),
-        num_boosts: l("Amount of boosts"),
-        num_likes: l("Amount of likes")
-      ]}
-      default_value={nil}
-      scope={@scope}
-    />
-  </form> -->
-
   <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.Settings.NumberLive
       scope={@scope}
@@ -220,63 +126,6 @@
     />
     {!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} --}
   </form>
-
-  <div x-data="{open: false}" class="p-4 cursor-pointer">
-    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
-      <div class="flex flex-col gap-1">
-        <div class="badge mb-2 !border !border-warning/30 badge-outline badge-warning">Dark Pattern</div>
-        <div class="text-sm font-medium">{l("Infinite scrolling")}</div>
-        <!-- <div class="text-sm font-light text-base-content/70">{l("Infinite scrolling")}</div> -->
-      </div>
-      {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
-      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-      </button>
-      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-      </button>
-    </div>
-    <div x-show="open" x-cloak x-collapse class="pt-2">
-      <form phx-change="Bonfire.Common.Settings:set">
-        <Bonfire.UI.Common.SettingsRadiosLive
-          label="Dark Pattern"
-          keys={[:ui, :infinite_scroll]}
-          options={[
-            preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
-            true: l("Enable doom scrolling"),
-            false: "Disable"
-          ]}
-          default_value={:preload}
-          scope={@scope}
-        />
-      </form>
-    </div>
-  </div>
-
-  <form phx-change="Bonfire.Common.Settings:set">
-    <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Sensitive media")}
-      description={l(
-        "Mark all your uploaded media as sensitive by default (you can still mark *as not sensitive* when posting)"
-      )}
-      keys={[Bonfire.UI.Social.UploadPreviewsLive, :mark_as_sensitive]}
-      scope={@scope}
-    />
-  </form>
-
-  <form phx-change="Bonfire.Common.Settings:set">
-    <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Hide media")}
-      description={l("Blur all media in feeds and discussions (and click to reveal)")}
-      keys={[Bonfire.UI.Social.Activity.MediaLive, :hide]}
-      scope={@scope}
-    />
-  </form>
-
-  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-    <#Icon iconify="mingcute:comment-fill" class="w-5 h-5 text-base-content/80" />
-    <span>{l("Discussions")}</span>
-  </div>
 
   <div x-data="{open: false}" class="p-4 cursor-pointer">
     <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
@@ -338,23 +187,99 @@
     </div>
   </div>
 
-  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-    <#Icon iconify="carbon:notification" class="w-5 h-5 text-base-content/80" />
-    <span>{l("Notifications")}</span>
+  <div class="p-4 font-bold text-xl flex items-center gap-4 border-b border-base-content/20">
+    <#Icon iconify="material-symbols:digital-wellbeing" class="w-6 h-6 text-base-content/80" />
+    <span>{l("Wellbeing")}</span>
   </div>
 
-  {!-- <form phx-change="Bonfire.Common.Settings:set">
+  <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
-      label="Dark Pattern"
-      name="Show counter for unread notifications"
-      description={l("Show the number of unread notifications in the notification indicator")}
-      keys={[Bonfire.UI.Common.BadgeCounterLive, :hide_counter]}
+      name={l("Mark as sensitive media")}
+      description={l(
+        "Mark all your uploaded media as sensitive by default (you can still mark *as not sensitive* when posting)"
+      )}
+      keys={[Bonfire.UI.Social.UploadPreviewsLive, :mark_as_sensitive]}
       scope={@scope}
     />
-  </form> --}
+  </form>
+
+  <form phx-change="Bonfire.Common.Settings:set">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Hide media")}
+      description={l("Blur all media in feeds and discussions (and click to reveal)")}
+      keys={[Bonfire.UI.Social.Activity.MediaLive, :hide]}
+      scope={@scope}
+    />
+  </form>
+
+  <form data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
+    <input name="scope" value={@scope} type="hidden">
+    <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
+  </form>
+
+  <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
+    <input name="scope" value={@scope} type="hidden">
+
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Hide actions on feed activities (eg. reply, boost, etc)")}
+      description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
+      keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
+      scope={@scope}
+    />
+  </form>
+
+  <form data-scope="set_hide_actions_on_discussion" phx-change="Bonfire.Common.Settings:set">
+    <input name="scope" value={@scope} type="hidden">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Hide actions on discussions (eg. reply, boost, etc)")}
+      description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
+      keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
+      scope={@scope}
+    />
+  </form>
+
+  <div x-data="{open: false}" class="p-4 cursor-pointer">
+    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <div
+          :if={Settings.get([:ui, :infinite_scroll], :preload, @__context__) == true}
+          class="badge mb-2 !border !border-warning/30 badge-outline badge-warning"
+        >{l("Dark Pattern")}</div>
+        <div class="text-sm font-medium">{l("Infinite scrolling")}</div>
+        <!-- <div class="text-sm font-light text-base-content/70">{l("Infinite scrolling")}</div> -->
+      </div>
+      {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse class="pt-2">
+      <form phx-change="Bonfire.Common.Settings:set">
+        <Bonfire.UI.Common.SettingsRadiosLive
+          keys={[:ui, :infinite_scroll]}
+          options={[
+            preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
+            true: l("Enable doom scrolling"),
+            false: "Disable"
+          ]}
+          default_value={:preload}
+          scope={@scope}
+        />
+      </form>
+    </div>
+  </div>
+
+  <!-- <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
+    <#Icon iconify="carbon:notification" class="w-5 h-5 text-base-content/80" />
+    <span>{l("Notifications")}</span>
+  </div> -->
 
   <form data-scope="notification_highlight" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
+      show_label={Settings.get([Bonfire.UI.Common.BadgeCounterLive, :highlight], false, @__context__) == true}
       label="Dark Pattern"
       name="Highlight notifications indicator"
       description={l("Use the primary color to highlight the notifications indicator")}
@@ -363,13 +288,14 @@
     />
   </form>
 
-  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
+  <!-- <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
     <#Icon iconify="material-symbols:add-reaction" class="w-5 h-5 text-base-content/80" />
     <span>{l("Reactions")}</span>
-  </div>
+  </div> -->
 
   <form data-scope="set_show_reaction_counts" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
+      show_label={Settings.get([:ui, :show_activity_counts], false, @__context__) == true}
       label="Vanity Metric"
       name={l("Show reaction counts (likes / boosts)")}
       description={l(
@@ -380,19 +306,86 @@
     />
   </form>
 
-  {!-- TODO --}
-  {!-- <form phx-change="Bonfire.Common.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        label="Vanity Metric"
-        name={l("Show follower counts")}
-        description={l("You will see the amount of followers (may not indicate the real amount for federated users)")}
-        keys={[:ui, :show_activity_counts]}
-        scope={@scope}
-      />
-    </form> --}
+  <div class="p-4 text-xl border-b border-base-content/20 font-bold flex items-center gap-4">
+    <#Icon iconify="ic:round-lock" class="w-6 h-6 text-base-content/80" />
+    <span>{l("Privacy & Safety")}</span>
+  </div>
 
-  <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-    <#Icon iconify="material-symbols:trending-up" class="w-5 h-5 text-base-content/80" />
+  <div x-data="{open: false}" class="p-4 cursor-pointer">
+    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-medium">{l("Enable federation?")}</div>
+      </div>
+      {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse class="pt-2">
+      <form
+        phx-change="Bonfire.Common.Settings:set"
+        :if={@scope != :instance and ActivityPub.Config.federating?() != false}
+      >
+        <input name="scope" value={@scope} type="hidden">
+        <div class="divide-y divide-base-content/20">
+          <Bonfire.UI.Common.SettingsRadiosLive
+            keys={[:activity_pub, :user_federating]}
+            options={if ActivityPub.Config.federating?() == nil,
+              do: %{
+                "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+                "false" => l("Fully disabled")
+              },
+              else: %{
+                "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
+                "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+                "false" => l("Fully disabled")
+              }}
+          />
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
+  <Bonfire.UI.Me.SettingsViewsLive.IndexableLive scope={@scope} />
+
+  <div x-data="{open: false}" class="p-4 cursor-pointer">
+    <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
+      <div class="flex flex-col gap-1">
+        <div class="text-sm font-medium">{l("Default boundary")}</div>
+        <div class="text-sm font-light text-base-content/70">{l("Specify your default boundary when publishing a new activity")}</div>
+      </div>
+      <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+      <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+      </button>
+    </div>
+    <div x-show="open" x-cloak x-collapse>
+      <div data-scope="safety_boundary_default" class="mt-3 border border-base-content/20 rounded-box">
+        <Dynamic.Component
+          :if={module_enabled?(Bonfire.Boundaries.Web.BoundariesGeneralAccessLive)}
+          module={Bonfire.Boundaries.Web.BoundariesGeneralAccessLive}
+          hide_custom
+          set_action="Bonfire.Common.Settings:set_default_boundary"
+          set_opts={%{"phx-value-scope" => @scope}}
+          boundary_preset={Settings.get(
+            [:ui, :boundary_preset],
+            "public",
+            Bonfire.Common.Settings.LiveHandler.scoped(@scope, @__context__)
+          )
+          |> to_string()}
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="p-4 text-xl border-b border-base-content/20 font-bold flex items-center gap-4">
+    <#Icon iconify="streamline:trending-content-solid" class="w-6 h-6 text-base-content/80" />
     <span>{l("Trending topics")}</span>
   </div>
 
