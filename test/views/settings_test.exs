@@ -1,7 +1,9 @@
 defmodule Bonfire.UI.Me.SettingsTest do
   use Bonfire.UI.Me.ConnCase, async: false
-  import Phoenix.LiveViewTest
   use Mneme
+  import Phoenix.LiveViewTest
+  import Bonfire.Files.Simulation
+
   alias Bonfire.Social.Posts
   alias Bonfire.Social.Boosts
   alias Bonfire.Social.Likes
@@ -590,7 +592,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
           %{
             last_modified: 1_594_171_879_000,
             name: "image.png",
-            content: File.read!(@icon_file),
+            content: File.read!(icon_file()),
             type: "image/png"
           }
         ])
