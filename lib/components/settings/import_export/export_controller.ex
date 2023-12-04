@@ -66,10 +66,24 @@ defmodule Bonfire.UI.Me.ExportController do
     |> Plug.Conn.send_file(200, file)
   end
 
+  def archive_delete(conn, _params) do
+    current_user = current_user_required!(conn)
+    file = archive_delete(id(current_user))
+
+    conn
+    |> Plug.Conn.send_resp(200, "Deleted")
+  end
+
   def archive_exists?(current_user_id) when is_binary(current_user_id) do
     file = zip_filename(current_user_id)
 
     File.exists?(file)
+  end
+
+  def archive_delete(current_user_id) when is_binary(current_user_id) do
+    file = zip_filename(current_user_id)
+
+    File.rm!(file)
   end
 
   def archive_previous_date(current_user_id) when is_binary(current_user_id) do
@@ -99,8 +113,6 @@ defmodule Bonfire.UI.Me.ExportController do
   def zip_archive(conn_or_context, user) do
     # name = String.trim_trailing("bonfire_export", ".zip")
 
-    uploads = media(user)
-
     Zstream.zip(
       [
         Zstream.entry("actor.json", [actor(user)]),
@@ -119,8 +131,8 @@ defmodule Bonfire.UI.Me.ExportController do
         Zstream.entry("silenced.csv", ok_unwrap(csv_content(user, "silenced"))),
         Zstream.entry("keys.asc", [keys(user)])
       ] ++
-        for upload <- uploads do
-          Zstream.entry(upload, File.stream!(upload, [], 512))
+        for {path, uri} <- user_media(user) do
+          media_stream(path, uri, &Zstream.entry/2)
         end
     )
     |> zip_stream_process(id(user), conn_or_context)
@@ -563,19 +575,77 @@ defmodule Bonfire.UI.Me.ExportController do
     "  {}\n]}"
   end
 
-  def media(user) do
-    Bonfire.Files.Media.many(user: id(user))
-    ~> Enum.map(&Bonfire.Files.remote_url/1)
-    |> Enums.filter_empty([])
-    |> Enum.map(&String.trim(&1, "/"))
-    |> Enum.reject(fn
-      # TODO: support uploads in CDN
-      "http" <> _ ->
-        true
+  def user_media(user) do
+    user_id = id(user)
 
-      path ->
-        !File.exists?(path)
+    Bonfire.Files.Media.many(user: user_id)
+    ~> Enum.map(fn
+      %{path: "http" <> _ = uri, id: id} = _media ->
+        {"/data/links/#{id}.html", uri}
+
+      %{file: %{id: path} = locator} = _media ->
+        # debug(path)
+        {path, locator}
+
+      media ->
+        path =
+          case Bonfire.Files.remote_url(media)
+               |> debug() do
+            nil -> nil
+            path -> String.trim(path, "/")
+          end
+
+        if not is_nil(path) and File.exists?(path), do: {path, path}
     end)
+    |> Enums.filter_empty([])
+  end
+
+  def media_stream(path, "http" <> _ = uri, fun) do
+    fun.(path, ["<!DOCTYPE HTML>
+    <html>
+      <head>
+        <title>Automatic redirect to #{uri}</title>
+        <meta http-equiv=\"refresh\" content=\"0; url=#{uri}\" />
+      </head>
+      <body>
+        <h1>For older browsers, click Redirect</h1>
+        <p><a href=\"#{uri}\">Redirect</a></p>
+      </body>
+    </html>"])
+  end
+
+  # def media_stream(path, %Capsule.Locator{storage: storage} = locator, fun) when storage in [Capsule.Storages.Disk, "Elixir.Capsule.Storages.Disk"] do
+  #  # stream files from Disk
+  #   path = Capsule.Storages.Disk.path(locator) 
+
+  #   if is_binary(path) and File.exists?(path) do
+  #     fun.(path, File.stream!(path, [], 512))
+  #   else
+  #     fun.("#{path}.txt", ["File not found"])
+  #   end
+  # end
+  def media_stream(path, %Capsule.Locator{id: id} = locator, fun) do
+    # stream files from Disk or S3 
+    source_storage = Capsule.storage!(locator)
+
+    case source_storage.stream(id) do
+      nil -> fun.("#{path}.txt", ["File not found"])
+      stream -> fun.(path, stream)
+    end
+  end
+
+  # def media_stream(path, %Capsule.Locator{} = locator, fun) do
+  #  # copy S3 files to Disk
+  #   with {:ok, new_locator} <- Capsule.copy(locator, Capsule.Storages.Disk, skip_existing: true)
+  #     |> debug() do
+  #     media_stream(path, new_locator, fun)
+  #   else 
+  #     {:error, error} when is_binary(error) -> fun.("#{path}.txt", [error])
+  #     other -> raise other
+  #   end
+  # end
+  def media_stream(path, path, fun) when is_binary(path) do
+    fun.(path, File.stream!(path, [], 512))
   end
 
   # defp likes(user) do

@@ -181,6 +181,13 @@
             download
           >
             {l("Download your existing archive")}</a>
+
+          <a
+            :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @__context__) == true}
+            href="/settings/export/archive_delete"
+            class="btn mt-4 btn-danger normal-case btn-xs"
+          >
+            {l("Delete archive")}</a>
         {/if}
         {#if !archive_days_old or archive_days_old >= 7}
           <a

@@ -190,6 +190,8 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:admin_required)
 
         # live("/settings/", SettingsLive, as: :admin_settings)
+
+        get "/settings/export/archive_delete", ExportController, :archive_delete
       end
     end
   end
