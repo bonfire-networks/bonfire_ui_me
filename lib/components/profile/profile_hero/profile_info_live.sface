@@ -17,7 +17,7 @@
       </div>
       <span
         :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
-        class="badge min-h-[1.75rem] rounded-md !border-info/30 badge-outline mt-4 rounded badge-info"
+        class="badge min-h-[1.75rem] rounded-md !border-info/30 badge-outline mt-2 rounded badge-info"
       >
         {l("Admin")}
       </span>
