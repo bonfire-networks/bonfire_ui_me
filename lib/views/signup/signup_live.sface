@@ -51,94 +51,53 @@
         </div>
       </div>
     {#else}
-      <!-- <ul class="steps">
-        <li data-content="" class="step step-primary">Our Code of Conduct</li>
-        <li data-content="" class="step step-neutral">Signup</li>
-      </ul> -->
-      <div class="grid items-start gap-4 md:grid-cols-2">
-        <div class="w-[90%] md:w-full mx-auto md:mx-0 md:pb-4" x-data="{ active: 1 }">
-          <div class="shadow rounded-xl bg-base-100">
-            <div
-              class="bg-center rounded-t-xl mx-auto bg-no-repeat bg-cover h-[250px] w-full"
-              style={"background-image: url(#{Config.get([:ui, :theme, :instance_image], nil)})"}
-            />
-            <h1 class="p-4 font-medium leading-relaxed tracking-wider text-center text-md text-base-content/90">
-              {Config.get([:ui, :theme, :instance_description], "")}
-            </h1>
-
-            {#case Config.get([:terms, :conduct], nil)}
+      <div x-data="stepper()" x-cloak class="">
+        <div class="flex flex-col justify-center items-center">
+          <ul class="steps text-sm font-semibold text-base-content/80">
+            <li
+              x-bind:class="{ 'active': step == 1, 'disabled': step != 1 }"
+              data-content=""
+              class="step step-neutral"
+            >
+              <span x-show="step == 1" class="">{l("Accept our Code of Conduct")}</span>
+              <button x-cloak @click="prev()" x-show="step == 2" class="link">{l("Accept our Code of Conduct")}</button>
+            </li>
+            <li
+              x-bind:class="{ 'active': step == 2, 'disabled': step != 2 }"
+              data-content=""
+              class="step step-neutral"
+            >{l("Signup")}</li>
+            <li
+              x-bind:class="{ 'active': step == 3, 'disabled': step != 3 }"
+              data-content=""
+              class="step step-neutral"
+            >{l("Confirmation")}</li>
+          </ul>
+        </div>
+        <div x-cloak x-show="step == 1" class="">
+          <article class="prose max-w-max mt-8 prose-sm">{templated_or_remote_markdown(
+              e(
+                Config.get([:terms, :conduct]),
+                l(
+                  "The instance operator(s) have not yet added a code of conduct. Please use your best judgment, and consult the [code of conduct of the Bonfire project](https://bonfirenetworks.org/conduct/) as a reference."
+                )
+              )
+            )}</article>
+          <!-- {#case Config.get([:terms, :conduct], nil)}
               {#match terms when is_binary(terms)}
-                <div
-                  x-data="{
-                  id: 0,
-                  get expanded() {
-                      return this.active === this.id
-                  },
-                  set expanded(value) {
-                      this.active = value ? this.id : null
-                  },
-                }"
-                  role="region"
-                  class="border-t border-b border-base-content/20"
-                >
-                  <button
-                    x-on:click="expanded = !expanded"
-                    :aria-expanded="expanded"
-                    class="flex items-center justify-between w-full px-6 py-2 text-lg font-semibold"
-                  >
-                    <span>{l("Read our code of conduct")}</span>
-                    <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
-                    <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
-                  </button>
-
-                  <div x-cloak x-show="expanded" x-collapse>
-                    <div class="p-3 prose">
-                      {templated_or_remote_markdown(terms)}
-                    </div>
-                  </div>
+                <div class="p-3 prose">
+                  {templated_or_remote_markdown(terms)}
                 </div>
               {#match _}
-            {/case}
-
-            {#case Config.get([:terms, :privacy], nil)}
-              {#match terms when is_binary(terms)}
-                <div
-                  x-data="{
-                  id: 2,
-                  get expanded() {
-                      return this.active === this.id
-                  },
-                  set expanded(value) {
-                      this.active = value ? this.id : null
-                  },
-                }"
-                  role="region"
-                  class=""
-                >
-                  <h2>
-                    <button
-                      x-on:click="expanded = !expanded"
-                      :aria-expanded="expanded"
-                      class="flex items-center justify-between w-full px-6 py-2 text-lg font-semibold"
-                    >
-                      <span>{l("Read our privacy policy")}</span>
-                      <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>
-                      <span x-show="!expanded" aria-hidden="true" class="ml-4">&plus;</span>
-                    </button>
-                  </h2>
-
-                  <div x-cloak x-show="expanded" x-collapse>
-                    <div class="p-3 prose">
-                      {templated_or_remote_markdown(terms)}
-                    </div>
-                  </div>
-                </div>
-              {#match _}
-            {/case}
+            {/case} -->
+          <div class="mt-4 flex flex-col gap-2">
+            <button class="btn  btn-primary rounded-full w-full" @click="next()">{l("Accept")}</button>
+            <a href="/" class="border-base-content/20 btn  btn-outline rounded-full w-full">{l("Decline")}</a>
           </div>
         </div>
 
-        <div class="w-[90%] md:w-[360px] mx-auto md:mx-0 sticky top-4">
+        <div x-cloak x-show="step == 2" class="flex mt-8 flex-col justify-center items-center">
+          <!-- <button type="button" class="btn btn btn-outline rounded-full border-base-content/20" @click="prev()">{l("Back")}</button> -->
           <Bonfire.UI.Me.SignupFormLive
             form={@form}
             error={@error}
@@ -146,6 +105,19 @@
           />
         </div>
       </div>
+      <script>
+  function stepper() {
+    return {
+      step: 1,
+      next() {
+          this.step > 3 ? null : this.step = this.step + 1;
+      },
+      prev() {
+          this.step < 2 ? null : this.step = this.step - 1;
+      }
+    }
+  }
+</script>
     {/if}
   {/if}
 </div>
