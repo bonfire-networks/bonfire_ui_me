@@ -31,7 +31,7 @@
                 {/if}
               </div>
               <LiveRedirect
-                class="mt-6 btn btn-outline btn-primary normal-case"
+                class="mt-6 btn btn-outline border-primary//2o btn-primary normal-case"
                 to={path(Config.get!(:home_page))}
               >
                 {l("Back to home page")}
