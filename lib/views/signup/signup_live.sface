@@ -42,70 +42,72 @@
       </div>
     </div>
   {#else}
-    {#if Bonfire.Me.Accounts.instance_is_invite_only?() && !@invite}
-      <div role="status" class="my-4 alert alert-warning">
-        <div class="flex">
-          <div class="whitespace-normal">
-            {l("This instance is currently invite-only.")}
-          </div>
-        </div>
+    <div x-data="stepper()" x-cloak class="">
+      <div class="flex flex-col justify-center items-center">
+        <ul class="steps text-sm font-semibold text-base-content/80">
+          <li
+            x-bind:class="{ 'active': step == 1, 'disabled': step != 1 }"
+            data-content=""
+            class="step step-neutral"
+          >
+            <span x-show="step == 1" class="">{l("Code of Conduct")}</span>
+            <button x-cloak @click="prev()" x-show="step == 2" class="link">{l("Code of Conduct")}</button>
+          </li>
+          <li
+            x-bind:class="{ 'active': step == 2, 'disabled': step != 2 }"
+            data-content=""
+            class="step step-neutral"
+          >{l("Signup")}</li>
+          <li
+            x-bind:class="{ 'active': step == 3, 'disabled': step != 3 }"
+            data-content=""
+            class="step step-neutral"
+          >{l("Confirmation")}</li>
+        </ul>
       </div>
-    {#else}
-      <div x-data="stepper()" x-cloak class="">
-        <div class="flex flex-col justify-center items-center">
-          <ul class="steps text-sm font-semibold text-base-content/80">
-            <li
-              x-bind:class="{ 'active': step == 1, 'disabled': step != 1 }"
-              data-content=""
-              class="step step-neutral"
-            >
-              <span x-show="step == 1" class="">{l("Accept our Code of Conduct")}</span>
-              <button x-cloak @click="prev()" x-show="step == 2" class="link">{l("Accept our Code of Conduct")}</button>
-            </li>
-            <li
-              x-bind:class="{ 'active': step == 2, 'disabled': step != 2 }"
-              data-content=""
-              class="step step-neutral"
-            >{l("Signup")}</li>
-            <li
-              x-bind:class="{ 'active': step == 3, 'disabled': step != 3 }"
-              data-content=""
-              class="step step-neutral"
-            >{l("Confirmation")}</li>
-          </ul>
-        </div>
-        <div x-cloak x-show="step == 1" class="">
-          <article class="prose max-w-max mt-8 prose-sm">{templated_or_remote_markdown(
-              e(
-                Config.get([:terms, :conduct]),
-                l(
-                  "The instance operator(s) have not yet added a code of conduct. Please use your best judgment, and consult the [code of conduct of the Bonfire project](https://bonfirenetworks.org/conduct/) as a reference."
-                )
+      <div x-cloak x-show="step == 1" class="">
+        <article class="prose max-w-max mt-8 prose-md">{templated_or_remote_markdown(
+            e(
+              Config.get([:terms, :conduct]),
+              l(
+                "The instance operator(s) have not yet added a code of conduct. Please use your best judgment, and consult the [code of conduct of the Bonfire project](https://bonfirenetworks.org/conduct/) as a reference."
               )
-            )}</article>
-          <!-- {#case Config.get([:terms, :conduct], nil)}
+            )
+          )}</article>
+        <!-- {#case Config.get([:terms, :conduct], nil)}
               {#match terms when is_binary(terms)}
                 <div class="p-3 prose">
                   {templated_or_remote_markdown(terms)}
                 </div>
               {#match _}
             {/case} -->
-          <div class="mt-4 flex flex-col gap-2">
-            <button class="btn  btn-primary rounded-full w-full" @click="next()">{l("Accept")}</button>
-            <a href="/" class="border-base-content/20 btn  btn-outline rounded-full w-full">{l("Decline")}</a>
-          </div>
+        <div class="mt-4 flex flex-col gap-2">
+          <button class="btn  btn-primary rounded-full w-full" @click="next()">{l("Accept")}</button>
+          <a href="/" class="border-base-content/20 btn  btn-outline rounded-full w-full">{l("Decline")}</a>
         </div>
+      </div>
 
-        <div x-cloak x-show="step == 2" class="flex mt-8 flex-col justify-center items-center">
-          <!-- <button type="button" class="btn btn btn-outline rounded-full border-base-content/20" @click="prev()">{l("Back")}</button> -->
+      <div x-cloak x-show="step == 2" class="flex mt-8 flex-col justify-center items-center">
+        <!-- <button type="button" class="btn btn btn-outline rounded-full border-base-content/20" @click="prev()">{l("Back")}</button> -->
+
+        {#if Bonfire.Me.Accounts.instance_is_invite_only?() && !@invite}
+          <div role="status" class="my-4 alert alert-warning">
+            <div class="flex">
+              <div class="whitespace-normal">
+                {l("This instance is currently invite-only.")}
+              </div>
+            </div>
+          </div>
+        {#else}
           <Bonfire.UI.Me.SignupFormLive
             form={@form}
             error={@error}
             auth_second_factor_secret={@auth_second_factor_secret}
           />
-        </div>
+        {/if}
       </div>
-      <script>
+    </div>
+    <script>
   function stepper() {
     return {
       step: 1,
@@ -118,6 +120,5 @@
     }
   }
 </script>
-    {/if}
   {/if}
 </div>
