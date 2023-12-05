@@ -146,7 +146,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       account = fake_account!()
       alice = fake_user!(account)
       conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/appearance"
+      next = "/settings/user/preferences/behaviours"
       {:ok, view, _html} = live(conn, next)
 
       auto_assert true <-
