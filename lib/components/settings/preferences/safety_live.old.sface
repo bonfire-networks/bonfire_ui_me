@@ -1,7 +1,11 @@
 <div class="divide-y divide-base-content/20">
   <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
 
-  <div x-data="{open: false}" class="p-4 cursor-pointer">
+  <div
+    x-data="{open: false}"
+    class="p-4 cursor-pointer"
+    :if={@scope != :instance and ActivityPub.Config.federating?() != false}
+  >
     <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Enable federation?")}</div>
@@ -15,10 +19,7 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse class="pt-2">
-      <form
-        phx-change="Bonfire.Common.Settings:set"
-        :if={@scope != :instance and ActivityPub.Config.federating?() != false}
-      >
+      <form phx-change="Bonfire.Common.Settings:set">
         <input name="scope" value={@scope} type="hidden">
         <div class="divide-y divide-base-content/20">
           <Bonfire.UI.Common.SettingsRadiosLive

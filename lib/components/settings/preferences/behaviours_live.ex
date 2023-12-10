@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.BehavioursLive do
     else
       assigns
       |> assign(scoped: scoped)
-      |> assign(page_title: l("Behaviours"))
+      |> assign(page_title: l("Preferences"))
       |> render_sface()
     end
   end

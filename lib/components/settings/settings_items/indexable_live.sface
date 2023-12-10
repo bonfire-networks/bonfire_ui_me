@@ -7,7 +7,7 @@
       case @scope do
         :instance ->
           l(
-            "Should public content NOT APPEAR in search engines (in Bonfire, the fediverse, and the web in general) by default?"
+            "DO NOT make public content appear in search engines (in Bonfire, the fediverse, and the web in general) by default"
           )
 
         :account ->

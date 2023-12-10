@@ -62,7 +62,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
             case path(user_etc) do
               "/discussion/" <> _ -> false
               "/character/" <> _ -> false
-              "/%26" <> username -> "/group/" <> username
+              "/%26" <> username -> module_enabled?(Bonfire.UI.Groups) && "/group/" <> username
               path -> path
             end
             |> debug(url)

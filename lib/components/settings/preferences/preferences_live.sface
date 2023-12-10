@@ -4,7 +4,7 @@
   {#match "behaviours"}
     <Bonfire.UI.Me.SettingsViewsLive.BehavioursLive selected_tab={@selected_tab} scope={@scope} />
   {#match "safety"}
-    <Bonfire.UI.Me.SettingsViewsLive.SafetyLive selected_tab={@selected_tab} scope={@scope} />
+    {!-- <Bonfire.UI.Me.SettingsViewsLive.SafetyLive selected_tab={@selected_tab} scope={@scope} /> --}
   {#match _}
     Please select a section.
 {/case}
