@@ -24,7 +24,7 @@
           </Field>
 
           <button
-            class="w-full mt-2 normal-case btn btn-primary"
+            class="w-full mt-2 normal-case btn btn-primary rounded-full"
             phx-disable-with={l("Redirecting...")}
             type="submit"
           >
@@ -32,7 +32,7 @@
           </button>
 
           <p class="mt-4 text-sm">{l("Are you a user of this instance?")} <a class="link link-primary" href={"/login?go=#{@canonical_url}"}>{l("Sign in instead.")}</a></p>
-          <div class="alert mt-3 alert-info" role="alert">
+          <div class="alert mt-3 text-sm alert-info" role="alert">
             <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
             <span class="">
               {l(
