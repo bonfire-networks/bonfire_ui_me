@@ -8,14 +8,17 @@
             <div
               class={
                 "relative bg-center mt-0 bg-cover bg-no-repeat",
-                "h-[40px] md:h-[100px]": is_binary(color),
-                "bg-base-200 h-[140px] md:h-[200px]": !color
+                "bg-base-200 h-[140px] md:h-[200px]": !color,
+                "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
               }
-              style={if is_binary(color),
-                do: "background-color: #{color}",
-                else: "background-image: url('#{banner_url}')"}
+              style={if not is_binary(color),
+                do: "background-image: url('#{banner_url}')", 
+                else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"
+              }
             >
-              {!-- FOLLOWS YOU LABEL + optional graph proximity score --}
+              {!-- 
+              background-color: #{color};
+              FOLLOWS YOU LABEL + optional graph proximity score --}
               <div class="absolute right-2 bottom-2 opacity-90">
                 {#if @follows_me}
                   <p class="badge rounded h-[1.75rem]">{"Follows you"}</p>
