@@ -7,7 +7,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
 
   def mount(socket) do
     # TODO: pagination
-    users = Bonfire.Me.Users.list_all()
+    users = Bonfire.Me.Users.list(paginate: true)
 
     users =
       Enum.map(users, fn user ->
