@@ -1,134 +1,128 @@
 <div class="relative">
   <div>
-    {!-- TODO: put this logic in `update` fn instead --}
-    {#case {Media.avatar_url(@user), Media.banner_url(@user), Media.banner_fallback()}}
-      {#match {avatar_url, banner_url, banner_default}}
-        {#case (!banner_url or banner_url == Media.banner_fallback()) and avatar_url &&
-            avatar_url != Media.avatar_fallback(id(@user)) &&
-            Cache.maybe_apply_cached({Bonfire.Files.Image.Edit, :dominant_color}, [
-              Path.join(Config.get(:project_path), avatar_url),
-              10,
-              nil
-            ])}
+    {!-- TODO: put this logic in `update` fn instead? --}
+    {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
+      {#match {avatar_url, banner_url}}
+        {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
           {#match color}
-            <div>
-              <div
-                class={
-                  "relative bg-center mt-0 bg-cover bg-no-repeat bg-base-200",
-                  "h-[40px] md:h-[100px]": is_binary(color),
-                  "h-[140px] md:h-[200px]": !color
-                }
-                style={if is_binary(color),
-                  do: "background-color: #{color}",
-                  else: "background-image: url('#{banner_url}')"}
-              >
-                {!-- FOLLOWS YOU LABEL + optional graph proximity score --}
-                <div class="absolute right-2 bottom-2 opacity-90">
-                  {#if @follows_me}
-                    <p class="badge rounded h-[1.75rem]">{"Follows you"}</p>
-                  {/if}
-                  {#case Settings.get(:experimental_features_enabled, false, @__context__) and
-                      (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or
-                         Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
-                    {#match false}
-                      <div />
-                    {#match true}
-                      <div />
-                    {#match nil}
-                      <progress title={l("Connection score unknown")} class="progress w-32" value="0" max="100" />
-                    {#match 0}
-                      <div />
-                    {#match distance when distance <= 1}
-                      <progress
-                        title={l("Connection score: %{distance}", distance: distance)}
-                        class="progress progress-success w-32"
-                        value="100"
-                        max="100"
-                      />
-                    {#match distance when distance <= 2}
-                      <progress
-                        title={l("Connection score: %{distance}", distance: distance)}
-                        class="progress progress-success w-32"
-                        value="80"
-                        max="100"
-                      />
-                    {#match distance when distance <= 3}
-                      <progress
-                        title={l("Connection score: %{distance}", distance: distance)}
-                        class="progress progress-info w-32"
-                        value="60"
-                        max="100"
-                      />
-                    {#match distance when distance <= 4}
-                      <progress
-                        title={l("Connection score: %{distance}", distance: distance)}
-                        class="progress progress-info w-32"
-                        value="40"
-                        max="100"
-                      />
-                    {#match distance when distance <= 5}
-                      <progress
-                        title={l("Connection score: %{distance}", distance: distance)}
-                        class="progress progress-warning w-32"
-                        value="20"
-                        max="100"
-                      />
-                    {#match distance when distance > 5}
-                      <progress
-                        title={l("Connection score: %{distance}", distance: distance)}
-                        class="progress progress-warning w-32"
-                        value="10"
-                        max="100"
-                      />
-                  {/case}
-                </div>
+            <div
+              class={
+                "relative bg-center mt-0 bg-cover bg-no-repeat",
+                "h-[40px] md:h-[100px]": is_binary(color),
+                "bg-base-200 h-[140px] md:h-[200px]": !color
+              }
+              style={if is_binary(color),
+                do: "background-color: #{color}",
+                else: "background-image: url('#{banner_url}')"}
+            >
+              {!-- FOLLOWS YOU LABEL + optional graph proximity score --}
+              <div class="absolute right-2 bottom-2 opacity-90">
+                {#if @follows_me}
+                  <p class="badge rounded h-[1.75rem]">{"Follows you"}</p>
+                {/if}
+                {#case Settings.get(:experimental_features_enabled, false, @__context__) and
+                    (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or
+                       Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
+                  {#match false}
+                    <div />
+                  {#match true}
+                    <div />
+                  {#match nil}
+                    <progress title={l("Connection score unknown")} class="progress w-32" value="0" max="100" />
+                  {#match 0}
+                    <div />
+                  {#match distance when distance <= 1}
+                    <progress
+                      title={l("Connection score: %{distance}", distance: distance)}
+                      class="progress progress-success w-32"
+                      value="100"
+                      max="100"
+                    />
+                  {#match distance when distance <= 2}
+                    <progress
+                      title={l("Connection score: %{distance}", distance: distance)}
+                      class="progress progress-success w-32"
+                      value="80"
+                      max="100"
+                    />
+                  {#match distance when distance <= 3}
+                    <progress
+                      title={l("Connection score: %{distance}", distance: distance)}
+                      class="progress progress-info w-32"
+                      value="60"
+                      max="100"
+                    />
+                  {#match distance when distance <= 4}
+                    <progress
+                      title={l("Connection score: %{distance}", distance: distance)}
+                      class="progress progress-info w-32"
+                      value="40"
+                      max="100"
+                    />
+                  {#match distance when distance <= 5}
+                    <progress
+                      title={l("Connection score: %{distance}", distance: distance)}
+                      class="progress progress-warning w-32"
+                      value="20"
+                      max="100"
+                    />
+                  {#match distance when distance > 5}
+                    <progress
+                      title={l("Connection score: %{distance}", distance: distance)}
+                      class="progress progress-warning w-32"
+                      value="10"
+                      max="100"
+                    />
+                {/case}
               </div>
-              <div class="mb-4">
-                <div
-                  :if={!Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
-                  class="flex justify-between w-full px-6"
-                >
-                  {#if @character_type == :user}
-                    <Bonfire.UI.Common.AvatarLive
-                      parent_id="profile-hero"
-                      class="bg-base-100 inline-block object-cover w-[92px] h-[92px] md:w-[130px] border-4 border-base-100 md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full"
-                      src={Media.avatar_url(@user)}
-                      user_id={id(@user)}
-                      src={avatar_url}
-                    />
-                    {!-- ring-2 ring-base-300 bg-base-200 fill-base-200 --}
-                    <Bonfire.UI.Me.HeroMoreActionsLive
-                      character_type={@character_type}
-                      ghosted_instance_wide?={@ghosted_instance_wide?}
-                      silenced_instance_wide?={@silenced_instance_wide?}
-                      ghosted?={@ghosted?}
-                      silenced?={@silenced?}
-                      boundary_preset={@boundary_preset}
-                      user={@user}
-                      members={@members}
-                      moderators={@moderators}
-                    />
-                  {/if}
+            </div>
+            <div class="mb-4">
+              <div
+                :if={!Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
+                class="flex justify-between w-full px-6"
+              >
+                {#if @character_type == :user}
+                  <Bonfire.UI.Common.AvatarLive
+                    parent_id="profile-hero"
+                    class="inline-block object-cover w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full"
+                    src={Media.avatar_url(@user)}
+                    user_id={id(@user)}
+                    src={avatar_url}
+                  />
+                  {!-- 
+                    NOTE: avoid putting a bg or border on the avatar, so alpha bg ones are displayed correctly
+                    bg-base-100 border-4 border-base-100 ring-2 ring-base-300 fill-base-200 --}
+                  <Bonfire.UI.Me.HeroMoreActionsLive
+                    character_type={@character_type}
+                    ghosted_instance_wide?={@ghosted_instance_wide?}
+                    silenced_instance_wide?={@silenced_instance_wide?}
+                    ghosted?={@ghosted?}
+                    silenced?={@silenced?}
+                    boundary_preset={@boundary_preset}
+                    user={@user}
+                    members={@members}
+                    moderators={@moderators}
+                  />
+                {/if}
+              </div>
+              <div class="w-full">
+                <div class={"flex items-start justify-between w-full pr-6 flex-1": @character_type != :user}>
+                  <Bonfire.UI.Me.ProfileInfoLive
+                    ghosted_instance_wide?={@ghosted_instance_wide?}
+                    silenced_instance_wide?={@silenced_instance_wide?}
+                    ghosted?={@ghosted?}
+                    silenced?={@silenced?}
+                    character_type={@character_type}
+                    boundary_preset={@boundary_preset}
+                    user={@user}
+                    path={@path}
+                    selected_tab={@selected_tab}
+                    members={@members}
+                    moderators={@moderators}
+                  />
                 </div>
-                <div class="w-full">
-                  <div class={"flex items-start justify-between w-full pr-6 flex-1": @character_type != :user}>
-                    <Bonfire.UI.Me.ProfileInfoLive
-                      ghosted_instance_wide?={@ghosted_instance_wide?}
-                      silenced_instance_wide?={@silenced_instance_wide?}
-                      ghosted?={@ghosted?}
-                      silenced?={@silenced?}
-                      character_type={@character_type}
-                      boundary_preset={@boundary_preset}
-                      user={@user}
-                      path={@path}
-                      selected_tab={@selected_tab}
-                      members={@members}
-                      moderators={@moderators}
-                    />
-                  </div>
 
-                  {!-- <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} /> --}
-                </div>
+                {!-- <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} /> --}
               </div>
             </div>
         {/case}
