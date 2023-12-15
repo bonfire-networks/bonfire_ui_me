@@ -420,6 +420,16 @@ class="flex items-center justify-between cursor-pointer">
       </div>
     </form>
 
+    <form phx-change="Bonfire.Common.Settings:set">
+      <!-- <input name="scope" value={:instance} type="hidden"> -->
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Activate Curated tab")}
+        description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
+        keys={[Bonfire.UI.Social.FeedsLive, :curated]}
+        scope={:instance}
+      />
+    </form>
+
     {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div> --}
   {#else}
     {l("You don't have permission to configure the instance, sorry!")}
