@@ -179,7 +179,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     username =
       String.trim_trailing(
         username,
-        "@" <> Bonfire.Common.URIs.instance_domain()
+        "@" <> Bonfire.Common.URIs.base_domain()
       )
 
     with {:ok, user} <- Bonfire.Me.Users.by_username(username, preload: :profile) do
