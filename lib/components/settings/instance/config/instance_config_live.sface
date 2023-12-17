@@ -179,6 +179,15 @@
           }}
           scope={:instance}
         />
+
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Require authentication from federated servers")}
+          description={l(
+            "Enables stricter enforcement of users' boundaries and blocks, as well as instance-wide blocks. Please note that this may reduce performance (affecting processing speeds), reach, and/or  compatibility with some federated apps. In addition, this does not fully prevent public posts and accounts from being fetched by third parties."
+          )}
+          keys={[:activity_pub, :reject_unsigned]}
+          scope={:instance}
+        />
       </div>
     </form>
 
@@ -187,22 +196,12 @@
 
       {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Instance behaviour")}</div> --}
       <div class="divide-y divide-base-content/20">
-        <div class="p-4">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-medium">{l("Make invite only")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("Only people with a valid invite link can sign up to this instance.")}</div>
-            </div>
-            <input name="invite_only" value="false" type="hidden">
-            <input
-              name="invite_only"
-              value="true"
-              type="checkbox"
-              checked={if Settings.get(:invite_only, nil, @__context__[:instance_settings] || :instance), do: "checked"}
-              class="toggle"
-            />
-          </div>
-        </div>
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Make invite only")}
+          description={l("Only people with a valid invite link can sign up to this instance.")}
+          keys={[:invite_only]}
+          scope={:instance}
+        />
 
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
