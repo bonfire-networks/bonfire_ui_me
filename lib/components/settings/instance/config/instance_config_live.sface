@@ -183,7 +183,7 @@
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Require authentication from federated servers")}
           description={l(
-            "Enables stricter enforcement of users' boundaries and blocks, as well as instance-wide blocks. Please note that this may reduce performance (affecting processing speeds), reach, and/or  compatibility with some federated apps. In addition, this does not fully prevent public posts and accounts from being fetched by third parties."
+            "Enables stricter enforcement of users' boundaries and blocks, as well as instance-wide blocks. Please note that this may reduce performance, reach, and/or  compatibility with some federated apps. In addition, this does not fully prevent public posts and profiles from being fetched by third parties."
           )}
           keys={[:activity_pub, :reject_unsigned]}
           scope={:instance}
