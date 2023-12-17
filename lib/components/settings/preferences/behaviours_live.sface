@@ -53,14 +53,10 @@
       <form data-scope="default_feed" phx-change="Bonfire.Common.Settings:set">
         <Bonfire.UI.Common.SettingsRadiosLive
           keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
-          options={if Bonfire.Common.Config.get(
-               [Bonfire.UI.Social.FeedsLive, :curated],
-               false
-             ) &&
-               Bonfire.Common.Settings.get(
+          options={if module_enabled?(Bonfire.Social.Pins) and
+               Bonfire.Common.Config.get(
                  [Bonfire.UI.Social.FeedsLive, :curated],
-                 false,
-                 @scope
+                 false
                ) do
             [
               my: l("My Feed"),
@@ -407,10 +403,11 @@
 
   <!-- if curated tab is enabled, then show the settings for disabling on the user side -->
   <form
-    :if={Bonfire.Common.Config.get(
-      [Bonfire.UI.Social.FeedsLive, :curated],
-      false
-    )}
+    :if={module_enabled?(Bonfire.Social.Pins) and
+      Bonfire.Common.Config.get(
+        [Bonfire.UI.Social.FeedsLive, :curated],
+        false
+      )}
     phx-change="Bonfire.Common.Settings:set"
   >
     <Bonfire.UI.Common.SettingsToggleLive

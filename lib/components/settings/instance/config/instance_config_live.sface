@@ -420,7 +420,7 @@ class="flex items-center justify-between cursor-pointer">
       </div>
     </form>
 
-    <form phx-change="Bonfire.Common.Settings:set">
+    <form :if={module_enabled?(Bonfire.Social.Pins)} phx-change="Bonfire.Common.Settings:set">
       <!-- <input name="scope" value={:instance} type="hidden"> -->
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Activate Curated tab")}
