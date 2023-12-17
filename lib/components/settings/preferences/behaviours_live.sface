@@ -53,13 +53,29 @@
       <form data-scope="default_feed" phx-change="Bonfire.Common.Settings:set">
         <Bonfire.UI.Common.SettingsRadiosLive
           keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
-          options={[
-            my: l("My Feed"),
-            explore: l("Everything"),
-            local: l("Local"),
-            fediverse: l("Remote"),
-            likes: "Liked"
-          ]}
+          options={if Bonfire.Common.Config.get(
+               [Bonfire.UI.Social.FeedsLive, :curated],
+               false
+             ) &&
+               Bonfire.Common.Settings.get(
+                 [Bonfire.UI.Social.FeedsLive, :curated],
+                 false,
+                 @scope
+               ) do
+            [
+              my: l("My Feed"),
+              curated: l("Curated"),
+              local: l("Local"),
+              fediverse: l("Remote")
+            ]
+          else
+            [
+              my: l("My Feed"),
+              explore: l("Everything"),
+              local: l("Local"),
+              fediverse: l("Remote")
+            ]
+          end}
           default_value={:my}
           scope={@scope}
         />
@@ -87,7 +103,7 @@
       <Dynamic.Component
         :if={module_enabled?(Bonfire.UI.Social.Settings.TimeSortItemsLive, @__context__)}
         module={Bonfire.UI.Social.Settings.TimeSortItemsLive}
-        scope={:user}
+        scope={@scope}
       />
     </div>
   </div>
@@ -386,8 +402,24 @@
 
   <div class="p-4 text-xl border-b border-base-content/20 font-bold flex items-center gap-4">
     <#Icon iconify="streamline:trending-content-solid" class="w-6 h-6 text-base-content/80" />
-    <span>{l("Trending topics")}</span>
+    <span>{l("Curated & Trending topics")}</span>
   </div>
+
+  <!-- if curated tab is enabled, then show the settings for disabling on the user side -->
+  <form
+    :if={Bonfire.Common.Config.get(
+      [Bonfire.UI.Social.FeedsLive, :curated],
+      false
+    )}
+    phx-change="Bonfire.Common.Settings:set"
+  >
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Activate Curated tab")}
+      description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
+      keys={[Bonfire.UI.Social.FeedsLive, :curated]}
+      scope={@scope}
+    />
+  </form>
 
   <form phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
