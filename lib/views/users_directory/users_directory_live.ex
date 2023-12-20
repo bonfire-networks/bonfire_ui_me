@@ -30,6 +30,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
                else: l("Users directory")
              ),
            page: "users",
+           nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),
            search_placeholder: "Search users",
            users: users
          )}

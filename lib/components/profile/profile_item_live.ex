@@ -9,6 +9,7 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
   prop show_controls, :list, default: [:follow]
   prop activity_id, :any, default: nil
   prop inline, :boolean, default: false
+  prop show_summary, :boolean, default: false
   prop avatar_class, :css_class, default: nil
   prop only_img, :boolean, default: false
   slot default, required: false

@@ -16,14 +16,14 @@
                 <div class="flex items-center justify-between">
                   <Bonfire.UI.Common.AvatarLive
                     parent_id="user_preview"
-                    class="inline-block object-cover w-16 h-16"
+                    class="inline-block bg-base-200 object-cover w-16 h-16"
                     bg_class="h-full"
                     src={avatar_url}
                     user_id={id(@user)}
                   />
                   {!-- rounded-full bg-base-300 --}
                 </div>
-                <div class="mt-1">
+                <div class="mt-1 truncate ellipsis]">
                   <div class="flex items-center space-x-2">
                     <span class="text-base font-bold text-base-content">{e(@user, :profile, :name, "Anonymous")}</span>
                   </div>

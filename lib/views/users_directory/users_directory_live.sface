@@ -1,5 +1,11 @@
-<div class="grid grid-cols-1 gap-3 p-3 lg:gap-3 lg:grid-cols-2">
-  <div :for={user <- @users} class="col-span-1">
-    <Bonfire.UI.Me.UserPreviewLive user={user} />
+<div class="flex divide-base-content/20 divide-y pb-3 flex-col gap-3">
+  <div :for={user <- @users} class="px-3 pt-3">
+    <Bonfire.UI.Me.ProfileItemLive
+      character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
+      profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
+      show_summary
+      avatar_class="w-11 h-11 bg-base-300"
+    />
+    <!-- <Bonfire.UI.Me.UserPreviewLive user={user} /> -->
   </div>
 </div>
