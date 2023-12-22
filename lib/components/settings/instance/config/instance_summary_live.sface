@@ -43,7 +43,7 @@
                 {#else}
                   <div class="text-base-content flex items-center gap-2 text-sm font-medium">
                     <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
-                    {l("Closed")}
+                    {l("By invitation only")}
                   </div>
                 {/if}
               </div>

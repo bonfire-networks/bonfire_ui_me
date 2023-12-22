@@ -147,7 +147,7 @@
       </span>
     </div>
 
-    <div class="mt-4">
+    <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-4">
       <div class="flex py-4 pb-2 mt-6 border-t border-base-content/20 place-content-center">
         <Link to={path(:signup)} class="text-xs text-center normal-case">
           {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></Link>
