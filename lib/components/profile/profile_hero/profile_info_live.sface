@@ -57,10 +57,18 @@
         {#case Forecastr.forecast(:today, e(@user, :profile, :location, ""),
             units: :metric,
             renderer: Forecastr.Renderer.JSON
-          )}
-          {#match {:ok, %{"id" => weather_id, "temp" => temp}}}
-            {!-- TODO: query with lat/long if we have them --}
-            <div class="badge ml-2 badge-outline min-h-[1.75rem] !border-base-content/30">
+          )
+          |> debug("weather")}
+          {#match {:ok,
+               %{"description" => weather, "id" => weather_id, "temp" => temp, "name" => weather_location}}}
+            {!-- 
+            TODO: query weather with lat/long when we have them (need to add the ability to fetch by lat/long in Forecastr)
+            TODO: also use https://hexdocs.pm/astro to show sunrise/sunset and moon cycles, etc?
+            --}
+            <div
+              class="badge ml-2 badge-outline min-h-[1.75rem] !border-base-content/30"
+              title={l("%{weather} in %{location}", weather: weather, location: weather_location)}
+            >
               <Iconify.iconify icon={"meteocons:#{weather_id}"} class="w-5 h-5 text-info" />
               <!-- <img src={Iconify.prepare("meteocons:#{weather_id}", :img_url)} class="w-4 h-4 text-info" /> -->
               <span class="text-xs">{temp}℃</span>
