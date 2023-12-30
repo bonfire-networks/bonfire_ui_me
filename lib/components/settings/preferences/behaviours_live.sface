@@ -26,9 +26,8 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse class="pt-2">
-      <Dynamic.Component
-        :if={module_enabled?(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
-        module={Bonfire.UI.Social.Settings.MyFeedItemsLive}
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Social.Settings.MyFeedItemsLive, @__context__)}
         title={l("What activities to include in home feeds by default")}
         scope={@scope}
       />
@@ -53,7 +52,7 @@
       <form data-scope="default_feed" phx-change="Bonfire.Common.Settings:set">
         <Bonfire.UI.Common.SettingsRadiosLive
           keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
-          options={if module_enabled?(Bonfire.Social.Pins) and
+          options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
                Bonfire.Common.Config.get(
                  [Bonfire.UI.Social.FeedsLive, :curated],
                  false
@@ -96,9 +95,8 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse class="pt-2">
-      <Dynamic.Component
-        :if={module_enabled?(Bonfire.UI.Social.Settings.TimeSortItemsLive, @__context__)}
-        module={Bonfire.UI.Social.Settings.TimeSortItemsLive}
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Social.Settings.TimeSortItemsLive, @__context__)}
         scope={@scope}
       />
     </div>
@@ -121,9 +119,8 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse class="pt-2">
-      <Dynamic.Component
-        :if={module_enabled?(Bonfire.UI.Social.Settings.ReactionsSortItemsLive, @__context__)}
-        module={Bonfire.UI.Social.Settings.ReactionsSortItemsLive}
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Social.Settings.ReactionsSortItemsLive, @__context__)}
         scope={@scope}
       />
     </div>
@@ -379,9 +376,8 @@
     </div>
     <div x-show="open" x-cloak x-collapse>
       <div data-scope="safety_boundary_default" class="mt-3 border border-base-content/20 rounded-box">
-        <Dynamic.Component
-          :if={module_enabled?(Bonfire.Boundaries.Web.BoundariesGeneralAccessLive)}
-          module={Bonfire.Boundaries.Web.BoundariesGeneralAccessLive}
+        <StatelessComponent
+          module={maybe_component(Bonfire.Boundaries.Web.BoundariesGeneralAccessLive, @__context__)}
           hide_custom
           set_action="Bonfire.Common.Settings:set_default_boundary"
           set_opts={%{"phx-value-scope" => @scope}}
@@ -403,7 +399,7 @@
 
   <!-- if curated tab is enabled, then show the settings for disabling on the user side -->
   <form
-    :if={module_enabled?(Bonfire.Social.Pins) and
+    module={maybe_component(Bonfire.Social.Pins, @__context__) and
       Bonfire.Common.Config.get(
         [Bonfire.UI.Social.FeedsLive, :curated],
         false

@@ -6,7 +6,7 @@
           {e(@user, :profile, :name, "Anonymous")}
         </LivePatch>
         <span
-          :if={module_enabled?(Bonfire.Data.SharedUser) && e(@user, :shared_user, :label, nil)}
+          module={maybe_component(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
           class="ml-3 badge badge-sm badge-info badge-outline"
         >
           {e(@user, :shared_user, :label, "")}

@@ -21,8 +21,8 @@
     {#match "extensions"}
       <Bonfire.UI.Common.ExtensionsLive scope={:instance} selected_tab={@selected_tab} />
     {#match "flags"}
-      <Dynamic.LiveComponent
-        module={Bonfire.UI.Social.FlagsLive}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Social.FlagsLive)}
         id="flags"
         selected_tab={@selected_tab}
         scope={:instance}
@@ -34,7 +34,7 @@
     {#match "terms"}
       <Bonfire.UI.Me.SettingsViewsLive.TermsLive selected_tab={@selected_tab} />
     {#match "invites"}
-      <Dynamic.LiveComponent
+      <StatefulComponent
         module={Config.get([:ui, :invites_component], Bonfire.Invite.Links.Web.InvitesLive)}
         id="admin_invites"
         selected_tab={@selected_tab}
@@ -75,16 +75,14 @@
         selected_tab={@selected_tab}
       />
       {!-- {#match "instance_circles"}
-      <Dynamic.LiveComponent
-        :if={module_enabled?(Bonfire.Boundaries.Web.MyCirclesLive) and current_user(@__context__)}
-        module={Bonfire.Boundaries.Web.MyCirclesLive}
+      <StatefulComponent
+        module={maybe_component(Bonfire.Boundaries.Web.MyCirclesLive, @__context__) and current_user(@__context__)}
         id="circles"
         scope={:instance}
       />
     {#match "instance_acls"}
-      <Dynamic.LiveComponent
-        :if={module_enabled?(Bonfire.Boundaries.Web.MyAclsLive) and current_user(@__context__)}
-        module={Bonfire.Boundaries.Web.MyAclsLive}
+      <StatefulComponent
+        module={maybe_component(Bonfire.Boundaries.Web.MyAclsLive, @__context__) and current_user(@__context__)}
         selected_tab="acls"
         id="my_acls"
         scope={:instance}

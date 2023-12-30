@@ -5,10 +5,13 @@
     "": !current_user_id(@__context__)
   }
 >
-  <Dynamic.Component module={Bonfire.UI.Social.ProfileTimelineLive} {...assigns}>
+  <StatelessComponent
+    module={maybe_component(Bonfire.UI.Social.ProfileTimelineLive, @user)}
+    {...assigns}
+  >
     <:header>
-      <Dynamic.LiveComponent
-        module={Bonfire.UI.Me.ProfileHeroFullLive}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Me.ProfileHeroFullLive, @user)}
         id={Text.random_string()}
         user={@user}
         boundary_preset={@boundary_preset}
@@ -20,11 +23,10 @@
     </:header>
 
     {!-- <:widget>
-        <Dynamic.Component
-          :if={module_enabled?(Bonfire.UI.Me.WidgetProfileLive)}
-          module={Bonfire.UI.Me.WidgetProfileLive}
+        <StatelessComponent
+          module={maybe_component(Bonfire.UI.Me.WidgetProfileLive, @__context__)}
           user={@user}
         />
       </:widget> --}
-  </Dynamic.Component>
+  </StatelessComponent>
 </main>

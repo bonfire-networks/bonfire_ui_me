@@ -172,8 +172,10 @@ defmodule Bonfire.Common.Settings.LiveHandler do
       maybe_to_atom(e(attrs, "scope", nil))
       |> debug("scope")
 
+    set = if disabled?, do: :disabled
+
     with {:ok, settings} <-
-           Bonfire.Common.Settings.put([extension, :disabled], disabled?,
+           Bonfire.Common.Settings.put([extension, :modularity], set,
              scope: scope,
              socket: socket
            ) do

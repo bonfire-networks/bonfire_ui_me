@@ -5,12 +5,12 @@
     "": !current_user_id(@__context__)
   }
 >
-  <Dynamic.Component
+  <StatelessComponent
     module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
     {...assigns}
   >
     <:header>
-      <Dynamic.LiveComponent
+      <StatefulComponent
         module={Config.get(
           [:ui, :profile, :hero_component],
           Bonfire.UI.Me.ProfileHeroFullLive
@@ -29,11 +29,10 @@
     </:header>
 
     {!-- <:widget>
-        <Dynamic.Component
-          :if={module_enabled?(Bonfire.UI.Me.WidgetProfileLive)}
-          module={Bonfire.UI.Me.WidgetProfileLive}
+        <StatelessComponent
+          module={maybe_component(Bonfire.UI.Me.WidgetProfileLive, @__context__)}
           user={@user}
         />
       </:widget> --}
-  </Dynamic.Component>
+  </StatelessComponent>
 </main>

@@ -122,11 +122,10 @@
           </li>
           <li
             class="create_new_topic"
-            :if={module_enabled?(Bonfire.UI.Topics.NewTopicLive) and
-              Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
+            module={Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
           >
-            <Dynamic.Component
-              module={Bonfire.UI.Topics.NewTopicLive}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Topics.NewTopicLive, @__context__)}
               parent={@user}
               label={l("New topic")}
             />
@@ -144,18 +143,17 @@
 
         {#if current_user_id(@__context__)}
           <li :if={@character_type == :user}>
-            <Dynamic.Component
-              :if={module_enabled?(Bonfire.Boundaries.Web.AddToCircleLive) and current_user(@__context__)}
-              module={Bonfire.Boundaries.Web.AddToCircleLive}
+            <StatelessComponent
+              :if={current_user(@__context__)}
+              module={maybe_component(Bonfire.Boundaries.Web.AddToCircleLive, @__context__)}
               user_id={id(@user)}
               parent_id="profile_hero"
             />
           </li>
 
           <li class="">
-            <Dynamic.Component
-              :if={module_enabled?(Bonfire.UI.Social.FlagActionLive)}
-              module={Bonfire.UI.Social.FlagActionLive}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Social.FlagActionLive, @__context__)}
               object={@user}
               parent_id="profile_hero"
               object_type={e(@user, :profile, :name, "this user")}
@@ -188,9 +186,8 @@
           {/if}
         {#else}
           <li class="">
-            <Dynamic.Component
-              :if={module_enabled?(Bonfire.UI.Social.FlagActionLive)}
-              module={Bonfire.UI.Social.FlagActionLive}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Social.FlagActionLive, @__context__)}
               object={@user}
               parent_id="profile_hero"
               object_type={e(@user, :profile, :name, "this user")}
@@ -252,9 +249,8 @@
       {#case @character_type}
         {#match :group}
           <div class="flex items-center gap-2" data-role="follow_wrapper">
-            <Dynamic.LiveComponent
-              :if={module_enabled?(Bonfire.UI.Social.FollowButtonLive)}
-              module={Bonfire.UI.Social.FollowButtonLive}
+            <StatefulComponent
+              module={maybe_component(Bonfire.UI.Social.FollowButtonLive, @__context__)}
               :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
                 e(@boundary_preset, "visible", nil) || Boundaries.can?(@__context__, :follow, @user)}
               id={ComponentID.new(Bonfire.UI.Social.FollowButtonLive, id(@user), __MODULE__)}
@@ -288,13 +284,12 @@
                   class="flex btn btn-sm flex-1 btn-primary rounded-full items-center gap-2 normal-case"
                 />
               </:if_followed>
-            </Dynamic.LiveComponent>
+            </StatefulComponent>
           </div>
         {#match _}
           <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
-            <Dynamic.LiveComponent
-              :if={module_enabled?(Bonfire.UI.Social.FollowButtonLive)}
-              module={Bonfire.UI.Social.FollowButtonLive}
+            <StatefulComponent
+              module={maybe_component(Bonfire.UI.Social.FollowButtonLive, @__context__)}
               id={ComponentID.new(Bonfire.UI.Social.FollowButtonLive, id(@user), __MODULE__)}
               object_id={id(@user)}
               object={@user}

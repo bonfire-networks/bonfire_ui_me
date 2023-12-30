@@ -60,10 +60,17 @@ defmodule Bonfire.UI.Me.CharacterLive do
 
           redirect_to_path =
             case path(user_etc) do
-              "/discussion/" <> _ -> false
-              "/character/" <> _ -> false
-              "/%26" <> username -> module_enabled?(Bonfire.UI.Groups) && "/group/" <> username
-              path -> path
+              "/discussion/" <> _ ->
+                false
+
+              "/character/" <> _ ->
+                false
+
+              "/%26" <> username ->
+                module_enabled?(Bonfire.UI.Groups, current_user) && "/group/" <> username
+
+              path ->
+                path
             end
             |> debug(url)
 

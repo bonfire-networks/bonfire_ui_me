@@ -10,8 +10,8 @@ defmodule Bonfire.UI.Me.RuntimeConfig do
   def config do
     import Config
 
-    config :bonfire_ui_me,
-      disabled: false
+    # config :bonfire_ui_me,
+    #   modularity: :disabled
 
     config :bonfire, :ui,
       profile: [

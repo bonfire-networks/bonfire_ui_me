@@ -20,7 +20,9 @@
             "I DO NOT want my public content to appear in search engines (in Bonfire, the fediverse, and the web in general)"
           )
       end}
-    keys={[Bonfire.Search.Indexer, :disabled]}
+    keys={[Bonfire.Search.Indexer, :modularity]}
+    enabled_value={:disabled}
+    disabled_value={nil}
     scope={@scope}
   />
 </form>

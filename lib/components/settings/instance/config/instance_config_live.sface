@@ -38,7 +38,8 @@
         <div x-show="open" x-collapse>
           <div class="w-full max-w-lg mt-8 form-control">
             <div class="mt-1 sm:mt-0 sm:col-span-2">
-              <Bonfire.Files.Web.UploadIconLive
+              <StatefulComponent
+                module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
                 id={:upload_icon}
                 container_class="relative flex-shrink-0 block w-12 h-12 overflow-hidden"
                 class="inline-block overflow-hidden w-12 h-12"
@@ -59,7 +60,8 @@
 
           <div class="w-full max-w-lg mt-4 form-control">
             <div class="mt-1 sm:mt-0 sm:col-span-2">
-              <Bonfire.Files.Web.UploadBannerLive
+              <StatefulComponent
+                module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
                 id={:upload_banner}
                 object={:instance}
                 boundary_verb={:describe}
@@ -419,7 +421,10 @@ class="flex items-center justify-between cursor-pointer">
       </div>
     </form>
 
-    <form :if={module_enabled?(Bonfire.Social.Pins)} phx-change="Bonfire.Common.Settings:set">
+    <form
+      module={maybe_component(Bonfire.Social.Pins, @__context__)}
+      phx-change="Bonfire.Common.Settings:set"
+    >
       <!-- <input name="scope" value={:instance} type="hidden"> -->
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Activate Curated tab")}
