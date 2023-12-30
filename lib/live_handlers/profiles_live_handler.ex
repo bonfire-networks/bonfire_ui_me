@@ -20,7 +20,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   end
 
   def handle_event("add_alias", %{"actor" => actor} = params, socket) do
-    with {:ok, _added} <- Bonfire.Social.Aliases.add(current_user_required!(socket), actor) do
+    with {:ok, _added} <- Bonfire.Social.Graph.Aliases.add(current_user_required!(socket), actor) do
       {
         :noreply,
         socket
@@ -50,7 +50,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   def handle_event("move_away", %{"user" => target, "password" => password}, socket) do
     current_user = current_user_auth!(socket, password)
 
-    with {:ok, _added} <- Bonfire.Social.Aliases.move(current_user, target) do
+    with {:ok, _added} <- Bonfire.Social.Graph.Aliases.move(current_user, target) do
       {
         :noreply,
         socket

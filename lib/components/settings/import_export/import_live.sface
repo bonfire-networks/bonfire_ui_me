@@ -120,7 +120,7 @@
           <div class="text-base  font-medium">{l("Existing aliases")}</div>
           <ul>
             <li :for={al <-
-              Bonfire.Social.Aliases.list_my_aliases(current_user(@__context__))
+              Bonfire.Social.Graph.Aliases.list_my_aliases(current_user(@__context__))
               |> e(:edges, [])
               |> debug("list_my_aliases")}>
               <Bonfire.UI.Me.ProfileItemLive

@@ -35,7 +35,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.ImportLive do
                     # debug(entry)
                     # with %{ok: num} <-
                     # do
-                    Bonfire.Social.Import.import_from_csv_file(
+                    Bonfire.Social.Graph.Import.import_from_csv_file(
                       maybe_to_atom(type),
                       current_user_required!(socket),
                       path

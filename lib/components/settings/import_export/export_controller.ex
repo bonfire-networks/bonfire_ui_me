@@ -244,7 +244,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
-    Bonfire.Social.Follows.list_my_followed(current_user,
+    Bonfire.Social.Graph.Follows.list_my_followed(current_user,
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
@@ -262,7 +262,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
-    Bonfire.Social.Follows.list_my_followers(current_user,
+    Bonfire.Social.Graph.Follows.list_my_followers(current_user,
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
@@ -280,7 +280,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
-    Bonfire.Social.Requests.list_my_requested(
+    Bonfire.Social.Graph.Requests.list_my_requested(
       current_user: current_user,
       type: Bonfire.Data.Social.Follow,
       paginate: false,
@@ -300,7 +300,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
-    Bonfire.Social.Posts.list_by(current_user,
+    Bonfire.Posts.list_by(current_user,
       current_user: current_user,
       paginate: false,
       return: :stream,
@@ -317,7 +317,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
-    Bonfire.Social.Messages.list(current_user, nil,
+    Bonfire.Messages.list(current_user, nil,
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
@@ -489,7 +489,7 @@ defmodule Bonfire.UI.Me.ExportController do
       |> debug()
 
     participants =
-      Bonfire.Social.Messages.LiveHandler.thread_participants(nil, record, nil, [])
+      Bonfire.Messages.LiveHandler.thread_participants(nil, record, nil, [])
       |> debug()
 
     msg = e(record, :activity, :object, :post_content, nil) || e(record, :post_content, nil)

@@ -84,8 +84,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
       follows_me =
         current_user && id(current_user) != user_id &&
-          module_enabled?(Bonfire.Social.Follows, current_user) &&
-          Bonfire.Social.Follows.following?(user, current_user)
+          module_enabled?(Bonfire.Social.Graph.Follows, current_user) &&
+          Bonfire.Social.Graph.Follows.following?(user, current_user)
 
       # situation = Bonfire.Boundaries.Blocks.LiveHandler.preload([%{__context__: socket.assigns.__context__, id: id(user), object_id: id(user), object: user, current_user: current_user}], caller_module: __MODULE__)
       # IO.inspect(situation, label: "situation2")
@@ -246,8 +246,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
     # my_follow =
     #     current_user && id(current_user) != id(user) &&
-    #       module_enabled?(Bonfire.Social.Follows, current_user) &&
-    #       Bonfire.Social.Follows.following?(current_user, user)
+    #       module_enabled?(Bonfire.Social.Graph.Follows, current_user) &&
+    #       Bonfire.Social.Graph.Follows.following?(current_user, user)
 
     # search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
     [

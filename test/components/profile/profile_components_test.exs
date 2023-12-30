@@ -1,7 +1,7 @@
 defmodule Bonfire.UI.Me.ProfileComponentsTest do
   use Bonfire.UI.Me.ConnCase, async: true
   # alias Bonfire.Social.Fake
-  alias Bonfire.Social.Follows
+  alias Bonfire.Social.Graph.Follows
 
   import Phoenix.LiveViewTest
 

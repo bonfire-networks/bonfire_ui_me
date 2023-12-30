@@ -254,7 +254,7 @@
     <div class="form-control  mt-4 w-full">
       <div class="text-base font-medium">{l("Specify your new profile")}</div>
 
-      {#case Bonfire.Social.Aliases.list_my_aliases(current_user(@__context__))
+      {#case Bonfire.Social.Graph.Aliases.list_my_aliases(current_user(@__context__))
         |> e(:edges, [])
         |> debug("list_my_aliases")}
         {#match []}

@@ -3,7 +3,7 @@ defmodule Bonfire.UI.Me.ProfileTest do
   use Bonfire.UI.Me.ConnCase, async: false
 
   import Phoenix.LiveViewTest
-  alias Bonfire.Social.Follows
+  alias Bonfire.Social.Graph.Follows
 
   test "If a user follows me, I want to have a visual feedback in their profile" do
     account = fake_account!()
