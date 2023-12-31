@@ -22,7 +22,7 @@
       <Bonfire.UI.Common.ExtensionsLive scope={:instance} selected_tab={@selected_tab} />
     {#match "flags"}
       <StatefulComponent
-        module={maybe_component(Bonfire.UI.Social.FlagsLive)}
+        module={maybe_component(Bonfire.UI.Moderation.FlagsLive)}
         id="flags"
         selected_tab={@selected_tab}
         scope={:instance}

@@ -1,0 +1,158 @@
+<StatefulComponent
+  module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
+  id={:upload_banner}
+  object={current_user(@__context__)}
+  set_field={:current_user}
+  set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
+/>
+<div class="flex justify-between items-center pr-4">
+  <div class="flex items-center gap-3 p-3">
+    <StatefulComponent
+      module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
+      id={:upload_icon}
+      src={Bonfire.Common.Media.avatar_url(current_user(@__context__))}
+      container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
+      class="inline-block w-32 h-32"
+      object={current_user(@__context__)}
+      set_field={:current_user}
+      set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
+    />
+    <div class="flex items-center justify-between w-full -mt-3">
+      <div class="flex flex-col">
+        <div class="text-2xl font-semibold">{e(current_user(@__context__), :profile, :name, "")}</div>
+        <div class="text-sm font-light text-base-content/70">
+          {e(current_user(@__context__), :character, :username, "")}@{base_domain()}
+        </div>
+      </div>
+    </div>
+  </div>
+  <LiveRedirect
+    to="/user"
+    type="button"
+    class="normal-case rounded-full btn btn-sm !border !border-base-content/30 btn btn-outline"
+  >{l("View Profile")}</LiveRedirect>
+</div>
+
+<form
+  phx-change="Bonfire.Me.Profiles:validate"
+  phx-submit="Bonfire.Me.Profiles:save"
+  method="POST"
+>
+  <div class="mx-3 mt-4 divide-y rounded-box divide-base-content/20 border border-base-content/20">
+    <div x-data="{open: false}" class="p-3">
+      <div class="flex items-center justify-between" x-on:click="open = !open">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Edit your full name")}</div>
+        </div>
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+      </div>
+      <div x-cloak x-show="open" x-collapse>
+        <div class="mt-4 form-control">
+          {!-- <label for="name" class="label">
+                <span class="label-text">
+                  {l("Full name")}
+                </span>
+              </label> --}
+          <input
+            type="text"
+            name="profile[name]"
+            id="name"
+            autocomplete="name"
+            class="input input-bordered"
+            value={e(current_user(@__context__), :profile, :name, "")}
+          />
+        </div>
+      </div>
+    </div>
+
+    <div x-data="{open: false}" class="p-3">
+      <div class="flex items-center justify-between" x-on:click="open = !open">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Edit your bio")}</div>
+        </div>
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+      </div>
+      <div x-cloak x-show="open" x-collapse>
+        <div class="mt-4 form-control">
+          {!-- <label for="about" class="label">
+                <span class="label-text">{l("Bio")}</span>
+              </label> --}
+          <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(current_user(@__context__), :profile, :summary, "")}</textarea>
+          <p class="mt-2 text-sm text-base-content text-opacity-70">
+            {l("You can use markdown formatting.")}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div x-data="{open: false}" class="p-3">
+      <div class="flex items-center justify-between" x-on:click="open = !open">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Edit your website")}</div>
+        </div>
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+      </div>
+      <div x-cloak x-show="open" x-collapse>
+        <div class="mt-4 form-control">
+          {!-- <label for="website" class="label">
+                <span class="label-text">{l("Website")}</span>
+              </label> --}
+          <input
+            type="text"
+            name="profile[website]"
+            id="website"
+            placeholder="https://example.local"
+            autocomplete="website"
+            class="input input-bordered"
+            value={e(current_user(@__context__), :profile, :website, "")}
+          />
+        </div>
+      </div>
+    </div>
+
+    <div x-data="{open: false}" class="p-3">
+      <div class="flex items-center justify-between" x-on:click="open = !open">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Edit your location")}</div>
+        </div>
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+      </div>
+      <div x-cloak x-show="open" x-collapse>
+        <div class="mt-4 form-control">
+          <input
+            type="text"
+            name="profile[location]"
+            id="location"
+            placeholder="Neptune"
+            autocomplete="location"
+            class="input input-bordered"
+            value={e(current_user(@__context__), :profile, :location, "")}
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="flex justify-end pb-8 mx-3 mt-4 gap-3">
+    <button type="submit" class="normal-case rounded-full btn-wide btn btn-primary">{l("Save")}</button>
+  </div>
+</form>

@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      |> assign(
        page_title: l("Instance Settings"),
        back: true,
-       nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),
+       nav_items: Bonfire.Common.ExtensionModule.default_nav(),
        sidebar_widgets: [
          users: [
            secondary: [

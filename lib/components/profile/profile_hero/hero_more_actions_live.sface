@@ -47,7 +47,7 @@
           </LiveRedirect>
         </li>
         <li>
-          <LiveRedirect to="/feed/likes" class="flex items-center gap-2 text-sm text-base-content/70">
+          <LiveRedirect to="/likes" class="flex items-center gap-2 text-sm text-base-content/70">
             <#Icon iconify="mingcute:fire-line" class="w-4 h-4" />
             <span>{l("Likes")}</span>
           </LiveRedirect>
@@ -153,7 +153,7 @@
 
           <li class="">
             <StatelessComponent
-              module={maybe_component(Bonfire.UI.Social.FlagActionLive, @__context__)}
+              module={maybe_component(Bonfire.UI.Moderation.FlagActionLive, @__context__)}
               object={@user}
               parent_id="profile_hero"
               object_type={e(@user, :profile, :name, "this user")}
@@ -187,7 +187,7 @@
         {#else}
           <li class="">
             <StatelessComponent
-              module={maybe_component(Bonfire.UI.Social.FlagActionLive, @__context__)}
+              module={maybe_component(Bonfire.UI.Moderation.FlagActionLive, @__context__)}
               object={@user}
               parent_id="profile_hero"
               object_type={e(@user, :profile, :name, "this user")}

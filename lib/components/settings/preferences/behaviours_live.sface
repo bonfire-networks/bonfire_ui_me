@@ -120,7 +120,7 @@
     </div>
     <div x-show="open" x-cloak x-collapse class="pt-2">
       <StatelessComponent
-        module={maybe_component(Bonfire.UI.Social.Settings.ReactionsSortItemsLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Reactions.ReactionsSortItemsLive, @__context__)}
         scope={@scope}
       />
     </div>
@@ -399,7 +399,7 @@
 
   <!-- if curated tab is enabled, then show the settings for disabling on the user side -->
   <form
-    module={maybe_component(Bonfire.Social.Pins, @__context__) and
+    :if={module_enabled?(Bonfire.Social.Pins, @__context__) and
       Bonfire.Common.Config.get(
         [Bonfire.UI.Social.FeedsLive, :curated],
         false

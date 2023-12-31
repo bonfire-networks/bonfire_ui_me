@@ -20,7 +20,11 @@
     {#match "account"}
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
     {#match "import"}
-      <Bonfire.UI.Me.SettingsViewsLive.ImportLive selected_tab={@selected_tab} id="import" />
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Social.Graph.ImportLive, @__context__)}
+        selected_tab={@selected_tab}
+        id="import"
+      />
     {#match "export"}
       <Bonfire.UI.Me.SettingsViewsLive.ExportLive selected_tab={@selected_tab} />
       {!-- {#match "roles"}
@@ -59,14 +63,22 @@
     {#match "flags"}
       <StatefulComponent
         :if={current_user(@__context__)}
-        module={maybe_component(Bonfire.UI.Social.FlagsLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Moderation.FlagsLive, @__context__)}
         selected_tab={@selected_tab}
         id="flags"
       />
     {#match "silenced"}
-      <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="silenced" />
+      <StatefulComponent
+        module={maybe_component(Bonfire.Boundaries.Web.BlocksLive, @__context__)}
+        id="blocks"
+        selected_tab="silenced"
+      />
     {#match "ghosted"}
-      <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="ghosted" />
+      <StatefulComponent
+        module={maybe_component(Bonfire.Boundaries.Web.BlocksLive, @__context__)}
+        id="blocks"
+        selected_tab="ghosted"
+      />
     {#match "shared_user"}
       <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
         current_user={current_user(@__context__) |> repo().maybe_preload(:shared_user)}

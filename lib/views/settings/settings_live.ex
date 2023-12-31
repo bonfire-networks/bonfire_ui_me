@@ -19,7 +19,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        #  without_sidebar: true,
        #  smart_input_opts: %{disable: true}, # Note: do not disable as it prevents preserving input as you browse the app
        #  nav_items: [Bonfire.UI.Common.SidebarSettingsNavLive.declared_nav()],
-       nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),
+       nav_items: Bonfire.Common.ExtensionModule.default_nav(),
        sidebar_widgets: [
          users: [
            secondary: [

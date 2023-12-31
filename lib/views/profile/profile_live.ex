@@ -208,7 +208,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       back: true,
       # without_sidebar: true,
       # the user to display
-      nav_items: Bonfire.Common.ExtensionModule.default_nav(:bonfire_ui_social),
+      nav_items: Bonfire.Common.ExtensionModule.default_nav(),
       user: %{},
       canonical_url: nil,
       character_type: nil,
