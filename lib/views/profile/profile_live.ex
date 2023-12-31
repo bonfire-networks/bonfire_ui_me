@@ -187,7 +187,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     else
       _ ->
         # handle other character types beyond User
-        with {:ok, character} <- Bonfire.Common.Needle.get(username) do
+        with {:ok, character} <- Bonfire.Common.Needles.get(username) do
           character
         else
           _ ->
