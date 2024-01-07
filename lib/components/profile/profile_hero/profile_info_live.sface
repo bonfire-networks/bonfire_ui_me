@@ -6,7 +6,7 @@
           {e(@user, :profile, :name, "Anonymous")}
         </LivePatch>
         <span
-          module={maybe_component(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
+          :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
           class="ml-3 badge badge-sm badge-info badge-outline"
         >
           {e(@user, :shared_user, :label, "")}
@@ -223,7 +223,10 @@
     </div>
   {/if}
 
-  <div :if={@character_type == :user} class="flex ml-6 items-center gap-6">
+  <div
+    :if={@character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
+    class="flex ml-6 items-center gap-6"
+  >
     <LivePatch
       class="flex items-center"
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}

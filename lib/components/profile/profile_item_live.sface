@@ -44,10 +44,10 @@
   </button>
 
   <StatefulComponent
-    module={maybe_component(Bonfire.UI.Social.FollowButtonLive, @__context__)}
+    module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
     :if={:follow in @show_controls and current_user_id(@__context__) &&
       current_user_id(@__context__) != id(@profile)}
-    id={ComponentID.new(Bonfire.UI.Social.FollowButtonLive, id(@profile), __MODULE__)}
+    id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile), __MODULE__)}
     object_id={id(@profile)}
     path={path(@character)}
     hide_icon

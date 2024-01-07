@@ -37,6 +37,11 @@ defmodule Bonfire.UI.Me.RuntimeConfig do
           extensions: Bonfire.UI.Me.SettingsViewsLive.PreferencesLive
         ],
         navigation: Bonfire.UI.Common.SidebarSettingsNavLive.declared_nav()
+      ],
+      activity_preview: [],
+      object_preview: [
+        {Bonfire.Data.Identity.User, Bonfire.UI.Me.Preview.CharacterLive},
+        {Bonfire.Data.Social.Follow, Bonfire.UI.Me.Preview.CharacterLive}
       ]
   end
 end

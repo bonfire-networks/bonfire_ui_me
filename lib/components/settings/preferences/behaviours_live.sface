@@ -120,7 +120,7 @@
     </div>
     <div x-show="open" x-cloak x-collapse class="pt-2">
       <StatelessComponent
-        module={maybe_component(Bonfire.UI.Reactions.ReactionsSortItemsLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Social.ReactionsSortItemsLive, @__context__)}
         scope={@scope}
       />
     </div>
@@ -182,13 +182,19 @@
       <form data-scope="set_thread_sorting" phx-change="Bonfire.Common.Settings:set">
         <Bonfire.UI.Common.SettingsRadiosLive
           keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
-          options={[
-            nil: l("Chronological"),
-            latest_reply: l("Surface latest replies"),
-            num_replies: l("Amount of replies"),
-            num_boosts: l("Amount of boosts"),
-            num_likes: l("Amount of likes")
-          ]}
+          options={if extension_enabled?(:bonfire_ui_reactions, @__context__),
+            do: [
+              nil: l("Chronological"),
+              latest_reply: l("Surface latest replies"),
+              num_replies: l("Amount of replies"),
+              num_boosts: l("Amount of boosts"),
+              num_likes: l("Amount of likes")
+            ],
+            else: [
+              nil: l("Chronological"),
+              latest_reply: l("Surface latest replies"),
+              num_replies: l("Amount of replies")
+            ]}
           default_value={nil}
           scope={@scope}
         />

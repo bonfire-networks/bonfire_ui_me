@@ -1,6 +1,6 @@
 {#if @showing_within == :widget}
   {!-- show the object or character that isn't me --}
-  <div class="flex w-full activity_widget">
+  <div data-role="character" class="flex w-full activity_widget">
     <LiveRedirect
       to={path(the_other(@activity, @object, @__context__))}
       class="flex profile-item group"
@@ -25,12 +25,15 @@
     </LiveRedirect>
   </div>
 {#else}
-  <div class={
-    "flex-1 mb-4",
-    "!-ml-[2.5rem]": @__context__[:ui_compact] && !@viewing_main_object,
-    "-ml-[3.25rem]":
-      !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)
-  }>
+  <div
+    data-role="character"
+    class={
+      "flex-1 mb-4",
+      "!-ml-[2.5rem]": @__context__[:ui_compact] && !@viewing_main_object,
+      "-ml-[3.25rem]":
+        !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)
+    }
+  >
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive, @__context__)}
       show_summary
