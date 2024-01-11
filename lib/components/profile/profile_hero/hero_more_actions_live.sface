@@ -57,7 +57,7 @@
 
           <li>
             <LiveRedirect to="/bookmarks" class="flex items-center gap-2 text-sm text-base-content/70">
-              <#Icon iconify="carbon:bookmark-filled" class="w-4 h-4" />
+              <#Icon iconify="carbon:bookmark" class="w-4 h-4" />
               <span>{l("Bookmarks")}</span>
             </LiveRedirect>
           </li>

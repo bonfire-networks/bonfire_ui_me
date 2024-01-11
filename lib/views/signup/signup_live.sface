@@ -66,14 +66,20 @@
         </ul>
       </div>
       <div x-cloak x-show="step == 1" class="">
-        <article class="prose max-w-max mt-8 prose-md">{templated_or_remote_markdown(
+        <article class="prose mx-auto mt-8 prose-md">{templated_or_remote_markdown(
             e(
               Config.get([:terms, :conduct]),
               l(
                 "The instance operator(s) have not yet added a code of conduct. Please use your best judgment, and consult the [code of conduct of the Bonfire project](https://bonfirenetworks.org/conduct/) as a reference."
               )
             )
-          )}</article>
+          )}
+
+          <div class="mt-4 flex flex-col gap-2">
+            <button class="btn  btn-primary rounded-full w-full" @click="next()">{l("Accept")}</button>
+            <a href="/" class="border-base-content/20 btn  btn-outline rounded-full w-full">{l("Decline")}</a>
+          </div>
+        </article>
         <!-- {#case Config.get([:terms, :conduct], nil)}
               {#match terms when is_binary(terms)}
                 <div class="p-3 prose">
@@ -81,10 +87,6 @@
                 </div>
               {#match _}
             {/case} -->
-        <div class="mt-4 flex flex-col gap-2">
-          <button class="btn  btn-primary rounded-full w-full" @click="next()">{l("Accept")}</button>
-          <a href="/" class="border-base-content/20 btn  btn-outline rounded-full w-full">{l("Decline")}</a>
-        </div>
       </div>
 
       <div x-cloak x-show="step == 2" class="flex mt-8 flex-col justify-center items-center">
