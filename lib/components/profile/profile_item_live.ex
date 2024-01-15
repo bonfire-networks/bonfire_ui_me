@@ -3,7 +3,7 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
 
   prop profile, :any
   prop lg, :boolean, default: false
-  prop wrapper_class, :css_class, default: "flex items-center justify-between"
+  prop wrapper_class, :css_class, default: "flex items-start justify-between"
   prop character, :any
   prop class, :css_class
   prop show_controls, :list, default: [:follow]

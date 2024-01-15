@@ -1,18 +1,20 @@
 <div class={@wrapper_class}>
-  <LiveRedirect
-    to={if String.starts_with?(e(@character, :username, ""), "http"),
-      do: e(@character, :username, nil),
-      else: "/character/#{e(@character, :username, "")}"}
-    class="flex items-start gap-3 profile-item group"
-  >
-    <Bonfire.UI.Common.AvatarLive
-      parent_id={"profile_item_#{@parent_id}"}
-      comment={if @lg, do: false, else: true}
-      user_id={id(@profile)}
-      src={Media.avatar_url(@profile)}
-      title={e(@profile, :name, "")}
-      class={@avatar_class || "w-10 h-10"}
-    />
+  <div class="flex items-start gap-3 profile-item group">
+    <LiveRedirect
+      to={if String.starts_with?(e(@character, :username, ""), "http"),
+        do: e(@character, :username, nil),
+        else: "/character/#{e(@character, :username, "")}"}
+      class=""
+    >
+      <Bonfire.UI.Common.AvatarLive
+        parent_id={"profile_item_#{@parent_id}"}
+        comment={if @lg, do: false, else: true}
+        user_id={id(@profile)}
+        src={Media.avatar_url(@profile)}
+        title={e(@profile, :name, "")}
+        class={@avatar_class || "w-10 h-10"}
+      />
+    </LiveRedirect>
     <div
       :if={@only_img != true}
       class={
@@ -20,18 +22,24 @@
         "flex gap-1 items-baseline": @inline
       }
     >
-      <p class={"text-base font-bold text-base-content group-hover:underline", "text-base": @lg}>
+      <LiveRedirect
+        to={if String.starts_with?(e(@character, :username, ""), "http"),
+          do: e(@character, :username, nil),
+          else: "/character/#{e(@character, :username, "")}"}
+        class={"text-base font-bold text-base-content group-hover:underline", "text-base": @lg}
+      >
         {e(@profile, :name, "Anon")}
-      </p>
-      <p :if={!@inline} class="text-[.8rem] text-base-content/70 -mt-1">
+      </LiveRedirect>
+
+      <div :if={!@inline} class="text-[.8rem] text-base-content/70 -mt-1">
         {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}
-      </p>
-      <p
+      </div>
+      <div
         :if={@show_summary && {e(@profile, :summary, nil)}}
         class="!text-base-content/100 prose prose-sm text-sm"
-      >{e(@profile, :summary, "")}</p>
+      >{rich(e(@profile, :summary, ""))}</div>
     </div>
-  </LiveRedirect>
+  </div>
 
   <button
     :if={:accept in @show_controls}
