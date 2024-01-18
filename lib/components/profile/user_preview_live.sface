@@ -34,7 +34,7 @@
                     </div>
 
                     <span
-                      module={maybe_component(Bonfire.Me.SharedUsers, @__context__) && e(@user, :shared_user, :label, nil)}
+                      :if={maybe_component(Bonfire.Me.SharedUsers, @__context__) && e(@user, :shared_user, :label, nil)}
                       class="badge badge-secondary badge-outline"
                     >
                       {e(@user, :shared_user, :label, "")}
