@@ -614,9 +614,9 @@ defmodule Bonfire.UI.Me.ExportController do
     </html>"])
   end
 
-  # def media_stream(path, %Capsule.Locator{storage: storage} = locator, fun) when storage in [Capsule.Storages.Disk, "Elixir.Capsule.Storages.Disk"] do
+  # def media_stream(path, %Entrepot.Locator{storage: storage} = locator, fun) when storage in [Entrepot.Storages.Disk, "Elixir.Entrepot.Storages.Disk"] do
   #  # stream files from Disk
-  #   path = Capsule.Storages.Disk.path(locator) 
+  #   path = Entrepot.Storages.Disk.path(locator) 
 
   #   if is_binary(path) and File.exists?(path) do
   #     fun.(path, File.stream!(path, [], 512))
@@ -624,9 +624,9 @@ defmodule Bonfire.UI.Me.ExportController do
   #     fun.("#{path}.txt", ["File not found"])
   #   end
   # end
-  def media_stream(path, %Capsule.Locator{id: id} = locator, fun) do
+  def media_stream(path, %Entrepot.Locator{id: id} = locator, fun) do
     # stream files from Disk or S3 
-    source_storage = Capsule.storage!(locator)
+    source_storage = Entrepot.storage!(locator)
 
     case source_storage.stream(id) do
       nil -> fun.("#{path}.txt", ["File not found"])
@@ -634,9 +634,9 @@ defmodule Bonfire.UI.Me.ExportController do
     end
   end
 
-  # def media_stream(path, %Capsule.Locator{} = locator, fun) do
+  # def media_stream(path, %Entrepot.Locator{} = locator, fun) do
   #  # copy S3 files to Disk
-  #   with {:ok, new_locator} <- Capsule.copy(locator, Capsule.Storages.Disk, skip_existing: true)
+  #   with {:ok, new_locator} <- Entrepot.copy(locator, Entrepot.Storages.Disk, skip_existing: true)
   #     |> debug() do
   #     media_stream(path, new_locator, fun)
   #   else 
