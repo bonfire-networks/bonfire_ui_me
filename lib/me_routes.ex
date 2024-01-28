@@ -3,22 +3,32 @@ defmodule Bonfire.UI.Me.Routes do
 
   defmacro __using__(_) do
     quote do
+      pipeline :early_hints_authed do
+        plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
+      end
+
       pipeline :guest_only do
         plug(Bonfire.UI.Me.Plugs.GuestOnly)
       end
 
       pipeline :user_required do
+        plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
+
         plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
         plug(Bonfire.UI.Me.Plugs.UserRequired)
       end
 
       # an alias of :user_required
       pipeline :require_authenticated_user do
+        plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
+
         plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
         plug(Bonfire.UI.Me.Plugs.UserRequired)
       end
 
       pipeline :account_required do
+        plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
+
         # plug(Bonfire.UI.Me.Plugs.LoadCurrentAccount)
         # ^ no need to call LoadCurrentAccount if also calling LoadCurrentUser
         plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
@@ -88,13 +98,16 @@ defmodule Bonfire.UI.Me.Routes do
 
         resources("/signup/email/confirm", ConfirmEmailController, only: [:index, :create, :show])
 
-        resources("/login", LoginController, only: [:index, :create], as: :login)
-
         resources(
           "/login/forgot-password/:login_token",
           ForgotPasswordController,
           only: [:index]
         )
+
+        # tell the browser to preload the LiveView JS when logging in
+        pipe_through(:early_hints_authed)
+
+        resources("/login", LoginController, only: [:index, :create], as: :login)
 
         resources("/login/:login_token", LoginController, only: [:index])
       end
