@@ -1,18 +1,4 @@
 <div class="flex items-center gap-3">
-  {!-- {#case e(@user, :character, :peered, :canonical_uri, nil)}
-    {#match nil}
-    {#match canonical_uri}
-      <a
-        href={canonical_uri}
-        title={l("View on the original instance")}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
-      >
-        <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/70" />
-      </a>
-  {/case} --}
-
   {#if current_user_id(@__context__) == id(@user)}
     <LiveRedirect
       to={~p"/settings/user/profile"}
@@ -40,6 +26,18 @@
         aria-orientation="vertical"
         class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-200"
       >
+        <li>
+          <a
+            phx-hook="Copy"
+            id={"hero_action_copy_url_#{id(@user)}"}
+            href={URIs.canonical_url(@user)}
+            class="flex items-center gap-2 text-sm text-base-content/70"
+          >
+            <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
+            <span>{l("Copy link")}</span>
+          </a>
+        </li>
+
         <li>
           <LiveRedirect to="/settings" class="flex items-center gap-2 text-sm text-base-content/70">
             <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
@@ -105,6 +103,18 @@
         aria-orientation="vertical"
         class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-200"
       >
+        <li>
+          <a
+            phx-hook="Copy"
+            id={"hero_action_copy_url_#{id(@user)}"}
+            href={URIs.canonical_url(@user)}
+            class="flex items-center gap-2 text-sm text-base-content/70"
+          >
+            <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
+            <span>{l("Copy link")}</span>
+          </a>
+        </li>
+
         {#if @character_type == :group}
           {!-- <li>
           <button class="flex items-center gap-2 text-sm text-base-content/70">
@@ -112,17 +122,18 @@
             <span>{l("View group info")}</span>
           </button>
         </li> --}
-          <li>
+
+          {!-- <li>
             <a
               phx-hook="Copy"
               id="hero_copy_invite"
-              href={URIs.canonical_url(@user)}
+              href={"TODO"} 
               class="flex items-center gap-2 text-sm text-base-content/70"
             >
               <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
               <span>{l("Copy invite link")}</span>
             </a>
-          </li>
+          </li> --}
           <li
             class="create_new_topic"
             module={Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
@@ -228,20 +239,40 @@
       </ul>
     </div>
 
+    {#if @character_type == :user and current_user_id(@__context__)}
+      <Bonfire.UI.Common.SmartInputButtonLive
+        :if={extension_enabled?(:bonfire_ui_messages, @__context__)}
+        as_icon
+        create_object_type={:message}
+        smart_input_opts={%{
+          recipients_editable: true,
+          to_circles: [
+            {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
+          ]
+        }}
+        icon="carbon:email"
+        class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
+      />
+
+      {!-- 
+    FIXME: text_suggestion not working with milkdown
     <Bonfire.UI.Common.SmartInputButtonLive
-      :if={@character_type == :user and
-        current_user_id(@__context__) && extension_enabled?(:bonfire_ui_messages, @__context__)}
-      as_icon
-      create_object_type={:message}
+    as_icon
+      prompt={l("Mention in a post")}
       smart_input_opts={%{
-        recipients_editable: true,
+        mentions: [id(@user)],
+        text_suggestion: "@#{e(@user, :character, :username, nil)} ",
         to_circles: [
-          {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
+          %{
+            (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+              id(@user)
+          }
         ]
       }}
-      icon="carbon:email"
+      icon="heroicons-solid:at-symbol"
       class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
-    />
+    /> --}
+    {/if}
 
     {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
         (@ghosted? == true && @silenced? == true)}
@@ -270,7 +301,7 @@
             >
               <:if_followed>
                 <Bonfire.UI.Common.SmartInputButtonLive
-                  :if={@character_type == :group && current_user(@__context__)}
+                  :if={current_user_id(@__context__)}
                   prompt={l("Post")}
                   smart_input_opts={%{
                     context_id: id(@user),
