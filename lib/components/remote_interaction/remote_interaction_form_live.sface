@@ -7,7 +7,7 @@
         <HiddenInput name={:type} value={@interaction_type} />
         <HiddenInput name={:object} value={@canonical_url} />
 
-        <div class="p-5 mx-auto">
+        <div class="p-5 mx-auto rounded bg-base-content/10">
           <Field name={:me}>
             <Label class="block p-0 mb-4 text-center label">
               <span class="text-base font-medium">{l("Enter your fediverse nick to %{verb} %{user_name} remotely",
@@ -32,9 +32,9 @@
           </button>
 
           <p class="mt-4 text-sm">{l("Are you a user of this instance?")} <a class="link link-primary" href={"/login?go=#{@canonical_url}"}>{l("Sign in instead.")}</a></p>
-          <div class="alert mt-3 text-sm alert-info" role="alert">
+          <div class="alert mt-3 items-start text-sm rounded alert-info" role="alert">
             <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
-            <span class="">
+            <span class="text-sm">
               {l(
                 "Why is this step necessary? This might not be the fediverse instance where you are registered, in which case we first need to redirect you to your home instance where you'll be able to proceed to %{verb}.",
                 verb: @interaction_type
