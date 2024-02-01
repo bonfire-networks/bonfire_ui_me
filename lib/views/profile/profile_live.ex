@@ -19,7 +19,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
   def mount(_params, _session, socket) do
     # debug(params)
-    {:ok, socket |> assign(default_assigns())}
+    {:ok, socket |> assign(default_assigns(socket))}
   end
 
   def tab(selected_tab) do
@@ -197,8 +197,12 @@ defmodule Bonfire.UI.Me.ProfileLive do
     |> debug("theuser")
   end
 
-  def default_assigns() do
+  def default_assigns(socket) do
     [
+      without_sidebar: !current_user(socket.assigns),
+      without_secondary_widgets: !current_user(socket.assigns),
+      no_header: !current_user(socket.assigns),
+      hide_tabs: !current_user(socket.assigns),
       smart_input: true,
       feed: nil,
       page_info: [],

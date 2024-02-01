@@ -1,38 +1,33 @@
-<main
-  data-id="profile"
-  data-user-id={e(@user, :id, "")}
-  class={
-    "": !current_user_id(@__context__)
-  }
->
+<main data-id="profile" data-user-id={e(@user, :id, "")}>
   <StatelessComponent
     module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
     {...assigns}
   >
     <:header>
-      <StatefulComponent
-        module={Config.get(
-          [:ui, :profile, :hero_component],
-          Bonfire.UI.Me.ProfileHeroFullLive
-        )}
-        id={Text.random_string()}
-        object_id={id(@user)}
-        object={@user}
-        boundary_preset={@boundary_preset}
-        user={@user}
-        path={@path}
-        block_status={e(assigns, :block_status, nil)}
-        selected_tab={@selected_tab}
-        follows_me={e(@follows_me, false)}
-        character_type={@character_type}
-      />
-    </:header>
-
-    {!-- <:widget>
-        <StatelessComponent
-          module={maybe_component(Bonfire.UI.Me.WidgetProfileLive, @__context__)}
+      {#if !current_user_id(@__context__)}
+        <Bonfire.UI.Me.GuestProfileLive
+          boundary_preset={@boundary_preset}
           user={@user}
+          id="guest-profile"
         />
-      </:widget> --}
+      {#else}
+        <StatefulComponent
+          module={Config.get(
+            [:ui, :profile, :hero_component],
+            Bonfire.UI.Me.ProfileHeroFullLive
+          )}
+          id={Text.random_string()}
+          object_id={id(@user)}
+          object={@user}
+          boundary_preset={@boundary_preset}
+          user={@user}
+          path={@path}
+          block_status={e(assigns, :block_status, nil)}
+          selected_tab={@selected_tab}
+          follows_me={e(@follows_me, false)}
+          character_type={@character_type}
+        />
+      {/if}
+    </:header>
   </StatelessComponent>
 </main>
