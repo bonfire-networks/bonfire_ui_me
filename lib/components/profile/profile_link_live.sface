@@ -1,4 +1,0 @@
-<a href={@href} class={@class}>
-  <#Icon iconify={e(@icon, "carbon:link")} class="w-5 h-5 text-base-content/70" />
-  <span class="text-sm">{display_url(@text)}</span>
-</a>

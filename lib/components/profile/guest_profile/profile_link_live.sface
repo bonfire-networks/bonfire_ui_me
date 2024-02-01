@@ -1,0 +1,18 @@
+<a href={@href} class={@class}>
+  {#if @icon}
+    <Iconify.iconify icon={@icon} class="w-5 h-5 text-base-content/70" />
+  {#else}
+    {#case Bonfire.Files.FaviconStore.favicon_url(@href)}
+      {#match image when is_binary(image)}
+        <img
+          src={image}
+          class="w-4 h-4 text-base-content/70"
+          onerror="this.classList.add('iconify'); this.setAttribute('iconify','carbon:link')"
+        />
+      {#match _}
+        <#Icon iconify="carbon:link" class="w-5 h-5 text-base-content/70" />
+    {/case}
+  {/if}
+
+  <span class="text-sm">{display_url(@text)}</span>
+</a>

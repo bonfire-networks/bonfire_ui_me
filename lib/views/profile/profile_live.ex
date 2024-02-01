@@ -19,7 +19,9 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
   def mount(_params, _session, socket) do
     # debug(params)
-    {:ok, socket |> assign(default_assigns(socket))}
+    {:ok,
+     socket
+     |> assign(default_assigns(is_nil(current_user_id(socket.assigns))))}
   end
 
   def tab(selected_tab) do
@@ -197,12 +199,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
     |> debug("theuser")
   end
 
-  def default_assigns(socket) do
+  def default_assigns(is_guest?) do
     [
-      without_sidebar: !current_user(socket.assigns),
-      without_secondary_widgets: !current_user(socket.assigns),
-      no_header: !current_user(socket.assigns),
-      hide_tabs: !current_user(socket.assigns),
+      is_guest?: is_guest?,
+      without_sidebar: is_guest?,
+      without_secondary_widgets: is_guest?,
+      no_header: is_guest?,
+      hide_tabs: is_guest?,
       smart_input: true,
       feed: nil,
       page_info: [],
@@ -337,13 +340,23 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   def do_handle_params(params, _url, socket) do
-    debug(params, "load default tab")
+    if is_nil(current_user_id(socket.assigns)) do
+      debug(params, "load guest default tab")
 
-    do_handle_params(
-      Map.merge(params || %{}, %{"tab" => "timeline"}),
-      nil,
-      socket
-    )
+      do_handle_params(
+        Map.merge(params || %{}, %{"tab" => "posts"}),
+        nil,
+        socket
+      )
+    else
+      debug(params, "load user default tab")
+
+      do_handle_params(
+        Map.merge(params || %{}, %{"tab" => "timeline"}),
+        nil,
+        socket
+      )
+    end
   end
 
   def handle_params(params, uri, socket),
