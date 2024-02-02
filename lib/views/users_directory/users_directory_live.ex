@@ -30,6 +30,11 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
                else: l("Users directory")
              ),
            page: "users",
+           selected_tab: :users,
+           is_guest?: is_nil(current_user_id(socket.assigns)),
+           without_sidebar: is_nil(current_user_id(socket.assigns)),
+           without_secondary_widgets: is_nil(current_user_id(socket.assigns)),
+           no_header: is_nil(current_user_id(socket.assigns)),
            nav_items: Bonfire.Common.ExtensionModule.default_nav(),
            search_placeholder: "Search users",
            users: users

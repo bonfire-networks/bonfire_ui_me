@@ -31,12 +31,12 @@
         {e(@profile, :name, "Anon")}
       </LiveRedirect>
 
-      <div :if={!@inline} class="text-[.8rem] text-base-content/70 -mt-1">
+      <div :if={!@inline} class="text-sm text-base-content/70 -mt-1">
         {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}
       </div>
       <div
         :if={@show_summary && {e(@profile, :summary, nil)}}
-        class="!text-base-content/100 prose prose-sm text-sm"
+        class="!text-base-content/100 prose prose-sm text-sm mt-1"
       >{rich(e(@profile, :summary, ""))}</div>
     </div>
   </div>

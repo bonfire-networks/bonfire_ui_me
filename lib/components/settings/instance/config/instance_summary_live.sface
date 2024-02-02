@@ -1,20 +1,20 @@
-<div class="mt-2">
+<div class="my-8">
   <div
     x-data="{
         open: false
       }"
-    class="p-6 border-t border-base-content/20"
+    class="p-6 border border-base-content/20"
   >
     <div class="flex items-center justify-between" x-on:click="open = !open">
       <div class="flex flex-col gap-1">
-        <div class="text-lg font-bold text-base-content">{l("Instance configuration")}</div>
-        <div class="text-sm font-light text-base-content/70">{l("View some of the default settings on this instance.")}</div>
+        <div class="text-xl font-bold text-base-content">{l("View the current Instance defaults")}</div>
+        <div class="font-light text-base-content/70">{l("Explore some of the default settings the admins defined for this instance.")}</div>
       </div>
       <button x-show="!open" type="button" class="normal-case btn-circle btn btn-ghost btn-sm">
-        <#Icon solid="ChevronRight" class="w-6 h-6 text-base-content/70" />
+        <#Icon solid="ChevronDown" class="w-6 h-6 text-base-content/70" />
       </button>
       <button x-show="open" type="button" class="normal-case btn-circle btn btn-ghost btn-sm">
-        <#Icon solid="ChevronDown" class="w-6 h-6 text-base-content/70" />
+        <#Icon solid="ChevronUp" class="w-6 h-6 text-base-content/70" />
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
