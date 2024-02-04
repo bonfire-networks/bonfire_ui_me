@@ -1,7 +1,7 @@
 defmodule Bonfire.UI.Me.SettingsViewsLive.InstancePostsLive do
   use Bonfire.UI.Common.Web, :stateful_component
 
-  prop selected_tab, :string
+  prop selected_tab, :any
 
   def update(assigns, socket) do
     current_user = current_user(assigns) || current_user(socket.assigns)

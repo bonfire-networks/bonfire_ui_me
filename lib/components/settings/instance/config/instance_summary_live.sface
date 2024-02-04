@@ -7,8 +7,10 @@
   >
     <div class="flex items-center justify-between" x-on:click="open = !open">
       <div class="flex flex-col gap-1">
-        <div class="text-xl font-bold text-base-content">{l("View the current Instance defaults")}</div>
-        <div class="font-light text-base-content/70">{l("Explore some of the default settings the admins defined for this instance.")}</div>
+        <div class="text-xl font-bold text-base-content">{l("Default settings on this instance")}</div>
+        <div class="font-light text-base-content/70">{l(
+            "Explore some of the defaults the admins have defined for this instance. Most of these can be overriden by users."
+          )}</div>
       </div>
       <button x-show="!open" type="button" class="normal-case btn-circle btn btn-ghost btn-sm">
         <#Icon solid="ChevronDown" class="w-6 h-6 text-base-content/70" />

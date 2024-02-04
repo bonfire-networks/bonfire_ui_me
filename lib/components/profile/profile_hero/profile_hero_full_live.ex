@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop silenced_instance_wide?, :boolean, default: nil
   prop character_type, :atom, default: nil
   prop follows_me, :boolean, default: false
-  prop selected_tab, :string
+  prop selected_tab, :any
   prop block_status, :any, default: nil
   prop showing_within, :atom, default: :profile
   prop path, :string, default: "@"

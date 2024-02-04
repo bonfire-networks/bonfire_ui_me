@@ -1,7 +1,7 @@
 defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
   use Bonfire.UI.Common.Web, :stateful_component
 
-  prop selected_tab, :string
+  prop selected_tab, :any
   prop ghosted_instance_wide?, :boolean, default: nil
   prop silenced_instance_wide?, :boolean, default: nil
 
