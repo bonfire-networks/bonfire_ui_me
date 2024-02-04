@@ -1,7 +1,4 @@
-<div class={
-  "grid grid-cols-2 gap-4 max-w-screen-md mx-auto w-full",
-  "mt-10": is_nil(current_user_id(@socket.assigns))
-}>
+<div class="grid grid-cols-2 gap-4 max-w-screen-md mx-auto w-full">
   <div :for={user <- @users} class="p-4 border rounded border-base-content/30">
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
