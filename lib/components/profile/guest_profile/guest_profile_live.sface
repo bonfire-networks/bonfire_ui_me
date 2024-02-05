@@ -1,13 +1,13 @@
-<div class="flex items-center gap-6">
+<div class="flex items-center gap-10">
   <Bonfire.UI.Common.AvatarLive
     parent_id="profile-hero"
-    class="inline-block object-cover bg-base-200 w-[120px] h-[120px] rounded-full"
+    class="inline-block object-cover bg-base-200 w-[160px] h-[160px] rounded-full"
     src={Media.avatar_url(@user)}
     user_id={id(@user)}
   />
 
   <div class="flex flex-col">
-    <LivePatch class="text-lg font-medium" to={~p"/@#{e(@user, :character, :username, nil)}"}>
+    <LivePatch class="text-xl font-semibold" to={~p"/@#{e(@user, :character, :username, nil)}"}>
       {e(@user, :profile, :name, "Anonymous")}
     </LivePatch>
     <span class="font-normal mb-3 mt-0.5 text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>

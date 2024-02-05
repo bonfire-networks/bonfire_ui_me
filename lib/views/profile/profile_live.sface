@@ -1,14 +1,14 @@
 <main
   data-id="profile"
   data-user-id={e(@user, :id, "")}
-  class={"max-w-[680px] w-full mt-16 mx-auto": @is_guest?}
+  class={"max-w-[680px] w-full mx-auto": @is_guest?}
 >
   <StatelessComponent
     module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
     {...assigns}
   >
     <:header>
-      {#if @character_type == :user and !current_user_id(@__context__)}
+      {#if @character_type == :user and @is_guest?}
         <Bonfire.UI.Me.GuestProfileLive
           boundary_preset={@boundary_preset}
           user={@user}
