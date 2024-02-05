@@ -31,17 +31,18 @@
 <section class="mt-10">
   <span class="font-medium text-lg">{l("Links")}</span>
   <div class="mt-3 flex flex-wrap gap-3">
-    <Bonfire.UI.Me.ProfileLinkLive
-      href={e(@user, :profile, :website, "")}
-      text={e(@user, :profile, :website, "")}
-    />
+    {#case e(@user, :profile, :website, nil)}
+      {#match nil}
+      {#match href}
+        <Bonfire.UI.Me.ProfileLinkLive href={href} text={href} />
+    {/case}
 
     <Bonfire.UI.Me.ProfileLinkLive href="https://bonfirenetworks.org" text="Bonfire" />
 
-    <Bonfire.UI.Me.ProfileLinkLive
+    {!-- <Bonfire.UI.Me.ProfileLinkLive
       icon="ri:instagram-line"
       href="https://instagram.com/TODO"
       text="Instagram"
-    />
+    /> --}
   </div>
 </section>
