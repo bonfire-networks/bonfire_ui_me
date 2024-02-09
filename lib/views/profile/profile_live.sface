@@ -15,7 +15,7 @@
           id="guest-profile"
         />
 
-        <div class="font-medium mt-10 text-lg mb-4 capitalize">{@selected_tab}</div>
+        <div class="font-medium mt-6 text-lg capitalize px-4 border-b border-base-content/20 pb-4">{@selected_tab}</div>
       {#else}
         <StatefulComponent
           module={Config.get(

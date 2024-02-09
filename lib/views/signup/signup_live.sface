@@ -66,7 +66,8 @@
         </ul>
       </div>
       <div x-cloak x-show="step == 1" class="">
-        <article class="prose mx-auto mt-8 prose-md">{templated_or_remote_markdown(
+        <article class="prose mx-auto mt-8 prose-md">
+        {templated_or_remote_markdown(
             e(
               Config.get([:terms, :conduct]),
               l(

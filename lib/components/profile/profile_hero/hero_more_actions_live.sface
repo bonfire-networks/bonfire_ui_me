@@ -1,4 +1,4 @@
-<div class="flex items-center gap-3">
+<div id="hero_more_actions" class={"flex items-center gap-3"}>
   {#if current_user_id(@__context__) == id(@user)}
     <LiveRedirect
       to={~p"/settings/user/profile"}

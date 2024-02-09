@@ -1,48 +1,55 @@
-<div class="flex items-center gap-10">
-  <Bonfire.UI.Common.AvatarLive
-    parent_id="profile-hero"
-    class="inline-block object-cover bg-base-200 w-[160px] h-[160px] rounded-full"
-    src={Media.avatar_url(@user)}
-    user_id={id(@user)}
-  />
+{#case {Media.avatar_url(@user), Media.banner_url(@user)}}
+      {#match {avatar_url, banner_url}}
+        {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
+          {#match color}
+            <div
+              class={
+                "relative bg-center mt-0 bg-cover bg-no-repeat",
+                "bg-base-200 h-[140px] md:h-[260px]": !color,
+                "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
+              }
+              style={if not is_binary(color),
+                do: "background-image: url('#{banner_url}')",
+                else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
+            ></div>
+    
 
-  <div class="flex flex-col">
-    <LivePatch class="text-xl font-semibold" to={~p"/@#{e(@user, :character, :username, nil)}"}>
-      {e(@user, :profile, :name, "Anonymous")}
-    </LivePatch>
-    <span class="font-normal mb-3 mt-0.5 text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
-    <Bonfire.UI.Me.HeroMoreActionsLive
-      character_type={:user}
-      boundary_preset={@boundary_preset}
-      user={@user}
-      members={@members}
-      moderators={@moderators}
-    />
-  </div>
-</div>
+      <div class="flex flex-col -mt-[70px] items-center bg-base-300 pb-6 gap-4">
+        <Bonfire.UI.Common.AvatarLive
+          parent_id="profile-hero"
+          class="inline-block object-cover bg-base-200 w-[140px] h-[140px] border-4 border-base-100 rounded-full"
+          src={Media.avatar_url(@user)}
+          user_id={id(@user)}
+        />
 
-<section class="mt-10">
-  <span class="font-medium text-lg">{l("About")}</span>
-  <div class="w-full leading-6 max-w-full w-full prose md:prose-sm prose-p:pt-2">
-    {rich(e(@user, :profile, :summary, ""))}
-  </div>
-</section>
+        <div id="guest_info"  class="flex text-center place-content-center flex-col">
+          <LivePatch class="text-2xl font-semibold" to={~p"/@#{e(@user, :character, :username, nil)}"}>
+            {e(@user, :profile, :name, "Anonymous")}
+          </LivePatch>
+          <span class="font-normal mt-0.5 text-base-content/50">{Bonfire.Me.Characters.display_username(@user, true)}</span>
+          <div class="w-full mt-4 mb-4 leading-6 max-w-full w-full prose">
+            {rich(e(@user, :profile, :summary, ""))}
+          </div>
+          <Bonfire.UI.Me.HeroMoreActionsLive
+            character_type={:user}
+            boundary_preset={@boundary_preset}
+            user={@user}
+            members={@members}
+            moderators={@moderators}
+          />
+        </div>
+      </div> 
+      <!-- <section class="mt-10">
+        <span class="font-medium text-lg">{l("Links")}</span>
+        <div class="mt-3 flex flex-wrap gap-3">
+          {#case e(@user, :profile, :website, nil)}
+            {#match nil}
+            {#match href}
+              <Bonfire.UI.Me.ProfileLinkLive href={href} text={href} />
+          {/case}
 
-<section class="mt-10">
-  <span class="font-medium text-lg">{l("Links")}</span>
-  <div class="mt-3 flex flex-wrap gap-3">
-    {#case e(@user, :profile, :website, nil)}
-      {#match nil}
-      {#match href}
-        <Bonfire.UI.Me.ProfileLinkLive href={href} text={href} />
+          <Bonfire.UI.Me.ProfileLinkLive href="https://bonfirenetworks.org" text="Bonfire" />
+        </div>
+      </section> -->
+ {/case}
     {/case}
-
-    <Bonfire.UI.Me.ProfileLinkLive href="https://bonfirenetworks.org" text="Bonfire" />
-
-    {!-- <Bonfire.UI.Me.ProfileLinkLive
-      icon="ri:instagram-line"
-      href="https://instagram.com/TODO"
-      text="Instagram"
-    /> --}
-  </div>
-</section>
