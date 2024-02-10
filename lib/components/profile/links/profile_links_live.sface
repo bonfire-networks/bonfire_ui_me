@@ -1,0 +1,34 @@
+{#case e(@user, :profile, :website, nil)}
+  {#match nil}
+  {#match href}
+    <Bonfire.UI.Me.ProfileLinkLive href={href} text={href} class={@class} />
+{/case}
+
+<div :for={%{edge: %{object: %{id: id, profile: profile, character: %{id: _} = character}}} <- @aliases}>
+  <StatelessComponent
+    module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
+    show_controls={[]}
+    character={character}
+    profile={profile}
+    class="btn btn-circle btn-ghost btn-sm"
+    avatar_class="w-10 h-10 bg-base-300 rounded-full"
+  />
+</div>
+
+<div :for={%{edge: %{object: %{id: id, media_type: type, path: path}}} <- @aliases}>
+  <Bonfire.UI.Me.ProfileLinkLive
+    href={path}
+    text={type |> to_string() |> :string.titlecase()}
+    class={@class}
+  />
+</div>
+
+{!-- 
+<Bonfire.UI.Me.ProfileLinkLive href="https://bonfirenetworks.org" text="Bonfire" class={@class}  />
+
+<Bonfire.UI.Me.ProfileLinkLive
+  icon="ri:instagram-line"
+  href="https://instagram.com/TODO"
+  text="Instagram"
+    class={@class} 
+/> --}

@@ -3,13 +3,7 @@
     <HiddenInput name={:go} value={e(@form, :changes, :go, nil)} />
     {!-- <%= hidden_input f, :go %> --}
 
-    {#case maybe_apply(Bonfire.OpenID.Client, :providers_authorization_urls, [], fallback_return: nil)}
-      {#match providers when is_list(providers) and providers != []}
-        {#for {name, url} <- providers}
-          <Link to={url} class="btn btn-primary w-full mb-4">{name}</Link>
-        {/for}
-      {#match _}
-    {/case}
+    <StatelessComponent module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)} />
     {!-- <%= f = form_for @form, path(:login, :create), class: "w-full md:ml-0" %> --}
     {!-- <%= case @form.errors[:form] do %> --}
     {#case @error || @form.errors[:form]}

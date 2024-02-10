@@ -27,6 +27,9 @@ defmodule Bonfire.UI.Me.ConnCase do
 
       import Phoenix.LiveViewTest
       import Surface.LiveViewTest
+
+      import PhoenixTest
+
       # import Bonfire.UI.Me.ConnCase
       import Bonfire.UI.Me.Test.ConnHelpers
       import Bonfire.UI.Me.Test.FakeHelpers

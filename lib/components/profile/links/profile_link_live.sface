@@ -1,4 +1,8 @@
-<a href={@href} class={@class}>
+<a
+  href={@href}
+  class={@class ||
+    "flex border hover:border-base-content/60 rounded border-base-content/20 px-3 py-2 items-center gap-3"}
+>
   {#if @icon}
     <Iconify.iconify icon={@icon} class="w-5 h-5 text-base-content/70" />
   {#else}

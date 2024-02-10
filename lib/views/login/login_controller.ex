@@ -41,9 +41,11 @@ defmodule Bonfire.UI.Me.LoginController do
     end
   end
 
+  def logged_in(account, user, conn, form \\ %{})
+
   # the user logged in via email and have more than one user in the
   # account, so we must show them the user switcher.
-  defp logged_in(%{id: account_id}, nil, conn, form) do
+  def logged_in(%{id: account_id}, nil, conn, form) do
     conn
     |> put_session(:current_account_id, account_id)
     |> put_session(:live_socket_id, "socket_account:#{account_id}")
@@ -56,7 +58,7 @@ defmodule Bonfire.UI.Me.LoginController do
   # we found there was only one user in the account, so we're going to
   # just send them straight to the homepage and avoid the user
   # switcher.
-  defp logged_in(%{id: account_id}, %{id: user_id} = _user, conn, form) do
+  def logged_in(%{id: account_id}, %{id: user_id} = _user, conn, form) do
     # maybe_apply(Bonfire.Boundaries.Users, :create_missing_boundaries, user)
 
     conn

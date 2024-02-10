@@ -39,17 +39,12 @@
           />
         </div>
       </div> 
-      <!-- <section class="mt-10">
-        <span class="font-medium text-lg">{l("Links")}</span>
-        <div class="mt-3 flex flex-wrap gap-3">
-          {#case e(@user, :profile, :website, nil)}
-            {#match nil}
-            {#match href}
-              <Bonfire.UI.Me.ProfileLinkLive href={href} text={href} />
-          {/case}
+{/case}
+{/case}
 
-          <Bonfire.UI.Me.ProfileLinkLive href="https://bonfirenetworks.org" text="Bonfire" />
-        </div>
-      </section> -->
- {/case}
-    {/case}
+<section class="mt-10">
+  <span class="font-medium text-lg">{l("Links")}</span>
+  <div class="mt-3 flex flex-wrap gap-3">
+    <Bonfire.UI.Me.ProfileLinksLive user={@user} />
+  </div>
+</section>
