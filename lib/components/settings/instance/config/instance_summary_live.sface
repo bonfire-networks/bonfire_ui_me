@@ -1,465 +1,453 @@
-<div class="my-8">
-  <div
-    x-data="{
-        open: false
-      }"
-    class="p-6 border border-base-content/20"
-  >
-    <div class="flex items-center justify-between" x-on:click="open = !open">
-      <div class="flex flex-col gap-1">
-        <div class="text-xl font-bold text-base-content">{l("Default settings on this instance")}</div>
-        <div class="font-light text-base-content/70">{l(
-            "Explore some of the defaults the admins have defined for this instance. Most of these can be overriden by users."
-          )}</div>
+<div class="flex flex-col gap-2">
+  <div class="collapse collapse-plus bg-base-200">
+  <input type="radio" name="my-accordion-3" checked="checked" /> 
+  <div class="collapse-title text-xl font-medium">
+    {l("General")}
+  </div>
+  <div class="collapse-content"> 
+    <div class="divide-y divide-base-content/20">
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Sign ups")}</div>
+          </div>
+
+          {#if !Config.get(:invite_only, nil)}
+            <div class="text-success flex items-center gap-2 text-sm font-medium">
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+              {l("Open")}
+            </div>
+          {#else}
+            <div class="text-base-content flex items-center gap-2 text-sm font-medium">
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
+              {l("By invitation only")}
+            </div>
+          {/if}
+        </div>
       </div>
-      <button x-show="!open" type="button" class="normal-case btn-circle btn btn-ghost btn-sm">
-        <#Icon solid="ChevronDown" class="w-6 h-6 text-base-content/70" />
-      </button>
-      <button x-show="open" type="button" class="normal-case btn-circle btn btn-ghost btn-sm">
-        <#Icon solid="ChevronUp" class="w-6 h-6 text-base-content/70" />
-      </button>
-    </div>
-    <div x-show="open" x-cloak x-collapse>
-      <div class="mt-3 rounded-lg">
-        <!-- <div class="py-4">
-            <div class="mb-4 text-sm font-medium">{l("Active extensions")}</div>
-            {!-- <Bonfire.UI.Common.WidgetAppsLive context={:instance} showing_within={:settings} cols="4" /> --}
-          </div> -->
 
-        <div class="border px-4 border-base-content/20 rounded-lg">
-          <div class="font-bold bg-base-content/5 -mx-4 p-4">
-            {l("General")}
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Federation")}</div>
           </div>
-          <div class="divide-y divide-base-content/20">
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Sign ups")}</div>
-                </div>
 
-                {#if !Config.get(:invite_only, nil)}
-                  <div class="text-success flex items-center gap-2 text-sm font-medium">
-                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                    {l("Open")}
-                  </div>
-                {#else}
-                  <div class="text-base-content flex items-center gap-2 text-sm font-medium">
-                    <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
-                    {l("By invitation only")}
-                  </div>
-                {/if}
+          {#case Bonfire.Federate.ActivityPub.federating?()}
+            {#match true}
+              <div class="text-success flex items-center gap-2 text-sm font-medium">
+                <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+                {l("Enabled")}
               </div>
-            </div>
-
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Federation")}</div>
-                </div>
-
-                {#case Bonfire.Federate.ActivityPub.federating?()}
-                  {#match true}
-                    <div class="text-success flex items-center gap-2 text-sm font-medium">
-                      <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                      {l("Enabled")}
-                    </div>
-                  {#match nil}
-                    <div class="text-success flex items-center gap-2 text-sm font-medium">
-                      <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-info" />
-                      {l("Manual")}
-                    </div>
-                  {#match _}
-                    <div class="text-base-content flex items-center gap-2 text-sm font-medium">
-                      <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
-                      {l("Disabled")}
-                    </div>
-                {/case}
+            {#match nil}
+              <div class="text-success flex items-center gap-2 text-sm font-medium">
+                <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-info" />
+                {l("Manual")}
               </div>
-            </div>
-
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Language")}</div>
-                </div>
-
-                <div class="font-bold text-sm">
-                  {Config.get(
-                    [Bonfire.Common.Localise.Cldr, :default_locale],
-                    "en"
-                  )}
-                </div>
+            {#match _}
+              <div class="text-base-content flex items-center gap-2 text-sm font-medium">
+                <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
+                {l("Disabled")}
               </div>
-            </div>
+          {/case}
+        </div>
+      </div>
 
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Font")}</div>
-                </div>
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Language")}</div>
+          </div>
 
-                <div class="font-bold text-sm">
-                  {Config.get(
-                    [:ui, :font_family],
-                    "Inter"
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Maximum length of posts")}</div>
-                </div>
-
-                <span class="flex-none badge h-[1.75rem] font-medium badge-outline border-base-content/30 rounded">{Config.get(
-                    [Bonfire.UI.Common.SmartInputLive, :max_length],
-                    0
-                  )} {l("words")}</span>
-              </div>
-            </div>
-
-            <div class="py-4">
-              <div class="flex items-center justify-between gap-2">
-                <div class="flex flex-col gap-1">
-                  <div class="text-sm font-medium">{l("What activities to include in home feeds by default")}</div>
-                  {!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> --}
-                </div>
-              </div>
-              <div class="flex flex-wrap gap-3 mt-4 flex-items">
-                <div class={
-                  "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
-                  "!border-success": true
-                }>
-                  <#Icon :if={true} iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                  <span class="text-success">{l("Posts and other activities from followed people")}</span>
-                </div>
-                <div class={
-                  "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
-                  "!border-success":
-                    Config.get(
-                      [Bonfire.Social.Feeds, :include, :followed_categories],
-                      true
-                    )
-                }>
-                  {#if Config.get(
-                      [Bonfire.Social.Feeds, :include, :followed_categories],
-                      true
-                    )}
-                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                  {#else}
-                    <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
-                  {/if}
-                  <span class={
-                    "text-error",
-                    "!text-success":
-                      Config.get(
-                        [Bonfire.Social.Feeds, :include, :followed_categories],
-                        true
-                      )
-                  }>{l("Activities from followed groups")}</span>
-                </div>
-                <div class={
-                  "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
-                  "!border-success":
-                    Config.get(
-                      [Bonfire.Social.Feeds, :include, :boosts],
-                      true
-                    )
-                }>
-                  {#if Config.get(
-                      [Bonfire.Social.Feeds, :include, :boosts],
-                      true
-                    )}
-                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                  {#else}
-                    <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
-                  {/if}
-                  <span class={
-                    "text-error",
-                    "!text-success":
-                      Config.get(
-                        [Bonfire.Social.Feeds, :include, :boosts],
-                        true
-                      )
-                  }>{l("Boosts")}</span>
-                </div>
-                <div class={
-                  "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
-                  "!border-success":
-                    Config.get(
-                      [Bonfire.Social.Feeds, :include, :reply],
-                      true
-                    )
-                }>
-                  {#if Config.get(
-                      [Bonfire.Social.Feeds, :include, :reply],
-                      true
-                    )}
-                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                  {#else}
-                    <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
-                  {/if}
-                  <span class={
-                    "text-error",
-                    "!text-success":
-                      Config.get(
-                        [Bonfire.Social.Feeds, :include, :reply],
-                        true
-                      )
-                  }>{l("Replies")}</span>
-                </div>
-                <div class={
-                  "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
-                  "!border-success":
-                    Config.get(
-                      [Bonfire.Social.Feeds, :include, :follows],
-                      true
-                    )
-                }>
-                  {#if Config.get(
-                      [Bonfire.Social.Feeds, :include, :follows],
-                      true
-                    )}
-                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                  {#else}
-                    <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
-                  {/if}
-                  <span class={
-                    "text-error",
-                    "!text-success":
-                      Config.get(
-                        [Bonfire.Social.Feeds, :include, :follows],
-                        true
-                      )
-                  }>{l("Follows")}</span>
-                </div>
-                <div class={
-                  "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
-                  "!border-success":
-                    Config.get(
-                      [Bonfire.Social.Feeds, :include, :outbox],
-                      true
-                    )
-                }>
-                  {#if Config.get(
-                      [Bonfire.Social.Feeds, :include, :outbox],
-                      true
-                    )}
-                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                  {#else}
-                    <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
-                  {/if}
-                  <span class={
-                    "text-error",
-                    "!text-success":
-                      Config.get(
-                        [Bonfire.Social.Feeds, :include, :outbox],
-                        true
-                      )
-                  }>{l("My own activities")}</span>
-                </div>
-                <div class={
-                  "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
-                  "!border-success":
-                    Config.get(
-                      [Bonfire.Social.Feeds, :include, :notifications],
-                      true
-                    )
-                }>
-                  {#if Config.get(
-                      [Bonfire.Social.Feeds, :include, :notifications],
-                      true
-                    )}
-                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                  {#else}
-                    <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
-                  {/if}
-                  <span class={
-                    "text-error",
-                    "!text-success":
-                      Config.get(
-                        [Bonfire.Social.Feeds, :include, :notifications],
-                        true
-                      )
-                  }>{l("Notifications")}</span>
-                </div>
-                <div class="badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded">
-                  <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" />
-                  <span class="text-error"><span class="sr-only">{l("No")}</span> {l("Messages")}</span>
-                </div>
-              </div>
-            </div>
+          <div class="font-bold text-sm">
+            {Config.get(
+              [Bonfire.Common.Localise.Cldr, :default_locale],
+              "en"
+            )}
           </div>
         </div>
+      </div>
 
-        <div class="border px-4 mt-4 border-base-content/20 rounded-lg">
-          <div class="font-bold bg-base-content/5 -mx-4 p-4">
-            {l("Look & feel")}
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Font")}</div>
           </div>
-          <div class="divide-y divide-base-content/20">
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Theme")}</div>
-                </div>
 
-                <div class="font-bold text-sm">{Config.get([:ui, :theme, :instance_theme], "bonfire")}</div>
-              </div>
-            </div>
-
-            <div class="py-4">
-              <div class="flex items-center justify-between items-center gap-4">
-                {!-- {#if Config.get(
-                      [Bonfire.UI.Common.AvatarLive, :animal_avatars],
-                      true
-                    )}
-                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                  {#else}
-                    <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" />
-                  {/if} --}
-                <div class="flex flex-col gap-0">
-                  <div class="text-sm font-medium">{l("Default avatars")}</div>
-                  <div class="text-sm font-light text-base-content/70">{l("What to show for users without a profile picture")}</div>
-                </div>
-                <Bonfire.UI.Common.AvatarLive
-                  class="w-14 h-14 border-base-content/30 border rounded"
-                  parent_id="about"
-                />
-              </div>
-            </div>
+          <div class="font-bold text-sm">
+            {Config.get(
+              [:ui, :font_family],
+              "Inter"
+            )}
           </div>
         </div>
+      </div>
 
-        <div class="border px-4 mt-4 border-base-content/20 rounded-lg">
-          <div class="font-bold bg-base-content/5 -mx-4 p-4">
-            {l("Privacy")}
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Maximum length of posts")}</div>
           </div>
-          <div class="divide-y divide-base-content/20">
-            <div class="py-4">
-              <div class="flex items-center justify-between gap-2">
-                <div class="flex gap-1 justify-between flex-1 items-center">
-                  <div class="text-sm flex-1 font-medium">{l("Who can see the list of local users")}
-                  </div>
-                  <span class="badge h-[1.75rem] font-medium border-base-content/30 badge-outline rounded">{Config.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users)}</span>
-                </div>
-              </div>
-            </div>
 
-            {!-- <div class="py-4">
-                <div class="flex items-center justify-between flex-1 items-center gap-4">
-                  <div class="flex gap-2">
-                    <div class="text-sm font-medium">{l("Show list of admins on public homepage")}</div>
-                  </div>
+          <span class="flex-none badge h-[1.75rem] font-medium badge-outline border-base-content/30 rounded">{Config.get(
+              [Bonfire.UI.Common.SmartInputLive, :max_length],
+              0
+            )} {l("words")}</span>
+        </div>
+      </div>
 
-                  {#if Config.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true)}
-                    <div class="text-success flex items-center gap-2 text-sm font-medium">
-                      <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                      {l("Enabled")}
-                    </div>
-                  {#else}
-                    <div class="text-base-content flex items-center gap-2 text-sm font-medium">
-                      <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
-                      {l("Disabled")}
-                    </div>
-                  {/if}
-                </div>
-              </div> --}
-
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Default boundary for new posts")}</div>
-                </div>
-
-                <div class="font-bold text-sm">{case Bonfire.Boundaries.default_boundaries() do
-                    [{_, name}] -> name
-                    {_, name} -> name
-                    nil -> l("Public")
-                    name -> name
-                  end}</div>
-              </div>
-            </div>
+      <div class="py-4">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-medium">{l("What activities to include in home feeds by default")}</div>
+            {!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> --}
           </div>
         </div>
-
-        <div class="border px-4 mt-4 border-base-content/20 rounded-lg">
-          <div class="font-bold bg-base-content/5 -mx-4 p-4">
-            {l("Potentially addictive or distracting")}
+        <div class="flex flex-wrap gap-3 mt-4 flex-items">
+          <div class={
+            "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
+            "!border-success": true
+          }>
+            <#Icon :if={true} iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+            <span class="text-success">{l("Posts and other activities from followed people")}</span>
           </div>
-          <div class="divide-y divide-base-content/20">
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Infinite scrolling")}</div>
-                </div>
-                <div class="font-bold text-sm">{case Config.get([:ui, :infinite_scroll], :preload) do
-                    true -> l("Enabled")
-                    :preload -> l("Manual")
-                    _ -> l("Disabled")
-                  end}</div>
-              </div>
-            </div>
-
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Highlight the unread notification indicator")}</div>
-                </div>
-                <div class="font-bold text-sm">{if Config.get([Bonfire.UI.Common.BadgeCounterLive, :highlight]) == true,
-                    do: l("Enabled"),
-                    else: l("Disabled")}</div>
-              </div>
-            </div>
+          <div class={
+            "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
+            "!border-success":
+              Config.get(
+                [Bonfire.Social.Feeds, :include, :followed_categories],
+                true
+              )
+          }>
+            {#if Config.get(
+                [Bonfire.Social.Feeds, :include, :followed_categories],
+                true
+              )}
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+            {#else}
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
+            {/if}
+            <span class={
+              "text-error",
+              "!text-success":
+                Config.get(
+                  [Bonfire.Social.Feeds, :include, :followed_categories],
+                  true
+                )
+            }>{l("Activities from followed groups")}</span>
           </div>
-        </div>
-
-        <div class="border px-4 mt-4 border-base-content/20 rounded-lg">
-          <div class="font-bold bg-base-content/5 -mx-4 p-4">
-            {l("Vanity metrics")}
+          <div class={
+            "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
+            "!border-success":
+              Config.get(
+                [Bonfire.Social.Feeds, :include, :boosts],
+                true
+              )
+          }>
+            {#if Config.get(
+                [Bonfire.Social.Feeds, :include, :boosts],
+                true
+              )}
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+            {#else}
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
+            {/if}
+            <span class={
+              "text-error",
+              "!text-success":
+                Config.get(
+                  [Bonfire.Social.Feeds, :include, :boosts],
+                  true
+                )
+            }>{l("Boosts")}</span>
           </div>
-          <div class="divide-y divide-base-content/20">
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex gap-2">
-                  <div class="text-sm font-medium">{l("Show reaction counts (likes/boosts)")}</div>
-                </div>
-                <div class="font-bold text-sm">{if Config.get([:ui, :show_activity_counts]) == true, do: l("Enabled"), else: l("Disabled")}</div>
-              </div>
-            </div>
-
-            {!-- <div class="py-4">
-                <div class="flex items-center justify-between flex-1 items-center gap-4">
-                  <div class="flex gap-2">
-                    <div class="text-sm font-medium">{l("Show follower counts")}</div>
-                  </div>
-                  <div class="font-bold text-sm">{if Config.get([:ui, :show_activity_counts])==true, do: l("Disabled"), else: l("Disabled")}</div>
-                </div>
-              </div> --}
-
-            <div class="py-4">
-              <div class="flex items-center justify-between flex-1 items-center gap-4">
-                <div class="flex flex-col">
-                  <div class="text-sm font-medium">{l("Show the number of total users on this instance")}</div>
-                </div>
-
-                {#if Config.get([Bonfire.Me.Users, :public_count], true)}
-                  <div class="text-success flex items-center gap-2 text-sm font-medium">
-                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                    {l("Enabled")}
-                  </div>
-                {#else}
-                  <div class="text-base-content flex items-center gap-2 text-sm font-medium">
-                    <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
-                    {l("Disabled")}
-                  </div>
-                {/if}
-              </div>
-            </div>
+          <div class={
+            "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
+            "!border-success":
+              Config.get(
+                [Bonfire.Social.Feeds, :include, :reply],
+                true
+              )
+          }>
+            {#if Config.get(
+                [Bonfire.Social.Feeds, :include, :reply],
+                true
+              )}
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+            {#else}
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
+            {/if}
+            <span class={
+              "text-error",
+              "!text-success":
+                Config.get(
+                  [Bonfire.Social.Feeds, :include, :reply],
+                  true
+                )
+            }>{l("Replies")}</span>
+          </div>
+          <div class={
+            "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
+            "!border-success":
+              Config.get(
+                [Bonfire.Social.Feeds, :include, :follows],
+                true
+              )
+          }>
+            {#if Config.get(
+                [Bonfire.Social.Feeds, :include, :follows],
+                true
+              )}
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+            {#else}
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
+            {/if}
+            <span class={
+              "text-error",
+              "!text-success":
+                Config.get(
+                  [Bonfire.Social.Feeds, :include, :follows],
+                  true
+                )
+            }>{l("Follows")}</span>
+          </div>
+          <div class={
+            "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
+            "!border-success":
+              Config.get(
+                [Bonfire.Social.Feeds, :include, :outbox],
+                true
+              )
+          }>
+            {#if Config.get(
+                [Bonfire.Social.Feeds, :include, :outbox],
+                true
+              )}
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+            {#else}
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
+            {/if}
+            <span class={
+              "text-error",
+              "!text-success":
+                Config.get(
+                  [Bonfire.Social.Feeds, :include, :outbox],
+                  true
+                )
+            }>{l("My own activities")}</span>
+          </div>
+          <div class={
+            "badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded",
+            "!border-success":
+              Config.get(
+                [Bonfire.Social.Feeds, :include, :notifications],
+                true
+              )
+          }>
+            {#if Config.get(
+                [Bonfire.Social.Feeds, :include, :notifications],
+                true
+              )}
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+            {#else}
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" /><span class="sr-only">{l("No")}</span>
+            {/if}
+            <span class={
+              "text-error",
+              "!text-success":
+                Config.get(
+                  [Bonfire.Social.Feeds, :include, :notifications],
+                  true
+                )
+            }>{l("Notifications")}</span>
+          </div>
+          <div class="badge h-[1.75rem] gap-2 font-medium badge-outline border-error rounded">
+            <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" />
+            <span class="text-error"><span class="sr-only">{l("No")}</span> {l("Messages")}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
+  </div>
+  
+  <div class="collapse collapse-plus bg-base-200">
+  <input type="radio" name="my-accordion-3"  /> 
+  <div class="collapse-title text-xl font-medium">
+    {l("Look & feel")}
+  </div>
+  <div class="collapse-content"> 
+  <div class="divide-y divide-base-content/20">
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Theme")}</div>
+          </div>
+
+          <div class="font-bold text-sm">{Config.get([:ui, :theme, :instance_theme], "bonfire")}</div>
+        </div>
+      </div>
+
+      <div class="py-4">
+        <div class="flex items-center justify-between items-center gap-4">
+          {!-- {#if Config.get(
+                [Bonfire.UI.Common.AvatarLive, :animal_avatars],
+                true
+              )}
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+            {#else}
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" />
+            {/if} --}
+          <div class="flex flex-col gap-0">
+            <div class="text-sm font-medium">{l("Default avatars")}</div>
+            <div class="text-sm font-light text-base-content/70">{l("What to show for users without a profile picture")}</div>
+          </div>
+          <Bonfire.UI.Common.AvatarLive
+            class="w-14 h-14 border-base-content/30 border rounded"
+            parent_id="about"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+  <div class="collapse collapse-plus bg-base-200">
+  <input type="radio" name="my-accordion-3"  /> 
+  <div class="collapse-title text-xl font-medium">
+    {l("Privacy")}
+  </div>
+  <div class="collapse-content"> 
+  <div class="divide-y divide-base-content/20">
+      <div class="py-4">
+        <div class="flex items-center justify-between gap-2">
+          <div class="flex gap-1 justify-between flex-1 items-center">
+            <div class="text-sm flex-1 font-medium">{l("Who can see the list of local users")}
+            </div>
+            <span class="badge h-[1.75rem] font-medium border-base-content/30 badge-outline rounded">{Config.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users)}</span>
+          </div>
+        </div>
+      </div>
+
+      {!-- <div class="py-4">
+          <div class="flex items-center justify-between flex-1 items-center gap-4">
+            <div class="flex gap-2">
+              <div class="text-sm font-medium">{l("Show list of admins on public homepage")}</div>
+            </div>
+
+            {#if Config.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true)}
+              <div class="text-success flex items-center gap-2 text-sm font-medium">
+                <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+                {l("Enabled")}
+              </div>
+            {#else}
+              <div class="text-base-content flex items-center gap-2 text-sm font-medium">
+                <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
+                {l("Disabled")}
+              </div>
+            {/if}
+          </div>
+        </div> --}
+
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Default boundary for new posts")}</div>
+          </div>
+
+          <div class="font-bold text-sm">{case Bonfire.Boundaries.default_boundaries() do
+              [{_, name}] -> name
+              {_, name} -> name
+              nil -> l("Public")
+              name -> name
+            end}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<div class="collapse collapse-plus bg-base-200">
+  <input type="radio" name="my-accordion-3"  /> 
+  <div class="collapse-title text-xl font-medium">
+    {l("Potentially addictive or distracting")}
+  </div>
+  <div class="collapse-content"> 
+  <div class="divide-y divide-base-content/20">
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Infinite scrolling")}</div>
+          </div>
+          <div class="font-bold text-sm">{case Config.get([:ui, :infinite_scroll], :preload) do
+              true -> l("Enabled")
+              :preload -> l("Manual")
+              _ -> l("Disabled")
+            end}</div>
+        </div>
+      </div>
+
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Highlight the unread notification indicator")}</div>
+          </div>
+          <div class="font-bold text-sm">{if Config.get([Bonfire.UI.Common.BadgeCounterLive, :highlight]) == true,
+              do: l("Enabled"),
+              else: l("Disabled")}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="collapse collapse-plus bg-base-200">
+  <input type="radio" name="my-accordion-3"  /> 
+  <div class="collapse-title text-xl font-medium">
+    {l("Vanity metrics")}
+  </div>
+  <div class="collapse-content"> 
+<div class="divide-y divide-base-content/20">
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex gap-2">
+            <div class="text-sm font-medium">{l("Show reaction counts (likes/boosts)")}</div>
+          </div>
+          <div class="font-bold text-sm">{if Config.get([:ui, :show_activity_counts]) == true, do: l("Enabled"), else: l("Disabled")}</div>
+        </div>
+      </div>
+
+      {!-- <div class="py-4">
+          <div class="flex items-center justify-between flex-1 items-center gap-4">
+            <div class="flex gap-2">
+              <div class="text-sm font-medium">{l("Show follower counts")}</div>
+            </div>
+            <div class="font-bold text-sm">{if Config.get([:ui, :show_activity_counts])==true, do: l("Disabled"), else: l("Disabled")}</div>
+          </div>
+        </div> --}
+
+      <div class="py-4">
+        <div class="flex items-center justify-between flex-1 items-center gap-4">
+          <div class="flex flex-col">
+            <div class="text-sm font-medium">{l("Show the number of total users on this instance")}</div>
+          </div>
+
+          {#if Config.get([Bonfire.Me.Users, :public_count], true)}
+            <div class="text-success flex items-center gap-2 text-sm font-medium">
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+              {l("Enabled")}
+            </div>
+          {#else}
+            <div class="text-base-content flex items-center gap-2 text-sm font-medium">
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
+              {l("Disabled")}
+            </div>
+          {/if}
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
 </div>

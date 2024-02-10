@@ -1,14 +1,14 @@
 <main
   data-id="profile"
   data-user-id={e(@user, :id, "")}
-  class={"max-w-[680px] w-full mx-auto": @is_guest?}
+  class={"max-w-[680px] bg-base-200 w-full mt-2 mx-auto": @is_guest?}
 >
   <StatelessComponent
     module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
     {...assigns}
   >
     <:header>
-      {#if @character_type == :user and @is_guest?}
+      <!-- {#if @character_type == :user and @is_guest?}
         <Bonfire.UI.Me.GuestProfileLive
           boundary_preset={@boundary_preset}
           user={@user}
@@ -16,7 +16,7 @@
         />
 
         <div class="font-medium mt-6 text-lg capitalize px-4 border-b border-base-content/20 pb-4">{@selected_tab}</div>
-      {#else}
+      {#else} -->
         <StatefulComponent
           module={Config.get(
             [:ui, :profile, :hero_component],
@@ -33,7 +33,7 @@
           follows_me={e(@follows_me, false)}
           character_type={@character_type}
         />
-      {/if}
+      <!-- {/if} -->
     </:header>
   </StatelessComponent>
 </main>
