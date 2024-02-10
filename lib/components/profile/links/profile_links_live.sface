@@ -26,10 +26,4 @@
 
 {!-- 
 <Bonfire.UI.Me.ProfileLinkLive href="https://bonfirenetworks.org" text="Bonfire" class={@class}  />
-
-<Bonfire.UI.Me.ProfileLinkLive
-  icon="ri:instagram-line"
-  href="https://instagram.com/TODO"
-  text="Instagram"
-    class={@class} 
-/> --}
+ --}
