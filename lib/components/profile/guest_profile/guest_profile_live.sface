@@ -1,45 +1,44 @@
 {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
-      {#match {avatar_url, banner_url}}
-        {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
-          {#match color}
-            <div
-              class={
-                "relative bg-center mt-0 bg-cover bg-no-repeat",
-                "bg-base-200 h-[140px] md:h-[260px]": !color,
-                "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
-              }
-              style={if not is_binary(color),
-                do: "background-image: url('#{banner_url}')",
-                else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
-            ></div>
-    
-
-      <div class="flex flex-col -mt-[70px] items-center bg-base-300 pb-6 gap-4">
-        <Bonfire.UI.Common.AvatarLive
-          parent_id="profile-hero"
-          class="inline-block object-cover bg-base-200 w-[140px] h-[140px] border-4 border-base-100 rounded-full"
-          src={Media.avatar_url(@user)}
-          user_id={id(@user)}
+  {#match {avatar_url, banner_url}}
+    {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
+      {#match color}
+        <div
+          class={
+            "relative bg-center mt-0 bg-cover bg-no-repeat",
+            "bg-base-200 h-[140px] md:h-[260px]": !color,
+            "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
+          }
+          style={if not is_binary(color),
+            do: "background-image: url('#{banner_url}')",
+            else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
         />
 
-        <div id="guest_info"  class="flex text-center place-content-center flex-col">
-          <LivePatch class="text-2xl font-semibold" to={~p"/@#{e(@user, :character, :username, nil)}"}>
-            {e(@user, :profile, :name, "Anonymous")}
-          </LivePatch>
-          <span class="font-normal mt-0.5 text-base-content/50">{Bonfire.Me.Characters.display_username(@user, true)}</span>
-          <div class="w-full mt-4 mb-4 leading-6 max-w-full w-full prose">
-            {rich(e(@user, :profile, :summary, ""))}
-          </div>
-          <Bonfire.UI.Me.HeroMoreActionsLive
-            character_type={:user}
-            boundary_preset={@boundary_preset}
-            user={@user}
-            members={@members}
-            moderators={@moderators}
+        <div class="flex flex-col -mt-[70px] items-center bg-base-300 pb-6 gap-4">
+          <Bonfire.UI.Common.AvatarLive
+            parent_id="profile-hero"
+            class="inline-block object-cover bg-base-200 w-[140px] h-[140px] border-4 border-base-100 rounded-full"
+            src={Media.avatar_url(@user)}
+            user_id={id(@user)}
           />
+
+          <div id="guest_info" class="flex text-center place-content-center flex-col">
+            <LivePatch class="text-2xl font-semibold" to={~p"/@#{e(@user, :character, :username, nil)}"}>
+              {e(@user, :profile, :name, "Anonymous")}
+            </LivePatch>
+            <span class="font-normal mt-0.5 text-base-content/50">{Bonfire.Me.Characters.display_username(@user, true)}</span>
+            <div class="w-full mt-4 mb-4 leading-6 max-w-full w-full prose">
+              {rich(e(@user, :profile, :summary, ""))}
+            </div>
+            <Bonfire.UI.Me.HeroMoreActionsLive
+              character_type={:user}
+              boundary_preset={@boundary_preset}
+              user={@user}
+              members={@members}
+              moderators={@moderators}
+            />
+          </div>
         </div>
-      </div> 
-{/case}
+    {/case}
 {/case}
 
 <section class="mt-10">
