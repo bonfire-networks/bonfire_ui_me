@@ -15,7 +15,7 @@
       {/case}
     {/if}
 
-    <span class="text-xs uppercase text-base-content/70">{display_url(@text)}</span>
+    <span class="text-xs uppercase font-semibold text-base-content/70">{display_url(@text)}</span>
   </div>
   <div class="link link-hover text-base-content/80 text-sm">{@href}</div>
 </a>
