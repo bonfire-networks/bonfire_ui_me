@@ -1,6 +1,6 @@
-{#case Bonfire.UI.Me.WidgetUsersLive.list_admins() }
+{#case Bonfire.UI.Me.WidgetUsersLive.list_admins()}
   {#match []}
-    <div></div>
+    <div />
   {#match admins}
     <Bonfire.UI.Me.WidgetUsersLive
       :if={current_user(@__context__) ||

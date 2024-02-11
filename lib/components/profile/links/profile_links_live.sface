@@ -4,7 +4,10 @@
     <Bonfire.UI.Me.ProfileLinkLive href={href} text={href} class={@class} />
 {/case}
 
-<div :for={%{edge: %{object: %{id: id, profile: profile, character: %{id: _} = character}}} <- @aliases}>
+<div
+  class="w-full p-3"
+  :for={%{edge: %{object: %{id: id, profile: profile, character: %{id: _} = character}}} <- @aliases}
+>
   <StatelessComponent
     module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
     show_controls={[]}
@@ -15,7 +18,10 @@
   />
 </div>
 
-<div :for={%{edge: %{object: %{id: id, media_type: type, path: path, metadata: metadata}}} <- @aliases}>
+<div
+  class="w-full"
+  :for={%{edge: %{object: %{id: id, media_type: type, path: path, metadata: metadata}}} <- @aliases}
+>
   {!-- {Bonfire.Files.DOI.fetch_orcid_data(metadata) |> inspect} --}
   <Bonfire.UI.Me.ProfileLinkLive
     href={path}

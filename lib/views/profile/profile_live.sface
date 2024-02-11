@@ -17,22 +17,22 @@
 
         <div class="font-medium mt-6 text-lg capitalize px-4 border-b border-base-content/20 pb-4">{@selected_tab}</div>
       {#else} -->
-        <StatefulComponent
-          module={Config.get(
-            [:ui, :profile, :hero_component],
-            Bonfire.UI.Me.ProfileHeroFullLive
-          )}
-          id={Text.random_string()}
-          object_id={id(@user)}
-          object={@user}
-          boundary_preset={@boundary_preset}
-          user={@user}
-          path={@path}
-          block_status={e(assigns, :block_status, nil)}
-          selected_tab={@selected_tab}
-          follows_me={e(@follows_me, false)}
-          character_type={@character_type}
-        />
+      <StatefulComponent
+        module={Config.get(
+          [:ui, :profile, :hero_component],
+          Bonfire.UI.Me.ProfileHeroFullLive
+        )}
+        id={Text.random_string()}
+        object_id={id(@user)}
+        object={@user}
+        boundary_preset={@boundary_preset}
+        user={@user}
+        path={@path}
+        block_status={e(assigns, :block_status, nil)}
+        selected_tab={@selected_tab}
+        follows_me={e(@follows_me, false)}
+        character_type={@character_type}
+      />
       <!-- {/if} -->
     </:header>
   </StatelessComponent>
