@@ -1,4 +1,4 @@
-<div class="relative">
+<section data-id="profile_hero" class="relative">
   <div>
     {!-- TODO: put this logic in `update` fn instead? --}
     {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
@@ -6,6 +6,7 @@
         {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
           {#match color}
             <div
+              data-id="hero_background"
               class={
                 "relative bg-center mt-0 bg-cover bg-no-repeat",
                 "bg-base-200 h-[140px] md:h-[200px]": !color,
@@ -130,4 +131,4 @@
         {/case}
     {/case}
   </div>
-</div>
+</section>
