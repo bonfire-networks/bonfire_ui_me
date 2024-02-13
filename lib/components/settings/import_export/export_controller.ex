@@ -314,12 +314,12 @@ defmodule Bonfire.UI.Me.ExportController do
     :list_by,
     [
       current_user,
-      current_user: current_user,
+      [current_user: current_user,
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
         stream_callback(type, stream, conn)
-      end
+      end]
     ])
   end
 
