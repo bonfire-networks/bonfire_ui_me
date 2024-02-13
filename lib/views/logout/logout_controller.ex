@@ -22,16 +22,18 @@ defmodule Bonfire.UI.Me.LogoutController do
 
           account_id ->
             Utils.maybe_apply(
-            Bonfire.Web.Endpoint,
-            :broadcast,
-            ["socket_account:#{account_id}", "disconnect", %{}])
+              Bonfire.Web.Endpoint,
+              :broadcast,
+              ["socket_account:#{account_id}", "disconnect", %{}]
+            )
         end
 
       user_id ->
         Utils.maybe_apply(
-        Bonfire.Web.Endpoint,
-        :broadcast,
-        ["socket_user:#{user_id}", "disconnect", %{}])
+          Bonfire.Web.Endpoint,
+          :broadcast,
+          ["socket_user:#{user_id}", "disconnect", %{}]
+        )
     end
   end
 end

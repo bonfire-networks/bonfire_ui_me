@@ -14,10 +14,11 @@ defmodule Bonfire.UI.Me.ProfileLinksLive do
       :aliases,
       if(user,
         do:
-        Utils.maybe_apply(
-          Bonfire.Social.Graph.Aliases,
-          :list_aliases, [user]
-        )
+          Utils.maybe_apply(
+            Bonfire.Social.Graph.Aliases,
+            :list_aliases,
+            [user]
+          )
           |> debug("list_aliases")
           |> e(:edges, []),
         else: []

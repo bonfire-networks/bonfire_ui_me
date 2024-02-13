@@ -247,12 +247,16 @@ defmodule Bonfire.UI.Me.ExportController do
     Utils.maybe_apply(
       Bonfire.Social.Graph.Follows,
       :list_my_followed,
-      [current_user,
-      [paginate: false,
-      return: :stream,
-      stream_callback: fn stream ->
-        stream_callback(type, stream, conn)
-      end]]
+      [
+        current_user,
+        [
+          paginate: false,
+          return: :stream,
+          stream_callback: fn stream ->
+            stream_callback(type, stream, conn)
+          end
+        ]
+      ]
     )
 
     # |> IO.inspect(label: "folg")
@@ -264,15 +268,20 @@ defmodule Bonfire.UI.Me.ExportController do
     current_user = current_user_required!(conn)
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+
     Utils.maybe_apply(
       Bonfire.Social.Graph.Follows,
       :list_my_followers,
-      [current_user,
-      [paginate: false,
-      return: :stream,
-      stream_callback: fn stream ->
-        stream_callback(type, stream, conn)
-      end]]
+      [
+        current_user,
+        [
+          paginate: false,
+          return: :stream,
+          stream_callback: fn stream ->
+            stream_callback(type, stream, conn)
+          end
+        ]
+      ]
     )
 
     # |> IO.inspect(label: "fols")
@@ -286,9 +295,8 @@ defmodule Bonfire.UI.Me.ExportController do
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
     Utils.maybe_apply(
-    Bonfire.Social.Graph.Requests,
-    :list_my_requested,
-    [
+      Bonfire.Social.Graph.Requests,
+      :list_my_requested,
       current_user: current_user,
       type: Bonfire.Data.Social.Follow,
       paginate: false,
@@ -296,7 +304,6 @@ defmodule Bonfire.UI.Me.ExportController do
       stream_callback: fn stream ->
         stream_callback(type, stream, conn)
       end
-    ]
     )
 
     # |> IO.inspect(label: "req")
@@ -310,17 +317,20 @@ defmodule Bonfire.UI.Me.ExportController do
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
     Utils.maybe_apply(
-    Bonfire.Posts,
-    :list_by,
-    [
-      current_user,
-      [current_user: current_user,
-      paginate: false,
-      return: :stream,
-      stream_callback: fn stream ->
-        stream_callback(type, stream, conn)
-      end]
-    ])
+      Bonfire.Posts,
+      :list_by,
+      [
+        current_user,
+        [
+          current_user: current_user,
+          paginate: false,
+          return: :stream,
+          stream_callback: fn stream ->
+            stream_callback(type, stream, conn)
+          end
+        ]
+      ]
+    )
   end
 
   defp csv_content(conn, "messages" = type) do
@@ -329,18 +339,23 @@ defmodule Bonfire.UI.Me.ExportController do
     current_user = current_user_required!(conn)
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+
     Utils.maybe_apply(
       Bonfire.Messages,
       :list,
-      [ current_user,
+      [
+        current_user,
         nil,
-        [paginate: false,
-        return: :stream,
-        stream_callback: fn stream ->
-          stream_callback(type, stream, conn)
-        end]
+        [
+          paginate: false,
+          return: :stream,
+          stream_callback: fn stream ->
+            stream_callback(type, stream, conn)
+          end
+        ]
       ],
-      fallback_return: [])
+      fallback_return: []
+    )
 
     # |> IO.inspect(label: "msgs")
   end
@@ -509,7 +524,8 @@ defmodule Bonfire.UI.Me.ExportController do
       Utils.maybe_apply(
         Bonfire.Messages.LiveHandler,
         :thread_participants,
-        [nil, record, nil, []])
+        [nil, record, nil, []]
+      )
       |> debug()
 
     msg = e(record, :activity, :object, :post_content, nil) || e(record, :post_content, nil)
