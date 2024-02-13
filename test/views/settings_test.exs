@@ -75,9 +75,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # force a refresh
       {:ok, refreshed_view, _html} = live(conn, next)
 
-      auto_assert true <-
-                    refreshed_view
-                    |> has_element?("span[data-role=locale]", "it")
+      assert refreshed_view
+             |> has_element?("span[data-role=locale]", "it")
     end
 
     test "As a user I want to switch composer ui" do
@@ -98,9 +97,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # force a refresh
       {:ok, refreshed_view, _html} = live(conn, next)
 
-      auto_assert true <-
-                    refreshed_view
-                    |> has_element?("div#smart_input_container[data-focused]")
+      assert refreshed_view
+             |> has_element?("div#smart_input_container[data-focused]")
     end
 
     test "As a user I want to hide brand name" do
@@ -118,9 +116,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
       {:ok, refreshed_view, _html} = live(conn, next)
       # open_browser(refreshed_view)
 
-      auto_assert false <-
-                    refreshed_view
-                    |> has_element?("div[data-id=logo] div[data-scope=logo_name]")
+      refute refreshed_view
+             |> has_element?("div[data-id=logo] div[data-scope=logo_name]")
     end
 
     test "As a user I want to change avatar shape to square" do
@@ -137,9 +134,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # force a refresh
       {:ok, refreshed_view, _html} = live(conn, next)
 
-      auto_assert true <-
-                    refreshed_view
-                    |> has_element?("div[data-scope=avatar] div[data-square]")
+      assert refreshed_view
+             |> has_element?("div[data-scope=avatar] div[data-square]")
     end
 
     test "As a user I want to set the animal avatar" do
@@ -149,9 +145,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
       next = "/settings/user/preferences/behaviours"
       {:ok, view, _html} = live(conn, next)
 
-      auto_assert true <-
-                    view
-                    |> has_element?("svg[data-scope=animal_avatar]")
+      assert view
+             |> has_element?("svg[data-scope=animal_avatar]")
 
       view
       |> element("form[data-scope=set_hide_avatar]")
@@ -160,9 +155,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # force a refresh
       {:ok, refreshed_view, _html} = live(conn, next)
 
-      auto_assert false <-
-                    refreshed_view
-                    |> has_element?("svg[data-scope=animal_avatar]")
+      refute refreshed_view
+             |> has_element?("svg[data-scope=animal_avatar]")
     end
 
     test "As a user I want to set the compact layout" do
@@ -188,9 +182,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
       {:ok, refreshed_view, _html} = live(conn, "/")
 
       # open_browser(refreshed_view)
-      auto_assert true <-
-                    refreshed_view
-                    |> has_element?("article[data-compact]")
+      assert refreshed_view
+             |> has_element?("article[data-compact]")
     end
   end
 
@@ -209,14 +202,14 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # force a refresh
       {:ok, refreshed_view, _html} = live(conn, next)
 
-      auto_assert false <-
-                    refreshed_view
-                    |> has_element?("div[data-scope=sticky_menu] div[data-scope=avatar]")
+      refute refreshed_view
+             |> has_element?("div[data-scope=sticky_menu] div[data-scope=avatar]")
     end
 
     test "how many items to show in feeds and other lists" do
     end
 
+    @tag :mneme
     test "highlight notifications indicator" do
       account = fake_account!()
       alice = fake_user!(account)
@@ -263,9 +256,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
       conn = conn(user: alice, account: account)
       {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
 
-      auto_assert true <-
-                    view
-                    |> has_element?("span[data-scope=public-boundary-set]")
+      assert view
+             |> has_element?("span[data-scope=public-boundary-set]")
 
       view
       |> element("[data-scope=safety_boundary_default] button[data-scope=local_boundary]")
@@ -274,9 +266,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # open_browser(view)
       {:ok, refreshed_view, _html} = live(conn, "/")
 
-      auto_assert true <-
-                    refreshed_view
-                    |> has_element?("span[data-scope=local-boundary-set]")
+      assert refreshed_view
+             |> has_element?("span[data-scope=local-boundary-set]")
     end
   end
 end

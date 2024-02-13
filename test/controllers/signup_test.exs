@@ -88,7 +88,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     email = email()
     password = password()
 
-    IO.inspect(conn.assigns, label: "asssss")
+    # IO.inspect(conn.assigns, label: "asssss")
 
     pt =
       conn
