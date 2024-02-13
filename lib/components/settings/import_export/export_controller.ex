@@ -248,11 +248,11 @@ defmodule Bonfire.UI.Me.ExportController do
       Bonfire.Social.Graph.Follows,
       :list_my_followed,
       [current_user,
-      paginate: false,
+      [paginate: false,
       return: :stream,
       stream_callback: fn stream ->
         stream_callback(type, stream, conn)
-      end]
+      end]]
     )
 
     # |> IO.inspect(label: "folg")
@@ -268,11 +268,11 @@ defmodule Bonfire.UI.Me.ExportController do
       Bonfire.Social.Graph.Follows,
       :list_my_followers,
       [current_user,
-      paginate: false,
+      [paginate: false,
       return: :stream,
       stream_callback: fn stream ->
         stream_callback(type, stream, conn)
-      end]
+      end]]
     )
 
     # |> IO.inspect(label: "fols")
@@ -334,11 +334,11 @@ defmodule Bonfire.UI.Me.ExportController do
       :list,
       [ current_user,
         nil,
-        paginate: false,
+        [paginate: false,
         return: :stream,
         stream_callback: fn stream ->
           stream_callback(type, stream, conn)
-        end
+        end]
       ],
       fallback_return: [])
 
