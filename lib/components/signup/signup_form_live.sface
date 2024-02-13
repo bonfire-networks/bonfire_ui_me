@@ -39,7 +39,7 @@
           </div>
         </div>
     {/case}
-    <Form for={@form} opts={[id: "signup-form"]}>
+    <Form for={@form} action="?" opts={[id: "signup-form"]}>
       <Inputs for={:email}>
         <Field name={:email_address}>
           <label for="signup-form_email_email_address" class="label">
