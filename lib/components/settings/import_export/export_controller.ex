@@ -68,7 +68,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
   def archive_delete(conn, _params) do
     current_user = current_user_required!(conn)
-    file = archive_delete(id(current_user))
+    _file = archive_delete(id(current_user))
 
     conn
     |> Plug.Conn.send_resp(200, "Deleted")
@@ -244,12 +244,15 @@ defmodule Bonfire.UI.Me.ExportController do
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
-    Bonfire.Social.Graph.Follows.list_my_followed(current_user,
+    Utils.maybe_apply(
+      Bonfire.Social.Graph.Follows,
+      :list_my_followed,
+      [current_user,
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
         stream_callback(type, stream, conn)
-      end
+      end]
     )
 
     # |> IO.inspect(label: "folg")
@@ -261,13 +264,15 @@ defmodule Bonfire.UI.Me.ExportController do
     current_user = current_user_required!(conn)
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
-
-    Bonfire.Social.Graph.Follows.list_my_followers(current_user,
+    Utils.maybe_apply(
+      Bonfire.Social.Graph.Follows,
+      :list_my_followers,
+      [current_user,
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
         stream_callback(type, stream, conn)
-      end
+      end]
     )
 
     # |> IO.inspect(label: "fols")
@@ -280,7 +285,10 @@ defmodule Bonfire.UI.Me.ExportController do
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
-    Bonfire.Social.Graph.Requests.list_my_requested(
+    Utils.maybe_apply(
+    Bonfire.Social.Graph.Requests,
+    :list_my_requested,
+    [
       current_user: current_user,
       type: Bonfire.Data.Social.Follow,
       paginate: false,
@@ -288,6 +296,7 @@ defmodule Bonfire.UI.Me.ExportController do
       stream_callback: fn stream ->
         stream_callback(type, stream, conn)
       end
+    ]
     )
 
     # |> IO.inspect(label: "req")
@@ -300,14 +309,18 @@ defmodule Bonfire.UI.Me.ExportController do
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
-    Bonfire.Posts.list_by(current_user,
+    Utils.maybe_apply(
+    Bonfire.Posts,
+    :list_by,
+    [
+      current_user,
       current_user: current_user,
       paginate: false,
       return: :stream,
       stream_callback: fn stream ->
         stream_callback(type, stream, conn)
       end
-    )
+    ])
   end
 
   defp csv_content(conn, "messages" = type) do
@@ -316,14 +329,18 @@ defmodule Bonfire.UI.Me.ExportController do
     current_user = current_user_required!(conn)
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
-
-    Bonfire.Messages.list(current_user, nil,
-      paginate: false,
-      return: :stream,
-      stream_callback: fn stream ->
-        stream_callback(type, stream, conn)
-      end
-    )
+    Utils.maybe_apply(
+      Bonfire.Messages,
+      :list,
+      [ current_user,
+        nil,
+        paginate: false,
+        return: :stream,
+        stream_callback: fn stream ->
+          stream_callback(type, stream, conn)
+        end
+      ],
+      fallback_return: [])
 
     # |> IO.inspect(label: "msgs")
   end
@@ -371,7 +388,7 @@ defmodule Bonfire.UI.Me.ExportController do
     end)
   end
 
-  defp stream_callback(type, stream, user) do
+  defp stream_callback(type, stream, _user) do
     prepare_rows(type, stream)
   end
 
@@ -489,7 +506,10 @@ defmodule Bonfire.UI.Me.ExportController do
       |> debug()
 
     participants =
-      Bonfire.Messages.LiveHandler.thread_participants(nil, record, nil, [])
+      Utils.maybe_apply(
+        Bonfire.Messages.LiveHandler,
+        :thread_participants,
+        [nil, record, nil, []])
       |> debug()
 
     msg = e(record, :activity, :object, :post_content, nil) || e(record, :post_content, nil)
@@ -616,7 +636,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
   # def media_stream(path, %Entrepot.Locator{storage: storage} = locator, fun) when storage in [Entrepot.Storages.Disk, "Elixir.Entrepot.Storages.Disk"] do
   #  # stream files from Disk
-  #   path = Entrepot.Storages.Disk.path(locator) 
+  #   path = Entrepot.Storages.Disk.path(locator)
 
   #   if is_binary(path) and File.exists?(path) do
   #     fun.(path, File.stream!(path, [], 512))
@@ -625,7 +645,7 @@ defmodule Bonfire.UI.Me.ExportController do
   #   end
   # end
   def media_stream(path, %Entrepot.Locator{id: id} = locator, fun) do
-    # stream files from Disk or S3 
+    # stream files from Disk or S3
     source_storage = Entrepot.storage!(locator)
 
     case source_storage.stream(id) do
@@ -639,7 +659,7 @@ defmodule Bonfire.UI.Me.ExportController do
   #   with {:ok, new_locator} <- Entrepot.copy(locator, Entrepot.Storages.Disk, skip_existing: true)
   #     |> debug() do
   #     media_stream(path, new_locator, fun)
-  #   else 
+  #   else
   #     {:error, error} when is_binary(error) -> fun.("#{path}.txt", [error])
   #     other -> raise other
   #   end

@@ -87,7 +87,10 @@ defmodule Bonfire.UI.Me.ProfileLive do
       follows_me =
         current_user && id(current_user) != user_id &&
           module_enabled?(Bonfire.Social.Graph.Follows, current_user) &&
-          Bonfire.Social.Graph.Follows.following?(user, current_user)
+          Utils.maybe_apply(
+            Bonfire.Social.Graph.Follows,
+            :following?,
+            [user, current_user])
 
       # situation = Bonfire.Boundaries.Blocks.LiveHandler.preload([%{__context__: socket.assigns.__context__, id: id(user), object_id: id(user), object: user, current_user: current_user}], caller_module: __MODULE__)
       # IO.inspect(situation, label: "situation2")
@@ -137,10 +140,10 @@ defmodule Bonfire.UI.Me.ProfileLive do
         #  remote actor
         with true <- String.trim(username, "@") |> String.contains?("@"),
              {:ok, user} <-
-               Bonfire.Federate.ActivityPub.AdapterUtils.get_or_fetch_and_create_by_username(
-                 username
-                 #  fetch_collection: :async
-               ) do
+              Utils.maybe_apply(
+               Bonfire.Federate.ActivityPub.AdapterUtils,
+               :get_or_fetch_and_create_by_username,
+               [username]) do
           init(params |> Map.put(:user, user), socket)
         else
           _ ->

@@ -21,11 +21,17 @@ defmodule Bonfire.UI.Me.LogoutController do
             warn("no user or account sockets found to broadcast the logout to")
 
           account_id ->
-            Bonfire.Web.Endpoint.broadcast("socket_account:#{account_id}", "disconnect", %{})
+            Utils.maybe_apply(
+            Bonfire.Web.Endpoint,
+            :broadcast,
+            ["socket_account:#{account_id}", "disconnect", %{}])
         end
 
       user_id ->
-        Bonfire.Web.Endpoint.broadcast("socket_user:#{user_id}", "disconnect", %{})
+        Utils.maybe_apply(
+        Bonfire.Web.Endpoint,
+        :broadcast,
+        ["socket_user:#{user_id}", "disconnect", %{}])
     end
   end
 end
