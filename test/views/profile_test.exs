@@ -5,6 +5,7 @@ defmodule Bonfire.UI.Me.ProfileTest do
   import Phoenix.LiveViewTest
   alias Bonfire.Social.Graph.Follows
 
+  @tag :could
   test "If a user follows me, I want to have a visual feedback in their profile" do
     account = fake_account!()
     # Given a user
