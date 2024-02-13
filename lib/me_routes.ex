@@ -77,6 +77,8 @@ defmodule Bonfire.UI.Me.Routes do
         )
 
         live("/users", UsersDirectoryLive)
+        live("/users/instance/:instance_id", UsersDirectoryLive)
+        live("/known_instances", InstancesDirectoryLive)
 
         resources("/signup/email/confirm/:id", ConfirmEmailController, only: [:show])
       end
