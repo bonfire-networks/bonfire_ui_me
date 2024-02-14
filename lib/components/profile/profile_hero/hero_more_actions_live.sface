@@ -244,7 +244,8 @@
         parent_id="profile_hero"
         as_icon
       />
-      <!-- <Bonfire.UI.Common.SmartInputButtonLive
+
+      {!-- <Bonfire.UI.Common.SmartInputButtonLive
         :if={extension_enabled?(:bonfire_ui_messages, @__context__)}
         as_icon
         create_object_type={:message}
@@ -256,7 +257,26 @@
         }}
         icon="carbon:email"
         class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
-      /> -->
+      /> --}
+
+      {!-- 
+    FIXME: text_suggestion not working with milkdown
+    <Bonfire.UI.Common.SmartInputButtonLive
+    as_icon
+      prompt={l("Mention in a post")}
+      smart_input_opts={%{
+        mentions: [id(@user)],
+        text_suggestion: "@#{e(@user, :character, :username, nil)} ",
+        to_circles: [
+          %{
+            (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+              id(@user)
+          }
+        ]
+      }}
+      icon="heroicons-solid:at-symbol"
+      class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
+    /> --}
     {/if}
 
     {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
