@@ -116,24 +116,6 @@
         </li>
 
         {#if @character_type == :group}
-          {!-- <li>
-          <button class="flex items-center gap-2 text-sm text-base-content/70">
-            <#Icon iconify="ph:info-bold" class="w-4 h-4 shrink-0" />
-            <span>{l("View group info")}</span>
-          </button>
-        </li> --}
-
-          {!-- <li>
-            <a
-              phx-hook="Copy"
-              id="hero_copy_invite"
-              href={"TODO"} 
-              class="flex items-center gap-2 text-sm text-base-content/70"
-            >
-              <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
-              <span>{l("Copy invite link")}</span>
-            </a>
-          </li> --}
           <li
             class="create_new_topic"
             module={Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
@@ -162,6 +144,21 @@
               module={maybe_component(Bonfire.Boundaries.Web.AddToCircleLive, @__context__)}
               user_id={id(@user)}
               parent_id="profile_hero"
+            />
+          </li>
+
+          <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
+            <Bonfire.UI.Common.SmartInputButtonLive
+              create_object_type={:message}
+              icon="carbon:email"
+              prompt={l("Direct Message %{name}", name: e(@user, :profile, :name, nil))}
+              smart_input_opts={%{
+                recipients_editable: true,
+                to_circles: [
+                  {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
+                ]
+              }}
+              class="flex items-center text-sm text-base-content/70"
             />
           </li>
 
@@ -240,7 +237,14 @@
     </div>
 
     {#if @character_type == :user and current_user_id(@__context__)}
-      <Bonfire.UI.Common.SmartInputButtonLive
+      <StatelessComponent
+        :if={current_user(@__context__)}
+        module={maybe_component(Bonfire.Boundaries.Web.AddToCircleLive, @__context__)}
+        user_id={id(@user)}
+        parent_id="profile_hero"
+        as_icon
+      />
+      <!-- <Bonfire.UI.Common.SmartInputButtonLive
         :if={extension_enabled?(:bonfire_ui_messages, @__context__)}
         as_icon
         create_object_type={:message}
@@ -252,26 +256,7 @@
         }}
         icon="carbon:email"
         class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
-      />
-
-      {!-- 
-    FIXME: text_suggestion not working with milkdown
-    <Bonfire.UI.Common.SmartInputButtonLive
-    as_icon
-      prompt={l("Mention in a post")}
-      smart_input_opts={%{
-        mentions: [id(@user)],
-        text_suggestion: "@#{e(@user, :character, :username, nil)} ",
-        to_circles: [
-          %{
-            (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
-              id(@user)
-          }
-        ]
-      }}
-      icon="heroicons-solid:at-symbol"
-      class="btn h-[34px] w-[34px] btn-sm btn-circle btn-outline border-base-content/30"
-    /> --}
+      /> -->
     {/if}
 
     {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
