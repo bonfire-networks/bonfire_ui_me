@@ -1,10 +1,10 @@
 <main id="switch-user">
-  <Bonfire.UI.Common.LogoLinkLive
+  <!-- <Bonfire.UI.Common.LogoLinkLive
     container_class="flex items-center my-8 justify-center gap-2"
     name_class="text-2xl font-bold tracking-wider"
     href="/"
-  />
-  <div class="flex-1 mt-3 max-w-[680px] mx-auto">
+  /> -->
+  <div class="flex-1 max-w-[680px] mx-auto">
     <div class="p-4 my-6 rounded-md bg-info">
       <div class="flex">
         <div class="flex-shrink-0">
