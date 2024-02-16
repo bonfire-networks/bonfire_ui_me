@@ -660,7 +660,7 @@ defmodule Bonfire.UI.Me.ExportController do
   #     fun.("#{path}.txt", ["File not found"])
   #   end
   # end
-  def media_stream(path, %Entrepot.Locator{id: id} = locator, fun) do
+  def media_stream(path, %struct{id: id} = locator, fun) when struct == Entrepot.Locator do
     # stream files from Disk or S3
     source_storage = Entrepot.storage!(locator)
 

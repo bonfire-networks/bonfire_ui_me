@@ -88,48 +88,68 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     email = email()
     password = password()
 
-    # IO.inspect(conn.assigns, label: "asssss")
-
     pt =
       conn
       |> visit("/")
 
-    IO.inspect(pt.view)
-
     pt
     |> click_link("Create an account")
     |> assert_has("button", "Accept")
-    # |> click_button("Accept") # powered by Alpine.JS 
-    # |> assert_has("form#signup-form")
-    |> submit_form("form#signup-form",
+    |> fill_form("form#signup-form",
       account: %{
-        # email_address: email
-        email: %{email_address: email}, 
-        # credential: %{password: password}
+        email: %{email_address: email}
       }
-      # %{
-      #     "name='account[email][email_address]'" => email,
-      #     "name='account[credential][password]'" => password
-      #   }
-      # %{
-      #   "account[email][email_address]" => email,
-      #   "account[credential][password]" => password
-      # }
-      # %{
-      #     "account" => %{
-      #       "email" => %{"email_address" => email},
-      #       "credential" => %{"password" => password}
-      #     }
-      #   }
-      # account: [
-      #   email: [email_address: email], 
-      #   credential: [password: password]
-      # ]
     )
-    # |> submit_form("form#signup-form", %{})
-    # FIXME: `element selected by "#signup-form" does not have phx-submit attribute`
-    # |> click_button("Sign up")
-    # TODO
-    |> assert_has(".current_account", "me")
+    |> click_button("Sign up")
   end
+
+  # test "success (with PhoenixTest)" do
+  #   conn = conn()
+  #   email = email()
+  #   password = password()
+
+  #   # IO.inspect(conn.assigns, label: "asssss")
+
+  #   pt =
+  #     conn
+  #     |> visit("/")
+
+  #   IO.inspect(pt.view)
+
+  #   pt
+  #   |> click_link("Create an account")
+  #   |> assert_has("button", "Accept")
+  #   # |> click_button("Accept") # powered by Alpine.JS 
+  #   # |> assert_has("form#signup-form")
+  #   |> fill_form("form#signup-form",
+  #     account: %{
+  #       # email_address: email
+  #       email: %{email_address: email}, 
+  #       # credential: %{password: password}
+  #     }
+  #     # %{
+  #     #     "name='account[email][email_address]'" => email,
+  #     #     "name='account[credential][password]'" => password
+  #     #   }
+  #     # %{
+  #     #   "account[email][email_address]" => email,
+  #     #   "account[credential][password]" => password
+  #     # }
+  #     # %{
+  #     #     "account" => %{
+  #     #       "email" => %{"email_address" => email},
+  #     #       "credential" => %{"password" => password}
+  #     #     }
+  #     #   }
+  #     # account: [
+  #     #   email: [email_address: email], 
+  #     #   credential: [password: password]
+  #     # ]
+  #   )
+  #   # |> submit_form("form#signup-form", %{})
+  #   # FIXME: `element selected by "#signup-form" does not have phx-submit attribute`
+  #   |> click_button("Sign up")
+  #   # TODO
+  #   |> assert_has(".current_account", "me")
+  # end
 end

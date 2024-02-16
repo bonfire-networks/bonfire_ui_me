@@ -26,15 +26,27 @@ defmodule Bonfire.UI.Me.MixProject do
       deps:
         Mess.deps([
           {:phoenix_live_reload, "~> 1.2", only: :dev},
+          {:phoenix_live_view, "~> 0.20.5", override: true},
+          {:phoenix, "~> 1.7.0", override: true},
+          {:zest, "~> 0.1", only: :test},
 
-          {:bonfire_tag,
-           git: "https://github.com/bonfire-networks/bonfire_tag",
+          {:bonfire,
+           git: "https://github.com/bonfire-networks/bonfire_spark",
            branch: "main",
-           optional: true},
-          {:bonfire_social,
-           git: "https://github.com/bonfire-networks/bonfire_social",
-           branch: "main",
-           optional: true}
+          only: :test},
+              {:phoenix_test, 
+    # "~> 0.2.4", 
+    git: "https://github.com/germsvel/phoenix_test",
+    only: :test, runtime: false}
+          
+          # {:bonfire_tag,
+          #  git: "https://github.com/bonfire-networks/bonfire_tag",
+          #  branch: "main",
+          #  optional: true},
+          # {:bonfire_social,
+          #  git: "https://github.com/bonfire-networks/bonfire_social",
+          #  branch: "main",
+          #  optional: true},
           # {:bonfire_valueflows, "https://github.com/bonfire-networks/bonfire_valueflows", branch: "main", optional: true}
           # {:bonfire_ui_valueflows, "https://github.com/bonfire-networks/bonfire_ui_valueflows", branch: "main", optional: true}
         ]),
