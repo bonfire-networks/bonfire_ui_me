@@ -45,3 +45,6 @@ deps.path
 /forks
 
 .\#*
+
+assets/js/_hooks/
+assets/css
