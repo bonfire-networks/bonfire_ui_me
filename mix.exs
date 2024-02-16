@@ -25,20 +25,19 @@ defmodule Bonfire.UI.Me.MixProject do
       aliases: aliases(),
       deps:
         Mess.deps([
-          {:phoenix_live_reload, "~> 1.2", only: :dev},
-          {:phoenix_live_view, "~> 0.20.5", override: true},
-          {:phoenix, "~> 1.7.0", override: true},
+          # {:phoenix_live_reload, "~> 1.2", only: :dev},
           {:zest, "~> 0.1", only: :test},
 
           {:bonfire,
            git: "https://github.com/bonfire-networks/bonfire_spark",
            branch: "main",
-          only: :test},
-              {:phoenix_test, 
-    # "~> 0.2.4", 
-    git: "https://github.com/germsvel/phoenix_test",
-    only: :test, runtime: false}
-          
+           only: :test},
+
+          {:phoenix_test, 
+          # "~> 0.2.4", 
+          git: "https://github.com/germsvel/phoenix_test",
+          only: :test, runtime: false}
+                
           # {:bonfire_tag,
           #  git: "https://github.com/bonfire-networks/bonfire_tag",
           #  branch: "main",
