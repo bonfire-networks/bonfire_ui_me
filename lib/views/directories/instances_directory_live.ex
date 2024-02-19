@@ -22,6 +22,8 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
         # Bonfire.Me.Users.maybe_count()
         count = length(instances)
 
+        is_guest? = is_nil(current_user)
+
         {:ok,
          assign(
            socket,
@@ -32,10 +34,10 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
              ),
            page: "known_instances",
            selected_tab: :instances,
-           is_guest?: is_nil(current_user_id(socket.assigns)),
-           without_sidebar: is_nil(current_user_id(socket.assigns)),
-           without_secondary_widgets: is_nil(current_user_id(socket.assigns)),
-           no_header: is_nil(current_user_id(socket.assigns)),
+           is_guest?: is_guest?,
+           without_sidebar: is_guest?,
+           without_secondary_widgets: is_guest?,
+           no_header: is_guest?,
            nav_items: Bonfire.Common.ExtensionModule.default_nav(),
            instances: instances
          )}

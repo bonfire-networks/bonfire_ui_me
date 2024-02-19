@@ -276,7 +276,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   def do_handle_params(%{"tab" => tab} = params, _url, socket)
-      when tab in ["posts", "boosts", "timeline"] do
+      when tab in ["posts", "boosts", "timeline", "objects"] do
     debug(tab, "load tab")
 
     Bonfire.Social.Feeds.LiveHandler.user_feed_assign_or_load_async(

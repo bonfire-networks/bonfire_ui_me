@@ -15,7 +15,6 @@ defmodule Bonfire.UI.Me.RuntimeConfig do
 
     config :bonfire, :ui,
       profile: [
-        # TODO: make dynamic based on active extensions
         sections: [
           follow: Bonfire.UI.Me.RemoteInteractionFormLive
         ],

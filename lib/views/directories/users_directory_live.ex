@@ -16,7 +16,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
 
     if show_to ||
          maybe_apply(Bonfire.Me.Accounts, :is_admin?, socket.assigns[:__context__]) == true do
-      if show_to == :guests or current_user(socket.assigns) || current_account(socket) do
+      if show_to == :guests or current_user || current_account(socket) do
         {title, users} =
           if params["instance_id"] do
             # TODO: pagination
@@ -39,16 +39,18 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
           end
           |> debug("listed users")
 
+        is_guest? = is_nil(current_user)
+
         {:ok,
          assign(
            socket,
            page_title: title,
            page: "users",
            selected_tab: :users,
-           is_guest?: is_nil(current_user_id(socket.assigns)),
-           without_sidebar: is_nil(current_user_id(socket.assigns)),
-           without_secondary_widgets: is_nil(current_user_id(socket.assigns)),
-           no_header: is_nil(current_user_id(socket.assigns)),
+           is_guest?: is_guest?,
+           without_sidebar: is_guest?,
+           without_secondary_widgets: is_guest?,
+           no_header: is_guest?,
            nav_items: Bonfire.Common.ExtensionModule.default_nav(),
            search_placeholder: "Search users",
            users: users

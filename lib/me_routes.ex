@@ -51,6 +51,7 @@ defmodule Bonfire.UI.Me.Routes do
 
         # order matters!
         live("/@:username/:tab", ProfileLive, as: Bonfire.Data.Identity.User)
+        live("/@:username/:tab/:extra", ProfileLive, as: Bonfire.Data.Identity.User)
         live("/@:username", ProfileLive, as: Bonfire.Data.Identity.User)
         # live("/user/", ProfileLive, as: Bonfire.Data.Identity.User)
 
