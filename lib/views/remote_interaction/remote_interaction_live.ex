@@ -7,6 +7,8 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
     # debug(session, "session")
     {:ok,
      socket
+     |> assign_new(:without_sidebar, fn -> true end)
+     |> assign_new(:without_secondary_widgets, fn -> true end)
      |> assign(:canonical_url, e(params, "url", nil) || e(session, "url", nil))
      |> assign(:name, e(params, "name", nil) || e(session, "name", nil))
      |> assign(
