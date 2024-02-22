@@ -210,7 +210,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       without_sidebar: is_guest?,
       without_secondary_widgets: is_guest?,
       no_header: is_guest?,
-      hide_tabs: is_guest?,
+      # hide_tabs: is_guest?,
       smart_input: true,
       feed: nil,
       page_info: [],

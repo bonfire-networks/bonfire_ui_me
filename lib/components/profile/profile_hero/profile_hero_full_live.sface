@@ -79,19 +79,21 @@
                 {/case}
               </div>
             </div>
-            <div class="mb-4">
+            <div data-id="hero_data" class="mb-4 px-4">
               <div
                 :if={!Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
-                class="flex justify-between w-full px-6"
+                class="flex justify-between w-full"
               >
                 {#if @character_type == :user}
-                  <Bonfire.UI.Common.AvatarLive
-                    parent_id="profile-hero"
-                    class="inline-block object-cover bg-base-200 w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full"
-                    src={Media.avatar_url(@user)}
-                    user_id={id(@user)}
-                    src={avatar_url}
-                  />
+                  <LivePatch to={~p"/@#{e(@user, :character, :username, nil)}"}>
+                    <Bonfire.UI.Common.AvatarLive
+                      parent_id="profile-hero"
+                      class="inline-block object-cover  w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full"
+                      src={Media.avatar_url(@user)}
+                      user_id={id(@user)}
+                      src={avatar_url}
+                    />
+                  </LivePatch>
                   {!-- 
                     NOTE: avoid putting a bg or border on the avatar, so alpha bg ones are displayed correctly
                     bg-base-100 border-4 border-base-100 ring-2 ring-base-300 fill-base-200 --}

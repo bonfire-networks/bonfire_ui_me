@@ -9,7 +9,7 @@
         <Bonfire.UI.Common.AvatarLive
           parent_id={@activity_component_id || id(@activity)}
           class="w-6 h-6"
-          bg_class="bg-base-200 rounded-btn"
+          bg_class="rounded-btn"
           src={Media.avatar_url(the_other(@activity, @object, @__context__))}
           user_id={id(the_other(@activity, @object, @__context__))}
         />
@@ -37,7 +37,7 @@
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive, @__context__)}
       show_summary
-      avatar_class={"w-11 h-11 rounded-full bg-base-300", "!w-7 !h-7": @__context__[:ui_compact]}
+      avatar_class={"w-11 h-11 rounded-full ", "!w-7 !h-7": @__context__[:ui_compact]}
       profile={e(the_other(@activity, @object, @__context__), :profile, nil)}
       character={e(the_other(@activity, @object, @__context__), :character, nil)}
     />

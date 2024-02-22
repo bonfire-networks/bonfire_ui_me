@@ -1,4 +1,4 @@
-<div class="w-full mt-24" id="login">
+<div class="w-full mt-12" id="login">
   <!-- <Bonfire.UI.Common.LogoLinkLive
     with_name
     container_class="flex items-center mb-8 justify-center gap-2"

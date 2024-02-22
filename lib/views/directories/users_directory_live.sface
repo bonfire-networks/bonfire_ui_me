@@ -6,7 +6,7 @@
       profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
       show_summary
       wrapper_class="flex items-start gap-3 profile-item group flex-col"
-      avatar_class="w-16 h-16 bg-base-100"
+      avatar_class="w-16 h-16"
       show_controls={[:follow]}
     />
     <!-- <Bonfire.UI.Me.UserPreviewLive user={user} /> -->
