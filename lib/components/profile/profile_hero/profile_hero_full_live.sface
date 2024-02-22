@@ -85,7 +85,7 @@
                 class="flex justify-between w-full"
               >
                 {#if @character_type == :user}
-                  <LivePatch to={~p"/@#{e(@user, :character, :username, nil)}"}>
+                  <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"
                       class="inline-block object-cover  w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full"
@@ -93,7 +93,7 @@
                       user_id={id(@user)}
                       src={avatar_url}
                     />
-                  </LivePatch>
+                  </LinkPatchLive>
                   {!-- 
                     NOTE: avoid putting a bg or border on the avatar, so alpha bg ones are displayed correctly
                     bg-base-100 border-4 border-base-100 ring-2 ring-base-300 fill-base-200 --}

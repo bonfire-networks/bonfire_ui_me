@@ -3,7 +3,7 @@
     :for={%{id: id, ap_base_uri: ap_base_uri, display_hostname: display_hostname} <- @instances}
     class="p-4 border rounded border-base-content/30 flex"
   >
-    <LiveRedirect to={"/users/instance/#{id}"} class="grow">{display_hostname}</LiveRedirect>
+    <LinkLive to={"/users/instance/#{id}"} class="grow">{display_hostname}</LinkLive>
     <a href={ap_base_uri} target="_blank"><#Icon iconify="heroicons-solid:external-link" class="w-4 h-4" /></a>
   </div>
 </div>

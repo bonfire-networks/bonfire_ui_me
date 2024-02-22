@@ -1,6 +1,6 @@
 <div class={@wrapper_class}>
   <div class="flex items-start gap-3 profile-item group">
-    <LiveRedirect
+    <LinkLive
       to={if String.starts_with?(e(@character, :username, ""), "http"),
         do: e(@character, :username, nil),
         else: "/character/#{e(@character, :username, "")}"}
@@ -14,7 +14,7 @@
         title={e(@profile, :name, "")}
         class={@avatar_class || "w-10 h-10"}
       />
-    </LiveRedirect>
+    </LinkLive>
     <div
       :if={@only_img != true}
       class={
@@ -22,14 +22,14 @@
         "flex gap-1 items-baseline": @inline
       }
     >
-      <LiveRedirect
+      <LinkLive
         to={if String.starts_with?(e(@character, :username, ""), "http"),
           do: e(@character, :username, nil),
           else: "/character/#{e(@character, :username, "")}"}
         class={"text-base font-bold text-base-content group-hover:underline", "text-base": @lg}
       >
         {e(@profile, :name, "Anon")}
-      </LiveRedirect>
+      </LinkLive>
 
       <div :if={!@inline} class="text-sm text-base-content/70 -mt-1">
         {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}

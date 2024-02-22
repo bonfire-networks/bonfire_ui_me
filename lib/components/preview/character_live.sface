@@ -1,10 +1,7 @@
 {#if @showing_within == :widget}
   {!-- show the object or character that isn't me --}
   <div data-role="character" class="flex w-full activity_widget">
-    <LiveRedirect
-      to={path(the_other(@activity, @object, @__context__))}
-      class="flex profile-item group"
-    >
+    <LinkLive to={path(the_other(@activity, @object, @__context__))} class="flex profile-item group">
       <div class="absolute left-0">
         <Bonfire.UI.Common.AvatarLive
           parent_id={@activity_component_id || id(@activity)}
@@ -22,7 +19,7 @@
           @{e(the_other(@activity, @object, @__context__), :character, :username, "anon")}
         </p>
       </div>
-    </LiveRedirect>
+    </LinkLive>
   </div>
 {#else}
   <div
@@ -53,7 +50,7 @@
   </button>
   {!-- show the object or character that isn't me --}
   {!-- <div class="flex w-full activity_notification">
-    <LiveRedirect
+    <LinkLive
       to={path(the_other(@activity, @object, @__context__))}
       class="flex profile-item group"
     >
@@ -73,6 +70,6 @@
           </div>
         </div>
       </div>
-    </LiveRedirect>    
+    </LinkLive>    
   </div> --}
 {/if}

@@ -30,12 +30,12 @@
                   {l("You can now log in.")}
                 {/if}
               </div>
-              <LiveRedirect
+              <LinkLive
                 class="mt-6 btn btn-outline border-primary//2o btn-primary normal-case"
                 to={path(Config.get!(:home_page))}
               >
                 {l("Back to home page")}
-              </LiveRedirect>
+              </LinkLive>
             </div>
           </div>
         </div>

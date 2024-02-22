@@ -26,11 +26,11 @@
       </div>
     </div>
   </div>
-  <LiveRedirect
+  <LinkLive
     to="/user"
     type="button"
     class="normal-case rounded-full btn btn-sm !border !border-base-content/30 btn btn-outline"
-  >{l("View Profile")}</LiveRedirect>
+  >{l("View Profile")}</LinkLive>
 </div>
 
 <form

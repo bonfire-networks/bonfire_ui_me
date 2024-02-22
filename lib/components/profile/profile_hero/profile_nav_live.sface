@@ -5,7 +5,7 @@
     aria-label="Switch between search filter tabs"
   >
     {!-- ALL TYPES --}
-    <LivePatch
+    <LinkPatchLive
       class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center"
       to={"/" <> @path <> e(@user, :character, :username, "")}
     >
@@ -15,9 +15,9 @@
       }>
         {l("Activities")}
       </div>
-    </LivePatch>
+    </LinkPatchLive>
 
-    <LivePatch
+    <LinkPatchLive
       class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center"
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
@@ -28,11 +28,11 @@
       }>
         {l("Network")}
       </div>
-    </LivePatch>
+    </LinkPatchLive>
   </nav>
 
   {!-- <div class="flex items-center gap-8 text-base-content">
-    <LivePatch
+    <LinkPatchLive
       class={
         "text-sm flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
         "text-base-content/100 with_tab": @selected_tab in ["timeline", "posts", "boosts"]
@@ -46,9 +46,9 @@
         {e(@user, :character, :posts_count, 0)}
       </strong>
       <span>{l("Activities")}</span>
-    </LivePatch>
+    </LinkPatchLive>
 
-    <LivePatch
+    <LinkPatchLive
       class={
         "text-sm flex items-baseline gap-2 font-medium text-base-content/70 hover:text-base-content/100 relative",
         "text-base-content/100 with_tab": @selected_tab == "followers" or @selected_tab == "followed"
@@ -56,6 +56,6 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <span>{l("Network")}</span>
-    </LivePatch>
+    </LinkPatchLive>
   </div> --}
 </div>

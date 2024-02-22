@@ -1,11 +1,11 @@
 <div id="hero_more_actions" class="flex items-center gap-3">
   {#if current_user_id(@__context__) == id(@user)}
-    <LiveRedirect
+    <LinkLive
       to={~p"/settings/user/profile"}
       class="normal-case rounded-full btn btn-sm btn-outline border-base-content/30"
     >
       {l("Edit profile")}
-    </LiveRedirect>
+    </LinkLive>
 
     <div
       aria-haspopup="true"
@@ -39,47 +39,47 @@
         </li>
 
         <li>
-          <LiveRedirect to="/settings" class="flex items-center gap-2 text-sm text-base-content/70">
+          <LinkLive to="/settings" class="flex items-center gap-2 text-sm text-base-content/70">
             <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
             <span>{l("Settings")}</span>
-          </LiveRedirect>
+          </LinkLive>
         </li>
 
         {#if extension_enabled?(:bonfire_ui_reactions, @__context__)}
           <li>
-            <LiveRedirect to="/likes" class="flex items-center gap-2 text-sm text-base-content/70">
+            <LinkLive to="/likes" class="flex items-center gap-2 text-sm text-base-content/70">
               <#Icon iconify="mingcute:fire-line" class="w-4 h-4" />
               <span>{l("Likes")}</span>
-            </LiveRedirect>
+            </LinkLive>
           </li>
 
           <li>
-            <LiveRedirect to="/bookmarks" class="flex items-center gap-2 text-sm text-base-content/70">
+            <LinkLive to="/bookmarks" class="flex items-center gap-2 text-sm text-base-content/70">
               <#Icon iconify="carbon:bookmark" class="w-4 h-4" />
               <span>{l("Bookmarks")}</span>
-            </LiveRedirect>
+            </LinkLive>
           </li>
         {/if}
 
         <li>
-          <LiveRedirect to="/notifications" class="flex items-center gap-2 text-sm text-base-content/70">
+          <LinkLive to="/notifications" class="flex items-center gap-2 text-sm text-base-content/70">
             <#Icon iconify="carbon:notification" class="w-4 h-4" />
             <span>{l("Notifications")}</span>
-          </LiveRedirect>
+          </LinkLive>
         </li>
 
         <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
-          <LiveRedirect to="/messages" class="flex items-center gap-2 text-sm text-base-content/70">
+          <LinkLive to="/messages" class="flex items-center gap-2 text-sm text-base-content/70">
             <#Icon iconify="carbon:email" class="w-4 h-4" />
             <span>{l("Messages")}</span>
-          </LiveRedirect>
+          </LinkLive>
         </li>
         <li>
-          <LiveRedirect to={~p"/logout"} class="flex items-center gap-2 text-sm text-base-content/60">
+          <LinkLive to={~p"/logout"} class="flex items-center gap-2 text-sm text-base-content/60">
             <#Icon iconify="uil:exit" class="w-4 h-4" />
 
             <span>{l("Logout")}</span>
-          </LiveRedirect>
+          </LinkLive>
         </li>
       </ul>
     </div>
@@ -127,13 +127,13 @@
             />
           </li>
           <li :if={current_user_id(@__context__)}>
-            <LiveRedirect
+            <LinkLive
               to={path(@user, :settings)}
               class="flex items-center gap-2 text-sm text-base-content/70"
             >
               <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
               <span>{l("Settings")}</span>
-            </LiveRedirect>
+            </LinkLive>
           </li>
         {/if}
 

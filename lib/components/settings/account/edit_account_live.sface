@@ -5,10 +5,10 @@
         <div class="text-sm font-medium">{l("Change password")}</div>
         {!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> --}
       </div>
-      <LiveRedirect
+      <LinkLive
         to={path(:change_password)}
         class="!border !border-base-content/30 normal-case btn-outline rounded-full btn btn-sm"
-      >{l("Change")}</LiveRedirect>
+      >{l("Change")}</LinkLive>
     </div>
   </div>
   <div class="p-4">
@@ -17,10 +17,10 @@
         <div class="text-sm font-medium">{l("Change my email address")}</div>
         {!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> --}
       </div>
-      <LiveRedirect
+      <LinkLive
         to={path(:change_email)}
         class="!border !border-base-content/30 normal-case btn-outline rounded-full btn btn-sm"
-      >{l("Change")}</LiveRedirect>
+      >{l("Change")}</LinkLive>
     </div>
   </div>
   {!-- <div x-data="{open: false}" class="p-4">
@@ -72,7 +72,7 @@
                   "Deleting your account will remove all your data from this server. This includes all your posts, comments, and any other data associated with your account."
                 )}</p>
               <p class="aside">
-                Note: You can also delete <LivePatch to="/settings/user/profile">a single user profile</LivePatch> and its associated data instead.</p>
+                Note: You can also delete <LinkPatchLive to="/settings/user/profile">a single user profile</LinkPatchLive> and its associated data instead.</p>
               <p>{l("This action cannot be undone.")}</p>
               <p>{l("If you are sure you want to delete your account, please enter your password below to confirm.")}</p>
             </div>

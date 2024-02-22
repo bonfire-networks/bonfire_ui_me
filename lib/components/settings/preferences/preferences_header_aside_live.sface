@@ -11,7 +11,7 @@
     class="dropdown-content mt-1 z-[999] menu p-1 shadow bg-base-200 rounded-box w-52"
   >
     <li>
-      <LiveRedirect
+      <LinkLive
         to={"/settings/user/preferences/#{@id}"}
         class={
           "flex gap-2 text-base-content/70",
@@ -19,9 +19,9 @@
         }
       >
         {l("User")}
-      </LiveRedirect></li>
+      </LinkLive></li>
     <li>
-      <LiveRedirect
+      <LinkLive
         to={"/settings/account/preferences/#{@id}"}
         class={
           "flex gap-2 text-base-content/70",
@@ -29,10 +29,10 @@
         }
       >
         {l("Account")}
-      </LiveRedirect></li>
+      </LinkLive></li>
 
     <li :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
-      <LiveRedirect
+      <LinkLive
         to={"/settings/instance/preferences/#{@id}"}
         class={
           "flex gap-2 text-base-content/70",
@@ -40,6 +40,6 @@
         }
       >
         {l("Instance")}
-      </LiveRedirect></li>
+      </LinkLive></li>
   </ul>
 </div>

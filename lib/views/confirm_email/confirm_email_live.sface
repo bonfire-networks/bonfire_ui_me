@@ -52,13 +52,13 @@
       <span>&#x01f44b;
       </span>
       {l("Already confirmed your email?")}
-      <LiveRedirect class="link" to={path(:login, :index)}>{l("Log in")}</LiveRedirect>
+      <LinkLive class="link" to={path(:login, :index)}>{l("Log in")}</LinkLive>
     </p>
     <p>
       <span>&#x01f9d0;
       </span>
       {l("Don't have an account yet?")}
-      <LiveRedirect class="link" to={path(:signup)}>{l("Signup")}</LiveRedirect>
+      <LinkLive class="link" to={path(:signup)}>{l("Signup")}</LinkLive>
     </p>
   </div>
 </div>

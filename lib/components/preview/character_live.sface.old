@@ -10,13 +10,13 @@
 
       {!-- first show the subject --}
       <span data-id="subject">
-        <LiveRedirect
+        <LinkLive
           :if={e(@activity, :subject, :id, nil) != current_user_id(@__context__)}
           to={path(e(@activity, :subject, nil))}
           class="font-medium "
           >
           {e(@activity, :subject, :profile, :name, "Anonymous")}
-        </LiveRedirect>
+        </LinkLive>
         <span :if={e(@activity, :subject, :id, nil) == current_user_id(@__context__)}>
           you
         </span>
@@ -28,12 +28,12 @@
       <span :if={ulid(@object) == current_user_id(@__context__)}>
         you
       </span>
-      <LiveRedirect 
+      <LinkLive 
         :if={ulid(@object) !=current_user_id(@__context__)} 
         to={path(@object)} 
         class="font-semibold link link-hover">
         {e(@object, :profile, :name, "Anonymous")}
-      </LiveRedirect> 
+      </LinkLive> 
 
     </div>
   </div>
@@ -42,7 +42,7 @@
 
 {!-- then show the object or character that isn't me --}
 <div class="flex w-full activity_notification">
-  <LiveRedirect to={path(the_other(assigns))} class="flex profile-item group ">
+  <LinkLive to={path(the_other(assigns))} class="flex profile-item group ">
     <div class="absolute left-0">
      <div class="align-middle avatar">
         <div class="w-6 h-6 teee bg-base-200 rounded-btn">
@@ -61,7 +61,7 @@
         @{e(the_other(assigns), :character, :username, "anon")} 
       </p>
     </div>
-  </LiveRedirect>
+  </LinkLive>
 </div>
 
 {#else}
@@ -80,13 +80,13 @@
       {!-- first show the subject --}
       {!--       
       <span data-id="subject">
-        <LiveRedirect
+        <LinkLive
           :if={e(@activity, :subject, :id, nil) != current_user_id(@__context__)}
           to={path(e(@activity, :subject, nil))}
           class="font-medium "
           >
           {e(@activity, :subject, :profile, :name, "Anonymous")}
-        </LiveRedirect>
+        </LinkLive>
         <span :if={e(@activity, :subject, :id, nil) == current_user_id(@__context__)}>
           {l "you"}
         </span>
@@ -98,12 +98,12 @@
       {!-- <span :if={ulid(@object) == current_user_id(@__context__)}>
         {l "you"}
       </span>
-      <LiveRedirect 
+      <LinkLive 
         :if={ulid(@object) !=current_user_id(@__context__)} 
         to={path(@object)} 
         class="font-semibold link link-hover">
         {e(@object, :profile, :name, "Anonymous")}
-      </LiveRedirect>  --}
+      </LinkLive>  --}
     </div>
   </div>
 </div>
@@ -111,7 +111,7 @@
 {!-- then show the object or character that isn't me --}
 <div class="flex w-full activity_notification">
 
-  <LiveRedirect to={path(the_other(assigns))} class="flex profile-item group ">
+  <LinkLive to={path(the_other(assigns))} class="flex profile-item group ">
     <div class="absolute left-3">
       <Bonfire.UI.Common.AvatarLive profile={e(the_other(assigns), :profile, nil)} />
     </div>
@@ -129,7 +129,7 @@
          {rich e(the_other(assigns), :profile, :summary, "")}
       </div>
     </div>
-  </LiveRedirect>
+  </LinkLive>
 
   {!-- TODO: put in seperate component --}
   <button 

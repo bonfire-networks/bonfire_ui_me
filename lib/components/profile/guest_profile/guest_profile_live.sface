@@ -22,9 +22,9 @@
           />
 
           <div id="guest_info" class="flex text-center place-content-center flex-col">
-            <LivePatch class="text-2xl font-semibold" to={~p"/@#{e(@user, :character, :username, nil)}"}>
+            <LinkPatchLive class="text-2xl font-semibold" to={~p"/@#{e(@user, :character, :username, nil)}"}>
               {e(@user, :profile, :name, "Anonymous")}
-            </LivePatch>
+            </LinkPatchLive>
             <span class="font-normal mt-0.5 text-base-content/50">{Bonfire.Me.Characters.display_username(@user, true)}</span>
             <div class="w-full mt-4 mb-4 leading-6 max-w-full w-full prose">
               {rich(e(@user, :profile, :summary, ""))}

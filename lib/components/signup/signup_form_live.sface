@@ -11,7 +11,7 @@
             <#Icon class="shrink-0 w-5 h-5" solid="Exclamation" />
             <div class="ml-3">
               <h3 class="text-sm font-medium">
-                {l("This email is taken.")} Did you mean to <LiveRedirect to={~p"/login"}>log in</LiveRedirect>?
+                {l("This email is taken.")} Did you mean to <LinkLive to={~p"/login"}>log in</LinkLive>?
               </h3>
             </div>
           </div>
@@ -160,7 +160,7 @@
       <div class="flex py-4 pb-2 mt-6 text-xs border-t border-base-content/20 place-content-center">
         <p>
           {l("Do you already have an account?")}
-          <LiveRedirect class="link link-primary" to={path(:login, :index)}>{l("Log in")}</LiveRedirect>
+          <LinkLive class="link link-primary" to={path(:login, :index)}>{l("Log in")}</LinkLive>
         </p>
       </div>
     </Form>
