@@ -76,7 +76,7 @@ defmodule Bonfire.UI.Me.MixProject do
       updates: ["deps.get", "ecto.migrate", "js.deps.get"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seeds"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      "test.with-db": ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end
 end

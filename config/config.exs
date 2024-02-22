@@ -10,11 +10,11 @@ config_file = if Mix.env() == :test, do: "config/test.exs", else: "config/config
 
 cond do
   File.exists?("../bonfire/#{config_file}") ->
-    IO.puts("Load #{config_file} form fork")
+    IO.puts("Load #{config_file} from local clone of bonfire_spark")
     import_config "../../bonfire/#{config_file}"
 
   File.exists?("deps/bonfire/#{config_file}") ->
-    IO.puts("Load #{config_file} from dep")
+    IO.puts("Load #{config_file} from bonfire_spark dep")
     import_config "../deps/bonfire/#{config_file}"
 
   true ->
