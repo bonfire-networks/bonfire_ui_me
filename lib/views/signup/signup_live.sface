@@ -32,7 +32,7 @@
               </div>
               <LinkLive
                 class="mt-6 btn btn-outline border-primary//2o btn-primary normal-case"
-                to={path(Config.get!(:home_page))}
+                to={path(Config.get(:home_page, :home))}
               >
                 {l("Back to home page")}
               </LinkLive>
