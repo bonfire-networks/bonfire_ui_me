@@ -136,7 +136,7 @@
         </div>
       </div>
 
-      <button type="submit" class="w-full mt-4 normal-case rounded-full btn btn-primary">
+      <button type="submit" class="w-full mt-4 normal-case  btn btn-primary">
         {l("Create")}
       </button>
     </div>

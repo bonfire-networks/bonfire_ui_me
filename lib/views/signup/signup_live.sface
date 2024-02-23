@@ -77,8 +77,8 @@
           )}
 
           <div class="mt-4 flex flex-col gap-2">
-            <button class="btn  btn-primary rounded-full w-full" @click="next()">{l("Accept")}</button>
-            <a href="/" class="border-base-content/20 btn  btn-outline rounded-full w-full">{l("Decline")}</a>
+            <button class="btn  btn-primary  w-full" @click="next()">{l("Accept")}</button>
+            <a href="/" class="border-base-content/20 btn  btn-outline  w-full">{l("Decline")}</a>
           </div>
         </article>
         <!-- {#case Config.get([:terms, :conduct], nil)}
@@ -91,7 +91,7 @@
       </div>
 
       <div x-cloak x-show="step == 2" class="flex mt-8 flex-col justify-center items-center">
-        <!-- <button type="button" class="btn btn btn-outline rounded-full border-base-content/20" @click="prev()">{l("Back")}</button> -->
+        <!-- <button type="button" class="btn btn btn-outline  border-base-content/20" @click="prev()">{l("Back")}</button> -->
 
         {#if Bonfire.Me.Accounts.instance_is_invite_only?() && !@invite}
           <div role="status" class="my-4 alert alert-warning">

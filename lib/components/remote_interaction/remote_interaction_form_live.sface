@@ -24,7 +24,7 @@
           </Field>
 
           <button
-            class="w-full mt-2 normal-case btn btn-primary rounded-full"
+            class="w-full mt-2 normal-case btn btn-primary"
             phx-disable-with={l("Redirecting...")}
             type="submit"
           >

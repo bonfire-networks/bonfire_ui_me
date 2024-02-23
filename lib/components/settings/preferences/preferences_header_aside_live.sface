@@ -1,8 +1,5 @@
 <div class="dropdown dropdown-end">
-  <label
-    tabindex="0"
-    class="flex rounded-full btn-sm btn btn-ghost normal-case text-base-content/70"
-  >
+  <label tabindex="0" class="flex  btn-sm btn btn-ghost normal-case text-base-content/70">
     <#Icon iconify="fa-solid:theater-masks" class="w-5 h-5 text-base-content/70" />
     {String.capitalize(to_string(@scope))}
   </label>

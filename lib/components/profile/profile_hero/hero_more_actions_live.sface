@@ -2,7 +2,7 @@
   {#if current_user_id(@__context__) == id(@user)}
     <LinkLive
       to={~p"/settings/user/profile"}
-      class="normal-case rounded-full btn btn-sm btn-outline border-base-content/30"
+      class="normal-case  btn btn-sm btn-outline border-base-content/30"
     >
       {l("Edit profile")}
     </LinkLive>
@@ -297,7 +297,7 @@
               object={@user}
               path={path(@user)}
               hide_icon
-              class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded btn rounded-full"
+              class="font-semibold !h-[34px] btn-sm px-6 normal-case btn"
               verb={if e(@user, :type, nil) == :group,
                 do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
               verb_undo={l("Leave")}
@@ -320,7 +320,7 @@
                     ]
                   }}
                   icon="mdi:pencil"
-                  class="flex btn btn-sm flex-1 btn-primary rounded-full items-center gap-2 normal-case"
+                  class="flex btn btn-sm flex-1 btn-primary  items-center gap-2 normal-case"
                 />
               </:if_followed>
             </StatefulComponent>
@@ -334,7 +334,7 @@
               object={@user}
               path={path(@user)}
               hide_icon
-              class="font-semibold !h-[34px] btn-sm px-6 normal-case rounded-full btn btn-primary"
+              class="font-semibold !h-[34px] btn-sm px-6 normal-case  btn btn-primary"
             />
           </div>
       {/case}

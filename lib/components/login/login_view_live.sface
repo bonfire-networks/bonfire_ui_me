@@ -136,7 +136,7 @@
 
     <div class="mt-6">
       <span class="block w-full rounded-md shadow-sm">
-        <button type="submit" class="w-full normal-case rounded-full btn btn-primary">
+        <button type="submit" class="w-full normal-case  btn btn-primary">
           {l("Log in")}
         </button>
       </span>

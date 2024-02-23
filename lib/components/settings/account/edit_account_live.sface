@@ -7,7 +7,7 @@
       </div>
       <LinkLive
         to={path(:change_password)}
-        class="!border !border-base-content/30 normal-case btn-outline rounded-full btn btn-sm"
+        class="!border !border-base-content/30 normal-case btn-outline  btn btn-sm"
       >{l("Change")}</LinkLive>
     </div>
   </div>
@@ -19,7 +19,7 @@
       </div>
       <LinkLive
         to={path(:change_email)}
-        class="!border !border-base-content/30 normal-case btn-outline rounded-full btn btn-sm"
+        class="!border !border-base-content/30 normal-case btn-outline  btn btn-sm"
       >{l("Change")}</LinkLive>
     </div>
   </div>
@@ -88,7 +88,7 @@
           object={current_account(@__context__)}
           object_type_readable={l("account, along with user profiles & data")}
           parent_id="delete-account"
-          open_btn_class="btn-error btn mt-3 rounded-full w-full"
+          open_btn_class="btn-error btn mt-3  w-full"
           explanation={l(
             "Deleting your account means that ALL your user profiles and all related data and activities will be deleted."
           )}

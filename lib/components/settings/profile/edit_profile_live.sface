@@ -43,7 +43,7 @@
         object_type_readable={l("user & data")}
         creator_id={current_user(@__context__)}
         parent_id={"delete-user-#{current_user_id(@__context__)}"}
-        open_btn_class="btn-error btn mt-3 rounded-full w-full"
+        open_btn_class="btn-error btn mt-3  w-full"
         explanation={l(
           "Deleting your user profile means that this user (%{username}) and all related data and activities (but not any other user profiles under this account) will be deleted.",
           username: Bonfire.Me.Characters.display_username(current_user(@__context__), true, true)
