@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
   use Bonfire.UI.Me.ConnCase, async: false
   use Mneme
   import Phoenix.LiveViewTest
-  import Bonfire.Files.Simulation
+  # alias Bonfire.Files.Simulation, as: FakeFiles
 
   alias Bonfire.Posts
   alias Bonfire.Social.Boosts
@@ -11,9 +11,9 @@ defmodule Bonfire.UI.Me.SettingsTest do
   alias Bonfire.Common.Config
 
   setup_all do
-    orig1 = Config.get!(:pagination_hard_max_limit)
+    orig1 = Config.get(:pagination_hard_max_limit)
 
-    orig2 = Config.get!(:default_pagination_limit)
+    orig2 = Config.get(:default_pagination_limit)
 
     Config.put(:pagination_hard_max_limit, 10)
 

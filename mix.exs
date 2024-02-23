@@ -27,17 +27,20 @@ defmodule Bonfire.UI.Me.MixProject do
         Mess.deps([
           # {:phoenix_live_reload, "~> 1.2", only: :dev},
           {:zest, "~> 0.1", only: :test},
+          {:mneme, ">= 0.0.0", only: [:dev, :test]},
 
           {:bonfire,
            git: "https://github.com/bonfire-networks/bonfire_spark",
            branch: "main",
-           only: :test},
+           only: :test, 
+           runtime: false
+           },
 
           {:phoenix_test, 
           # "~> 0.2.4", 
           git: "https://github.com/germsvel/phoenix_test",
           only: :test, runtime: false}
-                
+          
           # {:bonfire_tag,
           #  git: "https://github.com/bonfire-networks/bonfire_tag",
           #  branch: "main",
@@ -76,6 +79,7 @@ defmodule Bonfire.UI.Me.MixProject do
       updates: ["deps.get", "ecto.migrate", "js.deps.get"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "ecto.seeds"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
+      test: ["test"],
       "test.with-db": ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
     ]
   end

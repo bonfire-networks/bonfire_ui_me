@@ -1,14 +1,6 @@
 IO.puts("Prepare to run tests...")
 
-ExUnit.start(exclude: Bonfire.Common.RuntimeConfig.skip_test_tags())
+Application.ensure_all_started(:bonfire)
 
-repo = Bonfire.Common.Config.repo()
-
-if GenServer.whereis(repo) do
-  Ecto.Adapters.SQL.Sandbox.mode(
-    repo,
-    :manual
-  )
-end
-
-IO.puts("Running tests...")
+Code.ensure_loaded!(Bonfire.Testing)
+Bonfire.Testing.configure_start_test()
