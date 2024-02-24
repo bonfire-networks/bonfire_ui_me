@@ -1,5 +1,5 @@
 Code.eval_file("mess.exs", (if File.exists?("../../lib/mix/mess.exs"), do: "../../lib/mix/"))
-IO.puts(File.cwd!)
+
 defmodule Bonfire.UI.Me.MixProject do
   use Mix.Project
 
