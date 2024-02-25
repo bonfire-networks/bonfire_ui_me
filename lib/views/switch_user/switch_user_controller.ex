@@ -21,7 +21,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
     |> assign(
       :current_account_users,
       filter_empty(users, [])
-      |> Users.check_active!()
+      # |> Users.check_active!() # not needed since we check it in `Users.by_account!/1` after querying
       |> debug(
         "list of users for the account, unless one of them have been blocked instance-wide"
       )
