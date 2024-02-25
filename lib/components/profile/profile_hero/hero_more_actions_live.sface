@@ -172,6 +172,7 @@
             />
           </li>
 
+          {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
           <Bonfire.Boundaries.Web.BlockMenuButtonsLive parent_id="profile_hero" object={@user} />
 
           {#if @character_type == :user and maybe_apply(Bonfire.Me.Accounts, :is_admin?, @__context__) == true}

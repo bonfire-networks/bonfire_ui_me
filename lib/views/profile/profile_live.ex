@@ -74,10 +74,11 @@ defmodule Bonfire.UI.Me.ProfileLive do
     # debug(user)
 
     user_id = id(user)
+    is_local? = Integration.is_local?(user)
 
     # show remote users only to logged in users
     if user_id &&
-         (id(current_user) || Integration.is_local?(user) ||
+         (id(current_user) || is_local? ||
             user_id == Bonfire.Me.Users.remote_fetcher()) do
       # debug(
       #   Bonfire.Boundaries.Controlleds.list_on_object(user),
@@ -106,9 +107,12 @@ defmodule Bonfire.UI.Me.ProfileLive do
       # preload(user, socket)
       socket
       |> assign(user_assigns(user, current_user, follows_me))
+      |> assign(Bonfire.Boundaries.Blocks.LiveHandler.preload_one(user, current_user))
       |> assign_new(:selected_tab, fn -> "timeline" end)
-      |> assign(:character_type, :user)
-      |> assign(:ghosted, nil)
+      |> assign(
+        character_type: :user,
+        is_local?: is_local?
+      )
 
       # |> assign_global(
       # following: following || [],

@@ -120,114 +120,17 @@
   </div>
   <div>
   </div>
-  {#if @ghosted_instance_wide? == nil and
-      @silenced_instance_wide? == nil and
-      @ghosted? == nil and
-      @silenced? == nil}
-    <div />
-  {#else}
-    <div class="">
-      {#if @ghosted_instance_wide? or @silenced_instance_wide?}
-        <div :if={@ghosted_instance_wide? and @silenced_instance_wide?} class="flex items-baseline gap-2">
-          <div class="prose prose-sm text-sm font-normal text-base-content/70">{l("Admins have blocked this user.")}</div>
-          <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
-            <Bonfire.Boundaries.Web.BlockButtonLive
-              object={@user}
-              type="block"
-              only_admin
-              label={e(@user, :profile, :name, l("this user"))}
-              open_btn_label={l("Unblock instance-wide")}
-              parent_id={"user-#{id(@user)}"}
-              class="link link-error text-sm"
-            />
-          </div>
-        </div>
-        <div
-          :if={@ghosted_instance_wide? and !@silenced_instance_wide?}
-          class="flex items-baseline gap-2"
-        >
-          <div class="prose prose-sm text-sm font-normal text-base-content/70">{l("Admins have ghosted this user.")}</div>
-          <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
-            <Bonfire.Boundaries.Web.BlockButtonLive
-              object={@user}
-              type="ghost"
-              only_admin
-              label={e(@user, :profile, :name, l("this user"))}
-              open_btn_label={l("Unghost instance-wide")}
-              parent_id={"user-#{id(@user)}"}
-              class="link link-primary text-sm"
-            />
-          </div>
-        </div>
-        <div
-          :if={!@ghosted_instance_wide? and @silenced_instance_wide?}
-          class="flex items-baseline gap-2"
-        >
-          <div class="prose prose-sm text-sm font-normal text-base-content/70">{l("Admins have silenced this user.")}</div>
-          <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
-            <Bonfire.Boundaries.Web.BlockButtonLive
-              object={@user}
-              type="silence"
-              only_admin
-              title={l("Unsilence %{user} instance-wide", user: e(@user, :profile, :name, ""))}
-              label={e(@user, :profile, :name, l("this user"))}
-              open_btn_label={l("Unsilence instance-wide")}
-              parent_id={"user-#{id(@user)}"}
-              class="link link-primary text-sm"
-            />
-          </div>
-        </div>
-      {#elseif @ghosted? != nil or @silenced? != nil}
-        <div :if={@ghosted? and @silenced?} class="flex items-baseline gap-2">
-          <div class="prose prose-sm text-sm font-normal text-base-content/70">{l("You have blocked this user.")}
-          </div>
-          <div>
-            <Bonfire.Boundaries.Web.BlockButtonLive
-              object={@user}
-              type="block"
-              only_user
-              label={e(@user, :profile, :name, l("this user"))}
-              open_btn_label={l("Unblock")}
-              parent_id={"user-#{id(@user)}"}
-              class="link link-error text-sm"
-            />
-          </div>
-        </div>
-        <div :if={!@ghosted? and @silenced?} class="flex items-baseline gap-2">
-          <div class="prose prose-sm text-sm font-normal text-base-content/70">{l("You have silenced this user.")}
-          </div>
-          <div>
-            <Bonfire.Boundaries.Web.BlockButtonLive
-              object={@user}
-              type="silence"
-              only_user
-              title={l("Unsilence %{user}", user: e(@user, :profile, :name, ""))}
-              label={e(@user, :profile, :name, l("this user"))}
-              open_btn_label={l("Unsilence")}
-              parent_id={"user-#{id(@user)}"}
-              class="link link-primary text-sm"
-            />
-          </div>
-        </div>
-        <div :if={@ghosted? and !@silenced?} class="flex items-baseline gap-2">
-          <div class="prose prose-sm text-sm font-normal text-base-content/70">{l("You have ghosted this user.")}
-          </div>
-          <div>
-            <Bonfire.Boundaries.Web.BlockButtonLive
-              object={@user}
-              type="ghost"
-              only_user
-              label={e(@user, :profile, :name, l("this user"))}
-              open_btn_label={l("Unghost")}
-              parent_id={"user-#{id(@user)}"}
-              class="link link-primary text-sm"
-            />
-          </div>
-          {!-- <button class="link link-primary link-sm">{l "Unghost"}</button> --}
-        </div>
-      {/if}
-    </div>
-  {/if}
+
+  <Bonfire.UI.Me.ProfileBlockedIndicatorLive
+    object={@user}
+    user={@user}
+    is_local_user={@is_local_user}
+    boundary_preset={@boundary_preset}
+    ghosted_instance_wide?={@ghosted_instance_wide?}
+    silenced_instance_wide?={@silenced_instance_wide?}
+    ghosted?={@ghosted?}
+    silenced?={@silenced?}
+  />
 
   <div
     :if={@character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}

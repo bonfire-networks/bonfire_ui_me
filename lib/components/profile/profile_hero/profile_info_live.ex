@@ -3,6 +3,8 @@ defmodule Bonfire.UI.Me.ProfileInfoLive do
   # import Bonfire.UI.Me.Integration
 
   prop user, :map
+  prop is_local_user, :any, default: nil
+
   prop path, :string, default: "@"
   prop selected_tab, :any, default: nil
   prop character_type, :atom, default: nil

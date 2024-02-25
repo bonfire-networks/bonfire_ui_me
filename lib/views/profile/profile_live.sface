@@ -1,10 +1,11 @@
 <main data-id="profile" data-user-id={e(@user, :id, "")} data-guest={@is_guest?}>
-  <StatelessComponent
-    module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
-    {...assigns}
-  >
-    <:header>
-      <!-- {#if @character_type == :user and @is_guest?}
+  {#if !@silenced_instance_wide? and !@silenced?}
+    <StatelessComponent
+      module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Social.ProfileTimelineLive)}
+      {...assigns}
+    >
+      <:header>
+        <!-- {#if @character_type == :user and @is_guest?}
         <Bonfire.UI.Me.GuestProfileLive
           boundary_preset={@boundary_preset}
           user={@user}
@@ -13,23 +14,52 @@
 
         <div class="font-medium mt-6 text-lg capitalize px-4 border-b border-base-content/20 pb-4">{@selected_tab}</div>
       {#else} -->
-      <StatefulComponent
-        module={Config.get(
-          [:ui, :profile, :hero_component],
-          Bonfire.UI.Me.ProfileHeroFullLive
-        )}
-        id={Text.random_string()}
-        object_id={id(@user)}
-        object={@user}
-        boundary_preset={@boundary_preset}
-        user={@user}
-        path={@path}
-        block_status={e(assigns, :block_status, nil)}
-        selected_tab={@selected_tab}
-        follows_me={e(@follows_me, false)}
-        character_type={@character_type}
-      />
-      <!-- {/if} -->
-    </:header>
-  </StatelessComponent>
+        <StatelessComponent
+          module={Config.get(
+            [:ui, :profile, :hero_component],
+            Bonfire.UI.Me.ProfileHeroFullLive
+          )}
+          object_id={id(@user)}
+          path={@path}
+          myself={nil}
+          skip_preload
+          object={@user}
+          user={@user}
+          boundary_preset={@boundary_preset}
+          ghosted_instance_wide?={@ghosted_instance_wide?}
+          silenced_instance_wide?={@silenced_instance_wide?}
+          ghosted?={@ghosted?}
+          silenced?={@silenced?}
+          block_status={e(assigns, :block_status, nil)}
+          selected_tab={@selected_tab}
+          follows_me={e(@follows_me, false)}
+          character_type={@character_type}
+        />
+        <!-- {/if} -->
+      </:header>
+    </StatelessComponent>
+  {#else}
+    {!-- when silenced show only the header but no timeline --}
+    <StatelessComponent
+      module={Config.get(
+        [:ui, :profile, :hero_component],
+        Bonfire.UI.Me.ProfileHeroFullLive
+      )}
+      object_id={id(@user)}
+      object={@user}
+      boundary_preset={@boundary_preset}
+      user={@user}
+      path={@path}
+      myself={nil}
+      skip_preload
+      ghosted_instance_wide?={@ghosted_instance_wide?}
+      silenced_instance_wide?={@silenced_instance_wide?}
+      ghosted?={@ghosted?}
+      silenced?={@silenced?}
+      block_status={e(assigns, :block_status, nil)}
+      selected_tab={@selected_tab}
+      follows_me={e(@follows_me, false)}
+      character_type={@character_type}
+    />
+  {/if}
 </main>

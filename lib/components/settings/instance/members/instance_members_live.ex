@@ -7,8 +7,9 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
 
   def mount(socket) do
     # TODO: pagination
-    users = Bonfire.Me.Users.list_all()
+    users = if(socket_connected?(socket), do: Bonfire.Me.Users.list_all(), else: [])
 
+    # TODO: implement `Bonfire.Boundaries.Blocks.LiveHandler.update_many` so we don't do n+1 on these!
     users =
       Enum.map(users, fn user ->
         user
