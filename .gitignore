@@ -48,3 +48,9 @@ deps.path
 
 assets/js/_hooks/
 assets/css
+
+# Mix tasks
+lib/mix
+
+# Migrations
+priv/repo/migrations/*.exs
