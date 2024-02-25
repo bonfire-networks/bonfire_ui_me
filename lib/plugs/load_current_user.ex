@@ -2,6 +2,7 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
   use Bonfire.UI.Common.Web, :plug
 
   alias Bonfire.Me.Users
+  alias Bonfire.UI.Me.LivePlugs.LoadCurrentUser
   # alias Bonfire.Data.Identity.User
 
   def init(opts), do: opts
@@ -20,7 +21,7 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
         assign(
           conn,
           :current_user,
-          Users.get_current(current_user_id, get_session(conn, :current_account_id))
+          LoadCurrentUser.get_current(current_user_id, get_session(conn, :current_account_id))
         )
     end
   end
