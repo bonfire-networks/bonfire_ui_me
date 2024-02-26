@@ -5,7 +5,7 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
-  def mount(_params, _session, socket) do
+  def mount(params, _session, socket) do
     current_user = current_user(socket.assigns)
 
     show_to =
@@ -17,10 +17,13 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
     if show_to ||
          maybe_apply(Bonfire.Me.Accounts, :is_admin?, socket.assigns[:__context__]) == true do
       if show_to == :guests or current_user(socket.assigns) || current_account(socket) do
-        instances = Bonfire.Federate.ActivityPub.Instances.list()
+        %{edges: instances, page_info: page_info} =
+          Bonfire.Federate.ActivityPub.Instances.list_paginated(input_to_atoms(params))
 
+        # TODO
+        count = nil
         # Bonfire.Me.Users.maybe_count()
-        count = length(instances)
+        # count = length(instances)
 
         is_guest? = is_nil(current_user)
 
@@ -39,7 +42,8 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
            without_secondary_widgets: is_guest?,
            no_header: is_guest?,
            nav_items: Bonfire.Common.ExtensionModule.default_nav(),
-           instances: instances
+           instances: instances,
+           page_info: page_info
          )}
       else
         throw(l("You need to log in before browsing the user directory"))
@@ -47,5 +51,18 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
     else
       throw(l("The user directory is disabled on this instance"))
     end
+  end
+
+  def handle_event("load_more", attrs, socket) do
+    %{page_info: page_info, edges: edges} =
+      Bonfire.Federate.ActivityPub.Instances.list_paginated(input_to_atoms(attrs))
+
+    {:noreply,
+     socket
+     |> assign(
+       loaded: true,
+       instances: e(socket.assigns, :instances, []) ++ edges,
+       page_info: page_info
+     )}
   end
 end

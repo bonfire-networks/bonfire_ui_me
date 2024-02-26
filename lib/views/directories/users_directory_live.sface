@@ -1,4 +1,4 @@
-<div class="grid px-4 md:px-0 md:grid-cols-2 gap-4 max-w-screen-md mx-auto w-full">
+<div class="grid mb-2 px-4 md:px-0 md:grid-cols-2 gap-4 max-w-screen-md mx-auto w-full">
   <div :for={user <- @users} class="p-4 border rounded border-base-content/30">
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
@@ -12,3 +12,10 @@
     <!-- <Bonfire.UI.Me.UserPreviewLive user={user} /> -->
   </div>
 </div>
+
+<Bonfire.UI.Common.LoadMoreLive
+  :if={@page_info}
+  live_handler={__MODULE__}
+  page_info={@page_info}
+  hide_guest_fallback
+/>

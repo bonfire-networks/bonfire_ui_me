@@ -17,27 +17,16 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
     if show_to ||
          maybe_apply(Bonfire.Me.Accounts, :is_admin?, socket.assigns[:__context__]) == true do
       if show_to == :guests or current_user || current_account(socket) do
-        {title, users} =
-          if params["instance_id"] do
-            # TODO: pagination
-            {l("Instance directory"),
-             Bonfire.Me.Users.list(
-               show: {:instance, params["instance_id"]},
-               current_user: current_user
-             )}
-          else
-            count = Bonfire.Me.Users.maybe_count()
-
-            title =
-              if(count,
-                do: l("Users directory (%{total})", total: count),
-                else: l("Users directory")
-              )
-
-            # TODO: pagination
-            {title, Bonfire.Me.Users.list(current_user: current_user)}
+        instance_id =
+          if instance = params["instance"] do
+            case ulid(instance) do
+              nil -> id(Bonfire.Federate.ActivityPub.Instances.get_by_domain(instance))
+              instance_id -> instance_id
+            end
           end
-          |> debug("listed users")
+
+        {title, %{page_info: page_info, edges: edges}} =
+          list_users(current_user, params, instance_id)
 
         is_guest? = is_nil(current_user)
 
@@ -46,6 +35,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
            socket,
            page_title: title,
            page: "users",
+           instance_id: instance_id,
            selected_tab: :users,
            is_guest?: is_guest?,
            without_sidebar: is_guest?,
@@ -53,7 +43,8 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
            no_header: is_guest?,
            nav_items: Bonfire.Common.ExtensionModule.default_nav(),
            search_placeholder: "Search users",
-           users: users
+           users: edges,
+           page_info: page_info
          )}
       else
         throw(l("You need to log in before browsing the user directory"))
@@ -61,5 +52,48 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
     else
       throw(l("The user directory is disabled on this instance"))
     end
+  end
+
+  def handle_event("load_more", attrs, socket) do
+    {title, %{page_info: page_info, edges: edges}} =
+      list_users(current_user(socket.assigns), attrs, e(socket.assigns, :instance_id, nil))
+
+    {:noreply,
+     socket
+     |> assign(
+       loaded: true,
+       users: e(socket.assigns, :users, []) ++ edges,
+       page_info: page_info
+     )}
+  end
+
+  def list_users(current_user, params, instance_id \\ nil) do
+    paginate =
+      input_to_atoms(params)
+      |> debug
+
+    if instance_id do
+      {l("Instance directory"),
+       Bonfire.Me.Users.list_paginated(
+         show: {:instance, instance_id},
+         current_user: current_user,
+         paginate: paginate
+       )}
+    else
+      count = Bonfire.Me.Users.maybe_count()
+
+      title =
+        if(count,
+          do: l("Users directory (%{total})", total: count),
+          else: l("Users directory")
+        )
+
+      {title,
+       Bonfire.Me.Users.list_paginated(
+         current_user: current_user,
+         paginate: paginate
+       )}
+    end
+    |> debug("listed users")
   end
 end

@@ -41,7 +41,8 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
         user_id,
         current_account_id(socket.assigns) || session["current_account_id"]
       )
-      |> debug("got_current")
+
+    # |> debug("got_current")
 
     account = e(user, :account, nil)
 
