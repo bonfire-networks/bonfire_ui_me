@@ -65,6 +65,12 @@
         id={:instance_members}
         selected_tab={@selected_tab}
       />
+    {#match "remote_users"}
+      <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive
+        id={:remote_users}
+        show={:remote}
+        selected_tab={@selected_tab}
+      />
       {!-- {#match "instance_silenced"}
       <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" name={l "Ghosted instance-wide"} />
     {#match "instance_ghosted"}

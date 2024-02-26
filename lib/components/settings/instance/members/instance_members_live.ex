@@ -1,13 +1,43 @@
 defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
   use Bonfire.UI.Common.Web, :stateful_component
 
-  prop selected_tab, :any
+  prop show, :any, default: :local
   prop ghosted_instance_wide?, :boolean, default: nil
   prop silenced_instance_wide?, :boolean, default: nil
 
-  def mount(socket) do
-    # TODO: pagination
-    users = if(socket_connected?(socket), do: Bonfire.Me.Users.list_all(), else: [])
+  def update(assigns, socket) do
+    socket = assign(socket, assigns)
+
+    {:ok,
+     assign(
+       socket,
+       if(socket_connected?(socket),
+         do: list_users(e(socket.assigns, :show, :local)),
+         else: [users: [], page_info: nil]
+       )
+     )}
+  end
+
+  def handle_event("load_more", attrs, socket) do
+    %{page_info: page_info, users: users} = list_users(e(socket.assigns, :show, :local), attrs)
+
+    {:noreply,
+     socket
+     |> assign(
+       loaded: true,
+       #  users: e(socket.assigns, :users, []) ++ users,
+       users: users,
+       page_info: page_info
+     )}
+  end
+
+  def list_users(show, attrs \\ nil) do
+    %{edges: users, page_info: page_info} =
+      Bonfire.Me.Users.list_paginated(
+        show: show,
+        skip_boundary_check: true,
+        paginate: input_to_atoms(attrs)
+      )
 
     # TODO: implement `Bonfire.Boundaries.Blocks.LiveHandler.update_many` so we don't do n+1 on these!
     users =
@@ -23,31 +53,10 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
         )
       end)
 
-    {:ok, assign(socket, :users, users)}
+    %{
+      show: show,
+      users: users,
+      page_info: page_info
+    }
   end
-
-  # def update(assigns, socket) do
-  # IO.inspect(assigns, label: "assigns")
-  # current_user = current_user(assigns) || current_user(socket.assigns)
-  # tab = e(assigns, :selected_tab, nil)
-
-  # users = Bonfire.Me.Users.list(current_user)
-  # count = Bonfire.Me.Users.maybe_count()
-
-  #   {:ok,
-  #    assign(
-  #      socket,
-  #      selected_tab: tab,
-  #      ghosted_instance_wide?: nil,
-  #      silenced_instance_wide?: nil,
-  #      current_user: current_user,
-  #      page_title:
-  #        if(count,
-  #          do: l("Users directory (%{total})", total: count),
-  #          else: l("Users directory")
-  #        ),
-  #      page: "users",
-  #      users: users
-  #    )}
-  # end
 end

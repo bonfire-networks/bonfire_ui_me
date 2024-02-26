@@ -1,5 +1,15 @@
 <div>
-  {#if Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}
-    <Bonfire.UI.Common.MembersLive users={@users} is_local_users />
-  {/if}
+  <div class="mb-2">
+    {#if Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}
+      <Bonfire.UI.Common.MembersLive users={@users} is_local_users={@show == :local} />
+    {/if}
+  </div>
+
+  <Bonfire.UI.Common.LoadMoreLive
+    :if={@page_info}
+    live_handler={__MODULE__}
+    target={@myself}
+    page_info={@page_info}
+    hide_guest_fallback
+  />
 </div>
