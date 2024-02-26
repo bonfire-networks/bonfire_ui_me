@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.CreateUserLive do
-  use Bonfire.UI.Common.Web, :surface_live_view
+  use Bonfire.UI.Common.Web, :surface_live_view_child
   # alias Bonfire.Data.Identity.User
   alias Bonfire.Me.Users
 
@@ -24,21 +24,4 @@ defmodule Bonfire.UI.Me.CreateUserLive do
 
   defp user_form(params \\ %{}, account),
     do: Users.changeset(:create, params, account)
-
-  def handle_event(
-        action,
-        attrs,
-        socket
-      ),
-      do:
-        Bonfire.UI.Common.LiveHandlers.handle_event(
-          action,
-          attrs,
-          socket,
-          __MODULE__
-          # &do_handle_event/3
-        )
-
-  def handle_info(info, socket),
-    do: Bonfire.UI.Common.LiveHandlers.handle_info(info, socket, __MODULE__)
 end

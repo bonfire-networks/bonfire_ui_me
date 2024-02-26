@@ -17,7 +17,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
      |> assign_new(:selected_tab, fn -> "timeline" end)}
   end
 
-  def do_handle_params(params, url, socket) do
+  def handle_params(params, url, socket) do
     current_user = current_user(socket.assigns)
     current_username = e(current_user, :character, :username, nil)
 
@@ -103,8 +103,9 @@ defmodule Bonfire.UI.Me.CharacterLive do
           debug("redir to remote profile")
 
           {:noreply,
-           redirect(socket,
-             external: canonical_url(user_etc)
+           redirect_to(
+             socket,
+             canonical_url(user_etc)
            )}
         end
       end
@@ -115,31 +116,4 @@ defmodule Bonfire.UI.Me.CharacterLive do
        |> redirect_to(path(:error, :not_found))}
     end
   end
-
-  def handle_params(params, uri, socket),
-    do:
-      Bonfire.UI.Common.LiveHandlers.handle_params(
-        params,
-        uri,
-        socket,
-        __MODULE__,
-        &do_handle_params/3
-      )
-
-  def handle_event(
-        action,
-        attrs,
-        socket
-      ),
-      do:
-        Bonfire.UI.Common.LiveHandlers.handle_event(
-          action,
-          attrs,
-          socket,
-          __MODULE__
-          # &do_handle_event/3
-        )
-
-  def handle_info(info, socket),
-    do: Bonfire.UI.Common.LiveHandlers.handle_info(info, socket, __MODULE__)
 end

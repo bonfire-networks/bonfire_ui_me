@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.ChangePasswordLive do
-  use Bonfire.UI.Common.Web, :surface_live_view
+  use Bonfire.UI.Common.Web, :surface_live_view_child
 
   alias Bonfire.UI.Me.ChangePasswordController
   # alias Bonfire.Me.Accounts

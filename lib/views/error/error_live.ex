@@ -17,24 +17,4 @@ defmodule Bonfire.UI.Me.ErrorLive do
   end
 
   defp default_msg, do: l("There was an error.")
-
-  defdelegate handle_params(params, attrs, socket),
-    to: Bonfire.UI.Common.LiveHandlers
-
-  def handle_event(
-        action,
-        attrs,
-        socket
-      ),
-      do:
-        Bonfire.UI.Common.LiveHandlers.handle_event(
-          action,
-          attrs,
-          socket,
-          __MODULE__
-          # &do_handle_event/3
-        )
-
-  def handle_info(info, socket),
-    do: Bonfire.UI.Common.LiveHandlers.handle_info(info, socket, __MODULE__)
 end

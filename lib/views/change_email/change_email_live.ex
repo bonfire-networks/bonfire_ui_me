@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.ChangeEmailLive do
-  use Bonfire.UI.Common.Web, :surface_live_view
+  use Bonfire.UI.Common.Web, :surface_live_view_child
 
   alias Bonfire.UI.Me.ChangeEmailController
   # alias Bonfire.Me.Accounts

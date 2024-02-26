@@ -26,6 +26,6 @@ defmodule Bonfire.UI.Me.My.SettingsUpload do
 
     {:ok, _edit_profile} = Bonfire.Me.Users.update(current_user, attrs)
 
-    redirect(conn, external: "/user")
+    redirect_to(conn, "/user")
   end
 end
