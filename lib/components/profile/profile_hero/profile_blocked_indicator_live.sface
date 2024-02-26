@@ -1,7 +1,8 @@
-{#if !@ghosted_instance_wide? and
-    !@silenced_instance_wide? and
-    !@ghosted? and
-    !@silenced?}
+{#if !current_user_id(@__context__) or
+    (!@ghosted_instance_wide? and
+       !@silenced_instance_wide? and
+       !@ghosted? and
+       !@silenced?)}
   <div />
 {#else}
   <div class="">
@@ -23,7 +24,7 @@
         </div>
       </div>
       <div :if={@ghosted_instance_wide? && !@silenced_instance_wide?} class="flex items-baseline gap-2">
-        <div class="prose prose-md text-sm font-normal text-base-content/70">{l("Admins have ghosted this user.")}</div>
+        <div class="prose prose-md text-sm font-normal text-base-content/70">{l("Instance moderators have ghosted this user.")}</div>
         <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
           <Bonfire.Boundaries.Web.BlockButtonLive
             object={@user}
@@ -38,7 +39,7 @@
         </div>
       </div>
       <div :if={!@ghosted_instance_wide? && @silenced_instance_wide?} class="flex items-baseline gap-2">
-        <div class="prose prose-md text-sm font-normal text-base-content/70">{l("Admins have silenced this user.")}</div>
+        <div class="prose prose-md text-sm font-normal text-base-content/70">{l("Instance moderators have silenced this user.")}</div>
         <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
           <Bonfire.Boundaries.Web.BlockButtonLive
             object={@user}
