@@ -7,17 +7,17 @@
 />
 <div class="flex place-content-center items-center">
   <!-- <div class="flex items-center gap-3 p-3"> -->
-    <StatefulComponent
-      module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
-      id={:upload_icon}
-      src={Bonfire.Common.Media.avatar_url(current_user(@__context__))}
-      container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
-      class="inline-block w-32 h-32"
-      object={current_user(@__context__)}
-      set_field={:current_user}
-      set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
-    />
-    
+  <StatefulComponent
+    module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
+    id={:upload_icon}
+    src={Bonfire.Common.Media.avatar_url(current_user(@__context__))}
+    container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
+    class="inline-block w-32 h-32"
+    object={current_user(@__context__)}
+    set_field={:current_user}
+    set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
+  />
+
   <!-- </div> -->
   <!-- <LinkLive
     to="/user"
