@@ -1,187 +1,88 @@
 <div class="pb-6">
   {#if Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
-    {!-- <div class="p-4 m-2 bg-info/10 border-info/30 border text-info rounded flex flex-col">
-        <div class="font-bold">{l("Appeareance")}</div>
-        <div class="text-info/70 text-sm">{l "Customise the general look and feel of the instance"}</div>
-      </div> --}
-
-    <div class="divide-y divide-base-content/20 border-b border-base-content/20">
-      <Bonfire.UI.Common.SettingsInputLive
-        scope={:instance}
-        input="ui[theme][instance_name]"
-        name={l("Name")}
-        description={l("The name of your instance")}
-        keys={[:ui, :theme, :instance_name]}
-        default_value={Config.get([:ui, :theme, :instance_name], Bonfire.Application.name())}
+  <div class="p-3 border-b border-base-content/20 text-sm font-medium">{l "Instance Profile"}</div>
+  <div class="flex flex-col gap-4 p-3">
+    <div>
+      <span class="text-sm font-medium">{l "Site Banner"}</span>
+      <StatefulComponent
+        module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
+        id={:upload_banner}
+        object={:instance}
+        boundary_verb={:describe}
+        src={Bonfire.Common.Settings.get(
+          [:bonfire, :ui, :theme, :instance_image],
+          "",
+          @__context__[:instance_settings] || :instance
+        )}
+        set_field={[:bonfire, :ui, :theme, :instance_image]}
+        set_fn={&Bonfire.Common.Settings.LiveHandler.set_image_setting/5}
       />
-      <Bonfire.UI.Common.SettingsTextareaLive
-        scope={:instance}
-        input="ui[theme][instance_description]"
-        name={l("Description")}
-        description={l("A short summary shown in various places")}
-        keys={[:ui, :theme, :instance_description]}
-        default_value={Config.get([:ui, :theme, :instance_description], nil)}
-      />
-      <div x-data="{open: false}" class="p-4">
-        <div x-on:click="open = !open" class="flex items-center justify-between">
-          <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Icon & banner")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("Provide some visuals")}</div>
-          </div>
-          <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
-            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-          <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
-            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-        </div>
-        <div x-show="open" x-collapse>
-          <div class="w-full max-w-lg mt-8 form-control">
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
-              <StatefulComponent
-                module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
-                id={:upload_icon}
-                container_class="relative flex-shrink-0 block w-12 h-12 overflow-hidden"
-                class="inline-block overflow-hidden w-12 h-12"
-                label_on_hover={false}
-                label={l("icon")}
-                object={:instance}
-                boundary_verb={:describe}
-                src={Bonfire.Common.Settings.get(
-                  [:bonfire, :ui, :theme, :instance_icon],
-                  "",
-                  @__context__[:instance_settings] || :instance
-                )}
-                set_field={[:bonfire, :ui, :theme, :instance_icon]}
-                set_fn={&Bonfire.Common.Settings.LiveHandler.set_image_setting/5}
-              />
-            </div>
-          </div>
-
-          <div class="w-full max-w-lg mt-4 form-control">
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
-              <StatefulComponent
-                module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
-                id={:upload_banner}
-                object={:instance}
-                boundary_verb={:describe}
-                src={Bonfire.Common.Settings.get(
-                  [:bonfire, :ui, :theme, :instance_image],
-                  "",
-                  @__context__[:instance_settings] || :instance
-                )}
-                set_field={[:bonfire, :ui, :theme, :instance_image]}
-                set_fn={&Bonfire.Common.Settings.LiveHandler.set_image_setting/5}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {!-- <div x-data="{open: false}" class="p-4">
-        <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
-          <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Theme & font")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
-          </div>
-          <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
-            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-          <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
-            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-        </div>
-        <div x-show="open" x-collapse>
-          <form name="settings" phx-change="Bonfire.Common.Settings:set">
-            <input name="scope" value={:instance} type="hidden">
-            <div class="w-full mt-4 form-control">
-              <label for="instance_theme" class="label">
-                <span class="label-text text-base-content/70">
-                  {l("Instance default theme")}</span>
-              </label>
-              <Bonfire.UI.Common.ChangeThemesLive
-                scope={:instance}
-                
-              />
-            </div>
-
-            <div class="w-full mt-2 form-control">
-              <label for="font_family" class="label">
-                <span class="label-text text-base-content/70">
-                  {l("Default font")}</span>
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <Bonfire.UI.Common.ChangeFontLive font_family={Settings.get([:ui, :font_family], "Inter", @__context__[:instance_settings] || :instance)} />
-              </div>
-            </div>
-          </form>
-        </div>
-      </div> --}
-
-      {!-- <div x-data="{open: false}" class="p-4">
-        <div class="flex items-center justify-between">
-          <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Language")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("What language do most new users understand?")}</div>
-          </div>
-          <button
-            type="button"
-            x-cloak
-            x-on:click="open = !open"
-            class="rounded btn btn-square btn-sm btn-ghost"
-            x-show="open"
-          >
-            <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-          <button
-            type="button"
-            x-on:click="open = !open"
-            class="rounded btn btn-square btn-sm btn-ghost"
-            x-show="!open"
-          >
-            <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-          </button>
-        </div>
-        <div x-show="open" x-collapse>
-          <form name="settings" phx-change="Bonfire.Common.Settings:set">
-            <input name="scope" value={:instance} type="hidden">
-            <div class="w-full max-w-lg mt-8 form-control">
-              <label for="default" class="label">
-                <span class="label-text text-base-content/70">
-                  {l("Default language")}</span>
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <Bonfire.UI.Common.ChangeLocaleLive locale={Settings.get(
-                  [Bonfire.Common.Localise.Cldr, :default_locale],
-                  "en",
-                  @__context__[:instance_settings] || :instance
-                )} />
-              </div>
-            </div>
-          </form>
-        </div>
-      </div> --}
     </div>
-    {!-- </form> --}
+    <div class="flex w-full items-start gap-6 p-4">
+      <div class="flex flex-col gap-2">
+        <span class="text-sm font-medium">{l "Site Logo"}</span>
+        <StatefulComponent
+          module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
+          id={:upload_icon}
+          wrapper_class={"flex items-center gap-4 flex-col"}
+          container_class="relative flex-shrink-0 block w-24 h-24 overflow-hidden"
+          class="inline-block overflow-hidden w-24 h-24"
+          label_on_hover={false}
+          label={l("icon")}
+          object={:instance}
+          boundary_verb={:describe}
+          src={Bonfire.Common.Settings.get(
+            [:bonfire, :ui, :theme, :instance_icon],
+            "",
+            @__context__[:instance_settings] || :instance
+          )}
+          set_field={[:bonfire, :ui, :theme, :instance_icon]}
+          set_fn={&Bonfire.Common.Settings.LiveHandler.set_image_setting/5}
+        />
+      </div>
+      <div class="flex flex-col gap-6 w-full">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          input="ui[theme][instance_name]"
+          name={l("Site Name")}
+          keys={[:ui, :theme, :instance_name]}
+          default_value={Config.get([:ui, :theme, :instance_name], Bonfire.Application.name())}
+        />
+        <Bonfire.UI.Common.SettingsTextareaLive
+          scope={:instance}
+          input="ui[theme][instance_description]"
+          name={l("Site Description")}
+          keys={[:ui, :theme, :instance_description]}
+          default_value={Config.get([:ui, :theme, :instance_description], nil)}
+        />
+      </div>
+    </div>
+  </div>
   {#else}
     {l("You don't have permission to describe the instance, sorry!")}
   {/if}
 
   {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
+  <div class="border-t border-t-8 border-base-content/10">
+    <div class="p-3 border-b border-base-content/20 text-sm font-medium">{l "Federation & Privacy"}</div>
+
     <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={:instance} type="hidden">
-      <div class="divide-y divide-base-content/20">
-        <Bonfire.UI.Common.SettingsRadiosLive
-          name={l("Enable federation?")}
-          keys={[:activity_pub, :instance, :federating]}
-          options={%{
-            "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
-            "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
-            "false" => l("Fully disabled")
-          }}
-          scope={:instance}
-        />
-
+      
+      <div class="divide-y divide-base-content/10 flex flex-col gap-4 w-full">
+        <div class="flex flex-col gap-2 p-4">
+          <span class="font-medium text-sm">{l "Federation"}</span>
+          <Bonfire.UI.Common.SettingsRadiosLive
+            name={l("Enable federation?")}
+            keys={[:activity_pub, :instance, :federating]}
+            options={%{
+              "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
+              "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+              "false" => l("Fully disabled")
+            }}
+            scope={:instance}
+          />
+        </div>
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Require authentication from federated servers")}
           description={l(
@@ -190,211 +91,20 @@
           keys={[:activity_pub, :reject_unsigned]}
           scope={:instance}
         />
-      </div>
-    </form>
-
-    <form phx-change="Bonfire.Common.Settings:set">
-      <input name="scope" value={:instance} type="hidden">
-
-      {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Instance behaviour")}</div> --}
-      <div class="divide-y divide-base-content/20">
+      
         <Bonfire.UI.Common.SettingsToggleLive
-          name={l("Make invite only")}
+          name={l("Make the instance invite only")}
           description={l("Only people with a valid invite link can sign up to this instance.")}
           keys={[:invite_only]}
           scope={:instance}
         />
-
-        <Bonfire.UI.Common.Settings.NumberLive
-          scope={:instance}
-          name={l("Maximum number of users per account")}
-          keys={[Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive, :max_users]}
-          unit={l("users")}
-          default_value={4}
-        />
-
-        <Bonfire.UI.Common.Settings.NumberLive
-          scope={:instance}
-          name={l("Maximum length of text inputs (e.g. posts)")}
-          keys={[Bonfire.UI.Common.SmartInputLive, :max_length]}
-          unit={l("words")}
-          default_value={nil}
-        />
-
-        <Bonfire.UI.Common.Settings.NumberLive
-          scope={:instance}
-          name={l("Maximum number of items to query in lists")}
-          description={l("Please note that a high limit may be desired in order to properly display nested threads")}
-          keys={[:pagination_hard_max_limit]}
-          unit={l("items")}
-        />
-
-        <Bonfire.UI.Common.SettingsRadiosLive
-          name={l("Who can see the list of local users?")}
-          keys={[Bonfire.UI.Me.UsersDirectoryLive, :show_to]}
-          options={[guests: l("Guests"), users: l("Users"), admins: l("Admins")]}
-          scope={:instance}
-        />
-
-        {!-- MAX AMOUNT OF FILES ONE CAN ATTACH TO A POST OR OTHER ACTIVITIES --}
-        <Bonfire.UI.Common.Settings.NumberLive
-          scope={:instance}
-          name={l("Maximum amount of files one can attach to a post or other activity")}
-          keys={[Bonfire.UI.Common.SmartInputLive, :max_uploads]}
-          unit={l("items")}
-          default_value={4}
-        />
-
-        {!-- MAX FILE SIZE --}
-        <Bonfire.UI.Common.Settings.NumberLive
-          scope={:instance}
-          name={l("Maximum file size of uploads attached to a post or other activity")}
-          description={l(
-            "Please note that a high limit can your instance's impact resource use (and it is recommended to store uploads using an S3-style cloud storage rather than directly on the server file system)."
-          )}
-          keys={[:bonfire_files, :max_docs_file_size]}
-          unit={l("MB")}
-        />
-
-        <Bonfire.UI.Common.Settings.NumberLive
-          scope={:instance}
-          name={l("Maximum file size of uploads like avatars or banners")}
-          description={l(
-            "Note that they will be automatically resized on the server, so a higher limit here may be reasonable."
-          )}
-          keys={[:bonfire_files, :max_user_images_file_size]}
-          unit={l("MB")}
-        />
-
-        <Bonfire.UI.Common.Settings.NumberLive
-          scope={:instance}
-          name={l("Maximum dimensions when resizing an avatar")}
-          keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_avatar]}
-          unit={l("px")}
-        />
-
-        <Bonfire.UI.Common.Settings.NumberLive
-          scope={:instance}
-          name={l("Maximum dimensions when resizing a banner")}
-          keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_banner]}
-          unit={l("px")}
-        />
-
-        <Bonfire.UI.Common.Settings.NumberLive
-          scope={:instance}
-          name={l("Maximum dimensions when resizing images")}
-          keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_banner]}
-          unit={l("px")}
-        />
-
-        {!-- <div x-data="{open: false}" class="p-4">
-          <div               x-on:click="open = !open"
-class="flex items-center justify-between cursor-pointer">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-medium">{l("Who can see the list of local users?")}</div>
-            </div>
-            <button
-              type="button"
-              x-cloak
-              class="rounded btn btn-square btn-sm btn-ghost"
-              x-show="open"
-            >
-              <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-            </button>
-            <button
-              type="button"
-              class="rounded btn btn-square btn-sm btn-ghost"
-              x-show="!open"
-            >
-              <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-            </button>
-          </div>
-          <div x-show="open" x-collapse>
-            <div class="mt-4 sm:col-span-2">
-              <fieldset>
-                <div class="flex flex-col gap-4 -space-y-px">
-                  <label class="relative flex items-center flex-1 border-r cursor-pointer border-base-200 focus:outline-none">
-                    <input
-                      type="radio"
-                      name="Bonfire.UI.Me.UsersDirectoryLive[show_to]"
-                      value="guests"
-                      checked={if Bonfire.Common.Settings.get(
-                           [Bonfire.UI.Me.UsersDirectoryLive, :show_to],
-                           :users,
-                           @__context__[:instance_settings] || :instance
-                         ) ==
-                           :guests,
-                         do: "checked"}
-                      class="radio radio-secondary"
-                    />
-                    <div class="flex flex-col ml-3">
-                      <span class="block text-sm font-medium">
-                        {l("Guests")}
-                      </span>
-                    </div>
-                  </label>
-
-                  <label class="relative flex items-center flex-1 cursor-pointer focus:outline-none">
-                    <input
-                      type="radio"
-                      name="Bonfire.UI.Me.UsersDirectoryLive[show_to]"
-                      value="users"
-                      checked={if Bonfire.Common.Settings.get(
-                           [Bonfire.UI.Me.UsersDirectoryLive, :show_to],
-                           :users,
-                           @__context__[:instance_settings] || :instance
-                         ) ==
-                           :users,
-                         do: "checked"}
-                      class="radio radio-secondary"
-                    />
-                    <div class="flex flex-col ml-3">
-                      <span class="block text-sm font-medium">
-                        {l("Users")}
-                      </span>
-                    </div>
-                  </label>
-
-                  <label class="relative flex items-center flex-1 cursor-pointer focus:outline-none">
-                    <input
-                      type="radio"
-                      name="Bonfire.UI.Me.UsersDirectoryLive[show_to]"
-                      value="false"
-                      checked={if !Bonfire.Common.Settings.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users), do: "checked"}
-                      class="radio radio-secondary"
-                    />
-                    <div class="flex flex-col ml-3">
-                      <span class="block text-sm font-medium">
-                        {l("Admins")}
-                      </span>
-                    </div>
-                  </label>
-                </div>
-              </fieldset>
-            </div>
-          </div>
-        </div> --}
-
-        <div class="p-4">
-          <div class="flex items-center justify-between">
-            <div class="flex flex-col gap-1">
-              <div class="text-sm font-medium">{l("Show list of admins on public homepage")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("Show list of admins on public homepage")}</div>
-            </div>
-            <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
-            <input
-              name="Bonfire.UI.Me.WidgetUsersLive[show_guests]"
-              value="true"
-              type="checkbox"
-              checked={if Bonfire.Common.Settings.get(
-                   [Bonfire.UI.Me.WidgetUsersLive, :show_guests],
-                   true,
-                   @__context__[:instance_settings] || :instance
-                 ),
-                 do: "checked"}
-              class="toggle"
-            />
-          </div>
+        <div class="flex flex-col gap-2 p-4">
+          <span class="font-medium text-sm">{l "How can see the list of local users?"}</span>
+          <Bonfire.UI.Common.SettingsRadiosLive
+            keys={[Bonfire.UI.Me.UsersDirectoryLive, :show_to]}
+            options={[guests: l("Guests"), users: l("Users"), admins: l("Admins")]}
+            scope={:instance}
+          />
         </div>
 
         <div class="p-4">
@@ -420,20 +130,133 @@ class="flex items-center justify-between cursor-pointer">
         </div>
       </div>
     </form>
+  </div>
 
-    <form
-      module={maybe_component(Bonfire.Social.Pins, @__context__)}
-      phx-change="Bonfire.Common.Settings:set"
-    >
+  <div class="border-t border-t-8 border-base-content/10">
+    <div class="p-3 border-b border-base-content/20 text-sm font-medium">{l "General Settings"}</div>
+    <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
       <!-- <input name="scope" value={:instance} type="hidden"> -->
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Activate Curated tab")}
-        description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
-        keys={[Bonfire.UI.Social.FeedsLive, :curated]}
-        scope={:instance}
-      />
-    </form>
+    
+        <Bonfire.UI.Common.Settings.NumberLive
+          scope={:instance}
+          name={l("Maximum number of users per account")}
+          keys={[Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive, :max_users]}
+          unit={l("users")}
+          default_value={4}
+        />
 
+        <Bonfire.UI.Common.Settings.NumberLive
+          scope={:instance}
+          name={l("Maximum length of text inputs (e.g. posts)")}
+          keys={[Bonfire.UI.Common.SmartInputLive, :max_length]}
+          unit={l("words")}
+          default_value={nil}
+        />
+
+             {!-- MAX AMOUNT OF FILES ONE CAN ATTACH TO A POST OR OTHER ACTIVITIES --}
+        <Bonfire.UI.Common.Settings.NumberLive
+          scope={:instance}
+          name={l("Maximum amount of files one can attach to a post or other activity")}
+          keys={[Bonfire.UI.Common.SmartInputLive, :max_uploads]}
+          unit={l("items")}
+          default_value={4}
+        />
+
+       
+        <form
+          module={maybe_component(Bonfire.Social.Pins, @__context__)}
+          phx-change="Bonfire.Common.Settings:set"
+        >
+          <!-- <input name="scope" value={:instance} type="hidden"> -->
+          <Bonfire.UI.Common.SettingsToggleLive
+            name={l("Activate Curated tab")}
+            description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
+            keys={[Bonfire.UI.Social.FeedsLive, :curated]}
+            scope={:instance}
+          />
+        </form>
+
+        <div class="p-4">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-medium">{l("Show list of admins on public homepage")}</div>
+              <div class="text-sm font-light text-base-content/70">{l("Show list of admins on public homepage")}</div>
+            </div>
+            <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
+            <input
+              name="Bonfire.UI.Me.WidgetUsersLive[show_guests]"
+              value="true"
+              type="checkbox"
+              checked={if Bonfire.Common.Settings.get(
+                   [Bonfire.UI.Me.WidgetUsersLive, :show_guests],
+                   true,
+                   @__context__[:instance_settings] || :instance
+                 ),
+                 do: "checked"}
+              class="toggle"
+            />
+          </div>
+        </div>
+
+        </form>
+      </div>
+
+      <div class="border-t border-t-8 border-base-content/10">
+        <div class="p-3 border-b border-base-content/20 text-sm font-medium">{l "Server Optmisations"}</div>
+        <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
+          <Bonfire.UI.Common.Settings.NumberLive
+            scope={:instance}
+            name={l("Maximum number of items to query in lists")}
+            description={l("Please note that a high limit may be desired in order to properly display nested threads")}
+            keys={[:pagination_hard_max_limit]}
+            unit={l("items")}
+          />
+
+   
+
+            {!-- MAX FILE SIZE --}
+            <Bonfire.UI.Common.Settings.NumberLive
+              scope={:instance}
+              name={l("Maximum file size of uploads attached to a post or other activity")}
+              description={l(
+                "Please note that a high limit can your instance's impact resource use (and it is recommended to store uploads using an S3-style cloud storage rather than directly on the server file system)."
+              )}
+              keys={[:bonfire_files, :max_docs_file_size]}
+              unit={l("MB")}
+            />
+
+            <Bonfire.UI.Common.Settings.NumberLive
+              scope={:instance}
+              name={l("Maximum file size of uploads like avatars or banners")}
+              description={l(
+                "Note that they will be automatically resized on the server, so a higher limit here may be reasonable."
+              )}
+              keys={[:bonfire_files, :max_user_images_file_size]}
+              unit={l("MB")}
+            />
+
+            <Bonfire.UI.Common.Settings.NumberLive
+              scope={:instance}
+              name={l("Maximum dimensions when resizing an avatar")}
+              keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_avatar]}
+              unit={l("px")}
+            />
+
+            <Bonfire.UI.Common.Settings.NumberLive
+              scope={:instance}
+              name={l("Maximum dimensions when resizing a banner")}
+              keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_banner]}
+              unit={l("px")}
+            />
+
+            <Bonfire.UI.Common.Settings.NumberLive
+              scope={:instance}
+              name={l("Maximum dimensions when resizing images")}
+              keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_banner]}
+              unit={l("px")}
+            />
+        </form>
+      </div>
     {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div> --}
   {#else}
     {l("You don't have permission to configure the instance, sorry!")}
