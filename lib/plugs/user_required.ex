@@ -5,6 +5,9 @@ defmodule Bonfire.UI.Me.Plugs.UserRequired do
 
   def init(opts), do: opts
 
+  @decorate time()
+  def call(conn, opts)
+
   def call(%{assigns: assigns} = conn, _opts) do
     check(current_user(assigns), current_account(assigns), conn)
   end

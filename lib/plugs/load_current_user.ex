@@ -7,6 +7,9 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
 
   def init(opts), do: opts
 
+  @decorate time()
+  def call(conn, opts)
+
   # current user is already in context
   def call(%{assigns: %{current_user: _}} = conn, _) do
     conn

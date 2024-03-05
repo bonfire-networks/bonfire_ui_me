@@ -10,6 +10,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
     end
   end
 
+  @decorate time()
   def mount(params \\ nil, session, socket)
 
   def mount(params, session, {:ok, socket} = _) do
