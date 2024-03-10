@@ -1,11 +1,11 @@
-{#case Bonfire.UI.Me.WidgetUsersLive.list_admins()}
+{#case list_users()}
   {#match []}
     <div />
-  {#match admins}
+  {#match users}
     <Bonfire.UI.Me.WidgetUsersLive
       :if={current_user_id(@__context__) ||
         Settings.get([Bonfire.UI.Me.WidgetAdminsLive, :show_guests], true, @__context__)}
-      widget_title={e(@widget_title, l("Admins"))}
-      users={admins}
+      widget_title={e(@widget_title, l("Recently joined"))}
+      users={users}
     />
 {/case}
