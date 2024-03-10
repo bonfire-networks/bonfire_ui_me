@@ -130,8 +130,6 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:browser)
         pipe_through(:account_required)
 
-        # live "/dashboard", LoggedDashboardLive, as: :dashboard
-
         resources("/switch-user", SwitchUserController,
           only: [:index, :show],
           as: :switch_user
