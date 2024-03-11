@@ -219,10 +219,10 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
   def default_assigns(is_guest?) do
     [
-      is_guest?: is_guest?,
-      without_sidebar: is_guest?,
-      without_secondary_widgets: is_guest?,
-      no_header: is_guest?,
+      is_guest?: false,
+      without_sidebar: false,
+      without_secondary_widgets: false,
+      no_header: false,
       # hide_tabs: is_guest?,
       smart_input: true,
       feed: nil,
