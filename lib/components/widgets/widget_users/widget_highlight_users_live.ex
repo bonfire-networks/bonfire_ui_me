@@ -6,13 +6,17 @@ defmodule Bonfire.UI.Me.WidgetHighlightUsersLive do
   # 1 hours
   @default_cache_ttl 1_000 * 60 * 60 * 1
   def list_users() do
-    Cache.maybe_apply_cached(&do_list_users/0, [], ttl: @default_cache_ttl)
+    Cache.maybe_apply_cached(
+      &do_list_users/1,
+      [
+        #  current_user: current_user_id, # TODO for respecting blocks/boundaries (but then can't have a single cache)
+        paginate: [limit: 5]
+      ],
+      ttl: @default_cache_ttl
+    )
   end
 
-  defp do_list_users() do
-    Bonfire.Me.Users.list_paginated(
-      #  current_user: current_user, # TODO for respecting blocks/boundaries
-      paginate: [limit: 5]
-    )
+  defp do_list_users(opts) do
+    Bonfire.Me.Users.list_paginated(opts)
   end
 end
