@@ -95,6 +95,13 @@
       /> --}
     {#match "icons"}
       <Bonfire.UI.Common.SettingsViewsLive.IconsLive selected_tab={@selected_tab} />
+    {#match "emojis"}
+      <StatefulComponent
+        module={maybe_component(Bonfire.Files.Web.UploadEmojiLive)}
+        id="custom_emojis"
+        scope={:instance}
+        description={l("You can define custom emoji for all users on this instance.")}
+      />
     {#match _}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive selected_tab={@selected_tab} />
   {/case}

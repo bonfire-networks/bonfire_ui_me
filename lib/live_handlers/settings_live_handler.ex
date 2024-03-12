@@ -148,25 +148,6 @@ defmodule Bonfire.Common.Settings.LiveHandler do
     end
   end
 
-  defp maybe_assign_context(socket, %{__context__: assigns}) do
-    debug(assigns, "assign updated data with settings")
-
-    socket
-    |> assign_global(assigns)
-  end
-
-  defp maybe_assign_context(socket, %{id: "3SERSFR0MY0VR10CA11NSTANCE", data: settings}) do
-    debug(settings, "assign updated instance settings")
-
-    socket
-    |> assign_global(instance_settings: settings)
-  end
-
-  defp maybe_assign_context(socket, ret) do
-    debug(ret, "cannot assign updated data with settings")
-    socket
-  end
-
   defp extension_toggle(extension, disabled?, attrs, socket) do
     scope =
       maybe_to_atom(e(attrs, "scope", nil))
