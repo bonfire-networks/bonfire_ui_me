@@ -1,4 +1,10 @@
-<a href={@href} class={@class || "flex p-3 flex-col gap-1"}>
+<a
+  href={@href}
+  class={@class || "flex p-3 flex-col gap-1"}
+  rel={if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil),
+    do: "me",
+    else: "nofollow"}
+>
   <div class="flex items-center gap-3">
     {#if @icon}
       <Iconify.iconify icon={@icon} class="w-5 h-5 text-base-content/70" />
@@ -16,6 +22,10 @@
     {/if}
 
     <span class="text-xs uppercase font-semibold text-base-content/70">{display_url(@text)}</span>
+
+    {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
+      <#Icon iconify="mdi:check-circle-outline" class="w-5 h-5 text-success" />
+    {/if}
   </div>
   <div class="link link-hover text-base-content/80 text-sm">{@href}</div>
 </a>

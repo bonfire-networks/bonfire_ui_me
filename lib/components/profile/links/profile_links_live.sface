@@ -26,6 +26,7 @@
     href={path}
     text={type |> to_string() |> :string.titlecase()}
     class={@class}
+    metadata={metadata}
   />
   <!-- {Bonfire.OpenScience.APIs.fetch_orcid_works(@user, metadata) |> inspect} -->
 </div>
