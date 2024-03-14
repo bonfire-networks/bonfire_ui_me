@@ -28,6 +28,8 @@ defmodule Bonfire.UI.Me.MixProject do
           # {:phoenix_live_reload, "~> 1.2", only: :dev},
           {:zest, "~> 0.1", only: :test},
           {:mneme, ">= 0.0.0", only: [:dev, :test]},
+          {:poison, ">= 1.5.0", [override: true, env: :prod, hex: "poison", repo: "hexpm", optional: false]},
+          {:cowboy, "~> 2.7", [override: true, env: :prod, hex: "cowboy", repo: "hexpm", optional: false]},
 
           {:bonfire,
            git: "https://github.com/bonfire-networks/bonfire_spark",
@@ -39,12 +41,12 @@ defmodule Bonfire.UI.Me.MixProject do
           {:phoenix_test, 
           # "~> 0.2.4", 
           git: "https://github.com/germsvel/phoenix_test",
-          only: :test, runtime: false}
+          only: :test, runtime: false},
           
-          # {:bonfire_tag,
-          #  git: "https://github.com/bonfire-networks/bonfire_tag",
-          #  branch: "main",
-          #  optional: true},
+          {:bonfire_tag,
+           git: "https://github.com/bonfire-networks/bonfire_tag",
+           branch: "main",
+           optional: true},
           # {:bonfire_social,
           #  git: "https://github.com/bonfire-networks/bonfire_social",
           #  branch: "main",
