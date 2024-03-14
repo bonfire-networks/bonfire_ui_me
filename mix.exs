@@ -41,12 +41,12 @@ defmodule Bonfire.UI.Me.MixProject do
           {:phoenix_test, 
           # "~> 0.2.4", 
           git: "https://github.com/germsvel/phoenix_test",
-          only: :test, runtime: false}
+          only: :test, runtime: false},
           
-          # {:bonfire_tag,
-          #  git: "https://github.com/bonfire-networks/bonfire_tag",
-          #  branch: "main",
-          #  optional: true},
+          {:bonfire_tag,
+           git: "https://github.com/bonfire-networks/bonfire_tag",
+           branch: "main",
+           optional: true},
           # {:bonfire_social,
           #  git: "https://github.com/bonfire-networks/bonfire_social",
           #  branch: "main",
