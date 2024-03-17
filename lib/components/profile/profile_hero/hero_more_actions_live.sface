@@ -1,4 +1,4 @@
-<div id="hero_more_actions" class="flex items-center gap-3">
+<div data-id="hero_more_actions" class="ml-auto flex items-center gap-3">
   {#if current_user_id(@__context__) == id(@user)}
     <LinkLive
       to={~p"/settings/user/profile"}

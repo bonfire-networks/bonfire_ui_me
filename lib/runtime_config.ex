@@ -15,7 +15,11 @@ defmodule Bonfire.UI.Me.RuntimeConfig do
 
     config :bonfire, :ui,
       profile: [
+        navigation: [
+          nil: l("About")
+        ],
         sections: [
+          nil: Bonfire.UI.Me.ProfileInfoLive,
           follow: Bonfire.UI.Me.RemoteInteractionFormLive
         ],
         widgets: []

@@ -60,7 +60,7 @@ defmodule Bonfire.UI.Me.Routes do
         # live("/user/:username", ProfileLive, as: :user_profile)
         live("/user/:username/:tab", ProfileLive, as: :user_profile)
 
-        live("/profile/:id", CharacterLive, as: Bonfire.Data.Social.Profile)
+        live("/profile/:id", ProfileLive, as: Bonfire.Data.Social.Profile)
         live("/character/:id", CharacterLive, as: Bonfire.Data.Identity.Character)
         # live("/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile)
         # live("/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character)

@@ -1,86 +1,114 @@
-<div class="flex flex-col w-full gap-1 mt-3">
-  <div class="flex items-start w-full justify-between">
-    <div class="flex flex-col">
-      <div class="flex items-center text-xl font-bold text-base-content">
-        <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
-          {e(@user, :profile, :name, "Anonymous")}
-        </LinkPatchLive>
-        <span
-          :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
-          class="ml-3 badge badge-sm badge-info badge-outline"
-        >
-          {e(@user, :shared_user, :label, "")}
-        </span>
+<section>
+  <#slot {@header} />
+
+  <div class="flex flex-col w-full gap-1 m-2">
+    <div class="">
+      <div :if={@character_type == :user} class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
+        {rich(e(@user, :profile, :summary, ""))}
       </div>
-      <div class="flex items-center">
-        <span class="font-normal text-sm text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
-      </div>
-      <span
-        :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
-        class="badge min-h-[1.75rem] rounded-md !border-info/30 badge-outline mt-2 rounded badge-info"
-      >
-        {l("Admin")}
-      </span>
-    </div>
 
-    <div
-      :if={Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
-      class="mt-3 mr-6 flex items-center justify-between"
-    >
-      <Bonfire.UI.Me.HeroMoreActionsLive
-        ghosted_instance_wide?={@ghosted_instance_wide?}
-        silenced_instance_wide?={@silenced_instance_wide?}
-        ghosted?={@ghosted?}
-        silenced?={@silenced?}
-        character_type={@character_type}
-        boundary_preset={@boundary_preset}
-        user={@user}
-        members={@members}
-        moderators={@moderators}
-      />
-    </div>
-  </div>
+      <div :if={@character_type == :user} class="flex items-center w-full space-x-4">
+        <div :if={e(@user, :profile, :location, nil)} class="flex gap-2 mt-4 items-center">
+          <span class="flex">
+            <#Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
+            <span class="ml-2 text-sm text-base-content/70">
+              {e(@user, :profile, :location, "")}
+            </span>
+          </span>
 
-  <div class="">
-    <div :if={@character_type == :user} class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
-      {rich(e(@user, :profile, :summary, ""))}
-    </div>
-
-    <div :if={@character_type == :user} class="flex items-center w-full space-x-4">
-      <div :if={e(@user, :profile, :location, nil)} class="flex mt-4 items-center">
-        <#Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
-        <span class="ml-2 text-sm text-base-content/70">
-          {e(@user, :profile, :location, "")}
-        </span>
-
-        {#case Forecastr.forecast(:today, e(@user, :profile, :location, ""),
-            units: :metric,
-            renderer: Forecastr.Renderer.JSON
-          )
-          |> debug("weather")}
-          {#match {:ok,
-               %{"description" => weather, "id" => weather_id, "temp" => temp, "name" => weather_location}}}
-            {!-- 
+          {#case Forecastr.forecast(:today, e(@user, :profile, :location, ""),
+              units: :metric,
+              renderer: Forecastr.Renderer.JSON
+            )
+            |> debug("weather")}
+            {#match {:ok,
+                 %{"description" => weather, "id" => weather_id, "temp" => temp, "name" => weather_location}}}
+              {!-- 
             TODO: query weather with lat/long when we have them (need to add the ability to fetch by lat/long in Forecastr)
             TODO: also use https://hexdocs.pm/astro to show sunrise/sunset and moon cycles, etc?
             --}
-            <div
-              class="badge ml-2 badge-outline min-h-[1.75rem] !border-base-content/30"
-              title={l("%{weather} in %{location}", weather: weather, location: weather_location)}
-            >
-              <Iconify.iconify icon={"meteocons:#{weather_id}"} class="w-5 h-5 text-info" />
-              <!-- <img src={Iconify.prepare("meteocons:#{weather_id}", :img_url)} class="w-4 h-4 text-info" /> -->
-              <span class="text-xs">{temp}℃</span>
-            </div>
-          {#match _}
-        {/case}
+              <div
+                class="flex"
+                title={l("%{weather} in %{location}", weather: weather, location: weather_location)}
+              >
+                <Iconify.iconify icon={"meteocons:#{weather_id}"} class="w-5 h-5 text-info" />
+                <!-- <img src={Iconify.prepare("meteocons:#{weather_id}", :img_url)} class="w-4 h-4 text-info" /> -->
+                <span class="text-sm text-base-content/70">{temp}℃</span>
+              </div>
+            {#match _}
+          {/case}
+
+          <span
+            :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
+            class="ml-auto badge min-h-[1.75rem] rounded-md !border-info/30 badge-outline rounded badge-info"
+          >
+            {l("Admin")}
+          </span>
+
+          {#if @follows_me}
+            <p class="badge rounded min-h-[1.75rem]">{"Follows you"}</p>
+          {/if}
+          {#case Settings.get(:experimental_features_enabled, false, @__context__) and
+              (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or
+                 Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
+            {#match false}
+              <div />
+            {#match true}
+              <div />
+            {#match nil}
+              <progress title={l("Connection score unknown")} class="progress w-32" value="0" max="100" />
+            {#match 0}
+              <div />
+            {#match distance when distance <= 1}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-success w-32"
+                value="100"
+                max="100"
+              />
+            {#match distance when distance <= 2}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-success w-32"
+                value="80"
+                max="100"
+              />
+            {#match distance when distance <= 3}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-info w-32"
+                value="60"
+                max="100"
+              />
+            {#match distance when distance <= 4}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-info w-32"
+                value="40"
+                max="100"
+              />
+            {#match distance when distance <= 5}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-warning w-32"
+                value="20"
+                max="100"
+              />
+            {#match distance when distance > 5}
+              <progress
+                title={l("Connection score: %{distance}", distance: distance)}
+                class="progress progress-warning w-32"
+                value="10"
+                max="100"
+              />
+          {/case}
+        </div>
       </div>
-    </div>
 
-    <div class="mt-4 flex flex-col rounded bg-base-200 divide-y divide-base-content/10">
-      <Bonfire.UI.Me.ProfileLinksLive user={@user} />
+      <div class="mt-4 flex flex-col rounded bg-base-200 divide-y divide-base-content/10">
+        <Bonfire.UI.Me.ProfileLinksLive user={@user} />
 
-      {!-- <div :if={e(@user, :profile, :website, nil)} class="flex  mt-4 items-center">
+        {!-- <div :if={e(@user, :profile, :website, nil)} class="flex  mt-4 items-center">
         {#case Bonfire.Files.FaviconStore.favicon_url(e(@user, :profile, :website, nil))}
           {#match image when is_binary(image)}
             <img
@@ -100,39 +128,12 @@
           {display_url(e(@user, :profile, :website, ""))}
         </a>
       </div> --}
+      </div>
+    </div>
+    <div>
     </div>
 
-    {!-- :if={e(@user, :profile, :location, nil) || e(@user, :profile, :website, nil)} --}
-
-    <div :if={@character_type != :user} class="mt-3 flex items-center justify-between">
-      <Bonfire.UI.Me.HeroMoreActionsLive
-        ghosted_instance_wide?={@ghosted_instance_wide?}
-        silenced_instance_wide?={@silenced_instance_wide?}
-        ghosted?={@ghosted?}
-        silenced?={@silenced?}
-        character_type={@character_type}
-        boundary_preset={@boundary_preset}
-        user={@user}
-        members={@members}
-        moderators={@moderators}
-      />
-    </div>
-  </div>
-  <div>
-  </div>
-
-  <Bonfire.UI.Me.ProfileBlockedIndicatorLive
-    object={@user}
-    user={@user}
-    is_local_user={@is_local_user}
-    boundary_preset={@boundary_preset}
-    ghosted_instance_wide?={@ghosted_instance_wide?}
-    silenced_instance_wide?={@silenced_instance_wide?}
-    ghosted?={@ghosted?}
-    silenced?={@silenced?}
-  />
-
-  <div
+    {!-- <div
     :if={@character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
     class="flex items-center gap-6"
   >
@@ -141,7 +142,6 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <span class="text-sm text-base-content/70 font-medium">
-        {!-- <b class="text-base-content/100">39</b> --}
         {l("Followed")}
       </span>
     </LinkPatchLive>
@@ -150,9 +150,9 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <span class="text-sm text-base-content/70 font-medium">
-        {!-- <b class="text-base-content/100">39</b> --}
         {l("Followers")}
       </span>
     </LinkPatchLive>
+  </div> --}
   </div>
-</div>
+</section>

@@ -15,6 +15,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop silenced_instance_wide?, :boolean, default: nil
 
   prop character_type, :atom, default: nil
+  prop is_local?, :boolean, default: false
   prop follows_me, :boolean, default: false
   prop selected_tab, :any
   prop block_status, :any, default: nil

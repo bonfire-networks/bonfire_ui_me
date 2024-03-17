@@ -35,7 +35,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   def tab(selected_tab) do
     case maybe_to_atom(selected_tab) do
       tab when is_atom(tab) -> tab
-      _ -> :timeline
+      _ -> nil
     end
     |> debug(selected_tab)
   end
@@ -223,11 +223,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
       without_sidebar: false,
       without_secondary_widgets: false,
       no_header: false,
+      hide_tabs: false,
       # hide_tabs: is_guest?,
       smart_input: true,
       feed: nil,
       page_info: [],
       page: "profile",
+      showing_within: :profile,
       page_title: l("Profile"),
       feed_title: l("User timeline"),
       back: true,
@@ -288,17 +290,17 @@ defmodule Bonfire.UI.Me.ProfileLive do
     ]
   end
 
-  def handle_profile_params(%{"tab" => tab} = params, _url, socket)
-      when tab in ["posts", "boosts", "timeline", "objects"] do
-    debug(tab, "load tab")
+  # def handle_profile_params(%{"tab" => tab} = params, _url, socket)
+  #     when tab in ["posts", "boosts", "timeline", "objects"] do
+  #   debug(tab, "load tab")
 
-    Bonfire.Social.Feeds.LiveHandler.user_feed_assign_or_load_async(
-      tab,
-      nil,
-      params,
-      socket
-    )
-  end
+  #   Bonfire.Social.Feeds.LiveHandler.user_feed_assign_or_load_async(
+  #     tab,
+  #     nil,
+  #     params,
+  #     socket
+  #   )
+  # end
 
   # WIP: Include circles in profile without redirecting to circles page
   # def handle_profile_params(%{"tab" => tab} = params, _url, socket)
@@ -324,6 +326,10 @@ defmodule Bonfire.UI.Me.ProfileLive do
   def handle_profile_params(%{"tab" => tab} = params, _url, socket)
       when tab in ["followers", "followed", "requests", "requested"] do
     debug(tab, "load tab")
+
+    socket =
+      socket
+      |> assign(selected_tab: tab)
 
     {:noreply,
      Bonfire.Social.Feeds.LiveHandler.assign_feed(
@@ -353,12 +359,14 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
     {:noreply,
      assign(socket,
-       selected_tab: tab
+       selected_tab: tab,
+       loading: false
      )}
   end
 
   def handle_profile_params(params, _url, socket) do
     if is_nil(current_user_id(socket.assigns)) do
+      # TODO: configurable by user
       debug(params, "load guest default tab")
 
       handle_profile_params(
@@ -367,10 +375,11 @@ defmodule Bonfire.UI.Me.ProfileLive do
         socket
       )
     else
+      # TODO: configurable 
       debug(params, "load user default tab")
 
       handle_profile_params(
-        Map.merge(params || %{}, %{"tab" => "timeline"}),
+        Map.merge(params || %{}, %{"tab" => "about"}),
         nil,
         socket
       )

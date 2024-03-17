@@ -17,74 +17,13 @@
                 else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
             >
               {!-- 
-              background-color: #{color};
-              FOLLOWS YOU LABEL + optional graph proximity score --}
-              <div class="absolute right-2 bottom-2 opacity-90">
-                {#if @follows_me}
-                  <p class="badge rounded h-[1.75rem]">{"Follows you"}</p>
-                {/if}
-                {#case Settings.get(:experimental_features_enabled, false, @__context__) and
-                    (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or
-                       Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
-                  {#match false}
-                    <div />
-                  {#match true}
-                    <div />
-                  {#match nil}
-                    <progress title={l("Connection score unknown")} class="progress w-32" value="0" max="100" />
-                  {#match 0}
-                    <div />
-                  {#match distance when distance <= 1}
-                    <progress
-                      title={l("Connection score: %{distance}", distance: distance)}
-                      class="progress progress-success w-32"
-                      value="100"
-                      max="100"
-                    />
-                  {#match distance when distance <= 2}
-                    <progress
-                      title={l("Connection score: %{distance}", distance: distance)}
-                      class="progress progress-success w-32"
-                      value="80"
-                      max="100"
-                    />
-                  {#match distance when distance <= 3}
-                    <progress
-                      title={l("Connection score: %{distance}", distance: distance)}
-                      class="progress progress-info w-32"
-                      value="60"
-                      max="100"
-                    />
-                  {#match distance when distance <= 4}
-                    <progress
-                      title={l("Connection score: %{distance}", distance: distance)}
-                      class="progress progress-info w-32"
-                      value="40"
-                      max="100"
-                    />
-                  {#match distance when distance <= 5}
-                    <progress
-                      title={l("Connection score: %{distance}", distance: distance)}
-                      class="progress progress-warning w-32"
-                      value="20"
-                      max="100"
-                    />
-                  {#match distance when distance > 5}
-                    <progress
-                      title={l("Connection score: %{distance}", distance: distance)}
-                      class="progress progress-warning w-32"
-                      value="10"
-                      max="100"
-                    />
-                {/case}
-              </div>
+             <div class="absolute right-2 bottom-2 opacity-90">
+              </div> --}
             </div>
             <div data-id="hero_data" class="mb-4 px-4">
-              <div
-                :if={!Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
-                class="flex justify-between w-full"
-              >
-                {#if @character_type == :user}
+              <div class="flex w-full gap-2">
+                {#if @character_type == :user and
+                    !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                   <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"
@@ -93,26 +32,65 @@
                       user_id={id(@user)}
                       src={avatar_url}
                     />
-                  </LinkPatchLive>
-                  {!-- 
+                    {!-- 
                     NOTE: avoid putting a bg or border on the avatar, so alpha bg ones are displayed correctly
                     bg-base-100 border-4 border-base-100 ring-2 ring-base-300 fill-base-200 --}
-                  <Bonfire.UI.Me.HeroMoreActionsLive
-                    character_type={@character_type}
-                    ghosted_instance_wide?={@ghosted_instance_wide?}
-                    silenced_instance_wide?={@silenced_instance_wide?}
-                    ghosted?={@ghosted?}
-                    silenced?={@silenced?}
-                    boundary_preset={@boundary_preset}
-                    user={@user}
-                    members={@members}
-                    moderators={@moderators}
-                  />
+                  </LinkPatchLive>
                 {/if}
+
+                <div class="mt-2 flex flex-col">
+                  <div class="flex items-center text-xl font-bold text-base-content">
+                    <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
+                      {e(@user, :profile, :name, "Anonymous")}
+                    </LinkPatchLive>
+                    <span
+                      :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
+                      class="ml-3 badge badge-sm badge-info badge-outline"
+                    >
+                      {e(@user, :shared_user, :label, "")}
+                    </span>
+                  </div>
+                  <div class="flex items-center">
+                    <span class="font-normal text-sm text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
+                  </div>
+                </div>
+
+                <Bonfire.UI.Me.HeroMoreActionsLive
+                  character_type={@character_type}
+                  ghosted_instance_wide?={@ghosted_instance_wide?}
+                  silenced_instance_wide?={@silenced_instance_wide?}
+                  ghosted?={@ghosted?}
+                  silenced?={@silenced?}
+                  boundary_preset={@boundary_preset}
+                  user={@user}
+                  members={@members}
+                  moderators={@moderators}
+                />
               </div>
               <div class="w-full">
                 <div class={"flex items-start justify-between w-full pr-6 flex-1": @character_type != :user}>
-                  <Bonfire.UI.Me.ProfileInfoLive
+                  <div class="flex flex-col w-full gap-1 mt-3">
+                    <div class="flex items-start w-full justify-between">
+                      <!-- <div
+      :if={Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
+      class="mt-3 mr-6 flex items-center justify-between"
+    >
+      <Bonfire.UI.Me.HeroMoreActionsLive
+        ghosted_instance_wide?={@ghosted_instance_wide?}
+        silenced_instance_wide?={@silenced_instance_wide?}
+        ghosted?={@ghosted?}
+        silenced?={@silenced?}
+        character_type={@character_type}
+        boundary_preset={@boundary_preset}
+        user={@user}
+        members={@members}
+        moderators={@moderators}
+      />
+    </div> -->
+                    </div>
+                  </div>
+
+                  <!-- <Bonfire.UI.Me.ProfileInfoLive
                     ghosted_instance_wide?={@ghosted_instance_wide?}
                     silenced_instance_wide?={@silenced_instance_wide?}
                     ghosted?={@ghosted?}
@@ -124,6 +102,17 @@
                     selected_tab={@selected_tab}
                     members={@members}
                     moderators={@moderators}
+                  /> -->
+
+                  <Bonfire.UI.Me.ProfileBlockedIndicatorLive
+                    object={@user}
+                    user={@user}
+                    is_local_user={@is_local?}
+                    boundary_preset={@boundary_preset}
+                    ghosted_instance_wide?={@ghosted_instance_wide?}
+                    silenced_instance_wide?={@silenced_instance_wide?}
+                    ghosted?={@ghosted?}
+                    silenced?={@silenced?}
                   />
                 </div>
 
