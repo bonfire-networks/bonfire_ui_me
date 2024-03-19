@@ -5,8 +5,8 @@
 {/case}
 
 <div
-  class="w-full p-3"
-  :for={%{edge: %{object: %{id: id, profile: profile, character: %{id: _} = character}}} <- @aliases}
+  class="w-full p-3 flex"
+  :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <- @aliases}
 >
   <StatelessComponent
     module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
@@ -16,11 +16,21 @@
     class="btn btn-circle btn-ghost btn-sm"
     avatar_class="w-10 h-10  rounded-full"
   />
+
+  {#if Utils.maybe_apply(
+      Bonfire.Social.Graph.Aliases,
+      :also_known_as?,
+      [@user, character],
+      fallback_return: nil
+    )
+    |> IO.inspect(label: "maaaa")}
+    <#Icon iconify="mdi:check-circle-outline" class="w-5 h-5 text-success" />
+  {/if}
 </div>
 
 <div
   class="w-full"
-  :for={%{edge: %{object: %{id: id, media_type: type, path: path, metadata: metadata}}} <- @aliases}
+  :for={%{edge: %{object: %{id: _id, media_type: type, path: path, metadata: metadata}}} <- @aliases}
 >
   <Bonfire.UI.Me.ProfileLinkLive
     href={path}
