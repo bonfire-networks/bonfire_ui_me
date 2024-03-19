@@ -19,7 +19,7 @@ defmodule Bonfire.UI.Me.ProfileLinksLive do
             :list_aliases,
             [user]
           )
-          |> debug("list_aliases")
+          # |> debug("list_aliases")
           |> e(:edges, []),
         else: []
       )

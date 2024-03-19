@@ -23,7 +23,7 @@
         {/case}
 
         <a href={"#{e(@user, :profile, :website, "")}"} target="blank" class="ml-2 text-sm link">
-          {display_url(e(@user, :profile, :website, ""))}
+          {URIs.display_url(e(@user, :profile, :website, ""))}
         </a>
       </div>
     </div>

@@ -10,9 +10,5 @@ defmodule Bonfire.UI.Me.ProfileInfoLive do
 
   prop follows_me, :boolean, default: false
 
-  def display_url("https://" <> url), do: url
-  def display_url("http://" <> url), do: url
-  def display_url(url), do: url
-
   slot header
 end
