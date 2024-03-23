@@ -5,7 +5,7 @@
 {/case}
 
 <div
-  class="w-full p-3 flex"
+  class="w-full p-3 flex gap-3"
   :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <- @aliases}
 >
   <StatelessComponent
