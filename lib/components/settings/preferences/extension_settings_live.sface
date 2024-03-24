@@ -1,0 +1,24 @@
+{#case extension_enabled?(@extension, @__context__) &&
+    Bonfire.UI.Common.SettingsModule.components(@extension)}
+  {#match extension_settings when is_list(extension_settings)}
+    <div class="m-3">
+      {#if to_string(@extension) not in Bonfire.Application.required_deps()}
+        <div class="text-sm font-light text-base-content/70">{l(
+            "You can disable this extension if you don't need it. If you want to re-enable it in the future, you'll find it in the extension list in settings."
+          )}</div>
+        <ul>
+          <Bonfire.UI.Common.ExtensionToggleLive id={@extension} can_instance_wide={false} />
+        </ul>
+      {/if}
+
+      <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
+        <Bonfire.UI.Common.WidgetsLive
+          widgets={extension_settings}
+          extra_data={scope: @scope}
+          with_title
+        />
+      </form>
+    </div>
+  {#match _}
+    {l("No settings here.")}
+{/case}

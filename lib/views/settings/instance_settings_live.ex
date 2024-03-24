@@ -52,12 +52,41 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      )}
   end
 
-  def handle_params(%{"tab" => tab}, _url, socket) do
+  def handle_params(%{"tab" => "bonfire_" <> extension_shortname = tab}, _url, socket) do
+    extension = Bonfire.Common.ExtensionModule.extension(tab)
+
     {:noreply,
      assign(
        socket,
-       page_title: tab,
-       selected_tab: tab
+       back: true,
+       page_title: e(extension, :name, nil) || String.capitalize(extension_shortname),
+       selected_tab: tab,
+       page_header_aside: [
+         {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
+          [
+            selected_tab: tab,
+            scope: :instance
+          ]}
+       ]
+     )}
+  end
+
+  def handle_params(%{"tab" => tab}, _url, socket) do
+    extension = Bonfire.Common.ExtensionModule.extension(tab)
+
+    {:noreply,
+     assign(
+       socket,
+       back: true,
+       page_title: e(extension, :name, nil) || String.capitalize(tab),
+       selected_tab: tab,
+       page_header_aside: [
+         {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
+          [
+            selected_tab: tab,
+            scope: :instance
+          ]}
+       ]
      )}
   end
 

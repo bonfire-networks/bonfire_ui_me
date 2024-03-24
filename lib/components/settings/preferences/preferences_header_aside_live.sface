@@ -9,7 +9,7 @@
   >
     <li>
       <LinkLive
-        to={"/settings/user/preferences/#{@id}"}
+        to={"/settings/user/#{@selected_tab}/#{@id}"}
         class={
           "flex gap-2 text-base-content/70",
           "active !text-base-content/100 font-semibold": @scope == :user
@@ -19,7 +19,7 @@
       </LinkLive></li>
     <li>
       <LinkLive
-        to={"/settings/account/preferences/#{@id}"}
+        to={"/settings/account/#{@selected_tab}/#{@id}"}
         class={
           "flex gap-2 text-base-content/70",
           "active !text-base-content/100 font-semibold": @scope == :account
@@ -30,7 +30,7 @@
 
     <li :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
       <LinkLive
-        to={"/settings/instance/preferences/#{@id}"}
+        to={"/settings/instance/#{@selected_tab}/#{@id}"}
         class={
           "flex gap-2 text-base-content/70",
           "active !text-base-content/100 font-semibold": @scope == :instance

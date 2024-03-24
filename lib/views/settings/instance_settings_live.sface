@@ -103,7 +103,12 @@
         description={l("You can define custom emoji for all users on this instance.")}
       />
     {#match _}
-      <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive selected_tab={@selected_tab} />
+      {#case maybe_to_atom!(@selected_tab)}
+        {#match nil}
+          <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive selected_tab={@selected_tab} />
+        {#match extension}
+          <Bonfire.UI.Me.ExtensionSettingsLive extension={extension} scope={:instance} />
+      {/case}
   {/case}
 </section>
 {!-- </div> --}
