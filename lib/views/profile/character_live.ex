@@ -5,7 +5,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
 
   # alias Bonfire.Me.Fake
 
-  alias Bonfire.UI.Me.ProfileLive
+  alias Bonfire.Me.Profiles.LiveHandler
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
     # info(params)
     {:ok,
      socket
-     |> assign(ProfileLive.default_assigns(is_nil(current_user_id(socket.assigns))))
+     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(socket.assigns))))
      |> assign_new(:selected_tab, fn -> "timeline" end)}
   end
 
@@ -40,7 +40,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
 
         username ->
           # TODO: really need to query here?
-          {"@", ProfileLive.get(username)}
+          {"@", LiveHandler.get(username)}
       end
       |> debug("user_etc")
 
@@ -93,7 +93,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
                  "The extension needed to display this doesn't seem installed or enabled. Showing a simplified profile instead..."
                )
              )
-             |> assign(ProfileLive.user_assigns(user_etc, current_user))
+             |> assign(LiveHandler.user_assigns(user_etc, current_user))
              |> assign(
                character_type: :unknown,
                path: path
