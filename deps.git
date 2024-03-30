@@ -8,6 +8,5 @@ bonfire_files = "https://github.com/bonfire-networks/bonfire_files#main"
 # bonfire_data_social="https://github.com/bonfire-networks/bonfire_data_social#main"
 # bonfire_web_phoenix = "https://github.com/bonfire-networks/bonfire_web_phoenix#main"
 verbs = "https://github.com/shannonwells/verbs_ex"
-needle = "https://github.com/bonfire-networks/needle"
 
 # surface = "https://github.com/surface-ui/surface" 
