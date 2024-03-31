@@ -138,29 +138,31 @@
         {/if}
 
         {#if current_user_id(@__context__)}
-          <li :if={@character_type == :user}>
-            <StatelessComponent
-              :if={current_user(@__context__)}
-              module={maybe_component(Bonfire.Boundaries.Web.AddToCircleLive, @__context__)}
-              user_id={id(@user)}
-              parent_id="profile_hero"
-            />
-          </li>
+          {#if @character_type == :user}}
+            <li>
+              <StatelessComponent
+                :if={current_user(@__context__)}
+                module={maybe_component(Bonfire.Boundaries.Web.AddToCircleLive, @__context__)}
+                user_id={id(@user)}
+                parent_id="profile_hero"
+              />
+            </li>
 
-          <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
-            <Bonfire.UI.Common.SmartInputButtonLive
-              create_object_type={:message}
-              icon="carbon:email"
-              prompt={l("Direct Message %{name}", name: e(@user, :profile, :name, nil))}
-              smart_input_opts={%{
-                recipients_editable: true,
-                to_circles: [
-                  {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
-                ]
-              }}
-              class="flex items-center text-sm text-base-content/70"
-            />
-          </li>
+            <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
+              <Bonfire.UI.Common.SmartInputButtonLive
+                create_object_type={:message}
+                icon="carbon:email"
+                prompt={l("Direct Message %{name}", name: e(@user, :profile, :name, nil))}
+                smart_input_opts={%{
+                  recipients_editable: true,
+                  to_circles: [
+                    {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
+                  ]
+                }}
+                class="flex items-center text-sm text-base-content/70"
+              />
+            </li>
+          {/if}
 
           <li class="">
             <StatelessComponent
