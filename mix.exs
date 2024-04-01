@@ -44,13 +44,13 @@ defmodule Bonfire.UI.Me.MixProject do
           # {:bonfire_tag,
           #  git: "https://github.com/bonfire-networks/bonfire_tag",
           #  branch: "main",
-          #  optional: true},
+          #  optional: true, runtime: false},
           # {:bonfire_social,
           #  git: "https://github.com/bonfire-networks/bonfire_social",
           #  branch: "main",
-          #  optional: true},
-          # {:bonfire_valueflows, "https://github.com/bonfire-networks/bonfire_valueflows", branch: "main", optional: true}
-          # {:bonfire_ui_valueflows, "https://github.com/bonfire-networks/bonfire_ui_valueflows", branch: "main", optional: true}
+          #  optional: true, runtime: false},
+          # {:bonfire_valueflows, "https://github.com/bonfire-networks/bonfire_valueflows", branch: "main", optional: true, runtime: false}
+          # {:bonfire_ui_valueflows, "https://github.com/bonfire-networks/bonfire_ui_valueflows", branch: "main", optional: true, runtime: false}
         ]),
       package: [
         licenses: ["AGPL v3"]
