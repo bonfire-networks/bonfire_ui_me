@@ -5,7 +5,15 @@ defmodule Bonfire.UI.Me.ProfileLive do
   alias Bonfire.Me.Integration
   alias Bonfire.Me.Profiles.LiveHandler
 
-  # alias Bonfire.Me.Fake
+  declare_extension("UI for accounts, user profiles and settings",
+    icon: "carbon:user-avatar",
+    emoji: "🧑🏼",
+    description:
+      l(
+        "User interface for signing in, creating, editing and viewing accounts, user profiles, and settings."
+      )
+  )
+
   # declare_nav_link(l("Profile"), page: "profile", icon: "ri:user-line", icon_active: "ri:user-fill")
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
