@@ -85,6 +85,13 @@ defmodule Bonfire.UI.Me.Routes do
         resources("/signup/email/confirm/:id", ConfirmEmailController, only: [:show])
       end
 
+      scope "/api" do
+        pipe_through(:basic_json)
+        pipe_through(:throttle_plug_attacks)
+
+        get "/v0/user", Bonfire.UI.Me.API.GraphQL.RestAdapter, :user
+      end
+
       # pages only guests can view
       scope "/", Bonfire.UI.Me do
         pipe_through([:throttle_plug_attacks, :browser, :guest_only])
