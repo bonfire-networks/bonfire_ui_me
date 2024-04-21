@@ -8,22 +8,29 @@ if Application.compile_env(:bonfire_api_graphql, :modularity) != :disabled do
 
     alias Bonfire.API.GraphQL.RestAdapter
 
+    @user_profile "
+    profile {
+      icon
+      image
+      location
+      name
+      summary
+      website
+    }
+    character {
+      username
+    }"
+
     @graphql "query ($filter: CharacterFilters) {
       user(filter: $filter) {
-      profile {
-        icon
-        image
-        location
-        name
-        summary
-        website
-      }
-      character {
-        username
-      }
-    }
-    }"
+        #{@user_profile}
+    }}"
     def user(conn, data), do: RestAdapter.return(:user, data, conn)
-    # def user(conn, params \\ %{}), do: RestAdapter.execute(:users, params, __MODULE__, conn)
+
+    @graphql "query {
+        me { 
+         user { #{@user_profile} }
+      }}"
+    def me(conn, data), do: RestAdapter.return(:user, data, conn)
   end
 end

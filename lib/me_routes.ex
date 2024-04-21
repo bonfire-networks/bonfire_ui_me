@@ -90,6 +90,7 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:throttle_plug_attacks)
 
         get "/v0/user", Bonfire.UI.Me.API.GraphQL.RestAdapter, :user
+        get "/v0/me", Bonfire.UI.Me.API.GraphQL.RestAdapter, :me
       end
 
       # pages only guests can view

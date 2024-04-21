@@ -44,7 +44,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
   def show(conn, %{"id" => username} = params) do
     debug("lookup")
 
-    Users.by_username_and_account(username, current_account_id(conn))
+    Users.by_user_and_account(username, current_account_id(conn))
     |> show(conn, params)
   end
 
