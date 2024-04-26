@@ -12,7 +12,7 @@
         <div role="status" class="alert alert-warning">
           <div class="flex flex-1">
             <label>
-              {l("Account not found. Either your username or password was incorrect. Did you want to ")} <Link to={path(:signup)} class="font-bold underline text-neutral">sign up</Link> ?
+              {l("Account not found. Either your username or password was incorrect. Did you want to ")} <LinkLive to={path(:signup)} class="font-bold underline text-neutral">sign up</LinkLive> ?
             </label>
           </div>
         </div>
@@ -23,7 +23,10 @@
             <label>
               {l(
                 "You need to to click the link in the email you should have received to verify your email address.  Need to have it "
-              )} <Link to={path(Bonfire.UI.Me.ConfirmEmailController)} class="font-bold underline text-neutral">resent</Link> ?
+              )} <LinkLive
+                to={path(Bonfire.UI.Me.ConfirmEmailController)}
+                class="font-bold underline text-neutral"
+              >resent</LinkLive> ?
             </label>
           </div>
         </div>
@@ -144,8 +147,8 @@
 
     <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-4">
       <div class="flex py-4 pb-2 mt-6 border-t border-base-content/20 place-content-center">
-        <Link to={path(:signup)} class="text-xs text-center normal-case">
-          {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></Link>
+        <LinkLive to={path(:signup)} class="text-xs text-center normal-case">
+          {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></LinkLive>
       </div>
     </div>
   </Form>
