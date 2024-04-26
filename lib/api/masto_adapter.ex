@@ -9,14 +9,15 @@ if Application.compile_env(:bonfire_api_graphql, :modularity) != :disabled do
       action: [mode: :internal]
 
     alias Bonfire.API.GraphQL.RestAdapter
+    alias Bonfire.Common.Enums
 
     @user_profile "
-      id
+    id
     created_at: date_created
     profile {
       avatar: icon
       header: image
-      location
+      # location
       display_name: name
       note: summary
       website
@@ -34,11 +35,7 @@ if Application.compile_env(:bonfire_api_graphql, :modularity) != :disabled do
     def user(params, conn) do
       user = graphql(conn, :user, debug(params))
 
-      RestAdapter.return(:user, user, conn, fn user ->
-        user
-        |> Map.drop([:profile, :character])
-        |> Map.merge(Map.merge(user[:profile] || %{}, user[:character] || %{}))
-      end)
+      RestAdapter.return(:user, user, conn, &Enums.maybe_flatten/1)
     end
 
     @graphql "query {
