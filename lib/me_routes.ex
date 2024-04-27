@@ -103,6 +103,12 @@ defmodule Bonfire.UI.Me.Routes do
           as: :signup
         )
 
+        # alias for Masto clients
+        resources("/auth/sign_up", SignupController,
+          only: [:index, :create],
+          as: :signup
+        )
+
         resources("/signup/invitation/:invite", SignupController,
           only: [:index, :create],
           as: :invite
