@@ -43,6 +43,6 @@ if Application.compile_env(:bonfire_api_graphql, :modularity) != :disabled do
          user { #{@user_profile} }
       }}"
     def me(params \\ %{}, conn),
-      do: graphql(conn, :me, params) |> RestAdapter.return(:user, ..., conn)
+      do: graphql(conn, :me, params) |> RestAdapter.return(:me, ..., conn, &Enums.maybe_flatten/1)
   end
 end
