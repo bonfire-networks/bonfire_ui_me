@@ -63,7 +63,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     end
   end
 
-  test "success" do
+  test "can signup" do
     conn = conn()
     email = email()
     password = password()
@@ -78,78 +78,31 @@ defmodule Bonfire.UI.Me.SignupController.Test do
 
     doc = floki_response(conn)
     assert [signup] = Floki.find(doc, "#signup")
-    assert [p] = Floki.find(doc, "[data-id=confirmation_success]")
+    assert [p] = Floki.find(doc, "#signup_success")
     assert Floki.text(p) =~ ~r/confirm your email/s
     assert [] = Floki.find(doc, "#signup-form")
   end
 
-  test "success (with PhoenixTest)" do
+  test "can signup (with PhoenixTest)" do
     conn = conn()
     email = email()
     password = password()
 
-    pt =
-      conn
-      |> visit("/")
-
-    pt
+    conn
+    |> visit("/")
     |> click_link("Create an account")
-    |> assert_has("button", "Accept")
-    |> fill_form("form#signup-form",
-      account: %{
-        email: %{email_address: email}
-      }
+    |> assert_has("#signup")
+    |> assert_has("#signup button", text: "Accept")
+    |> fill_in("Email address", with: email)
+    |> fill_in("Choose a password (10 characters minimum)", with: password)
+    |> fill_in("Confirm your password", with: password)
+    |> submit()
+    # |> click_button("Sign up") 
+    |> refute_has("#signup .alert-error")
+    |> refute_has("#signup-form")
+    |> assert_has("#signup_success",
+      text:
+        "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."
     )
-    |> click_button("Sign up")
   end
-
-  # test "success (with PhoenixTest)" do
-  #   conn = conn()
-  #   email = email()
-  #   password = password()
-
-  #   # IO.inspect(conn.assigns, label: "asssss")
-
-  #   pt =
-  #     conn
-  #     |> visit("/")
-
-  #   IO.inspect(pt.view)
-
-  #   pt
-  #   |> click_link("Create an account")
-  #   |> assert_has("button", "Accept")
-  #   # |> click_button("Accept") # powered by Alpine.JS 
-  #   # |> assert_has("form#signup-form")
-  #   |> fill_form("form#signup-form",
-  #     account: %{
-  #       # email_address: email
-  #       email: %{email_address: email}, 
-  #       # credential: %{password: password}
-  #     }
-  #     # %{
-  #     #     "name='account[email][email_address]'" => email,
-  #     #     "name='account[credential][password]'" => password
-  #     #   }
-  #     # %{
-  #     #   "account[email][email_address]" => email,
-  #     #   "account[credential][password]" => password
-  #     # }
-  #     # %{
-  #     #     "account" => %{
-  #     #       "email" => %{"email_address" => email},
-  #     #       "credential" => %{"password" => password}
-  #     #     }
-  #     #   }
-  #     # account: [
-  #     #   email: [email_address: email], 
-  #     #   credential: [password: password]
-  #     # ]
-  #   )
-  #   # |> submit_form("form#signup-form", %{})
-  #   # FIXME: `element selected by "#signup-form" does not have phx-submit attribute`
-  #   |> click_button("Sign up")
-  #   # TODO
-  #   |> assert_has(".current_account", "me")
-  # end
 end

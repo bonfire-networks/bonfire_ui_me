@@ -7,7 +7,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     conn = get(conn, "/create-user")
     doc = floki_response(conn)
     view = Floki.find(doc, "#create_user")
-    assert [form] = Floki.find(doc, "#create-form")
+    assert [form] = Floki.find(doc, "#create-user-form")
     assert [_] = Floki.find(form, "#create-form_character_username")
     assert [_] = Floki.find(form, "#create-form_profile_name")
     assert [_] = Floki.find(form, "#create-form_profile_summary")
@@ -22,7 +22,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
       assert Floki.text(view) =~ "error occurred"
-      assert [form] = Floki.find(doc, "#create-form")
+      assert [form] = Floki.find(doc, "#create-user-form")
       assert [_] = Floki.find(form, "#create-form_character_username")
 
       # assert_field_error(form, "create-form_character_username", ~r/can't be blank/)
@@ -46,7 +46,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
       assert Floki.text(view) =~ "error occurred"
-      assert [form] = Floki.find(doc, "#create-form")
+      assert [form] = Floki.find(doc, "#create-user-form")
       assert_field_good(form, "create-form_profile_name")
 
       # assert_field_error(form, "create-form_character_username", ~r/can't be blank/)
@@ -66,7 +66,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
       assert Floki.text(view) =~ "error occurred"
-      assert [form] = Floki.find(doc, "#create-form")
+      assert [form] = Floki.find(doc, "#create-user-form")
       assert_field_good(form, "create-form_profile_summary")
 
       # assert_field_error(form, "create-form_character_username", ~r/can't be blank/)
@@ -86,7 +86,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
       assert Floki.text(view) =~ "error occurred"
-      assert [form] = Floki.find(doc, "#create-form")
+      assert [form] = Floki.find(doc, "#create-user-form")
       assert_field_good(form, "create-form_profile_summary")
       assert_field_good(form, "create-form_profile_name")
 
@@ -109,7 +109,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
       assert Floki.text(view) =~ "error occurred"
-      assert [form] = Floki.find(doc, "#create-form")
+      assert [form] = Floki.find(doc, "#create-user-form")
       assert_field_good(form, "create-form_profile_summary")
       assert_field_good(form, "create-form_character_username")
       # assert_field_error(form, "create-form_profile_name", ~r/can't be blank/)
@@ -133,7 +133,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     doc = floki_response(conn)
     assert [view] = Floki.find(doc, "#create_user")
     assert Floki.text(view) =~ "already been taken"
-    assert [form] = Floki.find(doc, "#create-form")
+    assert [form] = Floki.find(doc, "#create-user-form")
     assert_field_good(form, "create-form_profile_summary")
     assert_field_good(form, "create-form_profile_name")
 

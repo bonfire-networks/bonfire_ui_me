@@ -9,6 +9,7 @@ defmodule Bonfire.UI.Me.SignupLive do
     # debug(session, "session")
     {:ok,
      socket
+     |> assign_global(:current_url, "/signup")
      |> assign(:page, l("signup"))
      |> assign(:page_title, l("Sign up"))
      |> assign(:invite, e(session, "invite", nil))

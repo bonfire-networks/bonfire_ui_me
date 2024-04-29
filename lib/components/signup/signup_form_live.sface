@@ -39,14 +39,14 @@
           </div>
         </div>
     {/case}
-    <Form for={@form} action="?" opts={[id: "signup-form"]}>
+    <Form for={@form} action={current_url(@__context__)} opts={[id: "signup-form"]}>
       <Inputs for={:email}>
         <Field name={:email_address}>
-          <label for="signup-form_email_email_address" class="label">
+          <Label class="label">
             <span class="text-xs label-text">
               {l("Email address")}
             </span>
-          </label>
+          </Label>
           <EmailInput
             opts={placeholder: "alice@email.com"}
             required

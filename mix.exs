@@ -37,8 +37,8 @@ defmodule Bonfire.UI.Me.MixProject do
            },
 
           {:phoenix_test, 
-          # "~> 0.2.4", 
-          git: "https://github.com/germsvel/phoenix_test",
+          "~> 0.2.13", 
+          # git: "https://github.com/germsvel/phoenix_test",
           only: :test, runtime: false}
           
           # {:bonfire_tag,
