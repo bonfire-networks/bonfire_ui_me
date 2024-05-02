@@ -42,7 +42,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
 
   @doc "Switch to a user, if permitted."
   def show(conn, %{"id" => username} = params) do
-    debug("lookup")
+    debug(username, "lookup")
 
     Users.by_user_and_account(username, current_account_id(conn))
     |> show(conn, params)
@@ -51,9 +51,10 @@ defmodule Bonfire.UI.Me.SwitchUserController do
   defp show({:ok, %{id: user_id} = _user}, conn, params) do
     # maybe_apply(Bonfire.Boundaries.Users, :create_missing_boundaries, user)
 
-    debug("ok to switch")
+    debug(user_id, "user to switch to")
 
     conn
+    |> Bonfire.Me.Users.LiveHandler.disconnect_user_session()
     |> put_session(:current_user_id, user_id)
     |> put_session(:live_socket_id, "socket_user:#{user_id}")
     # |> assign_flash(:info, l("Welcome back, %{name}!", name: greet(user)))

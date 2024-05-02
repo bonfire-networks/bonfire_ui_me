@@ -67,7 +67,9 @@ defmodule Bonfire.UI.Me.Routes do
 
         live("/remote_interaction", RemoteInteractionLive)
 
-        live "/settings/deleted/:type/:id", DeletedLive
+        get "/settings/deleted/account/:id", DeletedController, :account
+        get "/settings/deleted/user/:id", DeletedController, :user
+        get "/settings/deleted/:type/:id", DeletedController, :other
 
         # throttle the routes below
         pipe_through(:throttle_plug_attacks)

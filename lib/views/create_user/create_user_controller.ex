@@ -57,6 +57,7 @@ defmodule Bonfire.UI.Me.CreateUserController do
 
   defp greet(conn, params, id, name) do
     conn
+    |> Bonfire.Me.Users.LiveHandler.disconnect_user_session()
     |> put_session(:current_user_id, id)
     |> assign_flash(:info, l("Hey %{name}, nice to meet you!", name: name))
     |> redirect_to_previous_go(params, "/", "/create-user")

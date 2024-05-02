@@ -54,7 +54,7 @@
   >
     <div class="flex items-center gap-2 mb-3 text-base font-semibold">
       {!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> --}
-      <span>{l("Create a new user")}</span>
+      <span>{l("Create a new user profile")}</span>
     </div>
     <div x-data="{username:''}" class="flex flex-col space-y-4">
       <Inputs for={:profile}>
