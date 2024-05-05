@@ -1,6 +1,6 @@
 defmodule Bonfire.UI.Me.ProfileBlockedIndicatorLive do
   use Bonfire.UI.Common.Web, :stateless_component
-  # import Bonfire.UI.Me.Integration
+  # import Bonfire.UI.Me
 
   prop user, :map
   prop is_local_user, :any, default: nil

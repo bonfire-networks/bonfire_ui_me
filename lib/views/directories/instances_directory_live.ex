@@ -1,7 +1,7 @@
 defmodule Bonfire.UI.Me.InstancesDirectoryLive do
   use Bonfire.UI.Common.Web, :surface_live_view
 
-  # import Bonfire.UI.Me.Integration
+  # import Bonfire.UI.Me
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 

@@ -1,6 +1,6 @@
 defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   use Bonfire.UI.Common.Web, :stateful_component
-  # import Bonfire.UI.Me.Integration
+  # import Bonfire.UI.Me
   # import Bonfire.Common.Media
 
   prop user, :map

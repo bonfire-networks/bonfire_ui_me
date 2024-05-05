@@ -35,7 +35,7 @@ defmodule Bonfire.UI.Me.ConnCase do
       import Bonfire.UI.Me.Test.FakeHelpers
       import Bonfire.Common.Simulation
       import Bonfire.Me.Fake.Helpers
-      import Bonfire.UI.Me.Integration
+      import Bonfire.UI.Me
 
       import Untangle
       use Arrows
@@ -48,7 +48,7 @@ defmodule Bonfire.UI.Me.ConnCase do
   end
 
   setup tags do
-    # import Bonfire.UI.Me.Integration
+    # import Bonfire.UI.Me
 
     Bonfire.Common.Test.Interactive.setup_test_repo(tags)
 

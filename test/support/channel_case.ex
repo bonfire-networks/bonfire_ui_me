@@ -17,7 +17,7 @@ defmodule Bonfire.UI.Me.ChannelCase do
 
   use ExUnit.CaseTemplate
 
-  # import Bonfire.UI.Me.Integration
+  # import Bonfire.UI.Me
 
   using do
     quote do
@@ -25,7 +25,7 @@ defmodule Bonfire.UI.Me.ChannelCase do
       import Phoenix.ChannelTest
       import Bonfire.UI.Me.ChannelCase
       import Bonfire.Common.Simulation
-      import Bonfire.UI.Me.Integration
+      import Bonfire.UI.Me
 
       # The default endpoint for testing
       @endpoint Application.compile_env!(:bonfire, :endpoint_module)
