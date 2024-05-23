@@ -45,12 +45,15 @@ defmodule Bonfire.UI.Me.LoginController do
 
   # the user logged in via email and have more than one user in the
   # account, so we must show them the user switcher.
-  def logged_in(%{id: account_id}, nil, conn, form) do
+  def logged_in(%{id: account_id} = current_account, nil, conn, form) do
     conn
     |> put_session(:current_account_id, account_id)
-    |> put_session(:live_socket_id, "socket_account:#{account_id}")
+    |> assign(:current_account, current_account)
     |> put_session(:current_user_id, nil)
+    |> put_session(:live_socket_id, "socket_account:#{account_id}")
     |> assign_flash(:info, l("Welcome back!"))
+    # to support redirect after a POST
+    |> Plug.Conn.put_status(303)
     |> redirect_to(path(:switch_user) <> copy_go(form))
   end
 
@@ -58,12 +61,15 @@ defmodule Bonfire.UI.Me.LoginController do
   # we found there was only one user in the account, so we're going to
   # just send them straight to the homepage and avoid the user
   # switcher.
-  def logged_in(%{id: account_id}, %{id: user_id} = _user, conn, form) do
+  def logged_in(%{id: account_id} = current_account, %{id: user_id} = current_user, conn, form) do
     # maybe_apply(Bonfire.Boundaries.Users, :create_missing_boundaries, user)
 
     conn
     |> put_session(:current_account_id, account_id)
+    |> assign(:current_account, current_account)
     |> put_session(:current_user_id, user_id)
+    # needed if we run oAuth logic instead of redirecting
+    |> assign(:current_user, current_user)
     |> put_session(:live_socket_id, "socket_user:#{user_id}")
     # |> assign_flash(
     #   :info,
@@ -71,6 +77,8 @@ defmodule Bonfire.UI.Me.LoginController do
     #     name: e(user, :profile, :name, e(user, :character, :username, "anonymous"))
     #   )
     # )
+    # to support redirect after a POST
+    |> Plug.Conn.put_status(303)
     |> redirect_to_previous_go(form, "/", "/login")
   end
 
