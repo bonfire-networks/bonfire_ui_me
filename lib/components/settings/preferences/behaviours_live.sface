@@ -6,7 +6,7 @@
 </div>
 
 <div class="">
-  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/20">
+  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
     <#Icon iconify="majesticons:list-box" class="w-6 h-6 text-base-content/80" />
     <span>{l("Feeds and Discussions")}</span>
   </div>
@@ -202,7 +202,7 @@
     </div>
   </div>
 
-  <div class="p-4 font-bold text-xl flex items-center gap-4 border-b border-base-content/20">
+  <div class="p-4 font-bold text-xl flex items-center gap-4 border-b border-base-content/10">
     <#Icon iconify="material-symbols:digital-wellbeing" class="w-6 h-6 text-base-content/80" />
     <span>{l("Wellbeing")}</span>
   </div>
@@ -321,7 +321,7 @@
     />
   </form> --}
 
-  <div class="p-4 text-xl border-b border-base-content/20 font-bold flex items-center gap-4">
+  <div class="p-4 text-xl border-b border-base-content/10 font-bold flex items-center gap-4">
     <#Icon iconify="ic:round-lock" class="w-6 h-6 text-base-content/80" />
     <span>{l("Privacy & Safety")}</span>
   </div>
@@ -367,7 +367,7 @@
   <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
   <Bonfire.UI.Me.SettingsViewsLive.IndexableLive scope={@scope} />
 
-  <div class="p-4 text-xl border-b border-base-content/20 font-bold flex items-center gap-4">
+  <div class="p-4 text-xl border-b border-base-content/10 font-bold flex items-center gap-4">
     <#Icon iconify="streamline:trending-content-solid" class="w-6 h-6 text-base-content/80" />
     <span>{l("Curated & Trending topics")}</span>
   </div>

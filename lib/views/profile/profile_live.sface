@@ -7,7 +7,7 @@
           id="guest-profile"
         />
 
-        <div class="font-medium mt-6 text-lg capitalize px-4 border-b border-base-content/20 pb-4">{@selected_tab}</div>
+        <div class="font-medium mt-6 text-lg capitalize px-4 border-b border-base-content/10 pb-4">{@selected_tab}</div>
       {#else} -->
 
     <StatelessComponent
@@ -37,7 +37,7 @@
       class="px-4 md:px-0 flex border-t justify-between w-full border-b bg-base-100 tabs border-base-content border-opacity-20"
       tab_class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center lined_tab"
       item_class="text-base-content/60 text-sm pb-3 border-b-4 border-transparent font-medium"
-      selected_tab={if @selected_tab != "about", do: @selected_tab}
+      selected_tab={@selected_tab}
       path_prefix={if @character_type == :user,
         do: "/@#{e(@user, :character, :username, "")}/",
         else: "/&#{e(@user, :character, :username, "")}/"}
@@ -48,7 +48,7 @@
 
     <!-- {/if} -->
 
-    <StatelessComponent
+    <!-- <StatelessComponent
       module={Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Me.ProfileInfoLive)}
       selected_tab={@selected_tab}
       user={@user}
@@ -63,7 +63,7 @@
       follows_me={@follows_me}
       hide_tabs={@hide_tabs}
       is_local?={@is_local?}
-    />
+    /> -->
   {#else}
     {!-- when silenced show only the header but no timeline or other content --}
     <StatelessComponent

@@ -21,13 +21,14 @@
               </div> --}
             </div>
             <div data-id="hero_data" class="mb-4 px-4">
-              <div class="flex w-full gap-2">
-                {#if @character_type == :user and
+              <div class="w-full gap-2">
+               <div class="flex items-center justify-between"> 
+               {#if @character_type == :user and
                     !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                   <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"
-                      class="inline-block object-cover  w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full"
+                      class="inline-block object-cover bg-base-300 w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full"
                       src={Media.avatar_url(@user)}
                       user_id={id(@user)}
                       src={avatar_url}
@@ -38,7 +39,20 @@
                   </LinkPatchLive>
                 {/if}
 
-                <div class="mt-2 flex flex-col">
+                 <Bonfire.UI.Me.HeroMoreActionsLive
+                  character_type={@character_type}
+                  ghosted_instance_wide?={@ghosted_instance_wide?}
+                  silenced_instance_wide?={@silenced_instance_wide?}
+                  ghosted?={@ghosted?}
+                  silenced?={@silenced?}
+                  boundary_preset={@boundary_preset}
+                  user={@user}
+                  members={@members}
+                  moderators={@moderators}
+                />
+                </div>
+
+                <div class="mt-3 flex flex-col">
                   <div class="flex items-center text-xl font-bold text-base-content">
                     <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
                       {e(@user, :profile, :name, "Anonymous")}
@@ -55,42 +69,12 @@
                   </div>
                 </div>
 
-                <Bonfire.UI.Me.HeroMoreActionsLive
-                  character_type={@character_type}
-                  ghosted_instance_wide?={@ghosted_instance_wide?}
-                  silenced_instance_wide?={@silenced_instance_wide?}
-                  ghosted?={@ghosted?}
-                  silenced?={@silenced?}
-                  boundary_preset={@boundary_preset}
-                  user={@user}
-                  members={@members}
-                  moderators={@moderators}
-                />
+               
               </div>
               <div class="w-full">
                 <div class={"flex items-start justify-between w-full pr-6 flex-1": @character_type != :user}>
-                  <div class="flex flex-col w-full gap-1 mt-3">
-                    <div class="flex items-start w-full justify-between">
-                      <!-- <div
-      :if={Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
-      class="mt-3 mr-6 flex items-center justify-between"
-    >
-      <Bonfire.UI.Me.HeroMoreActionsLive
-        ghosted_instance_wide?={@ghosted_instance_wide?}
-        silenced_instance_wide?={@silenced_instance_wide?}
-        ghosted?={@ghosted?}
-        silenced?={@silenced?}
-        character_type={@character_type}
-        boundary_preset={@boundary_preset}
-        user={@user}
-        members={@members}
-        moderators={@moderators}
-      />
-    </div> -->
-                    </div>
-                  </div>
 
-                  <!-- <Bonfire.UI.Me.ProfileInfoLive
+                  <Bonfire.UI.Me.ProfileInfoLive
                     ghosted_instance_wide?={@ghosted_instance_wide?}
                     silenced_instance_wide?={@silenced_instance_wide?}
                     ghosted?={@ghosted?}
@@ -102,7 +86,7 @@
                     selected_tab={@selected_tab}
                     members={@members}
                     moderators={@moderators}
-                  /> -->
+                  />
 
                   <Bonfire.UI.Me.ProfileBlockedIndicatorLive
                     object={@user}

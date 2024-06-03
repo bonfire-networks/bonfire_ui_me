@@ -1,7 +1,7 @@
 <section>
   <#slot {@header} />
 
-  <div class="flex flex-col w-full gap-1 m-2">
+  <div class="flex flex-col w-full gap-1">
     <div class="">
       <div :if={@character_type == :user} class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
         {rich(e(@user, :profile, :summary, ""))}
