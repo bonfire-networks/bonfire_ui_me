@@ -106,4 +106,14 @@
       scope={@scope}
     />
   </form>
+
+  <form data-scope="set_date_format" name="settings" phx-change="Bonfire.Common.Settings:set">
+    <Bonfire.UI.Common.SettingsSelectLive
+      name={l("Date format")}
+      description={l("Select how to display the date/time of activities")}
+      keys={[:ui, :date_time_format]}
+      options={Keyword.merge([relative: l("Relative")], DatesTimes.available_formats())}
+      scope={@scope}
+    />
+  </form>
 </div>
