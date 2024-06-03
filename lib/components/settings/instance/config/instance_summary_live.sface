@@ -5,7 +5,7 @@
       {l("General instance settings")}
     </div>
     <div class="collapse-content">
-      <div class="divide-y divide-base-content/20">
+      <div class="divide-y divide-base-content/10">
         <div class="py-4">
           <div class="flex items-center justify-between flex-1 items-center gap-4">
             <div class="flex gap-2">
@@ -276,7 +276,7 @@
       {l("Look & feel")}
     </div>
     <div class="collapse-content">
-      <div class="divide-y divide-base-content/20">
+      <div class="divide-y divide-base-content/10">
         <div class="py-4">
           <div class="flex items-center justify-between flex-1 items-center gap-4">
             <div class="flex gap-2">
@@ -317,7 +317,7 @@
       {l("Privacy")}
     </div>
     <div class="collapse-content">
-      <div class="divide-y divide-base-content/20">
+      <div class="divide-y divide-base-content/10">
         <div class="py-4">
           <div class="flex items-center justify-between gap-2">
             <div class="flex gap-1 justify-between flex-1 items-center">
@@ -372,7 +372,7 @@
       {l("Potentially addictive or distracting")}
     </div>
     <div class="collapse-content">
-      <div class="divide-y divide-base-content/20">
+      <div class="divide-y divide-base-content/10">
         <div class="py-4">
           <div class="flex items-center justify-between flex-1 items-center gap-4">
             <div class="flex gap-2">
@@ -406,7 +406,7 @@
       {l("Vanity metrics")}
     </div>
     <div class="collapse-content">
-      <div class="divide-y divide-base-content/20">
+      <div class="divide-y divide-base-content/10">
         <div class="py-4">
           <div class="flex items-center justify-between flex-1 items-center gap-4">
             <div class="flex gap-2">

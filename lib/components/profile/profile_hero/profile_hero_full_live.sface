@@ -20,7 +20,7 @@
              <div class="absolute right-2 bottom-2 opacity-90">
               </div> --}
             </div>
-            <div data-id="hero_data" class="mb-4 px-4">
+            <div data-id="hero_data" class="px-4">
               <div class="w-full gap-2">
                <div class="flex items-center justify-between"> 
                {#if @character_type == :user and
