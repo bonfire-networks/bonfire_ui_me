@@ -14,7 +14,11 @@ defmodule Bonfire.UI.Me.ProfileLive do
       )
   )
 
-  # declare_nav_link(l("Profile"), page: "profile", icon: "ri:user-line", icon_active: "ri:user-fill")
+  declare_nav_link(l("Profile"),
+    page: "profile",
+    icon: "carbon:user",
+    icon_active: "carbon:user-filled"
+  )
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
@@ -155,7 +159,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
         socket
       )
     else
-      # TODO: configurable 
+      # TODO: configurable
       debug(params, "load user default tab")
 
       handle_profile_params(
