@@ -1,4 +1,4 @@
-<div class="box-border transition duration-300 ease-in-out rounded-lg shadow hover:opacity-80 bg-base-200 component_user_preview hover:!shadow-xl ring-0 ring-primary ring-opacity-70 hover:ring-4">
+<div class="box-border transition duration-300 ease-out rounded-lg shadow hover:opacity-80 bg-base-100 component_user_preview hover:!shadow-xl ring-0 ring-primary ring-opacity-90 hover:ring-4">
   <LinkLive to={"#{@path_prefix}#{e(@user, :character, :username, "")}#{@go}"}>
     {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
       {#match {avatar_url, banner_url}}

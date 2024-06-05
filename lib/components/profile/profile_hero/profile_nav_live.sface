@@ -10,7 +10,7 @@
       to={"/" <> @path <> e(@user, :character, :username, "")}
     >
       <div class={
-        "text-base-content/60 text-sm pb-3 border-b-4 border-transparent font-medium",
+        "text-base-content/60 text-sm pb-4 border-b border-transparent font-medium",
         " border-primary text-base-content/100": @selected_tab in ["timeline", "posts", "boosts"]
       }>
         {l("Activities")}
@@ -22,7 +22,7 @@
       to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
     >
       <div class={
-        "text-base-content/60 text-sm pb-3 border-b-4 border-transparent font-medium",
+        "text-base-content/60 text-sm pb-4 border-b border-transparent font-medium",
         " border-primary text-base-content/100":
           @selected_tab == "followers" or @selected_tab == "followed"
       }>

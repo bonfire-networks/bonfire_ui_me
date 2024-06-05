@@ -1,10 +1,28 @@
-<div class="flex flex-col gap-2">
-  <div class="collapse collapse-plus bg-base-200">
-    <input type="radio" name="my-accordion-3" checked="checked">
-    <div class="collapse-title text-xl font-medium">
-      {l("General instance settings")}
+<div class="flex mb-4">
+  <div class="inline-flex">
+    <div role="tablist" class="tabs bg-base-200 tabs-boxed">
+      <LinkPatchLive
+        to="/about/general"
+        role="tab"
+        class={"tab", "tab-active": @selected_tab == :about}
+      >General</LinkPatchLive>
+      <LinkPatchLive
+        to="/about/privacy"
+        role="tab"
+        class={"tab", "tab-active": @selected_tab == :privacy}
+      >Privacy</LinkPatchLive>
+      <LinkPatchLive
+        to="/about/configuration"
+        role="tab"
+        class={"tab", "tab-active": @selected_tab == :configuration}
+      >Configuration</LinkPatchLive>
     </div>
-    <div class="collapse-content">
+  </div>
+</div>
+
+<div class="flex flex-col p-4 gap-2 bg-base-100 rounded-xl shadow-sm border border-base-content/10">
+  {#case @selected_tab}
+    {#match :about}
       <div class="divide-y divide-base-content/10">
         <div class="py-4">
           <div class="flex items-center justify-between flex-1 items-center gap-4">
@@ -267,56 +285,7 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="collapse collapse-plus bg-base-200">
-    <input type="radio" name="my-accordion-3">
-    <div class="collapse-title text-xl font-medium">
-      {l("Look & feel")}
-    </div>
-    <div class="collapse-content">
-      <div class="divide-y divide-base-content/10">
-        <div class="py-4">
-          <div class="flex items-center justify-between flex-1 items-center gap-4">
-            <div class="flex gap-2">
-              <div class="text-sm font-medium">{l("Theme")}</div>
-            </div>
-
-            <div class="font-bold text-sm">{Config.get([:ui, :theme, :instance_theme], "bonfire")}</div>
-          </div>
-        </div>
-
-        <div class="py-4">
-          <div class="flex items-center justify-between items-center gap-4">
-            {!-- {#if Config.get(
-                [Bonfire.UI.Common.AvatarLive, :animal_avatars],
-                true
-              )}
-              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-            {#else}
-              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" />
-            {/if} --}
-            <div class="flex flex-col gap-0">
-              <div class="text-sm font-medium">{l("Default avatars")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("What to show for users without a profile picture")}</div>
-            </div>
-            <Bonfire.UI.Common.AvatarLive
-              class="w-14 h-14 border-base-content/30 border rounded"
-              parent_id="about"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="collapse collapse-plus bg-base-200">
-    <input type="radio" name="my-accordion-3">
-    <div class="collapse-title text-xl font-medium">
-      {l("Privacy")}
-    </div>
-    <div class="collapse-content">
+    {#match :privacy}
       <div class="divide-y divide-base-content/10">
         <div class="py-4">
           <div class="flex items-center justify-between gap-2">
@@ -363,16 +332,38 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="collapse collapse-plus bg-base-200">
-    <input type="radio" name="my-accordion-3">
-    <div class="collapse-title text-xl font-medium">
-      {l("Potentially addictive or distracting")}
-    </div>
-    <div class="collapse-content">
+    {#match :configuration}
       <div class="divide-y divide-base-content/10">
+        <div class="py-4">
+          <div class="flex items-center justify-between flex-1 items-center gap-4">
+            <div class="flex gap-2">
+              <div class="text-sm font-medium">{l("Theme")}</div>
+            </div>
+
+            <div class="font-bold text-sm">{Config.get([:ui, :theme, :instance_theme], "bonfire")}</div>
+          </div>
+        </div>
+
+        <div class="py-4">
+          <div class="flex items-center justify-between items-center gap-4">
+            {!-- {#if Config.get(
+                [Bonfire.UI.Common.AvatarLive, :animal_avatars],
+                true
+              )}
+              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+            {#else}
+              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" />
+            {/if} --}
+            <div class="flex flex-col gap-0">
+              <div class="text-sm font-medium">{l("Default avatars")}</div>
+              <div class="text-sm font-light text-base-content/70">{l("What to show for users without a profile picture")}</div>
+            </div>
+            <Bonfire.UI.Common.AvatarLive
+              class="w-14 h-14 border-base-content/30 border rounded"
+              parent_id="about"
+            />
+          </div>
+        </div>
         <div class="py-4">
           <div class="flex items-center justify-between flex-1 items-center gap-4">
             <div class="flex gap-2">
@@ -395,28 +386,17 @@
                 do: l("Enabled"),
                 else: l("Disabled")}</div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="collapse collapse-plus bg-base-200">
-    <input type="radio" name="my-accordion-3">
-    <div class="collapse-title text-xl font-medium">
-      {l("Vanity metrics")}
-    </div>
-    <div class="collapse-content">
-      <div class="divide-y divide-base-content/10">
-        <div class="py-4">
-          <div class="flex items-center justify-between flex-1 items-center gap-4">
-            <div class="flex gap-2">
-              <div class="text-sm font-medium">{l("Show reaction counts (likes/boosts)")}</div>
+          <div class="py-4">
+            <div class="flex items-center justify-between flex-1 items-center gap-4">
+              <div class="flex gap-2">
+                <div class="text-sm font-medium">{l("Show reaction counts (likes/boosts)")}</div>
+              </div>
+              <div class="font-bold text-sm">{if Config.get([:ui, :show_activity_counts]) == true, do: l("Enabled"), else: l("Disabled")}</div>
             </div>
-            <div class="font-bold text-sm">{if Config.get([:ui, :show_activity_counts]) == true, do: l("Enabled"), else: l("Disabled")}</div>
           </div>
-        </div>
 
-        {!-- <div class="py-4">
+          {!-- <div class="py-4">
           <div class="flex items-center justify-between flex-1 items-center gap-4">
             <div class="flex gap-2">
               <div class="text-sm font-medium">{l("Show follower counts")}</div>
@@ -425,26 +405,28 @@
           </div>
         </div> --}
 
-        <div class="py-4">
-          <div class="flex items-center justify-between flex-1 items-center gap-4">
-            <div class="flex flex-col">
-              <div class="text-sm font-medium">{l("Show the number of total users on this instance")}</div>
-            </div>
+          <div class="py-4">
+            <div class="flex items-center justify-between flex-1 items-center gap-4">
+              <div class="flex flex-col">
+                <div class="text-sm font-medium">{l("Show the number of total users on this instance")}</div>
+              </div>
 
-            {#if Config.get([Bonfire.Me.Users, :public_count], true)}
-              <div class="text-success flex items-center gap-2 text-sm font-medium">
-                <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                {l("Enabled")}
-              </div>
-            {#else}
-              <div class="text-base-content flex items-center gap-2 text-sm font-medium">
-                <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
-                {l("Disabled")}
-              </div>
-            {/if}
+              {#if Config.get([Bonfire.Me.Users, :public_count], true)}
+                <div class="text-success flex items-center gap-2 text-sm font-medium">
+                  <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
+                  {l("Enabled")}
+                </div>
+              {#else}
+                <div class="text-base-content flex items-center gap-2 text-sm font-medium">
+                  <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
+                  {l("Disabled")}
+                </div>
+              {/if}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    {#match nil}
+      <div>general</div>
+  {/case}
 </div>

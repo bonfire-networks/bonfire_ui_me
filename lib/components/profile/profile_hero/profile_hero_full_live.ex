@@ -50,6 +50,19 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
      )}
   end
 
+  defp set_clone_context({_, o}) do
+    [{:clone_context, o}]
+  end
+
+  defp set_clone_context(%{id: id}) do
+    [{:clone_context, id}]
+  end
+
+  defp set_clone_context(other) do
+    warn(other, "cannot clone_context, expected a tuple or a map with an ID")
+    []
+  end
+
   # def update_many([{%{skip_preload: true}, _}] = assigns_sockets) do
   #   assigns_sockets
   # end

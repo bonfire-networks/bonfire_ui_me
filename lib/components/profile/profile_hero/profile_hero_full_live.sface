@@ -5,7 +5,7 @@
       {#match {avatar_url, banner_url}}
         {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
           {#match color}
-            <div
+            <!-- <div
               data-id="hero_background"
               class={
                 "relative bg-center mt-0 bg-cover bg-no-repeat",
@@ -16,19 +16,16 @@
                 do: "background-image: url('#{banner_url}')",
                 else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
             >
-              {!-- 
-             <div class="absolute right-2 bottom-2 opacity-90">
-              </div> --}
-            </div>
-            <div data-id="hero_data" class="px-4">
+            </div> -->
+            <div data-id="hero_data" class="px-4 my-4 mb-6">
               <div class="w-full gap-2">
-                <div class="flex items-center justify-between">
+                <div class="flex items-start gap-6">
                   {#if @character_type == :user and
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                     <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
                       <Bonfire.UI.Common.AvatarLive
                         parent_id="profile-hero"
-                        class="inline-block object-cover bg-base-300 w-[92px] h-[92px] md:w-[130px] md:h-[130px] -mt-[30px] md:-mt-[70px] md:mx-0 rounded-full"
+                        class="inline-block border border-base-content/10 object-cover w-[84px] h-[84px]  md:mx-0 rounded-full"
                         src={Media.avatar_url(@user)}
                         user_id={id(@user)}
                         src={avatar_url}
@@ -38,66 +35,160 @@
                     bg-base-100 border-4 border-base-100 ring-2 ring-base-300 fill-base-200 --}
                     </LinkPatchLive>
                   {/if}
+                  <div class="flex flex-col flex-1">
+                    <div class="flex justify-between">
+                      <div class="flex flex-col">
+                        <div class="flex items-center text-xl font-bold text-base-content">
+                          <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
+                            {e(@user, :profile, :name, "Anonymous")}
+                          </LinkPatchLive>
+                          <span
+                            :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
+                            class="ml-3 badge badge-sm badge-info badge-outline"
+                          >
+                            {e(@user, :shared_user, :label, "")}
+                          </span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                          <span class="font-normal text-sm text-base-content/60">{Bonfire.Me.Characters.display_username(@user, true)}</span>
+                          <span
+                            :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
+                            class="ml-auto badge min-h-[1.5rem] text-sm badge-sm rounded-md !border-info/30 badge-outline rounded badge-info"
+                          >
+                            {l("Admin")}
+                          </span>
+                        </div>
+                      </div>
+                      <Bonfire.UI.Me.HeroMoreActionsLive
+                        character_type={@character_type}
+                        ghosted_instance_wide?={@ghosted_instance_wide?}
+                        silenced_instance_wide?={@silenced_instance_wide?}
+                        ghosted?={@ghosted?}
+                        silenced?={@silenced?}
+                        boundary_preset={@boundary_preset}
+                        user={@user}
+                        members={@members}
+                        moderators={@moderators}
+                      />
+                    </div>
+                    <div class="mt-2">
+                      <Bonfire.UI.Me.ProfileInfoLive
+                        ghosted_instance_wide?={@ghosted_instance_wide?}
+                        silenced_instance_wide?={@silenced_instance_wide?}
+                        ghosted?={@ghosted?}
+                        silenced?={@silenced?}
+                        character_type={@character_type}
+                        boundary_preset={@boundary_preset}
+                        user={@user}
+                        path={@path}
+                        selected_tab={@selected_tab}
+                        members={@members}
+                        moderators={@moderators}
+                      />
 
-                  <Bonfire.UI.Me.HeroMoreActionsLive
-                    character_type={@character_type}
-                    ghosted_instance_wide?={@ghosted_instance_wide?}
-                    silenced_instance_wide?={@silenced_instance_wide?}
-                    ghosted?={@ghosted?}
-                    silenced?={@silenced?}
-                    boundary_preset={@boundary_preset}
-                    user={@user}
-                    members={@members}
-                    moderators={@moderators}
-                  />
-                </div>
+                      <Bonfire.UI.Me.ProfileBlockedIndicatorLive
+                        object={@user}
+                        user={@user}
+                        is_local_user={@is_local?}
+                        boundary_preset={@boundary_preset}
+                        ghosted_instance_wide?={@ghosted_instance_wide?}
+                        silenced_instance_wide?={@silenced_instance_wide?}
+                        ghosted?={@ghosted?}
+                        silenced?={@silenced?}
+                      />
+                    </div>
+                    <div class="w-full flex items-center mt-4 gap-3">
+                      {#if current_user_id(@__context__) == id(@user)}
+                        <LinkLive
+                          to={~p"/settings/user/profile"}
+                          class="normal-case flex-1 btn btn-sm btn-outline border-base-content/30"
+                        >
+                          {l("Edit profile")}
+                        </LinkLive>
+                      {#else}
+                        {#if @character_type == :user and current_user_id(@__context__)}
+                          <StatelessComponent
+                            :if={current_user(@__context__)}
+                            module={maybe_component(Bonfire.Boundaries.Web.AddToCircleLive, @__context__)}
+                            user_id={id(@user)}
+                            parent_id="profile_hero"
+                            as_icon
+                          />
+                        {/if}
 
-                <div class="mt-3 flex flex-col">
-                  <div class="flex items-center text-xl font-bold text-base-content">
-                    <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
-                      {e(@user, :profile, :name, "Anonymous")}
-                    </LinkPatchLive>
-                    <span
-                      :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
-                      class="ml-3 badge badge-sm badge-info badge-outline"
-                    >
-                      {e(@user, :shared_user, :label, "")}
-                    </span>
+                        {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
+                            (@ghosted? == true && @silenced? == true)}
+                          <button
+                            disabled
+                            class="font-semibold !h-[34px] btn-sm flex-1 px-6 normal-case rounded btn btn-disabled"
+                          >
+                            {l("Blocked")}
+                          </button>
+                        {#else}
+                          {#case @character_type}
+                            {#match :group}
+                              <div class="flex items-center flex-1 gap-2" data-role="follow_wrapper">
+                                <StatefulComponent
+                                  module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+                                  :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
+                                    e(@boundary_preset, "visible", nil) || Boundaries.can?(@__context__, :follow, @user)}
+                                  id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
+                                  object_id={id(@user)}
+                                  object={@user}
+                                  path={path(@user)}
+                                  hide_icon
+                                  class="font-semibold !h-[34px] flex-1 btn-sm px-6 normal-case btn"
+                                  verb={if e(@user, :type, nil) == :group,
+                                    do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
+                                  verb_undo={l("Leave")}
+                                  verb_already={l("Joined")}
+                                  disabled={Enums.ids(current_user(@__context__)) |> debug("c111") == Enums.ids(@moderators) |> debug("m111")}
+                                >
+                                  <:if_followed>
+                                    <Bonfire.UI.Common.SmartInputButtonLive
+                                      :if={current_user_id(@__context__)}
+                                      prompt={l("Post")}
+                                      smart_input_opts={%{
+                                        context_id: id(@user),
+                                        mentions: [id(@user)],
+                                        to_boundaries: set_clone_context(@boundary_preset || @user),
+                                        to_circles: [
+                                          %{
+                                            (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+                                              id(@user)
+                                          }
+                                        ]
+                                      }}
+                                      icon="mdi:pencil"
+                                      class="flex btn btn-sm flex-1 btn-primary  items-center gap-2 normal-case"
+                                    />
+                                  </:if_followed>
+                                </StatefulComponent>
+                              </div>
+                            {#match _}
+                              <div data-role="follow_wrapper" class="flex-1" :if={current_user_id(@__context__) != id(@user)}>
+                                <StatefulComponent
+                                  module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+                                  id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
+                                  object_id={id(@user)}
+                                  object={@user}
+                                  path={path(@user)}
+                                  hide_icon
+                                  class="font-semibold !h-[34px] btn-sm w-full flex-1 px-6 normal-case  border-base-content/30 btn btn-outline"
+                                />
+                              </div>
+                          {/case}
+                        {/if}
+                      {/if}
+                      <!-- <button class="btn flex-1 btn-sm btn-outline border-base-content/30">Add to circle</button>
+                      <button class="btn btn-sm flex-1 btn-outline border-base-content/30">Follow</button> -->
+                      {!-- <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} /> --}
+                    </div>
+                    {#if @follows_me}
+                      <p class="text-base-content/60 mt-3 text-sm">{"Follows you"}</p>
+                    {/if}
                   </div>
-                  <div class="flex items-center">
-                    <span class="font-normal text-sm text-base-content/70">{Bonfire.Me.Characters.display_username(@user, true)}</span>
-                  </div>
                 </div>
-              </div>
-              <div class="w-full">
-                <div class={"flex items-start justify-between w-full pr-6 flex-1": @character_type != :user}>
-                  <Bonfire.UI.Me.ProfileInfoLive
-                    ghosted_instance_wide?={@ghosted_instance_wide?}
-                    silenced_instance_wide?={@silenced_instance_wide?}
-                    ghosted?={@ghosted?}
-                    silenced?={@silenced?}
-                    character_type={@character_type}
-                    boundary_preset={@boundary_preset}
-                    user={@user}
-                    path={@path}
-                    selected_tab={@selected_tab}
-                    members={@members}
-                    moderators={@moderators}
-                  />
-
-                  <Bonfire.UI.Me.ProfileBlockedIndicatorLive
-                    object={@user}
-                    user={@user}
-                    is_local_user={@is_local?}
-                    boundary_preset={@boundary_preset}
-                    ghosted_instance_wide?={@ghosted_instance_wide?}
-                    silenced_instance_wide?={@silenced_instance_wide?}
-                    ghosted?={@ghosted?}
-                    silenced?={@silenced?}
-                  />
-                </div>
-
-                {!-- <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} /> --}
               </div>
             </div>
         {/case}

@@ -1,4 +1,4 @@
-<div class="p-4 w-full md:w-[360px] border border-base-content/10 rounded-lg">
+<div class="p-4 w-full md:w-[360px] border border-base-content/10 rounded-xl bg-base-100 shadow-sm">
   <div class="mx-auto">
     <StatelessComponent module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)} />
 
