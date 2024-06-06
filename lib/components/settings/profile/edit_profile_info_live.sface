@@ -17,13 +17,6 @@
     set_field={:current_user}
     set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
   />
-
-  <!-- </div> -->
-  <!-- <LinkLive
-    to="/user"
-    type="button"
-    class="normal-case  btn btn-sm !border !border-base-content/30 btn btn-outline"
-  >{l("View Profile")}</LinkLive> -->
 </div>
 
 <form
@@ -92,3 +85,13 @@
     <button type="submit" class="normal-case btn btn-primary">{l("Save")}</button>
   </div>
 </form>
+<div class="border border-t border-base-content/10">
+  <form data-scope="set_background" phx-change="Bonfire.Common.Settings:set">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name="Background"
+      description={l("Show the background image on profile")}
+      keys={[Bonfire.UI.Me.ProfileHeroFullLive, :background]}
+      scope={:user}
+    />
+  </form>
+</div>

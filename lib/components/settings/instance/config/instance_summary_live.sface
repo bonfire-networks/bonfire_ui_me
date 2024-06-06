@@ -292,7 +292,7 @@
             <div class="flex gap-1 justify-between flex-1 items-center">
               <div class="text-sm flex-1 font-medium">{l("Who can see the list of local users")}
               </div>
-              <span class="badge h-[1.75rem] font-medium border-base-content/30 badge-outline rounded">{Config.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users)}</span>
+              <span class="badge h-[1.75rem] font-medium badge-outline rounded">{Config.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users)}</span>
             </div>
           </div>
         </div>

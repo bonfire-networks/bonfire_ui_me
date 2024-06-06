@@ -5,18 +5,21 @@
       {#match {avatar_url, banner_url}}
         {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
           {#match color}
-            <!-- <div
-              data-id="hero_background"
-              class={
-                "relative bg-center mt-0 bg-cover bg-no-repeat",
-                "bg-base-200 h-[140px] md:h-[200px]": !color,
-                "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
-              }
-              style={if not is_binary(color),
-                do: "background-image: url('#{banner_url}')",
-                else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
-            >
-            </div> -->
+            {#if Settings.get([Bonfire.UI.Me.ProfileHeroFullLive, :background], false, @__context__)}
+              <div
+                data-id="hero_background"
+                class={
+                  "relative bg-center mt-0 bg-cover bg-no-repeat",
+                  "bg-base-200 h-[140px] md:h-[200px]": !color,
+                  "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
+                }
+                style={if not is_binary(color),
+                  do: "background-image: url('#{banner_url}')",
+                  else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
+              >
+              </div>
+            {/if}
+
             <div data-id="hero_data" class="px-4 my-4 mb-6">
               <div class="w-full gap-2">
                 <div class="flex items-start gap-6">
@@ -99,10 +102,7 @@
                     </div>
                     <div class="w-full flex items-center mt-4 gap-3">
                       {#if current_user_id(@__context__) == id(@user)}
-                        <LinkLive
-                          to={~p"/settings/user/profile"}
-                          class="normal-case flex-1 btn btn-sm btn-outline border-base-content/30"
-                        >
+                        <LinkLive to={~p"/settings/user/profile"} class="normal-case flex-1 btn btn-sm btn-outline">
                           {l("Edit profile")}
                         </LinkLive>
                       {#else}
@@ -174,14 +174,14 @@
                                   object={@user}
                                   path={path(@user)}
                                   hide_icon
-                                  class="font-semibold !h-[34px] btn-sm w-full flex-1 px-6 normal-case  border-base-content/30 btn btn-outline"
+                                  class="font-semibold !h-[34px] btn-sm w-full flex-1 px-6 btn btn-outline"
                                 />
                               </div>
                           {/case}
                         {/if}
                       {/if}
-                      <!-- <button class="btn flex-1 btn-sm btn-outline border-base-content/30">Add to circle</button>
-                      <button class="btn btn-sm flex-1 btn-outline border-base-content/30">Follow</button> -->
+                      <!-- <button class="btn flex-1 btn-sm btn-outline ">Add to circle</button>
+                      <button class="btn btn-sm flex-1 btn-outline ">Follow</button> -->
                       {!-- <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} /> --}
                     </div>
                     {#if @follows_me}
