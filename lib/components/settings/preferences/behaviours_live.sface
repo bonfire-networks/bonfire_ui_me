@@ -1,5 +1,150 @@
 <div class="">
   <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
+    <#Icon iconify="fluent:paint-brush-20-filled" class="w-6 h-6 text-base-content/80" />
+    <span>{l("Appearance")}</span>
+  </div>
+
+  <div class="divide-y divide-base-content/10">
+    <div x-data="{open: false}" class="p-4">
+      <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Theme")}</div>
+          <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+        </div>
+
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+      </div>
+      <div x-show="open" x-cloak x-collapse>
+        <form data-scope="set_theme" name="settings" phx-change="Bonfire.Common.Settings:set">
+          <input name="scope" value={@scope} type="hidden">
+          <Bonfire.UI.Common.ChangeThemesLive scope={@scope} />
+        </form>
+      </div>
+    </div>
+
+    <form data-scope="set_font" name="settings" phx-change="Bonfire.Common.Settings:set">
+      <Bonfire.UI.Common.SettingsSelectLive
+        name={l("Font")}
+        description={l("Select the default font for the interface")}
+        keys={[:ui, :font_family]}
+        options={Settings.get([:ui, :font_families], ["Inter"], @scoped)}
+        scope={@scope}
+      />
+    </form>
+
+    <div :if={@scope == :user} class="p-4">
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Language")}</div>
+          <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
+        </div>
+
+        <form data-scope="set_language" name="settings" phx-change="Bonfire.Common.Settings:set">
+          <input name="scope" value={@scope} type="hidden">
+          <div class="max-w-xs  form-control">
+            <Bonfire.UI.Common.ChangeLocaleLive
+              locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", @scoped)}
+              scope={@scope}
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <form data-scope="set_date_format" name="settings" phx-change="Bonfire.Common.Settings:set">
+      <Bonfire.UI.Common.SettingsSelectLive
+        name={l("Date format")}
+        description={l("Select how to display the date/time of activities")}
+        keys={[:ui, :date_time_format]}
+        options={Keyword.merge([relative: l("Relative")], DatesTimes.available_formats())}
+        scope={@scope}
+      />
+    </form>
+
+    <form data-scope="set_composer" phx-change="Bonfire.Common.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name="Composer"
+        description={l("Show the focused composer")}
+        keys={[Bonfire.UI.Common.SmartInputContainerLive, :show_focused]}
+        scope={@scope}
+      />
+    </form>
+
+    <form data-scope="set_brand" phx-change="Bonfire.Common.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name="Brand"
+        description={l("Show only the instance logo")}
+        keys={[Bonfire.UI.Common.LogoLive, :only_logo]}
+        scope={@scope}
+      />
+    </form>
+
+    <form data-scope="set_avatar_shape" phx-change="Bonfire.Common.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name="Avatar shape"
+        description={l("Show square avatars")}
+        keys={[Bonfire.UI.Common.AvatarLive, :shape]}
+        scope={@scope}
+        default_value
+      />
+    </form>
+
+    {!-- name={l("Missing avatars")} --}
+    <form data-scope="set_animal_avatar" phx-change="Bonfire.Common.Settings:set">
+      <input name="scope" value={@scope} type="hidden">
+
+      <Bonfire.UI.Common.SettingsToggleLive
+        description={l("Show randomly-generated animal avatars for users without a profile picture?")}
+        keys={[Bonfire.UI.Common.AvatarLive, :animal_avatars]}
+        default_value
+        name="Animal avatars"
+        scope={@scope}
+      />
+    </form>
+
+    <form data-scope="set_compact_layout" phx-change="Bonfire.Common.Settings:set">
+      <input name="scope" value={@scope} type="hidden">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Prefer compact layouts")}
+        description={l("Compact layouts are more dense and may show less contents.")}
+        keys={[:ui, :compact]}
+        scope={@scope}
+      />
+    </form>
+
+    <form data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
+      <input name="scope" value={@scope} type="hidden">
+      <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
+    </form>
+
+    <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
+      <input name="scope" value={@scope} type="hidden">
+
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Hide actions on feed activities (eg. reply, boost, etc)")}
+        description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
+        keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
+        scope={@scope}
+      />
+    </form>
+
+    <form data-scope="set_hide_actions_on_discussion" phx-change="Bonfire.Common.Settings:set">
+      <input name="scope" value={@scope} type="hidden">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Hide actions on discussions (eg. reply, boost, etc)")}
+        description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
+        keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
+        scope={@scope}
+      />
+    </form>
+  </div>
+
+  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
     <#Icon iconify="majesticons:list-box" class="w-6 h-6 text-base-content/80" />
     <span>{l("Feeds and Discussions")}</span>
   </div>
@@ -200,6 +345,11 @@
     <span>{l("Wellbeing")}</span>
   </div>
 
+  <StatelessComponent
+    scope={@scope}
+    module={maybe_component(Bonfire.Boundaries.Web.DefaultBoundaryLive, @__context__)}
+  />
+
   <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Mark as sensitive media")}
@@ -216,32 +366,6 @@
       name={l("Hide media")}
       description={l("Blur all media in feeds and discussions (and click to reveal)")}
       keys={[Bonfire.UI.Social.Activity.MediaLive, :hide]}
-      scope={@scope}
-    />
-  </form>
-
-  <form data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
-    <input name="scope" value={@scope} type="hidden">
-    <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
-  </form>
-
-  <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
-    <input name="scope" value={@scope} type="hidden">
-
-    <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Hide actions on feed activities (eg. reply, boost, etc)")}
-      description={l("Hide actions in feeds, and only show them when you hover over an activity?")}
-      keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
-      scope={@scope}
-    />
-  </form>
-
-  <form data-scope="set_hide_actions_on_discussion" phx-change="Bonfire.Common.Settings:set">
-    <input name="scope" value={@scope} type="hidden">
-    <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Hide actions on discussions (eg. reply, boost, etc)")}
-      description={l("Hide actions for comments in discussions, and only show them when you hover over an activity?")}
-      keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
       scope={@scope}
     />
   </form>
