@@ -59,7 +59,7 @@
         id="acl"
       /> --}
     {#match "extensions"}
-      <Bonfire.UI.Common.ExtensionsLive />
+      <Bonfire.UI.Common.ExtensionsLive scope={@scope} />
     {#match "flags"}
       <StatefulComponent
         :if={current_user(@__context__)}

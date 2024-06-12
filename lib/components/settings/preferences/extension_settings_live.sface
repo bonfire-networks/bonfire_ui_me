@@ -1,24 +1,79 @@
-{#case extension_enabled?(@extension, @__context__) &&
-    Bonfire.UI.Common.SettingsModule.components(@extension)}
-  {#match extension_settings when is_list(extension_settings)}
-    <div class="m-3">
-      {#if to_string(@extension) not in Bonfire.Application.required_deps()}
-        <div class="text-sm font-light text-base-content/70">{l(
-            "You can disable this extension if you don't need it. If you want to re-enable it in the future, you'll find it in the extension list in settings."
-          )}</div>
-        <ul>
-          <Bonfire.UI.Common.ExtensionToggleLive id={@extension} can_instance_wide={false} />
-        </ul>
-      {/if}
-
-      <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
-        <Bonfire.UI.Common.WidgetsLive
-          widgets={extension_settings}
-          extra_data={scope: @scope}
-          with_title
-        />
-      </form>
+<div class="p-4">
+  <div class="flex flex-col flex-1 gap-1">
+    <div class="flex justify-between">
+      <div class="text-2xl flex-1 font-bold flex items-center gap-2">
+        <span>{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</span>
+        <span class="bg-base-content/10 rounded px-2 py-1 text-xs inline-block">{get_version(@dep)}</span>
+      </div>
+      {#case get_link(@dep)}
+        {#match code_link}
+          <div aria-haspopup="true" class="dropdown dropdown-end">
+            <label tabindex="0" class="btn btn-xs btn-circle btn-outline">
+              <#Icon solid="DotsVertical" class="w-4 h-4" />
+            </label>
+            <ul
+              tabindex="0"
+              role="menu"
+              aria-orientation="vertical"
+              class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-60 menu dropdown-content border border-base-content/10 bg-base-100"
+            >
+              <li :if={code_link}><a href={code_link} target="_blank" class="">{l("View code repository")}</a></li>
+              <li><a href={get_code_link(@dep)} target="_blank" class="">{l("View code")}</a></li>
+              <li><a href={get_code_link(@dep) <> "?from=compiled"} target="_blank" class="">{l("View running code")}</a></li>
+              {#case get_link(@dep)}
+                {#match version_link}
+                  <li :if={code_link != version_link}><a href={version_link} target="_blank" class="btn btn-outline btn-sm">{l("View code changes")}</a></li>
+              {/case}
+            </ul>
+          </div>
+      {/case}
     </div>
-  {#match _}
-    {l("No settings here.")}
-{/case}
+    <div class="mt-2 text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
+
+    <div class="mt-4" x-data="{ tab: 'preferences'}">
+      <div role="tablist" class="tabs inline-flex tabs-boxed">
+        <a
+          @click="tab = 'preferences'"
+          role="tab"
+          class="tab"
+          :class="{'tab-active': tab == 'preferences'}"
+        >Preferences</a>
+        <a @click="tab = 'about'" role="tab" class="tab" :class="{'tab-active': tab == 'about'}">About</a>
+        <!-- <a role="tab" class="tab">Tab 3</a> -->
+      </div>
+      <div class="my-4" x-cloak x-show="tab == 'preferences'">
+        {#case extension_enabled?(@extension, @__context__) &&
+            Bonfire.UI.Common.SettingsModule.components(@extension)}
+          {#match extension_settings when is_list(extension_settings)}
+            <div class="">
+              {#if to_string(@extension) not in Bonfire.Application.required_deps()}
+                <div class="text-sm text-base-content/90">{l(
+                    "You can disable this extension if you don't need it. If you want to re-enable it in the future, you'll find it in the extension list in settings."
+                  )}</div>
+                <ul>
+                  <Bonfire.UI.Common.ExtensionToggleLive id={@extension} can_instance_wide={false} />
+                </ul>
+              {/if}
+
+              <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
+                <Bonfire.UI.Common.WidgetsLive
+                  widgets={extension_settings}
+                  extra_data={scope: @scope}
+                  with_title
+                />
+              </form>
+            </div>
+          {#match _}
+            {l("No settings here.")}
+        {/case}
+      </div>
+      <div x-cloak x-show="tab == 'about'" class="my-4 rounded-lg bg-base-content/5 p-3">
+        {#case e(@dep, :extra, :readme_contents, nil)}
+          {#match nil}
+          {#match readme_contents}
+            <div class="prose">{rich(readme_contents)}</div>
+        {/case}
+      </div>
+    </div>
+  </div>
+</div>
