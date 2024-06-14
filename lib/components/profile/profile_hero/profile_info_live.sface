@@ -7,39 +7,8 @@
         {rich(e(@user, :profile, :summary, ""))}
       </div>
 
-      <div :if={@character_type == :user} class="flex items-center w-full my-4 space-x-4">
-        {#if Settings.get(:experimental_features_enabled, false, @__context__)}
-          <div :if={e(@user, :profile, :location, nil)} class="flex gap-2 items-center">
-            <span class="flex">
-              <#Icon solid="LocationMarker" class="w-5 h-5 text-base-content/70" />
-              <span class="ml-2 text-sm text-base-content/70">
-                {e(@user, :profile, :location, "")}
-              </span>
-            </span>
-
-            {#case Forecastr.forecast(:today, e(@user, :profile, :location, ""),
-                units: :metric,
-                renderer: Forecastr.Renderer.JSON
-              )
-              |> debug("weather")}
-              {#match {:ok,
-                   %{"description" => weather, "id" => weather_id, "temp" => temp, "name" => weather_location}}}
-                {!-- 
-            TODO: query weather with lat/long when we have them (need to add the ability to fetch by lat/long in Forecastr)
-            TODO: also use https://hexdocs.pm/astro to show sunrise/sunset and moon cycles, etc?
-            --}
-                <div
-                  class="flex"
-                  title={l("%{weather} in %{location}", weather: weather, location: weather_location)}
-                >
-                  <Iconify.iconify icon={"meteocons:#{weather_id}"} class="w-5 h-5 text-info" />
-                  <!-- <img src={Iconify.prepare("meteocons:#{weather_id}", :img_url)} class="w-4 h-4 text-info" /> -->
-                  <span class="text-sm text-base-content/70">{temp}℃</span>
-                </div>
-              {#match _}
-            {/case}
-          </div>
-        {/if}
+      <div :if={@character_type == :user} class="flex items-center w-full space-x-4">
+        
 
         {#case Settings.get(:experimental_features_enabled, false, @__context__) and
             (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or

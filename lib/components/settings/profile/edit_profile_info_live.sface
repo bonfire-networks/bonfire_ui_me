@@ -95,3 +95,13 @@
     />
   </form>
 </div>
+<div class="border border-t border-base-content/10">
+  <form data-scope="set-weather" phx-change="Bonfire.Common.Settings:set">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name="Weather"
+      description={l("Show the Weather widget on user profile")}
+      keys={[Bonfire.UI.Me.ProfileLive, :weather]}
+      scope={:user}
+    />
+  </form>
+</div>

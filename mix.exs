@@ -28,26 +28,25 @@ defmodule Bonfire.UI.Me.MixProject do
           # {:phoenix_live_reload, "~> 1.2", only: :dev},
           {:zest, "~> 0.1", only: :test},
           {:mneme, ">= 0.0.0", only: [:dev, :test]},
-
           {:bonfire,
            git: "https://github.com/bonfire-networks/bonfire_spark",
-           
-           only: :test, 
+
+           only: :test,
            runtime: false
            },
 
-          {:phoenix_test, 
-          "~> 0.3", 
+          {:phoenix_test,
+          "~> 0.3",
           # git: "https://github.com/germsvel/phoenix_test",
           only: :test, runtime: false}
-          
+
           # {:bonfire_tag,
           #  git: "https://github.com/bonfire-networks/bonfire_tag",
-          #  
+          #
           #  optional: true, runtime: false},
           # {:bonfire_social,
           #  git: "https://github.com/bonfire-networks/bonfire_social",
-          #  
+          #
           #  optional: true, runtime: false},
           # {:bonfire_valueflows, "https://github.com/bonfire-networks/bonfire_valueflows",  optional: true, runtime: false}
           # {:bonfire_ui_valueflows, "https://github.com/bonfire-networks/bonfire_ui_valueflows",  optional: true, runtime: false}

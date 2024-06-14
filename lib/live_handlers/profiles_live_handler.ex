@@ -223,6 +223,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   end
 
   def default_assigns(is_guest?) do
+
     [
       is_guest?: false,
       without_sidebar: false,
@@ -245,20 +246,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       canonical_url: nil,
       character_type: nil,
       path: "@",
-      sidebar_widgets: [
-        guests: [
-          secondary: [
-            {Bonfire.Tag.Web.WidgetTagsLive, []},
-            {Bonfire.UI.Me.WidgetAdminsLive, []}
-          ]
-        ],
-        users: [
-          secondary: [
-            {Bonfire.Tag.Web.WidgetTagsLive, []},
-            {Bonfire.UI.Me.WidgetAdminsLive, []}
-          ]
-        ]
-      ],
+
       interaction_type: l("follow"),
       follows_me: false,
       no_index: false,
@@ -276,6 +264,24 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
         do: l("Your profile"),
         else: name
 
+
+    weather_widget_enabled = Settings.get([Bonfire.UI.Me.ProfileLive, :weather], nil, current_user: current_user)
+
+    sidebar_widgets = [
+      guests: [
+        secondary: [
+          {Bonfire.Tag.Web.WidgetTagsLive, []},
+          {Bonfire.UI.Me.WidgetAdminsLive, []}
+        ]
+      ],
+      users: [
+        secondary: [
+          weather_widget_enabled && {Bonfire.UI.Me.WidgetForecastLive, [location: e(user, :profile, :location, nil)]},
+          {Bonfire.Tag.Web.WidgetTagsLive, []},
+          {Bonfire.UI.Me.WidgetAdminsLive, []}
+        ]
+      ]
+    ]
     # my_follow =
     #     current_user && id(current_user) != id(user) &&
     #       module_enabled?(Bonfire.Social.Graph.Follows, current_user) &&
@@ -291,7 +297,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       no_index:
         Bonfire.Common.Settings.get([Bonfire.Me.Users, :undiscoverable], false,
           current_user: user
-        )
+        ),
+      sidebar_widgets: sidebar_widgets
     ]
   end
 end
