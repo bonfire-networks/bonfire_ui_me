@@ -2,14 +2,12 @@
   <#slot {@header} />
 
   <div class="flex flex-col w-full gap-1">
-    <div class="">
+    <div class="flex flex-col gap-3">
       <div :if={@character_type == :user} class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
         {rich(e(@user, :profile, :summary, ""))}
       </div>
 
       <div :if={@character_type == :user} class="flex items-center w-full space-x-4">
-        
-
         {#case Settings.get(:experimental_features_enabled, false, @__context__) and
             (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or
                Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
@@ -68,30 +66,7 @@
 
       <div class="flex flex-col rounded-lg bg-base-content/5 divide-y divide-base-content/10">
         <Bonfire.UI.Me.ProfileLinksLive user={@user} />
-
-        {!-- <div :if={e(@user, :profile, :website, nil)} class="flex  mt-4 items-center">
-        {#case Bonfire.Files.FaviconStore.favicon_url(e(@user, :profile, :website, nil))}
-          {#match image when is_binary(image)}
-            <img
-              src={image}
-              class="w-4 h-4 text-base-content/70"
-              onerror="this.classList.add('iconify'); this.setAttribute('iconify','heroicons-solid:external-link')"
-            />
-          {#match _}
-            <#Icon solid="ExternalLink" class="w-5 h-5 text-base-content/70" />
-        {/case}
-
-        <a
-          href={"#{e(@user, :profile, :website, "")}"}
-          target="blank"
-          class="ml-2 text-sm link link-hover text-base-content/70"
-        >
-          {display_url(e(@user, :profile, :website, ""))}
-        </a>
-      </div> --}
       </div>
-    </div>
-    <div>
     </div>
 
     {!-- <div

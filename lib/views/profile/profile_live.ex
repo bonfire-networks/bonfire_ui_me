@@ -32,7 +32,6 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   def mount(_params, _session, socket) do
-    # debug(params)
     {:ok,
      socket
      |> assign(LiveHandler.default_assigns(is_nil(current_user_id(socket.assigns))))}

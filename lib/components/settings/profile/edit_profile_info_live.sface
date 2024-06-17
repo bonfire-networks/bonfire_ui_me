@@ -100,7 +100,7 @@
     <Bonfire.UI.Common.SettingsToggleLive
       name="Weather"
       description={l("Show the Weather widget on user profile")}
-      keys={[Bonfire.UI.Me.ProfileLive, :weather]}
+      keys={[Bonfire.Geolocate, :weather]}
       scope={:user}
     />
   </form>

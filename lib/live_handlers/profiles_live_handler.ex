@@ -219,18 +219,15 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
             nil
         end
     end
-    |> debug("theuser")
   end
 
   def default_assigns(is_guest?) do
-
     [
       is_guest?: false,
       without_sidebar: false,
       without_secondary_widgets: false,
       no_header: false,
       hide_tabs: false,
-      # hide_tabs: is_guest?,
       smart_input: true,
       feed: nil,
       page_info: [],
@@ -239,14 +236,11 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       page_title: l("Profile"),
       feed_title: l("User timeline"),
       back: true,
-      # without_sidebar: true,
-      # the user to display
       nav_items: Bonfire.Common.ExtensionModule.default_nav(),
       user: %{},
       canonical_url: nil,
       character_type: nil,
       path: "@",
-
       interaction_type: l("follow"),
       follows_me: false,
       no_index: false,
@@ -264,8 +258,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
         do: l("Your profile"),
         else: name
 
-
-    weather_widget_enabled = Settings.get([Bonfire.UI.Me.ProfileLive, :weather], nil, current_user: current_user)
+    weather_widget_enabled =
+      Settings.get([Bonfire.Geolocate, :weather], nil, current_user: current_user)
 
     sidebar_widgets = [
       guests: [
@@ -276,18 +270,14 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       ],
       users: [
         secondary: [
-          weather_widget_enabled && {Bonfire.UI.Me.WidgetForecastLive, [location: e(user, :profile, :location, nil)]},
+          weather_widget_enabled &&
+            {Bonfire.Geolocate.WidgetForecastLive, [location: e(user, :profile, :location, nil)]},
           {Bonfire.Tag.Web.WidgetTagsLive, []},
           {Bonfire.UI.Me.WidgetAdminsLive, []}
         ]
       ]
     ]
-    # my_follow =
-    #     current_user && id(current_user) != id(user) &&
-    #       module_enabled?(Bonfire.Social.Graph.Follows, current_user) &&
-    #       Bonfire.Social.Graph.Follows.following?(current_user, user)
 
-    # search_placeholder = if current_username == e(user, :character, :username, ""), do: "Search my profile", else: "Search " <> e(user, :profile, :name, "this person") <> "'s profile"
     [
       page_title: title,
       user: user,
