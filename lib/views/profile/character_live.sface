@@ -1,10 +1,4 @@
-<main
-  data-id="profile"
-  data-user-id={e(@user, :id, "")}
-  class={
-    "": !current_user_id(@__context__)
-  }
->
+<main data-id="profile" data-user-id={e(@user, :id, "")}>
   <StatelessComponent
     module={maybe_component(Bonfire.UI.Social.ProfileTimelineLive, @user)}
     {...assigns}
@@ -21,12 +15,5 @@
         path={@path}
       />
     </:header>
-
-    {!-- <:widget>
-        <StatelessComponent
-          module={maybe_component(Bonfire.UI.Me.WidgetProfileLive, @__context__)}
-          user={@user}
-        />
-      </:widget> --}
   </StatelessComponent>
 </main>
