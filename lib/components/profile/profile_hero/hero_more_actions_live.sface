@@ -28,7 +28,7 @@
             phx-hook="Copy"
             id={"hero_action_copy_url_#{id(@user)}"}
             href={URIs.canonical_url(@user)}
-            class="flex items-center gap-2 text-sm text-base-content/70"
+            class="flex items-center gap-2 text-sm text-base-content"
           >
             <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
             <span data-role="label">{l("Copy link")}</span>
@@ -36,7 +36,7 @@
         </li>
 
         <li>
-          <LinkLive to="/settings" class="flex items-center gap-2 text-sm text-base-content/70">
+          <LinkLive to="/settings" class="flex items-center gap-2 text-sm text-base-content">
             <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
             <span>{l("Settings")}</span>
           </LinkLive>
@@ -44,14 +44,14 @@
 
         {#if extension_enabled?(:bonfire_ui_reactions, @__context__)}
           <li>
-            <LinkLive to="/likes" class="flex items-center gap-2 text-sm text-base-content/70">
+            <LinkLive to="/likes" class="flex items-center gap-2 text-sm text-base-content">
               <#Icon iconify="mingcute:fire-line" class="w-4 h-4" />
               <span>{l("Likes")}</span>
             </LinkLive>
           </li>
 
           <li>
-            <LinkLive to="/bookmarks" class="flex items-center gap-2 text-sm text-base-content/70">
+            <LinkLive to="/bookmarks" class="flex items-center gap-2 text-sm text-base-content">
               <#Icon iconify="carbon:bookmark" class="w-4 h-4" />
               <span>{l("Bookmarks")}</span>
             </LinkLive>
@@ -59,14 +59,14 @@
         {/if}
 
         <li>
-          <LinkLive to="/notifications" class="flex items-center gap-2 text-sm text-base-content/70">
+          <LinkLive to="/notifications" class="flex items-center gap-2 text-sm text-base-content">
             <#Icon iconify="carbon:notification" class="w-4 h-4" />
             <span>{l("Notifications")}</span>
           </LinkLive>
         </li>
 
         <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
-          <LinkLive to="/messages" class="flex items-center gap-2 text-sm text-base-content/70">
+          <LinkLive to="/messages" class="flex items-center gap-2 text-sm text-base-content">
             <#Icon iconify="carbon:email" class="w-4 h-4" />
             <span>{l("Messages")}</span>
           </LinkLive>
@@ -102,7 +102,7 @@
             phx-hook="Copy"
             id={"hero_action_copy_url_#{id(@user)}"}
             href={URIs.canonical_url(@user)}
-            class="flex items-center gap-2 text-sm text-base-content/70"
+            class="flex items-center gap-2 text-sm text-base-content"
           >
             <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
             <span data-role="label">{l("Copy link")}</span>
@@ -121,10 +121,7 @@
             />
           </li>
           <li :if={current_user_id(@__context__)}>
-            <LinkLive
-              to={path(@user, :settings)}
-              class="flex items-center gap-2 text-sm text-base-content/70"
-            >
+            <LinkLive to={path(@user, :settings)} class="flex items-center gap-2 text-sm text-base-content">
               <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
               <span>{l("Settings")}</span>
             </LinkLive>
@@ -175,8 +172,8 @@
             {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
               <li phx-click="Bonfire.Me.Users:make_admin" phx-value-username_or_id={id(@user)} class="">
                 <div>
-                  <button class="flex items-center gap-2 text-sm text-base-content/70">
-                    <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/70" />
+                  <button class="flex items-center gap-2 text-sm text-base-content">
+                    <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content" />
                     <span>{l("Make admin")}</span>
                   </button>
                 </div>
@@ -184,8 +181,8 @@
             {#else}
               <li phx-click="Bonfire.Me.Users:revoke_admin" phx-value-username_or_id={id(@user)} class="">
                 <div>
-                  <button class="flex items-center gap-2 text-sm text-base-content/70">
-                    <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/70" />
+                  <button class="flex items-center gap-2 text-sm text-base-content">
+                    <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content" />
                     <span>{l("Revoke admin")}</span>
                   </button>
                 </div>
@@ -212,9 +209,9 @@
               <div
                 phx-click="Bonfire.Me.Users:fetch_outbox"
                 phx-value-canonical_uri={canonical_uri}
-                class="flex items-center gap-2 text-sm text-base-content/70"
+                class="flex items-center gap-2 text-sm text-base-content"
               >
-                <#Icon iconify="mdi:sprout" class="w-4 h-4 shrink-0 text-base-content/70" />
+                <#Icon iconify="mdi:sprout" class="w-4 h-4 shrink-0 text-base-content" />
                 <span>{l("Get latest activities")}</span>
               </div>
             </li>
@@ -223,9 +220,9 @@
                 href={canonical_uri}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center gap-2 text-sm text-base-content/70"
+                class="flex items-center gap-2 text-sm text-base-content"
               >
-                <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/70" />
+                <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content" />
                 <span>{l("View on the original instance")}</span>
               </a>
             </li>
