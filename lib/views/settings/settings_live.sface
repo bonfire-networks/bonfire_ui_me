@@ -4,7 +4,10 @@
       {#if @scope == :account}
         <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
       {#else}
-        <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} />
+        <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
+          :if={current_user_id(@__context__)}
+          selected_tab={@selected_tab}
+        />
       {/if}
     {#match "profile"}
       <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
@@ -27,37 +30,6 @@
       />
     {#match "export"}
       <Bonfire.UI.Me.SettingsViewsLive.ExportLive selected_tab={@selected_tab} />
-      {!-- {#match "roles"}
-      <StatefulComponent
-        module={maybe_component(Bonfire.Boundaries.Web.RolesLive, @__context__)}
-        id="roles"
-        scope={nil}
-      />
-    {#match "circles"}
-      <StatefulComponent
-        module={maybe_component(Bonfire.Boundaries.Web.MyCirclesLive, @__context__)}
-        id="circles"
-        scope={nil}
-      />
-    {#match "circle"}
-      <StatefulComponent
-        module={maybe_component(Bonfire.Boundaries.Web.CircleLive, @__context__)}
-        selected_tab={@selected_tab}
-        id="view_circle"
-      />
-    {#match "acls"}
-      <StatefulComponent
-        module={maybe_component(Bonfire.Boundaries.Web.MyAclsLive, @__context__)}
-        selected_tab="acls"
-        id="my_acls"
-        scope={nil}
-      />
-    {#match "acl"}
-      <StatefulComponent
-        module={maybe_component(Bonfire.Boundaries.Web.AclLive, @__context__)}
-        selected_tab="acls"
-        id="acl"
-      /> --}
     {#match "extensions"}
       <Bonfire.UI.Common.ExtensionsLive scope={@scope} />
     {#match "flags"}
@@ -97,7 +69,11 @@
     {#match _}
       {#case maybe_to_atom!(@selected_tab)}
         {#match nil}
-          <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} />
+          <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
+            :if={current_user_id(@__context__)}
+            selected_tab={@selected_tab}
+          />
+          <!-- <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} /> -->
         {#match extension}
           <Bonfire.UI.Me.ExtensionSettingsLive extension={extension} scope={@scope} />
       {/case}

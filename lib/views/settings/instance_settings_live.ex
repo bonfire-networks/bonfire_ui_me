@@ -10,26 +10,14 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      |> assign(
        page_title: l("Instance Settings"),
        back: true,
-       nav_items: Bonfire.Common.ExtensionModule.default_nav(),
-       sidebar_widgets: [
-         users: [
-           secondary: [
-             {Bonfire.Tag.Web.WidgetTagsLive, []}
-           ]
-         ],
-         guests: [
-           secondary: nil
-         ]
-       ],
+       without_secondary_widgets: true,
+       nav_items: [Bonfire.UI.Common.InstanceSidebarSettingsNavLive.declared_nav()],
        selected_tab: "instance_dashboard",
        id: nil,
-       #  smart_input_opts: %{hide_buttons: true},
        page: "instance_settings",
        trigger_submit: false,
        scope: :instance
      )}
-
-    # |> IO.inspect
   end
 
   def handle_params(%{"tab" => "preferences" = tab} = params, _url, socket) do
