@@ -7,63 +7,6 @@
         {rich(e(@user, :profile, :summary, ""))}
       </div>
 
-      <div :if={@character_type == :user} class="flex items-center w-full space-x-4">
-        {#case Settings.get(:experimental_features_enabled, false, @__context__) and
-            (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or
-               Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
-          {#match false}
-            <div />
-          {#match true}
-            <div />
-          {#match nil}
-            <progress title={l("Connection score unknown")} class="progress w-32" value="0" max="100" />
-          {#match 0}
-            <div />
-          {#match distance when distance <= 1}
-            <progress
-              title={l("Connection score: %{distance}", distance: distance)}
-              class="progress progress-success w-32"
-              value="100"
-              max="100"
-            />
-          {#match distance when distance <= 2}
-            <progress
-              title={l("Connection score: %{distance}", distance: distance)}
-              class="progress progress-success w-32"
-              value="80"
-              max="100"
-            />
-          {#match distance when distance <= 3}
-            <progress
-              title={l("Connection score: %{distance}", distance: distance)}
-              class="progress progress-info w-32"
-              value="60"
-              max="100"
-            />
-          {#match distance when distance <= 4}
-            <progress
-              title={l("Connection score: %{distance}", distance: distance)}
-              class="progress progress-info w-32"
-              value="40"
-              max="100"
-            />
-          {#match distance when distance <= 5}
-            <progress
-              title={l("Connection score: %{distance}", distance: distance)}
-              class="progress progress-warning w-32"
-              value="20"
-              max="100"
-            />
-          {#match distance when distance > 5}
-            <progress
-              title={l("Connection score: %{distance}", distance: distance)}
-              class="progress progress-warning w-32"
-              value="10"
-              max="100"
-            />
-        {/case}
-      </div>
-
       <div class="flex flex-col rounded-lg bg-base-content/5 divide-y divide-base-content/10">
         <Bonfire.UI.Me.ProfileLinksLive user={@user} />
       </div>
@@ -90,5 +33,62 @@
       </span>
     </LinkPatchLive>
   </div> --}
+  </div>
+
+  <div :if={@character_type == :user} class="flex items-center w-full space-x-4">
+    {#case Settings.get(:experimental_features_enabled, false, @__context__) and
+        (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or
+           Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
+      {#match false}
+        <div />
+      {#match true}
+        <div />
+      {#match nil}
+        <progress title={l("Connection score unknown")} class="progress w-32" value="0" max="100" />
+      {#match 0}
+        <div />
+      {#match distance when distance <= 1}
+        <progress
+          title={l("Connection score: %{distance}", distance: distance)}
+          class="progress progress-success w-32"
+          value="100"
+          max="100"
+        />
+      {#match distance when distance <= 2}
+        <progress
+          title={l("Connection score: %{distance}", distance: distance)}
+          class="progress progress-success w-32"
+          value="80"
+          max="100"
+        />
+      {#match distance when distance <= 3}
+        <progress
+          title={l("Connection score: %{distance}", distance: distance)}
+          class="progress progress-info w-32"
+          value="60"
+          max="100"
+        />
+      {#match distance when distance <= 4}
+        <progress
+          title={l("Connection score: %{distance}", distance: distance)}
+          class="progress progress-info w-32"
+          value="40"
+          max="100"
+        />
+      {#match distance when distance <= 5}
+        <progress
+          title={l("Connection score: %{distance}", distance: distance)}
+          class="progress progress-warning w-32"
+          value="20"
+          max="100"
+        />
+      {#match distance when distance > 5}
+        <progress
+          title={l("Connection score: %{distance}", distance: distance)}
+          class="progress progress-warning w-32"
+          value="10"
+          max="100"
+        />
+    {/case}
   </div>
 </section>

@@ -21,7 +21,7 @@
         tabindex="0"
         role="menu"
         aria-orientation="vertical"
-        class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-64 menu dropdown-content bg-base-200"
+        class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/10"
       >
         <li>
           <a
@@ -37,7 +37,7 @@
 
         <li>
           <LinkLive to="/settings" class="flex items-center gap-2 text-sm text-base-content">
-            <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
+            <#Icon iconify="ph:gear" class="w-4 h-4 shrink-0" />
             <span>{l("Settings")}</span>
           </LinkLive>
         </li>
@@ -72,7 +72,7 @@
           </LinkLive>
         </li>
         <li>
-          <LinkLive to={~p"/logout"} class="flex items-center gap-2 text-sm text-base-content/60">
+          <LinkLive to={~p"/logout"} class="flex items-center gap-2 text-sm">
             <#Icon iconify="uil:exit" class="w-4 h-4" />
 
             <span>{l("Logout")}</span>
@@ -95,7 +95,7 @@
         tabindex="0"
         role="menu"
         aria-orientation="vertical"
-        class="!block mt-1 relative z-50 rounded-xl shadow-lg dropdown_actions w-64 menu dropdown-content bg-base-100 border border-base-content/10"
+        class="!block mt-1 relative z-50 rounded-xl shadow-lg dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/10"
       >
         <li>
           <a
@@ -122,14 +122,14 @@
           </li>
           <li :if={current_user_id(@__context__)}>
             <LinkLive to={path(@user, :settings)} class="flex items-center gap-2 text-sm text-base-content">
-              <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0" />
+              <#Icon iconify="ph:gear" class="w-4 h-4 shrink-0" />
               <span>{l("Settings")}</span>
             </LinkLive>
           </li>
         {/if}
 
         {#if current_user_id(@__context__)}
-          {#if @character_type == :user}}
+          {#if @character_type == :user}
             <li>
               <StatelessComponent
                 :if={current_user(@__context__)}
@@ -150,7 +150,7 @@
                     {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
                   ]
                 }}
-                class="flex items-center text-sm text-base-content/70"
+                class="flex items-center text-sm text-base-content"
               />
             </li>
           {/if}
@@ -161,7 +161,7 @@
               object={@user}
               parent_id="profile_hero"
               object_type={e(@user, :profile, :name, "this user")}
-              class="flex items-center p-4 text-sm text-base-content/70"
+              class="flex items-center p-4 text-sm text-base-content"
             />
           </li>
 
