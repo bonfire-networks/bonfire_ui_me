@@ -1,11 +1,14 @@
-<div class="grid mb-2 px-4 md:px-0 md:grid-cols-2 gap-4 max-w-screen-md mx-auto w-full">
-  <div :for={user <- @users} class="p-4 border rounded border-base-content/10">
+<div class="grid mb-2 px-4 grid-cols-1 gap-4 max-w-screen-lg mx-auto w-full">
+  <div
+    :for={user <- @users}
+    class="p-4 border rounded-lg shadow bg-base-100 border-base-content/10"
+  >
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
       character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
       profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
       show_summary
-      wrapper_class="flex items-start gap-3 profile-item group flex-col"
+      wrapper_class="flex items-start gap-3 profile-item group justify-between gap-6"
       avatar_class="w-16 h-16"
       show_controls={[:follow]}
     />
