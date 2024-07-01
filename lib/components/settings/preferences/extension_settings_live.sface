@@ -1,5 +1,5 @@
 <div class="p-4">
-  <div class="flex flex-col flex-1 gap-1">
+  <div class="flex flex-col flex-1 gap-2">
     <div class="flex justify-between">
       <div class="text-2xl flex-1 font-bold flex items-center gap-2">
         <span>{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</span>
@@ -28,10 +28,10 @@
           </div>
       {/case}
     </div>
-    <div class="mt-2 text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
+    <div :if={e(@dep, :extra, :description, nil)} class="text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
 
     <div class="mt-4" x-data="{ tab: 'preferences'}">
-      <div role="tablist" class="tabs inline-flex tabs-boxed">
+      <div role="tablist" class="tabs inline-flex px-0 mx-0 tabs-boxed">
         <a
           @click="tab = 'preferences'"
           role="tab"
@@ -47,12 +47,25 @@
           {#match extension_settings when is_list(extension_settings)}
             <div class="">
               {#if to_string(@extension) not in Bonfire.Application.required_deps()}
-                <div class="text-sm text-base-content/90">{l(
-                    "You can disable this extension if you don't need it. If you want to re-enable it in the future, you'll find it in the extension list in settings."
-                  )}</div>
-                <ul>
+                <div role="alert" class="alert alert-info">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    class="h-6 w-6 shrink-0 stroke-current"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span>{l(
+                      "You can disable this extension if you don't need it. If you want to re-enable it in the future, you'll find it in the extension list in settings."
+                    )}</span>
                   <Bonfire.UI.Common.ExtensionToggleLive id={@extension} can_instance_wide={false} />
-                </ul>
+                </div>
               {/if}
 
               <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">

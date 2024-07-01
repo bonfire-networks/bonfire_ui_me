@@ -10,11 +10,21 @@ defmodule Bonfire.UI.Me.ExtensionSettingsLive do
     scoped = Bonfire.Common.Settings.LiveHandler.scoped(assigns[:scope], assigns[:__context__])
     all_extensions = cached_data()
 
-    dep = find_dep_by_app_name(all_extensions[:ui], assigns[:extension])
+    initial_dep = find_dep_by_app_name(all_extensions[:ui], assigns[:extension])
+    IO.inspect(initial_dep, label: "Initial dep from UI extensions")
 
-    if is_nil(dep) or not is_struct(dep, Mix.Dep) do
-      dep = find_dep_by_app_name(all_extensions[:feature_extensions], assigns[:extension])
-    end
+    final_dep =
+      if is_nil(initial_dep) or not is_struct(initial_dep, Mix.Dep) do
+        feature_dep =
+          find_dep_by_app_name(all_extensions[:feature_extensions], assigns[:extension])
+
+        IO.inspect(feature_dep, label: "Dep from feature extensions")
+        feature_dep
+      else
+        initial_dep
+      end
+
+    IO.inspect(final_dep, label: "final Dep")
 
     if assigns[:scope] == :instance and
          Bonfire.Boundaries.can?(assigns[:__context__], :configure, :instance) != true do
@@ -22,7 +32,7 @@ defmodule Bonfire.UI.Me.ExtensionSettingsLive do
     else
       assigns
       |> assign(page_title: "Extension")
-      |> assign(dep: dep)
+      |> assign(dep: final_dep || %{})
       |> assign(scoped: scoped)
       |> render_sface()
     end
