@@ -223,7 +223,7 @@
                 class="flex items-center gap-2 text-sm text-base-content"
               >
                 <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content" />
-                <span>{l("View on the original instance")}</span>
+                <span>{l("View remotely")}</span>
               </a>
             </li>
         {/case}

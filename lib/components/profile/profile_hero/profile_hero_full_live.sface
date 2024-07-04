@@ -76,7 +76,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="mt-2">
+                <div class="mt-2 flex flex-col gap-2">
                   <Bonfire.UI.Me.ProfileInfoLive
                     ghosted_instance_wide?={@ghosted_instance_wide?}
                     silenced_instance_wide?={@silenced_instance_wide?}
