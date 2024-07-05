@@ -5,29 +5,10 @@
         <span>{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</span>
         <span class="bg-base-content/10 rounded px-2 py-1 text-xs inline-block">{get_version(@dep)}</span>
       </div>
-      {#case get_link(@dep)}
-        {#match code_link}
-          <div aria-haspopup="true" class="dropdown dropdown-end">
-            <label tabindex="0" class="btn btn-xs btn-circle btn-outline">
-              <#Icon solid="DotsVertical" class="w-4 h-4" />
-            </label>
-            <ul
-              tabindex="0"
-              role="menu"
-              aria-orientation="vertical"
-              class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-60 menu dropdown-content border border-base-content/10 bg-base-100"
-            >
-              <li :if={code_link}><a href={code_link} target="_blank" class="">{l("View code repository")}</a></li>
-              <li><a href={get_code_link(@dep)} target="_blank" class="">{l("View code")}</a></li>
-              <li><a href={get_code_link(@dep) <> "?from=compiled"} target="_blank" class="">{l("View running code")}</a></li>
-              {#case get_link(@dep)}
-                {#match version_link}
-                  <li :if={code_link != version_link}><a href={version_link} target="_blank" class="btn btn-outline btn-sm">{l("View code changes")}</a></li>
-              {/case}
-            </ul>
-          </div>
-      {/case}
+
+      <Bonfire.UI.Common.ExtensionCodeMenuLive dep={@dep} />
     </div>
+
     <div :if={e(@dep, :extra, :description, nil)} class="text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
 
     <div class="mt-4" x-data="{ tab: 'preferences'}">
