@@ -28,7 +28,7 @@
           {#match extension_settings when is_list(extension_settings)}
             <div class="">
               {#if to_string(@extension) not in Bonfire.Application.required_deps()}
-                <div role="alert" class="alert alert-info">
+                <div role="alert" class="alert text-sm">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"

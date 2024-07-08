@@ -153,7 +153,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       debug(params, "load guest default tab")
 
       handle_profile_params(
-        Map.merge(params || %{}, %{"tab" => "posts"}),
+        Map.merge(params || %{}, %{"tab" => "timeline"}),
         nil,
         socket
       )
@@ -162,7 +162,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
       debug(params, "load user default tab")
 
       handle_profile_params(
-        Map.merge(params || %{}, %{"tab" => "about"}),
+        Map.merge(params || %{}, %{"tab" => "timeline"}),
         nil,
         socket
       )
