@@ -11,7 +11,7 @@ defmodule Bonfire.UI.Me.ChangeEmailLive do
      socket
      |> assign(:page_title, l("Change my email"))
      |> assign(:without_sidebar, true)
-     |> assign(:without_widget, true)
+     |> assign(:without_secondary_widgets, true)
      |> assign(:form, session["form"])
      |> assign(:error, session["error"])
      #  |> assign(:resetting_password, session["resetting_password"])

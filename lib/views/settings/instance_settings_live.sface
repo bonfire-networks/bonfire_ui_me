@@ -8,6 +8,8 @@
   {#case @selected_tab}
     {#match "dashboard"}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive selected_tab={@selected_tab} />
+    {#match "about"}
+      <Bonfire.UI.Me.SettingsViewsLive.InstanceAboutLive selected_tab={@selected_tab} />
     {#match "configuration"}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive selected_tab={@selected_tab} />
     {#match "preferences"}
