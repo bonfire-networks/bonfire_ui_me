@@ -345,10 +345,10 @@
     <span>{l("Wellbeing")}</span>
   </div>
 
-  <StatelessComponent
+  <!-- <StatelessComponent
     scope={@scope}
     module={maybe_component(Bonfire.Boundaries.Web.DefaultBoundaryLive, @__context__)}
-  />
+  /> -->
 
   <form phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive

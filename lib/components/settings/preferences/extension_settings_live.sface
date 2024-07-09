@@ -1,7 +1,7 @@
 <div class="p-4">
   <div class="flex flex-col flex-1 gap-2">
     <div class="flex justify-between">
-      <div class="text-2xl flex-1 font-bold flex items-center gap-2">
+      <div class="text-xl flex-1 font-semibold flex items-center gap-2">
         <span>{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</span>
         <span class="bg-base-content/10 rounded px-2 py-1 text-xs inline-block">{get_version(@dep)}</span>
       </div>
@@ -9,10 +9,10 @@
       <Bonfire.UI.Common.ExtensionCodeMenuLive dep={@dep} />
     </div>
 
-    <div :if={e(@dep, :extra, :description, nil)} class="text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
+    <div :if={e(@dep, :extra, :description, nil)} class="text-sm text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
 
-    <div class="mt-4" x-data="{ tab: 'preferences'}">
-      <div role="tablist" class="tabs inline-flex px-0 mx-0 tabs-boxed">
+    <div class="mt-4 border-t border-base-content/10" x-data="{ tab: 'preferences'}">
+      <!-- <div role="tablist" class="tabs inline-flex px-0 mx-0 tabs-boxed">
         <a
           @click="tab = 'preferences'"
           role="tab"
@@ -20,15 +20,14 @@
           :class="{'tab-active': tab == 'preferences'}"
         >Preferences</a>
         <a @click="tab = 'about'" role="tab" class="tab" :class="{'tab-active': tab == 'about'}">About</a>
-        <!-- <a role="tab" class="tab">Tab 3</a> -->
-      </div>
-      <div class="my-4" x-cloak x-show="tab == 'preferences'">
+      </div> -->
+      <div class="mb-4">
         {#case extension_enabled?(@extension, @__context__) &&
             Bonfire.UI.Common.SettingsModule.components(@extension)}
           {#match extension_settings when is_list(extension_settings)}
             <div class="">
               {#if to_string(@extension) not in Bonfire.Application.required_deps()}
-                <div role="alert" class="alert text-sm">
+                <div role="alert" class="alert text-sm mt-4">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -61,13 +60,13 @@
             {l("No settings here.")}
         {/case}
       </div>
-      <div x-cloak x-show="tab == 'about'" class="my-4 rounded-lg bg-base-content/5 p-3">
+      <!-- <div x-cloak x-show="tab == 'about'" class="my-4 rounded-lg bg-base-content/5 p-3">
         {#case e(@dep, :extra, :readme_contents, nil)}
           {#match nil}
           {#match readme_contents}
             <div class="prose">{rich(readme_contents)}</div>
         {/case}
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

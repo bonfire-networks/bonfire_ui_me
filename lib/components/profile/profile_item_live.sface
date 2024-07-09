@@ -1,5 +1,5 @@
 <div class={@wrapper_class}>
-  <div class="flex items-start gap-3 profile-item group">
+  <div class="flex items-start gap-2 profile-item group">
     <LinkLive
       to={if String.starts_with?(e(@character, :username, ""), "http"),
         do: e(@character, :username, nil),
@@ -26,12 +26,12 @@
         to={if String.starts_with?(e(@character, :username, ""), "http"),
           do: e(@character, :username, nil),
           else: "/character/#{e(@character, :username, "")}"}
-        class={"text-base font-bold text-base-content group-hover:underline", "text-base": @lg}
+        class={"text-base font-bold text-base-content line-clamp-1 group-hover:underline", "text-base": @lg}
       >
         {e(@profile, :name, "Anon")}
       </LinkLive>
 
-      <div :if={!@inline} class="text-sm text-base-content/70 -mt-1">
+      <div :if={!@inline} class="text-sm text-base-content/70 line-clamp-1 -mt-1">
         {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}
       </div>
       <div

@@ -1,7 +1,7 @@
 <Bonfire.UI.Common.WidgetBlockLive widget_title={e(@widget_title, "Users")}>
-  <div class="grid grid-cols-1 gap-3">
+  <div class="grid grid-cols-1 gap-2">
     {#for user <- users(@users)}
-      <div class="px-2">
+      <div class="">
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
           show_controls={[]}
