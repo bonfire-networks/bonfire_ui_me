@@ -6,6 +6,7 @@
     keys={[:ui, :theme, :instance_welcome, :title]}
     default_value={Config.get([:ui, :theme, :instance_welcome, :title], nil)}
   />
+
   <Bonfire.UI.Common.SettingsTextareaLive
     scope={:instance}
     input="ui[theme][instance_welcome][description]"
@@ -13,20 +14,26 @@
     keys={[:ui, :theme, :instance_welcome, :description]}
     default_value={Config.get([:ui, :theme, :instance_welcome, :description], nil)}
   />
-</div>
+  <div class="font-semibold">Components to include in the about page</div>
+  <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">
+    <input name="scope" value={:instance} type="hidden">
 
-<!-- <div class="flex flex-col gap-6 w-full">
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Show users")}
+      description={l("Show the users directory on the about page")}
+      keys={[Bonfire.Web.AboutLive, :include, :users]}
+      default_value
+      scope={:instance}
+      compact
+    />
 
-<form data-scope="set_about_component" name="settings" phx-change="Bonfire.Common.Settings:set">
-    <Bonfire.UI.Common.SettingsSelectLive
-      name={l("Choose the about component")}
-      description={l("Select what you want to be displayed on the about page")}
-      keys={[:ui, :theme, :instance_about, :component]}
-      options={Settings.get([:ui, :theme, :instance_about, :component], ["Inter"], @scoped)}
-      scope={@scope}
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Show digital space defaults")}
+      description={l("Show the digital space defaults on the about page")}
+      keys={[Bonfire.Web.AboutLive, :include, :preferences]}
+      default_value
+      scope={:instance}
+      compact
     />
   </form>
-
- 
-
-</div> -->
+</div>

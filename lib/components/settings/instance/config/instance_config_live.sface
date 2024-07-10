@@ -51,6 +51,13 @@
           <Bonfire.UI.Common.SettingsTextareaLive
             scope={:instance}
             input="ui[theme][instance_description]"
+            name={l("Site Tagline")}
+            keys={[:ui, :theme, :instance_tagline]}
+            default_value={Config.get([:ui, :theme, :instance_tagline], nil)}
+          />
+          <Bonfire.UI.Common.SettingsTextareaLive
+            scope={:instance}
+            input="ui[theme][instance_description]"
             name={l("Site Description")}
             keys={[:ui, :theme, :instance_description]}
             default_value={Config.get([:ui, :theme, :instance_description], nil)}
