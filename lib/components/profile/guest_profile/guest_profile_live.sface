@@ -33,8 +33,6 @@
               character_type={:user}
               boundary_preset={@boundary_preset}
               user={@user}
-              members={@members}
-              moderators={@moderators}
             />
           </div>
         </div>
