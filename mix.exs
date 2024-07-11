@@ -29,7 +29,7 @@ defmodule Bonfire.UI.Me.MixProject do
           {:zest, "~> 0.1", only: :test},
           {:mneme, ">= 0.0.0", only: [:dev, :test]},
           {:bonfire,
-           git: "https://github.com/bonfire-networks/bonfire_spark",
+           git: "https://github.com/bonfire-networks/bonfire",
 
            only: :test,
            runtime: false
