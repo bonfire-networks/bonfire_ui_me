@@ -1,14 +1,8 @@
 <div class="flex mb-4">
   <div class="inline-flex">
     <div role="tablist" class="tabs bg-base-200 tabs-boxed">
-      <LinkPatchLive
-        to="/about/general"
-        class={"tab", "tab-active": @selected_tab == :about}
-      >General</LinkPatchLive>
-      <LinkPatchLive
-        to="/about/privacy"
-        class={"tab", "tab-active": @selected_tab == :privacy}
-      >Privacy</LinkPatchLive>
+      <LinkPatchLive to="/about/general" class={"tab", "tab-active": @selected_tab == :about}>General</LinkPatchLive>
+      <LinkPatchLive to="/about/privacy" class={"tab", "tab-active": @selected_tab == :privacy}>Privacy</LinkPatchLive>
       <LinkPatchLive
         to="/about/configuration"
         class={"tab", "tab-active": @selected_tab == :configuration}

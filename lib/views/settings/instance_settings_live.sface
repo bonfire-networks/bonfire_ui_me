@@ -63,14 +63,9 @@
 
     </div> -->
     {#match "members"}
-      <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive
-        id={:instance_members}
-      />
+      <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive id={:instance_members} />
     {#match "remote_users"}
-      <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive
-        id={:remote_users}
-        show={:remote}
-      />
+      <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive id={:remote_users} show={:remote} />
       {!-- {#match "instance_silenced"}
       <Bonfire.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" name={l "Ghosted instance-wide"} />
     {#match "instance_ghosted"}
