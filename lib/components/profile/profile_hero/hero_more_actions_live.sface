@@ -50,12 +50,14 @@
             </LinkLive>
           </li>
 
-          <li>
-            <LinkLive to="/bookmarks" class="flex items-center gap-2 text-sm text-base-content">
-              <#Icon iconify="carbon:bookmark" class="w-4 h-4" />
-              <span>{l("Bookmarks")}</span>
-            </LinkLive>
-          </li>
+          {#if extension_enabled?(Bonfire.UI.Reactions.BookmarksLive, @__context__)}
+            <li>
+              <LinkLive to="/bookmarks" class="flex items-center gap-2 text-sm text-base-content">
+                <#Icon iconify="carbon:bookmark" class="w-4 h-4" />
+                <span>{l("Bookmarks")}</span>
+              </LinkLive>
+            </li>
+          {/if}
         {/if}
 
         <li>
