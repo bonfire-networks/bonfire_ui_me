@@ -1,5 +1,5 @@
 <Bonfire.UI.Common.WidgetBlockLive widget_title={e(@widget_title, "Users")}>
-  <div class="grid grid-cols-1 gap-2">
+  <div class="grid grid-cols-1 gap-4 truncate">
     {#for user <- users(@users)}
       <div class="">
         <StatelessComponent

@@ -26,7 +26,7 @@
         to={if String.starts_with?(e(@character, :username, ""), "http"),
           do: e(@character, :username, nil),
           else: "/character/#{e(@character, :username, "")}"}
-        class={"text-base font-bold text-base-content line-clamp-1 group-hover:underline", "text-base": @lg}
+        class={"text-sm font-medium text-base-content line-clamp-1 group-hover:underline", "text-base": @lg}
       >
         {e(@profile, :name, "Anon")}
       </LinkLive>
