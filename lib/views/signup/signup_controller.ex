@@ -43,6 +43,7 @@ defmodule Bonfire.UI.Me.SignupController do
   def attempt(conn, account_attrs, form \\ %{}) do
     # debug(Plug.Conn.get_session(conn, :auth_second_factor_secret))
     # changeset = form_cs(conn, params)
+
     case Accounts.signup(account_attrs,
            invite: form["invite"] || account_attrs["invite"],
            auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret)

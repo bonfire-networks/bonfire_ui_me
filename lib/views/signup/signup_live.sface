@@ -1,4 +1,4 @@
-<div class="w-full mt-8 md:mt-24" id="signup">
+<div class="w-full mt-8 mx-auto md:mt-24" id="signup">
   {!-- <Bonfire.UI.Common.LogoLinkLive
     container_class=""
     image_class="mt-12 mb-6 mx-auto w-12 h-12 bg-center bg-no-repeat bg-cover"
@@ -42,7 +42,26 @@
       </div>
     </div>
   {#else}
-    <div x-data="stepper()" x-cloak class="">
+    <div class="mx-auto flex justify-center items-center">
+      {#if Bonfire.Me.Accounts.instance_is_invite_only?() && !@invite}
+        <div role="status" class="my-4 alert alert-warning">
+          <div class="flex">
+            <div class="whitespace-normal">
+              {l("This instance is currently invite-only.")}
+            </div>
+          </div>
+        </div>
+      {#else}
+        <Bonfire.UI.Me.SignupFormLive
+          form={@form}
+          error={@error}
+          invite={@invite}
+          auth_second_factor_secret={@auth_second_factor_secret}
+        />
+      {/if}
+    </div>
+
+    <!-- <div x-data="stepper()" x-cloak class="">
       <div class="flex flex-col justify-center items-center">
         <ul class="steps text-sm font-semibold text-base-content/80">
           <li
@@ -81,17 +100,9 @@
             <a href="/" class="border-base-content/10 btn  btn-outline  w-full">{l("Decline")}</a>
           </div>
         </article>
-        <!-- {#case Config.get([:terms, :conduct], nil)}
-              {#match terms when is_binary(terms)}
-                <div class="p-3 prose">
-                  {templated_or_remote_markdown(terms)}
-                </div>
-              {#match _}
-            {/case} -->
       </div>
 
       <div x-cloak x-show="step == 2" class="flex mt-8 flex-col justify-center items-center">
-        <!-- <button type="button" class="btn btn btn-outline  border-base-content/10" @click="prev()">{l("Back")}</button> -->
 
         {#if Bonfire.Me.Accounts.instance_is_invite_only?() && !@invite}
           <div role="status" class="my-4 alert alert-warning">
@@ -105,12 +116,13 @@
           <Bonfire.UI.Me.SignupFormLive
             form={@form}
             error={@error}
+            invite={@invite}
             auth_second_factor_secret={@auth_second_factor_secret}
           />
         {/if}
       </div>
-    </div>
-    <script>
+    </div> -->
+    <!-- <script>
   function stepper() {
     return {
       step: 1,
@@ -122,6 +134,6 @@
       }
     }
   }
-</script>
+</script> -->
   {/if}
 </div>
