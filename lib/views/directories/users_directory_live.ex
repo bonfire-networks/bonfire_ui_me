@@ -55,7 +55,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
   end
 
   def handle_event("load_more", attrs, socket) do
-    {title, %{page_info: page_info, edges: edges}} =
+    {_title, %{page_info: page_info, edges: edges}} =
       list_users(current_user(socket.assigns), attrs, e(socket.assigns, :instance_id, nil))
 
     {:noreply,

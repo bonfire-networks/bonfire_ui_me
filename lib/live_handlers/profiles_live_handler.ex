@@ -221,7 +221,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     end
   end
 
-  def default_assigns(is_guest?) do
+  def default_assigns(_is_guest?) do
     [
       is_guest?: false,
       without_sidebar: false,

@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   use Bonfire.UI.Common.Web, :surface_live_view
   import Untangle
 
-  alias Bonfire.Me.Integration
+  # alias Bonfire.Me.Integration
   alias Bonfire.Me.Profiles.LiveHandler
 
   declare_extension("UI for accounts, user profiles and settings",

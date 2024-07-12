@@ -45,16 +45,16 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
 
     # |> debug("got_current")
 
-    account = e(user, :account, nil)
+    # account = e(user, :account, nil)
 
     {:ok,
      socket
      #  |> assign(
-     #    current_user: user, 
+     #    current_user: user,
      #    current_account: account
      #  )
      |> assign_global(
-       # user_to_assign(user), 
+       # user_to_assign(user),
        current_user: user,
        current_user_id: id(user),
        #  current_account: account, # do not load the full account (with settings etc) twice into the global assigns here
@@ -69,7 +69,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
 
   def get_current(user_id, account_id) do
     # if ProcessTree.get(:approach_to_current_user)==:cache do
-    # Cache.get!("current_user:#{user_id}") || 
+    # Cache.get!("current_user:#{user_id}") ||
     #   Users.get_current(
     #     user_id,
     #     account_id
@@ -84,12 +84,12 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
     # end
   end
 
-  # def user_to_assign(%{id: id} = user) do 
-  #   info(if ProcessTree.get(:approach_to_current_user)==:user do 
+  # def user_to_assign(%{id: id} = user) do
+  #   info(if ProcessTree.get(:approach_to_current_user)==:user do
   #     user
   # else
   #      id
   #   end)
   # end
-  # def user_to_assign(other), do: other 
+  # def user_to_assign(other), do: other
 end
