@@ -16,6 +16,26 @@ defmodule Bonfire.Me.Users.LiveHandler do
     {:noreply, assign_global(socket, users_autocomplete: options)}
   end
 
+  def handle_event("delete_user", %{"password" => password}, socket) do
+    delete = current_user_auth!(socket, password)
+
+    after_delete(
+      Bonfire.Me.DeleteWorker.enqueue_delete(delete),
+      "/settings/deleted/user/#{id(delete)}",
+      socket
+    )
+  end
+
+  def handle_event("delete_account", %{"password" => password}, socket) do
+    delete = current_account_auth!(socket, password)
+
+    after_delete(
+      Bonfire.Me.DeleteWorker.enqueue_delete(delete),
+      "/settings/deleted/account/#{id(delete)}",
+      socket
+    )
+  end
+
   def handle_event("fetch_outbox", _, socket) do
     ActivityPub.Federator.Fetcher.fetch_outbox([pointer: socket.assigns[:user]],
       fetch_collection: :async
@@ -145,6 +165,25 @@ defmodule Bonfire.Me.Users.LiveHandler do
           :broadcast,
           ["socket_account:#{account_id}", "disconnect", %{}]
         )
+    end
+  end
+
+  defp after_delete(result, redirect_after, socket) do
+    with {:ok, _} <- result do
+      Bonfire.UI.Common.OpenModalLive.close()
+
+      {:noreply,
+       socket
+       |> assign_flash(
+         :info,
+         l(
+           "Queued for deletion. Should be done in a few minutes... So long, and thanks for all the fish!"
+         )
+       )
+       |> redirect_to(
+         redirect_after,
+         fallback: current_url(socket)
+       )}
     end
   end
 end

@@ -132,7 +132,7 @@ defmodule Bonfire.UI.Me.ExportController do
         Zstream.entry("keys.asc", [keys(user)])
       ] ++
         for {path, uri} <- user_media(user) do
-          media_stream(path, uri, &Zstream.entry/2)
+          media_stream(path, uri, &Zstream.entry/2) || []
         end
     )
     |> zip_stream_process(id(user), conn_or_context)
@@ -297,13 +297,17 @@ defmodule Bonfire.UI.Me.ExportController do
     Utils.maybe_apply(
       Bonfire.Social.Graph.Requests,
       :list_my_requested,
-      current_user: current_user,
-      type: Bonfire.Data.Social.Follow,
-      paginate: false,
-      return: :stream,
-      stream_callback: fn stream ->
-        stream_callback(type, stream, conn)
-      end
+      [
+        [
+          current_user: current_user,
+          type: Bonfire.Data.Social.Follow,
+          paginate: false,
+          return: :stream,
+          stream_callback: fn stream ->
+            stream_callback(type, stream, conn)
+          end
+        ]
+      ]
     )
 
     # |> IO.inspect(label: "req")
@@ -614,7 +618,7 @@ defmodule Bonfire.UI.Me.ExportController do
   def user_media(user) do
     user_id = id(user)
 
-    Bonfire.Files.Media.many(user: user_id)
+    Bonfire.Files.Media.many(creator: user_id)
     ~> Enum.map(fn
       %{path: "http" <> _ = uri, id: id} = _media ->
         {"/data/links/#{id}.html", uri}

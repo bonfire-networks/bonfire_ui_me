@@ -6,7 +6,7 @@ defmodule Bonfire.Me.Archive.LiveHandler do
     {:ok, task_pid} =
       Bonfire.UI.Me.ExportController.trigger_prepare_archive_async(socket.assigns[:__context__])
 
-    Process.send_after(self(), :clear_flash, 3000)
+    # Process.send_after(self(), :clear_flash, 3000)
 
     {:noreply,
      socket
@@ -31,5 +31,4 @@ defmodule Bonfire.Me.Archive.LiveHandler do
          assign_flash(socket, :info, "Cancelled")
      end}
   end
-
 end

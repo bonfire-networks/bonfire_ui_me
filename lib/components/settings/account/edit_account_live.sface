@@ -78,7 +78,7 @@
           module={maybe_component(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
           with_password_prompt
           skip_permission_check
-          form_opts={%{"phx-submit" => "Bonfire.Common.Settings:delete_account"}}
+          form_opts={%{"phx-submit" => "Bonfire.Me.Users:delete_account"}}
           object={current_account(@__context__)}
           object_type_readable={l("account, along with user profiles & data")}
           parent_id="delete-account"

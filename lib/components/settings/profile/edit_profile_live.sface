@@ -36,7 +36,7 @@
     <div class="mt-3">
       <StatelessComponent
         module={maybe_component(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
-        form_opts={%{"phx-submit" => "Bonfire.Common.Settings:delete_user"}}
+        form_opts={%{"phx-submit" => "Bonfire.Me.Users:delete_user"}}
         with_password_prompt
         skip_permission_check
         object={current_user(@__context__)}

@@ -15,7 +15,7 @@
             @__context__[:instance_settings] || :instance
           )}
           set_field={[:bonfire, :ui, :theme, :instance_image]}
-          set_fn={&Bonfire.Common.Settings.LiveHandler.set_image_setting/5}
+          set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
         />
       </div>
       <div class="flex w-full items-start gap-6 p-4">
@@ -37,7 +37,7 @@
               @__context__[:instance_settings] || :instance
             )}
             set_field={[:bonfire, :ui, :theme, :instance_icon]}
-            set_fn={&Bonfire.Common.Settings.LiveHandler.set_image_setting/5}
+            set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
           />
         </div>
         <div class="flex flex-col gap-6 w-full">
