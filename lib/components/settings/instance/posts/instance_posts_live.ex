@@ -12,7 +12,12 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstancePostsLive do
        socket,
        selected_tab: tab,
        current_user: current_user,
-       pages: Bonfire.Pages.list_paginated()
+       pages:
+         Common.Utils.maybe_apply(
+           Bonfire.Pages,
+           :list_paginated,
+           []
+         )
      )}
   end
 end

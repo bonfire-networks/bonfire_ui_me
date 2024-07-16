@@ -50,11 +50,13 @@ defmodule Bonfire.Me.Users.LiveHandler do
         socket
       ) do
     with {:ok, shared_user} <-
-           Bonfire.Me.SharedUsers.add_accounts(
-             current_user_required!(socket),
-             emails_or_usernames,
-             attrs
-           ) do
+        Common.Utils.maybe_apply(
+          Bonfire.Me.SharedUsers,
+          :add_accounts,
+          [current_user_required!(socket),
+          emails_or_usernames,
+          attrs]
+        ) do
       {:noreply,
        socket
        |> assign_flash(:info, l("Access granted to the team!"))
