@@ -131,7 +131,7 @@
                      @__context__[:instance_settings] || :instance
                    ),
                    do: "checked"}
-                class="toggle"
+                class="toggle toggle-sm"
               />
             </div>
           </div>
@@ -199,7 +199,7 @@
                    @__context__[:instance_settings] || :instance
                  ),
                  do: "checked"}
-              class="toggle"
+              class="toggle toggle-sm"
             />
           </div>
         </div>

@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstancePostsLive do
        selected_tab: tab,
        current_user: current_user,
        pages:
-         Common.Utils.maybe_apply(
+         Bonfire.Common.Utils.maybe_apply(
            Bonfire.Pages,
            :list_paginated,
            []

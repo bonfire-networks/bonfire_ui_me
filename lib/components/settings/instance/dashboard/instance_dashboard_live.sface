@@ -1,64 +1,62 @@
 <div class="flex flex-col p-4 gap-6 w-full">
   <div class="font-semibold">{"Main feed to show"}</div>
   <form class="flex flex-col" phx-change="Bonfire.Common.Settings:set">
-    <input  name="scope" value={:instance} type="hidden">
+    <input name="scope" value={:instance} type="hidden">
 
-  <Bonfire.UI.Common.SettingsRadiosLive
-    keys={[Bonfire.Web.DashboardLive, :default_feed]}
-    options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
-        Bonfire.Common.Config.get(
-          [Bonfire.UI.Social.FeedsLive, :curated],
-          false
-        ) do
-      [
-        my: l("My Feed"),
-        curated: l("Curated"),
-        popular: l("Popular Discussions")
-      ]
-    else
-      [
-        my: l("My Feed"),
-        popular: l("Popular Discussions")
-      ]
-    end}
-    default_value={:my}
-    scope={:instance}
-  />
-
-  <div class="font-semibold mt-10 mb-4">{l "Secondary Widgets"}</div>
-  <div class="flex flex-col gap-2 divide-y divide-base-content/10">
-    <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Show popular topics")}
-      description={l("Show the most popular topics")}
-      keys={[Bonfire.Web.DashboardLive, :include, :popular_topics]}
-      default_value
+    <Bonfire.UI.Common.SettingsRadiosLive
+      keys={[Bonfire.Web.DashboardLive, :default_feed]}
+      options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
+           Bonfire.Common.Config.get(
+             [Bonfire.UI.Social.FeedsLive, :curated],
+             false
+           ) do
+        [
+          my: l("My Feed"),
+          curated: l("Curated"),
+          popular: l("Popular Discussions")
+        ]
+      else
+        [
+          my: l("My Feed"),
+          popular: l("Popular Discussions")
+        ]
+      end}
+      default_value={:my}
       scope={:instance}
-      compact
     />
 
-    <div class="pt-2">
-    <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Show recent users")}
-      description={l("Show the most recent users")}
-      keys={[Bonfire.Web.DashboardLive, :include, :recent_users]}
-      default_value
-      scope={:instance}
-      compact
-    />
-    </div>
+    <div class="font-semibold mt-10 mb-4">{l("Secondary Widgets")}</div>
+    <div class="flex flex-col gap-2 divide-y divide-base-content/10">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Show popular topics")}
+        description={l("Show the most popular topics")}
+        keys={[Bonfire.Web.DashboardLive, :include, :popular_topics]}
+        default_value
+        scope={:instance}
+        compact
+      />
 
-    <div class="pt-2">
-    <Bonfire.UI.Common.SettingsToggleLive
-      name={l("Show admins")}
-      description={l("Show the admins")}
-      keys={[Bonfire.Web.DashboardLive, :include, :admins]}
-      default_value
-      scope={:instance}
-      compact
-    />
-    </div>
+      <div class="pt-2">
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Show recent users")}
+          description={l("Show the most recent users")}
+          keys={[Bonfire.Web.DashboardLive, :include, :recent_users]}
+          default_value
+          scope={:instance}
+          compact
+        />
+      </div>
 
+      <div class="pt-2">
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Show admins")}
+          description={l("Show the admins")}
+          keys={[Bonfire.Web.DashboardLive, :include, :admins]}
+          default_value
+          scope={:instance}
+          compact
+        />
+      </div>
     </div>
-
   </form>
 </div>

@@ -50,7 +50,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
         socket
       ) do
     with {:ok, shared_user} <-
-           Common.Utils.maybe_apply(
+           Bonfire.Common.Utils.maybe_apply(
              Bonfire.Me.SharedUsers,
              :add_accounts,
              [current_user_required!(socket), emails_or_usernames, attrs]
