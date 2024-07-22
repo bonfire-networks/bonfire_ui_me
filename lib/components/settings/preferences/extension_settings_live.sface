@@ -31,40 +31,47 @@
         <Bonfire.UI.Common.ExtensionToggleLive id={@extension} can_instance_wide={false} />
       </div>
     {/if}
-    <div class="mt-2 border-t border-base-content/10" x-data="{ tab: 'preferences'}">
-      <!-- <div role="tablist" class="tabs inline-flex px-0 mx-0 tabs-boxed">
-        <a
-          @click="tab = 'preferences'"
-          role="tab"
-          class="tab"
-          :class="{'tab-active': tab == 'preferences'}"
-        >Preferences</a>
-        <a @click="tab = 'about'" role="tab" class="tab" :class="{'tab-active': tab == 'about'}">About</a>
-      </div> -->
 
-      {#case extension_enabled?(@extension, @__context__) &&
-          Bonfire.UI.Common.SettingsModule.components(@extension)}
-        {#match extension_settings when is_list(extension_settings)}
-          <div class="">
-            <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
-              <Bonfire.UI.Common.WidgetsLive
-                widgets={extension_settings}
-                extra_data={scope: @scope}
-                with_title
-              />
-            </form>
+    {#case extension_enabled?(@extension, @__context__) &&
+        Bonfire.UI.Common.SettingsModule.components(@extension)}
+      {#match extension_settings when is_list(extension_settings) and extension_settings != []}
+        <div class="mt-2 border-t border-base-content/10" x-data="{ tab: 'preferences'}">
+          <div role="tablist" class="tabs inline-flex px-0 mx-0 tabs-boxed">
+            <a
+              @click="tab = 'preferences'"
+              role="tab"
+              class="tab"
+              :class="{'tab-active': tab == 'preferences'}"
+            >Preferences</a>
+            <a @click="tab = 'about'" role="tab" class="tab" :class="{'tab-active': tab == 'about'}">About</a>
           </div>
-        {#match _}
-          {l("No settings here.")}
-      {/case}
 
-      <!-- <div x-cloak x-show="tab == 'about'" class="my-4 rounded-lg bg-base-content/5 p-3">
+          <div x-cloak x-show="tab == 'preferences'" class="my-4 rounded-lg bg-base-content/5 p-3">
+            <div class="">
+              <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
+                <Bonfire.UI.Common.WidgetsLive
+                  widgets={extension_settings}
+                  extra_data={scope: @scope}
+                  with_title
+                />
+              </form>
+            </div>
+          </div>
+
+          <div x-cloak x-show="tab == 'about'" class="my-4 rounded-lg bg-base-content/5 p-3">
+            {#case e(@dep, :extra, :readme_contents, nil)}
+              {#match nil}
+              {#match readme_contents}
+                <div class="prose">{rich(readme_contents)}</div>
+            {/case}
+          </div>
+        </div>
+      {#match _}
         {#case e(@dep, :extra, :readme_contents, nil)}
           {#match nil}
           {#match readme_contents}
             <div class="prose">{rich(readme_contents)}</div>
         {/case}
-      </div> -->
-    </div>
+    {/case}
   </div>
 </div>
