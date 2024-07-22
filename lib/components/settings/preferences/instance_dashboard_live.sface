@@ -1,7 +1,7 @@
 <div class="flex flex-col p-4 gap-6 w-full">
   <div class="font-semibold">{"Main feed to show"}</div>
   <form class="flex flex-col" phx-change="Bonfire.Common.Settings:set">
-    <input name="scope" value={:instance} type="hidden">
+    <input name="scope" value={@scope} type="hidden">
 
     <Bonfire.UI.Common.SettingsRadiosLive
       keys={[Bonfire.Web.DashboardLive, :default_feed]}
@@ -21,8 +21,8 @@
           popular: l("Popular Discussions")
         ]
       end}
-      default_value={:my}
-      scope={:instance}
+      default_value={:popular}
+      scope={@scope}
     />
 
     <div class="font-semibold mt-10 mb-4">{l("Secondary Widgets")}</div>
@@ -32,7 +32,7 @@
         description={l("Show the most popular topics")}
         keys={[Bonfire.Web.DashboardLive, :include, :popular_topics]}
         default_value
-        scope={:instance}
+        scope={@scope}
         compact
       />
 
@@ -42,7 +42,7 @@
           description={l("Show the most recent users")}
           keys={[Bonfire.Web.DashboardLive, :include, :recent_users]}
           default_value
-          scope={:instance}
+          scope={@scope}
           compact
         />
       </div>
@@ -53,7 +53,7 @@
           description={l("Show the admins")}
           keys={[Bonfire.Web.DashboardLive, :include, :admins]}
           default_value
-          scope={:instance}
+          scope={@scope}
           compact
         />
       </div>

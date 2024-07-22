@@ -40,7 +40,7 @@ defmodule Bonfire.UI.Me.RuntimeConfig do
           acl: Bonfire.UI.Me.SettingsViewsLive.PreferencesLive,
           extensions: Bonfire.UI.Me.SettingsViewsLive.PreferencesLive
         ],
-        navigation: Bonfire.UI.Common.SidebarSettingsNavLive.declared_nav()
+        navigation: Bonfire.UI.Me.SidebarSettingsNavLive.declared_nav()
       ],
       activity_preview: [],
       object_preview: [

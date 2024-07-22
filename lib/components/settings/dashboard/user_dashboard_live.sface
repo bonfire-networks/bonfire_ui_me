@@ -6,5 +6,5 @@
 </div> -->
 
 <div class="mx-4">
-  <Bonfire.UI.Common.SidebarSettingsNavLive showing_within={:sidebar} />
+  <Bonfire.UI.Me.SidebarSettingsNavLive showing_within={:sidebar} />
 </div>

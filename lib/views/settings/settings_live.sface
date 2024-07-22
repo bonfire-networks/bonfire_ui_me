@@ -1,14 +1,10 @@
 <section class="">
-  {#case @selected_tab || "dashboard"}
+  {#case @selected_tab}
     {#match "dashboard"}
-      {#if @scope == :account}
-        <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
-      {#else}
-        <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
-          :if={current_user_id(@__context__)}
-          selected_tab={@selected_tab}
-        />
-      {/if}
+      <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive
+        selected_tab={@selected_tab}
+        scope={@scope}
+      />
     {#match "profile"}
       <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
         :if={current_user_id(@__context__)}
@@ -66,13 +62,29 @@
       />
     {#match "code"}
       <Bonfire.UI.Common.ExtraDepsLive />
+    {#match nil}
+      {#if @scope == :account}
+        <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} scope={@scope} />
+      {#else}
+        <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
+          :if={current_user_id(@__context__)}
+          selected_tab={@selected_tab}
+          scope={@scope}
+        />
+      {/if}
     {#match _}
       {#case maybe_to_atom!(@selected_tab)}
         {#match nil}
-          <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
-            :if={current_user_id(@__context__)}
-            selected_tab={@selected_tab}
-          />
+          {#if @scope == :account}
+            <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} scope={@scope} />
+          {#else}
+            <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
+              :if={current_user_id(@__context__)}
+              selected_tab={@selected_tab}
+              scope={@scope}
+            />
+          {/if}
+
           <!-- <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} /> -->
         {#match extension}
           <Bonfire.UI.Me.ExtensionSettingsLive extension={extension} scope={@scope} />
