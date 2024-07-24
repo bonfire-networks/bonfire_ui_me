@@ -1,9 +1,13 @@
 <div class="pb-6">
   {#if Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
-    <div class="p-3 border-b border-base-content/10 text-sm font-medium">{l("Instance Profile")}</div>
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
+      <#Icon iconify="icon-park-outline:graphic-design" class="w-6 h-6 text-base-content/80" />
+      <span>{l("Branding")}</span>
+    </div>
+    <!-- <div class="p-3 border-b border-base-content/10 text-sm font-medium">{l("Instance Profile")}</div> -->
     <div class="flex flex-col gap-4 p-3">
-      <div>
-        <span class="text-sm font-medium">{l("Site Banner")}</span>
+      <div class="flex flex-col gap-2">
+        <span class="text-sm font-semibold">{l("Site Banner")}</span>
         <StatefulComponent
           module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
           id={:upload_banner}
@@ -18,15 +22,15 @@
           set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
         />
       </div>
-      <div class="flex w-full items-start gap-6 p-4">
-        <div class="flex flex-col gap-2">
-          <span class="text-sm font-medium">{l("Site Logo")}</span>
+      <div class="flex w-full items-start gap-6 flex-col">
+        <div class="flex flex-col gap-2 w-full">
+          <span class="text-sm font-semibold">{l("Site Logo")}</span>
           <StatefulComponent
             module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
             id={:upload_icon}
-            wrapper_class="flex items-center gap-4 flex-col"
-            container_class="relative flex-shrink-0 block w-24 h-24 overflow-hidden"
-            class="inline-block overflow-hidden w-24 h-24"
+            wrapper_class="flex items-center gap-2 flex-col bg-base-content/5 py-1.5 rounded-lg"
+            container_class="relative flex-shrink-0 block w-16 h-16 overflow-hidden"
+            class="inline-block overflow-hidden w-16 h-16"
             label_on_hover={false}
             label={l("icon")}
             object={:instance}
@@ -41,7 +45,45 @@
           />
         </div>
         <div class="flex flex-col gap-6 w-full">
-          <Bonfire.UI.Common.SettingsInputLive
+          <form name="settings" class="flex flex-col gap-3" phx-submit="Bonfire.Common.Settings:save">
+            <input name="scope" value={:instance} type="hidden">
+            <label class="input input-bordered flex items-center gap-2">
+              {l("Site name")}
+              <input
+                name="ui[theme][instance_name]"
+                class="input"
+                value={to_string(Config.get([:ui, :theme, :instance_name], Bonfire.Application.name()))}
+              />
+            </label>
+
+            <label class="form-control">
+              <div class="label">
+                <span class="label-text">{l("Site tagline")}</span>
+              </div>
+              <textarea
+                value={to_string(Config.get([:ui, :theme, :instance_tagline], nil))}
+                name="ui[theme][instance_tagline]"
+                class="textarea textarea-bordered"
+              >{to_string(Config.get([:ui, :theme, :instance_tagline], nil))}</textarea>
+              <div class="label">
+                <span class="label-text-alt">{"A short sentence to outline your site mission"}</span>
+              </div>
+            </label>
+
+            <label class="form-control">
+              <div class="label">
+                <span class="label-text">{l("Site description")}</span>
+              </div>
+              <textarea name="ui[theme][instance_description]" class="textarea textarea-bordered h-24">{to_string(Config.get([:ui, :theme, :instance_description], nil))}</textarea>
+              <div class="label">
+                <span class="label-text-alt">{l("Add an optional description to share more details about your site")}</span>
+              </div>
+            </label>
+
+            <button class="btn btn-neutral">{l("Submit")}</button>
+          </form>
+
+          <!-- <Bonfire.UI.Common.SettingsInputLive
             scope={:instance}
             input="ui[theme][instance_name]"
             name={l("Site Name")}
@@ -61,7 +103,7 @@
             name={l("Site Description")}
             keys={[:ui, :theme, :instance_description]}
             default_value={Config.get([:ui, :theme, :instance_description], nil)}
-          />
+          /> -->
         </div>
       </div>
     </div>
@@ -70,8 +112,11 @@
   {/if}
 
   {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
-    <div class="border-t border-t-8 border-base-content/10">
-      <div class="p-3 border-b border-base-content/10 text-sm font-medium">{l("Federation & Privacy")}</div>
+    <div class="">
+      <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
+        <#Icon iconify="eos-icons:network" class="w-6 h-6 text-base-content/80" />
+        <span>{l("Federation & Privacy")}</span>
+      </div>
 
       <form phx-change="Bonfire.Common.Settings:set">
         <input name="scope" value={:instance} type="hidden">
@@ -139,8 +184,11 @@
       </form>
     </div>
 
-    <div class="border-t border-t-8 border-base-content/10">
-      <div class="p-3 border-b border-base-content/10 text-sm font-medium">{l("General Settings")}</div>
+    <div class="">
+      <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
+        <#Icon iconify="ph:gear" class="w-6 h-6 text-base-content/80" />
+        <span>{l("General Settings")}</span>
+      </div>
       <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
         <!-- <input name="scope" value={:instance} type="hidden"> -->
 
@@ -169,18 +217,12 @@
           default_value={4}
         />
 
-        <form
-          module={maybe_component(Bonfire.Social.Pins, @__context__)}
-          phx-change="Bonfire.Common.Settings:set"
-        >
-          <!-- <input name="scope" value={:instance} type="hidden"> -->
-          <Bonfire.UI.Common.SettingsToggleLive
-            name={l("Activate Curated tab")}
-            description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
-            keys={[Bonfire.UI.Social.FeedsLive, :curated]}
-            scope={:instance}
-          />
-        </form>
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Activate Curated tab")}
+          description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
+          keys={[Bonfire.UI.Social.FeedsLive, :curated]}
+          scope={:instance}
+        />
 
         <div class="p-4">
           <div class="flex items-center justify-between">
@@ -206,8 +248,11 @@
       </form>
     </div>
 
-    <div class="border-t border-t-8 border-base-content/10">
-      <div class="p-3 border-b border-base-content/10 text-sm font-medium">{l("Server Optmisations")}</div>
+    <div class="">
+      <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
+        <#Icon iconify="lucide:server" class="w-6 h-6 text-base-content/80" />
+        <span>{l("Server Optmisations")}</span>
+      </div>
       <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}

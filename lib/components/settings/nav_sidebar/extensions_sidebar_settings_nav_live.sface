@@ -14,10 +14,7 @@
                   {#if not has_settings_nav?}
                     <LinkLive to={"/settings/#{@scope}/#{extension}"} class="!text-sm font-medium !ml-0 !pl-4">{e(extension_meta, :name, nil) || extension}</LinkLive>
                   {#else}
-                    <details
-                      id={extension}
-                      open={@selected_tab == to_string(extension) or @id == to_string(extension)}
-                    >
+                    <details open={@selected_tab == to_string(extension) or @id == to_string(extension)}>
                       <summary class="group !ml-0 !pl-4 !pr-4 !py-2">
                         <!-- {#if has_settings_components?}
                           <LinkLive to={"/settings/#{@scope}/#{extension}"} class="text-sm font-medium ml-0">{e(extension_meta, :name, nil) || extension}</LinkLive>

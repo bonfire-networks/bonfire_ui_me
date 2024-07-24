@@ -1,7 +1,7 @@
 <nav class="!-mx-2" role="navigation" aria-label={l("Instance settings navigation")}>
   <ul class="menu menu-sm px-0 py-0">
     <li>
-      <details open id="configuration-docs">
+      <details open>
         <summary class="group !px-4 !py-2">
           <span class="text-sm font-semibold">{l("Instance Configuration")}</span>
         </summary>
@@ -14,7 +14,10 @@
                 "bg-base-content/10 ": @selected_tab == "configuration"
               }
             >
-              <span class="text-sm">{l("General")}</span>
+              <span class={
+                "text-sm text-base-content/80 font-normal",
+                "text-base-content": @selected_tab == "configuration"
+              }>{l("General")}</span>
             </LinkPatchLive>
           </li>
 
@@ -26,7 +29,7 @@
                 "bg-base-content/10 ": @selected_tab == "dashboard"
               }
             >
-              <span class="text-sm">{l("Configure Dashboard")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "dashboard"}>{l("Dashboard")}</span>
             </LinkPatchLive>
           </li>
 
@@ -38,7 +41,7 @@
                 "bg-base-content/10 ": @selected_tab == "about"
               }
             >
-              <span class="text-sm">{l("About")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "about"}>{l("About")}</span>
             </LinkPatchLive>
           </li>
 
@@ -50,7 +53,7 @@
                 "bg-base-content/10 ": @id == "behaviours"
               }
             >
-              <span class="text-sm">{l("Default Preferences")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default Preferences")}</span>
             </LinkLive>
           </li>
 
@@ -62,7 +65,7 @@
                 "bg-base-content/10": @selected_tab == "terms"
               }
             >
-              <span class="text-sm">{l("Terms / Policies")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "terms"}>{l("Terms / Policies")}</span>
             </LinkPatchLive>
           </li>
         </ul>
@@ -70,7 +73,7 @@
     </li>
 
     <li class="border-t border-base-content/10 mt-4 pt-2">
-      <details open id="members-docs">
+      <details open>
         <summary class="group !px-4 !py-2">
           <span class="text-sm font-semibold">{l("Members")}</span>
         </summary>
@@ -83,7 +86,7 @@
                 "bg-base-content/10": @selected_tab == "members"
               }
             >
-              <span class="text-sm">{l("Instance members")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "members"}>{l("Instance members")}</span>
             </LinkPatchLive>
           </li>
           <li>
@@ -94,7 +97,7 @@
                 "bg-base-content/10": @selected_tab == "remote_users"
               }
             >
-              <span class="text-sm">{l("Known remote users")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "remote_users"}>{l("Known remote users")}</span>
             </LinkPatchLive>
           </li>
 
@@ -107,7 +110,7 @@
                 "bg-base-content/10": @selected_tab == "invites"
               }
             >
-              <span class="text-sm">{l("Invites")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "invites"}>{l("Invites")}</span>
             </LinkPatchLive>
           </li>
         </ul>
@@ -115,7 +118,7 @@
     </li>
 
     <li class="border-t border-base-content/10 mt-4 pt-2">
-      <details open id="extensions-docs">
+      <details open>
         <summary class="group !px-4 !py-2">
           <span class="text-sm font-semibold">{l("Extensions")}</span>
         </summary>
@@ -128,7 +131,7 @@
                 "bg-base-content/10 ": @selected_tab == "extensions"
               }
             >
-              <span class="text-sm">{l("Configure Extensions")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
             </LinkLive>
           </li>
           <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
@@ -141,7 +144,7 @@
     </li>
 
     <li class="border-t border-base-content/10 mt-4 pt-2">
-      <details open id="safety-docs">
+      <details open>
         <summary class="group !px-4 !py-2">
           <span class="text-sm font-semibold">{l("Safety")}</span>
         </summary>
@@ -155,7 +158,7 @@
                 "bg-base-content/10": @selected_tab == "flags"
               }
             >
-              <span class="text-sm">{l("Flagged by users")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "flags"}>{l("Flagged by users")}</span>
             </LinkPatchLive>
           </li>
 
@@ -167,7 +170,10 @@
                 "bg-base-content/10": @selected_tab == "instance_ghosted"
               }
             >
-              <span class="text-sm">{l("Ghosted instance-wide")}</span>
+              <span class={
+                "text-sm text-base-content/80 font-normal",
+                "text-base-content": @selected_tab == "instance_ghosted"
+              }>{l("Ghosted instance-wide")}</span>
             </LinkLive>
           </li>
           <li>
@@ -178,7 +184,10 @@
                 "bg-base-content/10": @selected_tab == "instance_silenced"
               }
             >
-              <span class="text-sm">{l("Silenced instance-wide")}</span>
+              <span class={
+                "text-sm text-base-content/80 font-normal",
+                "text-base-content": @selected_tab == "instance_silenced"
+              }>{l("Silenced instance-wide")}</span>
             </LinkLive>
           </li>
         </ul>
@@ -186,7 +195,7 @@
     </li>
 
     <li class="border-t border-base-content/10 mt-4 pt-2">
-      <details open id="advanced-docs">
+      <details open>
         <summary class="group !px-4 !py-2">
           <span class="text-sm font-semibold">{l("Advanced")}</span>
         </summary>
@@ -199,7 +208,7 @@
                 "bg-base-content/10": @selected_tab == "emojis"
               }
             >
-              <span class="text-sm">{l("Custom emoji")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "emojis"}>{l("Custom emoji")}</span>
             </LinkPatchLive>
           </li>
 
@@ -211,7 +220,7 @@
                 "bg-base-content/10": @selected_tab == "icons"
               }
             >
-              <span class="text-sm">{l("Icons")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "icons"}>{l("Icons")}</span>
             </LinkPatchLive>
           </li>
         </ul>
