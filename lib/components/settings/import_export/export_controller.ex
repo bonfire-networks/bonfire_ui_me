@@ -295,7 +295,7 @@ defmodule Bonfire.UI.Me.ExportController do
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
     Utils.maybe_apply(
-      Bonfire.Social.Graph.Requests,
+      Bonfire.Social.Requests,
       :list_my_requested,
       [
         [
