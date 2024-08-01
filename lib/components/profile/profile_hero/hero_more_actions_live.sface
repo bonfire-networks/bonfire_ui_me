@@ -1,11 +1,8 @@
 <div data-id="hero_more_actions" class="ml-auto flex items-center gap-3">
   {#if current_user_id(@__context__) == id(@user)}
-    <!-- <LinkLive
-      to={~p"/settings/user/profile"}
-      class="normal-case  btn btn-sm btn-outline"
-    >
+    <LinkLive to={~p"/settings/user/profile"} class="btn btn-xs btn-outline">
       {l("Edit profile")}
-    </LinkLive> -->
+    </LinkLive>
 
     <div
       aria-haspopup="true"
@@ -112,7 +109,7 @@
         </li>
 
         {#if @character_type == :group}
-          <li
+          <!-- <li
             class="create_new_topic"
             module={Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
           >
@@ -121,7 +118,7 @@
               parent={@user}
               label={l("New topic")}
             />
-          </li>
+          </li> -->
           <li :if={current_user_id(@__context__)}>
             <LinkLive to={path(@user, :settings)} class="flex items-center gap-2 text-sm text-base-content">
               <#Icon iconify="ph:gear" class="w-4 h-4 shrink-0" />

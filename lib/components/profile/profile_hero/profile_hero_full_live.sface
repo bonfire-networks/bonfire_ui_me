@@ -5,7 +5,8 @@
       {#match {avatar_url, banner_url}}
         {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
           {#match color}
-            {#if Settings.get([Bonfire.UI.Me.ProfileHeroFullLive, :background], false, @__context__)}
+            {#if Settings.get([Bonfire.UI.Me.ProfileHeroFullLive, :background], false, @__context__) or
+                @character_type != :user}
               <div
                 data-id="hero_background"
                 class={
@@ -20,15 +21,15 @@
               </div>
             {/if}
 
-            <div data-id="hero_data" class="px-4 my-4 mb-6">
+            <div data-id="hero_data" class="px-4 my-4">
               <div class="w-full gap-2">
-                <div class="flex items-center gap-6">
+                <div class="flex items-center gap-4">
                   {#if @character_type == :user and
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                     <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
                       <Bonfire.UI.Common.AvatarLive
                         parent_id="profile-hero"
-                        class="inline-block border border-base-content/10 object-cover w-[84px] h-[84px]  md:mx-0 rounded-full"
+                        class="inline-block border border-base-content/10 object-cover w-[64px] h-[64px]  md:mx-0 rounded-full"
                         src={Media.avatar_url(@user)}
                         user_id={id(@user)}
                         src={avatar_url}
@@ -102,11 +103,9 @@
                     silenced?={@silenced?}
                   />
                 </div>
-                <div class="w-full flex items-center mt-4 gap-3">
+                <div class="w-full flex items-center gap-3">
                   {#if current_user_id(@__context__) == id(@user)}
-                    <LinkLive to={~p"/settings/user/profile"} class="normal-case flex-1 btn btn-sm btn-outline">
-                      {l("Edit profile")}
-                    </LinkLive>
+                    <div />
                   {#else}
                     {#if @character_type == :user and current_user_id(@__context__)}
                       <StatelessComponent
@@ -139,7 +138,7 @@
                               object={@user}
                               path={path(@user)}
                               hide_icon
-                              class="font-semibold !h-[34px] flex-1 btn-sm px-6 normal-case btn"
+                              class="font-semibold !h-[34px] flex-1 btn-sm px-6 normal-case btn w-full btn-neutral"
                               verb={if e(@user, :type, nil) == :group,
                                 do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
                               verb_undo={l("Leave")}
@@ -162,7 +161,7 @@
                                     ]
                                   }}
                                   icon="mdi:pencil"
-                                  class="flex btn btn-sm flex-1 btn-primary  items-center gap-2 normal-case"
+                                  class="flex btn btn-sm flex-1 btn-primary w-full items-center gap-2 normal-case"
                                 />
                               </:if_followed>
                             </StatefulComponent>
@@ -176,7 +175,7 @@
                               object={@user}
                               path={path(@user)}
                               hide_icon
-                              class="font-semibold !h-[34px] btn-sm w-full flex-1 px-6 btn btn-outline"
+                              class="font-semibold !h-[34px] btn-sm w-full flex-1 px-6 btn btn-neutral"
                             />
                           </div>
                       {/case}
