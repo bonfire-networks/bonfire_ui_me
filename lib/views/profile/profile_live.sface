@@ -28,7 +28,7 @@
         />
         <Bonfire.UI.Common.TabsLive
           :if={!@hide_tabs}
-          class="px-4 md:px-0 flex justify-between w-full border-b bg-base-100 tabs border-base-content/10"
+          class="px-4 md:px-0 flex justify-between w-full border-b bg-base-100 tabs border-base-content/20"
           tab_class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center lined_tab"
           item_class="text-base-content/60 text-sm pb-4 border-b border-transparent font-medium"
           selected_tab={@selected_tab}

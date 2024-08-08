@@ -1,4 +1,4 @@
-<div class="w-full p-4 mx-auto rounded-xl shadow-sm bg-base-100 border border-base-content/10">
+<div class="w-full p-4 mx-auto rounded-xl shadow-sm bg-base-100 border border-base-content/20">
   <Form for={@form} action={path(:login, :create)} class="w-full md:ml-0" opts={[id: "login-form"]}>
     <HiddenInput name={:go} value={e(@form, :changes, :go, nil)} />
     {!-- <%= hidden_input f, :go %> --}
@@ -146,7 +146,7 @@
     </div>
 
     <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-4">
-      <div class="flex py-4 pb-2 mt-6 border-t border-base-content/10 place-content-center">
+      <div class="flex py-4 pb-2 mt-6 border-t border-base-content/20 place-content-center">
         <LinkLive to={path(:signup)} class="text-xs text-center normal-case">
           {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></LinkLive>
       </div>

@@ -29,7 +29,7 @@
                     <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
                       <Bonfire.UI.Common.AvatarLive
                         parent_id="profile-hero"
-                        class="inline-block border border-base-content/10 object-cover w-[64px] h-[64px]  md:mx-0 rounded-full"
+                        class="inline-block border border-base-content/20 object-cover w-[64px] h-[64px]  md:mx-0 rounded-full"
                         src={Media.avatar_url(@user)}
                         user_id={id(@user)}
                         src={avatar_url}

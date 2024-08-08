@@ -1,5 +1,5 @@
 {!-- <div class="grid gap-8 grid-cols-[280px_1fr]">
-  <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-base-content/10">
+  <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-base-content/20">
     <nav class="" role="navigation" aria-label={l("Instance  navigation")}>
       <Bonfire.UI.Me.InstanceSidebarSettingsNavLive selected_tab={@selected_tab} />
     </nav>

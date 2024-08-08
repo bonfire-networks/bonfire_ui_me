@@ -7,7 +7,7 @@
         <HiddenInput name={:type} value={@interaction_type} />
         <HiddenInput name={:object} value={@canonical_url} />
 
-        <div class="w-full p-4 mx-auto rounded-xl shadow-sm bg-base-100 border border-base-content/10">
+        <div class="w-full p-4 mx-auto rounded-xl shadow-sm bg-base-100 border border-base-content/20">
           <Field name={:me}>
             <Label class="block p-0 mb-4 text-center label">
               <span class="text-base font-medium">{l("Enter your fediverse nick to %{verb} %{user_name} remotely",
