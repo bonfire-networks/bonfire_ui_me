@@ -62,7 +62,7 @@
             {#case e(@dep, :extra, :readme_contents, nil)}
               {#match nil}
               {#match readme_contents}
-                <div class="prose">{rich(readme_contents)}</div>
+                <div class="prose prose-sm mt-6 max-w-full">{rich(readme_contents)}</div>
             {/case}
           </div>
         </div>
@@ -70,7 +70,7 @@
         {#case e(@dep, :extra, :readme_contents, nil)}
           {#match nil}
           {#match readme_contents}
-            <div class="prose">{rich(readme_contents)}</div>
+            <div class="prose prose-sm mt-6 max-w-full">{rich(readme_contents)}</div>
         {/case}
     {/case}
   </div>
