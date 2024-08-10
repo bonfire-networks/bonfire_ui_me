@@ -14,7 +14,7 @@ zstream = "~> 0.6.4"
 # for this extension:
 # surface_heroicons = "~> 0.5"
 floki = ">= 0.0.0"
-telemetry = "~> 1.1.0"
+telemetry = "~> 1.2.0"
 
 surface = "~> 0.11.2"
 sourceror = "~> 1.0.0"
