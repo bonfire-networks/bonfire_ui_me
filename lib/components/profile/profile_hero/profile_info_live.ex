@@ -7,6 +7,7 @@ defmodule Bonfire.UI.Me.ProfileInfoLive do
   prop path, :string, default: "@"
   prop selected_tab, :any, default: nil
   prop character_type, :atom, default: nil
+  prop is_local?, :boolean, default: false
 
   prop follows_me, :boolean, default: false
 

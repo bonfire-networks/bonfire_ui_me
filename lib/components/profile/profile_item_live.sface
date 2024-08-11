@@ -37,7 +37,7 @@
       <div
         :if={@show_summary && {e(@profile, :summary, nil)}}
         class="!text-base-content/100 prose prose-sm text-sm mt-1"
-      >{rich(e(@profile, :summary, ""))}</div>
+      >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote?)}</div>
     </div>
   </div>
 

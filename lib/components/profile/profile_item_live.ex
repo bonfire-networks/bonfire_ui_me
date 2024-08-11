@@ -3,6 +3,7 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
 
   prop profile, :any
   prop lg, :boolean, default: false
+  prop is_remote?, :boolean, default: nil
 
   prop wrapper_class, :css_class,
     default: "flex items-start gap-3 lg:gap-2 flex-col lg:flex-row justify-between"

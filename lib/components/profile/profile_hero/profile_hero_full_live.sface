@@ -87,6 +87,7 @@
                     boundary_preset={@boundary_preset}
                     user={@user}
                     path={@path}
+                    is_local?={@is_local?}
                     selected_tab={@selected_tab}
                     members={@members}
                     moderators={@moderators}

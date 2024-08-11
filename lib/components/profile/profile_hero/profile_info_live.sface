@@ -4,7 +4,7 @@
   <div class="flex flex-col w-full gap-1">
     <div class="flex flex-col gap-3">
       <div :if={@character_type == :user} class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
-        {rich(e(@user, :profile, :summary, ""))}
+        {rich(e(@user, :profile, :summary, nil), sanitize: true, skip_markdown: !@is_local?)}
       </div>
 
       <div class="flex flex-col rounded-lg bg-base-content/5 divide-y divide-base-content/20">

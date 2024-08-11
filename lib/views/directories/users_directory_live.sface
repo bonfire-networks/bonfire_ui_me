@@ -7,6 +7,7 @@
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
       character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
       profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
+      is_remote?={@is_remote?}
       show_summary
       wrapper_class="flex items-start gap-3 profile-item group justify-between gap-6"
       avatar_class="w-16 h-16"
