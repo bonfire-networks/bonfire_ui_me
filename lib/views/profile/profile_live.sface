@@ -1,7 +1,10 @@
 <main data-id="profile" data-user-id={e(@user, :id, "")} data-guest={@is_guest?}>
   {#if !@silenced_instance_wide? and !@silenced?}
     <StatelessComponent
-      module={maybe_component(Bonfire.UI.Social.ProfileTimelineLive, @user)}
+      module={maybe_component(
+        Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Me.ProfileInfoLive),
+        @user
+      )}
       {...assigns}
     >
       <:header>

@@ -21,7 +21,7 @@ defmodule Bonfire.UI.Me.RuntimeConfig do
         sections: [
           # nil: Bonfire.UI.Me.ProfileInfoLive,
           # about: Bonfire.UI.Me.ProfileInfoLive,
-          # follow: Bonfire.UI.Me.RemoteInteractionFormLive
+          follow: Bonfire.UI.Me.RemoteInteractionFormLive
         ],
         widgets: []
       ],
