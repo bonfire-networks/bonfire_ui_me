@@ -8,9 +8,8 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     doc = floki_response(conn)
     view = Floki.find(doc, "#create_user")
     assert [form] = Floki.find(doc, "#create-user-form")
-    assert [_] = Floki.find(form, "#create-form_character_username")
-    assert [_] = Floki.find(form, "#create-form_profile_name")
-    assert [_] = Floki.find(form, "#create-form_profile_summary")
+    assert [_] = Floki.find(form, "#create-user-form_profile_0_name")
+    assert [_] = Floki.find(form, "#create-user-form_character_0_username")
     assert [_] = Floki.find(form, "button[type='submit']")
   end
 
