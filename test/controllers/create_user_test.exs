@@ -182,6 +182,32 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert_flash(ok, :info, ~r/nice/)
   end
 
+  test "first user is autopromoted" do
+    Process.put([:bonfire, :env], "prod")
+
+    on_exit(fn ->
+      Process.delete([:bonfire, :env])
+    end)
+
+    alice = fake_account!()
+    conn = conn(account: alice)
+    username = username()
+
+    params = %{
+      "user" => %{
+        "profile" => %{"summary" => summary(), "name" => name()},
+        "character" => %{"username" => username}
+      }
+    }
+
+    conn = post(conn, "/create-user", params)
+    # assert_raise RuntimeError, debug(floki_response(conn))
+    conn = get(recycle(conn), "/dashboard")
+    doc = floki_response(conn)
+    assert [ok] = find_flash(doc)
+    assert_flash(ok, :info, ~r/admin/)
+  end
+
   test "successfully sets privacy options" do
     alice = fake_account!()
     conn = conn(account: alice)
