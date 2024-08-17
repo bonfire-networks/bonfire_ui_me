@@ -14,11 +14,7 @@
           <p class="text-sm text-info-content">
             {l(
               "You can have up to %{max_users} user profiles for different online identities, or for your organizations or projects.",
-              max_users:
-                Config.get(
-                  [Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive, :max_users],
-                  4
-                )
+              max_users: @max_users_per_account
             )}</p>
         </div>
       </div>
@@ -27,6 +23,7 @@
     <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive
       go={@go}
       current_account_users={@current_account_users}
+      max_users_per_account={@max_users_per_account}
     />
   </div>
 </main>

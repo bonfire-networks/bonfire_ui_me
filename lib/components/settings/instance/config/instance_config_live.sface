@@ -195,7 +195,7 @@
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
           name={l("Maximum number of users per account")}
-          keys={[Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive, :max_users]}
+          keys={[Bonfire.Me.Users, :max_per_account]}
           unit={l("users")}
           default_value={4}
         />

@@ -16,6 +16,11 @@ defmodule Bonfire.UI.Me.SwitchUserLive do
          without_sidebar: true,
          without_secondary_widgets: true,
          go: Map.get(socket.assigns, :go, ""),
-         page_title: l("Switch user profile")
+         page_title: l("Switch user profile"),
+         max_users_per_account:
+           Config.get(
+             [Bonfire.Me.Users, :max_per_account],
+             4
+           )
        )}
 end
