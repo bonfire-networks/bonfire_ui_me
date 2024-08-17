@@ -27,13 +27,10 @@ defmodule Bonfire.UI.Me.CreateUserController do
            request_before_follow: not is_nil(Map.get(params, "request_before_follow"))
          ) do
       {:ok, %{id: id, profile: %{name: name}} = user} ->
-        is_admin = Accounts.is_admin?(user)
-
-        greet(conn, params, id, name, is_admin)
+        greet(conn, params, id, name, Accounts.is_admin?(user))
 
       {:ok, %{id: id, character: %{username: username}} = user} ->
-        is_admin = Accounts.is_admin?(user)
-        greet(conn, params, id, username, is_admin)
+        greet(conn, params, id, username, Accounts.is_admin?(user))
 
       {:error, changeset} ->
         debug(changeset_error: changeset)
@@ -58,15 +55,12 @@ defmodule Bonfire.UI.Me.CreateUserController do
     end
   end
 
-  defp build_greet_message(name, is_admin) do
-    flash_message = l("Hey %{name}, nice to meet you!", name: name)
+  defp build_greet_message(name, true) do
+    build_greet_message(name, nil) <> " " <> l("You have been promoted to admin!")
+  end
 
-    flash_message =
-      if is_admin do
-        flash_message = flash_message <> "You have been promoted to admin!"
-      else
-        flash_message
-      end
+  defp build_greet_message(name, _) do
+    l("Hey %{name}, nice to meet you!", name: name)
   end
 
   defp greet(conn, params, id, name, is_admin) do
