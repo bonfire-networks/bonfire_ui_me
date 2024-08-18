@@ -64,6 +64,9 @@ defmodule Bonfire.UI.Me.SignupController.Test do
   end
 
   test "can signup" do
+    #  create a first user since confirmation otherwise not required
+    fake_user!()
+
     conn = conn()
     email = email()
     password = password()
@@ -84,6 +87,8 @@ defmodule Bonfire.UI.Me.SignupController.Test do
   end
 
   test "can signup (with PhoenixTest)" do
+    #  create a first user since confirmation otherwise not required
+    fake_user!()
     conn = conn()
     email = email()
     password = password()
@@ -92,6 +97,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     |> visit("/")
     |> click_link("Create an account")
     |> assert_has("#signup")
+    #  FIXME: button no longer exists?
     |> assert_has("#signup button", text: "Accept")
     |> fill_in("Email address", with: email)
     |> fill_in("Choose a password (10 characters minimum)", with: password)

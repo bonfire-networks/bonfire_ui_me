@@ -124,7 +124,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       }
 
       conn = post(conn, "/login", params)
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn, 303) == "/"
     end
 
     test "with email for an account with multiple user identities" do
@@ -142,7 +142,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       }
 
       conn = post(conn, "/login", params)
-      assert redirected_to(conn) == "/switch-user"
+      assert redirected_to(conn, 303) == "/switch-user"
     end
 
     test "with username" do
@@ -159,7 +159,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       }
 
       conn = post(conn, "/login", params)
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn, 303) == "/"
     end
   end
 end

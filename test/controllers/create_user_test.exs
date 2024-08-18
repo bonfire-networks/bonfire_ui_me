@@ -183,7 +183,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
   end
 
   test "first user is autopromoted" do
-    Process.put([:bonfire, :env], "prod")
+    Process.put([:bonfire, :env], :prod)
 
     on_exit(fn ->
       Process.delete([:bonfire, :env])
@@ -201,7 +201,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     }
 
     conn = post(conn, "/create-user", params)
-    # assert_raise RuntimeError, debug(floki_response(conn))
+    # debug(floki_response(conn))
     conn = get(recycle(conn), "/dashboard")
     doc = floki_response(conn)
     assert [ok] = find_flash(doc)

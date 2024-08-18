@@ -74,7 +74,7 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       conn = get(conn, "/switch-user/#{user.character.username}")
       next = redirected_to(conn)
       assert next == "/"
-      conn = get(conn, next)
+      conn = get(conn, "/dashboard")
       assert get_session(conn, :current_user_id) == user.id
       doc = floki_response(conn)
       # debug(doc)

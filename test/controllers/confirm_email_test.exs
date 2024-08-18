@@ -114,6 +114,8 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
     end
 
     test "success" do
+      #  create a first user since confirmation otherwise not required
+      fake_user!()
       conn = conn()
       {:ok, account} = Bonfire.Me.Accounts.signup(signup_form())
       conn = get(conn, "/signup/email/confirm/#{account.email.confirm_token}")
@@ -121,6 +123,8 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
     end
 
     test "cannot confirm twice" do
+      #  create a first user since confirmation otherwise not required
+      fake_user!()
       # needs template fix - no feedback
       conn = conn()
       {:ok, account} = Bonfire.Me.Accounts.signup(signup_form())

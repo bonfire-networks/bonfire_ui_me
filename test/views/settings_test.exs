@@ -179,7 +179,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> render_change(%{"ui" => %{"compact" => "true"}})
 
       # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, "/")
+      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
 
       # open_browser(refreshed_view)
       assert refreshed_view
@@ -241,7 +241,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
         "Bonfire.UI.Common.BadgeCounterLive" => %{"highlight" => "true"}
       })
 
-      {:ok, refreshed_view, _html} = live(conn, "/")
+      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
       # open_browser(refreshed_view)
 
       auto_assert refreshed_view
