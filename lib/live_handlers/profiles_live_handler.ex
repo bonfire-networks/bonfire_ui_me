@@ -50,12 +50,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
 
   def set_profile_image(:icon, %{} = user, uploaded_media, assign_field, socket) do
     with {:ok, user} <-
-           Bonfire.Me.Users.update(user, %{
-             "profile" => %{
-               "icon" => uploaded_media,
-               "icon_id" => uploaded_media.id
-             }
-           }) do
+           Bonfire.Me.Profiles.set_profile_image(:icon, user, uploaded_media) do
       {:noreply,
        socket
        #  |> assign_global(assign_field, deep_merge(user, %{profile: %{icon: uploaded_media}}))
@@ -69,12 +64,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     debug(assign_field)
 
     with {:ok, user} <-
-           Bonfire.Me.Users.update(user, %{
-             "profile" => %{
-               "image" => uploaded_media,
-               "image_id" => uploaded_media.id
-             }
-           }) do
+           Bonfire.Me.Profiles.set_profile_image(:banner, user, uploaded_media) do
       {:noreply,
        socket
        |> assign_flash(:info, l("Background image changed!"))
