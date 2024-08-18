@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.CreateUserController do
   use Bonfire.UI.Common.Web, :controller
   alias Bonfire.Me.Users
   alias Bonfire.UI.Me.CreateUserLive
-
+  alias Bonfire.Me.Accounts
   # GET only supports 'go'
   def index(conn, _) do
     conn = fetch_query_params(conn)
@@ -26,11 +26,11 @@ defmodule Bonfire.UI.Me.CreateUserController do
            unindexable: not empty?(Map.get(params, "unindexable")),
            request_before_follow: not is_nil(Map.get(params, "request_before_follow"))
          ) do
-      {:ok, %{id: id, profile: %{name: name}} = _user} ->
-        greet(conn, params, id, name)
+      {:ok, %{id: id, profile: %{name: name}} = user} ->
+        greet(conn, params, id, name, Accounts.is_admin?(user))
 
-      {:ok, %{id: id, character: %{username: username}} = _user} ->
-        greet(conn, params, id, username)
+      {:ok, %{id: id, character: %{username: username}} = user} ->
+        greet(conn, params, id, username, Accounts.is_admin?(user))
 
       {:error, changeset} ->
         debug(changeset_error: changeset)
@@ -55,11 +55,19 @@ defmodule Bonfire.UI.Me.CreateUserController do
     end
   end
 
-  defp greet(conn, params, id, name) do
+  defp build_greet_message(name, true) do
+    build_greet_message(name, nil) <> " " <> l("You have been promoted to admin!")
+  end
+
+  defp build_greet_message(name, _) do
+    l("Hey %{name}, nice to meet you!", name: name)
+  end
+
+  defp greet(conn, params, id, name, is_admin) do
     conn
     |> Bonfire.Me.Users.LiveHandler.disconnect_user_session()
     |> put_session(:current_user_id, id)
-    |> assign_flash(:info, l("Hey %{name}, nice to meet you!", name: name))
+    |> assign_flash(:info, build_greet_message(name, is_admin))
     |> redirect_to_previous_go(params, "/", "/create-user")
   end
 

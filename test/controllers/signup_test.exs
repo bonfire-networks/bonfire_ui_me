@@ -97,7 +97,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     |> fill_in("Choose a password (10 characters minimum)", with: password)
     |> fill_in("Confirm your password", with: password)
     |> submit()
-    # |> click_button("Sign up") 
+    # |> click_button("Sign up")
     |> refute_has("#signup .alert-error")
     |> refute_has("#signup-form")
     |> assert_has("#signup_success",
