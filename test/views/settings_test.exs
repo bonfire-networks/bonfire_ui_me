@@ -179,7 +179,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> render_change(%{"ui" => %{"compact" => "true"}})
 
       # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
+      {:ok, refreshed_view, _html} = live(conn, "/feed")
 
       # open_browser(refreshed_view)
       assert refreshed_view
@@ -264,7 +264,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> render_click()
 
       # open_browser(view)
-      {:ok, refreshed_view, _html} = live(conn, "/")
+      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
 
       assert refreshed_view
              |> has_element?("span[data-scope=local-boundary-set]")
