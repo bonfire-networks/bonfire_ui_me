@@ -22,6 +22,7 @@ defmodule Bonfire.UI.Me.CreateUserController do
     changeset = Users.changeset(:create, form, current_account(conn.assigns))
 
     case Users.create(changeset,
+           context: conn.assigns,
            undiscoverable: not empty?(Map.get(params, "undiscoverable")),
            unindexable: not empty?(Map.get(params, "unindexable")),
            request_before_follow: not is_nil(Map.get(params, "request_before_follow"))

@@ -26,7 +26,9 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     # params = input_to_atoms(params)
 
     with {:ok, _edit_profile} <-
-           Users.update(current_user_required!(socket), params, current_account(socket)) do
+           Users.update(current_user_required!(socket), params,
+             context: socket.assigns[:__context__] || current_account(socket)
+           ) do
       # debug(icon: Map.get(params, "icon"))
       cond do
         # handle controller-based upload
@@ -107,7 +109,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     # show remote users only to logged in users
     if user_id &&
          (current_user_id || is_local? ||
-            user_id == Bonfire.Me.Users.remote_fetcher()) do
+            user_id == Bonfire.Me.Users.remote_fetcher_id()) do
       # debug(
       #   Bonfire.Boundaries.Controlleds.list_on_object(user),
       #   "boundaries on user profile"
