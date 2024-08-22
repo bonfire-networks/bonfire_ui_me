@@ -21,7 +21,7 @@
               </div>
             {/if}
 
-            <div data-id="hero_data" class="px-4 my-4">
+            <div data-id="hero_data" class="px-4">
               <div class="w-full gap-2">
                 <div class="flex items-center gap-4">
                   {#if @character_type == :user and
@@ -29,7 +29,7 @@
                     <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
                       <Bonfire.UI.Common.AvatarLive
                         parent_id="profile-hero"
-                        class="inline-block border border-base-content/20 object-cover w-[64px] h-[64px]  md:mx-0 rounded-full"
+                        class="inline-block object-cover w-[95px] h-[95px]  md:mx-0 rounded-full"
                         src={Media.avatar_url(@user)}
                         user_id={id(@user)}
                         src={avatar_url}
@@ -53,11 +53,11 @@
                             {e(@user, :shared_user, :label, "")}
                           </span>
                         </div>
-                        <div class="flex items-center gap-3">
+                        <div class="flex lg:items-center flex-col lg:flex-row gap-2">
                           <span class="font-normal text-sm text-base-content/60">{Bonfire.Me.Characters.display_username(@user, true)}</span>
                           <span
                             :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
-                            class="ml-auto badge min-h-[1.5rem] text-sm badge-sm rounded-md !border-info/30 badge-outline rounded badge-info"
+                            class="badge min-h-[1.5rem] text-xs badge-sm rounded-md !border-info/20 badge-outline rounded badge-info"
                           >
                             {l("Admin")}
                           </span>

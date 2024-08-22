@@ -12,7 +12,7 @@
     aria-haspopup="true"
     aria-expanded="true"
   >
-    <#Icon iconify="gg:menuRight" class="w-5 h-5" />
+    <#Icon iconify="gg:menuRight" class="w-5 h-5 opacity-70" />
   </label>
   <ul
     tabindex="0"

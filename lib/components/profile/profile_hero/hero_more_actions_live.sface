@@ -1,14 +1,13 @@
 <div data-id="hero_more_actions" class="ml-auto flex items-center gap-3">
   {#if current_user_id(@__context__) == id(@user)}
-    <LinkLive to={~p"/settings/user/profile"} class="btn btn-xs btn-outline">
+    <LinkLive to={~p"/settings/user/profile"} class="btn hidden lg:flex btn-xs border-base-content/70 btn-outline">
       {l("Edit profile")}
     </LinkLive>
 
     <div
       aria-haspopup="true"
       class={
-        "dropdown",
-        "dropdown-end": @character_type != :group
+        "dropdown dropdown-end"
       }
     >
       <label tabindex="0" class="btn btn-xs btn-circle btn-outline">
@@ -83,8 +82,7 @@
     <div
       aria-haspopup="true"
       class={
-        "dropdown",
-        "dropdown-end": @character_type != :group
+        "dropdown dropdown-end"
       }
     >
       <label tabindex="0" class="btn btn-xs btn-circle btn-outline">
