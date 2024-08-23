@@ -66,7 +66,7 @@
                 class="textarea textarea-bordered"
               >{to_string(Config.get([:ui, :theme, :instance_tagline], nil))}</textarea>
               <div class="label">
-                <span class="label-text-alt">{"A short sentence to outline your site mission"}</span>
+                <span class="label-text-alt text-base-content/70">{"A short sentence to outline your site mission"}</span>
               </div>
             </label>
 
@@ -76,7 +76,7 @@
               </div>
               <textarea name="ui[theme][instance_description]" class="textarea textarea-bordered h-24">{to_string(Config.get([:ui, :theme, :instance_description], nil))}</textarea>
               <div class="label">
-                <span class="label-text-alt">{l("Add an optional description to share more details about your site")}</span>
+                <span class="label-text-alt text-base-content/70">{l("Add an optional description to share more details about your site")}</span>
               </div>
             </label>
 

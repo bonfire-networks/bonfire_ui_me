@@ -22,6 +22,51 @@
           </li>
 
           <li>
+            <LinkLive
+              to={~p"/settings/instance/preferences/behaviours"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10 ": @id == "behaviours"
+              }
+            >
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default Preferences")}</span>
+            </LinkLive>
+          </li>
+
+          <li>
+            <LinkPatchLive
+              to={~p"/settings/instance/admins"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "admins"
+              }
+            >
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "admins"}>{l("Admins list")}</span>
+            </LinkPatchLive>
+          </li>
+
+          <li>
+            <LinkPatchLive
+              to={~p"/settings/instance/mods"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "mods"
+              }
+            >
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "mods"}>{l("Moderators list")}</span>
+            </LinkPatchLive>
+          </li>
+        </ul>
+      </details>
+    </li>
+
+    <li class="border-t border-base-content/20 mt-4 pt-2">
+      <details open>
+        <summary class="group !px-4 !py-2">
+          <span class="text-sm font-semibold">{l("Pages")}</span>
+        </summary>
+        <ul class="!m-0 !p-0 !mt-1">
+          <li>
             <LinkPatchLive
               to={~p"/settings/instance/dashboard"}
               class={
@@ -43,18 +88,6 @@
             >
               <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "about"}>{l("About")}</span>
             </LinkPatchLive>
-          </li>
-
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/preferences/behaviours"}
-              class={
-                "!px-4 !py-2",
-                "bg-base-content/10 ": @id == "behaviours"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default Preferences")}</span>
-            </LinkLive>
           </li>
 
           <li>
@@ -120,32 +153,6 @@
     <li class="border-t border-base-content/20 mt-4 pt-2">
       <details open>
         <summary class="group !px-4 !py-2">
-          <span class="text-sm font-semibold">{l("Extensions")}</span>
-        </summary>
-        <ul class="!m-0 !p-0 !mt-1">
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/extensions"}
-              class={
-                "!px-4 !py-2",
-                "bg-base-content/10 ": @selected_tab == "extensions"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
-            </LinkLive>
-          </li>
-          <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
-            page={@page}
-            selected_tab={@selected_tab}
-            scope={:instance}
-          />
-        </ul>
-      </details>
-    </li>
-
-    <li class="border-t border-base-content/20 mt-4 pt-2">
-      <details open>
-        <summary class="group !px-4 !py-2">
           <span class="text-sm font-semibold">{l("Safety")}</span>
         </summary>
         <ul class="!m-0 !p-0 !mt-1">
@@ -190,6 +197,32 @@
               }>{l("Silenced instance-wide")}</span>
             </LinkLive>
           </li>
+        </ul>
+      </details>
+    </li>
+
+    <li class="border-t border-base-content/20 mt-4 pt-2">
+      <details open>
+        <summary class="group !px-4 !py-2">
+          <span class="text-sm font-semibold">{l("Extensions")}</span>
+        </summary>
+        <ul class="!m-0 !p-0 !mt-1">
+          <li>
+            <LinkLive
+              to={~p"/settings/instance/extensions"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10 ": @selected_tab == "extensions"
+              }
+            >
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
+            </LinkLive>
+          </li>
+          <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
+            page={@page}
+            selected_tab={@selected_tab}
+            scope={:instance}
+          />
         </ul>
       </details>
     </li>
