@@ -169,7 +169,9 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
         else
           redirect_to(
             socket,
-            canonical_url(user)
+            canonical_url(user),
+            type: :maybe_external,
+            fallback: "/error"
           )
         end
       else
