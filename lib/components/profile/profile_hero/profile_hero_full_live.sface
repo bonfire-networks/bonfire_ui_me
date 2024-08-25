@@ -30,7 +30,6 @@
                       <Bonfire.UI.Common.AvatarLive
                         parent_id="profile-hero"
                         class="inline-block object-cover w-[95px] h-[95px]  md:mx-0 rounded-full"
-                        src={Media.avatar_url(@user)}
                         user_id={id(@user)}
                         src={avatar_url}
                       />
@@ -50,7 +49,7 @@
                             :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
                             class="ml-3 badge badge-sm badge-info badge-outline"
                           >
-                            {e(@user, :shared_user, :label, "")}
+                            {e(@user, :shared_user, :label, nil)}
                           </span>
                         </div>
                         <div class="flex lg:items-center flex-col lg:flex-row gap-2">
@@ -144,7 +143,7 @@
                                 do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
                               verb_undo={l("Leave")}
                               verb_already={l("Joined")}
-                              disabled={Enums.ids(current_user(@__context__)) |> debug("c111") == Enums.ids(@moderators) |> debug("m111")}
+                              disabled={Enums.ids(current_user(@__context__)) == Enums.ids(@moderators) |> debug("m111")}
                             >
                               <:if_followed>
                                 <Bonfire.UI.Common.SmartInputButtonLive
@@ -156,7 +155,7 @@
                                     to_boundaries: set_clone_context(@boundary_preset || @user),
                                     to_circles: [
                                       %{
-                                        (e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))) =>
+                                        (ed(@user, :profile, :name, nil) || ed(@user, :character, :username, l("someone"))) =>
                                           id(@user)
                                       }
                                     ]
