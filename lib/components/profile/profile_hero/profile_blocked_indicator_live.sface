@@ -17,7 +17,7 @@
           <Bonfire.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
-            type="block"
+            type={:block}
             only_admin
             label={e(@user, :profile, :name, l("this user"))}
             open_btn_label={l("Re-enable")}
@@ -35,7 +35,7 @@
           <Bonfire.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
-            type="ghost"
+            type={:ghost}
             only_admin
             label={e(@user, :profile, :name, l("this user"))}
             open_btn_label={l("Unghost instance-wide")}
@@ -53,7 +53,7 @@
           <Bonfire.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
-            type="silence"
+            type={:silence}
             only_admin
             title={l("Unsilence %{user} instance-wide", user: e(@user, :profile, :name, ""))}
             label={e(@user, :profile, :name, l("this user"))}
@@ -71,7 +71,7 @@
           <Bonfire.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
-            type="block"
+            type={:block}
             only_user
             label={e(@user, :profile, :name, l("this user"))}
             open_btn_label={l("Unblock")}
@@ -87,7 +87,7 @@
           <Bonfire.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
-            type="silence"
+            type={:silence}
             only_user
             title={l("Unsilence %{user}", user: e(@user, :profile, :name, ""))}
             label={e(@user, :profile, :name, l("this user"))}
@@ -104,7 +104,7 @@
           <Bonfire.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
-            type="ghost"
+            type={:ghost}
             only_user
             label={e(@user, :profile, :name, l("this user"))}
             open_btn_label={l("Unghost")}
