@@ -205,7 +205,7 @@
             else
               [
                 my: l("My Feed"),
-                explore: l("Everything"),
+                explore: l("All"),
                 local: l("Local"),
                 fediverse: l("Remote")
               ]

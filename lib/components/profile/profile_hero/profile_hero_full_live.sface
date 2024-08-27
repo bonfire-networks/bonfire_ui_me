@@ -23,7 +23,7 @@
 
             <div data-id="hero_data" class="px-4">
               <div class="w-full gap-2">
-                <div class="flex items-center gap-4">
+                <div class="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
                   {#if @character_type == :user and
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                     <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>

@@ -2,7 +2,7 @@
   {#if current_user_id(@__context__) == id(@user)}
     <LinkLive
       to={~p"/settings/user/profile"}
-      class="btn hidden lg:flex btn-xs border-base-content/70 btn-outline"
+      class="btn hidden lg:flex btn-xs btn-neutral"
     >
       {l("Edit profile")}
     </LinkLive>

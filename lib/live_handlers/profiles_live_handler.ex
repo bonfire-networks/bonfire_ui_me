@@ -141,6 +141,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       |> assign_new(:selected_tab, fn -> "timeline" end)
       |> assign(
         character_type: :user,
+        no_mobile_header: true,
         is_local?: is_local?
       )
 
