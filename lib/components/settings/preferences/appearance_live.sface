@@ -50,14 +50,14 @@
     </div>
   </div>
 
-  <form data-scope="set_composer" phx-change="Bonfire.Common.Settings:set">
+  <!-- <form data-scope="set_composer" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Composer"
       description={l("Show the focused composer")}
       keys={[Bonfire.UI.Common.SmartInputContainerLive, :show_focused]}
       scope={@scope}
     />
-  </form>
+  </form> -->
 
   <form data-scope="set_brand" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
