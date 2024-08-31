@@ -6,7 +6,8 @@
 
 <div
   class="w-full p-3 flex gap-3"
-  :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <- @aliases}
+  :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <-
+    @aliases |> debug("maaaa")}
 >
   <StatelessComponent
     module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
@@ -22,8 +23,7 @@
       :also_known_as?,
       [@user, character],
       fallback_return: nil
-    )
-    |> IO.inspect(label: "maaaa")}
+    )}
     <#Icon iconify="mdi:check-circle-outline" class="w-5 h-5 text-success" />
   {/if}
 </div>
