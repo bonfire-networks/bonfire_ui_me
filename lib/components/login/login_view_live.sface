@@ -3,7 +3,10 @@
     <HiddenInput name={:go} value={e(@form, :changes, :go, nil)} />
     {!-- <%= hidden_input f, :go %> --}
 
-    <StatelessComponent module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)} />
+    <StatelessComponent
+      module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
+      source={:login}
+    />
     {!-- <%= f = form_for @form, path(:login, :create), class: "w-full md:ml-0" %> --}
     {!-- <%= case @form.errors[:form] do %> --}
     {#case @error || @form.errors[:form]}

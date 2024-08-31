@@ -1,6 +1,9 @@
 <div class="p-4 w-full md:w-[360px] border border-base-content/20 rounded-xl bg-base-100 shadow-sm">
   <div class="mx-auto">
-    <StatelessComponent module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)} />
+    <StatelessComponent
+      module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
+      source={:signup}
+    />
 
     {#case @error || e(@form, :errors, :form, nil)}
       {#match nil}
