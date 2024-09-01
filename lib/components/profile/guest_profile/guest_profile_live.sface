@@ -33,6 +33,7 @@
               character_type={:user}
               boundary_preset={@boundary_preset}
               user={@user}
+              permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
             />
           </div>
         </div>

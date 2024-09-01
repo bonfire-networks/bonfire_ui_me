@@ -4,6 +4,7 @@ defmodule Bonfire.UI.Me.HeroMoreActionsLive do
 
   prop user, :map
   prop character_type, :atom, default: nil
+  prop permalink, :string, default: nil
   prop boundary_preset, :any, default: nil
   prop silenced_instance_wide?, :boolean, default: false
   prop ghosted_instance_wide?, :boolean, default: false
