@@ -1,0 +1,23 @@
+<div :if={@education["affiliation-group"] |> Enum.any?}>
+  <h2 class="text-sm font-semibold text-base-content mb-3">Education</h2>
+      <ul>
+        {#for education <- @education["affiliation-group"]}
+          <li>
+            {#for summary <- education["summaries"]}
+            <div class="border border-base-content/10 flex flex-col gap-1">
+                <h3 class="p-3 bg-base-content/10 border-b border-base-content/10 text-base font-bold">{summary["education-summary"]["organization"]["name"]} ({summary["education-summary"]["organization"]["address"]["city"]}, {summary["education-summary"]["organization"]["address"]["country"]})</h3>
+               <div class="flex flex-col gap-1 p-3">
+                <p class="text-sm text-base-content/70">{summary["education-summary"]["department-name"]}</p>
+                <h3 class="text-sm font-bold">{summary["education-summary"]["role-title"]}</h3>
+                <p class="text-sm text-base-content/70">From {summary["education-summary"]["start-date"]["day"]["value"]}/{summary["education-summary"]["start-date"]["month"]["value"]}/{summary["education-summary"]["start-date"]["year"]["value"]}
+                {#if summary["education-summary"]["end-date"]}
+                    to {summary["education-summary"]["end-date"]["day"]["value"]}/{summary["education-summary"]["end-date"]["month"]["value"]}/{summary["education-summary"]["end-date"]["year"]["value"]}
+                {/if}
+                </p>
+               </div>
+            </div>
+            {/for}
+          </li>
+        {/for}
+      </ul>
+</div>

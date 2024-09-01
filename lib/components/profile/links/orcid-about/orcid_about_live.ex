@@ -1,4 +1,4 @@
-defmodule Bonfire.UI.Me.ProfileLinksLive do
+defmodule Bonfire.UI.Me.OrcidAboutLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
   prop class, :any, default: nil

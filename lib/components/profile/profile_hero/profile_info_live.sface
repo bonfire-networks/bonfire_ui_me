@@ -10,6 +10,8 @@
       <div class="flex flex-col rounded-lg bg-base-content/5 divide-y divide-base-content/20">
         <Bonfire.UI.Me.ProfileLinksLive user={@user} />
       </div>
+
+      <Bonfire.UI.Me.OrcidAboutLive user={@user} />
     </div>
 
     {!-- <div

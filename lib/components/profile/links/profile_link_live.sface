@@ -21,11 +21,12 @@
       {/case}
     {/if}
 
-    <span class="text-xs uppercase font-semibold text-base-content/70">{URIs.display_url(@text || @href)}</span>
-
+    <div class="flex items-center gap-2">
+      <span class="text-xs uppercase font-semibold text-base-content/70">{URIs.display_url(@text || @href)}</span>
     {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
-      <#Icon iconify="mdi:check-circle-outline" class="w-5 h-5 text-success" />
+      <#Icon iconify="lucide:badge-check" class="w-4 h-4 text-primary" />
     {/if}
+    </div>
   </div>
   <div class="link link-hover text-base-content/80 text-sm">{@href}</div>
 </a>
