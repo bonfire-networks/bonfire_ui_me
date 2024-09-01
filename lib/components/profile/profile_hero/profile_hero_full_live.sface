@@ -91,6 +91,7 @@
                     selected_tab={@selected_tab}
                     members={@members}
                     moderators={@moderators}
+                    aliases={@aliases}
                   />
 
                   <Bonfire.UI.Me.ProfileBlockedIndicatorLive

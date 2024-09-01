@@ -5,4 +5,5 @@ defmodule Bonfire.UI.Me.GuestProfileLive do
   prop boundary_preset, :any, default: nil
   prop members, :any, default: nil
   prop moderators, :any, default: nil
+  prop aliases, :list, default: []
 end

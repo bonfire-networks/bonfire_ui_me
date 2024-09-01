@@ -137,6 +137,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       # preload(user, socket)
       socket
       |> assign(user_assigns(user, current_user, follows_me))
+      |> maybe_assign_aliases(user)
       |> assign(Bonfire.Boundaries.Blocks.LiveHandler.preload_one(user, current_user))
       |> assign_new(:selected_tab, fn -> "timeline" end)
       |> assign(
@@ -225,6 +226,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       hide_tabs: false,
       smart_input: true,
       feed: nil,
+      aliases: nil,
       page_info: [],
       page: "profile",
       showing_within: :profile,
@@ -285,6 +287,31 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
         ),
       sidebar_widgets: sidebar_widgets
     ]
+  end
+
+  def maybe_assign_aliases(socket, user) do
+    socket
+    |> update(
+      :aliases,
+      fn
+        nil ->
+          if(user,
+            do:
+              Utils.maybe_apply(
+                Bonfire.Social.Graph.Aliases,
+                :list_aliases,
+                [user],
+                fallback_return: []
+              )
+              |> debug("list_aliases")
+              |> e(:edges, []),
+            else: []
+          )
+
+        aliases ->
+          aliases
+      end
+    )
   end
 
   def set_image_setting(:icon, scope, uploaded_media, settings_key, socket) do

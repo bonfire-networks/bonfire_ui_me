@@ -1,8 +1,0 @@
-<div class="keywords-list" :if={extract_keywords(@metadata) |> Enum.any?}>
-    <h3 class="uppercase text-sm text-base-content/70 mb-3">Keywords</h3>
-    <ul>
-    {#for keyword <- extract_keywords(@metadata)}
-        <li class="badge badge-outline">{keyword}</li>
-    {/for}
-    </ul>
-</div>

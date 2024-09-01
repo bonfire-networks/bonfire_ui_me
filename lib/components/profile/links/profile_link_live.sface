@@ -23,9 +23,9 @@
 
     <div class="flex items-center gap-2">
       <span class="text-xs uppercase font-semibold text-base-content/70">{URIs.display_url(@text || @href)}</span>
-    {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
-      <#Icon iconify="lucide:badge-check" class="w-4 h-4 text-primary" />
-    {/if}
+      {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
+        <#Icon iconify="lucide:badge-check" class="w-4 h-4 text-primary" />
+      {/if}
     </div>
   </div>
   <div class="link link-hover text-base-content/80 text-sm">{@href}</div>

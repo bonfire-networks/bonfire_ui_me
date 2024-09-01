@@ -3,10 +3,13 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   # import Bonfire.UI.Me
   # import Bonfire.Common.Media
 
+  alias Bonfire.Me.Profiles.LiveHandler
+
   prop user, :map
   # prop object, :map
   # prop object_id, :string, default: nil
   prop boundary_preset, :any, default: nil
+  prop aliases, :any, default: nil
 
   prop skip_preload, :boolean, default: false
   prop ghosted?, :boolean, default: nil
@@ -25,26 +28,34 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop members, :any, default: nil
   prop moderators, :any, default: nil
 
+  # NOTE: the update functions are not used in user profile page because it is currently used statelessles
   def update(%{skip_preload: true} = assigns, socket) do
     {:ok,
      socket
-     |> assign(assigns)}
+     |> assign(assigns)
+     |> LiveHandler.maybe_assign_aliases(e(assigns, :user, nil) || e(socket.assigns, :user, nil))}
   end
 
   def update(assigns, %{assigns: %{skip_preload: true}} = socket) do
-    {:ok, socket |> assign(assigns)}
+    {:ok,
+     socket
+     |> assign(assigns)
+     |> LiveHandler.maybe_assign_aliases(e(assigns, :user, nil) || e(socket.assigns, :user, nil))}
   end
 
   def update(assigns, socket) do
+    user = e(assigns, :user, nil) || e(socket.assigns, :user, nil)
+
     socket =
       socket
       |> assign(assigns)
+      |> LiveHandler.maybe_assign_aliases(user)
 
     {:ok,
      socket
      |> assign(
        Bonfire.Boundaries.Blocks.LiveHandler.preload_one(
-         e(socket.assigns, :user, nil),
+         user,
          current_user(socket.assigns)
        )
      )}

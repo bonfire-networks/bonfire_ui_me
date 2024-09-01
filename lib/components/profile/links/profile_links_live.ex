@@ -4,26 +4,27 @@ defmodule Bonfire.UI.Me.ProfileLinksLive do
   prop class, :any, default: nil
 
   prop user, :any, default: nil
+  prop aliases, :list, default: []
 
-  def render(assigns) do
-    user = assigns[:user]
-    # debug(assigns)
-    # should be loading this only once per persistent session, or when we open the composer
-    assigns
-    |> assign(
-      :aliases,
-      if(user,
-        do:
-          Utils.maybe_apply(
-            Bonfire.Social.Graph.Aliases,
-            :list_aliases,
-            [user]
-          )
-          |> debug("list_aliases")
-          |> e(:edges, []),
-        else: []
-      )
-    )
-    |> render_sface()
-  end
+  # def render(assigns) do
+  #   user = assigns[:user]
+  #   # debug(assigns)
+  #   # should be loading this only once per persistent session, or when we open the composer
+  #   assigns
+  #   |> assign(
+  #     :aliases,
+  #     if(user,
+  #       do:
+  #         Utils.maybe_apply(
+  #           Bonfire.Social.Graph.Aliases,
+  #           :list_aliases,
+  #           [user]
+  #         )
+  #         |> debug("list_aliases")
+  #         |> e(:edges, []),
+  #       else: []
+  #     )
+  #   )
+  #   |> render_sface()
+  # end
 end

@@ -19,6 +19,7 @@
           skip_preload
           object={@user}
           user={@user}
+          aliases={@aliases}
           boundary_preset={@boundary_preset}
           ghosted_instance_wide?={@ghosted_instance_wide?}
           silenced_instance_wide?={@silenced_instance_wide?}
@@ -55,6 +56,7 @@
       object={@user}
       boundary_preset={@boundary_preset}
       user={@user}
+      aliases={@aliases}
       path={@path}
       myself={nil}
       skip_preload
