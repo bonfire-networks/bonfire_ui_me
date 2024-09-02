@@ -137,12 +137,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
     {:noreply, patch_to(socket, "/@" <> String.replace(username, "%40", "@"), replace: true)}
   end
 
-  def handle_profile_params(%{"tab" => tab} = _params, _url, socket) do
+  def handle_profile_params(%{"tab" => tab} = params, _url, socket) do
     debug(tab, "unknown tab, maybe from another extension?")
 
     {:noreply,
      assign(socket,
        selected_tab: tab,
+       feed_filters: params,
        loading: false
      )}
   end
