@@ -53,7 +53,7 @@
                           </span>
                         </div>
                         <div class="flex lg:items-center flex-col lg:flex-row gap-2">
-                          <span class="font-normal text-sm text-base-content/60">{Bonfire.Me.Characters.display_username(@user, true)}</span>
+                          <span class="font-normal text-sm text-base-content/60 truncate max-w-[240px]">{Bonfire.Me.Characters.display_username(@user, true)}</span>
                           <span
                             :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
                             class="badge min-h-[1.5rem] text-xs badge-sm rounded-md !border-info/20 badge-outline rounded badge-info"
