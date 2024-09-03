@@ -93,7 +93,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
   end
 
   def to_tuple(u) do
-    {e(u, :profile, :name, "Someone"), ulid(u)}
+    {e(u, :profile, :name, "Someone"), uid(u)}
   end
 
   @doc "This function disconnects the user but leaves the account session alone"

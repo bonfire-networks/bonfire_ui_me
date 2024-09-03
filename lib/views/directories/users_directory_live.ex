@@ -19,7 +19,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
       if show_to == :guests or current_user || current_account(socket) do
         instance_id =
           if instance = params["instance"] do
-            case ulid(instance) do
+            case uid(instance) do
               nil -> id(Bonfire.Federate.ActivityPub.Instances.get_by_domain(instance))
               instance_id -> instance_id
             end

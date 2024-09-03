@@ -14,7 +14,7 @@ defmodule Bonfire.UI.Me.Preview.CharacterLive do
   def the_other(activity, object, context) do
     current_user = current_user(context)
 
-    if e(activity, :verb, :verb, nil) in ["Follow"] and ulid(object) == ulid(current_user) and
+    if e(activity, :verb, :verb, nil) in ["Follow"] and uid(object) == uid(current_user) and
          e(activity, :subject, :profile, nil) do
       e(activity, :subject, nil)
     else

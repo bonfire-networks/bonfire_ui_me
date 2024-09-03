@@ -151,7 +151,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       # search_placeholder: search_placeholder,
       # smart_input_opts: %{prompt: smart_input_prompt, text_suggestion: smart_input_text}
 
-      # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), ulid(user)}]
+      # to_circles: [{e(user, :profile, :name, e(user, :character, :username, l "someone")), uid(user)}]
       # )
     else
       if user do

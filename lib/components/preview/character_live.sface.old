@@ -25,11 +25,11 @@
       {raw @verb_display}
 
       {!-- then summarise the object --}
-      <span :if={ulid(@object) == current_user_id(@__context__)}>
+      <span :if={uid(@object) == current_user_id(@__context__)}>
         you
       </span>
       <LinkLive 
-        :if={ulid(@object) !=current_user_id(@__context__)} 
+        :if={uid(@object) !=current_user_id(@__context__)} 
         to={path(@object)} 
         class="font-semibold link link-hover">
         {e(@object, :profile, :name, "Anonymous")}
@@ -95,11 +95,11 @@
       {raw @verb_display} --}
 
       {!-- then summarise the object --}
-      {!-- <span :if={ulid(@object) == current_user_id(@__context__)}>
+      {!-- <span :if={uid(@object) == current_user_id(@__context__)}>
         {l "you"}
       </span>
       <LinkLive 
-        :if={ulid(@object) !=current_user_id(@__context__)} 
+        :if={uid(@object) !=current_user_id(@__context__)} 
         to={path(@object)} 
         class="font-semibold link link-hover">
         {e(@object, :profile, :name, "Anonymous")}
@@ -135,7 +135,7 @@
   <button 
   :if={@verb=="Request to Follow"}
   :on-click="Bonfire.Social.Graph.Follows:accept" 
-  phx-value-id={ulid(@activity)}
+  phx-value-id={uid(@activity)}
   type="button" 
   class="ml-3 btn">
     Accept
