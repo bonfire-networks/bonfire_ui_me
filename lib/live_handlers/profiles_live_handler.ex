@@ -258,6 +258,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     weather_widget_enabled =
       Settings.get([Bonfire.Geolocate, :weather], nil, current_user: current_user)
 
+    openalex_widget_enabled = Settings.get([Bonfire.OpenScience, :openalex_widget], false, current_user: current_user) && module_enabled?(Bonfire.OpenScience, current_user)
     sidebar_widgets = [
       guests: [
         secondary: [
@@ -267,6 +268,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       ],
       users: [
         secondary: [
+          openalex_widget_enabled &&
+          {Bonfire.OpenScience.OpenAlex.DataLive, [type: Surface.LiveComponent, id: "open-alex-topics", user: user, ]},
           weather_widget_enabled &&
             {Bonfire.Geolocate.WidgetForecastLive, [location: e(user, :profile, :location, nil)]},
           {Bonfire.Tag.Web.WidgetTagsLive, []},
