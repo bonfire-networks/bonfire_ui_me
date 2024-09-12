@@ -268,8 +268,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       guests: [
         secondary: [
           openalex_widget_enabled &&
-          {Bonfire.OpenScience.OpenAlex.DataLive,
-           [type: Surface.LiveComponent, id: "open-alex-guests-topics", user: user]},
+            {Bonfire.OpenScience.OpenAlex.DataLive,
+             [type: Surface.LiveComponent, id: "open-alex-guests-topics", user: user]},
           {Bonfire.Tag.Web.WidgetTagsLive, []},
           {Bonfire.UI.Me.WidgetAdminsLive, []}
         ]

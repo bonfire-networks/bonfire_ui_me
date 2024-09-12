@@ -35,7 +35,7 @@
             <a @click="tab = 'about'" role="tab" class="tab" :class="{'tab-active': tab == 'about'}">About</a>
           </div>
 
-          <div x-cloak x-show="tab == 'preferences'" class="my-4 rounded-lg bg-base-content/5 p-3">
+          <div x-cloak x-show="tab == 'preferences'" class="my-4 rounded-lg bg-base-content/5 pt-0 p-3">
             <div class="">
               <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
                 <Bonfire.UI.Common.WidgetsLive
