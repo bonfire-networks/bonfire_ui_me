@@ -27,7 +27,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
 
     with {:ok, _edit_profile} <-
            Users.update(current_user_required!(socket), params,
-             context: socket.assigns[:__context__] || current_account(socket)
+             context: assigns(socket)[:__context__] || current_account(socket)
            ) do
       # debug(icon: Map.get(params, "icon"))
       cond do
@@ -80,7 +80,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     debug(params)
     username = Map.get(params, "username") || Map.get(params, "id")
 
-    current_user = current_user(socket.assigns)
+    current_user = current_user(assigns(socket))
     current_user_id = id(current_user)
     current_username = e(current_user, :character, :username, nil)
 
@@ -124,7 +124,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
             [user, current_user]
           )
 
-      # situation = Bonfire.Boundaries.Blocks.LiveHandler.preload([%{__context__: socket.assigns.__context__, id: id(user), object_id: id(user), object: user, current_user: current_user}], caller_module: __MODULE__)
+      # situation = Bonfire.Boundaries.Blocks.LiveHandler.preload([%{__context__: assigns(socket).__context__, id: id(user), object_id: id(user), object: user, current_user: current_user}], caller_module: __MODULE__)
       # IO.inspect(situation, label: "situation2")
       # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
       # smart_input_prompt = nil
@@ -165,7 +165,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
           |> assign_flash(
             :info,
             l("Please login first, and then... ") <>
-              " " <> e(socket, :assigns, :flash, :info, "")
+              " " <> e(assigns(socket), :flash, :info, "")
           )
           |> redirect_to(path(:login) <> go_query(path))
         else

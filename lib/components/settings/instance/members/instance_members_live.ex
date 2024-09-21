@@ -12,20 +12,20 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
      assign(
        socket,
        if(socket_connected?(socket),
-         do: list_users(e(socket.assigns, :show, :local)),
+         do: list_users(e(assigns(socket), :show, :local)),
          else: [users: [], page_info: nil]
        )
      )}
   end
 
   def handle_event("load_more", attrs, socket) do
-    %{page_info: page_info, users: users} = list_users(e(socket.assigns, :show, :local), attrs)
+    %{page_info: page_info, users: users} = list_users(e(assigns(socket), :show, :local), attrs)
 
     {:noreply,
      socket
      |> assign(
        loaded: true,
-       #  users: e(socket.assigns, :users, []) ++ users,
+       #  users: e(assigns(socket), :users, []) ++ users,
        users: users,
        page_info: page_info
      )}

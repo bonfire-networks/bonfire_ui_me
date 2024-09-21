@@ -33,18 +33,18 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
     {:ok,
      socket
      |> assign(assigns)
-     |> LiveHandler.maybe_assign_aliases(e(assigns, :user, nil) || e(socket.assigns, :user, nil))}
+     |> LiveHandler.maybe_assign_aliases(e(assigns, :user, nil) || e(assigns(socket), :user, nil))}
   end
 
   def update(assigns, %{assigns: %{skip_preload: true}} = socket) do
     {:ok,
      socket
      |> assign(assigns)
-     |> LiveHandler.maybe_assign_aliases(e(assigns, :user, nil) || e(socket.assigns, :user, nil))}
+     |> LiveHandler.maybe_assign_aliases(e(assigns, :user, nil) || e(assigns(socket), :user, nil))}
   end
 
   def update(assigns, socket) do
-    user = e(assigns, :user, nil) || e(socket.assigns, :user, nil)
+    user = e(assigns, :user, nil) || e(assigns(socket), :user, nil)
 
     socket =
       socket
@@ -56,7 +56,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
      |> assign(
        Bonfire.Boundaries.Blocks.LiveHandler.preload_one(
          user,
-         current_user(socket.assigns)
+         current_user(assigns(socket))
        )
      )}
   end

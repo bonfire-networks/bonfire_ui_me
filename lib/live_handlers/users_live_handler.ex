@@ -37,7 +37,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
   end
 
   def handle_event("fetch_outbox", _, socket) do
-    ActivityPub.Federator.Fetcher.fetch_outbox([pointer: socket.assigns[:user]],
+    ActivityPub.Federator.Fetcher.fetch_outbox([pointer: assigns(socket)[:user]],
       fetch_collection: :async
     )
 
@@ -58,7 +58,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
       {:noreply,
        socket
        |> assign_flash(:info, l("Access granted to the team!"))
-       |> assign(members: e(socket, :assigns, :team, []) ++ [shared_user])}
+       |> assign(members: e(assigns(socket), :team, []) ++ [shared_user])}
     end
   end
 
@@ -67,9 +67,9 @@ defmodule Bonfire.Me.Users.LiveHandler do
         params,
         socket
       ) do
-    with true <- Bonfire.Me.Accounts.is_admin?(socket.assigns[:__context__]),
+    with true <- Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]),
          {:ok, user} <-
-           Bonfire.Me.Users.make_admin(socket.assigns[:user] || params["username_or_id"]) do
+           Bonfire.Me.Users.make_admin(assigns(socket)[:user] || params["username_or_id"]) do
       {:noreply,
        socket
        |> assign_flash(:info, l("They are now an admin!"))
@@ -82,9 +82,9 @@ defmodule Bonfire.Me.Users.LiveHandler do
         params,
         socket
       ) do
-    with true <- Bonfire.Me.Accounts.is_admin?(socket.assigns[:__context__]),
+    with true <- Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]),
          {:ok, user} <-
-           Bonfire.Me.Users.revoke_admin(socket.assigns[:user] || params["username_or_id"]) do
+           Bonfire.Me.Users.revoke_admin(assigns(socket)[:user] || params["username_or_id"]) do
       {:noreply,
        socket
        |> assign_flash(:info, l("They are no longer an admin."))

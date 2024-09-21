@@ -6,7 +6,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
   def mount(params, _session, socket) do
-    current_user = current_user(socket.assigns)
+    current_user = current_user(assigns(socket))
 
     show_to =
       Bonfire.Common.Settings.get(
@@ -15,7 +15,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
       )
 
     if show_to ||
-         maybe_apply(Bonfire.Me.Accounts, :is_admin?, socket.assigns[:__context__]) == true do
+         maybe_apply(Bonfire.Me.Accounts, :is_admin?, assigns(socket)[:__context__]) == true do
       if show_to == :guests or current_user || current_account(socket) do
         instance_id =
           if instance = params["instance"] do
@@ -57,13 +57,13 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
 
   def handle_event("load_more", attrs, socket) do
     {_title, %{page_info: page_info, edges: edges}} =
-      list_users(current_user(socket.assigns), attrs, e(socket.assigns, :instance_id, nil))
+      list_users(current_user(assigns(socket)), attrs, e(assigns(socket), :instance_id, nil))
 
     {:noreply,
      socket
      |> assign(
        loaded: true,
-       users: e(socket.assigns, :users, []) ++ edges,
+       users: e(assigns(socket), :users, []) ++ edges,
        page_info: page_info
      )}
   end

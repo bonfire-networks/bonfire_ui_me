@@ -4,7 +4,7 @@ defmodule Bonfire.Me.Archive.LiveHandler do
 
   def handle_event("prepare_archive", _params, socket) do
     {:ok, task_pid} =
-      Bonfire.UI.Me.ExportController.trigger_prepare_archive_async(socket.assigns[:__context__])
+      Bonfire.UI.Me.ExportController.trigger_prepare_archive_async(assigns(socket)[:__context__])
 
     # Process.send_after(self(), :clear_flash, 3000)
 
@@ -21,7 +21,7 @@ defmodule Bonfire.Me.Archive.LiveHandler do
 
   def handle_event("cancel_archive", _params, socket) do
     {:noreply,
-     case socket.assigns[:export_task_pid] do
+     case assigns(socket)[:export_task_pid] do
        nil ->
          assign_flash(socket, :error, "No export task found")
 

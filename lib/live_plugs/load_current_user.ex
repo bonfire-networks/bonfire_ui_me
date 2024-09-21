@@ -40,7 +40,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
     user =
       get_current(
         user_id,
-        current_account_id(socket.assigns) || session["current_account_id"]
+        current_account_id(assigns(socket)) || session["current_account_id"]
       )
 
     # |> debug("got_current")

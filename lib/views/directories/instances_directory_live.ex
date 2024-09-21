@@ -6,7 +6,7 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
   def mount(params, _session, socket) do
-    current_user = current_user(socket.assigns)
+    current_user = current_user(assigns(socket))
 
     show_to =
       Bonfire.Common.Settings.get(
@@ -15,8 +15,8 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
       )
 
     if show_to ||
-         maybe_apply(Bonfire.Me.Accounts, :is_admin?, socket.assigns[:__context__]) == true do
-      if show_to == :guests or current_user(socket.assigns) || current_account(socket) do
+         maybe_apply(Bonfire.Me.Accounts, :is_admin?, assigns(socket)[:__context__]) == true do
+      if show_to == :guests or current_user(assigns(socket)) || current_account(socket) do
         %{edges: instances, page_info: page_info} =
           Bonfire.Federate.ActivityPub.Instances.list_paginated(input_to_atoms(params))
 
@@ -61,7 +61,7 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
      socket
      |> assign(
        loaded: true,
-       instances: e(socket.assigns, :instances, []) ++ edges,
+       instances: e(assigns(socket), :instances, []) ++ edges,
        page_info: page_info
      )}
   end

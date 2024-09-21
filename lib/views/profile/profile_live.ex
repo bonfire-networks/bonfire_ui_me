@@ -34,7 +34,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(socket.assigns))))}
+     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(assigns(socket)))))}
   end
 
   def handle_params(params, uri, socket),
@@ -89,8 +89,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
   # def handle_profile_params(%{"tab" => tab} = params, _url, socket)
   #     when tab in ["circles"] do
   #   debug(tab, "load tab")
-  #   current_user = current_user(socket.assigns)
-  #   user = e(socket, :assigns, :user, nil)
+  #   current_user = current_user(assigns(socket))
+  #   user = e(assigns(socket), :user, nil)
   #   circles =
   #     Bonfire.Boundaries.Circles.list_my_with_counts(current_user, exclude_stereotypes: true)
   #     |> repo().maybe_preload(encircles: [subject: [:profile]])
@@ -100,7 +100,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #       socket,
   #       loading: false,
   #       user: user,
-  #       showing_within: e(socket, :assigns, :showing_within, nil),
+  #       showing_within: e(assigns(socket), :showing_within, nil),
   #       selected_tab: "circles",
   #       circles: circles,
   #     )}
@@ -149,7 +149,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   def handle_profile_params(params, _url, socket) do
-    if is_nil(current_user_id(socket.assigns)) do
+    if is_nil(current_user_id(assigns(socket))) do
       # TODO: configurable by user
       debug(params, "load guest default tab")
 

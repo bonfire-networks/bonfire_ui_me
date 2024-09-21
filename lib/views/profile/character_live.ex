@@ -13,12 +13,12 @@ defmodule Bonfire.UI.Me.CharacterLive do
     # info(params)
     {:ok,
      socket
-     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(socket.assigns))))
+     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(assigns(socket)))))
      |> assign_new(:selected_tab, fn -> "timeline" end)}
   end
 
   def handle_params(params, url, socket) do
-    current_user = current_user(socket.assigns)
+    current_user = current_user(assigns(socket))
     current_username = e(current_user, :character, :username, nil)
 
     {path, user_etc} =

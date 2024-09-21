@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
      socket
      # |> assign(:without_sidebar,  true)
      |> assign(
-       scope: e(socket, :assigns, :live_action, :user),
+       scope: e(assigns(socket), :live_action, :user),
        page_title: l("Settings"),
        back: true,
        without_secondary_widgets: true,
@@ -36,7 +36,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
   end
 
   def handle_params(%{"tab" => "preferences" = tab} = params, _url, socket) do
-    scope = socket.assigns[:scope]
+    scope = assigns(socket)[:scope]
     id = params["id"]
 
     {:noreply,
@@ -99,7 +99,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
          {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
           [
             selected_tab: tab,
-            scope: socket.assigns[:scope]
+            scope: assigns(socket)[:scope]
           ]}
        ]
      )}
@@ -118,7 +118,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
          {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
           [
             selected_tab: tab,
-            scope: socket.assigns[:scope]
+            scope: assigns(socket)[:scope]
           ]}
        ]
      )}
