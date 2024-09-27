@@ -10,13 +10,17 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
       {:ok, account} ->
         confirmed(conn, account)
 
-      {:error, "already_confirmed", _} ->
+      {:error, :already_confirmed, _} ->
         already_confirmed(conn)
 
       {:error, :expired, _} ->
-        show_error(conn, :expired_link)
+        show_error(conn, :expired)
 
-      _ ->
+      {:error, :expired} ->
+        show_error(conn, :expired)
+
+      e ->
+        error(e)
         show_error(conn, :not_found)
     end
   end
@@ -24,13 +28,13 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
   def create(conn, params) do
     form = Map.get(params, "confirm_email_fields", %{})
 
-    case Accounts.request_confirm_email(form_cs(form)) do
+    case Accounts.request_confirm_email(form_cs(form), confirm_action: :confirm_again) do
       {:ok, _, _} ->
         conn
         |> put_session(:requested, true)
         |> live_render(ConfirmEmailLive)
 
-      {:error, "already_confirmed"} ->
+      {:error, :already_confirmed} ->
         already_confirmed(conn)
 
       {:error, :not_found} ->
@@ -69,7 +73,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
   end
 
   defp show_error(conn, text) do
-    error(maybe_to_string(text))
+    error(text)
 
     conn
     |> put_session(:error, text)
