@@ -381,7 +381,7 @@
         description={l(
           "Mark all your uploaded media as sensitive by default (you can still mark *as not sensitive* when posting)"
         )}
-        keys={[Bonfire.UI.Social.UploadPreviewsLive, :mark_as_sensitive]}
+        keys={[Bonfire.UI.Common.UploadPreviewsLive, :mark_as_sensitive]}
         scope={@scope}
       />
     </form>
