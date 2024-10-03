@@ -116,11 +116,11 @@
       {!-- <%= error_tag f, :password %> --}
     </Field>
 
-    <Link
+    <LinkLive
       to={path(Bonfire.UI.Me.ForgotPasswordController)}
       class="block w-full my-3 text-xs capitalize link link-primary"
     >
-      {l("Forgot password?")}</Link>
+      {l("Forgot password?")}</LinkLive>
 
     {!-- WIP: ADD A CONFIG TO ENABLE / DISABLE 2FA --}
     {!-- {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
