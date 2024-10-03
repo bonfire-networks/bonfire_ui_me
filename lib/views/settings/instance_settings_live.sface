@@ -17,7 +17,7 @@
         scope={@scope}
         show_add={false}
         read_only
-        circle_id={maybe_apply(Bonfire.Boundaries.Fixtures, :admin_circle, [])}
+        circle_id={maybe_apply(Bonfire.Boundaries.Scaffold, :admin_circle, [])}
       />
     {#match "mods"}
       <StatefulComponent
@@ -28,7 +28,7 @@
         scope={@scope}
         show_add={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @__context__) == true}
         read_only
-        circle_id={Bonfire.Boundaries.Fixtures.mod_circle()}
+        circle_id={Bonfire.Boundaries.Scaffold.Instance.mod_circle()}
       />
     {#match "about"}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceAboutLive selected_tab={@selected_tab} />
