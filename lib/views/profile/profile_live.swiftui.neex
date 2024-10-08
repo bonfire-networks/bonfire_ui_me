@@ -1,0 +1,99 @@
+
+<ZStack alignment="leading" style="ignoresSafeArea()">
+    <ScrollView alignment="leading">
+    <ZStack alignment="bottomTrailing">
+    <Rectangle
+        style="frame(height: 200);
+        fill(
+        LinearGradient(
+            gradient: Gradient(stops: [
+                .init(color: Color.red.opacity(0.8), location: 0),
+                .init(color: Color.red.opacity(0.0), location: 1)
+            ]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+    );"/>
+    <.image url="https://miro.medium.com/v2/resize:fit:4800/format:webp/1*QQ80XltIuHOqupUU1bh09A.png">
+        <:success style="resizable(); aspectRatio(.fill); frame(height: 200)"/>
+    </.image>
+    <Label style="font(.caption); background(.ultraThinMaterial); padding(8); cornerRadius(8);">
+        <Text>Follows you</Text>
+    </Label>
+    </ZStack>
+    <HStack style="padding(.leading, 16); padding(.trailing, 16); offset(y: -50); padding(.bottom, -50); alignment(.leading)">
+    <Image name="Uklg" style={[
+        "resizable()",
+        "frame(width: 96, height: 96)",
+        "clipShape(.circle)",
+        "aspectRatio(1, contentMode: .fill)"
+    ]} />
+    <!--.image
+        style="frame(width: 96, height: 96); clipShape(.circle);"
+        url={"/assets/images/uklg.jpg"}>
+            <:success style={[
+            "resizable();
+            frame(width: 96, height: 96);
+            clipShape(.circle);
+            aspectRatio(1.777, contentMode: .fit);"]}  />
+        </.image-->
+        <Spacer/>
+        <HStack style="padding(.top, 40);">
+        <Button style="buttonStyle(.plain);">
+            <VStack>
+            <Text style="font(.headline); fontWeight(.bold)">13k</Text>
+            <Text style="font(.caption); color(.black)">Posts</Text>
+            </VStack>
+        </Button>
+        <Button style="buttonStyle(.plain); padding(.leading, 16);">
+            <VStack>
+            <Text style="font(.headline); fontWeight(.bold)">485</Text>
+            <Text style="font(.caption);">Followers</Text>
+            </VStack>
+        </Button>
+        <Button style="buttonStyle(.plain); padding(.leading, 16);">
+            <VStack>
+            <Text style="font(.headline); fontWeight(.bold)">414</Text>
+            <Text style="font(.caption);">Following</Text>
+            </VStack>
+        </Button>
+        </HStack>
+    </HStack>
+    <HStack alignment="top" style="padding(.leading, 16); padding(.trailing, 16); padding(.top, 4);">
+        <VStack alignment="leading">
+            <Text style="font(.title3); fontWeight(.bold)">Ursula K. Le Guin</Text>
+            <Text style="font(.footnote); foregroundStyle(.gray)">@ursula@annares.social</Text>
+            <HStack style="font(.caption); foregroundStyle(.gray); padding(.top, 4);">
+            <.icon name="calendar" />
+            <Text>Registered from 1 October 2020</Text>
+            </HStack>
+        </VStack>
+        <Spacer/>
+        <HStack>
+            <Button style="buttonStyle(.bordered); rounded(80);">
+            <Text>Follow</Text>
+            </Button>
+        </HStack>
+    </HStack>
+    <Text style="font(.subheadline); padding(.leading, 16); padding(.trailing, 16); padding(.top, 8);">People who deny the existence of dragons are often eaten by dragons. From within.</Text>
+    <VStack style="pickerStyle(.segmented); padding(.leading, 16); padding(.trailing, 16); padding(.top, 24);">
+        <Picker selection={:car} phx-change="transport-changed">
+        <Text template={:label}>Transportation</Text>
+        <Group template={:content}>
+            <Text tag="car">Posts</Text>
+            <Text tag="bus">Replies</Text>
+            <Text tag="tram">Media</Text>
+            <Text tag="tram">About</Text>
+        </Group>
+    </Picker>
+    </VStack>
+
+    <LazyVStack alignment="top" style="scrollTargetLayout()">
+        <VStack :for={i <- 1..30}>
+        <.activity  />
+        <Divider />
+        </VStack>
+    </LazyVStack>
+
+    </ScrollView>
+</ZStack>

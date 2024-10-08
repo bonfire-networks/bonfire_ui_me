@@ -1,5 +1,6 @@
 defmodule Bonfire.UI.Me.ProfileLive do
   use Bonfire.UI.Common.Web, :surface_live_view
+  use_if_enabled(Bonfire.UI.Common.Web.Native, :view)
   import Untangle
 
   # alias Bonfire.Me.Integration
