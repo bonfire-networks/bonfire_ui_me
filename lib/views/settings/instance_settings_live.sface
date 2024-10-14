@@ -67,6 +67,13 @@
       <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="silenced" />
     {#match "ghosted"}
       <Bonfire.Boundaries.Web.BlocksLive id="blocks" selected_tab="ghosted" />
+    {#match "blocks_import"}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Social.Graph.ImportLive, @__context__)}
+        selected_tab={@selected_tab}
+        scope={:instance_wide}
+        id="import"
+      />
     {#match "terms"}
       <Bonfire.UI.Me.SettingsViewsLive.TermsLive selected_tab={@selected_tab} />
     {#match "invites"}
