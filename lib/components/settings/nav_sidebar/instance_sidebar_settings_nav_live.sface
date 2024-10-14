@@ -3,7 +3,7 @@
     <li>
       <details open>
         <summary class="group !px-4 !py-2">
-          <span class="text-sm font-semibold">{l("Instance Configuration")}</span>
+          <span class="text-sm font-semibold">{l("Instance")}</span>
         </summary>
         <ul class="!m-0 !p-0 !mt-1">
           <li>
@@ -17,7 +17,7 @@
               <span class={
                 "text-sm text-base-content/80 font-normal",
                 "text-base-content": @selected_tab == "configuration"
-              }>{l("General")}</span>
+              }>{l("General Configuration")}</span>
             </LinkPatchLive>
           </li>
 
@@ -29,32 +29,8 @@
                 "bg-base-content/10 ": @id == "behaviours"
               }
             >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default Preferences")}</span>
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default User Preferences")}</span>
             </LinkLive>
-          </li>
-
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/admins"}
-              class={
-                "!px-4 !py-2",
-                "bg-base-content/10": @selected_tab == "admins"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "admins"}>{l("Admins list")}</span>
-            </LinkPatchLive>
-          </li>
-
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/mods"}
-              class={
-                "!px-4 !py-2",
-                "bg-base-content/10": @selected_tab == "mods"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "mods"}>{l("Moderators list")}</span>
-            </LinkPatchLive>
           </li>
         </ul>
       </details>
@@ -113,29 +89,6 @@
         <ul class="!m-0 !p-0 !mt-1">
           <li>
             <LinkPatchLive
-              to={~p"/settings/instance/members"}
-              class={
-                "!px-4 !py-2",
-                "bg-base-content/10": @selected_tab == "members"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "members"}>{l("Instance members")}</span>
-            </LinkPatchLive>
-          </li>
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/remote_users"}
-              class={
-                "!px-4 !py-2",
-                "bg-base-content/10": @selected_tab == "remote_users"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "remote_users"}>{l("Known remote users")}</span>
-            </LinkPatchLive>
-          </li>
-
-          <li>
-            <LinkPatchLive
               module={maybe_component(Bonfire.Invite.Links, @__context__)}
               to={~p"/settings/instance/invites"}
               class={
@@ -145,6 +98,68 @@
             >
               <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "invites"}>{l("Invites")}</span>
             </LinkPatchLive>
+          </li>
+
+          <li>
+            <LinkLive
+              to={~p"/settings/instance/mods"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "mods"
+              }
+            >
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "mods"}>{l("Instance Moderators")}</span>
+            </LinkLive>
+          </li>
+
+          <li>
+            <LinkLive
+              to={~p"/settings/instance/admins"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "admins"
+              }
+            >
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "admins"}>{l("Instance Admins")}</span>
+            </LinkLive>
+          </li>
+
+          <li>
+            <LinkLive
+              to={~p"/settings/instance/members"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "members"
+              }
+            >
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "members"}>{l("Instance members")}</span>
+            </LinkLive>
+          </li>
+          <li>
+            <LinkLive
+              to={~p"/settings/instance/remote_users"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "remote_users"
+              }
+            >
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "remote_users"}>{l("Known remote users")}</span>
+            </LinkLive>
+          </li>
+          <li>
+            <a
+              href={~p"/known_instances"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "known_instances"
+              }
+              target="_blank"
+            >
+              <span class={
+                "text-sm text-base-content/80 font-normal",
+                "text-base-content": @selected_tab == "known_instances"
+              }>{l("Known remote instances")}</span>
+            </a>
           </li>
         </ul>
       </details>
