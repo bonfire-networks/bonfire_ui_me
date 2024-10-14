@@ -81,7 +81,7 @@ defmodule Bonfire.UI.Me.Routes do
         )
 
         live("/users", UsersDirectoryLive)
-        live("/users/instance/:instance", UsersDirectoryLive)
+        live("/users/instance/:instance", UsersDirectoryLive, as: Bonfire.Data.ActivityPub.Peer)
         live("/users/instance/:display_name/:instance", UsersDirectoryLive)
         live("/known_instances", InstancesDirectoryLive)
 

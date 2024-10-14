@@ -2,8 +2,6 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
   use Bonfire.UI.Common.Web, :stateful_component
 
   prop show, :any, default: :local
-  prop ghosted_instance_wide?, :boolean, default: nil
-  prop silenced_instance_wide?, :boolean, default: nil
 
   def update(assigns, socket) do
     socket = assign(socket, assigns)
@@ -45,11 +43,11 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
         user
         |> Map.put(
           :ghosted_instance_wide?,
-          Bonfire.Boundaries.Blocks.is_blocked?(id(user), :ghost, :instance_wide)
+          Bonfire.Boundaries.Blocks.is_blocked?(user, :ghost, :instance_wide)
         )
         |> Map.put(
           :silenced_instance_wide?,
-          Bonfire.Boundaries.Blocks.is_blocked?(id(user), :silence, :instance_wide)
+          Bonfire.Boundaries.Blocks.is_blocked?(user, :silence, :instance_wide)
         )
       end)
 

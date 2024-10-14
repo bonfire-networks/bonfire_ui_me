@@ -1,9 +1,6 @@
 defmodule Bonfire.UI.Me.SettingsViewsLive.InstancesLive do
   use Bonfire.UI.Common.Web, :stateful_component
 
-  prop ghosted_instance_wide?, :boolean, default: nil
-  prop silenced_instance_wide?, :boolean, default: nil
-
   def update(assigns, socket) do
     socket = assign(socket, assigns)
 
@@ -39,17 +36,18 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstancesLive do
 
     # TODO: implement `Bonfire.Boundaries.Blocks.LiveHandler.update_many` so we don't do n+1 on these!
     instances =
-      Enum.map(instances, fn user ->
-        user
+      Enum.map(instances, fn instance ->
+        instance
         |> Map.put(
           :ghosted_instance_wide?,
-          Bonfire.Boundaries.Blocks.is_blocked?(id(user), :ghost, :instance_wide)
+          Bonfire.Boundaries.Blocks.is_blocked?(instance, :ghost, :instance_wide)
         )
         |> Map.put(
           :silenced_instance_wide?,
-          Bonfire.Boundaries.Blocks.is_blocked?(id(user), :silence, :instance_wide)
+          Bonfire.Boundaries.Blocks.is_blocked?(instance, :silence, :instance_wide)
         )
       end)
+      |> debug("innnstances")
 
     %{
       instances: instances,

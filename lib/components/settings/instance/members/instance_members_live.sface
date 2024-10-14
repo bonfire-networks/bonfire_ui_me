@@ -1,7 +1,7 @@
 <div>
   <div class="mb-2">
     {#if Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}
-      <Bonfire.UI.Common.MembersLive users={@users} is_local_users={@show == :local} />
+      <Bonfire.UI.Me.MembersLive users={@users} is_local_users={@show == :local} />
     {/if}
   </div>
 

@@ -7,6 +7,19 @@
       <!-- TODO: link to member directory in settings instead -->
       <div>{display_hostname}</div>
 
+      {#case {e(instance, :ghosted_instance_wide?, nil), e(instance, :silenced_instance_wide?, nil)}}
+        {#match {nil, nil}}
+          <span class="btn btn-xs  normal-case loading btn-disabled">{l("loading")}</span>
+        {#match {true, true}}
+          <span class="badge badge-sm badge-error">{l("Blocked")}</span>
+        {#match {true, _}}
+          <span class="badge badge-sm badge-warning">{l("Ghosted")}</span>
+        {#match {_, true}}
+          <span class="badge badge-sm badge-warning">{l("Silenced")}</span>
+        {#match {_, _}}
+          <span class="badge badge-sm badge-info">{l("Active")}</span>
+      {/case}
+
       <div class="dropdown dropdown-end">
         <label
           class="relative btn btn-circle btn-outline border-base-content/30 btn-sm"
@@ -36,7 +49,7 @@
               is_local_user={false}
               open_btn_wrapper_class="w-full"
               label={display_hostname}
-              open_btn_label={if @ghosted_instance_wide? && @silenced_instance_wide? do
+              open_btn_label={if e(instance, :ghosted_instance_wide?, nil) && e(instance, :silenced_instance_wide?, nil) do
                 l("Unblock")
               else
                 l("Block")
