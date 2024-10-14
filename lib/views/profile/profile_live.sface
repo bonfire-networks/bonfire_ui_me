@@ -27,7 +27,7 @@
           silenced?={@silenced?}
           block_status={e(assigns, :block_status, nil)}
           selected_tab={@selected_tab}
-          follows_me={e(@follows_me, false)}
+          follows_me={@follows_me || false}
           character_type={@character_type}
         />
         <Bonfire.UI.Common.TabsLive
@@ -66,7 +66,7 @@
       silenced?={@silenced?}
       block_status={e(assigns, :block_status, nil)}
       selected_tab={@selected_tab}
-      follows_me={e(@follows_me, false)}
+      follows_me={@follows_me || false}
       character_type={@character_type}
     />
   {/if}

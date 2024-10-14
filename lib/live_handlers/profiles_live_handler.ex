@@ -299,6 +299,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
         ),
       sidebar_widgets: sidebar_widgets
     ]
+    |> debug()
   end
 
   def maybe_assign_aliases(socket, user) do

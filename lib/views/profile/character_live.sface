@@ -10,7 +10,7 @@
         user={@user}
         boundary_preset={@boundary_preset}
         selected_tab={@selected_tab}
-        follows_me={e(@follows_me, false)}
+        follows_me={@follows_me || false}
         character_type={@character_type}
         path={@path}
       />
