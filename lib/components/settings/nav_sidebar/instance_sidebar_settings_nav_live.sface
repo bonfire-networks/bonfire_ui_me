@@ -147,19 +147,18 @@
             </LinkLive>
           </li>
           <li>
-            <a
-              href={~p"/known_instances"}
+            <LinkLive
+              to={~p"/settings/instance/remote_instances"}
               class={
                 "!px-4 !py-2",
-                "bg-base-content/10": @selected_tab == "known_instances"
+                "bg-base-content/10": @selected_tab == "remote_instances"
               }
-              target="_blank"
             >
               <span class={
                 "text-sm text-base-content/80 font-normal",
-                "text-base-content": @selected_tab == "known_instances"
+                "text-base-content": @selected_tab == "remote_instances"
               }>{l("Known remote instances")}</span>
-            </a>
+            </LinkLive>
           </li>
         </ul>
       </details>

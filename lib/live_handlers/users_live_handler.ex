@@ -26,6 +26,18 @@ defmodule Bonfire.Me.Users.LiveHandler do
     )
   end
 
+  def handle_event("delete_user", %{"object_id" => delete}, socket) do
+    if Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]) do
+      after_delete(
+        Bonfire.Me.DeleteWorker.enqueue_delete(delete),
+        "/settings/deleted/user/#{id(delete)}",
+        socket
+      )
+    else
+      error("Not allowed")
+    end
+  end
+
   def handle_event("delete_account", %{"password" => password}, socket) do
     delete = current_account_auth!(socket, password)
 
