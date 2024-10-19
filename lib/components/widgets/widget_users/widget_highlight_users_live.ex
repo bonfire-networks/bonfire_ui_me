@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.WidgetHighlightUsersLive do
         #  current_user: current_user_id, # TODO for respecting blocks/boundaries (but then can't have a single cache)
         paginate: [limit: 5]
       ],
-      ttl: @default_cache_ttl
+      expire: @default_cache_ttl
     )
   end
 
