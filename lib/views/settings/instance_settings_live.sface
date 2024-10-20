@@ -58,7 +58,7 @@
       <Bonfire.UI.Common.ExtensionsLive scope={:instance} />
     {#match "flags"}
       <StatefulComponent
-        module={maybe_component(Bonfire.UI.Moderation.FlagsLive)}
+        module={maybe_component(Bonfire.UI.Moderation.FlagsLive, @__context__)}
         id="flags"
         selected_tab={@selected_tab}
         scope={:instance}
@@ -78,7 +78,7 @@
       <Bonfire.UI.Me.SettingsViewsLive.TermsLive selected_tab={@selected_tab} />
     {#match "invites"}
       <StatefulComponent
-        module={Config.get([:ui, :invites_component], Bonfire.Invite.Links.Web.InvitesLive)}
+        module={maybe_component(Bonfire.Invite.Links.Web.InvitesLive, @__context__)}
         id="admin_invites"
         selected_tab={@selected_tab}
       />
@@ -138,7 +138,7 @@
       <Bonfire.UI.Common.SettingsViewsLive.IconsLive selected_tab={@selected_tab} />
     {#match "emojis"}
       <StatefulComponent
-        module={maybe_component(Bonfire.Files.Web.UploadEmojiLive)}
+        module={maybe_component(Bonfire.Files.Web.UploadEmojiLive, @__context__)}
         id="custom_emojis"
         scope={:instance}
         description={l("You can define custom emoji for all users on this instance.")}
