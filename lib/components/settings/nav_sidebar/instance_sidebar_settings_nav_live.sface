@@ -264,6 +264,18 @@
         <ul class="!m-0 !p-0 !mt-1">
           <li>
             <LinkPatchLive
+              to={~p"/settings/instance/code"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "code"
+              }
+            >
+              <span class="text-sm">{l("Libraries & Licences")}</span>
+            </LinkPatchLive>
+          </li>
+
+          <li>
+            <LinkPatchLive
               to={~p"/settings/instance/emojis"}
               class={
                 "!px-4 !py-2",

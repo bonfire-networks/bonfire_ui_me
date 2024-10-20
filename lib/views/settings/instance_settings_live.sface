@@ -132,6 +132,8 @@
         id="my_acls"
         scope={:instance}
       /> --}
+    {#match "code"}
+      <Bonfire.UI.Common.ExtraDepsLive />
     {#match "icons"}
       <Bonfire.UI.Common.SettingsViewsLive.IconsLive selected_tab={@selected_tab} />
     {#match "emojis"}
