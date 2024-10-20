@@ -29,7 +29,9 @@ defmodule Bonfire.UI.Me.ProfileLive do
         socket
       ) do
     # TODO?
-    {:ok, socket}
+    {:ok,
+     socket
+     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(assigns(socket)))))}
   end
 
   def mount(_params, _session, socket) do

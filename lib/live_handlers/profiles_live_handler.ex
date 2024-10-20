@@ -241,7 +241,11 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       interaction_type: l("follow"),
       follows_me: false,
       no_index: false,
-      boundary_preset: nil
+      boundary_preset: nil,
+      silenced_instance_wide?: nil,
+      ghosted_instance_wide?: nil,
+      ghosted?: nil,
+      silenced?: nil
     ]
   end
 

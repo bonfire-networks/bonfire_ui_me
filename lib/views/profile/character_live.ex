@@ -105,7 +105,8 @@ defmodule Bonfire.UI.Me.CharacterLive do
           {:noreply,
            redirect_to(
              socket,
-             canonical_url(user_etc)
+             canonical_url(user_etc),
+             type: :maybe_external
            )}
         end
       end
