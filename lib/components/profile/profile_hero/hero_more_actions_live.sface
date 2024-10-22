@@ -120,6 +120,7 @@
             <Bonfire.UI.Common.SmartInputButtonLive
               create_object_type={:message}
               icon="carbon:email"
+              icon_class="!w-4 !h-4"
               prompt={l("Send a message")}
               smart_input_opts={%{
                 recipients_editable: true,
