@@ -10,7 +10,7 @@
               <div
                 data-id="hero_background"
                 class={
-                  "relative bg-center mt-0 bg-cover bg-no-repeat mb-4",
+                  "relative rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-4",
                   "bg-base-200 h-[140px] md:h-[200px]": !color,
                   "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
                 }

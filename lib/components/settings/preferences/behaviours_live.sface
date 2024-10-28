@@ -1,10 +1,10 @@
 <div class="">
-  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/20">
+  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
     <#Icon iconify="fluent:paint-brush-20-filled" class="w-6 h-6 text-base-content/80" />
     <span>{l("Appearance")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/20">
+  <div class="divide-y divide-base-content/10">
     <div x-data="{open: false}" class="p-4">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
         <div class="flex flex-col gap-1">
@@ -144,12 +144,12 @@
     </form>
   </div>
 
-  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/20">
+  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
     <#Icon iconify="majesticons:list-box" class="w-6 h-6 text-base-content/80" />
     <span>{l("Feeds and Discussions")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/20">
+  <div class="divide-y divide-base-content/10">
     <div x-data="{open: false}" class="p-4 cursor-pointer">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
@@ -365,7 +365,7 @@
     </div>
   </div>
 
-  <div class="p-4 font-bold text-xl flex items-center gap-4 border-b border-base-content/20">
+  <div class="p-4 font-bold text-xl flex items-center gap-4 border-b border-base-content/10">
     <#Icon iconify="material-symbols:digital-wellbeing" class="w-6 h-6 text-base-content/80" />
     <span>{l("Wellbeing")}</span>
   </div>
@@ -374,7 +374,7 @@
     scope={@scope}
     module={maybe_component(Bonfire.Boundaries.Web.DefaultBoundaryLive, @__context__)}
   /> -->
-  <div class="divide-y divide-base-content/20">
+  <div class="divide-y divide-base-content/10">
     <form phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Mark as sensitive media")}
@@ -464,12 +464,12 @@
   </form> --}
   </div>
 
-  <div class="p-4 text-xl border-b border-base-content/20 font-bold flex items-center gap-4">
+  <div class="p-4 text-xl border-b border-base-content/10 font-bold flex items-center gap-4">
     <#Icon iconify="ic:round-lock" class="w-6 h-6 text-base-content/80" />
     <span>{l("Privacy & Safety")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/20">
+  <div class="divide-y divide-base-content/10">
     <div
       x-data="{open: false}"
       class="p-4 cursor-pointer"
@@ -489,7 +489,7 @@
       <div x-show="open" x-cloak x-collapse class="pt-2">
         <form phx-change="Bonfire.Common.Settings:set">
           <input name="scope" value={@scope} type="hidden">
-          <div class="divide-y divide-base-content/20">
+          <div class="divide-y divide-base-content/10">
             <Bonfire.UI.Common.SettingsRadiosLive
               keys={[:activity_pub, :user_federating]}
               options={if ActivityPub.Config.federating?() == nil,
@@ -512,15 +512,15 @@
     <Bonfire.UI.Me.SettingsViewsLive.IndexableLive scope={@scope} />
   </div>
 
-  <div class="p-4 text-xl border-b border-base-content/20 font-bold flex items-center gap-4">
+  <div class="p-4 text-xl border-b border-base-content/10 font-bold flex items-center gap-4">
     <#Icon iconify="streamline:trending-content-solid" class="w-6 h-6 text-base-content/80" />
     <span>{l("Curated & Trending topics")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/20">
+  <div class="divide-y divide-base-content/10">
     <!-- if curated tab is enabled, then show the settings for disabling on the user side -->
 
-    <form class="divide-y divide-base-content/20" phx-change="Bonfire.Common.Settings:set">
+    <form class="divide-y divide-base-content/10" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <Bonfire.UI.Common.SettingsToggleLive
         :if={module_enabled?(Bonfire.Social.Pins, @__context__) and

@@ -7,7 +7,9 @@
       )}
       {...assigns}
     >
+
       <:header>
+      <div class="bg-base-100 mb-3 lg:rounded-xl lg:shadow">
         <StatelessComponent
           module={Config.get(
             [:ui, :profile, :hero_component],
@@ -32,9 +34,9 @@
         />
         <Bonfire.UI.Common.TabsLive
           :if={!@hide_tabs}
-          class="px-0 flex justify-between w-full border-b bg-base-100 tabs border-base-content/20"
+          class="px-0 flex justify-between w-full tabs"
           tab_class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center lined_tab"
-          item_class="text-base-content/60 text-sm pb-4 border-b border-transparent font-medium"
+          item_class="text-base-content/60 text-sm pb-4 border-b-2 border-transparent font-medium"
           selected_tab={@selected_tab}
           path_prefix={if @character_type == :user,
             do: "/@#{e(@user, :character, :username, "")}/",
@@ -43,10 +45,13 @@
             do: Config.get([:ui, :profile, :navigation], nil: [{:timeline, l("Timeline")}]),
             else: Config.get([:ui, :group, :profile, :navigation], nil: [{:timeline, l("Timeline")}])}
         />
+        </div>
       </:header>
+
     </StatelessComponent>
   {#else}
     {!-- when silenced show only the header but no timeline or other content --}
+    <div class="bg-base-100 rounded-xl shadow">
     <StatelessComponent
       module={Config.get(
         [:ui, :profile, :hero_component],
@@ -69,5 +74,6 @@
       follows_me={@follows_me || false}
       character_type={@character_type}
     />
+    </div>
   {/if}
 </main>

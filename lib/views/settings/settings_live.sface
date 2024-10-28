@@ -1,4 +1,4 @@
-<section class="">
+<section class="lg:rounded-xl lg:shadow bg-base-100">
   {#case @selected_tab}
     {#match "dashboard"}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive

@@ -3,7 +3,19 @@
     <div class="grid grid-cols-2 gap-3 mx-4 lg:mx-0 lg:gap-6 md:grid-cols-2 lg:grid-cols-3">
       {#for %{character: %{}} = user <- @current_account_users}
         <div class="col-span-1">
-          <Bonfire.UI.Me.UserPreviewLive user={user} path_prefix="/switch-user/" go={@go} />
+          <div class="transition rounded-xl duration-300 ease-out component_user_preview ring-0 ring-primary ring-opacity-90 hover:ring-4">
+            <LinkLive to={"/switch-user/#{e(user, :character, :username, "")}#{@go}"}>
+              <Bonfire.UI.Me.UserPreviewLive
+                user={user}
+                path_prefix="/switch-user/"
+                go={@go}
+                href={"/switch-user/#{e(user, :character, :username, "")}#{@go}"}
+                with_banner={true}
+                with_summary={false}
+                is_local={true}
+              />
+            </LinkLive>
+          </div>
         </div>
       {/for}
       <div

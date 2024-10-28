@@ -85,7 +85,7 @@
     <button type="submit" class="normal-case btn btn-primary">{l("Save")}</button>
   </div>
 </form>
-<div class="border border-t border-base-content/20">
+<div class="border border-t border-base-content/10">
   <form data-scope="set_background" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Background"
@@ -95,7 +95,7 @@
     />
   </form>
 </div>
-<div class="border border-t border-base-content/20">
+<div class="border border-t border-base-content/10">
   <form data-scope="set-weather" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Weather"

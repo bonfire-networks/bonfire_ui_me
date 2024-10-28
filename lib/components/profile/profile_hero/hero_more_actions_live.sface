@@ -12,7 +12,7 @@
         tabindex="0"
         role="menu"
         aria-orientation="vertical"
-        class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/20"
+        class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/10"
       >
         <li :if={@permalink}>
           <a
@@ -82,7 +82,7 @@
         tabindex="0"
         role="menu"
         aria-orientation="vertical"
-        class="!block mt-1 relative z-50 rounded-xl shadow-lg dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/20"
+        class="!block mt-1 relative z-50 rounded-xl shadow-lg dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/10"
       >
         <li>
           <a

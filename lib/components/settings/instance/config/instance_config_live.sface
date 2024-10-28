@@ -1,10 +1,10 @@
 <div class="pb-6">
   {#if Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/20">
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
       <#Icon iconify="icon-park-outline:graphic-design" class="w-6 h-6 text-base-content/80" />
       <span>{l("Instance Info")}</span>
     </div>
-    <!-- <div class="p-3 border-b border-base-content/20 text-sm font-medium">{l("Instance Profile")}</div> -->
+    <!-- <div class="p-3 border-b border-base-content/10 text-sm font-medium">{l("Instance Profile")}</div> -->
     <div class="flex flex-col gap-4 p-3">
       <div class="flex flex-col gap-2">
         <span class="text-sm font-semibold">{l("Site Banner")}</span>
@@ -113,7 +113,7 @@
 
   {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
     <div class="">
-      <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/20">
+      <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
         <#Icon iconify="eos-icons:network" class="w-6 h-6 text-base-content/80" />
         <span>{l("Federation & Privacy")}</span>
       </div>
@@ -121,7 +121,7 @@
       <form phx-change="Bonfire.Common.Settings:set">
         <input name="scope" value={:instance} type="hidden">
 
-        <div class="divide-y divide-base-content/20 flex flex-col gap-4 w-full">
+        <div class="divide-y divide-base-content/10 flex flex-col gap-4 w-full">
           <div class="flex flex-col gap-2 p-4">
             <span class="font-medium text-sm">{l("Federation")}</span>
             <Bonfire.UI.Common.SettingsRadiosLive
@@ -185,11 +185,11 @@
     </div>
 
     <div class="">
-      <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/20">
+      <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
         <#Icon iconify="ph:gear" class="w-6 h-6 text-base-content/80" />
         <span>{l("General Settings")}</span>
       </div>
-      <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/20">
+      <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
         <!-- <input name="scope" value={:instance} type="hidden"> -->
 
         <Bonfire.UI.Common.Settings.NumberLive
@@ -249,11 +249,11 @@
     </div>
 
     <div class="">
-      <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/20">
+      <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
         <#Icon iconify="lucide:server" class="w-6 h-6 text-base-content/80" />
         <span>{l("Resource Usage")}</span>
       </div>
-      <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/20">
+      <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
           name={l("Maximum number of items to query in lists")}
