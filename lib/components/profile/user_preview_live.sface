@@ -1,82 +1,81 @@
 <div class="rounded-xl shadow bg-base-100">
   <!-- <LinkLive to={"#{@path_prefix}#{e(@user, :character, :username, "")}#{@go}"}> -->
-    {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
-      {#match {avatar_url, banner_url}}
-        {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
-          {#match color}
-            <div
-              :if={@with_banner}
-              aria-hidden="true"
-              class="h-24 bg-center bg-cover rounded-t-lg"
-              style={if is_binary(color),
-                do: "background-color: #{color}",
-                else: "background-image: url('#{banner_url}')"}
-            />
-            <div class={
-              "p-3",
-              "-mt-8": @with_banner
-              }>
-              <div class="">
+  {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
+    {#match {avatar_url, banner_url}}
+      {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
+        {#match color}
+          <div
+            :if={@with_banner}
+            aria-hidden="true"
+            class="h-24 bg-center bg-cover rounded-t-lg"
+            style={if is_binary(color),
+              do: "background-color: #{color}",
+              else: "background-image: url('#{banner_url}')"}
+          />
+          <div class={
+            "p-3",
+            "-mt-8": @with_banner
+          }>
+            <div class="">
+              <LinkLive to={@href} class="flex items-center justify-between">
+                <Bonfire.UI.Common.AvatarLive
+                  parent_id="user_preview"
+                  class="inline-block object-cover w-16 h-16"
+                  bg_class="h-full"
+                  src={avatar_url}
+                  user_id={id(@user)}
+                />
+                {!-- rounded-full bg-base-300 --}
+              </LinkLive>
 
-                <LinkLive to={@href} class="flex items-center justify-between">
-                  <Bonfire.UI.Common.AvatarLive
-                    parent_id="user_preview"
-                    class="inline-block object-cover w-16 h-16"
-                    bg_class="h-full"
-                    src={avatar_url}
-                    user_id={id(@user)}
-                  />
-                  {!-- rounded-full bg-base-300 --}
+              <div class="mt-1 truncate ellipsis">
+                <LinkLive to={@href} class="flex hover:underline items-center space-x-2">
+                  <span class="text-base font-bold text-base-content">{e(@user, :profile, :name, "Anonymous")}</span>
                 </LinkLive>
-                
-                <div class="mt-1 truncate ellipsis">
-                  <LinkLive to={@href} class="flex hover:underline items-center space-x-2">
-                    <span class="text-base font-bold text-base-content">{e(@user, :profile, :name, "Anonymous")}</span>
-                  </LinkLive>
 
-                  <div class="flex items-center space-x-2">
-                    <div data-role="username" class="text-sm font-normal text-base-content text-opacity-80">
-                      @{e(@user, :character, :username, "")}
-                    </div>
-
-                    <span
-                      :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) && e(@user, :shared_user, :label, nil)}
-                      class="badge badge-secondary badge-outline"
-                    >
-                      {e(@user, :shared_user, :label, "")}
-                    </span>
-                    <span
-                      :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
-                      class="ml-3 badge-sm badge badge-info badge-outline"
-                    >
-                      {l("Admin")}
-                    </span>
+                <div class="flex items-center space-x-2">
+                  <div data-role="username" class="text-sm font-normal text-base-content text-opacity-80">
+                    @{e(@user, :character, :username, "")}
                   </div>
 
-                  <div :if={@with_summary} class="prose text-left prose-sm">
-                    {rich(e(@user, :profile, :summary, nil), sanitize: true, skip_markdown: true)}
-                  </div>
-                </div>
-              </div>
-              <div
-                :if={not is_nil(e(@user, :character, :follow_count, :follower_count, nil)) and
-                  Settings.get([:ui, :show_activity_counts])}
-                class="flex items-center mt-2 mb-4 space-x-2 text-base-content text-opacity-70"
-              >
-                <#Icon solid="Users" class="w-5 h-5" />
-                <div class="text-sm">
-                  <b>{e(@user, :character, :follow_count, :follower_count, 0)}</b>
-                  {l("Followers")}
+                  <span
+                    :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) && e(@user, :shared_user, :label, nil)}
+                    class="badge badge-secondary badge-outline"
+                  >
+                    {e(@user, :shared_user, :label, "")}
+                  </span>
+                  <span
+                    :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
+                    class="ml-3 badge-sm badge badge-info badge-outline"
+                  >
+                    {l("Admin")}
+                  </span>
                 </div>
 
-                <div class="text-sm">
-                  <b>{e(@user, :character, :follow_count, :follow_count, 0)}</b>
-                  {l("Following")}
+                <div :if={@with_summary} class="prose text-left prose-sm">
+                  {rich(e(@user, :profile, :summary, nil), sanitize: true, skip_markdown: true)}
                 </div>
               </div>
             </div>
-        {/case}
-    {/case}
+            <div
+              :if={not is_nil(e(@user, :character, :follow_count, :follower_count, nil)) and
+                Settings.get([:ui, :show_activity_counts])}
+              class="flex items-center mt-2 mb-4 space-x-2 text-base-content text-opacity-70"
+            >
+              <#Icon solid="Users" class="w-5 h-5" />
+              <div class="text-sm">
+                <b>{e(@user, :character, :follow_count, :follower_count, 0)}</b>
+                {l("Followers")}
+              </div>
+
+              <div class="text-sm">
+                <b>{e(@user, :character, :follow_count, :follow_count, 0)}</b>
+                {l("Following")}
+              </div>
+            </div>
+          </div>
+      {/case}
+  {/case}
   <!-- </LinkLive> -->
   <#slot {@actions} />
 </div>

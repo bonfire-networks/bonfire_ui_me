@@ -69,7 +69,7 @@
           <li><LinkLive to={"/@#{e(@user, :character, :username, nil)}"}>{l("View profile")}</LinkLive></li>
           <li>
             <StatelessComponent
-              module={maybe_component(Bonfire.Boundaries.Web.BlockButtonLive, @__context__)}
+              module={maybe_component(Bonfire.UI.Boundaries.Web.BlockButtonLive, @__context__)}
               object={@user}
               is_local_user={@is_local_user}
               parent_id="members"

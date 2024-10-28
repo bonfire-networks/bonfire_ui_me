@@ -10,9 +10,9 @@
                 path_prefix="/switch-user/"
                 go={@go}
                 href={"/switch-user/#{e(user, :character, :username, "")}#{@go}"}
-                with_banner={true}
+                with_banner
                 with_summary={false}
-                is_local={true}
+                is_local
               />
             </LinkLive>
           </div>

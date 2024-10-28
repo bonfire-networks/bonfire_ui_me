@@ -14,7 +14,7 @@
         <div class="prose prose-md text-sm font-normal text-base-content/70">{l("Instance moderators have blocked this user.")}</div>
         <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
           {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
-          <Bonfire.Boundaries.Web.BlockButtonLive
+          <Bonfire.UI.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
             type={:block}
@@ -32,7 +32,7 @@
       >
         <div class="prose prose-md text-sm font-normal text-base-content/70">{l("Instance moderators have ghosted this user.")}</div>
         <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
-          <Bonfire.Boundaries.Web.BlockButtonLive
+          <Bonfire.UI.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
             type={:ghost}
@@ -50,7 +50,7 @@
       >
         <div class="prose prose-md text-sm font-normal text-base-content/70">{l("Instance moderators have silenced this user.")}</div>
         <div :if={Bonfire.Boundaries.can?(@__context__, :block, :instance)}>
-          <Bonfire.Boundaries.Web.BlockButtonLive
+          <Bonfire.UI.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
             type={:silence}
@@ -68,7 +68,7 @@
         <div class="prose prose-md text-sm font-normal text-base-content/70">{l("You have blocked this user.")}
         </div>
         <div>
-          <Bonfire.Boundaries.Web.BlockButtonLive
+          <Bonfire.UI.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
             type={:block}
@@ -84,7 +84,7 @@
         <div class="prose prose-md text-sm font-normal text-base-content/70">{l("You have silenced this user.")}
         </div>
         <div>
-          <Bonfire.Boundaries.Web.BlockButtonLive
+          <Bonfire.UI.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
             type={:silence}
@@ -101,7 +101,7 @@
         <div class="prose prose-md text-sm font-normal text-base-content/70">{l("You have ghosted this user.")}
         </div>
         <div>
-          <Bonfire.Boundaries.Web.BlockButtonLive
+          <Bonfire.UI.Boundaries.Web.BlockButtonLive
             object={@user}
             is_local_user={@is_local_user}
             type={:ghost}
