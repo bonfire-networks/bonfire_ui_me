@@ -94,7 +94,8 @@
                     aliases={@aliases}
                   />
 
-                  <Bonfire.UI.Me.ProfileBlockedIndicatorLive
+                  <StatelessComponent
+                    module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicatorLive, @__context__)}
                     object={@user}
                     user={@user}
                     is_local_user={@is_local?}

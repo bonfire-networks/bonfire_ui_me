@@ -64,9 +64,17 @@
         scope={:instance}
       />
     {#match "silenced"}
-      <Bonfire.UI.Boundaries.Web.BlocksLive id="blocks" selected_tab="silenced" />
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Boundaries.Web.BlocksLive, @__context__)}
+        id="blocks"
+        selected_tab="silenced"
+      />
     {#match "ghosted"}
-      <Bonfire.UI.Boundaries.Web.BlocksLive id="blocks" selected_tab="ghosted" />
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Boundaries.Web.BlocksLive, @__context__)}
+        id="blocks"
+        selected_tab="ghosted"
+      />
     {#match "blocks_import"}
       <StatefulComponent
         module={maybe_component(Bonfire.UI.Social.Graph.ImportLive, @__context__)}
@@ -111,9 +119,13 @@
       <Bonfire.UI.Me.SettingsViewsLive.InstancesLive id="remote_instances" />
 
       {!-- {#match "instance_silenced"}
-      <Bonfire.UI.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="silenced" name={l "Ghosted instance-wide"} />
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Boundaries.Web.BlocksLive, @__context__)}
+        scope={:instance_wide} id="blocks" selected_tab="silenced" name={l "Ghosted instance-wide"} />
     {#match "instance_ghosted"}
-      <Bonfire.UI.Boundaries.Web.BlocksLive scope={:instance_wide} id="blocks" selected_tab="ghosted" name={l "Silenced instance-wide"} /> --}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Boundaries.Web.BlocksLive, @__context__)}
+        scope={:instance_wide} id="blocks" selected_tab="ghosted" name={l "Silenced instance-wide"} /> --}
     {#match "shared_user"}
       <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
         current_user={current_user(@__context__) |> repo().maybe_preload(:shared_user)}
