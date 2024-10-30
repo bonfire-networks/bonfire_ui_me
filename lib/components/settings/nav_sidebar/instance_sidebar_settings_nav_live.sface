@@ -167,6 +167,32 @@
     <li class="border-t border-base-content/10 mt-4 pt-2">
       <details open>
         <summary class="group !px-4 !py-2">
+          <span class="text-sm font-semibold">{l("Extensions")}</span>
+        </summary>
+        <ul class="!m-0 !p-0 !mt-1">
+          <li>
+            <LinkLive
+              to={~p"/settings/instance/extensions"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10 ": @selected_tab == "extensions"
+              }
+            >
+              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
+            </LinkLive>
+          </li>
+          <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
+            page={@page}
+            selected_tab={@selected_tab}
+            scope={:instance}
+          />
+        </ul>
+      </details>
+    </li>
+
+    <li class="border-t border-base-content/10 mt-4 pt-2">
+      <details open>
+        <summary class="group !px-4 !py-2">
           <span class="text-sm font-semibold">{l("Safety")}</span>
         </summary>
         <ul class="!m-0 !p-0 !mt-1">
@@ -233,25 +259,82 @@
     <li class="border-t border-base-content/10 mt-4 pt-2">
       <details open>
         <summary class="group !px-4 !py-2">
-          <span class="text-sm font-semibold">{l("Extensions")}</span>
+          <span class="text-sm font-semibold">{l("Instance Boundaries")}</span>
         </summary>
         <ul class="!m-0 !p-0 !mt-1">
-          <li>
+          <li :if={Bonfire.Boundaries.can?(@__context__, :assign, :instance)}>
             <LinkLive
-              to={~p"/settings/instance/extensions"}
+              to={~p"/boundaries/scope/instance/circles"}
               class={
                 "!px-4 !py-2",
-                "bg-base-content/10 ": @selected_tab == "extensions"
+                "bg-base-content/10": @selected_tab == "circles"
               }
             >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
+              <span class="text-sm">{l("Instance Circles")}</span>
             </LinkLive>
           </li>
-          <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
-            page={@page}
-            selected_tab={@selected_tab}
-            scope={:instance}
-          />
+
+          <li>
+            <LinkLive
+              to={~p"/boundaries/scope/instance/roles"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10 ": @selected_tab == "roles"
+              }
+            >
+              <span class="text-sm">{l("Instance Roles")}</span>
+            </LinkLive>
+          </li>
+
+          {#if Bonfire.Boundaries.can?(@__context__, :grant, :instance)}
+            <li>
+              <LinkLive
+                to={~p"/boundaries/scope/instance/acls"}
+                class={
+                  "!px-4 !py-2",
+                  "bg-base-content/10": @selected_tab == "acls"
+                }
+              >
+                <span class="text-sm">{l("Boundary Presets")}</span>
+              </LinkLive>
+            </li>
+
+            <li>
+              <LinkLive
+                to={~p"/boundaries/scope/instance/instance_acl"}
+                class={
+                  "!px-4 !py-2",
+                  "bg-base-content/10": @selected_tab == "instance_acl"
+                }
+              >
+                <span class="text-sm">{l("Instance Permissions")}</span>
+              </LinkLive>
+            </li>
+
+            <!-- <li>
+          <LinkLive
+            to={~p"/boundaries/scope/instance/admin_circle"}
+            class={
+              "!px-4 !py-2",
+              "bg-base-content/10": @selected_tab == "admin_circle"
+            }
+          >
+            <span class="text-sm">{l("Admins list")}</span>
+          </LinkLive>
+        </li> -->
+
+            <!-- <li>
+          <LinkLive
+            to={~p"/boundaries/scope/instance/mod_circle"}
+            class={
+              "!px-4 !py-2",
+              "bg-base-content/10": @selected_tab == "mod_circle"
+            }
+          >
+            <span class="text-sm">{l("Moderators list")}</span>
+          </LinkLive>
+        </li> -->
+          {/if}
         </ul>
       </details>
     </li>

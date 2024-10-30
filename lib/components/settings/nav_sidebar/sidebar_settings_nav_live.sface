@@ -181,6 +181,17 @@
               <span class="text-sm">{l("Roles")}</span>
             </LinkLive>
           </li>
+          <li>
+            <LinkLive
+              to={~p"/boundaries/instance_roles"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "instance_roles"
+              }
+            >
+              <span class="text-sm">{l("Instance-wide roles")}</span>
+            </LinkLive>
+          </li>
         </ul>
       </details>
     </li>
