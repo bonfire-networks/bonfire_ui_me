@@ -20,7 +20,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop character_type, :atom, default: nil
   prop is_local?, :boolean, default: false
   prop follows_me, :boolean, default: false
-  prop selected_tab, :any
+  prop selected_tab, :any, default: nil
   prop block_status, :any, default: nil
   prop showing_within, :atom, default: :profile
   prop path, :string, default: "@"
@@ -54,7 +54,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
     {:ok,
      socket
      |> assign(
-       Bonfire.Boundaries.Blocks.LiveHandler.preload_one(
+       Bonfire.UI.Boundaries.Blocks.LiveHandler.preload_one(
          user,
          current_user(assigns(socket))
        )
@@ -78,6 +78,6 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   #   assigns_sockets
   # end
   # def update_many(assigns_sockets) do
-  #   Bonfire.Boundaries.Blocks.LiveHandler.update_many(assigns_sockets, caller_module: __MODULE__)
+  #   Bonfire.UI.Boundaries.Blocks.LiveHandler.update_many(assigns_sockets, caller_module: __MODULE__)
   # end
 end

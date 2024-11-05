@@ -124,7 +124,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
             [user, current_user]
           )
 
-      # situation = Bonfire.Boundaries.Blocks.LiveHandler.preload([%{__context__: assigns(socket).__context__, id: id(user), object_id: id(user), object: user, current_user: current_user}], caller_module: __MODULE__)
+      # situation = Bonfire.UI.Boundaries.Blocks.LiveHandler.preload([%{__context__: assigns(socket).__context__, id: id(user), object_id: id(user), object: user, current_user: current_user}], caller_module: __MODULE__)
       # IO.inspect(situation, label: "situation2")
       # smart_input_prompt = if current_username == e(user, :character, :username, ""), do: l( "Write something..."), else: l("Write something for ") <> e(user, :profile, :name, l("this person"))
       # smart_input_prompt = nil
@@ -138,7 +138,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       socket
       |> assign(user_assigns(user, current_user, follows_me))
       |> maybe_assign_aliases(user)
-      |> assign(Bonfire.Boundaries.Blocks.LiveHandler.preload_one(user, current_user))
+      |> assign(Bonfire.UI.Boundaries.Blocks.LiveHandler.preload_one(user, current_user))
       |> assign_new(:selected_tab, fn -> "timeline" end)
       |> assign(
         character_type: :user,
