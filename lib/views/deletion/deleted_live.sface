@@ -1,12 +1,12 @@
-<div class="m-4">
+<div class="p-4 bg-base-100 rounded-xl shadow-lg flex flex-col gap-4 justify-center items-center">
   <p>{l(
       "The %{type} has been queued for deletion. Should be done in a few minutes... So long, and thanks for all the fish!",
       type: @type || l("object")
     )}
   </p>
 
-  <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive
+  <!-- <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive
     :if={@type == "user"}
     current_account_users={@current_account_users}
-  />
+  /> -->
 </div>
