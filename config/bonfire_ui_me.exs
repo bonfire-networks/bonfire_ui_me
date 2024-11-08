@@ -1,4 +1,4 @@
 import Config
 
-config :bonfire,
+config :bonfire_common,
   localisation_path: "priv/localisation"

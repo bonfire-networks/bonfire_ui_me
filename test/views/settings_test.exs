@@ -231,7 +231,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
       assert {:ok, p1} = Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
 
-      # change the preferences to sort by replies
+      # change the preferences to enable highlighting
 
       {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
 
@@ -239,6 +239,22 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> element("form[data-scope=notification_highlight]")
       |> render_change(%{
         "Bonfire.UI.Common.BadgeCounterLive" => %{"highlight" => "true"}
+      })
+
+      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
+      # open_browser(refreshed_view)
+
+      auto_assert refreshed_view
+                  |> has_element?("div#badge_counter_notifications.bg-primary")
+
+      # change the preferences to NOT enable highlighting
+
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
+
+      view
+      |> element("form[data-scope=notification_highlight]")
+      |> render_change(%{
+        "Bonfire.UI.Common.BadgeCounterLive" => %{"highlight" => "false"}
       })
 
       {:ok, refreshed_view, _html} = live(conn, "/dashboard")
