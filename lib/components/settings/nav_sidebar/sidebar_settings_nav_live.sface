@@ -183,10 +183,10 @@
           </li>
           <li>
             <LinkLive
-              to={~p"/boundaries/instance_roles"}
+              to={~p"/boundaries/default_roles"}
               class={
                 "!px-4 !py-2",
-                "bg-base-content/10": @selected_tab == "instance_roles"
+                "bg-base-content/10": @selected_tab == "default_roles"
               }
             >
               <span class="text-sm">{l("Instance-wide roles")}</span>
