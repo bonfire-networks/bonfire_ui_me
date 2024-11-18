@@ -37,7 +37,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
         paginate: input_to_atoms(attrs)
       )
 
-    # TODO: implement `Bonfire.UI.Boundaries.Blocks.LiveHandler.update_many` so we don't do n+1 on these!
+    # TODO: implement `Bonfire.Boundaries.Blocks.LiveHandler.update_many` so we don't do n+1 on these!
     users =
       Enum.map(users, fn user ->
         user

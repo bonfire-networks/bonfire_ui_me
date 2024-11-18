@@ -47,6 +47,13 @@
         id="blocks"
         selected_tab="ghosted"
       />
+    {#match "blocks_import"}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Social.Graph.ImportLive, @__context__)}
+        selected_tab={@selected_tab}
+        type={:blocks}
+        id="import"
+      />
     {#match "shared_user"}
       <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
         current_user={current_user(@__context__) |> repo().maybe_preload(:shared_user)}

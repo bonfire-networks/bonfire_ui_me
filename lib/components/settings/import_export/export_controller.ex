@@ -5,25 +5,25 @@ defmodule Bonfire.UI.Me.ExportController do
 
   # TODO: move some of the logic to backend module(s)
 
-  def csv_download(conn, %{"type" => type} = _params) do
+  def csv_download(conn, %{"type" => type} = params) do
     conn
     |> put_resp_content_type("text/csv")
     |> put_resp_header("content-disposition", "attachment; filename=\"export_#{type}.csv\"")
     |> put_root_layout(false)
     |> send_chunked(:ok)
     # |> send_resp(200, csv_content(conn, type))
-    |> csv_content(type)
+    |> csv_content(type, scope: params["scope"])
     |> ok_unwrap()
   end
 
-  def json_download(conn, %{"type" => type} = _params) do
+  def json_download(conn, %{"type" => type} = params) do
     conn
     |> put_resp_content_type("application/json")
     |> put_resp_header("content-disposition", "attachment; filename=\"export_#{type}.json\"")
     |> put_root_layout(false)
     |> send_chunked(:ok)
     # |> send_resp(200, csv_content(conn, type))
-    |> json_content(type)
+    |> json_content(type, scope: params["scope"])
     |> ok_unwrap()
   end
 
@@ -195,7 +195,9 @@ defmodule Bonfire.UI.Me.ExportController do
     file
   end
 
-  defp json_content(conn_or_user, "outbox" = type) do
+  defp json_content(conn_or_user, type, opts \\ [])
+
+  defp json_content(conn_or_user, "outbox" = type, _opts) do
     {:ok, _conn} = maybe_chunk(conn_or_user, collection_header(type))
 
     {:ok, _conn} = outbox(conn_or_user)
@@ -203,7 +205,7 @@ defmodule Bonfire.UI.Me.ExportController do
     {:ok, _conn} = maybe_chunk(conn_or_user, collection_footer())
   end
 
-  defp json_content(conn_or_user, "actor" = _type) do
+  defp json_content(conn_or_user, "actor" = _type, _opts) do
     {:ok, _conn} = maybe_chunk(conn_or_user, actor(conn_or_user))
   end
 
@@ -236,7 +238,9 @@ defmodule Bonfire.UI.Me.ExportController do
     # |> IO.inspect(label: "outbx")
   end
 
-  defp csv_content(conn, "following" = type) do
+  defp csv_content(conn, type, opts \\ [])
+
+  defp csv_content(conn, "following" = type, _opts) do
     # ,"Show boosts","Notify on new posts","Languages"]
     fields = ["Account address"]
 
@@ -262,7 +266,7 @@ defmodule Bonfire.UI.Me.ExportController do
     # |> IO.inspect(label: "folg")
   end
 
-  defp csv_content(conn, "followers" = type) do
+  defp csv_content(conn, "followers" = type, _opts) do
     fields = ["Account address"]
 
     current_user = current_user_required!(conn)
@@ -287,7 +291,7 @@ defmodule Bonfire.UI.Me.ExportController do
     # |> IO.inspect(label: "fols")
   end
 
-  defp csv_content(conn, "requests" = type) do
+  defp csv_content(conn, "requests" = type, _opts) do
     fields = ["Account address"]
 
     current_user = current_user_required!(conn)
@@ -313,7 +317,7 @@ defmodule Bonfire.UI.Me.ExportController do
     # |> IO.inspect(label: "req")
   end
 
-  defp csv_content(conn, "posts" = type) do
+  defp csv_content(conn, "posts" = type, _opts) do
     fields = ["ID", "Date", "CW", "Summary", "Text"]
 
     current_user = current_user_required!(conn)
@@ -337,7 +341,7 @@ defmodule Bonfire.UI.Me.ExportController do
     )
   end
 
-  defp csv_content(conn, "messages" = type) do
+  defp csv_content(conn, "messages" = type, _opts) do
     fields = ["ID", "Date", "From", "To", "CW", "Summary", "Text"]
 
     current_user = current_user_required!(conn)
@@ -364,21 +368,22 @@ defmodule Bonfire.UI.Me.ExportController do
     # |> IO.inspect(label: "msgs")
   end
 
-  defp csv_content(conn, type) when type in ["silenced", "ghosted"] do
+  defp csv_content(conn, type, opts) when type in ["silenced", "ghosted"] do
     fields = ["Account address"]
     current_user = current_user_required!(conn)
-    scope = nil
 
     block_type = if type == "ghosted", do: :ghost, else: :silence
 
     {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
 
-    if scope == :instance_wide do
+    if to_string(opts[:scope]) == "instance_wide" do
       Bonfire.Boundaries.Blocks.instance_wide_circles(block_type)
+      |> List.first()
+      |> Bonfire.Boundaries.Circles.get_for_instance()
     else
-      Bonfire.Boundaries.Blocks.user_block_circles(scope || current_user, block_type)
+      Bonfire.Boundaries.Blocks.user_block_circles(current_user, block_type)
+      |> List.first()
     end
-    |> List.first()
     |> repo().maybe_preload(encircles: [subject: [:character]])
     |> e(:encircles, [])
     |> prepare_rows(type, ...)
@@ -386,7 +391,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> maybe_chunk(conn, ...)
   end
 
-  defp csv_content(conn, type) do
+  defp csv_content(conn, type, _opts) do
     IO.inspect(type, label: "type not implemented")
     conn
   end

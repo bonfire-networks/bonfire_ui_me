@@ -54,7 +54,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
     {:ok,
      socket
      |> assign(
-       Bonfire.UI.Boundaries.Blocks.LiveHandler.preload_one(
+       Bonfire.Boundaries.Blocks.LiveHandler.preload_one(
          user,
          current_user(assigns(socket))
        )
@@ -78,6 +78,6 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   #   assigns_sockets
   # end
   # def update_many(assigns_sockets) do
-  #   Bonfire.UI.Boundaries.Blocks.LiveHandler.update_many(assigns_sockets, caller_module: __MODULE__)
+  #   Bonfire.Boundaries.Blocks.LiveHandler.update_many(assigns_sockets, caller_module: __MODULE__)
   # end
 end

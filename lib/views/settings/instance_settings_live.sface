@@ -79,8 +79,16 @@
       <StatefulComponent
         module={maybe_component(Bonfire.UI.Social.Graph.ImportLive, @__context__)}
         selected_tab={@selected_tab}
+        type={:blocks}
         scope={:instance_wide}
         id="import"
+      />
+    {#match "blocks_export"}
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Me.SettingsViewsLive.InstanceExportLive, @__context__)}
+        selected_tab={@selected_tab}
+        scope={:instance_wide}
+        id="export"
       />
     {#match "terms"}
       <Bonfire.UI.Me.SettingsViewsLive.TermsLive selected_tab={@selected_tab} />

@@ -136,6 +136,21 @@
               <span class="text-sm">{l("Silenced")}</span>
             </LinkLive>
           </li>
+
+          <li>
+            <LinkLive
+              to={~p"/settings/user/blocks_import"}
+              class={
+                "!px-4 !py-2",
+                "bg-base-content/10": @selected_tab == "blocks_import"
+              }
+            >
+              <span class={
+                "text-sm text-base-content/80 font-normal",
+                "text-base-content": @selected_tab == "blocks_import"
+              }>{l("Import block lists")}</span>
+            </LinkLive>
+          </li>
         </ul>
       </details>
     </li>
