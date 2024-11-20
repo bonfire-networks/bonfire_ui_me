@@ -247,7 +247,7 @@
               }
             >
               <span class={
-                "text-sm text-base-content/80 font-normal",
+                "text-sm",
                 "text-base-content": @selected_tab == "blocks_import"
               }>{l("Import block lists")}</span>
             </LinkLive>
