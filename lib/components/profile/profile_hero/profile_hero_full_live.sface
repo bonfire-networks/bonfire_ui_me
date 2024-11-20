@@ -106,7 +106,7 @@
                     silenced?={@silenced?}
                   />
                 </div>
-                <div class="w-full flex items-center gap-3 mb-2">
+                <div class="w-full flex items-center gap-3 mb-2" data-id="profile_main_actions">
                   {#if current_user_id(@__context__) == id(@user)}
                     <div />
                   {#else}
