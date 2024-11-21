@@ -2,20 +2,14 @@
 
 <StatelessComponent module={maybe_component(Bonfire.UI.Social.Graph.EditAliasesLive, @__context__)} />
 
-<div x-data="{open: false}" class="p-4 border-t border-base-content/10">
-  <div x-on:click="open = !open" class="flex items-center gap-4 justify-between cursor-pointer">
+<div class="p-4 border-t border-base-content/10">
+  <div class="flex items-center gap-4 justify-between cursor-pointer">
     <div class="flex flex-col gap-1">
       <div class="text-error font-bold">{l("Delete User & Data")}</div>
       <div class="text-sm font-light text-base-content/70">{l("Delete all the data associated with this user profile")}</div>
     </div>
-    <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-      <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-    </button>
-    <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-      <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-    </button>
   </div>
-  <div x-show="open" x-cloak x-collapse>
+  <div>
     <div class="p-4 mt-4 mb-0 rounded-md bg-info/10">
       <div class="flex">
         <div class="flex-shrink-0">
@@ -26,7 +20,7 @@
             <p>{l(
                 "Deleting your user will remove all associated data from this server. This includes all posts, comments, and any other data associated with this user profile."
               )}</p>
-            <p>Note: You can also delete <LinkLive to="/settings/account">your entire account</LinkLive> and all associated users instead.</p>
+            <p>Note: You can also delete <LinkLive class="text-info underline" to="/settings/account">your entire account</LinkLive> and all associated users instead.</p>
             <p>{l("This action cannot be undone.")}</p>
             <p>{l("If you are sure you want to delete your user, please enter your password below to confirm.")}</p>
           </div>
