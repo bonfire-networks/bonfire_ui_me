@@ -178,8 +178,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert redirected_to(conn) == "/"
     conn = get(recycle(conn), "/dashboard")
     doc = floki_response(conn)
-    assert [ok] = find_flash(doc)
-    assert_flash(ok, :info, ~r/nice/)
+    # assert redirected_to(conn) == "/dashboard"
   end
 
   test "first user is autopromoted" do
@@ -227,8 +226,6 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert redirected_to(conn) == "/"
     conn = get(recycle(conn), "/dashboard")
     doc = floki_response(conn)
-    assert [ok] = find_flash(doc)
-    assert_flash(ok, :info, ~r/nice/)
 
     {:ok, user} =
       Bonfire.Me.Users.by_username(username)

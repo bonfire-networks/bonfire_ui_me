@@ -155,9 +155,11 @@
 
       <div class="mt-6">
         <span class="block w-full rounded-md shadow-sm">
-          <button type="submit" class="flex w-full normal-case btn btn-primary place-content-center">
-            {l("Sign up")}
-          </button>
+          <button
+            data-role="signup_submit"
+            type="submit"
+            class="flex w-full normal-case btn btn-primary place-content-center"
+          >{l("Sign up")}</button>
         </span>
       </div>
 

@@ -78,7 +78,7 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       assert get_session(conn, :current_user_id) == user.id
       doc = floki_response(conn)
       # debug(doc)
-      [a] = Floki.find(doc, "[role='feed']")
+      [a] = Floki.find(doc, "[data-id='user_dashboard']")
       # assert [info] = find_flash(doc)
       # assert_flash(info, :info, "Welcome back, tester!")
     end

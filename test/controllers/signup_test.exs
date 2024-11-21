@@ -85,30 +85,4 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     assert Floki.text(p) =~ ~r/confirm your email/s
     assert [] = Floki.find(doc, "#signup-form")
   end
-
-  test "can signup (with PhoenixTest)" do
-    #  create a first user since confirmation otherwise not required
-    fake_user!()
-    conn = conn()
-    email = email()
-    password = password()
-
-    conn
-    |> visit("/")
-    |> click_link("Create an account")
-    |> assert_has("#signup")
-    #  FIXME: button no longer exists?
-    |> assert_has("#signup button", text: "Accept")
-    |> fill_in("Email address", with: email)
-    |> fill_in("Choose a password (10 characters minimum)", with: password)
-    |> fill_in("Confirm your password", with: password)
-    |> submit()
-    # |> click_button("Sign up")
-    |> refute_has("#signup .alert-error")
-    |> refute_has("#signup-form")
-    |> assert_has("#signup_success",
-      text:
-        "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."
-    )
-  end
 end

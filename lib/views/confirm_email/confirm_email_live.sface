@@ -15,7 +15,7 @@
   {/if}
 
   {#if @error}
-    <div class="alert alert-error">
+    <div data-role="token_error" class="alert alert-error">
       {#case @error}
         {#match :not_found}
           <label>{l("Invalid confirmation link. Please request a new one below.")}</label>
