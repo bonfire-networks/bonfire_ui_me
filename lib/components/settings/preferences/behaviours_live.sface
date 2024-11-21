@@ -28,7 +28,9 @@
     </div>
 
     <form data-scope="set_font" name="settings" phx-change="Bonfire.Common.Settings:set">
+      <label for="set_font" class="sr-only">{l("Set font")}</label>
       <Bonfire.UI.Common.SettingsSelectLive
+        id="set_font"
         name={l("Font")}
         description={l("Select the default font for the interface")}
         keys={[:ui, :font_family]}

@@ -5,21 +5,27 @@
       {#match {avatar_url, banner_url}}
         {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
           {#match color}
-            {#if Settings.get([Bonfire.UI.Me.ProfileHeroFullLive, :background], false, @__context__) or
-                @character_type != :user}
-              <div
-                data-id="hero_background"
-                class={
-                  "relative rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-4",
-                  "bg-base-200 h-[140px] md:h-[200px]": !color,
-                  "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
-                }
-                style={if not is_binary(color),
-                  do: "background-image: url('#{banner_url}')",
-                  else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
-              >
-              </div>
-            {/if}
+            <!-- {#if Settings.get([Bonfire.UI.Me.ProfileHeroFullLive, :background], false, @__context__) or
+                @character_type != :user} -->
+            <div
+              data-id="hero_background"
+              class={
+                "relative rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-4",
+                "bg-base-200 h-[140px] md:h-[200px]": !color,
+                "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
+              }
+              style={if not is_binary(color),
+                do: "background-image: url('#{banner_url}')",
+                else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
+            >
+              {#if @follows_me}
+                <p
+                  data-role="follows_you"
+                  class="absolute right-3 bottom-3 px-3 p-1 rounded-lg bg-neutral/70 backdrop-blur-sm text-neutral-content text-sm"
+                >{"Follows you"}</p>
+              {/if}
+            </div>
+            <!-- {/if} -->
 
             <div data-id="hero_data" class="px-4">
               <div class="w-full gap-2">

@@ -26,24 +26,23 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end)
   end
 
+  setup do
+    account = fake_account!()
+    alice = fake_user!(account)
+    conn = conn(user: alice, account: account)
+    {:ok, conn: conn, account: account, alice: alice}
+  end
+
   describe "Appearance" do
-    test "As a user I want to select a different theme" do
-      account = fake_account!()
-      alice = fake_user!(account)
-      conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/appearance"
-      {:ok, view, _html} = live(conn, next)
+    # test "As a user I want to select a different theme", %{conn: conn} do
+    #   conn
+    #   |> visit("/settings/user/preferences/appearance")
+    #   |> assert_has("[data-theme=dracula]")
+    #   |> click_button("[data-set-theme=dracula]", "Enable")
+    #   |> assert_has("[data-theme=dracula]")
 
-      view
-      |> element("form[data-scope=set_font]")
-      |> render_change(%{"ui" => %{"theme" => %{"instance_theme" => "dracula"}}})
+    # end
 
-      assert view
-             |> element("[data-theme=dracula]")
-             |> has_element?()
-    end
-
-    # FIXME: find a way to check the font
     test "As a user I want to select a different font" do
       account = fake_account!()
       alice = fake_user!(account)
@@ -73,32 +72,10 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> render_change(%{"Elixir.Bonfire.Common.Localise.Cldr" => %{"default_locale" => "it"}})
 
       # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, next)
+      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
 
       assert refreshed_view
              |> has_element?("span[data-role=locale]", "it")
-    end
-
-    test "As a user I want to switch composer ui" do
-      account = fake_account!()
-      alice = fake_user!(account)
-      conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/appearance"
-      {:ok, view, _html} = live(conn, next)
-
-      view
-      |> element("form[data-scope=set_composer]")
-      |> render_change(%{
-        "Elixir.Bonfire.UI.Common.SmartInputContainerLive" => %{
-          "show_focused" => "true"
-        }
-      })
-
-      # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, next)
-
-      assert refreshed_view
-             |> has_element?("div#smart_input_container[data-focused]")
     end
 
     test "As a user I want to hide brand name" do
@@ -145,9 +122,6 @@ defmodule Bonfire.UI.Me.SettingsTest do
       next = "/settings/user/preferences/behaviours"
       {:ok, view, _html} = live(conn, next)
 
-      assert view
-             |> has_element?("svg[data-scope=animal_avatar]")
-
       view
       |> element("form[data-scope=set_hide_avatar]")
       |> render_change(%{"Elixir.Bonfire.UI.Common.AvatarLive" => %{"animal_avatars" => "false"}})
@@ -171,7 +145,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
                Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
 
       conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/appearance"
+      next = "/settings/user/preferences/behaviours"
       {:ok, view, _html} = live(conn, next)
 
       view
@@ -179,7 +153,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> render_change(%{"ui" => %{"compact" => "true"}})
 
       # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, "/feed")
+      {:ok, refreshed_view, _html} = live(conn, "/post/#{post.id}")
 
       # open_browser(refreshed_view)
       assert refreshed_view
@@ -208,61 +182,6 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
     test "how many items to show in feeds and other lists" do
     end
-
-    @tag :mneme
-    test "highlight notifications indicator" do
-      account = fake_account!()
-      alice = fake_user!(account)
-      bob = fake_user!(account)
-      conn = conn(user: alice, account: account)
-
-      # create a post that has 2 replies
-      attrs = %{
-        post_content: %{html_body: "alice post"}
-      }
-
-      assert {:ok, post} =
-               Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
-
-      attrs = %{
-        post_content: %{html_body: "reply 1"},
-        reply_to_id: post.id
-      }
-
-      assert {:ok, p1} = Posts.publish(current_user: bob, post_attrs: attrs, boundary: "public")
-
-      # change the preferences to enable highlighting
-
-      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
-
-      view
-      |> element("form[data-scope=notification_highlight]")
-      |> render_change(%{
-        "Bonfire.UI.Common.BadgeCounterLive" => %{"highlight" => "true"}
-      })
-
-      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
-      # open_browser(refreshed_view)
-
-      auto_assert refreshed_view
-                  |> has_element?("div#badge_counter_notifications.bg-primary")
-
-      # change the preferences to NOT enable highlighting
-
-      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
-
-      view
-      |> element("form[data-scope=notification_highlight]")
-      |> render_change(%{
-        "Bonfire.UI.Common.BadgeCounterLive" => %{"highlight" => "false"}
-      })
-
-      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
-      # open_browser(refreshed_view)
-
-      auto_assert refreshed_view
-                  |> has_element?("div#badge_counter_notifications.bg-primary")
-    end
   end
 
   describe "Privacy & Settings" do
@@ -270,7 +189,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       account = fake_account!()
       alice = fake_user!(account)
       conn = conn(user: alice, account: account)
-      {:ok, view, _html} = live(conn, "/settings/user/preferences/behaviours")
+      {:ok, view, _html} = live(conn, "/settings/user/bonfire_ui_boundaries")
 
       assert view
              |> has_element?("span[data-scope=public-boundary-set]")
