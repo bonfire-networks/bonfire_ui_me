@@ -11,7 +11,7 @@
               data-id="hero_background"
               class={
                 "relative rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-4",
-                "bg-base-200 h-[140px] md:h-[200px]": !color,
+                "bg-base-200 h-[140px] md:h-[220px]": !color,
                 "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
               }
               style={if not is_binary(color),
@@ -29,20 +29,15 @@
 
             <div data-id="hero_data" class="px-4">
               <div class="w-full gap-2">
-                <div class="flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-4">
+                <div class="flex flex-col lg:flex-row lg:items-start gap-2 lg:gap-4">
                   {#if @character_type == :user and
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
-                    <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
-                      <Bonfire.UI.Common.AvatarLive
-                        parent_id="profile-hero"
-                        class="inline-block object-cover w-[95px] h-[95px]  md:mx-0 rounded-full"
-                        user_id={id(@user)}
-                        src={avatar_url}
-                      />
-                      {!-- 
-                    NOTE: avoid putting a bg or border on the avatar, so alpha bg ones are displayed correctly
-                    bg-base-100 border-4 border-base-100 ring-2 ring-base-300 fill-base-200 --}
-                    </LinkPatchLive>
+                    <Bonfire.UI.Common.AvatarLive
+                      parent_id="profile-hero"
+                      class="inline-block object-cover w-[128ox] h-[128px] md:mx-0 rounded-full -mt-[68px] border-4 border-base-100"
+                      user_id={id(@user)}
+                      src={avatar_url}
+                    />
                   {/if}
                   <div class="flex flex-col flex-1">
                     <div class="flex justify-between">
