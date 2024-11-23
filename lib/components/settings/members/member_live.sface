@@ -75,7 +75,7 @@
               parent_id="members"
               type={:block}
               hide_icon
-              open_btn_wrapper_class="w-full"
+              open_btn_wrapper_class="w-full text-left"
               label={e(@user, :profile, :name, l("this user"))}
               open_btn_label={if e(@user, :ghosted_instance_wide?, nil) && e(@user, :silenced_instance_wide?, nil) do
                 if @is_local_user, do: l("Re-enable"), else: l("Unblock")
