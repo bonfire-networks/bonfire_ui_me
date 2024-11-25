@@ -12,6 +12,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordLive do
      |> assign(:page, l("Forgot password"))
      |> assign(:page_title, l("Forgot password"))
      |> assign(:without_sidebar, true)
+     |> assign(:no_header, true)
      |> assign(:without_secondary_widgets, true)
      |> assign(:form, ForgotPasswordController.form())
      |> assign(:error, session["error"])

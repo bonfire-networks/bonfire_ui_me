@@ -12,6 +12,7 @@ defmodule Bonfire.UI.Me.SignupLive do
      |> assign_global(:current_url, "/signup")
      |> assign(:page, l("signup"))
      |> assign(:page_title, l("Sign up"))
+     |> assign_new(:no_header, fn -> true end)
      |> assign(:invite, e(session, "invite", nil))
      |> assign(:registered, e(session, "registered", nil))
      |> assign_new(:without_sidebar, fn -> true end)
