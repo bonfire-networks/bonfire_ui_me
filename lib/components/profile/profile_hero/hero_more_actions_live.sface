@@ -168,7 +168,8 @@
         </li>
 
         {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
-        <Bonfire.UI.Boundaries.Web.BlockMenuButtonsLive
+        <StatelessComponent
+          module={maybe_component(Bonfire.UI.Boundaries.Web.BlockMenuButtonsLive, @__context__)}
           parent_id="profile_hero"
           object={@user}
           permalink={@permalink}
