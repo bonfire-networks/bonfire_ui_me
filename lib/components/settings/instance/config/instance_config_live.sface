@@ -128,8 +128,8 @@
               name={l("Enable federation?")}
               keys={[:activity_pub, :instance, :federating]}
               options={%{
-                "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
-                "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+                "true" => l("Automatic: Push activities to the fediverse and accept remote activities"),
+                "nil" => l("Manual: Enable looking up usernames and fetching individual posts or activities"),
                 "false" => l("Fully disabled")
               }}
               scope={:instance}
@@ -151,7 +151,7 @@
             scope={:instance}
           />
           <div class="flex flex-col gap-2 p-4">
-            <span class="font-medium text-sm">{l("How can see the list of local users?")}</span>
+            <span class="font-medium text-sm">{l("Who can see the list of local users?")}</span>
             <Bonfire.UI.Common.SettingsRadiosLive
               keys={[Bonfire.UI.Me.UsersDirectoryLive, :show_to]}
               options={[guests: l("Guests"), users: l("Users"), admins: l("Admins")]}
@@ -211,7 +211,7 @@
         {!-- MAX AMOUNT OF FILES ONE CAN ATTACH TO A POST OR OTHER ACTIVITIES --}
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
-          name={l("Maximum amount of files one can attach to a post or other activity")}
+          name={l("Maximum number of files one can attach to a post or other activity")}
           keys={[Bonfire.UI.Common.SmartInputLive, :max_uploads]}
           unit={l("items")}
           default_value={4}
