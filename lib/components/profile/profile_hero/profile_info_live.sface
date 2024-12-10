@@ -6,6 +6,35 @@
       <div :if={@character_type == :user} class="w-full leading-6 prose md:prose-sm prose-p:pt-2">
         {rich(e(@user, :profile, :summary, nil), sanitize: true, skip_markdown: !@is_local?)}
       </div>
+   <div
+  :if={@character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
+  class="flex items-center gap-3"
+>
+  <LinkPatchLive
+    class="flex items-center gap-1"
+    to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
+  >
+    <span class="text-sm hover:underline font-semibold">
+      {l("Following")}
+    </span>
+    <span :if={e(@user, :following_count, nil)} class="text-xs text-base-content/50">
+      {e(@user, :following_count, 0)}
+    </span>
+  </LinkPatchLive>
+  <span>·</span>
+  <LinkPatchLive
+    class="flex items-center gap-1"
+    to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
+  >
+    <span class="text-sm hover:underline font-semibold">
+      {l("Followers")}
+    </span>
+    <span :if={e(@user, :followers_count, nil)} class="text-xs text-base-content/50">
+      {e(@user, :followers_count, 0)}
+    </span>
+  </LinkPatchLive>
+</div>
+      
 
       <div class="flex flex-col rounded-lg bg-base-content/5 divide-y divide-base-content/10">
         <Bonfire.UI.Me.ProfileLinksLive user={@user} aliases={@aliases} />
@@ -18,27 +47,7 @@
       />
     </div>
 
-    {!-- <div
-    :if={@character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
-    class="flex items-center gap-6"
-  >
-    <LinkPatchLive
-      class="flex items-center"
-      to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
-    >
-      <span class="text-sm text-base-content/70 font-medium">
-        {l("Followed")}
-      </span>
-    </LinkPatchLive>
-    <LinkPatchLive
-      class="flex items-center"
-      to={"/" <> @path <> e(@user, :character, :username, "") <> "/followers"}
-    >
-      <span class="text-sm text-base-content/70 font-medium">
-        {l("Followers")}
-      </span>
-    </LinkPatchLive>
-  </div> --}
+    
   </div>
 
   <div :if={@character_type == :user} class="flex items-center w-full space-x-4">
