@@ -86,7 +86,7 @@ defmodule Bonfire.UI.Me.LoginController do
 
   def paint(conn, changeset \\ form_cs()) do
     conn
-    |> assign(:form, changeset)
+    |> assign(:form, to_form(changeset))
     |> live_render(LoginLive)
   end
 end

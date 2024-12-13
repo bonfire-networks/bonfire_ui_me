@@ -1,6 +1,11 @@
 <div class="w-full p-4 mx-auto rounded-box shadow-lg bg-base-100 border border-base-content/10">
-  <Form for={@form} action={path(:login, :create)} class="w-full md:ml-0" opts={[id: "login-form"]}>
-    <HiddenInput name={:go} value={e(@form, :changes, :go, nil)} />
+  <.simple_form
+    for={@form}
+    action={path(:login, :create)}
+    class="w-full md:ml-0"
+    opts={[id: "login-form"]}
+  >
+    <input type="hidden" name="go" value={e(@form, :changes, :go, nil)}>
     {!-- <%= hidden_input f, :go %> --}
 
     <StatelessComponent
@@ -66,28 +71,22 @@
         {!-- <% end %> --}
     {/case}
 
-    <Field name={:email_or_username}>
-      <Label class="label">
-        <span class="text-xs label-text">
-          {l("Email address or @username")}
-        </span>
-      </Label>
-      <TextInput
-        opts={placeholder: "alice@email.com"}
-        required
-        class="w-full h-10 text-sm rounded input input-bordered"
-      />
-      <ErrorTag />
-      {!-- <%= error_tag f, :email_or_username %> --}
-    </Field>
+    <.input
+      field={@form[:email_or_username]}
+      required
+      label={l("Email address or @username")}
+      placeholder="alice@email.com"
+      label_class="text-xs label-text"
+      class="w-full h-10 text-sm rounded input input-bordered"
+    />
 
-    <Field name={:password} class="mt-3">
-      <Label class="label">
+    <label class="form-control w-full max-w-xs mt-2">
+      <div class="label">
         <span class="text-xs label-text">
           {l("Password (Min 10 characters)")}
         </span>
-      </Label>
-      <div class="relative" x-data="{show: false}">
+      </div>
+      <div class="w-full max-w-xs" x-data="{show: false}">
         <input
           name="login_fields[password]"
           type="password"
@@ -111,10 +110,8 @@
           <#Icon solid="Eye" class="w-3 h-3 text-primary" />
         </div>
       </div>
-
-      <ErrorTag />
-      {!-- <%= error_tag f, :password %> --}
-    </Field>
+    </label>
+    {!-- <%= error_tag f, :password %> --}
 
     <LinkLive
       to={path(Bonfire.UI.Me.ForgotPasswordController)}
@@ -133,7 +130,7 @@
           <Inputs for={:auth_second_factor}>
             <Field name={:code} class="flex flex-col mt-2">
               <TextInput class="w-full input input-bordered" />
-              <ErrorTag />
+              
             </Field>
           </Inputs>
         </div>
@@ -154,5 +151,5 @@
           {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></LinkLive>
       </div>
     </div>
-  </Form>
+  </.simple_form>
 </div>
