@@ -15,7 +15,7 @@
               Bonfire.UI.Me.ProfileHeroFullLive
             )}
             object_id={id(@user)}
-            path={"@"}
+            path="@"
             myself={nil}
             skip_preload
             object={@user}
