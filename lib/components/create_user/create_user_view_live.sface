@@ -129,7 +129,7 @@
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <p class="text-sm text-info-content">
-              {l("Make my public content fully searchable (in Bonfire, the fediverse, and web search engines)")}</p>
+              {l("Make my content searchable (in Bonfire, the fediverse, and search engines)")}</p>
           </div>
           <input name="unindexable" value="true" type="hidden">
           <input name="unindexable" value="" type="checkbox" class="toggle toggle-info" checked="checked">

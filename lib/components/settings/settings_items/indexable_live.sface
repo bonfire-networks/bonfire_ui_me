@@ -7,18 +7,30 @@
       case @scope do
         :instance ->
           l(
-            "DO NOT make public content appear in search engines (in Bonfire, the fediverse, and the web in general) by default"
-          )
+            "DO NOT make content appear in search engines (in Bonfire, the fediverse, and the web in general) by default."
+          ) <>
+            " " <>
+            l(
+              "Please note this will only apply to content you create from the moment you change this setting."
+            )
 
         :account ->
           l(
-            "I DO NOT want my public content to appear in search engines by default (in Bonfire, the fediverse, and the web in general)"
-          )
+            "I DO NOT want my content to appear in search engines by default (in Bonfire, the fediverse, and the web in general)."
+          ) <>
+            " " <>
+            l(
+              "Please note this will only apply to content you create from the moment you change this setting."
+            )
 
         _ ->
           l(
-            "I DO NOT want my public content to appear in search engines (in Bonfire, the fediverse, and the web in general)"
-          )
+            "I DO NOT want my content to appear in search engines (in Bonfire, the fediverse, and the web in general)."
+          ) <>
+            " " <>
+            l(
+              "Please note this will only apply to content you create from the moment you change this setting."
+            )
       end}
     keys={[Bonfire.Search.Indexer, :modularity]}
     enabled_value={:disabled}
