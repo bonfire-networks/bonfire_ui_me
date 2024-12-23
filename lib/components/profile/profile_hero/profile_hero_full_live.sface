@@ -24,7 +24,6 @@
                 >{"Follows you"}</p>
               {/if}
             </div>
-            <!-- {/if} -->
 
             <div data-id="hero_data" class="px-4">
               <div class="w-full gap-2">
@@ -33,10 +32,11 @@
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"
-                      class="inline-block object-cover w-[128ox] h-[128px] md:mx-0 rounded-full -mt-[68px] border-4 border-base-100"
+                      class="inline-block object-cover w-[128ox] h-[128px] md:mx-0 rounded-lg -mt-[68px]"
                       user_id={id(@user)}
                       src={avatar_url}
                     />
+                    {!-- NOTE: removed border as it looks a bit strange when around smaller avatars, such as the generated animal ones: border-4 border-base-100 --}
                   {/if}
                   <div class="flex flex-col flex-1">
                     <div class="flex justify-between">
@@ -110,15 +110,13 @@
                   {#if current_user_id(@__context__) == id(@user)}
                     <div />
                   {#else}
-                    {#if @character_type == :user and current_user_id(@__context__)}
-                      <StatelessComponent
-                        :if={current_user(@__context__)}
-                        module={maybe_component(Bonfire.UI.Boundaries.Web.AddToCircleLive, @__context__)}
-                        user_id={id(@user)}
-                        parent_id="profile_hero"
-                        as_icon
-                      />
-                    {/if}
+                    <StatelessComponent
+                      :if={@character_type == :user and current_user_id(@__context__)}
+                      module={maybe_component(Bonfire.UI.Boundaries.Web.AddToCircleLive, @__context__)}
+                      user_id={id(@user)}
+                      parent_id="profile_hero"
+                      as_icon
+                    />
 
                     {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
                         (@ghosted? == true && @silenced? == true)}

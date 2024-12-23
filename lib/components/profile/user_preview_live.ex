@@ -10,5 +10,6 @@ defmodule Bonfire.UI.Me.UserPreviewLive do
   prop with_banner, :boolean, default: false
   prop with_summary, :boolean, default: false
   prop is_local, :boolean, required: false, default: true
+  prop class, :css_class, default: ""
   slot actions, required: false
 end
