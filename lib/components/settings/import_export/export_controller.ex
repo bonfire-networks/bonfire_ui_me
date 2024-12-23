@@ -227,7 +227,7 @@ defmodule Bonfire.UI.Me.ExportController do
     Bonfire.Social.FeedActivities.feed(feed_id,
       paginate: false,
       preload: [],
-      exclude_verbs: false,
+      exclude_activity_types: false,
       current_user: user,
       return: :stream,
       stream_callback: fn stream ->
