@@ -5,18 +5,20 @@
       {#match {avatar_url, banner_url}}
         {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
           {#match color}
-            <!-- {#if Settings.get([Bonfire.UI.Me.ProfileHeroFullLive, :background], false, @__context__) or
-                @character_type != :user} -->
+            {!-- {#if Settings.get([Bonfire.UI.Me.ProfileHeroFullLive, :background], false, @__context__) or
+                @character_type != :user} --}
             <div
               data-id="hero_background"
               class={
-                "bg-base-200 relative rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-4 h-[140px] md:h-[220px]",
-                "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
+                "bg-base-200 relative rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-4 ",
+                "h-[140px] md:h-[220px]": not is_binary(color),
+                "h-[60px]": is_binary(color)
               }
               style={if not is_binary(color),
                 do: "background-image: url('#{banner_url}')",
-                else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
+                else: "background-color: #{color}"}
             >
+              {!-- "bg-gradient-to-b" "--tw-gradient-stops: transparent, #{color} 2%, #{color} 98%, transparent" --}
               {#if @follows_me}
                 <p
                   data-role="follows_you"

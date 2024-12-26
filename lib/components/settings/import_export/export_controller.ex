@@ -465,7 +465,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
     Bonfire.Social.Activities.activity_preloads(
       records,
-      [:with_object_posts, :with_subject, :with_reply_to, :tags],
+      [:with_post_content, :with_subject, :with_reply_to, :tags],
       skip_boundary_check: true
     )
   end
