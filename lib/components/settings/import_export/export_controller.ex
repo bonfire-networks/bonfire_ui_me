@@ -228,6 +228,8 @@ defmodule Bonfire.UI.Me.ExportController do
       paginate: false,
       preload: [],
       exclude_activity_types: false,
+      exclude_object_types: false,
+      exclude_verb_ids: false,
       current_user: user,
       return: :stream,
       stream_callback: fn stream ->
