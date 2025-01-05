@@ -15,7 +15,9 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
       )
 
     if show_to ||
-         maybe_apply(Bonfire.Me.Accounts, :is_admin?, assigns(socket)[:__context__]) == true do
+         maybe_apply(Bonfire.Me.Accounts, :is_admin?, [assigns(socket)[:__context__]],
+           fallback_return: nil
+         ) == true do
       if (show_to == :guests or current_user) || current_account(socket) do
         instance =
           if instance = params["instance"] do

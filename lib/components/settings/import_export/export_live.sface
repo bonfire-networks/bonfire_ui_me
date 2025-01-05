@@ -183,7 +183,7 @@
             {l("Download your existing archive")}</a>
 
           <a
-            :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, @__context__) == true}
+            :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
             href="/settings/export/archive_delete"
             class="btn mt-4 btn-danger normal-case btn-xs"
           >

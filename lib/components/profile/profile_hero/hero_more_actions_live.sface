@@ -176,8 +176,9 @@
         />
 
         {#if !e(@user, :character, :peered, nil)}
-          {#if @character_type == :user and maybe_apply(Bonfire.Me.Accounts, :is_admin?, @__context__) == true}
-            {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
+          {#if @character_type == :user and
+              maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
+            {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
               <li phx-click="Bonfire.Me.Users:make_admin" phx-value-username_or_id={id(@user)} class="">
                 <div>
                   <button class="flex items-center gap-2 text-sm text-base-content">

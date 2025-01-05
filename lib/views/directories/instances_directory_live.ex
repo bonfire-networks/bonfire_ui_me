@@ -15,7 +15,9 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
       )
 
     if show_to ||
-         maybe_apply(Bonfire.Me.Accounts, :is_admin?, assigns(socket)[:__context__]) == true do
+         maybe_apply(Bonfire.Me.Accounts, :is_admin?, [assigns(socket)[:__context__]],
+           fallback_return: nil
+         ) == true do
       if (show_to == :guests or current_user(assigns(socket))) || current_account(socket) do
         %{edges: instances, page_info: page_info} =
           Bonfire.Federate.ActivityPub.Instances.list_paginated(input_to_atoms(params))

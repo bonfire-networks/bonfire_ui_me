@@ -19,7 +19,7 @@
     </div>
   </td>
   <td class="flex-1">
-    {#if maybe_apply(Bonfire.Me.Accounts, :is_admin?, @user) == true}
+    {#if maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
       <span class="badge badge-sm badge-success">{l("Admin")}</span>
       {!-- TODO: Moderator badge --}
     {#else}
