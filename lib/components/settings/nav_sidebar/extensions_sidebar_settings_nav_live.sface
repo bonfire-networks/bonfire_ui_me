@@ -12,7 +12,7 @@
               {#match extension_meta}
                 <li>
                   {#if not has_settings_nav?}
-                    <LinkLive to={"/settings/#{@scope}/#{extension}"} class="!text-sm !ml-0 !pl-4">{e(extension_meta, :name, nil) || extension}</LinkLive>
+                    <LinkLive to={"/settings/#{@scope}/#{extension}"} class="">{e(extension_meta, :name, nil) || extension}</LinkLive>
                   {#else}
                     <details open={@selected_tab == to_string(extension) or @id == to_string(extension)}>
                       <summary class="group !ml-0 !pl-4 !pr-4 !py-2">
@@ -24,7 +24,7 @@
                       </summary>
                       <ul class="ml-4 !p-0 !mt-1">
                         <li :if={has_settings_components?}>
-                          <LinkLive class="!px-4 !py-2 !text-sm" to={"/settings/#{@scope}/#{extension}"}>{l("Extension Settings")}</LinkLive>
+                          <LinkLive class="!text-sm" to={"/settings/#{@scope}/#{extension}"}>{l("Extension Settings")}</LinkLive>
                         </li>
                         <li :for={%{} = subnav <- List.wrap(extension_nav)}>
                           <Bonfire.UI.Common.WidgetLive

@@ -15,7 +15,7 @@
                 "h-[60px]": is_binary(color)
               }
               style={if not is_binary(color),
-                do: "background-image: url('#{banner_url}')",
+                do: "background: url('#{banner_url}')",
                 else: "background-color: #{color}"}
             >
               {!-- "bg-gradient-to-b" "--tw-gradient-stops: transparent, #{color} 2%, #{color} 98%, transparent" --}
@@ -108,7 +108,7 @@
                     silenced?={@silenced?}
                   />
                 </div>
-                <div class="w-full flex items-center gap-3 mb-2" data-id="profile_main_actions">
+                <div class="w-full flex items-center gap-3 pb-2" data-id="profile_main_actions">
                   {#if current_user_id(@__context__) == id(@user)}
                     <div />
                   {#else}

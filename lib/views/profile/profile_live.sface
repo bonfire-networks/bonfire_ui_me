@@ -31,7 +31,7 @@
             follows_me={@follows_me || false}
             character_type={@character_type}
           />
-          <Bonfire.UI.Common.TabsLive
+          <!-- <Bonfire.UI.Common.TabsLive
             :if={!@hide_tabs}
             class="px-0 flex justify-between w-full tabs"
             tab_class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center lined_tab"
@@ -43,7 +43,7 @@
             tabs={if @character_type == :user,
               do: Config.get([:ui, :profile, :navigation], nil: [{:timeline, l("Timeline")}]),
               else: Config.get([:ui, :group, :profile, :navigation], nil: [{:timeline, l("Timeline")}])}
-          />
+          /> -->
         </div>
       </:header>
     </StatelessComponent>

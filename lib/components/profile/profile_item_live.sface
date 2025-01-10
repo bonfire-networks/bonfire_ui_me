@@ -1,10 +1,7 @@
 <div class={@wrapper_class}>
-  <div
-    data-trigger="hover"
-    data-position="top-start"
-    phx-hook={if @with_popover, do: "Tooltip"}
-    id={if @with_popover, do: "profile_item_tooltip_#{@parent_id}_#{id(@profile)}"}
-  >
+  <!-- id={if @with_popover, do: "profile_item_tooltip_#{@parent_id}_#{id(@profile)}"} -->
+  <!-- phx-hook={if @with_popover, do: "Tooltip"} -->
+  <div data-trigger="hover" data-position="top-start">
     <div
       class="tooltip-button flex items-start gap-2 profile-item group"
       tabindex="0"
