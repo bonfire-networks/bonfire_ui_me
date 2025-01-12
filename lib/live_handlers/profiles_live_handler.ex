@@ -109,7 +109,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     # show remote users only to logged in users
     if user_id &&
          (current_user_id || is_local? ||
-            user_id == Bonfire.Me.Users.remote_fetcher_id()) do
+            user_id ==
+              maybe_apply(Bonfire.Federate.ActivityPub.AdapterUtils, :service_character_id, [])) do
       # debug(
       #   Bonfire.Boundaries.Controlleds.list_on_object(user),
       #   "boundaries on user profile"

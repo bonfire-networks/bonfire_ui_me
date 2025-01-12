@@ -55,7 +55,8 @@ defmodule Bonfire.UI.Me.CharacterLive do
          )}
       else
         if not is_nil(id(current_user)) or Integration.is_local?(user_etc) or
-             id(user_etc) == Bonfire.Me.Users.remote_fetcher_id() do
+             id(user_etc) ==
+               maybe_apply(Bonfire.Federate.ActivityPub.AdapterUtils, :service_character_id, []) do
           debug("show profile locally")
 
           redirect_to_path =
