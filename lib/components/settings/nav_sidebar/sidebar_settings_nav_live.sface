@@ -51,6 +51,17 @@
           <span class="text-sm">{l("Configure Dashboard")}</span>
         </LinkPatchLive>
       </li>
+      <li>
+        <LinkPatchLive
+          to={~p"/settings/user/feeds"}
+          class={
+            " ",
+            "bg-base-content/10 ": @selected_tab == "feeds"
+          }
+        >
+          <span class="text-sm">{l("Configure Feeds")}</span>
+        </LinkPatchLive>
+      </li>
 
       <li module={maybe_component(Bonfire.Data.SharedUser, @__context__) &&
         Settings.get(:experimental_features_enabled, false, @__context__)}>

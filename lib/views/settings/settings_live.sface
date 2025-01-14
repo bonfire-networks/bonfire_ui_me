@@ -16,6 +16,13 @@
         id={@id}
         scope={@scope}
       />
+   
+    {#match "feeds"}
+      <Bonfire.UI.Me.SettingsViewsLive.FeedsLive
+        selected_tab={@selected_tab}
+        id={@id}
+        scope={@scope}
+      />
     {#match "account"}
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
     {#match "import"}
