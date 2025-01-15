@@ -14,7 +14,7 @@
             "bg-base-content/10 ": @selected_tab == "profile"
           }
         >
-          <span class="text-sm">{l("Profile")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Profile")}</span>
         </LinkLive>
       </li>
       <li>
@@ -25,7 +25,7 @@
             "bg-base-content/10 ": @selected_tab == "account"
           }
         >
-          <span class="text-sm">{l("Account")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Account")}</span>
         </LinkLive>
       </li>
       <li>
@@ -36,7 +36,7 @@
             "bg-base-content/10 ": @id == "behaviours"
           }
         >
-          <span class="text-sm">{l("Preferences")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Preferences")}</span>
         </LinkLive>
       </li>
 
@@ -48,7 +48,7 @@
             "bg-base-content/10 ": @selected_tab == "dashboard"
           }
         >
-          <span class="text-sm">{l("Configure Dashboard")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Configure Dashboard")}</span>
         </LinkPatchLive>
       </li>
       <li>
@@ -59,7 +59,8 @@
             "bg-base-content/10 ": @selected_tab == "feeds"
           }
         >
-          <span class="text-sm">{l("Configure Feeds")}</span>
+        
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Configure Feeds")}</span>
         </LinkPatchLive>
       </li>
 
@@ -72,7 +73,7 @@
             "bg-base-content/10 ": @selected_tab == "shared_user"
           }
         >
-          <span class="text-sm">{l("Team Profiles")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Team Profiles")}</span>
         </LinkLive>
       </li>
     </ul>
@@ -93,7 +94,7 @@
             "bg-base-content/10 ": @selected_tab == "extensions"
           }
         >
-          <span class="text-sm">{l("Configure Extensions")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Configure Extensions")}</span>
         </LinkLive>
       </li>
       <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
@@ -119,7 +120,7 @@
             "bg-base-content/10 ": @selected_tab == "flags"
           }
         >
-          <span class="text-sm">{l("My Flags")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("My Flags")}</span>
         </LinkLive>
       </li>
 
@@ -132,7 +133,7 @@
           }
         >
           <div class="flex flex-col">
-            <span class="text-sm">{l("Ghosted")}</span>
+            <span class="text-sm flex-1 h-auto p-2 py-1">{l("Ghosted")}</span>
           </div>
         </LinkLive>
       </li>
@@ -144,7 +145,7 @@
             "bg-base-content/10": @selected_tab == "silenced"
           }
         >
-          <span class="text-sm">{l("Silenced")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Silenced")}</span>
         </LinkLive>
       </li>
 
@@ -181,7 +182,7 @@
           }
         >
           <div class="flex flex-col">
-            <span class="text-sm">{l("Circles")}</span>
+            <span class="text-sm flex-1 h-auto p-2 py-1">{l("Circles")}</span>
           </div>
         </LinkLive>
       </li>
@@ -193,7 +194,7 @@
             "bg-base-content/10": @selected_tab == "acls"
           }
         >
-          <span class="text-sm">{l("Boundary presets")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Boundary presets")}</span>
         </LinkLive>
       </li>
       <li>
@@ -204,7 +205,7 @@
             "bg-base-content/10": @selected_tab == "roles"
           }
         >
-          <span class="text-sm">{l("Roles")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Roles")}</span>
         </LinkLive>
       </li>
       <li>
@@ -215,7 +216,7 @@
             "bg-base-content/10": @selected_tab == "default_roles"
           }
         >
-          <span class="text-sm">{l("Instance-wide roles")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Instance-wide roles")}</span>
         </LinkLive>
       </li>
     </ul>
@@ -236,7 +237,7 @@
             "bg-base-content/10 ": @selected_tab == "import"
           }
         >
-          <span class="text-sm">{l("Import")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Import")}</span>
         </LinkLive>
       </li>
       <li>
@@ -247,7 +248,7 @@
             "bg-base-content/10 ": @selected_tab == "export"
           }
         >
-          <span class="text-sm">{l("Export")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Export")}</span>
         </LinkLive>
       </li>
     </ul>
@@ -268,7 +269,7 @@
             "bg-base-content/10": @selected_tab == "emojis"
           }
         >
-          <span class="text-sm">{l("Custom emoji")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Custom emoji")}</span>
         </LinkPatchLive>
       </li>
 
@@ -280,7 +281,7 @@
             "bg-base-content/10": @selected_tab == "code"
           }
         >
-          <span class="text-sm">{l("Libraries & Licences")}</span>
+          <span class="text-sm flex-1 h-auto p-2 py-1">{l("Libraries & Licences")}</span>
         </LinkPatchLive>
       </li>
     </ul>
