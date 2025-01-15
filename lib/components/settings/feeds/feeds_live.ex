@@ -12,9 +12,9 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.FeedsLive do
          Bonfire.Boundaries.can?(assigns[:__context__], :configure, :instance) != true do
       raise Bonfire.Fail, :unauthorized
     else
-      presets = 
+      presets =
         Bonfire.Common.Config.get([Bonfire.Social.Feeds, :feed_presets], [])
-        |> Enum.map(fn {id, preset} -> 
+        |> Enum.map(fn {id, preset} ->
           Map.put(preset, :id, id)
         end)
 
@@ -33,11 +33,6 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.FeedsLive do
 
   def handle_event("delete_preset", %{"id" => preset_id}, socket) do
     # TODO: Implement delete preset functionality
-    {:noreply, socket}
-  end
-
-  def handle_event("reorder_widget", %{"source_order" => source_order, "target_order" => target_order, "source_item" => source_item, "position" => position}, socket) do
-    # TODO: Implement reorder preset functionality
     {:noreply, socket}
   end
 end

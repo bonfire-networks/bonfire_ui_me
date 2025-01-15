@@ -1,27 +1,30 @@
 <div class="flex flex-col gap-6 p-4">
   <div class="flex flex-col gap-1">
-      <div class="text-xl font-semibold">{l "Feed Settings"}</div>
-    <div class="text-base-content/70">{l "Configure your feed preferences and presets."}</div>
+    <div class="text-xl font-semibold">{l("Feed Settings")}</div>
+    <div class="text-base-content/70">{l("Configure your feed preferences and presets.")}</div>
   </div>
 
   <div class="flex flex-col gap-2">
     <div class="flex flex-col gap-1">
-      <div class="text-xs uppercase text-base-content/70 font-semibold">{l "Feed Presets"}</div>
-      <div class="text-sm text-base-content/70">{l "Your saved feed configurations."}</div>
+      <div class="text-xs uppercase text-base-content/70 font-semibold">{l("Feed Presets")}</div>
+      <div class="text-sm text-base-content/70">{l("Your saved feed configurations.")}</div>
     </div>
 
     <ul
       data-widget-draggable
       id="draggable_menu"
-      phx-hook="Draggable" 
-      class="menu bg-base-100 rounded-lg border border-base-content/20">
+      phx-hook="Draggable"
+      data-event="Bonfire.Common.Settings:reorder_widget"
+      class="menu bg-base-100 rounded-lg border border-base-content/20"
+    >
       {#for {preset, index} <- Enum.with_index(@presets || [])}
-        <li 
+        <li
           data-sortable-item
           data-sortable-handler
           data-order={index}
           data-item={preset.id}
-          class="relative border-b py-2 last:border-b-0 border-base-content/20">
+          class="relative border-b py-2 last:border-b-0 border-base-content/20"
+        >
           <div class="flex items-center justify-between p-4">
             <div class="flex items-center gap-3">
               <div class="flex flex-col">
@@ -29,7 +32,7 @@
                 <div class="text-sm text-base-content/70">{preset.description}</div>
                 <div class="text-xs text-base-content/50 mt-1 flex gap-2 flex-wrap">
                   {#if preset[:current_user_required]}
-                    <span class="badge badge-sm">{l "Requires login"}</span>
+                    <span class="badge badge-sm">{l("Requires login")}</span>
                   {/if}
                   {#if preset.filters[:feed_name]}
                     <span class="badge badge-sm badge-outline">{preset.filters.feed_name}</span>
@@ -44,18 +47,16 @@
               </div>
             </div>
             <div class="flex items-center gap-2">
-              <button 
-                phx-click="edit_preset"
-                phx-value-id={preset.id}
-                class="btn btn-sm btn-outline">
-                {l "Edit"}
+              <button phx-click="edit_preset" phx-value-id={preset.id} class="btn btn-sm btn-outline">
+                {l("Edit")}
               </button>
-              <button 
+              <button
                 phx-click="delete_preset"
                 phx-value-id={preset.id}
-                class="btn btn-sm btn-ghost text-error">
+                class="btn btn-sm btn-ghost text-error"
+              >
                 <#Icon iconify="ph:trash-bold" class="w-4 h-4" />
-                <span class="sr-only">{l "Delete"}</span>
+                <span class="sr-only">{l("Delete")}</span>
               </button>
             </div>
           </div>
