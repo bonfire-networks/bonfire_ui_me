@@ -3,7 +3,7 @@
     <form name="settings" phx-submit="Bonfire.Common.Settings:save">
       <input name="scope" value={:instance} type="hidden">
 
-      <div class="alert alert-info" role="alert">
+      <div class="alert alert-info alert-soft" role="alert">
         <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
         <span class="">{l(
             "Protip: instead of text you can paste the URL of a remote markdown-formated document, and its contents will be pulled in."

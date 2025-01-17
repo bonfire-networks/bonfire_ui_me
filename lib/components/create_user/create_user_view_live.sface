@@ -97,7 +97,7 @@
         </Inputs>
       </div>
 
-      <div class="p-4 my-6 rounded-md bg-info">
+      <div class="alert alert-info alert-soft my-6">
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <p class="text-sm text-info-content">
@@ -108,7 +108,7 @@
         </div>
       </div>
 
-      <div class="p-4 my-6 rounded-md bg-info">
+      <div class="alert alert-info alert-soft my-6">
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <p class="text-sm text-info-content">
@@ -125,7 +125,7 @@
         </div>
       </div>
 
-      <div class="p-4 my-6 rounded-md bg-info">
+      <div class="alert alert-info alert-soft my-6">
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <p class="text-sm text-info-content">

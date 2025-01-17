@@ -86,13 +86,13 @@
       class="w-full h-10 text-sm rounded input input-bordered"
     />
 
-    <label class="form-control w-full max-w-xs mt-2">
+    <label class="form-control w-full mt-2">
       <div class="label">
         <span class="text-xs label-text">
           {l("Password (Min 10 characters)")}
         </span>
       </div>
-      <div class="w-full max-w-xs" x-data="{show: false}">
+      <div class="w-full relative" x-data="{show: false}">
         <input
           name="login_fields[password]"
           type="password"

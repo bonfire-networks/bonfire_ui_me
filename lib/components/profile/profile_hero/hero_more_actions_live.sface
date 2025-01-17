@@ -2,21 +2,21 @@
   {#if current_user_id(@__context__) == id(@user)}
     <LinkLive
       to={~p"/settings/user/profile"}
-      class="btn hidden lg:flex btn-sm btn-outline btn-circle"
+      class="btn hidden lg:flex btn-sm btn-soft btn-secondary btn-circle"
     >
       <#Icon iconify="ph:gear" class="w-4 h-4" />
       <span class="sr-only">{l("Edit profile")}</span>
     </LinkLive>
 
     <div aria-haspopup="true" class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-sm btn-circle btn-outline">
+      <label tabindex="0" class="btn btn-sm btn-circle btn-ghost">
         <#Icon solid="DotsVertical" class="w-4 h-4" />
       </label>
       <ul
         tabindex="0"
         role="menu"
         aria-orientation="vertical"
-        class="!block mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/10"
+        class="mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/10"
       >
         <li :if={@permalink}>
           <a
@@ -79,14 +79,14 @@
     </div>
   {#else}
     <div aria-haspopup="true" class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-xs btn-circle btn-outline">
+      <label tabindex="0" class="btn btn-sm btn-circle btn-ghost">
         <#Icon solid="DotsVertical" class="w-4 h-4" />
       </label>
       <ul
         tabindex="0"
         role="menu"
         aria-orientation="vertical"
-        class="!block mt-1 relative z-50 rounded-xl shadow-lg dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/10"
+        class="mt-1 relative z-50 rounded-xl shadow-sm dropdown_actions w-60 menu dropdown-content bg-base-100 border border-base-content/10"
       >
         <li>
           <a

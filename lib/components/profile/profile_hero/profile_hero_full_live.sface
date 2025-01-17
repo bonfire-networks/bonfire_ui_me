@@ -9,16 +9,11 @@
                 @character_type != :user} --}
             <div
               data-id="hero_background"
-              class={
-                "bg-base-200 relative rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-4 ",
-                "h-[140px] md:h-[220px]": not is_binary(color),
-                "h-[60px]": is_binary(color)
-              }
+              class="h-[140px] aspect-[4/3] w-full md:h-[220px] bg-base-200 relative rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-4"
               style={if not is_binary(color),
-                do: "background: url('#{banner_url}')",
+                do: "background-image: url('#{banner_url}')",
                 else: "background-color: #{color}"}
             >
-              {!-- "bg-gradient-to-b" "--tw-gradient-stops: transparent, #{color} 2%, #{color} 98%, transparent" --}
               {#if @follows_me}
                 <p
                   data-role="follows_you"
@@ -34,7 +29,7 @@
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"
-                      class="inline-block object-cover w-[128ox] h-[128px] md:mx-0 rounded-lg -mt-[68px]"
+                      class="inline-block object-cover w-32 h-32 md:mx-0 rounded-lg -mt-17"
                       user_id={id(@user)}
                       src={avatar_url}
                     />
@@ -180,7 +175,7 @@
                               follows_me={@follows_me}
                               path={path(@user)}
                               hide_icon
-                              class="font-semibold !h-[34px] btn-sm w-full flex-1 px-6 btn btn-neutral"
+                              class="w-full flex-1 btn btn-primary btn-soft"
                             />
                           </div>
                       {/case}

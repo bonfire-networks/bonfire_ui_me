@@ -1,90 +1,97 @@
-<StatefulComponent
-  module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
-  id={:upload_banner}
-  object={current_user(@__context__)}
-  set_field={:current_user}
-  set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
-/>
-<div class="flex mx-4 items-center">
-  <!-- <div class="flex items-center gap-3 p-3"> -->
-  <StatefulComponent
-    module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
-    id={:upload_icon}
-    src={Bonfire.Common.Media.avatar_url(current_user(@__context__))}
-    container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
-    class="inline-block w-32 h-32"
-    object={current_user(@__context__)}
-    set_field={:current_user}
-    set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
-  />
+<div class="bg-base-200 py-4">
+  <div class="mx-auto p-4 bg-base-100 rounded-xl shadow-sm border border-base-content/10 max-w-md">
+    <StatefulComponent
+      module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
+      id={:upload_banner}
+      object={current_user(@__context__)}
+      set_field={:current_user}
+      set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
+    />
+    <div class="flex mx-4 items-center">
+      <!-- <div class="flex items-center gap-3 p-3"> -->
+      <StatefulComponent
+        module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
+        id={:upload_icon}
+        src={Bonfire.Common.Media.avatar_url(current_user(@__context__))}
+        container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
+        class="inline-block w-32 h-32"
+        object={current_user(@__context__)}
+        set_field={:current_user}
+        set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
+      />
+    </div>
+
+    <form
+      phx-change="Bonfire.Me.Profiles:validate"
+      phx-submit="Bonfire.Me.Profiles:save"
+      method="POST"
+    >
+      <div class="">
+        <fieldset class="fieldset w-full">
+          <legend class="fieldset-legend">{l("Full name")}</legend>
+          <input
+            name="profile[name]"
+            id="name"
+            autocomplete="name"
+            type="text"
+            class="w-full input"
+            value={e(current_user(@__context__), :profile, :name, "")}
+            placeholder="Type here"
+          />
+        </fieldset>
+
+        <fieldset class="fieldset w-full">
+          <legend class="fieldset-legend">{l("Bio")}</legend>
+          <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea w-full">{e(current_user(@__context__), :profile, :summary, "")}</textarea>
+          <div class="fieldset-label">{l("You can use markdown formatting.")}</div>
+        </fieldset>
+
+        <fieldset class="fieldset w-full">
+          <legend class="fieldset-legend">{l("Website")}</legend>
+          <label class="input w-full validator">
+            <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g
+                stroke-linejoin="round"
+                stroke-linecap="round"
+                stroke-width="2.5"
+                fill="none"
+                stroke="currentColor"
+              ><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></g></svg>
+            <input
+              type="url"
+              placeholder="https://"
+              name="profile[website]"
+              id="website"
+              class="w-full"
+              autocomplete="website"
+              pattern="^(https?://)?([a-zA-Z0-9]([a-zA-Z0-9\-].*[a-zA-Z0-9])?\.)+[a-zA-Z].*$"
+              value={e(current_user(@__context__), :profile, :website, "")}
+            />
+          </label>
+        </fieldset>
+
+        <fieldset class="fieldset w-full">
+          <legend class="fieldset-legend">{l("Location")}</legend>
+          <label class="input validator w-full">
+            <#Icon iconify="ph:globe" class="w-4 h-4 opacity-50" />
+            <input
+              type="text"
+              name="profile[location]"
+              id="location"
+              class="w-full"
+              placeholder="Neptune"
+              autocomplete="location"
+              value={e(current_user(@__context__), :profile, :location, "")}
+            />
+          </label>
+        </fieldset>
+      </div>
+
+      <div class="mt-4">
+        <button type="submit" class="w-full btn btn-primary btn-soft">{l("Save")}</button>
+      </div>
+    </form>
+  </div>
 </div>
-
-<form
-  phx-change="Bonfire.Me.Profiles:validate"
-  phx-submit="Bonfire.Me.Profiles:save"
-  method="POST"
->
-  <div class="mx-4">
-    <div class="mt-4 form-control">
-      <label for="name" class="label">
-        <span class="label-text">
-          {l("Full name")}
-        </span>
-      </label>
-      <input
-        type="text"
-        name="profile[name]"
-        id="name"
-        autocomplete="name"
-        class="input input-bordered"
-        value={e(current_user(@__context__), :profile, :name, "")}
-      />
-    </div>
-
-    <div class="mt-4 form-control">
-      <label for="about" class="label">
-        <span class="label-text">{l("Bio")}</span>
-      </label>
-      <textarea id="about" name="profile[summary]" rows="3" class="h-24 textarea textarea-bordered">{e(current_user(@__context__), :profile, :summary, "")}</textarea>
-      <p class="mt-2 text-sm text-base-content text-opacity-70">
-        {l("You can use markdown formatting.")}
-      </p>
-    </div>
-
-    <div class="mt-4 form-control">
-      <label for="website" class="label">
-        <span class="label-text">{l("Website")}</span>
-      </label>
-      <input
-        type="text"
-        name="profile[website]"
-        id="website"
-        placeholder="https://example.local"
-        autocomplete="website"
-        class="input input-bordered"
-        value={e(current_user(@__context__), :profile, :website, "")}
-      />
-    </div>
-
-    <div class="mt-4 form-control">
-      <label for="location" class="label">
-        <span class="label-text">{l("Location")}</span>
-      </label>
-      <input
-        type="text"
-        name="profile[location]"
-        id="location"
-        placeholder="Neptune"
-        autocomplete="location"
-        class="input input-bordered"
-        value={e(current_user(@__context__), :profile, :location, "")}
-      />
-    </div>
-  </div>
-  <div class="flex justify-end pb-8 mx-3 mt-4 gap-3">
-    <button type="submit" class="normal-case btn btn-primary">{l("Save")}</button>
-  </div>
-</form>
 <div class="border-t border-base-content/10">
   <form data-scope="set_background" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive

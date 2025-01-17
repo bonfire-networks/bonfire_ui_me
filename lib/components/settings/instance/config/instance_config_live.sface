@@ -47,7 +47,7 @@
         <div class="flex flex-col gap-6 w-full">
           <form name="settings" class="flex flex-col gap-3" phx-submit="Bonfire.Common.Settings:save">
             <input name="scope" value={:instance} type="hidden">
-            <label class="input input-bordered flex items-center gap-2">
+            <label class="input input-bordered flex items-center gap-2 w-full">
               {l("Site name")}
               <input
                 name="ui[theme][instance_name]"

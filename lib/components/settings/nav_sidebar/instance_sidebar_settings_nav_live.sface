@@ -1,11 +1,11 @@
 <nav class="!-mx-2" role="navigation" aria-label={l("Instance settings navigation")}>
-  <ul class="menu menu-sm px-0 py-0">
+  <ul class="menu px-0 py-0">
     <li>
       <details open>
         <summary class="group">
           <span class="text-sm font-semibold">{l("Instance")}</span>
         </summary>
-        <ul class="menu menu-sm">
+        <ul class="menu">
           <li>
             <LinkPatchLive
               to={~p"/settings/instance/configuration"}
@@ -41,7 +41,7 @@
         <summary class="group">
           <span class="text-sm font-semibold">{l("Pages")}</span>
         </summary>
-        <ul class="menu menu-sm">
+        <ul class="menu">
           <li>
             <LinkPatchLive
               to={~p"/settings/instance/dashboard"}
@@ -86,7 +86,7 @@
         <summary class="group">
           <span class="text-sm font-semibold">{l("Members")}</span>
         </summary>
-        <ul class="menu menu-sm">
+        <ul class="menu">
           <li>
             <LinkPatchLive
               module={maybe_component(Bonfire.Invite.Links, @__context__)}
@@ -169,7 +169,7 @@
         <summary class="group">
           <span class="text-sm font-semibold">{l("Extensions")}</span>
         </summary>
-        <ul class="menu menu-sm">
+        <ul class="menu">
           <li>
             <LinkLive
               to={~p"/settings/instance/extensions"}
@@ -195,7 +195,7 @@
         <summary class="group">
           <span class="text-sm font-semibold">{l("Safety")}</span>
         </summary>
-        <ul class="menu menu-sm">
+        <ul class="menu">
           <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance) and
             extension_enabled?(:bonfire_ui_moderation, @__context__)}>
             <LinkPatchLive
@@ -276,7 +276,7 @@
         <summary class="group">
           <span class="text-sm font-semibold">{l("Instance Boundaries")}</span>
         </summary>
-        <ul class="menu menu-sm">
+        <ul class="menu">
           <li :if={Bonfire.Boundaries.can?(@__context__, :assign, :instance)}>
             <LinkLive
               to={~p"/boundaries/scope/instance/circles"}
@@ -359,7 +359,7 @@
         <summary class="group">
           <span class="text-sm font-semibold">{l("Advanced")}</span>
         </summary>
-        <ul class="menu menu-sm">
+        <ul class="menu">
           <li>
             <LinkPatchLive
               to={~p"/settings/instance/code"}

@@ -1,6 +1,6 @@
 <div class="">
   <form phx-submit="Bonfire.Me.Users:share_user" method="POST">
-    <div class="mt-0 m-6 p-4 bg-base-content/5 rounded-box flex flex-col items-center">
+    <div class="m-6 p-4 bg-base-content/5 rounded-box flex flex-col items-center">
       <h2 class="text-base font-bold pt-4 text-center">{l("Give access to the @%{username} user to your team",
           username: e(current_user(@__context__), :character, :username, "")
         )}</h2>
@@ -18,14 +18,11 @@
     </div>
     <div class="p-4 m-6 rounded-box border border-base-content/10">
       <div class="form-control">
-        <label
-          for="shared_user_label"
-          class="flex flex-col items-start justify-start mb-2 text-left label label-text"
-        >
-          <span class="text-left">
+        <label for="shared_user_label" class="flex flex-col items-start justify-start mb-2 text-left">
+          <span class="font-semibold">
             {l("What kind of team or organisation is it?")}
           </span>
-          <span class="mt-1 text-xs text-left text-base-content/70">
+          <span class="mb-2 text-xs text-base-content/70">
             {l("Eg. Team, Cooperative, Non-profit Organisation, or Moderation Team, ...")}
           </span>
         </label>
@@ -34,23 +31,20 @@
           id="shared_user_label"
           name="shared_user[label]"
           value={e(current_user(@__context__), :shared_user, :label, "")}
-          class="input input-bordered"
+          class="input"
           placeholder={l("Type here")}
         />
       </div>
 
-      <div class="mt-8 form-control">
-        <label
-          for="add_shared_user"
-          class="flex flex-col items-start justify-start mb-2 text-left label label-text"
-        >
-          <span class="text-left">
+      <div class="mt-6 form-control">
+        <label for="add_shared_user" class="flex flex-col items-start justify-start mb-2">
+          <span class="font-semibold">
             {l(
               "Share full access to this user identity (@%{username}) with the following users.",
               username: e(current_user(@__context__), :character, :username, "")
             )}
           </span>
-          <span class="mt-1 text-xs text-left text-base-content/70">
+          <span class="mb-2 text-xs text-base-content/70">
             {l("Please note they need to already be signed up on this instance.")}
           </span>
         </label>
@@ -64,7 +58,7 @@
         />
       </div>
 
-      <button type="submit" class="w-full mt-4 normal-case btn btn-primary">
+      <button type="submit" class="w-full mt-4 btn-soft btn btn-primary">
         {l("Share access")}
       </button>
     </div>
