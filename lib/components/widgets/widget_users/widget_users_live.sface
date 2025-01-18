@@ -1,6 +1,6 @@
 <Bonfire.UI.Common.WidgetBlockLive
   widget_title={e(@widget_title, "Users")}
-  title_class="flex gap-3 mx-3 py-3 text-base-content/90 pb-2 text-sm font-bold tracking-wide"
+  title_class="flex pb-2 text-sm font-semibold tracking-wide"
 >
   <:action>
     {#if @with_batch_follow && current_user_id(@__context__)}

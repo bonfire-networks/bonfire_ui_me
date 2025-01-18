@@ -1,332 +1,332 @@
-<nav class="!-mx-2" role="navigation" aria-label={l("Instance settings navigation")}>
-  <ul class="menu px-0 py-0">
-    <li>
-      <details open>
-        <summary class="group">
-          <span class="text-sm font-semibold">{l("Instance")}</span>
-        </summary>
-        <ul class="menu">
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/configuration"}
-              class={
-                " ",
-                "bg-base-content/10 ": @selected_tab == "configuration"
-              }
-            >
-              <span class={
-                "text-sm text-base-content/80 font-normal",
-                "text-base-content": @selected_tab == "configuration"
-              }>{l("General Configuration")}</span>
-            </LinkPatchLive>
-          </li>
+<!-- <nav class="!-mx-2" role="navigation" aria-label={l("Instance settings navigation")}>
+  <ul class="menu px-0 py-0"> -->
+<li>
+  <details open>
+    <summary class="group">
+      <span class="text-sm font-semibold">{l("Instance")}</span>
+    </summary>
+    <ul class="menu">
+      <li>
+        <LinkPatchLive
+          to={~p"/settings/instance/configuration"}
+          class={
+            " ",
+            "bg-base-content/10 ": @selected_tab == "configuration"
+          }
+        >
+          <span class={
+            "text-sm text-base-content/80 font-normal",
+            "text-base-content": @selected_tab == "configuration"
+          }>{l("General Configuration")}</span>
+        </LinkPatchLive>
+      </li>
 
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/preferences/behaviours"}
-              class={
-                " ",
-                "bg-base-content/10 ": @id == "behaviours"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default User Preferences")}</span>
-            </LinkLive>
-          </li>
-        </ul>
-      </details>
-    </li>
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/preferences/behaviours"}
+          class={
+            " ",
+            "bg-base-content/10 ": @id == "behaviours"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default User Preferences")}</span>
+        </LinkLive>
+      </li>
+    </ul>
+  </details>
+</li>
 
-    <li class="">
-      <details open>
-        <summary class="group">
-          <span class="text-sm font-semibold">{l("Pages")}</span>
-        </summary>
-        <ul class="menu">
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/dashboard"}
-              class={
-                " ",
-                "bg-base-content/10 ": @selected_tab == "dashboard"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "dashboard"}>{l("Dashboard")}</span>
-            </LinkPatchLive>
-          </li>
+<li class="">
+  <details open>
+    <summary class="group">
+      <span class="text-sm font-semibold">{l("Pages")}</span>
+    </summary>
+    <ul class="menu">
+      <li>
+        <LinkPatchLive
+          to={~p"/settings/instance/dashboard"}
+          class={
+            " ",
+            "bg-base-content/10 ": @selected_tab == "dashboard"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "dashboard"}>{l("Dashboard")}</span>
+        </LinkPatchLive>
+      </li>
 
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/about"}
-              class={
-                " ",
-                "bg-base-content/10 ": @selected_tab == "about"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "about"}>{l("About")}</span>
-            </LinkPatchLive>
-          </li>
+      <li>
+        <LinkPatchLive
+          to={~p"/settings/instance/about"}
+          class={
+            " ",
+            "bg-base-content/10 ": @selected_tab == "about"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "about"}>{l("About")}</span>
+        </LinkPatchLive>
+      </li>
 
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/terms"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "terms"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "terms"}>{l("Terms / Policies")}</span>
-            </LinkPatchLive>
-          </li>
-        </ul>
-      </details>
-    </li>
+      <li>
+        <LinkPatchLive
+          to={~p"/settings/instance/terms"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "terms"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "terms"}>{l("Terms / Policies")}</span>
+        </LinkPatchLive>
+      </li>
+    </ul>
+  </details>
+</li>
 
-    <li class="">
-      <details open>
-        <summary class="group">
-          <span class="text-sm font-semibold">{l("Members")}</span>
-        </summary>
-        <ul class="menu">
-          <li>
-            <LinkPatchLive
-              module={maybe_component(Bonfire.Invite.Links, @__context__)}
-              to={~p"/settings/instance/invites"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "invites"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "invites"}>{l("Invites")}</span>
-            </LinkPatchLive>
-          </li>
+<li class="">
+  <details open>
+    <summary class="group">
+      <span class="text-sm font-semibold">{l("Members")}</span>
+    </summary>
+    <ul class="menu">
+      <li>
+        <LinkPatchLive
+          module={maybe_component(Bonfire.Invite.Links, @__context__)}
+          to={~p"/settings/instance/invites"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "invites"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "invites"}>{l("Invites")}</span>
+        </LinkPatchLive>
+      </li>
 
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/mods"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "mods"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "mods"}>{l("Instance Moderators")}</span>
-            </LinkLive>
-          </li>
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/mods"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "mods"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "mods"}>{l("Instance Moderators")}</span>
+        </LinkLive>
+      </li>
 
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/admins"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "admins"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "admins"}>{l("Instance Admins")}</span>
-            </LinkLive>
-          </li>
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/admins"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "admins"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "admins"}>{l("Instance Admins")}</span>
+        </LinkLive>
+      </li>
 
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/members"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "members"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "members"}>{l("Instance members")}</span>
-            </LinkLive>
-          </li>
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/remote_users"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "remote_users"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "remote_users"}>{l("Known remote users")}</span>
-            </LinkLive>
-          </li>
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/remote_instances"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "remote_instances"
-              }
-            >
-              <span class={
-                "text-sm text-base-content/80 font-normal",
-                "text-base-content": @selected_tab == "remote_instances"
-              }>{l("Known remote instances")}</span>
-            </LinkLive>
-          </li>
-        </ul>
-      </details>
-    </li>
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/members"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "members"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "members"}>{l("Instance members")}</span>
+        </LinkLive>
+      </li>
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/remote_users"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "remote_users"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "remote_users"}>{l("Known remote users")}</span>
+        </LinkLive>
+      </li>
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/remote_instances"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "remote_instances"
+          }
+        >
+          <span class={
+            "text-sm text-base-content/80 font-normal",
+            "text-base-content": @selected_tab == "remote_instances"
+          }>{l("Known remote instances")}</span>
+        </LinkLive>
+      </li>
+    </ul>
+  </details>
+</li>
 
-    <li class="">
-      <details open>
-        <summary class="group">
-          <span class="text-sm font-semibold">{l("Extensions")}</span>
-        </summary>
-        <ul class="menu">
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/extensions"}
-              class={
-                " ",
-                "bg-base-content/10 ": @selected_tab == "extensions"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
-            </LinkLive>
-          </li>
-          <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
-            page={@page}
-            selected_tab={@selected_tab}
-            scope={:instance}
-          />
-        </ul>
-      </details>
-    </li>
+<li class="">
+  <details open>
+    <summary class="group">
+      <span class="text-sm font-semibold">{l("Extensions")}</span>
+    </summary>
+    <ul class="menu">
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/extensions"}
+          class={
+            " ",
+            "bg-base-content/10 ": @selected_tab == "extensions"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
+        </LinkLive>
+      </li>
+      <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
+        page={@page}
+        selected_tab={@selected_tab}
+        scope={:instance}
+      />
+    </ul>
+  </details>
+</li>
 
-    <li class="">
-      <details open>
-        <summary class="group">
-          <span class="text-sm font-semibold">{l("Safety")}</span>
-        </summary>
-        <ul class="menu">
-          <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance) and
-            extension_enabled?(:bonfire_ui_moderation, @__context__)}>
-            <LinkPatchLive
-              to={~p"/settings/instance/flags"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "flags"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "flags"}>{l("Flagged by users")}</span>
-            </LinkPatchLive>
-          </li>
+<li class="">
+  <details open>
+    <summary class="group">
+      <span class="text-sm font-semibold">{l("Safety")}</span>
+    </summary>
+    <ul class="menu">
+      <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance) and
+        extension_enabled?(:bonfire_ui_moderation, @__context__)}>
+        <LinkPatchLive
+          to={~p"/settings/instance/flags"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "flags"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "flags"}>{l("Flagged by users")}</span>
+        </LinkPatchLive>
+      </li>
 
-          <li>
-            <LinkLive
-              to={~p"/boundaries/instance_ghosted"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "instance_ghosted"
-              }
-            >
-              <span class={
-                "text-sm text-base-content/80 font-normal",
-                "text-base-content": @selected_tab == "instance_ghosted"
-              }>{l("Ghosted instance-wide")}</span>
-            </LinkLive>
-          </li>
-          <li>
-            <LinkLive
-              to={~p"/boundaries/instance_silenced"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "instance_silenced"
-              }
-            >
-              <span class={
-                "text-sm text-base-content/80 font-normal",
-                "text-base-content": @selected_tab == "instance_silenced"
-              }>{l("Silenced instance-wide")}</span>
-            </LinkLive>
-          </li>
+      <li>
+        <LinkLive
+          to={~p"/boundaries/instance_ghosted"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "instance_ghosted"
+          }
+        >
+          <span class={
+            "text-sm text-base-content/80 font-normal",
+            "text-base-content": @selected_tab == "instance_ghosted"
+          }>{l("Ghosted instance-wide")}</span>
+        </LinkLive>
+      </li>
+      <li>
+        <LinkLive
+          to={~p"/boundaries/instance_silenced"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "instance_silenced"
+          }
+        >
+          <span class={
+            "text-sm text-base-content/80 font-normal",
+            "text-base-content": @selected_tab == "instance_silenced"
+          }>{l("Silenced instance-wide")}</span>
+        </LinkLive>
+      </li>
 
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/blocks_import"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "blocks_import"
-              }
-            >
-              <span class={
-                "text-sm",
-                "text-base-content": @selected_tab == "blocks_import"
-              }>{l("Import block lists")}</span>
-            </LinkLive>
-          </li>
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/blocks_import"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "blocks_import"
+          }
+        >
+          <span class={
+            "text-sm",
+            "text-base-content": @selected_tab == "blocks_import"
+          }>{l("Import block lists")}</span>
+        </LinkLive>
+      </li>
 
-          <li>
-            <LinkLive
-              to={~p"/settings/instance/blocks_export"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "blocks_export"
-              }
-            >
-              <span class={
-                "text-sm text-base-content/80 font-normal",
-                "text-base-content": @selected_tab == "blocks_export"
-              }>{l("Export block lists")}</span>
-            </LinkLive>
-          </li>
-        </ul>
-      </details>
-    </li>
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/blocks_export"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "blocks_export"
+          }
+        >
+          <span class={
+            "text-sm text-base-content/80 font-normal",
+            "text-base-content": @selected_tab == "blocks_export"
+          }>{l("Export block lists")}</span>
+        </LinkLive>
+      </li>
+    </ul>
+  </details>
+</li>
 
-    <li class="">
-      <details open>
-        <summary class="group">
-          <span class="text-sm font-semibold">{l("Instance Boundaries")}</span>
-        </summary>
-        <ul class="menu">
-          <li :if={Bonfire.Boundaries.can?(@__context__, :assign, :instance)}>
-            <LinkLive
-              to={~p"/boundaries/scope/instance/circles"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "circles"
-              }
-            >
-              <span class="text-sm p-2 py-1">{l("Instance Circles")}</span>
-            </LinkLive>
-          </li>
+<li class="">
+  <details open>
+    <summary class="group">
+      <span class="text-sm font-semibold">{l("Instance Boundaries")}</span>
+    </summary>
+    <ul class="menu">
+      <li :if={Bonfire.Boundaries.can?(@__context__, :assign, :instance)}>
+        <LinkLive
+          to={~p"/boundaries/scope/instance/circles"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "circles"
+          }
+        >
+          <span class="text-sm p-2 py-1">{l("Instance Circles")}</span>
+        </LinkLive>
+      </li>
 
-          <li>
-            <LinkLive
-              to={~p"/boundaries/scope/instance/roles"}
-              class={
-                " ",
-                "bg-base-content/10 ": @selected_tab == "roles"
-              }
-            >
-              <span class="text-sm p-2 py-1">{l("Instance Roles")}</span>
-            </LinkLive>
-          </li>
+      <li>
+        <LinkLive
+          to={~p"/boundaries/scope/instance/roles"}
+          class={
+            " ",
+            "bg-base-content/10 ": @selected_tab == "roles"
+          }
+        >
+          <span class="text-sm p-2 py-1">{l("Instance Roles")}</span>
+        </LinkLive>
+      </li>
 
-          {#if Bonfire.Boundaries.can?(@__context__, :grant, :instance)}
-            <li>
-              <LinkLive
-                to={~p"/boundaries/scope/instance/acls"}
-                class={
-                  " ",
-                  "bg-base-content/10": @selected_tab == "acls"
-                }
-              >
-                <span class="text-sm p-2 py-1">{l("Boundary Presets")}</span>
-              </LinkLive>
-            </li>
+      {#if Bonfire.Boundaries.can?(@__context__, :grant, :instance)}
+        <li>
+          <LinkLive
+            to={~p"/boundaries/scope/instance/acls"}
+            class={
+              " ",
+              "bg-base-content/10": @selected_tab == "acls"
+            }
+          >
+            <span class="text-sm p-2 py-1">{l("Boundary Presets")}</span>
+          </LinkLive>
+        </li>
 
-            <li>
-              <LinkLive
-                to={~p"/boundaries/scope/instance/instance_acl"}
-                class={
-                  " ",
-                  "bg-base-content/10": @selected_tab == "instance_acl"
-                }
-              >
-                <span class="text-sm p-2 py-1">{l("Instance Permissions")}</span>
-              </LinkLive>
-            </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/scope/instance/instance_acl"}
+            class={
+              " ",
+              "bg-base-content/10": @selected_tab == "instance_acl"
+            }
+          >
+            <span class="text-sm p-2 py-1">{l("Instance Permissions")}</span>
+          </LinkLive>
+        </li>
 
-            <!-- <li>
+        <!-- <li>
           <LinkLive
             to={~p"/boundaries/scope/instance/admin_circle"}
             class={
@@ -338,7 +338,7 @@
           </LinkLive>
         </li> -->
 
-            <!-- <li>
+        <!-- <li>
           <LinkLive
             to={~p"/boundaries/scope/instance/mod_circle"}
             class={
@@ -349,60 +349,60 @@
             <span class="text-sm p-2 py-1">{l("Moderators list")}</span>
           </LinkLive>
         </li> -->
-          {/if}
-        </ul>
-      </details>
-    </li>
+      {/if}
+    </ul>
+  </details>
+</li>
 
-    <li class="">
-      <details open>
-        <summary class="group">
-          <span class="text-sm font-semibold">{l("Advanced")}</span>
-        </summary>
-        <ul class="menu">
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/code"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "code"
-              }
-            >
-              <span class="text-sm p-2 py-1">{l("Libraries & Licences")}</span>
-            </LinkPatchLive>
-          </li>
+<li class="">
+  <details open>
+    <summary class="group">
+      <span class="text-sm font-semibold">{l("Advanced")}</span>
+    </summary>
+    <ul class="menu">
+      <li>
+        <LinkPatchLive
+          to={~p"/settings/instance/code"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "code"
+          }
+        >
+          <span class="text-sm p-2 py-1">{l("Libraries & Licences")}</span>
+        </LinkPatchLive>
+      </li>
 
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/emojis"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "emojis"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "emojis"}>{l("Custom emoji")}</span>
-            </LinkPatchLive>
-          </li>
+      <li>
+        <LinkPatchLive
+          to={~p"/settings/instance/emojis"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "emojis"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "emojis"}>{l("Custom emoji")}</span>
+        </LinkPatchLive>
+      </li>
 
-          <li>
-            <LinkPatchLive
-              to={~p"/settings/instance/icons"}
-              class={
-                " ",
-                "bg-base-content/10": @selected_tab == "icons"
-              }
-            >
-              <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "icons"}>{l("Icons")}</span>
-            </LinkPatchLive>
-          </li>
-        </ul>
-      </details>
-    </li>
+      <li>
+        <LinkPatchLive
+          to={~p"/settings/instance/icons"}
+          class={
+            " ",
+            "bg-base-content/10": @selected_tab == "icons"
+          }
+        >
+          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "icons"}>{l("Icons")}</span>
+        </LinkPatchLive>
+      </li>
+    </ul>
+  </details>
+</li>
 
-    {!-- </ul>
+{!-- </ul>
     </div> --}
 
-    {!-- <li>
+{!-- <li>
       <LinkPatchLive
         module={maybe_component(Bonfire.Pages, @__context__) and
           Bonfire.Boundaries.can?(@__context__, :invite, :instance)}
@@ -448,5 +448,5 @@
         {l("Tags")}
       </LinkPatchLive>
     </li> --}
-  </ul>
-</nav>
+<!-- </ul>
+</nav> -->

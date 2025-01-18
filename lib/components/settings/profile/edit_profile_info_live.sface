@@ -1,4 +1,4 @@
-<div class="bg-base-200 py-4">
+<div class="bg-base-content/5 rounded-t-xl py-4">
   <div class="mx-auto p-4 bg-base-100 rounded-xl shadow-sm border border-base-content/10 max-w-md">
     <StatefulComponent
       module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}

@@ -2,7 +2,7 @@
   data-position="top-left"
   phx-hook="Tooltip"
   id="navbar_settings_menu"
-  class="relative tablet-lg:hidden"
+  class="relative lg:hidden"
 >
   <label
     class="tooltip-button btn btn-sm btn-circle btn-ghost"
