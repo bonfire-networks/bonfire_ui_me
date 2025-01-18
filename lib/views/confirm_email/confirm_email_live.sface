@@ -4,7 +4,7 @@
   name_class="text-2xl font-bold tracking-wider"
   href="/"
 />
-<div class="w-[90%] md:w-[360px] mx-auto p-3 rounded-xl border border-base-content/10">
+<div class="w-[90%] md:w-[360px] mx-auto p-3 rounded-xl border border-base-content/10 bg-base-100 shadow-sm">
   <div class="mb-4 text-base font-bold text-center text-base-content">{l("Request email confirmation link")}</div>
   {#if @flash}
     <div class="w-4/5 mx-auto">

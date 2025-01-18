@@ -50,13 +50,13 @@
   <Form
     for={@form}
     action={path(:create_user, :create)}
-    opts={[class: "rounded-lg p-4 mb-12 border border-base-content/10", id: "create-user-form"]}
+    opts={[class: "rounded-box p-4 mb-12 border bg-base-100 shadow-sm border-base-content/10", id: "create-user-form"]}
   >
     <div class="flex items-center gap-2 mb-3 text-base font-semibold">
       {!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> --}
       <span>{l("Create a new user profile")}</span>
     </div>
-    <div x-data="{username:''}" class="flex flex-col space-y-4">
+    <div x-data="{username:''}" class="flex flex-col gap-2">
       <Inputs for={:profile}>
         <Field name={:name}>
           <Label class="label">
@@ -70,7 +70,16 @@
       </Inputs>
       <Inputs for={:character}>
         <Field name={:username}>
-          <Label class="label">
+
+        <fieldset class="fieldset">
+          <legend class="fieldset-legend">{l "Choose a username"}</legend>
+          <label class="input w-full validator">
+            <span>@</span>
+            <input required x-bind:value="suggest_username(username)" type="input" placeholder="Username" minlength="3" maxlength="30" />
+          </label>
+        </fieldset>
+
+          <!-- <Label class="label">
             <span class="text-sm label-text text-base-content/70">
               {l("Choose a username")}
             </span>
@@ -79,11 +88,11 @@
             <span class="h-[48px] flex items-center place-content-center border-r px-2 border-base-content/10 text-sm">@</span>
             <TextInput class="input flex-1" required opts={"x-bind:value": "suggest_username(username)"} />
             <span class="hidden flex items-center place-content-center h-[48px] px-2 text-sm md:flex border-l border-base-content/10">@{base_domain()}</span>
-          </label>
+          </label> -->
           <ErrorTag />
         </Field>
       </Inputs>
-      <div class="!mt-4">
+      <div class="">
         <Inputs for={:profile}>
           <Field name={:summary}>
             <Label>
@@ -97,7 +106,7 @@
         </Inputs>
       </div>
 
-      <div class="alert alert-info alert-soft my-6">
+      <div class="alert alert-info alert-soft">
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <p class="text-sm text-info-content">
@@ -108,7 +117,7 @@
         </div>
       </div>
 
-      <div class="alert alert-info alert-soft my-6">
+      <div class="alert alert-info alert-soft mt-2">
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <p class="text-sm text-info-content">
@@ -125,7 +134,7 @@
         </div>
       </div>
 
-      <div class="alert alert-info alert-soft my-6">
+      <div class="alert alert-info alert-soft mt-2">
         <div class="flex items-center justify-between gap-6">
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <p class="text-sm text-info-content">
