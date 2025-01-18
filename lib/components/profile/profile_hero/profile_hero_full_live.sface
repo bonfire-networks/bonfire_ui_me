@@ -109,7 +109,7 @@
                   {#else}
                     <StatelessComponent
                       :if={@character_type == :user and current_user_id(@__context__)}
-                      module={maybe_component(Bonfire.UI.Boundaries.Web.AddToCircleLive, @__context__)}
+                      module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
                       user_id={id(@user)}
                       parent_id="profile_hero"
                       as_icon

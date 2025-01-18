@@ -73,7 +73,7 @@
           />
           <div class="pt-1">
             <StatelessComponent
-              module={maybe_component(Bonfire.UI.Boundaries.Web.AddToCircleLive, @__context__)}
+              module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
               user_id={id(@profile)}
               parent_id={"profile_item_tooltip_#{@parent_id}_#{id(@profile)}"}
               as_icon

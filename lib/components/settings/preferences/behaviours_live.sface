@@ -374,7 +374,7 @@
 
   <!-- <StatelessComponent
     scope={@scope}
-    module={maybe_component(Bonfire.UI.Boundaries.Web.DefaultBoundaryLive, @__context__)}
+    module={maybe_component(Bonfire.UI.Boundaries.DefaultBoundaryLive, @__context__)}
   /> -->
   <div class="divide-y divide-base-content/10">
     <form phx-change="Bonfire.Common.Settings:set">

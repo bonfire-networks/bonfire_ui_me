@@ -39,13 +39,13 @@
       />
     {#match "silenced"}
       <StatefulComponent
-        module={maybe_component(Bonfire.UI.Boundaries.Web.BlocksLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
         id="blocks"
         selected_tab="silenced"
       />
     {#match "ghosted"}
       <StatefulComponent
-        module={maybe_component(Bonfire.UI.Boundaries.Web.BlocksLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
         id="blocks"
         selected_tab="ghosted"
       />

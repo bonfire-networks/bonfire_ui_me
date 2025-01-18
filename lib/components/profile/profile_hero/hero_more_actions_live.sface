@@ -149,7 +149,7 @@
           <li>
             <StatelessComponent
               :if={current_user(@__context__)}
-              module={maybe_component(Bonfire.UI.Boundaries.Web.AddToCircleLive, @__context__)}
+              module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
               user_id={id(@user)}
               parent_id="profile_hero"
             />
@@ -169,7 +169,7 @@
 
         {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
         <StatelessComponent
-          module={maybe_component(Bonfire.UI.Boundaries.Web.BlockMenuButtonsLive, @__context__)}
+          module={maybe_component(Bonfire.UI.Boundaries.BlockMenuButtonsLive, @__context__)}
           parent_id="profile_hero"
           object={@user}
           permalink={@permalink}

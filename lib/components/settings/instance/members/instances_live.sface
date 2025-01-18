@@ -41,7 +41,7 @@
           <li><a href={ap_base_uri} target="_blank"><#Icon iconify="heroicons-solid:external-link" class="w-4 h-4" /> {l("Visit instance")}</a></li>
           <li>
             <StatelessComponent
-              module={maybe_component(Bonfire.UI.Boundaries.Web.BlockButtonLive, @__context__)}
+              module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
               object={instance}
               parent_id="instances"
               type={:block}

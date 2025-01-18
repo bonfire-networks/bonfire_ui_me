@@ -59,7 +59,7 @@
     <div x-show="open" x-cloak x-collapse>
       <div data-scope="safety_boundary_default" class="mt-3 border border-base-content/10 rounded-box">
         <StatelessComponent
-          module={maybe_component(Bonfire.UI.Boundaries.Web.BoundariesGeneralAccessLive, @__context__)}
+          module={maybe_component(Bonfire.UI.Boundaries.BoundariesGeneralAccessLive, @__context__)}
           hide_custom
           set_action="Bonfire.Boundaries:set_default_boundary"
           set_opts={%{"phx-value-scope" => @scope}}
