@@ -50,7 +50,10 @@
   <Form
     for={@form}
     action={path(:create_user, :create)}
-    opts={[class: "rounded-box p-4 mb-12 border bg-base-100 shadow-sm border-base-content/10", id: "create-user-form"]}
+    opts={[
+      class: "rounded-box p-4 mb-12 border bg-base-100 shadow-sm border-base-content/10",
+      id: "create-user-form"
+    ]}
   >
     <div class="flex items-center gap-2 mb-3 text-base font-semibold">
       {!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> --}
@@ -70,14 +73,20 @@
       </Inputs>
       <Inputs for={:character}>
         <Field name={:username}>
-
-        <fieldset class="fieldset">
-          <legend class="fieldset-legend">{l "Choose a username"}</legend>
-          <label class="input w-full validator">
-            <span>@</span>
-            <input required x-bind:value="suggest_username(username)" type="input" placeholder="Username" minlength="3" maxlength="30" />
-          </label>
-        </fieldset>
+          <fieldset class="fieldset">
+            <legend class="fieldset-legend">{l("Choose a username")}</legend>
+            <label class="input w-full validator">
+              <span>@</span>
+              <input
+                required
+                x-bind:value="suggest_username(username)"
+                type="input"
+                placeholder="Username"
+                minlength="3"
+                maxlength="30"
+              />
+            </label>
+          </fieldset>
 
           <!-- <Label class="label">
             <span class="text-sm label-text text-base-content/70">

@@ -29,11 +29,7 @@
         </div>
       </div>
       <div class="mt-3">
-        <button
-          type="submit"
-          phx-disable-with="Saving..."
-          class="w-full btn btn-primary"
-        >{l("Update email")}</button>
+        <button type="submit" phx-disable-with="Saving..." class="w-full btn btn-primary">{l("Update email")}</button>
       </div>
     </div>
   </Form>
