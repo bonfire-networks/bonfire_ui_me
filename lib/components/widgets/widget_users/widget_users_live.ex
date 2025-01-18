@@ -3,6 +3,16 @@ defmodule Bonfire.UI.Me.WidgetUsersLive do
 
   prop users, :any, default: []
   prop widget_title, :string, default: nil
+  prop with_batch_follow, :boolean, default: true
+
+  def render(assigns) do
+    assigns
+    |> assign(
+      :users,
+      users(assigns[:users])
+    )
+    |> render_sface()
+  end
 
   def users(users) when is_list(users) do
     users
