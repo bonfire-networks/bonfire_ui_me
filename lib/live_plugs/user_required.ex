@@ -5,6 +5,10 @@ defmodule Bonfire.UI.Me.LivePlugs.UserRequired do
 
   # alias Plug.Conn.Query
 
+  @behaviour Bonfire.UI.Common.LivePlugModule
+
+  def pipeline_name, do: :user_required
+
   def on_mount(:default, params, session, socket) do
     with {:ok, socket} <- mount(params, session, socket) do
       {:cont, socket}

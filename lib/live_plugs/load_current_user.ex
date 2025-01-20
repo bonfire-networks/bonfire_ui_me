@@ -4,6 +4,8 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   # alias Bonfire.UI.Me.SwitchUserLive
   # alias Bonfire.Data.Identity.User
 
+  @behaviour Bonfire.UI.Common.LivePlugModule
+
   def on_mount(:default, params, session, socket) do
     with {:ok, socket} <- mount(params, session, socket) do
       {:cont, socket}

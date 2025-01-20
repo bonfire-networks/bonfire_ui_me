@@ -2,6 +2,8 @@ defmodule Bonfire.UI.Me.LivePlugs.AccountRequired do
   use Bonfire.UI.Common.Web, :live_plug
   alias Bonfire.Data.Identity.Account
 
+  @behaviour Bonfire.UI.Common.LivePlugModule
+
   def on_mount(:default, params, session, socket) do
     with {:ok, socket} <- mount(params, session, socket) do
       {:cont, socket}
