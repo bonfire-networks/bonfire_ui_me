@@ -5,7 +5,7 @@
     name_class="text-2xl font-bold tracking-wider"
     href="/"
   /> -->
-  <div class="w-full mx-8 md:w-96 md:mx-auto">
+  <div class="w-full md:w-96 md:mx-auto">
     <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} />
   </div>
 </div>

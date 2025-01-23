@@ -29,7 +29,8 @@
     {#match "export"}
       <Bonfire.UI.Me.SettingsViewsLive.ExportLive selected_tab={@selected_tab} />
     {#match "extensions"}
-      <Bonfire.UI.Common.ExtensionsLive scope={@scope} />
+      <Bonfire.UI.Common.ExtensionsLive 
+        scope={@scope} />
     {#match "flags"}
       <StatefulComponent
         :if={current_user(@__context__)}

@@ -285,7 +285,7 @@
             "bg-base-content/10": @selected_tab == "circles"
           }
         >
-          <span class="text-sm p-2 py-1">{l("Instance Circles")}</span>
+          <span class=" ">{l("Instance Circles")}</span>
         </LinkLive>
       </li>
 
@@ -297,7 +297,7 @@
             "bg-base-content/10 ": @selected_tab == "roles"
           }
         >
-          <span class="text-sm p-2 py-1">{l("Instance Roles")}</span>
+          <span class=" ">{l("Instance Roles")}</span>
         </LinkLive>
       </li>
 
@@ -310,7 +310,7 @@
               "bg-base-content/10": @selected_tab == "acls"
             }
           >
-            <span class="text-sm p-2 py-1">{l("Boundary Presets")}</span>
+            <span class=" ">{l("Boundary Presets")}</span>
           </LinkLive>
         </li>
 
@@ -322,7 +322,7 @@
               "bg-base-content/10": @selected_tab == "instance_acl"
             }
           >
-            <span class="text-sm p-2 py-1">{l("Instance Permissions")}</span>
+            <span class=" ">{l("Instance Permissions")}</span>
           </LinkLive>
         </li>
 
@@ -334,7 +334,7 @@
               "bg-base-content/10": @selected_tab == "admin_circle"
             }
           >
-            <span class="text-sm p-2 py-1">{l("Admins list")}</span>
+            <span class=" ">{l("Admins list")}</span>
           </LinkLive>
         </li> -->
 
@@ -346,7 +346,7 @@
               "bg-base-content/10": @selected_tab == "mod_circle"
             }
           >
-            <span class="text-sm p-2 py-1">{l("Moderators list")}</span>
+            <span class=" ">{l("Moderators list")}</span>
           </LinkLive>
         </li> -->
       {/if}
@@ -368,7 +368,7 @@
             "bg-base-content/10": @selected_tab == "code"
           }
         >
-          <span class="text-sm p-2 py-1">{l("Libraries & Licences")}</span>
+          <span class=" ">{l("Libraries & Licences")}</span>
         </LinkPatchLive>
       </li>
 

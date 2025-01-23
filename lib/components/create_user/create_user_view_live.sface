@@ -77,9 +77,9 @@
             <legend class="fieldset-legend">{l("Choose a username")}</legend>
             <label class="input w-full validator">
               <span>@</span>
-              <input
+              <TextInput
                 required
-                x-bind:value="suggest_username(username)"
+                opts={"x-bind:value": "suggest_username(username)"}
                 type="input"
                 placeholder="Username"
                 minlength="3"
