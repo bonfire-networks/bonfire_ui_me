@@ -24,35 +24,37 @@
     {#case extension_enabled?(@extension, @__context__) &&
         Bonfire.UI.Common.SettingsModule.components(@extension)}
       {#match extension_settings when is_list(extension_settings) and extension_settings != []}
-        <div class="mt-2" x-data="{ tab: 'preferences'}">
-          <div role="tablist" class="tabs inline-flex px-0 mx-0 tabs-boxed">
-            <a
-              @click="tab = 'preferences'"
+        <div class="mt-2">
+          <div role="tablist" class="tabs tabs-box">
+            <input
+              type="radio"
+              name="my_tabs_3"
               role="tab"
               class="tab"
-              :class="{'tab-active': tab == 'preferences'}"
-            >Preferences</a>
-            <a @click="tab = 'about'" role="tab" class="tab" :class="{'tab-active': tab == 'about'}">About</a>
-          </div>
-
-          <div x-cloak x-show="tab == 'preferences'" class="mt-4 rounded-lg bg-base-content/5 pt-0 p-3">
-            <div class="">
+              checked="checked"
+              aria-label="Preferences"
+            />
+            <div class="tab-content bg-base-100 border-base-300 p-2">
               <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
                 <Bonfire.UI.Common.WidgetsLive
                   widgets={extension_settings}
+                  container_class="w-full list"
                   extra_data={scope: @scope}
+                  wrapper_class="list-row"
                   with_title
+                  with_description
                 />
               </form>
             </div>
-          </div>
 
-          <div x-cloak x-show="tab == 'about'" class="mt-4 rounded-lg bg-base-content/5 p-3">
-            {#case e(@dep, :extra, :readme_contents, nil)}
-              {#match nil}
-              {#match readme_contents}
-                <div class="prose max-w-full prose-sm">{rich(readme_contents)}</div>
-            {/case}
+            <input type="radio" name="my_tabs_3" role="tab" class="tab" aria-label="About">
+            <div class="tab-content bg-base-100 border-base-300 p-6">
+              {#case e(@dep, :extra, :readme_contents, nil)}
+                {#match nil}
+                {#match readme_contents}
+                  <div class="prose max-w-full prose-sm">{rich(readme_contents)}</div>
+              {/case}
+            </div>
           </div>
         </div>
       {#match _}

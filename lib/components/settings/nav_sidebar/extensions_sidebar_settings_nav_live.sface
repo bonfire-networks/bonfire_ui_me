@@ -11,16 +11,12 @@
             {#case Bonfire.Common.ExtensionModule.extension(extension)}
               {#match extension_meta}
                 <li>
-                  {#if not has_settings_nav?}
-                    <LinkLive to={"/settings/#{@scope}/#{extension}"} class="">{e(extension_meta, :name, nil) || extension}</LinkLive>
+                  <LinkLive to={"/settings/#{@scope}/#{extension}"} class="">{e(extension_meta, :name, nil) || extension}</LinkLive>
+                  <!-- {#if not has_settings_nav?}
                   {#else}
                     <details open={@selected_tab == to_string(extension) or @id == to_string(extension)}>
                       <summary class="group !ml-0 !pl-4 !pr-4 !py-2">
-                        <!-- {#if has_settings_components?}
-                          <LinkLive to={"/settings/#{@scope}/#{extension}"} class="text-sm font-medium ml-0">{e(extension_meta, :name, nil) || extension}</LinkLive>
-                        {#else} -->
                         <span class="text-sm font-medium ml-0">{e(extension_meta, :name, nil) || extension}</span>
-                        <!-- {/if} -->
                       </summary>
                       <ul class="ml-4 !p-0 !mt-1">
                         <li :if={has_settings_components?}>
@@ -40,7 +36,7 @@
                         </li>
                       </ul>
                     </details>
-                  {/if}
+                  {/if} -->
                 </li>
             {/case}
           {/if}
