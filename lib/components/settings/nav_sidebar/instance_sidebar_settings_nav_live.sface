@@ -1,11 +1,12 @@
 <!-- <nav class="!-mx-2" role="navigation" aria-label={l("Instance settings navigation")}>
   <ul class="menu px-0 py-0"> -->
-<li>
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Instance")}</span>
-    </summary>
-    <ul class="menu">
+<ul class="menu p-0 w-full">
+  <li>
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Instance")}</span>
+      </summary>
+
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/configuration"}
@@ -32,16 +33,15 @@
           <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default User Preferences")}</span>
         </LinkLive>
       </li>
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Pages")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Pages")}</span>
+      </summary>
+
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/dashboard"}
@@ -77,16 +77,15 @@
           <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "terms"}>{l("Terms / Policies")}</span>
         </LinkPatchLive>
       </li>
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Members")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Members")}</span>
+      </summary>
+
       <li>
         <LinkPatchLive
           module={maybe_component(Bonfire.Invite.Links, @__context__)}
@@ -160,16 +159,15 @@
           }>{l("Known remote instances")}</span>
         </LinkLive>
       </li>
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Extensions")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Extensions")}</span>
+      </summary>
+
       <li>
         <LinkLive
           to={~p"/settings/instance/extensions"}
@@ -186,16 +184,15 @@
         selected_tab={@selected_tab}
         scope={:instance}
       />
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Safety")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Safety")}</span>
+      </summary>
+
       <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance) and
         extension_enabled?(:bonfire_ui_moderation, @__context__)}>
         <LinkPatchLive
@@ -267,16 +264,15 @@
           }>{l("Export block lists")}</span>
         </LinkLive>
       </li>
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Instance Boundaries")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Instance Boundaries")}</span>
+      </summary>
+
       <li :if={Bonfire.Boundaries.can?(@__context__, :assign, :instance)}>
         <LinkLive
           to={~p"/boundaries/scope/instance/circles"}
@@ -350,16 +346,15 @@
           </LinkLive>
         </li> -->
       {/if}
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Advanced")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Advanced")}</span>
+      </summary>
+
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/code"}
@@ -395,10 +390,9 @@
           <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "icons"}>{l("Icons")}</span>
         </LinkPatchLive>
       </li>
-    </ul>
-  </details>
-</li>
-
+    </details>
+  </li>
+</ul>
 {!-- </ul>
     </div> --}
 

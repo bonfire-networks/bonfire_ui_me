@@ -1,11 +1,12 @@
 <!-- <nav class="!-mx-2" role="navigation" aria-label={l("Settings navigation")}>
   <ul class="menu px-0 py-0"> -->
-<li>
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("General")}</span>
-    </summary>
-    <ul class="menu">
+<ul class="menu p-0 w-full">
+  <li>
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("General")}</span>
+      </summary>
+
       <li>
         <LinkLive
           to={~p"/settings/user/profile"}
@@ -75,16 +76,15 @@
           <span class="">{l("Team Profiles")}</span>
         </LinkLive>
       </li>
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Extensions")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Extensions")}</span>
+      </summary>
+
       <li>
         <LinkLive
           to={~p"/settings/user/extensions"}
@@ -101,16 +101,15 @@
         id={@id}
         scope={:user}
       />
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Safety")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Safety")}</span>
+      </summary>
+
       <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
         <LinkLive
           to={~p"/settings/user/flags"}
@@ -162,16 +161,15 @@
           }>{l("Import block lists")}</span>
         </LinkLive>
       </li>
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Boundaries")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Boundaries")}</span>
+      </summary>
+
       <li>
         <LinkLive
           to={~p"/boundaries/circles"}
@@ -218,16 +216,15 @@
           <span class="">{l("Instance-wide roles")}</span>
         </LinkLive>
       </li>
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Migration")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Migration")}</span>
+      </summary>
+
       <li>
         <LinkLive
           to={~p"/settings/user/import"}
@@ -250,16 +247,15 @@
           <span class="">{l("Export")}</span>
         </LinkLive>
       </li>
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
 
-<li class="">
-  <details open>
-    <summary class="group">
-      <span class="text-sm font-semibold">{l("Advanced")}</span>
-    </summary>
-    <ul class="menu">
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content/50">{l("Advanced")}</span>
+      </summary>
+
       <li>
         <LinkPatchLive
           to={~p"/settings/user/emojis"}
@@ -283,8 +279,8 @@
           <span class="">{l("Libraries & Licences")}</span>
         </LinkPatchLive>
       </li>
-    </ul>
-  </details>
-</li>
+    </details>
+  </li>
+</ul>
 <!-- </ul>
 </nav> -->
