@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <form data-scope="set_font" name="settings" phx-change="Bonfire.Common.Settings:set">
+    <form class="p-4" data-scope="set_font" name="settings" phx-change="Bonfire.Common.Settings:set">
       <label for="set_font" class="sr-only">{l("Set font")}</label>
       <Bonfire.UI.Common.SettingsSelectLive
         id="set_font"
@@ -58,7 +58,12 @@
       </div>
     </div>
 
-    <form data-scope="set_date_format" name="settings" phx-change="Bonfire.Common.Settings:set">
+    <form
+      class="p-4"
+      data-scope="set_date_format"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
       <Bonfire.UI.Common.SettingsSelectLive
         name={l("Date format")}
         description={l("Select how to display the date/time of activities")}

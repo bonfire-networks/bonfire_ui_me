@@ -27,7 +27,7 @@
         <div role="tablist" class="tabs tabs-box mt-2">
           <input
             type="radio"
-            name="my_tabs_2"
+            name="my_tabs_3"
             role="tab"
             class="tab"
             aria-label="Preferences"
@@ -46,7 +46,7 @@
             </form>
           </div>
 
-          <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="About">
+          <input type="radio" name="my_tabs_3" role="tab" class="tab" aria-label="About">
           <div class="tab-content bg-base-100 border-base-300 p-6">
             {#case e(@dep, :extra, :readme_contents, nil)}
               {#match nil}

@@ -12,7 +12,7 @@
           to={~p"/settings/user/profile"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "profile"
+            "menu-active ": @selected_tab == "profile"
           }
         >
           <span class="">{l("Profile")}</span>
@@ -23,7 +23,7 @@
           to={~p"/settings/account"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "account"
+            "menu-active ": @selected_tab == "account"
           }
         >
           <span class="">{l("Account")}</span>
@@ -34,7 +34,7 @@
           to={~p"/settings/user/preferences/behaviours"}
           class={
             " ",
-            "bg-base-content/10 ": @id == "behaviours"
+            "menu-active ": @id == "behaviours"
           }
         >
           <span class="">{l("Preferences")}</span>
@@ -46,7 +46,7 @@
           to={~p"/settings/user/dashboard"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "dashboard"
+            "menu-active ": @selected_tab == "dashboard"
           }
         >
           <span class="">{l("Configure Dashboard")}</span>
@@ -57,7 +57,7 @@
           to={~p"/settings/user/feeds"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "feeds"
+            "menu-active ": @selected_tab == "feeds"
           }
         >
           <span class="">{l("Configure Feeds")}</span>
@@ -70,7 +70,7 @@
           to={~p"/settings/user/shared_user"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "shared_user"
+            "menu-active ": @selected_tab == "shared_user"
           }
         >
           <span class="">{l("Team Profiles")}</span>
@@ -90,7 +90,7 @@
           to={~p"/settings/user/extensions"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "extensions"
+            "menu-active ": @selected_tab == "extensions"
           }
         >
           <span class="">{l("Configure Extensions")}</span>
@@ -115,7 +115,7 @@
           to={~p"/settings/user/flags"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "flags"
+            "menu-active ": @selected_tab == "flags"
           }
         >
           <span class="">{l("My Flags")}</span>
@@ -127,7 +127,7 @@
           to={~p"/boundaries/ghosted"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "ghosted"
+            "menu-active": @selected_tab == "ghosted"
           }
         >
           <div class="flex flex-col">
@@ -140,7 +140,7 @@
           to={~p"/boundaries/silenced"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "silenced"
+            "menu-active": @selected_tab == "silenced"
           }
         >
           <span class="">{l("Silenced")}</span>
@@ -152,12 +152,12 @@
           to={~p"/settings/user/blocks_import"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "blocks_import"
+            "menu-active": @selected_tab == "blocks_import"
           }
         >
           <span class={
-            "text-sm",
-            "text-base-content": @selected_tab == "blocks_import"
+            "",
+            "menu-active": @selected_tab == "blocks_import"
           }>{l("Import block lists")}</span>
         </LinkLive>
       </li>
@@ -175,7 +175,7 @@
           to={~p"/boundaries/circles"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "circles"
+            "menu-active": @selected_tab == "circles"
           }
         >
           <div class="flex flex-col">
@@ -188,7 +188,7 @@
           to={~p"/boundaries/acls"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "acls"
+            "menu-active": @selected_tab == "acls"
           }
         >
           <span class="">{l("Boundary presets")}</span>
@@ -199,7 +199,7 @@
           to={~p"/boundaries/roles"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "roles"
+            "menu-active": @selected_tab == "roles"
           }
         >
           <span class="">{l("Roles")}</span>
@@ -210,7 +210,7 @@
           to={~p"/boundaries/default_roles"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "default_roles"
+            "menu-active": @selected_tab == "default_roles"
           }
         >
           <span class="">{l("Instance-wide roles")}</span>
@@ -230,7 +230,7 @@
           to={~p"/settings/user/import"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "import"
+            "menu-active ": @selected_tab == "import"
           }
         >
           <span class="">{l("Import")}</span>
@@ -241,7 +241,7 @@
           to={~p"/settings/user/export"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "export"
+            "menu-active ": @selected_tab == "export"
           }
         >
           <span class="">{l("Export")}</span>
@@ -261,7 +261,7 @@
           to={~p"/settings/user/emojis"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "emojis"
+            "menu-active": @selected_tab == "emojis"
           }
         >
           <span class="">{l("Custom emoji")}</span>
@@ -273,7 +273,7 @@
           to={~p"/settings/user/code"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "code"
+            "menu-active": @selected_tab == "code"
           }
         >
           <span class="">{l("Libraries & Licences")}</span>
