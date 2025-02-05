@@ -31,7 +31,7 @@
           id="shared_user_label"
           name="shared_user[label]"
           value={e(current_user(@__context__), :shared_user, :label, "")}
-          class="input"
+          class="input w-full"
           placeholder={l("Type here")}
         />
       </div>
@@ -53,7 +53,7 @@
           type="text"
           id="add_shared_user"
           name="add_shared_user"
-          class="input input-bordered"
+          class="input w-full"
           placeholder="Enter their emails or usernames, comma seperated"
         />
       </div>

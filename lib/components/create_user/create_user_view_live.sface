@@ -48,6 +48,7 @@
       </div>
   {/case}
   <Form
+    id="create-user-form"
     for={@form}
     action={path(:create_user, :create)}
     opts={[

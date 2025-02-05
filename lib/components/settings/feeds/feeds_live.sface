@@ -5,16 +5,13 @@
   </div>
 
   <div class="flex flex-col gap-2">
-    <div class="flex flex-col gap-1">
-      <div class="text-xs uppercase text-base-content/70 font-semibold">{l("Feed Presets")}</div>
-      <div class="text-sm text-base-content/70">{l("Your saved feed configurations.")}</div>
-    </div>
-
     <!-- id="draggable_menu"
       phx-hook="Draggable" -->
     <ul
+      id="draggable_menu_settings"
+      phx-hook="Draggable"
       data-event="Bonfire.Common.Settings:reorder_widget"
-      class="menu gap-3 bg-base-100 menu-sm p-0 mt-4"
+      class="menu gap-3 bg-base-100 menu-sm p-0 w-full"
     >
       {#for {preset, index} <- Enum.with_index(@presets || [])}
         <li
@@ -26,36 +23,40 @@
           {!-- Draggable handle outside Alpine component --}
           <div
             data-sortable-handler
-            class="absolute left-0 top-0 bottom-0 w-[64px] flex items-center place-content-center border-r border-base-content/10"
+            class="absolute left-0 top-0 bottom-0 w-23 flex items-center place-content-center border-r border-base-content/10"
           >
             <#Icon iconify="ic:baseline-drag-indicator" class="w-5 h-5" />
           </div>
 
           {!-- Alpine component in separate container --}
-          <div x-data="{open: false}" class="pl-16">
-            <div class="flex hover:bg-base-100 py-2 gap-3 items-center justify-between">
+          <div x-data="{open: false}" class="pl-26 hover:bg-base-100 flex-col items-start flex w-full pr-4">
+            <div class="flex py-2 gap-3 items-center flex-1 w-full justify-between">
               <div class="flex flex-1 items-center gap-3">
                 <div class="flex flex-col">
                   <div class="font-medium text-base">{to_string(preset.id)}</div>
                   <div class="text-sm text-base-content/70">{preset.description}</div>
                   <div class="text-xs text-base-content/50 mt-1 flex gap-2 flex-wrap">
                     {#if preset[:current_user_required]}
-                      <span class="badge badge-sm">{l("Requires login")}</span>
+                      <span class="badge badge-info badge-soft badge-sm">{l("Requires login")}</span>
                     {/if}
                     {#if preset.filters[:feed_name]}
-                      <span class="badge badge-sm badge-outline">{preset.filters.feed_name}</span>
+                      <span class="badge badge-sm badge-secondary badge-soft">{preset.filters.feed_name}</span>
                     {/if}
                     {#if preset.filters[:creators]}
-                      <span class="badge badge-sm badge-outline">By: {Enum.join(preset.filters.creators, ", ")}</span>
+                      <span class="badge badge-sm badge-info badge-soft">By: {Enum.join(preset.filters.creators, ", ")}</span>
                     {/if}
                     {#if preset.filters[:media_types]}
-                      <span class="badge badge-sm badge-outline">Media: {Enum.join(preset.filters.media_types, ", ")}</span>
+                      <span class="badge badge-sm badge-info badge-soft">Media: {Enum.join(preset.filters.media_types, ", ")}</span>
                     {/if}
                   </div>
                 </div>
               </div>
               <div class="flex items-center gap-2">
-                <button x-on:click="open = !open" :class="{'btn-active': open}" class="btn btn-sm btn-outline">
+                <button
+                  x-on:click="open = !open"
+                  :class="{'btn-active': open}"
+                  class="btn btn-sm btn-primary btn-soft"
+                >
                   {l("Edit")}
                 </button>
                 <button phx-click="hide_preset" phx-value-id={preset.id} class="btn btn-sm btn-circle btn-ghost">
@@ -74,10 +75,11 @@
             </div>
             <div
               x-show="open"
-              class="border-t hover:bg-base-100 flex flex-col rounded-none py-3 border-base-content/10"
+              class="border my-3 w-full hover:bg-base-100 flex flex-col p-3 border-base-content/10"
               x-cloak
               x-collapse
             >
+              <div class="text-lg font-semibold">{l("Edit the feed preset")}</div>
               <StatelessComponent module={maybe_component(Bonfire.UI.Social.FeedExtraControlsLive, @__context__)} />
             </div>
           </div>
