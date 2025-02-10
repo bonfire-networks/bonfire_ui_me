@@ -87,7 +87,7 @@
     />
 
     <label class="form-control w-full mt-2">
-      <div class="label">
+      <div class="label mt-6">
         <span class="text-xs label-text">
           {l("Password (Min 10 characters)")}
         </span>
