@@ -4,7 +4,7 @@
     <input name="scope" value={@scope} type="hidden">
 
     <Bonfire.UI.Common.SettingsRadiosLive
-      keys={[Bonfire.Web.DashboardLive, :default_feed]}
+      keys={[Bonfire.Web.Views.DashboardLive, :default_feed]}
       options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
            Bonfire.Common.Config.get(
              [Bonfire.UI.Social.FeedsLive, :curated],
@@ -30,7 +30,7 @@
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Show popular topics")}
         description={l("Show the most popular topics")}
-        keys={[Bonfire.Web.DashboardLive, :include, :popular_topics]}
+        keys={[Bonfire.Web.Views.DashboardLive, :include, :popular_topics]}
         default_value
         scope={@scope}
         compact
@@ -40,7 +40,7 @@
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Show recent users")}
           description={l("Show the most recent users")}
-          keys={[Bonfire.Web.DashboardLive, :include, :recent_users]}
+          keys={[Bonfire.Web.Views.DashboardLive, :include, :recent_users]}
           default_value
           scope={@scope}
           compact
@@ -51,7 +51,7 @@
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Show admins")}
           description={l("Show the admins")}
-          keys={[Bonfire.Web.DashboardLive, :include, :admins]}
+          keys={[Bonfire.Web.Views.DashboardLive, :include, :admins]}
           default_value
           scope={@scope}
           compact

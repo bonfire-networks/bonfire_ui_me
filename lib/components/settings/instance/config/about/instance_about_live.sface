@@ -21,7 +21,7 @@
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Show users")}
       description={l("Show the users directory on the about page")}
-      keys={[Bonfire.Web.AboutLive, :include, :users]}
+      keys={[Bonfire.Web.Views.AboutLive, :include, :users]}
       default_value
       scope={:instance}
       compact
@@ -30,7 +30,7 @@
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Show digital space defaults")}
       description={l("Show the digital space defaults on the about page")}
-      keys={[Bonfire.Web.AboutLive, :include, :preferences]}
+      keys={[Bonfire.Web.Views.AboutLive, :include, :preferences]}
       default_value
       scope={:instance}
       compact
