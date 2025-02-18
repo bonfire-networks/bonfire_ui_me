@@ -17,7 +17,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
   declare_nav_link(l("Profile"),
     page: "profile",
-    icon: "carbon:user",
+    icon: "carbon:user-filled",
     icon_active: "carbon:user-filled"
   )
 

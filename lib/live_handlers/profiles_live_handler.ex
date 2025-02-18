@@ -267,6 +267,9 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       Settings.get([Bonfire.OpenScience, :openalex_widget], false, current_user: current_user) &&
         module_enabled?(Bonfire.OpenScience.OpenAlex.DataLive, current_user)
 
+    pandora_public_lists_widget_enabled =
+      module_enabled?(Bonfire.PanDoRa.Web.WidgetPublicListsLive, current_user)
+
     # ^ TODO: only use module_enabled
 
     sidebar_widgets = [
@@ -281,6 +284,9 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       ],
       users: [
         secondary: [
+          pandora_public_lists_widget_enabled &&
+            {Bonfire.PanDoRa.Web.WidgetPublicListsLive,
+             [type: Surface.LiveComponent, id: "pandora-user-public-lists", user: user]},
           openalex_widget_enabled &&
             {Bonfire.OpenScience.OpenAlex.DataLive,
              [type: Surface.LiveComponent, id: "open-alex-topics", user: user]},
