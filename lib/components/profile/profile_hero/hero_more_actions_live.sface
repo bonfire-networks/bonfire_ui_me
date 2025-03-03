@@ -7,53 +7,66 @@
       <#Icon iconify="ph:gear" class="w-4 h-4" />
       <span class="sr-only">{l("Edit profile")}</span>
     </LinkLive>
+  {/if}
 
-    <div aria-haspopup="true" class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-sm btn-circle btn-ghost">
-        <#Icon solid="DotsVertical" class="w-4 h-4" />
-      </label>
-      <ul
-        tabindex="0"
-        role="menu"
-        aria-orientation="vertical"
-        class="mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/10"
-      >
-        <li :if={@permalink}>
-          <a
-            phx-hook="Copy"
-            id={"hero_action_copy_url_#{id(@user)}"}
-            href={@permalink}
-            class="flex items-center gap-2 text-sm text-base-content"
+  <div aria-haspopup="true" class="dropdown dropdown-end">
+    <label tabindex="0" class="btn btn-sm btn-circle btn-ghost">
+      <#Icon solid="DotsVertical" class="w-4 h-4" />
+    </label>
+    <ul
+      tabindex="0"
+      role="menu"
+      aria-orientation="vertical"
+      class="mt-1 relative z-50 rounded-xl shadow-xl dropdown_actions w-60 p-0.5 menu dropdown-content bg-base-100 border border-base-content/10"
+    >
+      <li :if={@permalink}>
+        <a
+          phx-hook="Copy"
+          id={"hero_action_copy_url_#{id(@user)}"}
+          href={@permalink}
+          class="flex items-center gap-2 text-sm text-base-content"
+        >
+          <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
+          <span data-role="label">{l("Copy link")}</span>
+        </a>
+      </li>
+
+      {#if @character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
+        <li>
+          <LinkPatchLive
+            class="flex items-center gap-1"
+            to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
           >
-            <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
-            <span data-role="label">{l("Copy link")}</span>
-          </a>
+            <span class="text-sm hover:underline font-semibold">
+              {l("Following")}
+            </span>
+            <span :if={e(@user, :following_count, nil)} class="text-xs text-base-content/50">
+              {e(@user, :following_count, 0)}
+            </span>
+          </LinkPatchLive>
         </li>
+        <li>
+          <LinkPatchLive
+            class="flex items-center gap-1"
+            to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
+          >
+            <span class="text-sm hover:underline font-semibold">
+              {l("Followers")}
+            </span>
+            <span :if={e(@user, :followers_count, nil)} class="text-xs text-base-content/50">
+              {e(@user, :followers_count, 0)}
+            </span>
+          </LinkPatchLive>
+        </li>
+      {/if}
 
+      {#if current_user_id(@__context__) == id(@user)}
         <li>
           <LinkLive to="/settings" class="flex items-center gap-2 text-sm text-base-content">
             <#Icon iconify="ph:gear" class="w-4 h-4 shrink-0" />
             <span>{l("Settings")}</span>
           </LinkLive>
         </li>
-
-        {#if extension_enabled?(:bonfire_ui_reactions, @__context__)}
-          <li>
-            <LinkLive to="/likes" class="flex items-center gap-2 text-sm text-base-content">
-              <#Icon iconify="mingcute:fire-line" class="w-4 h-4" />
-              <span>{l("Likes")}</span>
-            </LinkLive>
-          </li>
-
-          {#if extension_enabled?(Bonfire.UI.Reactions.BookmarksLive, @__context__)}
-            <li>
-              <LinkLive to="/bookmarks" class="flex items-center gap-2 text-sm text-base-content">
-                <#Icon iconify="carbon:bookmark" class="w-4 h-4" />
-                <span>{l("Bookmarks")}</span>
-              </LinkLive>
-            </li>
-          {/if}
-        {/if}
 
         <li>
           <LinkLive to="/notifications" class="flex items-center gap-2 text-sm text-base-content">
@@ -75,31 +88,7 @@
             <span>{l("Logout")}</span>
           </LinkLive>
         </li>
-      </ul>
-    </div>
-  {#else}
-    <div aria-haspopup="true" class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-sm btn-circle btn-ghost">
-        <#Icon solid="DotsVertical" class="w-4 h-4" />
-      </label>
-      <ul
-        tabindex="0"
-        role="menu"
-        aria-orientation="vertical"
-        class="mt-1 relative z-50 rounded-xl shadow-sm dropdown_actions w-60 menu dropdown-content bg-base-100 border border-base-content/10"
-      >
-        <li>
-          <a
-            phx-hook="Copy"
-            id={"hero_action_copy_url_#{id(@user)}"}
-            href={URIs.canonical_url(@user)}
-            class="flex items-center gap-2 text-sm text-base-content"
-          >
-            <#Icon iconify="ri:file-copy-line" class="w-4 h-4 shrink-0" />
-            <span data-role="label">{l("Copy link")}</span>
-          </a>
-        </li>
-
+      {#else}
         {#if @character_type == :group}
           <!-- <li
             class="create_new_topic"
@@ -221,7 +210,7 @@
             </a>
           </li>
         {/if}
-      </ul>
-    </div>
-  {/if}
+      {/if}
+    </ul>
+  </div>
 </div>

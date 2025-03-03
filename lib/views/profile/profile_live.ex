@@ -109,28 +109,28 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #     )}
   # end
 
-  def handle_profile_params(%{"tab" => tab} = params, _url, socket)
-      when tab in ["followers", "followed", "requests", "requested"] do
-    debug(tab, "load tab")
-    user = e(assigns(socket), :user, nil)
-    debug(user, "user to get followers for")
+  # def handle_profile_params(%{"tab" => tab} = params, _url, socket)
+  #     when tab in ["followers", "followed", "requests", "requested"] do
+  #   debug(tab, "load tab")
+  #   user = e(assigns(socket), :user, nil)
+  #   debug(user, "user to get followers for")
 
-    socket =
-      socket
-      |> assign(selected_tab: tab)
+  #   socket =
+  #     socket
+  #     |> assign(selected_tab: tab)
 
-    {:noreply,
-     Bonfire.Social.Feeds.LiveHandler.assign_feed(
-       socket,
-       Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(
-         tab,
-         # Pass the user instead of nil
-         user,
-         params,
-         socket
-       )
-     )}
-  end
+  #   {:noreply,
+  #    Bonfire.Social.Feeds.LiveHandler.assign_feed(
+  #      socket,
+  #      Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(
+  #        tab,
+  #        # Pass the user instead of nil
+  #        user,
+  #        params,
+  #        socket
+  #      )
+  #    )}
+  # end
 
   def handle_profile_params(
         %{"username" => "%40" <> username} = _params,
@@ -141,36 +141,36 @@ defmodule Bonfire.UI.Me.ProfileLive do
     {:noreply, patch_to(socket, "/@" <> String.replace(username, "%40", "@"), replace: true)}
   end
 
-  def handle_profile_params(%{"tab" => tab} = params, _url, socket) do
-    debug(tab, "unknown tab, maybe from another extension?")
-
+  # def handle_profile_params(%{"tab" => tab} = params, _url, socket) do
+  def handle_profile_params(params, _url, socket) do
     {:noreply,
      assign(socket,
-       selected_tab: tab,
-       feed_filters: params,
+       selected_tab: :timeline,
+       feed_filters: Map.put(params, :by, socket.assigns[:user]),
+       feed_name: :user_activities,
        loading: false
      )}
   end
 
-  def handle_profile_params(params, _url, socket) do
-    if is_nil(current_user_id(assigns(socket))) do
-      # TODO: configurable by user
-      debug(params, "load guest default tab")
+  # def handle_profile_params(params, _url, socket) do
+  #   if is_nil(current_user_id(assigns(socket))) do
+  #     # TODO: configurable by user
+  #     debug(params, "load guest default tab")
 
-      handle_profile_params(
-        Map.merge(params || %{}, %{"tab" => "timeline"}),
-        nil,
-        socket
-      )
-    else
-      # TODO: configurable
-      debug(params, "load user default tab")
+  #     handle_profile_params(
+  #       Map.merge(params || %{}, %{"tab" => "timeline"}),
+  #       nil,
+  #       socket
+  #     )
+  #   else
+  #     # TODO: configurable
+  #     debug(params, "load user default tab")
 
-      handle_profile_params(
-        Map.merge(params || %{}, %{"tab" => "timeline"}),
-        nil,
-        socket
-      )
-    end
-  end
+  #     handle_profile_params(
+  #       Map.merge(params || %{}, %{"tab" => "timeline"}),
+  #       nil,
+  #       socket
+  #     )
+  #   end
+  # end
 end

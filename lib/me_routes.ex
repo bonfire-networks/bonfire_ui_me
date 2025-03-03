@@ -206,6 +206,7 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:user_required)
 
         live("/user", ProfileLive, as: Bonfire.Data.Identity.User)
+        live("/profile", ProfileLive, as: Bonfire.Data.Identity.User)
 
         live("/settings/user/:tab", SettingsLive, :user, as: :user_settings)
         live("/settings/user/:tab/:id", SettingsLive, :user, as: :user_settings)
