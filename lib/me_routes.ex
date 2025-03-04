@@ -60,9 +60,11 @@ defmodule Bonfire.UI.Me.Routes do
         # live("/user/:username", ProfileLive, as: :user_profile)
         live("/user/:username/:tab", ProfileLive, as: :user_profile)
 
-        live("/profile/:id", ProfileLive, as: Bonfire.Data.Social.Profile)
-        live("/character/:id", CharacterLive, as: Bonfire.Data.Identity.Character)
-        live("/username/:username", Bonfire.UI.Me.CharacterLive, as: Bonfire.UI.Me.CharacterLive)
+        live("/profile/:id", ProfileLive)
+        live("/@:id", ProfileLive, as: Bonfire.Data.Social.Profile)
+        live("/@:id", ProfileLive, as: Bonfire.Data.Identity.Character)
+        live("/character/:id", CharacterLive)
+        live("/username/:username", CharacterLive, as: Bonfire.UI.Me.CharacterLive)
         # live("/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile)
         # live("/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character)
 
@@ -207,6 +209,9 @@ defmodule Bonfire.UI.Me.Routes do
 
         live("/user", ProfileLive, as: Bonfire.Data.Identity.User)
         live("/profile", ProfileLive, as: Bonfire.Data.Identity.User)
+
+        #  used for testing
+        live("/feed/user_activities", ProfileLive, as: :user_activities)
 
         live("/settings/user/:tab", SettingsLive, :user, as: :user_settings)
         live("/settings/user/:tab/:id", SettingsLive, :user, as: :user_settings)
