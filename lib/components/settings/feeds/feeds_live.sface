@@ -10,6 +10,9 @@
     <ul
       id="draggable_menu_settings"
       phx-hook="Draggable"
+      data-widget-draggable
+      data-grouped="id"
+      data-parent="draggable_menu"
       data-event="Bonfire.Common.Settings:reorder_widget"
       class="menu gap-3 bg-base-100 menu-sm p-0 w-full"
     >
@@ -52,14 +55,8 @@
                 </div>
               </div>
               <div class="flex items-center gap-2">
-                <button
-                  x-on:click="open = !open"
-                  :class="{'btn-active': open}"
-                  class="btn btn-sm btn-primary btn-soft"
-                >
-                  {l("Edit")}
-                </button>
-                <button phx-click="hide_preset" phx-value-id={preset.id} class="btn btn-sm btn-circle btn-ghost">
+                
+                <button phx-click="hide_preset" phx-value-id={preset.id} class="btn btn-sm btn-circle btn-info btn-soft">
                   <#Icon iconify="ph:eye-slash-bold" class="w-4 h-4" />
                   <span class="sr-only">{l("Toggle visibility")}</span>
                 </button>
