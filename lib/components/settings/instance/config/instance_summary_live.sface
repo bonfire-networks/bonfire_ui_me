@@ -353,7 +353,7 @@
                 <div class="text-sm font-light text-base-content/70">{l("What to show for users without a profile picture")}</div>
               </div>
               <Bonfire.UI.Common.AvatarLive
-                class="w-14 h-14 border-base-content/30 border rounded"
+                class="w-14 h-14 border-base-content/30 border rounded-full"
                 parent_id="about"
               />
             </div>

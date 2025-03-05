@@ -21,7 +21,7 @@
                 <LinkLive to={@href} class="flex items-center justify-between">
                   <Bonfire.UI.Common.AvatarLive
                     parent_id="user_preview"
-                    class="inline-block object-cover w-16 h-16"
+                    class="inline-block object-cover rounded-full w-16 h-16"
                     bg_class="h-full"
                     src={avatar_url}
                     user_id={id(@user)}

@@ -129,7 +129,7 @@
       <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
     </form>
 
-    <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
+    <!-- <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
 
       <Bonfire.UI.Common.SettingsToggleLive
@@ -138,9 +138,9 @@
         keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
         scope={@scope}
       />
-    </form>
+    </form> -->
 
-    <form data-scope="set_hide_actions_on_discussion" phx-change="Bonfire.Common.Settings:set">
+    <!-- <form data-scope="set_hide_actions_on_discussion" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Hide actions on discussions (eg. reply, boost, etc)")}
@@ -148,7 +148,7 @@
         keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
         scope={@scope}
       />
-    </form>
+    </form> -->
   </div>
 
   <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
