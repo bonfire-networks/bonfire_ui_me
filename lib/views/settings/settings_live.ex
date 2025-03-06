@@ -124,6 +124,30 @@ defmodule Bonfire.UI.Me.SettingsLive do
      )}
   end
 
+  def handle_params(%{"tab" => tab}, _url, socket) do
+    {:noreply,
+     assign(
+       socket,
+       back: true,
+       selected_tab: tab,
+       page_header_aside: [
+         {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
+          [
+            selected_tab: tab,
+            scope: assigns(socket)[:scope]
+          ]}
+       ]
+     )}
+  end
+
+  def handle_params(_, url, socket) when is_binary(url) do
+    if String.contains?(url, "/settings/account") do
+      {:noreply, assign(socket, selected_tab: "account")}
+    else
+      {:noreply, socket}
+    end
+  end
+
   def handle_params(_, _url, socket) do
     {:noreply, socket}
   end

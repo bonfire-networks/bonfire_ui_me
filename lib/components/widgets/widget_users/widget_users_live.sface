@@ -11,7 +11,7 @@
         my_follow={:skip}
         hide_text
         container_class="ml-auto"
-        class="btn-circle btn-xs btn-ghost"
+        class="btn btn-circle btn-xs btn-ghost opacity-70"
       />
     {/if}
   </:action>

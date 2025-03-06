@@ -227,7 +227,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       hide_tabs: false,
       smart_input: true,
       feed: nil,
-      aliases: nil,
+      aliases: [],
       page_info: [],
       page: "profile",
       showing_within: :profile,
@@ -246,7 +246,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       silenced_instance_wide?: nil,
       ghosted_instance_wide?: nil,
       ghosted?: nil,
-      silenced?: nil
+      silenced?: nil,
+      selected_tab: nil
     ]
   end
 
