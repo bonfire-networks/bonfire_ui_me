@@ -61,9 +61,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
          %{assigns: %{user: %{character: %{username: loaded_username}}}} = socket
        )
        when load_username == loaded_username do
-    debug("skip (re)loading user")
-    debug(loaded_username, "old user")
-    debug(load_username, "load new user")
+    debug(loaded_username, "skip (re)loading same user")
+
     socket
   end
 
@@ -111,23 +110,19 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
   def handle_profile_params(%{"tab" => tab} = params, _url, socket)
       when tab in ["followers", "followed", "requests", "requested"] do
-    debug(tab, "load tab")
+    # debug(tab, "load tab")
     user = e(assigns(socket), :user, nil)
-    debug(user, "user to get followers for")
-
-    socket =
-      socket
-      |> assign(selected_tab: tab)
+    debug(user, "user to get #{tab} for")
 
     {:noreply,
-     Bonfire.Social.Feeds.LiveHandler.assign_feed(
+     assign(
        socket,
-       Bonfire.Social.Feeds.LiveHandler.load_user_feed_assigns(
-         tab,
-         # Pass the user instead of nil
-         user,
-         params,
-         socket
+       maybe_apply(
+         Bonfire.Social.Graph.Follows.LiveHandler,
+         :load_network,
+         [tab, user, params, socket],
+         fallback_return: [],
+         current_user: current_user(socket)
        )
      )}
   end
