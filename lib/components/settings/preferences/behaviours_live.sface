@@ -264,13 +264,23 @@
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse class="pt-2">
-        <StatelessComponent
+        {!-- <StatelessComponent
           module={maybe_component(Bonfire.UI.Social.TimeControlLive, @__context__)}
           scope={@scope}
           event_name="Bonfire.Common.Settings:set"
+          keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
           current_value={:load_from_settings}
           options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
-        />
+        /> --}
+
+        <form data-scope="time_limit" phx-change="Bonfire.Common.Settings:set">
+          <Bonfire.UI.Common.SettingsSelectLive
+            keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
+            options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
+            default_value={nil}
+            scope={@scope}
+          />
+        </form>
       </div>
     </div>
 
