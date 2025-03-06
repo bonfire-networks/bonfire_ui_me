@@ -33,7 +33,7 @@
             aria-label="Preferences"
             checked="checked"
           />
-          <div class="tab-content bg-base-100 border-base-300 p-2">
+          <div class="tab-content bg-base-100 border-base-300 p-2 mt-1 rounded-lg">
             <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
               <Bonfire.UI.Common.WidgetsLive
                 widgets={extension_settings}
@@ -47,7 +47,7 @@
           </div>
 
           <input type="radio" name="my_tabs_3" role="tab" class="tab" aria-label="About">
-          <div class="tab-content bg-base-100 border-base-300 p-6">
+          <div class="tab-content bg-base-100 border-base-300 p-6 mt-1 rounded-lg">
             {#case e(@dep, :extra, :readme_contents, nil)}
               {#match nil}
               {#match readme_contents}
