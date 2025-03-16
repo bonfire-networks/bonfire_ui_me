@@ -21,7 +21,8 @@ defmodule Bonfire.UI.Me.SwitchUserLive do
          max_users_per_account:
            Config.get(
              [Bonfire.Me.Users, :max_per_account],
-             4
+             4,
+             :bonfire_me
            )
        )}
 end
