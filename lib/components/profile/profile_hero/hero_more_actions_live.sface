@@ -136,7 +136,7 @@
           {/if}
         </li>
 
-        {#if @character_type == :user and current_user_id(@__context__)}
+        <!-- {#if @character_type == :user and current_user_id(@__context__)}
           <li>
             <StatelessComponent
               :if={current_user(@__context__)}
@@ -145,7 +145,7 @@
               parent_id="profile_hero"
             />
           </li>
-        {/if}
+        {/if} -->
 
         <li class="">
           <StatelessComponent
