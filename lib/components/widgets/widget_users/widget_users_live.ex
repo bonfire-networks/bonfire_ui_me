@@ -4,7 +4,7 @@ defmodule Bonfire.UI.Me.WidgetUsersLive do
   prop users, :any, default: []
   prop widget_title, :string, default: nil
   prop with_batch_follow, :boolean, default: true
-
+  prop parent_id, :string, default: nil
   def render(assigns) do
     assigns
     |> assign(

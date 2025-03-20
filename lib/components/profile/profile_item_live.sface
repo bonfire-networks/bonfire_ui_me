@@ -65,20 +65,19 @@
             current_user_id(@__context__) != id(@profile)}
           class="p-3 pt-1 items-center"
         >
-          <StatefulComponent
+          <!-- <StatefulComponent
             module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
-            id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile), __MODULE__)}
+            id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile), @parent_id)}
             object_id={id(@profile)}
             hide_icon
-          />
-          <div class="pt-1">
-            <StatelessComponent
-              module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
-              user_id={id(@profile)}
-              parent_id={"profile_item_tooltip_#{@parent_id}_#{id(@profile)}"}
-              as_icon
-            />
-          </div>
+          /> 
+
+          <StatelessComponent
+            module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @parent_id)}
+            user_id={id(@profile)}
+            parent_id={"profile_item_tooltip_#{@parent_id}_#{id(@profile)}"}
+            as_icon
+          /> -->
         </div>
       </:actions>
     </Bonfire.UI.Me.UserPreviewLive>
