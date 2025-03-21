@@ -10,6 +10,7 @@
       aria-expanded="true"
     >
       <LinkLive
+        parent_id={[@parent_id, "pi_avatar"]}
         to={if String.starts_with?(e(@character, :username, ""), "http"),
           do: e(@character, :username, nil),
           else: "/character/#{e(@character, :username, "")}"}
@@ -26,6 +27,7 @@
       </LinkLive>
       <div :if={!@only_img}>
         <LinkLive
+          parent_id={[@parent_id, "pi_l"]}
           to={if String.starts_with?(e(@character, :username, ""), "http"),
             do: e(@character, :username, nil),
             else: "/character/#{e(@character, :username, "")}"}
@@ -56,6 +58,7 @@
         profile: @profile,
         character: @character
       }}
+      parent_id={[@parent_id, "ppr"]}
       with_summary
       class="tooltip z-[9999999999999999] absolute w-[300px] top-0 left-0 hidden"
     >

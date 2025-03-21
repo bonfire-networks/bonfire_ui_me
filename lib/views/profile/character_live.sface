@@ -6,7 +6,7 @@
     <:header>
       <StatefulComponent
         module={maybe_component(Bonfire.UI.Me.ProfileHeroFullLive, @user)}
-        id={random_dom_id()}
+        id="profile_character"
         user={@user}
         boundary_preset={@boundary_preset}
         selected_tab={@selected_tab}
