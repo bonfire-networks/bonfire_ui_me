@@ -4,7 +4,7 @@
     <LinkLive to={path(the_other(@activity, @object, @__context__))} class="flex profile-item group">
       <div class="absolute left-0">
         <Bonfire.UI.Common.AvatarLive
-          parent_id={@activity_component_id || id(@activity)}
+          parent_id={["character", @activity_component_id || id(@activity)]}
           class="w-6 h-6 rounded-full"
           bg_class="rounded-btn"
           src={Media.avatar_url(the_other(@activity, @object, @__context__))}

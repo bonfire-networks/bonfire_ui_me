@@ -17,7 +17,7 @@
         class=""
       >
         <Bonfire.UI.Common.AvatarLive
-          parent_id={"profile_item_#{@parent_id}"}
+          parent_id={["pi_avatar", @parent_id]}
           comment={if @lg, do: false, else: true}
           user_id={id(@profile)}
           src={Media.avatar_url(@profile)}
@@ -27,7 +27,7 @@
       </LinkLive>
       <div :if={!@only_img}>
         <LinkLive
-          parent_id={[@parent_id, "pi_l"]}
+          parent_id={["pi_l", @parent_id]}
           to={if String.starts_with?(e(@character, :username, ""), "http"),
             do: e(@character, :username, nil),
             else: "/character/#{e(@character, :username, "")}"}
