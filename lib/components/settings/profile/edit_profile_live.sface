@@ -27,6 +27,7 @@
         </div>
       </div>
     </div>
+
     <div class="mt-3">
       <StatelessComponent
         module={maybe_component(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
