@@ -47,7 +47,7 @@
         >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote?)}</div>
       </div>
     </div>
-
+    {!-- 
     <Bonfire.UI.Me.UserPreviewLive
       href={if String.starts_with?(e(@character, :username, ""), "http"),
         do: e(@character, :username, nil),
@@ -63,12 +63,12 @@
       class="tooltip z-[9999999999999999] absolute w-[300px] top-0 left-0 hidden"
     >
       <:actions>
-        <div
+       <div
           :if={(:follow not in @show_controls and current_user_id(@__context__)) &&
             current_user_id(@__context__) != id(@profile)}
           class="p-3 pt-1 items-center"
         >
-          <!-- <StatefulComponent
+          <StatefulComponent
             module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
             id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile), @parent_id)}
             object_id={id(@profile)}
@@ -80,10 +80,13 @@
             user_id={id(@profile)}
             parent_id={"profile_item_tooltip_#{@parent_id}_#{id(@profile)}"}
             as_icon
-          /> -->
-        </div>
+          /> 
+          </div> 
+        
       </:actions>
     </Bonfire.UI.Me.UserPreviewLive>
+
+    --}
   </div>
 
   <div class="flex">
@@ -99,13 +102,22 @@
 
     <StatefulComponent
       module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
-      :if={(:follow in @show_controls and current_user_id(@__context__)) &&
+      :if={(:follow in @show_controls and current_user_id(@__context__)) && id(@profile) &&
         current_user_id(@__context__) != id(@profile)}
       id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile), __MODULE__)}
       object_id={id(@profile)}
       path={path(@character)}
       hide_icon
       class={@class}
+    />
+
+    <StatelessComponent
+      module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @parent_id)}
+      :if={(:add_to_circles in @show_controls and current_user_id(@__context__)) && id(@profile) &&
+        current_user_id(@__context__) != id(@profile)}
+      user_id={id(@profile)}
+      parent_id={"profile_item_add_to_circles_#{@parent_id}_#{id(@profile)}"}
+      as_icon
     />
 
     <#slot />

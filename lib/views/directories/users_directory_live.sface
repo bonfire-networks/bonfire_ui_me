@@ -11,7 +11,7 @@
       show_summary
       wrapper_class="flex items-start gap-3 profile-item group justify-between gap-6"
       avatar_class="w-16 h-16"
-      show_controls={[:follow]}
+      show_controls={[:follow, :add_to_circles]}
     />
     <!-- <Bonfire.UI.Me.UserPreviewLive user={user} /> -->
   </div>
