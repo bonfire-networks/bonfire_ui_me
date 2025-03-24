@@ -140,7 +140,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   def handle_profile_params(params, _url, socket) do
     {:noreply,
      assign(socket,
-       selected_tab: :timeline,
+       selected_tab: params["tab"] || :timeline,
        feed_filters: Map.put(params, :by, socket.assigns[:user]),
        feed_name: :user_activities,
        loading: false

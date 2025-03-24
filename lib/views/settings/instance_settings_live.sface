@@ -11,7 +11,7 @@
     {#match "admins"}
       <StatefulComponent
         :if={current_user(@__context__)}
-        module={maybe_component(Bonfire.UI.Boundaries.CircleLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Boundaries.CircleMembersLive, @__context__)}
         selected_tab={@selected_tab}
         id="admin_circle"
         scope={@scope}
@@ -22,7 +22,7 @@
     {#match "mods"}
       <StatefulComponent
         :if={current_user(@__context__)}
-        module={maybe_component(Bonfire.UI.Boundaries.CircleLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Boundaries.CircleMembersLive, @__context__)}
         selected_tab={@selected_tab}
         id="mod_circle"
         scope={@scope}
@@ -33,7 +33,7 @@
     {#match "remote_allow_list"}
       <StatefulComponent
         :if={current_user(@__context__)}
-        module={maybe_component(Bonfire.UI.Boundaries.CircleLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Boundaries.CircleMembersLive, @__context__)}
         selected_tab={@selected_tab}
         id="remote_allow_list_circle"
         scope={@scope}
