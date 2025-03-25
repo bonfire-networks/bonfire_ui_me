@@ -203,25 +203,14 @@
       </div>
     </div>
 
-    <div x-data="{open: false}" class="p-4 cursor-pointer">
-      <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
-        <div class="flex flex-col gap-1">
-          <div class="text-sm font-medium">{l("Default feed")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("Select the feed you want to display on the homepage")}</div>
-        </div>
-        {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
-        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-      </div>
-      <div x-show="open" x-cloak x-collapse class="pt-2">
-        <form data-scope="default_feed" phx-change="Bonfire.Common.Settings:set">
-          <Bonfire.UI.Common.SettingsRadiosLive
-            keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
-            options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
+    <form class="p-4" data-scope="set_default_feed" name="settings" phx-change="Bonfire.Common.Settings:set">
+      <label for="set_default_feed" class="sr-only">{l("Set default feed")}</label>
+      <Bonfire.UI.Common.SettingsSelectLive
+        id="set_default_feed"
+        name={l("Default feed")}
+        description={l("Select the feed you want to display on the dashboard")}
+        keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
+        options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
                  Bonfire.Common.Config.get(
                    [Bonfire.UI.Social.FeedsLive, :curated],
                    false
@@ -240,49 +229,31 @@
                 fediverse: l("Remote")
               ]
             end}
-            default_value={:my}
-            scope={@scope}
-          />
-        </form>
-      </div>
-    </div>
+        scope={@scope}
+      />
+    </form>
 
-    <div x-data="{open: false}" class="p-4 cursor-pointer">
-      <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
-        <div class="flex flex-col gap-1">
-          <div class="text-sm font-medium">{l("Feed default time limit")}</div>
-          <div class="text-sm font-light text-base-content/70">{l(
-              "Select the time limit you want to use by default (can always change in the feed controls options)"
-            )}</div>
-        </div>
-        {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
-        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
-        </button>
-      </div>
-      <div x-show="open" x-cloak x-collapse class="pt-2">
-        {!-- <StatelessComponent
-          module={maybe_component(Bonfire.UI.Social.TimeControlLive, @__context__)}
-          scope={@scope}
-          event_name="Bonfire.Common.Settings:set"
-          keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
-          current_value={:load_from_settings}
-          options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
-        /> --}
+    
+  <form data-scope="time_limit" class="p-4" phx-change="Bonfire.Common.Settings:set">
+    <label for="set_default_feed" class="sr-only">{l("Set default time limit")}</label>
+    <Bonfire.UI.Common.SettingsSelectLive
+      keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
+      options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
+      default_value={nil}
+      name={l("Feed time limit")}
+      description={l("Select the time limit you want to use by default (can always change in the feed controls options)")}
+      scope={@scope}
+    />
+  </form>
 
-        <form data-scope="time_limit" phx-change="Bonfire.Common.Settings:set">
-          <Bonfire.UI.Common.SettingsSelectLive
-            keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
-            options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
-            default_value={nil}
-            scope={@scope}
-          />
-        </form>
-      </div>
-    </div>
+  <!-- <div class="p-4">
+  <StatelessComponent
+    module={maybe_component(Bonfire.UI.Social.SortItemsLive, @__context__)}
+    scope={@scope}
+    name={l("Feed default sort")}
+    description={l("Select the default sorting options for your feeds (can always change in the feed controls options)")}
+  />
+  </div> -->
 
     <div x-data="{open: false}" class="p-4 cursor-pointer">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
