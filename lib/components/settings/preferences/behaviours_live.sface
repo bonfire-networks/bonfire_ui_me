@@ -203,7 +203,12 @@
       </div>
     </div>
 
-    <form class="p-4" data-scope="set_default_feed" name="settings" phx-change="Bonfire.Common.Settings:set">
+    <form
+      class="p-4"
+      data-scope="set_default_feed"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
       <label for="set_default_feed" class="sr-only">{l("Set default feed")}</label>
       <Bonfire.UI.Common.SettingsSelectLive
         id="set_default_feed"
@@ -211,42 +216,43 @@
         description={l("Select the feed you want to display on the dashboard")}
         keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
         options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
-                 Bonfire.Common.Config.get(
-                   [Bonfire.UI.Social.FeedsLive, :curated],
-                   false
-                 ) do
-              [
-                my: l("My Feed"),
-                curated: l("Curated"),
-                local: l("Local"),
-                fediverse: l("Remote")
-              ]
-            else
-              [
-                my: l("My Feed"),
-                explore: l("All"),
-                local: l("Local"),
-                fediverse: l("Remote")
-              ]
-            end}
+             Bonfire.Common.Config.get(
+               [Bonfire.UI.Social.FeedsLive, :curated],
+               false
+             ) do
+          [
+            my: l("My Feed"),
+            curated: l("Curated"),
+            local: l("Local"),
+            fediverse: l("Remote")
+          ]
+        else
+          [
+            my: l("My Feed"),
+            explore: l("All"),
+            local: l("Local"),
+            fediverse: l("Remote")
+          ]
+        end}
         scope={@scope}
       />
     </form>
 
-    
-  <form data-scope="time_limit" class="p-4" phx-change="Bonfire.Common.Settings:set">
-    <label for="set_default_feed" class="sr-only">{l("Set default time limit")}</label>
-    <Bonfire.UI.Common.SettingsSelectLive
-      keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
-      options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
-      default_value={nil}
-      name={l("Feed time limit")}
-      description={l("Select the time limit you want to use by default (can always change in the feed controls options)")}
-      scope={@scope}
-    />
-  </form>
+    <form data-scope="time_limit" class="p-4" phx-change="Bonfire.Common.Settings:set">
+      <label for="set_default_feed" class="sr-only">{l("Set default time limit")}</label>
+      <Bonfire.UI.Common.SettingsSelectLive
+        keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
+        options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
+        default_value={nil}
+        name={l("Feed time limit")}
+        description={l(
+          "Select the time limit you want to use by default (can always change in the feed controls options)"
+        )}
+        scope={@scope}
+      />
+    </form>
 
-  <!-- <div class="p-4">
+    <!-- <div class="p-4">
   <StatelessComponent
     module={maybe_component(Bonfire.UI.Social.SortItemsLive, @__context__)}
     scope={@scope}
