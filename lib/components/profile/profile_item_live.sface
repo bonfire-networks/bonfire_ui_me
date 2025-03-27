@@ -46,8 +46,9 @@
           class="!text-base-content/100 prose prose-sm text-sm mt-1 line-clamp-4"
         >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote?)}</div>
       </div>
-    </div>
-    {!-- 
+
+      {!-- </div>
+    
     <Bonfire.UI.Me.UserPreviewLive
       href={if String.starts_with?(e(@character, :username, ""), "http"),
         do: e(@character, :username, nil),
@@ -86,9 +87,10 @@
       </:actions>
     </Bonfire.UI.Me.UserPreviewLive>
 
-    --}
+    
+  </div>--}
+    </div>
   </div>
-
   <div class="flex">
     <button
       :if={:accept in @show_controls}
