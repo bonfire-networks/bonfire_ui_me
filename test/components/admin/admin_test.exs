@@ -8,9 +8,16 @@ defmodule Bonfire.UI.Me.AdminTest do
   alias Bonfire.Social.Graph.Follows
   alias Bonfire.Posts
 
-  test "As an admin I want to create a new link to invite users to join an instance" do
-  end
+  test "As an admin I want to make another user admin" do
+    account = fake_account!()
+    account2 = fake_account!()
+    alice = fake_user!(account2)
+    admin = fake_admin!(account)
 
-  test "As an admin I want to delete an existing link so it is not longer valid" do
+    conn = conn(user: admin, account: account)
+    conn
+    |> visit("/@#{alice.character.username}")
+    |> click_button("Make admin")
+    |> assert_has("[role=alert]", text: "They are now an admin!")
   end
 end
