@@ -26,10 +26,11 @@
           href={@permalink}
           class="flex items-center gap-2 text-sm text-base-content"
         >
-          <#Icon iconify="ion:copy" class="w-4 h-4 shrink-0 text-base-content/90" />
+          <!-- <#Icon iconify="ion:copy" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
           <span data-role="label">{l("Copy link")}</span>
         </a>
       </li>
+      <li class="m-1 border-t border-base-content/10"/>
 
       {#if @character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
         <li>
@@ -37,7 +38,7 @@
             class="flex items-center gap-2 text-sm text-base-content"
             to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
           >
-            <#Icon iconify="fe:users" class="w-5 h-5 shrink-0 text-base-content/90" />
+            <!-- <#Icon iconify="fe:users" class="w-5 h-5 shrink-0 text-base-content/90" /> -->
             <span>
               {l("Following")}
             </span>
@@ -51,7 +52,7 @@
             class="flex items-center gap-2 text-sm text-base-content"
             to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
           >
-            <#Icon iconify="fe:users" class="w-5 h-5 shrink-0 text-base-content/90" />
+            <!-- <#Icon iconify="fe:users" class="w-5 h-5 shrink-0 text-base-content/90" /> -->
             <span>
               {l("Followers")}
             </span>
@@ -61,31 +62,31 @@
           </LinkPatchLive>
         </li>
       {/if}
-
+      <li class="m-1 border-t border-base-content/10"/>
       {#if current_user_id(@__context__) == id(@user)}
         <li>
           <LinkLive to="/settings" class="flex items-center gap-2 text-sm text-base-content">
-            <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0 text-base-content/90" />
+            <!-- <#Icon iconify="ph:gear-fill" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
             <span>{l("Settings")}</span>
           </LinkLive>
         </li>
 
         <li>
           <LinkLive to="/notifications" class="flex items-center gap-2 text-sm text-base-content">
-            <#Icon iconify="carbon:notification-filled" class="w-4 h-4 shrink-0 text-base-content/90" />
+            <!-- <#Icon iconify="carbon:notification-filled" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
             <span>{l("Notifications")}</span>
           </LinkLive>
         </li>
 
         <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
           <LinkLive to="/messages" class="flex items-center gap-2 text-sm text-base-content">
-            <#Icon iconify="mingcute:inbox-2-fill" class="w-4 h-4 shrink-0 text-base-content/90" />
+            <!-- <#Icon iconify="mingcute:inbox-2-fill" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
             <span>{l("Messages")}</span>
           </LinkLive>
         </li>
         <li>
           <LinkLive to={~p"/logout"} class="flex items-center gap-2 text-sm">
-            <#Icon iconify="uil:exit" class="w-4 h-4 shrink-0 text-base-content/90" />
+            <!-- <#Icon iconify="uil:exit" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
 
             <span>{l("Logout")}</span>
           </LinkLive>
@@ -104,7 +105,7 @@
           </li> -->
           <li :if={current_user_id(@__context__)}>
             <LinkLive to={path(@user, :settings)} class="flex items-center gap-2 text-sm text-base-content">
-              <#Icon iconify="ph:gear" class="w-4 h-4 shrink-0 text-base-content/90" />
+              <!-- <#Icon iconify="ph:gear" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
               <span>{l("Settings")}</span>
             </LinkLive>
           </li>
@@ -114,8 +115,7 @@
           {#if current_user_id(@__context__)}
             <Bonfire.UI.Common.SmartInputButtonLive
               create_object_type={:message}
-              icon="carbon:email"
-              icon_class="!w-4 !h-4"
+              hide_icon
               prompt={l("Send a message")}
               smart_input_opts={%{
                 recipients_editable: true,
@@ -130,7 +130,7 @@
               href={"/remote_interaction?type=message&name=#{l("this user")}&url=#{@permalink || URIs.canonical_url(@object)}"}
               class="flex items-center text-sm text-base-content"
             >
-              <#Icon iconify="carbon:email" class="w-4 h-4 shrink-0 text-base-content/90" />
+              <!-- <#Icon iconify="carbon:email" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
               <span class="truncate ellipsis">{l("Send a message")}</span>
             </a>
           {/if}
@@ -152,6 +152,7 @@
             module={maybe_component(Bonfire.UI.Moderation.FlagActionLive, @__context__)}
             object={@user}
             permalink={@permalink}
+            hide_icon
             parent_id="profile_hero"
             object_type={e(@user, :profile, :name, "this user")}
             class="flex items-center p-4 text-sm text-base-content"
@@ -163,6 +164,7 @@
           module={maybe_component(Bonfire.UI.Boundaries.BlockMenuButtonsLive, @__context__)}
           parent_id="profile_hero"
           object={@user}
+          with_icon
           permalink={@permalink}
         />
 
@@ -170,22 +172,22 @@
           {#if @character_type == :user and
               maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
             {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
-              <li phx-click="Bonfire.Me.Users:make_admin" phx-value-username_or_id={id(@user)} class="">
-                <div>
-                  <button class="flex items-center gap-2 text-sm text-base-content">
-                    <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/90 text-base-content" />
+              <li  class="">
+
+                  <button phx-click="Bonfire.Me.Users:make_admin" phx-value-username_or_id={id(@user)} class="w-full text-sm text-base-content">
+                    <!-- <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/90 text-base-content" /> -->
                     <span>{l("Make admin")}</span>
                   </button>
-                </div>
+
               </li>
             {#else}
-              <li phx-click="Bonfire.Me.Users:revoke_admin" phx-value-username_or_id={id(@user)} class="">
-                <div>
-                  <button class="flex items-center gap-2 text-sm text-base-content">
-                    <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/90 text-base-content" />
+              <li  class="">
+
+                  <button phx-click="Bonfire.Me.Users:revoke_admin" phx-value-username_or_id={id(@user)} class="w-full text-sm text-base-content">
+                    <!-- <#Icon solid="Key" class="w-4 h-4 shrink-0 text-base-content/90 text-base-content" /> -->
                     <span>{l("Revoke admin")}</span>
                   </button>
-                </div>
+
               </li>
             {/if}
           {/if}
@@ -196,7 +198,7 @@
               phx-value-canonical_uri={@permalink}
               class="flex items-center gap-2 text-sm text-base-content"
             >
-              <#Icon iconify="mdi:sprout" class="w-4 h-4 shrink-0 text-base-content/90 text-base-content" />
+              <!-- <#Icon iconify="mdi:sprout" class="w-4 h-4 shrink-0 text-base-content/90 text-base-content" /> -->
               <span>{l("Get latest activities")}</span>
             </div>
           </li>
@@ -207,7 +209,7 @@
               rel="noopener noreferrer"
               class="flex items-center gap-2 text-sm text-base-content"
             >
-              <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/90 text-base-content" />
+              <!-- <#Icon solid="ExternalLink" class="w-4 h-4 shrink-0 text-base-content/90 text-base-content" /> -->
               <span>{l("View remotely")}</span>
             </a>
           </li>
