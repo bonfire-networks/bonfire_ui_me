@@ -33,12 +33,12 @@ defmodule Bonfire.UI.Me.MixProject do
 
            only: :test,
            runtime: false
-           },
+           }
 
-          {:phoenix_test,
-          "~> 0.3",
-          # git: "https://github.com/germsvel/phoenix_test",
-          only: :test, runtime: false}
+          # {:phoenix_test,
+          # "~> 0.3",
+          # # git: "https://github.com/germsvel/phoenix_test",
+          # only: :test, runtime: false}
 
           # {:bonfire_tag,
           #  git: "https://github.com/bonfire-networks/bonfire_tag",
