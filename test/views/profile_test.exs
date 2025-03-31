@@ -22,8 +22,4 @@ defmodule Bonfire.UI.Me.ProfileTest do
     |> visit("/@#{carl.character.username}")
     |> refute_has("[data-role=follows_you]", text: "Follows you")
   end
-
-
-
-
 end

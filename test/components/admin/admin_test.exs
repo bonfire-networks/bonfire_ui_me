@@ -15,6 +15,7 @@ defmodule Bonfire.UI.Me.AdminTest do
     admin = fake_admin!(account)
 
     conn = conn(user: admin, account: account)
+
     conn
     |> visit("/@#{alice.character.username}")
     |> click_button("Make admin")
