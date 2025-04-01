@@ -44,6 +44,8 @@ defmodule Bonfire.UI.Me.ConnCase do
       # The default endpoint for testing
       @endpoint Application.compile_env!(:bonfire, :endpoint_module)
       # |> IO.inspect()
+
+      @moduletag :ui
     end
   end
 
