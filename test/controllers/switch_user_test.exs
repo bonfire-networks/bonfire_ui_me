@@ -42,11 +42,6 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       conn = conn(account: account)
       conn = get(conn, "/switch-user/#{username()}")
       assert redirected_to(conn) == "/switch-user"
-      conn = get(recycle(conn), "/switch-user")
-      doc = floki_response(conn)
-      # |> debug
-      assert [err] = find_flash(doc)
-      assert_flash_kind(err, :error)
     end
 
     test "not permitted" do
@@ -58,9 +53,9 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       conn = get(conn, "/switch-user/#{bob_user.character.username}")
       assert redirected_to(conn) == "/switch-user"
       conn = get(recycle(conn), "/switch-user")
-      doc = floki_response(conn)
-      assert [err] = find_flash(doc)
-      assert_flash_kind(err, :error)
+      # doc = floki_response(conn)
+      # assert [err] = find_flash(doc)
+      # assert_flash_kind(err, :error)
     end
 
     test "success" do

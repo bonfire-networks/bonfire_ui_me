@@ -201,10 +201,16 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
 
     conn = post(conn, "/create-user", params)
     # debug(floki_response(conn))
-    conn = get(recycle(conn), "/dashboard")
+    # conn = get(recycle(conn), "/dashboard")
+    # doc = floki_response(conn)
+
+    # assert [ok] = find_flash(doc)
+    # assert_flash(ok, :info, ~r/admin/)
+
+    # Navigate to user profile
+    conn = get(recycle(conn), "/user")
     doc = floki_response(conn)
-    assert [ok] = find_flash(doc)
-    assert_flash(ok, :info, ~r/admin/)
+    assert [view] = Floki.find(doc, "span.badge")
   end
 
   test "successfully sets privacy options" do

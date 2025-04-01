@@ -65,7 +65,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
     error(error, "Wrong user, or was blocked by admin")
 
     conn
-    |> assign_flash(
+    |> put_flash(
       :error,
       l("You can only identify as valid users in your account.")
     )

@@ -17,11 +17,11 @@
       source={:login}
     />
     {!-- <%= f = form_for @form, path(:login, :create), class: "w-full md:ml-0" %> --}
-    {!-- <%= case @form.errors[:form] do %> --}
-    {#for {_key, error} <- Enums.filter_empty(@form.errors, nil) || [error: @error]}
-      {#case error}
+
+    {!-- Display form-level errors --}
+    {#if @form && @form.source.errors && @form.source.errors[:form]}
+      {#case @form.source.errors[:form]}
         {#match {"not_found", _}}
-          {!-- <%= {"not_found",_} -> %> --}
           <div role="status" class="alert alert-warning">
             <div class="flex flex-1">
               <label>
@@ -43,8 +43,8 @@
               </label>
             </div>
           </div>
-        {#match {error, _}}
-          {!-- <%= {error,_} -> %> --}
+        {#match {error_msg, _}}
+          {!-- Generic error message for other form errors --}
           <div role="status" class="p-4 mb-4 rounded-md bg-yellow-50">
             <div class="flex">
               <div class="flex-shrink-0">
@@ -65,17 +65,21 @@
               </div>
               <div class="ml-3">
                 <h3 class="text-sm font-medium text-yellow-800">
-                  {l("There was an error:")} ({error}), {l("please try again.")}
+                  {l("There was an error:")} ({error_msg}), {l("please try again.")}
                 </h3>
               </div>
             </div>
           </div>
-        {#match nil}
-          <div />
-          {!-- <%= nil -> %> --}
-          {!-- <% end %> --}
       {/case}
-    {/for}
+    {#elseif @error}
+      <div role="status" class="alert alert-warning">
+        <div class="flex flex-1">
+          <label>
+            {l("Error: ")} {@error}
+          </label>
+        </div>
+      </div>
+    {/if}
 
     <.input
       field={@form[:email_or_username]}

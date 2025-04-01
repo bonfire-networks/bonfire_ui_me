@@ -27,23 +27,43 @@ defmodule Bonfire.UI.Me.LocaleTest do
     assert "es" == Localise.get_locale().canonical_locale_name
   end
 
-  @tag :fixme
-  test "locale falls back to default" do
+  # Test that when no locale information is provided, it falls back to the default
+  @tag :todo # This test fails because Cldr.Plug.SetLocale seems to pass the default locale as a string ("en")
+             # instead of a %Cldr.LanguageTag{} when called directly in tests, causing a FunctionClauseError
+             # in Cldr.Plug.PutLocale.put_locale/3. The underlying fallback logic might still work correctly
+             # in a full request cycle.
+  test "locale falls back to default when no locale is provided" do
+    # Create a basic connection with no locale information
     conn()
-    |> Conn.put_req_header("accept-language", "xyz, abc;q=0.8")
+    # Call the SetLocale plug with the application's config
     |> SetLocale.call(Localise.set_locale_config())
 
+    # Assert that the locale was set to the default ("en")
+    # Assert that the locale was set to the default ("en")
+    # FIXME: This still fails due to Cldr.Plug.PutLocale passing "en" string instead of LanguageTag
     assert "en" == Localise.get_locale().canonical_locale_name
   end
 
-  @tag :fixme
+  @tag :todo
   test "locale in query string takes precedence" do
-    build_conn(:get, "/?locale=es", nil)
-    |> Conn.put_req_header("accept-language", "fr")
-    |> Conn.fetch_query_params()
-    |> Conn.fetch_session()
-    |> SetLocale.call(Localise.set_locale_config())
+    # Use Plug.Test.conn to simulate a request with query params
+    conn = Plug.Test.conn(:get, "/?locale=es")
+    # Add headers and ensure session is initialized (ConnCase might do this, but being explicit)
+    conn =
+      conn
+      |> Plug.Conn.put_req_header("accept-language", "fr")
+      |> Plug.Test.init_test_session(%{})
 
-    assert "es" == Localise.get_locale()
+    # Fetch params and session *before* calling the plug
+    conn =
+      conn
+      |> Conn.fetch_query_params()
+      |> Conn.fetch_session()
+
+    # Call the SetLocale plug
+    conn = SetLocale.call(conn, Localise.set_locale_config())
+
+    # Assert the locale was set correctly from the query param
+    assert "es" == Localise.get_locale(conn).canonical_locale_name
   end
 end
