@@ -6,7 +6,7 @@ config :needle, :search_path, [:bonfire_me]
 
 # import_config "#{Mix.env()}.exs"
 
-config_file = if Mix.env() == :test, do: "config/test.exs", else: "config/config.exs"
+config_file = if config_env() == :test, do: "config/test.exs", else: "config/config.exs"
 
 cond do
   File.exists?("../bonfire/#{config_file}") ->

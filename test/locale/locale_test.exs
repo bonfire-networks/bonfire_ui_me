@@ -28,10 +28,11 @@ defmodule Bonfire.UI.Me.LocaleTest do
   end
 
   # Test that when no locale information is provided, it falls back to the default
-  @tag :todo # This test fails because Cldr.Plug.SetLocale seems to pass the default locale as a string ("en")
-             # instead of a %Cldr.LanguageTag{} when called directly in tests, causing a FunctionClauseError
-             # in Cldr.Plug.PutLocale.put_locale/3. The underlying fallback logic might still work correctly
-             # in a full request cycle.
+  # This test fails because Cldr.Plug.SetLocale seems to pass the default locale as a string ("en")
+  @tag :todo
+  # instead of a %Cldr.LanguageTag{} when called directly in tests, causing a FunctionClauseError
+  # in Cldr.Plug.PutLocale.put_locale/3. The underlying fallback logic might still work correctly
+  # in a full request cycle.
   test "locale falls back to default when no locale is provided" do
     # Create a basic connection with no locale information
     conn()
