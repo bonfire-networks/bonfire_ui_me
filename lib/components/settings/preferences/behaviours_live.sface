@@ -329,7 +329,9 @@
     >
       <Bonfire.UI.Common.SettingsSelectLive
         name={l("Discussions default sort")}
-        description={l("Select the default sorting options for viewing discussions (can always change in the feed controls options)")}
+        description={l(
+          "Select the default sorting options for viewing discussions (can always change in the feed controls options)"
+        )}
         keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
         id="thread_default_sort"
         label_name="Set thread sort"
