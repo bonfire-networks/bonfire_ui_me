@@ -65,6 +65,6 @@ defmodule Bonfire.UI.Me.LocaleTest do
     conn = SetLocale.call(conn, Localise.set_locale_config())
 
     # Assert the locale was set correctly from the query param
-    assert "es" == Localise.get_locale(conn).canonical_locale_name
+    assert "es" == Localise.get_locale().canonical_locale_name
   end
 end
