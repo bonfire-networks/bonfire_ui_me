@@ -60,7 +60,7 @@
             "menu-active ": @selected_tab == "feeds"
           }
         >
-          <span class="">{l("Feeds options")}</span>
+          <span class="">{l("Feed presets")}</span>
         </LinkPatchLive>
       </li>
 
