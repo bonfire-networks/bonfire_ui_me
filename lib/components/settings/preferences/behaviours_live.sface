@@ -334,7 +334,7 @@
         )}
         keys={[Bonfire.UI.Social.ThreadLive, :sort_by]}
         id="thread_default_sort"
-        label_name="Set thread sort"
+        label_name="Sort by"
         options={if extension_enabled?(:bonfire_ui_reactions, @__context__),
           do: [
             nil: l("Chronological"),
