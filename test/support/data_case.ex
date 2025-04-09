@@ -25,6 +25,8 @@ defmodule Bonfire.UI.Me.DataCase do
       import Bonfire.Common.Simulation
       import Bonfire.UI.Me
       # import Bonfire.UI.Me.DataCase
+
+      @moduletag :backend
     end
   end
 
