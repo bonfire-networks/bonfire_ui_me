@@ -29,7 +29,7 @@
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"
-                      class="inline-block object-cover w-32 h-32 md:mx-0 rounded-full -mt-17"
+                      class="inline-block object-cover w-28 h-28 md:mx-0 rounded-full -mt-12"
                       user_id={id(@user)}
                       src={avatar_url}
                     />
@@ -74,7 +74,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="mt-2 flex flex-col gap-2">
+                <div class="mt-4 flex flex-col gap-2">
                   <Bonfire.UI.Me.ProfileInfoLive
                     ghosted_instance_wide?={@ghosted_instance_wide?}
                     silenced_instance_wide?={@silenced_instance_wide?}

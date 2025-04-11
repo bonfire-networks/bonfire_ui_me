@@ -6,8 +6,7 @@
 
 <div
   class="w-full p-3 flex gap-3"
-  :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <-
-    @aliases |> debug("maaaa")}
+  :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <- @aliases}
 >
   <StatelessComponent
     module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}

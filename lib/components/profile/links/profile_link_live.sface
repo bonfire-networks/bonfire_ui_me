@@ -1,6 +1,7 @@
 <a
   href={@href}
-  class={@class || "flex p-3 flex-col gap-1"}
+  class={@class || "flex p-3 flex-col gap-1 link link-hover"}
+  target="_blank"
   rel={if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil),
     do: "me",
     else: "nofollow"}

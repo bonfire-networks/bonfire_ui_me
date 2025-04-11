@@ -21,9 +21,9 @@
       />
     </div>
 
+      <!-- phx-change="Bonfire.Me.Profiles:validate" -->
     <form
       id="edit_profile_form"
-      phx-change="Bonfire.Me.Profiles:validate"
       phx-submit="Bonfire.Me.Profiles:save"
       method="POST"
     >
