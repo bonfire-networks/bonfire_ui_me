@@ -21,12 +21,8 @@
       />
     </div>
 
-      <!-- phx-change="Bonfire.Me.Profiles:validate" -->
-    <form
-      id="edit_profile_form"
-      phx-submit="Bonfire.Me.Profiles:save"
-      method="POST"
-    >
+    <!-- phx-change="Bonfire.Me.Profiles:validate" -->
+    <form id="edit_profile_form" phx-submit="Bonfire.Me.Profiles:save" method="POST">
       <div class="">
         <fieldset class="fieldset w-full">
           <legend class="fieldset-legend">{l("Full name")}</legend>

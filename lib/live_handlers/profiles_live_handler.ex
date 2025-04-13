@@ -7,7 +7,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   alias Bonfire.Me.Users
 
   def handle_event("validate", params, socket) do
-    {:noreply, socket }
+    {:noreply, socket}
   end
 
   def handle_event(

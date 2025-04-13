@@ -164,7 +164,7 @@
           module={maybe_component(Bonfire.UI.Boundaries.BlockMenuButtonsLive, @__context__)}
           parent_id="profile_hero"
           object={@user}
-          with_icon
+          with_icon={false}
           permalink={@permalink}
         />
 
