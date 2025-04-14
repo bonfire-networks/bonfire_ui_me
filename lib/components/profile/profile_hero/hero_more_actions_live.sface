@@ -118,6 +118,7 @@
               hide_icon
               prompt={l("Send a message")}
               smart_input_opts={%{
+                create_object_type: :message,
                 recipients_editable: true,
                 to_circles: [
                   {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
