@@ -79,20 +79,26 @@
       <span>{l("Federation & Privacy")}</span>
     </div>
 
-
-    <form class="p-4 border-b border-base-content/10" data-scope="set_federation" name="settings" phx-change="Bonfire.Common.Settings:set">
+    <form
+      class="p-4 border-b border-base-content/10"
+      data-scope="set_federation"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
       <input name="scope" value={:instance} type="hidden">
       <label for="set_federation" class="sr-only">{l("Set Federation")}</label>
       <Bonfire.UI.Common.SettingsSelectLive
         id="set_federation"
         name={l("Federation")}
-        description={l("Choose between: Automatic (Push activities to the fediverse and accept remote activities), Manual (Enable looking up usernames and fetching individual posts or activities), Fully disabled")}
+        description={l(
+          "Choose between: Automatic (Push activities to the fediverse and accept remote activities), Manual (Enable looking up usernames and fetching individual posts or activities), Fully disabled"
+        )}
         keys={[:activity_pub, :instance, :federating]}
         options={[
-            true: l("Automatic"),
-            nil: l("Manual"),
-            false: l("Fully disabled"),
-          ]}
+          true: l("Automatic"),
+          nil: l("Manual"),
+          false: l("Fully disabled")
+        ]}
         scope={:instance}
       />
     </form>
@@ -140,7 +146,7 @@
             scope={:instance}
           /> -->
 
-            <!-- description={l("Choose between: Automatic (Push activities to the fediverse and accept remote activities), Manual (Enable looking up usernames and fetching individual posts or activities), Fully disabled")} -->
+          <!-- description={l("Choose between: Automatic (Push activities to the fediverse and accept remote activities), Manual (Enable looking up usernames and fetching individual posts or activities), Fully disabled")} -->
           <Bonfire.UI.Common.SettingsSelectLive
             name={l("Who can see the list of local users?")}
             keys={[Bonfire.UI.Me.UsersDirectoryLive, :show_to]}
