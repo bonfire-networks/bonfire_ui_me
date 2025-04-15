@@ -1,4 +1,4 @@
-<div class={@wrapper_class || "flex items-start gap-3 lg:gap-2 flex-col lg:flex-row justify-between"}>
+<div class={@wrapper_class || "flex items-top gap-3 lg:gap-2 flex-col lg:flex-row justify-between"}>
   <!-- id={if @with_popover, do: "profile_item_tooltip_#{@parent_id}_#{id(@profile)}"} -->
   <!-- phx-hook={if @with_popover, do: "Tooltip"} -->
   <div data-trigger="hover" data-position="top-start">
@@ -91,7 +91,7 @@
   </div>--}
     </div>
   </div>
-  <div class="flex">
+  <div class="flex gap-2 items-center">
     <button
       :if={:accept in @show_controls}
       :on-click="Bonfire.Social.Graph.Follows:accept"
@@ -111,6 +111,7 @@
       path={path(@character)}
       hide_icon
       class={@class}
+      container_class="flex items-center gap-2"
     />
 
     <StatelessComponent
@@ -119,7 +120,7 @@
         current_user_id(@__context__) != id(@profile)}
       user_id={id(@profile)}
       parent_id={"profile_item_add_to_circles_#{@parent_id}_#{id(@profile)}"}
-      as_icon
+      hide_icon
     />
 
     <#slot />

@@ -1,4 +1,4 @@
-<div class="grid mb-2 px-4 grid-cols-1 gap-4 max-w-screen-lg mx-auto w-full">
+<div class="grid mb-2 grid-cols-1 gap-4 max-w-screen-lg mx-auto w-full">
   <div
     :for={user <- @users}
     class="p-4 border rounded-lg shadow bg-base-100 border-base-content/10"
@@ -9,7 +9,7 @@
       profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
       is_remote?={@is_remote?}
       show_summary
-      wrapper_class="flex items-start gap-3 profile-item group justify-between gap-6"
+      wrapper_class="flex items-start gap-3 profile-item group justify-between"
       avatar_class="w-16 h-16"
       show_controls={[:follow, :add_to_circles]}
     />

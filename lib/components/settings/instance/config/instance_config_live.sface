@@ -79,12 +79,33 @@
       <span>{l("Federation & Privacy")}</span>
     </div>
 
+
+    <form class="p-4 border-b border-base-content/10" data-scope="set_federation" name="settings" phx-change="Bonfire.Common.Settings:set">
+      <input name="scope" value={:instance} type="hidden">
+      <label for="set_federation" class="sr-only">{l("Set Federation")}</label>
+      <Bonfire.UI.Common.SettingsSelectLive
+        id="set_federation"
+        name={l("Federation")}
+        description={l("Choose between: Automatic (Push activities to the fediverse and accept remote activities), Manual (Enable looking up usernames and fetching individual posts or activities), Fully disabled")}
+        keys={[:activity_pub, :instance, :federating]}
+        options={[
+            true: l("Automatic"),
+            nil: l("Manual"),
+            false: l("Fully disabled"),
+          ]}
+        scope={:instance}
+      />
+    </form>
+
     <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={:instance} type="hidden">
 
-      <div class="divide-y divide-base-content/10 flex flex-col gap-4 w-full">
-        <div class="flex flex-col gap-2 p-4">
+      <div class="divide-y divide-base-content/10 flex flex-col w-full">
+        <!-- <div class="flex flex-col gap-2 p-4">
           <span class="font-medium text-sm">{l("Federation")}</span>
+
+          test - {Bonfire.Common.Settings.get([:activity_pub, :instance, :federating], nil, :instance)}
+          
           <Bonfire.UI.Common.SettingsRadiosLive
             name={l("Enable federation?")}
             keys={[:activity_pub, :instance, :federating]}
@@ -95,7 +116,7 @@
             }}
             scope={:instance}
           />
-        </div>
+        </div> -->
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Require authentication from federated servers")}
           description={l(
@@ -112,8 +133,16 @@
           scope={:instance}
         />
         <div class="flex flex-col gap-2 p-4">
-          <span class="font-medium text-sm">{l("Who can see the list of local users?")}</span>
+          <!-- <span class="font-medium text-sm">{l("Who can see the list of local users?")}</span>
           <Bonfire.UI.Common.SettingsRadiosLive
+            keys={[Bonfire.UI.Me.UsersDirectoryLive, :show_to]}
+            options={[guests: l("Guests"), users: l("Users"), admins: l("Admins")]}
+            scope={:instance}
+          /> -->
+
+            <!-- description={l("Choose between: Automatic (Push activities to the fediverse and accept remote activities), Manual (Enable looking up usernames and fetching individual posts or activities), Fully disabled")} -->
+          <Bonfire.UI.Common.SettingsSelectLive
+            name={l("Who can see the list of local users?")}
             keys={[Bonfire.UI.Me.UsersDirectoryLive, :show_to]}
             options={[guests: l("Guests"), users: l("Users"), admins: l("Admins")]}
             scope={:instance}
