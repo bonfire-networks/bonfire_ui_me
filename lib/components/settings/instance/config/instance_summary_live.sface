@@ -1,22 +1,26 @@
-<div class="flex flex-col gap-2">
-  <h2 class="mb-3 text-lg font-semibold">{l("Digital Space defaults")}</h2>
 
-  <div class="flex mb-4">
-    <div class="inline-flex">
-      <div role="tablist" class="tabs bg-base-200 tabs-boxed">
-        <LinkPatchLive to="/about/general" class={"tab", "tab-active": @selected_tab == :about}>{l("General")}</LinkPatchLive>
-        <LinkPatchLive to="/about/privacy" class={"tab", "tab-active": @selected_tab == :privacy}>{l("Privacy")}</LinkPatchLive>
-        <LinkPatchLive
-          to="/about/configuration"
-          class={"tab", "tab-active": @selected_tab == :configuration}
-        >{l("Configuration")}</LinkPatchLive>
-      </div>
-    </div>
+<div class="flex flex-col gap-2">
+  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
+    <div iconify="eos-icons:network" class="w-6 h-6 text-base-content/80" aria-hidden="true"></div>
+    <span>{l "Digital Space Defaults"}</span>
   </div>
 
-  <div class="">
-    {#case @selected_tab}
-      {#match :about}
+  <div class="divide-y divide-base-content/10">
+    <div x-data="{open: false}" class="p-4">
+      <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("General")}</div>
+          <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+        </div>
+
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+      </div>
+      <div x-show="open" x-cloak x-collapse>
         <div class="divide-y divide-base-content/10">
           <div class="py-4">
             <div class="flex items-center justify-between flex-1 items-center gap-4">
@@ -279,7 +283,25 @@
             </div>
           </div>
         </div>
-      {#match :privacy}
+      </div>
+    </div>
+
+
+    <div x-data="{open: false}" class="p-4">
+      <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Privacy")}</div>
+          <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+        </div>
+
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+      </div>
+      <div x-show="open" x-cloak x-collapse>
         <div class="divide-y divide-base-content/10">
           <div class="py-4">
             <div class="flex items-center justify-between gap-2">
@@ -290,27 +312,6 @@
               </div>
             </div>
           </div>
-
-          {!-- <div class="py-4">
-          <div class="flex items-center justify-between flex-1 items-center gap-4">
-            <div class="flex gap-2">
-              <div class="text-sm font-medium">{l("Show list of admins on public homepage")}</div>
-            </div>
-
-            {#if Config.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true)}
-              <div class="text-success flex items-center gap-2 text-sm font-medium">
-                <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                {l("Enabled")}
-              </div>
-            {#else}
-              <div class="text-base-content flex items-center gap-2 text-sm font-medium">
-                <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-base-content" />
-                {l("Disabled")}
-              </div>
-            {/if}
-          </div>
-        </div> --}
-
           <div class="py-4">
             <div class="flex items-center justify-between flex-1 items-center gap-4">
               <div class="flex gap-2">
@@ -326,7 +327,25 @@
             </div>
           </div>
         </div>
-      {#match :configuration}
+      </div>
+    </div>
+
+
+    <div x-data="{open: false}" class="p-4">
+      <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
+        <div class="flex flex-col gap-1">
+          <div class="text-sm font-medium">{l("Configuration")}</div>
+          <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+        </div>
+
+        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
+          <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
+          <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        </button>
+      </div>
+      <div x-show="open" x-cloak x-collapse>
         <div class="divide-y divide-base-content/10">
           <div class="py-4">
             <div class="flex items-center justify-between flex-1 items-center gap-4">
@@ -340,14 +359,6 @@
 
           <div class="py-4">
             <div class="flex items-center justify-between items-center gap-4">
-              {!-- {#if Config.get(
-                [Bonfire.UI.Common.AvatarLive, :animal_avatars],
-                true
-              )}
-              <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-            {#else}
-              <#Icon iconify="mdi:close-circle-outline" class="flex-shrink-0 w-4 h-4 text-error" />
-            {/if} --}
               <div class="flex flex-col gap-0">
                 <div class="text-sm font-medium">{l("Default avatars")}</div>
                 <div class="text-sm font-light text-base-content/70">{l("What to show for users without a profile picture")}</div>
@@ -390,15 +401,6 @@
               </div>
             </div>
 
-            {!-- <div class="py-4">
-          <div class="flex items-center justify-between flex-1 items-center gap-4">
-            <div class="flex gap-2">
-              <div class="text-sm font-medium">{l("Show follower counts")}</div>
-            </div>
-            <div class="font-bold text-sm">{if Config.get([:ui, :show_activity_counts])==true, do: l("Disabled"), else: l("Disabled")}</div>
-          </div>
-        </div> --}
-
             <div class="py-4">
               <div class="flex items-center justify-between flex-1 items-center gap-4">
                 <div class="flex flex-col">
@@ -420,8 +422,9 @@
             </div>
           </div>
         </div>
-      {#match nil}
-        <div>general</div>
-    {/case}
+      </div>
+    </div>
   </div>
+
+
 </div>
