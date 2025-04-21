@@ -20,7 +20,7 @@
   </div>
 
   <div :if={@character_type == :user} class="flex items-center w-full space-x-4">
-    {#case Settings.get(:experimental_features_enabled, false, @__context__) and
+    {#case Settings.get(:experimental_features_enabled, false, @__context__) &&
         (is_nil(current_user_id(@__context__)) or current_user_id(@__context__) == id(@user) or
            Bonfire.Social.Graph.graph_distance(current_user(@__context__), @user))}
       {#match false}
