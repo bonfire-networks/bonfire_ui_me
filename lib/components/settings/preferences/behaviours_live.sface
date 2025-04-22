@@ -510,7 +510,7 @@
 
     <form class="divide-y divide-base-content/10" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
-      <Bonfire.UI.Common.SettingsToggleLive
+      <!-- <Bonfire.UI.Common.SettingsToggleLive
         :if={module_enabled?(Bonfire.Social.Pins, @__context__) and
           Bonfire.Common.Config.get(
             [Bonfire.UI.Social.FeedsLive, :curated],
@@ -520,7 +520,7 @@
         description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
         keys={[Bonfire.UI.Social.FeedsLive, :curated]}
         scope={@scope}
-      />
+      /> -->
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Hide trending topics")}
         description={l("Do not show a list of trending tags or groups")}

@@ -213,12 +213,12 @@
         default_value={4}
       />
 
-      <Bonfire.UI.Common.SettingsToggleLive
+      <!-- <Bonfire.UI.Common.SettingsToggleLive
         name={l("Activate Curated tab")}
         description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
         keys={[Bonfire.UI.Social.FeedsLive, :curated]}
         scope={:instance}
-      />
+      /> -->
 
       <div class="p-4">
         <div class="flex items-center justify-between">
