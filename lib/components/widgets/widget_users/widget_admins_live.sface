@@ -8,5 +8,19 @@
       widget_title={e(@widget_title, l("Admins"))}
       users={admins}
       parent_id="widget_admins"
-    />
+    >
+      <:action>
+        {#if @show_reset_btn || Bonfire.Boundaries.can?(@__context__, :assign, :instance_wide)}
+          <button
+            :on-click="Bonfire.UI.Me.WidgetAdminsLive:reset"
+            type="button"
+            class="btn btn-circle btn-xs btn-ghost"
+            title={l("Refresh")}
+          >
+            <span class="sr-only">{l("Refresh")}</span>
+            <#Icon iconify="material-symbols-light:refresh" class="w-5 h-5" />
+          </button>
+        {/if}
+      </:action>
+    </Bonfire.UI.Me.WidgetUsersLive>
 {/case}
