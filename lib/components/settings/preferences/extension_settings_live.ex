@@ -13,7 +13,8 @@ defmodule Bonfire.UI.Me.ExtensionSettingsLive do
   end
 
   def prepare(assigns) do
-    extension = assigns.extension  # Access directly from assigns
+    # Access directly from assigns
+    extension = assigns.extension
     scoped = Bonfire.Common.Settings.LiveHandler.scoped(assigns[:scope], assigns[:__context__])
     all_extensions = Bonfire.Common.Extensions.all_deps()
 
