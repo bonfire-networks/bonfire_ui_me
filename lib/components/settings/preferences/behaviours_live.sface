@@ -254,7 +254,8 @@
   />
   </div> -->
 
-    <div class="p-4 flex flex-col lg:flex-row lg:items-center gap-4 justify-between">
+    <!-- This is set in the reactions live extension settings -->
+    <!-- <div class="p-4 flex flex-col lg:flex-row lg:items-center gap-4 justify-between">
       <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Feed default sort")}</div>
@@ -267,7 +268,7 @@
         module={maybe_component(Bonfire.UI.Social.SortItemsLive, @__context__)}
         scope={@scope}
       />
-    </div>
+    </div> -->
 
     <form phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.Settings.NumberLive
