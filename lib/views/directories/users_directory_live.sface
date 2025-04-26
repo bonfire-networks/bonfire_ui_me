@@ -1,4 +1,4 @@
-<div class="grid mb-2 grid-cols-1 gap-4 max-w-screen-lg mx-auto w-full">
+<div class="grid mb-2 grid-cols-1 gap-4 max-w-[640px] mx-auto w-full">
   <div
     :for={user <- @users}
     class="p-4 border rounded-lg shadow bg-base-100 border-base-content/10"
