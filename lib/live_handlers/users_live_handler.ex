@@ -53,7 +53,8 @@ defmodule Bonfire.Me.Users.LiveHandler do
       fetch_collection: :async
     )
 
-    {:noreply, socket}
+    {:noreply, socket
+    |> assign_flash(:info, l("Syncing with remote server. Content will gradually appear in the user feed.."))}
   end
 
   def handle_event(
