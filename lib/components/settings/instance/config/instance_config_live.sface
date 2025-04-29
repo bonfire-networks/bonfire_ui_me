@@ -96,7 +96,7 @@
         keys={[:activity_pub, :instance, :federating]}
         options={[
           true: l("Automatic"),
-          nil: l("Manual"),
+          manual: l("Manual"),
           false: l("Fully disabled")
         ]}
         scope={:instance}
