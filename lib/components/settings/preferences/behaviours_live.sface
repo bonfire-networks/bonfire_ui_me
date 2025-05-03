@@ -39,14 +39,14 @@
       />
     </form>
 
-    <div :if={@scope == :user} class="p-4">
-      <div class="flex items-center justify-between gap-4">
-        <div class="flex flex-col gap-1">
-          <div class="text-sm font-medium">{l("Language")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
-        </div>
+    <div class="p-4">
+      <form data-scope="set_language" name="settings" phx-change="Bonfire.Common.Settings:set_locale">
+        <label class="flex items-center justify-between gap-4">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-medium">{l("Language")}</div>
+            <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
+          </div>
 
-        <form data-scope="set_language" name="settings" phx-change="Bonfire.Common.Settings:set">
           <input name="scope" value={@scope} type="hidden">
           <div class="max-w-xs  form-control">
             <Bonfire.UI.Common.ChangeLocaleLive
@@ -54,8 +54,8 @@
               scope={@scope}
             />
           </div>
-        </form>
-      </div>
+        </label>
+      </form>
     </div>
 
     <form
@@ -126,7 +126,15 @@
 
     <form data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
-      <Bonfire.UI.Common.AvatarsSettingsLive scope={@scope} />
+
+      <Bonfire.UI.Common.SettingsToggleLive
+        id="set_hide_avatar"
+        name={l("Hide avatars")}
+        description={l("Hide avatars throughout the app?")}
+        keys={[Bonfire.UI.Common.AvatarLive, :hide_avatars]}
+        default_value={false}
+        scope={@scope}
+      />
     </form>
 
     <!-- <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">

@@ -2,8 +2,7 @@
   {#if !@silenced_instance_wide? and !@silenced?}
     <StatelessComponent
       module={maybe_component(
-        Config.get([:ui, :profile, :sections, tab(@selected_tab)], Bonfire.UI.Me.ProfileInfoLive),
-        @user
+        Config.get([:ui, :profile, :sections], [])[tab(@selected_tab)] || Bonfire.UI.Me.ProfileInfoLive
       )}
       {...assigns}
     >

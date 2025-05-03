@@ -64,6 +64,13 @@ defmodule Bonfire.UI.Me.SettingsTest do
       account = fake_account!()
       alice = fake_user!(account)
       conn = conn(user: alice, account: account)
+
+      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
+
+      assert refreshed_view
+             |> element("span[data-role=locale]")
+             |> render() =~ "en"
+
       next = "/settings/user/preferences/appearance"
       {:ok, view, _html} = live(conn, next)
 
@@ -75,7 +82,11 @@ defmodule Bonfire.UI.Me.SettingsTest do
       {:ok, refreshed_view, _html} = live(conn, "/dashboard")
 
       assert refreshed_view
-             |> has_element?("span[data-role=locale]", "it")
+             |> element("span[data-role=locale]")
+             |> render() =~ "it"
+
+      #  assert refreshed_view
+      #  |> has_element?("span[data-role=locale]", "it")
     end
 
     test "As a user I want to hide brand name" do

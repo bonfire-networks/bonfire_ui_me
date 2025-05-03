@@ -381,6 +381,18 @@
 
       <li>
         <LinkPatchLive
+          to={~p"/settings/instance/config_settings_registry"}
+          class={
+            " ",
+            "menu-active": @selected_tab == "config_settings_registry"
+          }
+        >
+          <span class="">{l("Advanced settings")}</span>
+        </LinkPatchLive>
+      </li>
+
+      <li>
+        <LinkPatchLive
           to={~p"/settings/instance/icons"}
           class={
             " ",
