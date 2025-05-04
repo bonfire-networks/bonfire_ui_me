@@ -387,7 +387,7 @@
             "menu-active": @selected_tab == "config_settings_registry"
           }
         >
-          <span class="">{l("Advanced settings")}</span>
+          <span class="">{l("Extra settings")}</span>
         </LinkPatchLive>
       </li>
 
