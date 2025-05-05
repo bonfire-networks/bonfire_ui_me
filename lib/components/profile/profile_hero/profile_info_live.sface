@@ -3,7 +3,7 @@
 
   <div class="flex flex-col w-full gap-1">
     <div class="flex flex-col gap-3">
-      <div :if={@character_type == :user} class="w-full prose prose-sm">
+      <div :if={@character_type == :user} class="w-full prose prose-sm break-all">
         {rich(e(@user, :profile, :summary, nil))}
       </div>
 
