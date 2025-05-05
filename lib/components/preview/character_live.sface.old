@@ -9,7 +9,7 @@
       class="text-sm font-medium text-base-content text-opacity-80">
 
       {!-- first show the subject --}
-      <span data-id="subject">
+      <span data-role="subject">
         <LinkLive
           :if={e(@activity, :subject, :id, nil) != current_user_id(@__context__)}
           to={path(e(@activity, :subject, nil))}
@@ -79,7 +79,7 @@
       class="text-sm font-medium text-base-content text-opacity-80">
       {!-- first show the subject --}
       {!--       
-      <span data-id="subject">
+      <span data-role="subject">
         <LinkLive
           :if={e(@activity, :subject, :id, nil) != current_user_id(@__context__)}
           to={path(e(@activity, :subject, nil))}
