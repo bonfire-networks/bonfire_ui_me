@@ -27,7 +27,10 @@
                 <div class="text-sm font-medium">{l("Sign ups")}</div>
               </div>
 
-              {#if !Config.get(:invite_only, nil)}
+              {#if !Config.get(:invite_only, nil,
+                  name: l("Invite Only"),
+                  description: l("Whether sign-ups require an invitation.")
+                )}
                 <div class="text-success flex items-center gap-2 text-sm font-medium">
                   <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
                   {l("Open")}
@@ -91,7 +94,9 @@
               <div class="font-bold text-sm">
                 {Settings.get(
                   [:ui, :font_family],
-                  "Inter"
+                  "Inter",
+                  name: l("Font"),
+                  description: l("Default font used in the interface.")
                 )}
               </div>
             </div>
@@ -105,7 +110,9 @@
 
               <span class="flex-none badge h-[1.75rem] font-medium badge-outline border-base-content/30 rounded">{Config.get(
                   [Bonfire.UI.Common.SmartInputLive, :max_length],
-                  0
+                  0,
+                  name: l("Max Post Length"),
+                  description: l("Maximum number of words allowed in a post.")
                 )} {l("words")}</span>
             </div>
           </div>

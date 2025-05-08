@@ -34,7 +34,11 @@
         name={l("Font")}
         description={l("Select the default font for the interface")}
         keys={[:ui, :font_family]}
-        options={Settings.get([:ui, :font_families], ["Inter"], @scoped)}
+        options={Settings.get([:ui, :font_families], ["Inter"],
+          context: @scoped,
+          name: l("Font Families"),
+          description: l("Available fonts for the user interface.")
+        )}
         scope={@scope}
       />
     </form>
@@ -50,7 +54,11 @@
           <input name="scope" value={@scope} type="hidden">
           <div class="max-w-xs  form-control">
             <Bonfire.UI.Common.ChangeLocaleLive
-              locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", @scoped)}
+              locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en",
+                context: @scoped,
+                name: l("Default Locale"),
+                description: l("The default language locale for the application.")
+              )}
               scope={@scope}
             />
           </div>
@@ -395,7 +403,11 @@
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div
-            :if={Settings.get([:ui, :infinite_scroll], :preload, @__context__) == true}
+            :if={Settings.get([:ui, :infinite_scroll], :preload,
+              context: @__context__,
+              name: l("Infinite Scrolling"),
+              description: l("Enable infinite scrolling in feeds.")
+            ) == true}
             class="badge mb-2 !border !border-warning/30 badge-outline badge-warning"
           >{l("Dark Pattern")}</div>
           <div class="text-sm font-medium">{l("Infinite scrolling")}</div>
@@ -432,7 +444,11 @@
 
     <form data-scope="notification_highlight" phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
-        show_label={Settings.get([Bonfire.UI.Common.BadgeCounterLive, :highlight], false, @__context__) == true}
+        show_label={Settings.get([Bonfire.UI.Common.BadgeCounterLive, :highlight], false,
+          context: @__context__,
+          name: l("Highlight Badge Counters"),
+          description: l("Show highlighted badge counters for notifications.")
+        ) == true}
         label="Dark Pattern"
         name="Highlight notifications indicator"
         description={l("Use the primary color to highlight the notifications indicator")}
@@ -448,7 +464,11 @@
 
    <form data-scope="set_show_reaction_counts" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
-      show_label={Settings.get([:ui, :show_activity_counts], false, @__context__) == true}
+      show_label={Settings.get([:ui, :show_activity_counts], false, 
+        context: @__context__,
+        name: l("Show Activity Counts"),
+        description: l("Display the number of activities in the UI.")
+      ) == true}
       label="Vanity Metric"
       name={l("Show reaction counts (likes / boosts)")}
       description={l(

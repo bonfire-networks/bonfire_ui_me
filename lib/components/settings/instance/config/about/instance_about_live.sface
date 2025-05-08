@@ -4,7 +4,10 @@
     input="ui[theme][instance_welcome][title]"
     name={l("Welcome Title")}
     keys={[:ui, :theme, :instance_welcome, :title]}
-    default_value={Config.get([:ui, :theme, :instance_welcome, :title], nil)}
+    default_value={Config.get([:ui, :theme, :instance_welcome, :title], nil,
+      name: l("Welcome Title"),
+      description: l("Title displayed on the welcome/about page.")
+    )}
   />
 
   <Bonfire.UI.Common.SettingsTextareaLive
@@ -12,7 +15,10 @@
     input="ui[theme][instance_welcome][description]"
     name={l("Welcome Description")}
     keys={[:ui, :theme, :instance_welcome, :description]}
-    default_value={Config.get([:ui, :theme, :instance_welcome, :description], nil)}
+    default_value={Config.get([:ui, :theme, :instance_welcome, :description], nil,
+      name: l("Welcome Description"),
+      description: l("Description text displayed on the welcome/about page.")
+    )}
   />
   <div class="font-semibold">Components to include in the about page</div>
   <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">
