@@ -155,7 +155,7 @@
     {#match "code"}
       <Bonfire.UI.Common.ExtraDepsLive />
     {#match "config_settings_registry"}
-      <Bonfire.UI.Common.ConfigSettingsRegistryLive id="config_settings_registry" />
+      <Bonfire.UI.Common.ConfigSettingsRegistryLive id="config_settings_registry" scope={:instance} />
     {#match "icons"}
       <Bonfire.UI.Common.SettingsViewsLive.IconsLive selected_tab={@selected_tab} />
     {#match "emojis"}

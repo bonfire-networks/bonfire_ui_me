@@ -77,6 +77,8 @@
       />
     {#match "code"}
       <Bonfire.UI.Common.ExtraDepsLive />
+    {#match "config_settings_registry"}
+      <Bonfire.UI.Common.ConfigSettingsRegistryLive id="config_settings_registry" scope={@scope} />
     {#match nil}
       {#if @scope == :account}
         <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} scope={@scope} />

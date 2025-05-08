@@ -270,6 +270,18 @@
 
       <li>
         <LinkPatchLive
+          to={~p"/settings/user/config_settings_registry"}
+          class={
+            " ",
+            "menu-active": @selected_tab == "config_settings_registry"
+          }
+        >
+          <span class="">{l("Extra settings")}</span>
+        </LinkPatchLive>
+      </li>
+
+      <li>
+        <LinkPatchLive
           to={~p"/settings/user/code"}
           class={
             " ",

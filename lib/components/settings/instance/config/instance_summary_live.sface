@@ -89,7 +89,7 @@
               </div>
 
               <div class="font-bold text-sm">
-                {Config.get(
+                {Settings.get(
                   [:ui, :font_family],
                   "Inter"
                 )}
