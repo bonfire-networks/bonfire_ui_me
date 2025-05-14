@@ -3,7 +3,6 @@ if Application.compile_env(:bonfire_api_graphql, :modularity) != :disabled do
     use Bonfire.UI.Common.Web, :controller
 
     alias Bonfire.Me.API.GraphQLMasto.Adapter
-    alias Bonfire.API.GraphQL.RestAdapter
 
     def show(conn, %{"id" => "verify_credentials"} = params), do: Adapter.me(conn)
 
