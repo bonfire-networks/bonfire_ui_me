@@ -19,6 +19,7 @@
         <Bonfire.UI.Common.AvatarLive
           parent_id={["pi_avatar", @parent_id]}
           comment={if @lg, do: false, else: true}
+          fallback_class={"w-10 h-10"}
           user_id={id(@profile)}
           src={Media.avatar_url(@profile)}
           title={e(@profile, :name, "")}
