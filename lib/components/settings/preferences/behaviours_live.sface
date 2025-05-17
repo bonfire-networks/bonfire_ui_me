@@ -173,6 +173,23 @@
   </div>
 
   <div class="divide-y divide-base-content/10">
+
+    <form phx-change="Bonfire.Common.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Show feed controls")}
+        description={l(
+          "Show the feed menu at the top of the feed to filter and sort activities"
+        )}
+        keys={[Bonfire.UI.Social, :show_feed_controls]}
+        scope={@scope}
+        default_value={Settings.get([Bonfire.UI.Social, :show_feed_controls], true,
+          context: @__context__,
+          name: l("Show Feed Controls"),
+          description: l("Show the feed menu at the top of the feed to filter and sort activities.")
+        )}
+      />
+    </form>
+
     <div x-data="{open: false}" class="p-4 cursor-pointer">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">

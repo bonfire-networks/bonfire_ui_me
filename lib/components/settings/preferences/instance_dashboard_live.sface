@@ -1,9 +1,9 @@
-<div class="flex flex-col p-4 gap-6 w-full">
-  <div class="font-semibold">{"Main feed to show"}</div>
+<div class="flex flex-col gap-6 w-full">
+  <!-- <div class="font-semibold">{"Main feed to show"}</div> -->
   <form class="flex flex-col" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
 
-    <Bonfire.UI.Common.SettingsRadiosLive
+    <!-- <Bonfire.UI.Common.SettingsRadiosLive
       keys={[Bonfire.Web.Views.DashboardLive, :default_feed]}
       options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
            Bonfire.Common.Config.get(
@@ -23,40 +23,47 @@
       end}
       default_value={:popular}
       scope={@scope}
-    />
+    /> -->
 
-    <div class="font-semibold mt-10 mb-4">{l("Secondary Widgets")}</div>
+    <div class="font-semibold p-4">{l("Configure your dashboard")}</div>
     <div class="flex flex-col gap-2 divide-y divide-base-content/10">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Show My following feed")}
+        description={l("Include in the dashboard the feed with the activities of the users I follow")}
+        keys={[Bonfire.Web.Views.DashboardLive, :default_feed]}
+        default_value={false}
+        scope={@scope}
+
+      />
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Show popular topics")}
         description={l("Show the most popular topics")}
         keys={[Bonfire.Web.Views.DashboardLive, :include, :popular_topics]}
         default_value
         scope={@scope}
-        compact
+
       />
 
-      <div class="pt-2">
-        <Bonfire.UI.Common.SettingsToggleLive
+
+        <!-- <Bonfire.UI.Common.SettingsToggleLive
           name={l("Show recent users")}
           description={l("Show the most recent users")}
           keys={[Bonfire.Web.Views.DashboardLive, :include, :recent_users]}
           default_value
           scope={@scope}
           compact
-        />
-      </div>
+        /> -->
 
-      <div class="pt-2">
+
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Show admins")}
           description={l("Show the admins")}
           keys={[Bonfire.Web.Views.DashboardLive, :include, :admins]}
           default_value
           scope={@scope}
-          compact
+
         />
-      </div>
+
     </div>
   </form>
 </div>
