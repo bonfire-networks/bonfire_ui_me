@@ -173,13 +173,10 @@
   </div>
 
   <div class="divide-y divide-base-content/10">
-
     <form phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Show feed controls")}
-        description={l(
-          "Show the feed menu at the top of the feed to filter and sort activities"
-        )}
+        description={l("Show the feed menu at the top of the feed to filter and sort activities")}
         keys={[Bonfire.UI.Social, :show_feed_controls]}
         scope={@scope}
         default_value={Settings.get([Bonfire.UI.Social, :show_feed_controls], true,
