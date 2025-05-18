@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.WidgetAdminsLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
   prop widget_title, :string, default: nil
-  prop show_reset_btn, :boolean, default: true
+  prop show_reset_btn, :boolean, default: false
 
   def handle_event(
         "reset",
