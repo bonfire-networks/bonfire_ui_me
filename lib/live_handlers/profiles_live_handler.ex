@@ -76,9 +76,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     end
   end
 
-  def init(params, socket) do
-    debug(params)
-    username = Map.get(params, "username") || Map.get(params, "id")
+  def init(username_or_id, params, socket) do
+    # debug(params)
 
     current_user = current_user(assigns(socket))
     current_user_id = id(current_user)
@@ -86,9 +85,10 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
 
     user =
       (params[:user] ||
-         case username do
+         case username_or_id do
            nil ->
-             current_user
+             #  current_user
+             throw("No user to show")
 
            username when username == current_username ->
              current_user
@@ -99,11 +99,13 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
            username ->
              get(username)
          end)
-      |> repo().maybe_preload([:shared_user, :settings])
+      |> repo().maybe_preload([:settings, character: :peered])
+      |> repo().maybe_preload([:shared_user])
 
     # debug(user)
 
     user_id = id(user)
+    username = e(user, :character, :username, nil) || username_or_id
     is_local? = Integration.is_local?(user)
 
     # show remote users only to logged in users
@@ -186,7 +188,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
                  :get_or_fetch_and_create_by_username,
                  [username]
                ) do
-          init(params |> Map.put(:user, user), socket)
+          init(e(user, :character, :username, nil), params |> Map.put(:user, user), socket)
         else
           _ ->
             socket
@@ -302,7 +304,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     [
       page_title: title,
       user: user,
-      canonical_url: canonical_url(user),
+      canonical_url: canonical_url(user, preload_if_needed: false),
       name: name,
       follows_me: follows_me,
       no_index:

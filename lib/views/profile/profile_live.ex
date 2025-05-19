@@ -40,20 +40,22 @@ defmodule Bonfire.UI.Me.ProfileLive do
      |> assign(LiveHandler.default_assigns(is_nil(current_user_id(assigns(socket)))))}
   end
 
-  def handle_params(params, uri, socket),
-    do:
-      handle_profile_params(
+  def handle_params(params, uri, socket) do
+    with %Phoenix.LiveView.Socket{} = socket <- maybe_init(params, socket) do
+      prepare_feed_assigns(
         params,
         uri,
-        maybe_init(params, socket)
+        socket
       )
+    end
+  end
 
   def tab(selected_tab) do
     case maybe_to_atom(selected_tab) do
       tab when is_atom(tab) -> tab
       _ -> nil
     end
-    |> debug(selected_tab)
+    |> debug("selected_tab")
   end
 
   defp maybe_init(
@@ -66,8 +68,38 @@ defmodule Bonfire.UI.Me.ProfileLive do
     socket
   end
 
+  defp maybe_init(
+         %{"username" => "%40" <> username} = _params,
+         socket
+       ) do
+    debug("rewrite encoded @ in URL")
+    {:noreply, patch_to(socket, "/@" <> String.replace(username, "%40", "@"), replace: true)}
+  end
+
+  defp maybe_init(
+         %{"username" => username} = params,
+         socket
+       ) do
+    LiveHandler.init(username, params, socket)
+  end
+
+  defp maybe_init(
+         %{"id" => id} = params,
+         socket
+       ) do
+    LiveHandler.init(id, params, socket)
+  end
+
   defp maybe_init(params, socket) do
-    LiveHandler.init(params, socket)
+    if current_username = e(current_user(socket), :character, :username, nil) do
+      {:noreply,
+       redirect_to(
+         socket,
+         "/@#{current_username}"
+       )}
+    else
+      error("No user to show")
+    end
   end
 
   # def handle_info({:block_status, result}, socket) do
@@ -75,7 +107,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #   {:noreply, assign(socket, block_status: result)}
   # end
 
-  # def handle_profile_params(%{"tab" => tab} = params, _url, socket)
+  # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket)
   #     when tab in ["posts", "boosts", "timeline", "objects"] do
   #   debug(tab, "load tab")
 
@@ -88,7 +120,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   # end
 
   # WIP: Include circles in profile without redirecting to circles page
-  # def handle_profile_params(%{"tab" => tab} = params, _url, socket)
+  # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket)
   #     when tab in ["circles"] do
   #   debug(tab, "load tab")
   #   current_user = current_user(assigns(socket))
@@ -108,11 +140,11 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #     )}
   # end
 
-  def handle_profile_params(%{"tab" => tab} = params, _url, socket)
+  def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket)
       when tab in ["followers", "followed", "requests", "requested"] do
     # debug(tab, "load tab")
     user = e(assigns(socket), :user, nil)
-    debug(user, "user to get #{tab} for")
+    # debug(user, "user to get #{tab} for")
 
     {:noreply,
      assign(
@@ -127,32 +159,26 @@ defmodule Bonfire.UI.Me.ProfileLive do
      )}
   end
 
-  def handle_profile_params(
-        %{"username" => "%40" <> username} = _params,
-        _url,
-        socket
-      ) do
-    debug("rewrite encoded @ in URL")
-    {:noreply, patch_to(socket, "/@" <> String.replace(username, "%40", "@"), replace: true)}
-  end
+  # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket) do
+  def prepare_feed_assigns(params, _url, socket) do
+    user_id = e(assigns(socket), :user, :id, nil)
+    debug(user_id, "user to get feed for")
 
-  # def handle_profile_params(%{"tab" => tab} = params, _url, socket) do
-  def handle_profile_params(params, _url, socket) do
     {:noreply,
      assign(socket,
        selected_tab: params["tab"] || :timeline,
-       feed_filters: Map.put(params, :by, socket.assigns[:user]),
+       feed_filters: Map.put(params, :by, user_id),
        feed_name: :user_activities,
        loading: false
      )}
   end
 
-  # def handle_profile_params(params, _url, socket) do
+  # def prepare_feed_assigns(params, _url, socket) do
   #   if is_nil(current_user_id(assigns(socket))) do
   #     # TODO: configurable by user
   #     debug(params, "load guest default tab")
 
-  #     handle_profile_params(
+  #     prepare_feed_assigns(
   #       Map.merge(params || %{}, %{"tab" => "timeline"}),
   #       nil,
   #       socket
@@ -161,7 +187,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #     # TODO: configurable
   #     debug(params, "load user default tab")
 
-  #     handle_profile_params(
+  #     prepare_feed_assigns(
   #       Map.merge(params || %{}, %{"tab" => "timeline"}),
   #       nil,
   #       socket

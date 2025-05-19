@@ -18,7 +18,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
   end
 
   def handle_params(params, url, socket) do
-    current_user = current_user(assigns(socket))
+    current_user = current_user(socket)
     current_username = e(current_user, :character, :username, nil)
 
     {path, user_etc} =
