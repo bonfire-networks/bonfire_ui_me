@@ -5,16 +5,12 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 if not Code.ensure_loaded?(Mess) do
   defmodule Mess do
-    @moduledoc """
-    Helper for using dependencies specified in simpler text files in an Elixir mix project.
-    """
     @sources [path: "deps.path", git: "deps.git", hex: "deps.hex"]
 
     @newline ~r/(?:\r\n|[\r\n])/
     @parser ~r/^(?<indent>\s*)((?<package>[a-z_][a-z0-9_]+)\s*=\s*"(?<value>[^"]+)")?(?<post>.*)/
     @git_branch ~r/(?<repo>[^#]+)(#(?<branch>.+))?/
 
-    @doc "Takes a list of sources and a list of existing dependencies, and returns a new list of unique dependencies that include the packages specified in the sources. The sources list specifies where to find the list(s) of dependencies. Each source is a keyword list of a source type and the path to the file where those type of dependencies are specified. The possible source types are path, git, and hex."
     def deps(sources \\ @sources, deps),
       do: deps(Enum.flat_map(sources, fn {k, v} -> read(v, k) end), deps, :deps)
 
