@@ -31,6 +31,7 @@
                       parent_id="profile-hero"
                       class="inline-block object-cover w-28 h-28 md:mx-0 rounded-full -mt-12"
                       user_id={id(@user)}
+                      fallback_class="w-28 h-28"
                       src={avatar_url}
                     />
                     {!-- NOTE: removed border as it looks a bit strange when around smaller avatars, such as the generated animal ones: border-4 border-base-100 --}
