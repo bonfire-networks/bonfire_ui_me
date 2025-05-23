@@ -34,7 +34,7 @@
             else: "/character/#{e(@character, :username, "")}"}
           class={"text-sm flex-1", "flex gap-1 items-baseline": @inline}
         >
-          <div class={"font-medium text-base-content line-clamp-1 group-hover:underline", "!text-base": @lg}>
+          <div data-id="profile_name" class={"font-medium text-base-content line-clamp-1 group-hover:underline", "!text-base": @lg}>
             {rich(e(@profile, :name, nil))}</div>
 
           <div :if={!@inline} class="text-base-content/70 line-clamp-1">
