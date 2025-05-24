@@ -37,8 +37,7 @@ defmodule Bonfire.UI.Me.ProfileTest do
     |> refute_has("[data-role=follows_you]", text: "Follows you")
   end
 
-
-  test "When a remote user boosts my post, when i navigate to their profile, I want to see my original boosted activity in their profile as local activity, not a remote one" do
+  test "When a remote user boosts my (local) post, when i navigate to their profile, I want to see my post in their profile as a local object, not a remote one" do
     # Mock HTTP requests for remote user fetching
     mock(fn
       %{method: :get, url: "https://mocked.local/users/karen"} ->
@@ -51,25 +50,27 @@ defmodule Bonfire.UI.Me.ProfileTest do
 
     account = fake_account!()
     alice = fake_user!(account)
-    bob = Fake.fake_remote_user!()
+    remote_user = Fake.fake_remote_user!()
 
-    {:ok, post} = Posts.publish(
-      current_user: alice,
-      boundary: "public",
-      post_attrs: %{
-        post_content: %{
-          html_body: "Hello world!"
+    {:ok, post} =
+      Posts.publish(
+        current_user: alice,
+        boundary: "public",
+        post_attrs: %{
+          post_content: %{
+            html_body: "Hello world!"
+          }
         }
-      }
-    )
+      )
+
+    conn = conn(user: alice, account: account)
 
     # Bob boosts Alice's post
-    {:ok, _} = Boosts.boost(bob, post)
+    {:ok, _} = Boosts.boost(remote_user, post, local: false)
 
-    # Navigate to Bob's profile
-    conn = conn(user: alice, account: account)
+    # Navigate to remote_user's profile
     conn
-    |> visit("/@#{bob.character.username}")
-    |> refute_has("[data-id=peered]")
+    |> visit("/@#{remote_user.character.username}")
+    |> refute_has_or_open_browser("[data-id=peered]")
   end
 end
