@@ -226,7 +226,7 @@
       </div>
     </div> -->
 
-    <!-- Commenting because it is overridden by the settings in the dashboard settings-->
+    <!-- Commenting because it is overridden by the settings in the dashboard settings -->
     <!-- <form
       class="p-4"
       data-scope="set_default_feed"
