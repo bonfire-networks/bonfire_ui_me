@@ -6,7 +6,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
   def mount(params, _session, socket) do
-    current_user = current_user(assigns(socket))
+    current_user = current_user(socket)
 
     show_to =
       Bonfire.Common.Settings.get(
@@ -66,7 +66,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
 
   def handle_event("load_more", attrs, socket) do
     {_title, %{page_info: page_info, edges: edges}} =
-      list_users(current_user(assigns(socket)), attrs, e(assigns(socket), :instance_id, nil))
+      list_users(current_user(socket), attrs, e(assigns(socket), :instance_id, nil))
 
     {:noreply,
      socket

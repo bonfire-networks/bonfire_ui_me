@@ -56,7 +56,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
      |> assign(
        Bonfire.Boundaries.Blocks.LiveHandler.preload_one(
          user,
-         current_user(assigns(socket))
+         current_user(socket)
        )
      )}
   end

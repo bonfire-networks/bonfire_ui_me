@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
     # info(params)
     {:ok,
      socket
-     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(assigns(socket)))))
+     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(socket))))
      |> assign_new(:selected_tab, fn -> "timeline" end)}
   end
 

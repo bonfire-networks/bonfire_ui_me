@@ -31,13 +31,13 @@ defmodule Bonfire.UI.Me.ProfileLive do
     # TODO?
     {:ok,
      socket
-     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(assigns(socket)))))}
+     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(socket))))}
   end
 
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(assigns(socket)))))}
+     |> assign(LiveHandler.default_assigns(is_nil(current_user_id(socket))))}
   end
 
   def handle_params(params, uri, socket) do
@@ -123,7 +123,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket)
   #     when tab in ["circles"] do
   #   debug(tab, "load tab")
-  #   current_user = current_user(assigns(socket))
+  #   current_user = current_user(socket)
   #   user = e(assigns(socket), :user, nil)
   #   circles =
   #     Bonfire.Boundaries.Circles.list_my_with_counts(current_user, exclude_stereotypes: true)
@@ -174,7 +174,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   end
 
   # def prepare_feed_assigns(params, _url, socket) do
-  #   if is_nil(current_user_id(assigns(socket))) do
+  #   if is_nil(current_user_id(socket)) do
   #     # TODO: configurable by user
   #     debug(params, "load guest default tab")
 

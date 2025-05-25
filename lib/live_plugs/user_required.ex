@@ -17,7 +17,7 @@ defmodule Bonfire.UI.Me.LivePlugs.UserRequired do
 
   @decorate time()
   def mount(_params \\ nil, session \\ nil, socket) do
-    check(current_user(assigns(socket)), current_account(socket), session, socket)
+    check(current_user(socket), current_account(socket), session, socket)
   end
 
   defp check(%User{}, _account, _, socket), do: {:ok, socket}

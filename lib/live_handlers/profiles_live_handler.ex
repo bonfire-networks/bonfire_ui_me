@@ -79,7 +79,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   def init(username_or_id, params, socket) do
     # debug(params)
 
-    current_user = current_user(assigns(socket))
+    current_user = current_user(socket)
     current_user_id = id(current_user)
     current_username = e(current_user, :character, :username, nil)
 
