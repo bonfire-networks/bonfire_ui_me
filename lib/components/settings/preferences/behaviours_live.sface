@@ -173,17 +173,19 @@
   </div>
 
   <div class="divide-y divide-base-content/10">
+    
+    
+    
+    
+    
     <form phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Show feed controls")}
-        description={l("Show the feed menu at the top of the feed to filter and sort activities")}
-        keys={[Bonfire.UI.Social, :show_feed_controls]}
+        name={l("Show lite feed controls")}
+        description={l("Switch between the lite and full feed controls. The lite feed controls are more compact and show less options, while the full feed controls show all options and filters.")}
+        keys={[Bonfire.UI.Social, :use_lite_feed_controls]}
         scope={@scope}
-        default_value={Settings.get([Bonfire.UI.Social, :show_feed_controls], true,
-          context: @__context__,
-          name: l("Show Feed Controls"),
-          description: l("Show the feed menu at the top of the feed to filter and sort activities.")
-        )}
+        default_value={Settings.get([Bonfire.UI.Social, :use_lite_feed_controls], false,
+          context: @__context__)}
       />
     </form>
 
