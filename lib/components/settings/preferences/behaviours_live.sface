@@ -261,7 +261,7 @@
     </form> -->
 
     <form data-scope="time_limit" class="p-4" phx-change="Bonfire.Common.Settings:set">
-      <label for="set_default_feed" class="sr-only">{l("Set default time limit")}</label>
+      <label for="set_default_time_limit" class="sr-only">{l("Set default time limit")}</label>
       <Bonfire.UI.Common.SettingsSelectLive
         keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
         options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}

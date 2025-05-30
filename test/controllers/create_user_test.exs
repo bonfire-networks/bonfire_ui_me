@@ -208,7 +208,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     # assert_flash(ok, :info, ~r/admin/)
 
     # Navigate to user profile
-    conn = get(recycle(conn), "/user")
+    conn = get(recycle(conn), "/@#{username}")
     doc = floki_response(conn)
     assert [view] = Floki.find(doc, "span.badge")
   end
