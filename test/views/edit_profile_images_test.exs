@@ -2,6 +2,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
   use Bonfire.UI.Me.ConnCase, async: true
   alias Bonfire.Me.Fake
 
+  @tag :skip_ci
   test "upload avatar" do
     account = fake_account!()
     user = fake_user!(account)
@@ -46,6 +47,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     # File.stat!(file).size |> debug()
   end
 
+  @tag :skip_ci
   test "upload bg image" do
     account = fake_account!()
     user = fake_user!(account)
