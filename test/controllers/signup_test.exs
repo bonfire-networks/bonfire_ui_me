@@ -63,6 +63,11 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     end
   end
 
+  setup do
+    Bonfire.Me.Fake.clear_caches()
+    :ok
+  end
+
   test "can signup" do
     #  create a first user since confirmation otherwise not required
     fake_user!()

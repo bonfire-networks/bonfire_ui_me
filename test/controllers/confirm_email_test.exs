@@ -2,6 +2,11 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
   use Bonfire.UI.Me.ConnCase, async: true
   alias Bonfire.Me.Fake
 
+  setup_all do
+    Bonfire.Me.Fake.clear_caches()
+    :ok
+  end
+
   describe "request" do
     test "must be a guest" do
     end
