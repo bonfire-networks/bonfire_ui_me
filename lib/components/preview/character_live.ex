@@ -11,15 +11,36 @@ defmodule Bonfire.UI.Me.Preview.CharacterLive do
   prop showing_within, :atom, default: nil
   prop activity_component_id, :string, default: nil
 
-  def the_other(activity, object, context) do
-    current_user = current_user(context)
+  def render(assigns) do
+    current_user = current_user(assigns)
+    current_user_id = id(current_user)
+    object = e(assigns, :object, nil)
+    object_id = id(object) || e(assigns, :activity, :object, :id, nil)
+    subject = e(assigns, :activity, :subject, nil)
 
-    if e(activity, :verb, :verb, nil) in ["Follow"] and uid(object) == uid(current_user) and
-         e(activity, :subject, :profile, nil) do
-      e(activity, :subject, nil)
-    else
-      object
-    end
+    assigns
+    |> assign(
+      :the_character,
+      cond do
+        e(assigns, :verb, nil) in ["Follow", "Request"] and object_id == current_user_id ->
+          debug(
+            "special case for showing the follower instead of the object when I am the one being followed"
+          )
+
+          subject
+
+        object_id == current_user_id ->
+          current_user
+
+        object_id == id(subject) and not is_map(object) ->
+          subject
+
+        true ->
+          object
+      end
+      # |> debug("computed character to show")
+    )
+    |> render_sface()
   end
 
   def preloads(),

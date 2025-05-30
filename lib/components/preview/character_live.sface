@@ -1,22 +1,22 @@
 {#if @showing_within == :widget}
   {!-- show the object or character that isn't me --}
   <div data-role="character" class="flex w-full activity_widget">
-    <LinkLive to={path(the_other(@activity, @object, @__context__))} class="flex profile-item group">
+    <LinkLive to={path(@the_character)} class="flex profile-item group">
       <div class="absolute left-0">
         <Bonfire.UI.Common.AvatarLive
           parent_id={["character", @activity_component_id || id(@activity)]}
           class="w-6 h-6 rounded-full"
           bg_class="rounded-btn"
-          src={Media.avatar_url(the_other(@activity, @object, @__context__))}
-          user_id={id(the_other(@activity, @object, @__context__))}
+          src={Media.avatar_url(@the_character)}
+          user_id={id(@the_character)}
         />
       </div>
       <div class="flex items-center justify-between flex-1 ml-8 space-x-1">
         <p class="text-base font-semibold group-hover:underline text-base-content">
-          {e(the_other(@activity, @object, @__context__), :profile, :name, "Anon")}
+          {e(@the_character, :profile, :name, "Anon")}
         </p>
         <p class="-mt-px text-sm text-base-content text-opacity-70">
-          @{e(the_other(@activity, @object, @__context__), :character, :username, "anon")}
+          @{e(@the_character, :character, :username, "anon")}
         </p>
       </div>
     </LinkLive>
@@ -36,8 +36,8 @@
       show_controls={[]}
       lg
       avatar_class={"w-11 h-11 rounded-full ", "!w-7 !h-7": @__context__[:ui_compact]}
-      profile={e(the_other(@activity, @object, @__context__), :profile, nil)}
-      character={e(the_other(@activity, @object, @__context__), :character, nil)}
+      profile={e(@the_character, :profile, nil)}
+      character={e(@the_character, :character, nil)}
     />
   </div>
   <button
@@ -52,22 +52,22 @@
   {!-- show the object or character that isn't me --}
   {!-- <div class="flex w-full activity_notification">
     <LinkLive
-      to={path(the_other(@activity, @object, @__context__))}
+      to={path(@the_character)}
       class="flex profile-item group"
     >
       <div class="">
-        <Bonfire.UI.Common.AvatarLive parent_id={id(@activity)} user={the_other(@activity, @object, @__context__)} />
+        <Bonfire.UI.Common.AvatarLive parent_id={id(@activity)} user={@the_character} />
       </div>
       <div>
         <div class="items-baseline justify-between flex-1 ml-3">
           <p class="text-base font-semibold group-hover:underline text-base-content">
-            {e(the_other(@activity, @object, @__context__), :profile, :name, "")}
+            {e(@the_character, :profile, :name, "")}
           </p>
           <div
-            :if={e(the_other(@activity, @object, @__context__), :character, :username, nil)}
+            :if={e(@the_character, :character, :username, nil)}
             class="-mt-1 text-sm font-normal truncate ellipsis text-base-content text-opacity-60 subject_username"
           >
-            @{e(the_other(@activity, @object, @__context__), :character, :username, "")}
+            @{e(@the_character, :character, :username, "")}
           </div>
         </div>
       </div>
