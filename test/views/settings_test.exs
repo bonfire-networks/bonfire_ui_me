@@ -120,7 +120,10 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> render_change(%{"Elixir.Bonfire.UI.Common.AvatarLive" => %{"shape" => "true"}})
 
       # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
+      {:ok, refreshed_view, _html} = live(conn, "/@#{alice.character.username}")
+
+      assert refreshed_view
+             |> has_element?("div[data-scope=avatar]")
 
       assert refreshed_view
              |> has_element?("div[data-scope=avatar] div[data-square]")
