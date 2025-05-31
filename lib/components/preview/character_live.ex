@@ -22,7 +22,7 @@ defmodule Bonfire.UI.Me.Preview.CharacterLive do
     |> assign(
       :the_character,
       cond do
-        e(assigns, :verb, nil) in ["Follow", "Request"] and object_id == current_user_id ->
+        e(assigns, :verb, nil) in ["Follow", "Request to Follow"] and object_id == current_user_id ->
           debug(
             "special case for showing the follower instead of the object when I am the one being followed"
           )
