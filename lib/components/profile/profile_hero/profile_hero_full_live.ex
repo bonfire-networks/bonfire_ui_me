@@ -19,7 +19,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
 
   prop character_type, :atom, default: nil
   prop is_local?, :boolean, default: false
-  prop follows_me, :boolean, default: false
+  prop follows_me, :atom, default: false
   prop selected_tab, :any, default: nil
   prop block_status, :any, default: nil
   prop showing_within, :atom, default: :profile

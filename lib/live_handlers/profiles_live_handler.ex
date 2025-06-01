@@ -123,7 +123,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
           module_enabled?(Bonfire.Social.Graph.Follows, current_user) &&
           Utils.maybe_apply(
             Bonfire.Social.Graph.Follows,
-            :following?,
+            :follow_status,
             [user, current_user]
           )
 

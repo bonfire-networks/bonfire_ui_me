@@ -14,12 +14,29 @@
                 do: "background-image: url('#{banner_url}')",
                 else: "background-color: #{color}"}
             >
-              {#if @follows_me}
-                <p
-                  data-role="follows_you"
-                  class="absolute right-3 bottom-3 px-3 p-1 rounded-lg bg-neutral/70 backdrop-blur-sm text-neutral-content text-sm"
-                >{"Follows you"}</p>
-              {/if}
+              {#case @follows_me}
+                {#match Bonfire.Data.Social.Request}
+                  <p
+                    data-role="follows_you"
+                    class="absolute right-3 bottom-3 px-3 p-1 rounded-lg bg-neutral/70 backdrop-blur-sm text-neutral-content text-sm"
+                  >{l("Requested to follow you")}
+
+                    <button
+                      :on-click="Bonfire.Social.Graph.Follows:accept"
+                      phx-value-user_id={id(@user)}
+                      type="button"
+                      class="normal-case border !border-primary/30 btn btn-sm btn-primary ml-2"
+                    >
+                      {l("Accept")}
+                    </button>
+                  </p>
+                {#match follow when follow in [Bonfire.Data.Social.Follow, true]}
+                  <p
+                    data-role="follows_you"
+                    class="absolute right-3 bottom-3 px-3 p-1 rounded-lg bg-neutral/70 backdrop-blur-sm text-neutral-content text-sm"
+                  >{l("Follows you")}</p>
+                {#match _}
+              {/case}
             </div>
 
             <div data-id="hero_data" class="px-4">
@@ -29,7 +46,7 @@
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"
-                      class="inline-block object-cover w-38 h-38 lg:w-33 lg:h-33 border-4 border-base-100 md:mx-0 rounded-full -mt-32 lg:-mt-16 "
+                      class="inline-block object-cover w-38 h-38 lg:w-33 lg:h-33 border-4 border-base-100 md:mx-0 rounded-full -mt-32 lg:-mt-16"
                       user_id={id(@user)}
                       fallback_class="w-38 h-38 lg:w-33 lg:h-33"
                       src={avatar_url}
