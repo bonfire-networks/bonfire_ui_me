@@ -46,7 +46,7 @@
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"
-                      class="inline-block object-cover w-38 h-38 lg:w-33 lg:h-33 border-4 border-base-100 md:mx-0 rounded-full -mt-32 lg:-mt-16"
+                      class="inline-block object-cover w-38 h-38 lg:w-33 lg:h-33 md:mx-0 rounded-full -mt-32 lg:-mt-16"
                       user_id={id(@user)}
                       fallback_class="w-38 h-38 lg:w-33 lg:h-33"
                       src={avatar_url}
