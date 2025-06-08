@@ -9,7 +9,7 @@
                 @character_type != :user} --}
             <div
               data-id="hero_background"
-              class="aspect-[4/3] w-full h-[220px] bg-base-200 relative lg:rounded-t-xl bg-center -mt-[80px] lg:mt-0 bg-cover bg-no-repeat mb-4"
+              class="aspect-[4/3] w-full h-[220px] bg-base-200 relative lg:rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-4"
               style={if not is_binary(color),
                 do: "background-image: url('#{banner_url}')",
                 else: "background-color: #{color}"}
@@ -46,9 +46,9 @@
                       !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                     <Bonfire.UI.Common.AvatarLive
                       parent_id="profile-hero"
-                      class="inline-block object-cover w-38 h-38 lg:w-33 lg:h-33 md:mx-0 rounded-full -mt-32 lg:-mt-16"
+                      class="inline-block object-cover w-33 h-33 md:mx-0 rounded-full -mt-24 lg:-mt-16"
                       user_id={id(@user)}
-                      fallback_class="w-38 h-38 lg:w-33 lg:h-33"
+                      fallback_class="w-33 h-33"
                       src={avatar_url}
                     />
                     {!-- NOTE: removed border as it looks a bit strange when around smaller avatars, such as the generated animal ones: border-4 border-base-100 --}
