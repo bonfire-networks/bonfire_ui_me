@@ -42,20 +42,20 @@
             <div data-id="hero_data" class="px-4">
               <div class="w-full gap-2">
                 <div class="flex flex-col lg:items-start gap-2">
-                 <div class="flex justify-between items-center w-full">
-                  {#if @character_type == :user and
-                      !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
-                    <Bonfire.UI.Common.AvatarLive
-                      parent_id="profile-hero"
-                      class="inline-block object-cover w-24 h-24 md:mx-0 rounded-full -mt-14"
-                      user_id={id(@user)}
-                      fallback_class="w-24 h-24"
-                      src={avatar_url}
-                    />
-                    {!-- NOTE: removed border as it looks a bit strange when around smaller avatars, such as the generated animal ones: border-4 border-base-100 --}
-                  {/if}
+                  <div class="flex justify-between items-center w-full">
+                    {#if @character_type == :user and
+                        !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
+                      <Bonfire.UI.Common.AvatarLive
+                        parent_id="profile-hero"
+                        class="inline-block object-cover w-24 h-24 md:mx-0 rounded-full -mt-14"
+                        user_id={id(@user)}
+                        fallback_class="w-24 h-24"
+                        src={avatar_url}
+                      />
+                      {!-- NOTE: removed border as it looks a bit strange when around smaller avatars, such as the generated animal ones: border-4 border-base-100 --}
+                    {/if}
 
-                  <div class="flex items-center gap-3" data-id="profile_main_actions">
+                    <div class="flex items-center gap-3" data-id="profile_main_actions">
                       <Bonfire.UI.Me.HeroMoreActionsLive
                         character_type={@character_type}
                         ghosted_instance_wide?={@ghosted_instance_wide?}
@@ -68,91 +68,86 @@
                         moderators={@moderators}
                         permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
                       />
-                  {#if current_user_id(@__context__) == id(@user)}
-                    <div />
-                  {#else}
-                    <StatelessComponent
-                      :if={@character_type == :user and current_user_id(@__context__)}
-                      module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
-                      user_id={id(@user)}
-                      parent_id="profile_hero"
-                      as_icon
-                    />
+                      {#if current_user_id(@__context__) == id(@user)}
+                        <div />
+                      {#else}
+                        <StatelessComponent
+                          :if={@character_type == :user and current_user_id(@__context__)}
+                          module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
+                          user_id={id(@user)}
+                          parent_id="profile_hero"
+                          as_icon
+                        />
 
-                     
-
-                    {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
-                        (@ghosted? == true && @silenced? == true)}
-                      <button
-                        disabled
-                        class="font-semibold flex-1 px-6 normal-case rounded btn btn-disabled"
-                      >
-                        {l("Blocked")}
-                      </button>
-                    {#else}
-                      {#case @character_type}
-                        {#match :group}
-                          <div class="flex items-center flex-1 gap-2" data-role="follow_wrapper">
-                            <StatefulComponent
-                              module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
-                              :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
-                                e(@boundary_preset, "visible", nil) || Boundaries.can?(@__context__, :follow, @user)}
-                              id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
-                              object_id={id(@user)}
-                              object={@user}
-                              follows_me={@follows_me}
-                              path={path(@user)}
-                              hide_icon
-                              class="font-semibold !h-[34px] flex-1 btn-sm px-6 normal-case btn w-full btn-neutral"
-                              verb={if e(@user, :type, nil) == :group,
-                                do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
-                              verb_undo={l("Leave")}
-                              verb_already={l("Joined")}
-                              disabled={Enums.ids(current_user(@__context__)) == Enums.ids(@moderators) |> debug("m111")}
-                            >
-                              <:if_followed>
-                                <Bonfire.UI.Common.SmartInputButtonLive
-                                  :if={current_user_id(@__context__)}
-                                  prompt={l("Post")}
-                                  smart_input_opts={%{
-                                    context_id: id(@user),
-                                    mentions: [id(@user)],
-                                    to_boundaries: set_clone_context(@boundary_preset || @user),
-                                    to_circles: [
-                                      %{
-                                        (ed(@user, :profile, :name, nil) || ed(@user, :character, :username, l("someone"))) =>
-                                          id(@user)
-                                      }
-                                    ]
-                                  }}
-                                  icon="mdi:pencil"
-                                  class="flex btn btn-sm flex-1 btn-primary w-full items-center gap-2 normal-case"
+                        {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
+                            (@ghosted? == true && @silenced? == true)}
+                          <button disabled class="font-semibold flex-1 px-6 normal-case rounded btn btn-disabled">
+                            {l("Blocked")}
+                          </button>
+                        {#else}
+                          {#case @character_type}
+                            {#match :group}
+                              <div class="flex items-center flex-1 gap-2" data-role="follow_wrapper">
+                                <StatefulComponent
+                                  module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+                                  :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
+                                    e(@boundary_preset, "visible", nil) || Boundaries.can?(@__context__, :follow, @user)}
+                                  id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
+                                  object_id={id(@user)}
+                                  object={@user}
+                                  follows_me={@follows_me}
+                                  path={path(@user)}
+                                  hide_icon
+                                  class="font-semibold !h-[34px] flex-1 btn-sm px-6 normal-case btn w-full btn-neutral"
+                                  verb={if e(@user, :type, nil) == :group,
+                                    do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
+                                  verb_undo={l("Leave")}
+                                  verb_already={l("Joined")}
+                                  disabled={Enums.ids(current_user(@__context__)) == Enums.ids(@moderators) |> debug("m111")}
+                                >
+                                  <:if_followed>
+                                    <Bonfire.UI.Common.SmartInputButtonLive
+                                      :if={current_user_id(@__context__)}
+                                      prompt={l("Post")}
+                                      smart_input_opts={%{
+                                        context_id: id(@user),
+                                        mentions: [id(@user)],
+                                        to_boundaries: set_clone_context(@boundary_preset || @user),
+                                        to_circles: [
+                                          %{
+                                            (ed(@user, :profile, :name, nil) || ed(@user, :character, :username, l("someone"))) =>
+                                              id(@user)
+                                          }
+                                        ]
+                                      }}
+                                      icon="mdi:pencil"
+                                      class="flex btn btn-sm flex-1 btn-primary w-full items-center gap-2 normal-case"
+                                    />
+                                  </:if_followed>
+                                </StatefulComponent>
+                              </div>
+                            {#match _}
+                              <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
+                                <StatefulComponent
+                                  module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+                                  id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
+                                  object_id={id(@user)}
+                                  object={@user}
+                                  follows_me={@follows_me}
+                                  path={path(@user)}
+                                  hide_icon
+                                  class="btn btn-primary btn-soft"
                                 />
-                              </:if_followed>
-                            </StatefulComponent>
-                          </div>
-                        {#match _}
-                          <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
-                            <StatefulComponent
-                              module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
-                              id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
-                              object_id={id(@user)}
-                              object={@user}
-                              follows_me={@follows_me}
-                              path={path(@user)}
-                              hide_icon
-                              class="btn btn-primary btn-soft"
-                            />
-                          </div>
-                      {/case}
-                    {/if}
-                  {/if}
-                  
-                  {!-- <button class="btn flex-1 btn-sm btn-outline ">Add to circle</button>
+                              </div>
+                          {/case}
+                        {/if}
+                      {/if}
+
+                      {!-- <button class="btn flex-1 btn-sm btn-outline ">Add to circle</button>
                       <button class="btn btn-sm flex-1 btn-outline ">Follow</button> --}
-                  {!-- <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} /> --}
-                </div>
-                </div>
+                      {!-- <Bonfire.UI.Me.ProfileNavLive user={@user} path={@path} selected_tab={@selected_tab} /> --}
+                    </div>
+                  </div>
 
                   <div class="flex flex-col flex-1 w-full">
                     <div class="flex justify-between">
@@ -210,7 +205,7 @@
                     silenced?={@silenced?}
                   />
                 </div>
-                
+
                 {!-- {#if @follows_me}
                   <p class="text-base-content/60 mt-3 text-sm">{"Follows you"}</p>
                 {/if} --}

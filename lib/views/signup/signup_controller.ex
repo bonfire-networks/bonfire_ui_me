@@ -43,11 +43,14 @@ defmodule Bonfire.UI.Me.SignupController do
   def attempt(conn, account_attrs, form \\ %{}) do
     # debug(Plug.Conn.get_session(conn, :auth_second_factor_secret))
     # changeset = form_cs(conn, params)
+    info(account_attrs, "Account attributes")
 
     case Accounts.signup(account_attrs,
+           # TODO: || Plug.Conn.get_session(conn, :invite)
            invite: form["invite"] || account_attrs["invite"],
            auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret)
-         ) do
+         )
+         |> info("attempted signup") do
       {:ok, %{email: %{confirmed_at: confirmed_at}}} when not is_nil(confirmed_at) ->
         {:ok,
          conn
