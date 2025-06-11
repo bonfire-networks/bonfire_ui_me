@@ -655,8 +655,8 @@ defmodule Bonfire.UI.Me.ExportController do
         <meta http-equiv=\"refresh\" content=\"0; url=#{uri}\" />
       </head>
       <body>
-        <h1>For older browsers, click Redirect</h1>
-        <p><a href=\"#{uri}\">Redirect</a></p>
+        <h3>Automatic redirect to #{uri}</h3>
+        <p><a href=\"#{uri}\">For older browsers, click here</a></p>
       </body>
     </html>"])
   end
