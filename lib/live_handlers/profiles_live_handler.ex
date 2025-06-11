@@ -229,7 +229,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       hide_tabs: false,
       smart_input: true,
       feed: nil,
-      aliases: [],
+      aliases: nil,
       page_info: [],
       page: "profile",
       showing_within: :profile,

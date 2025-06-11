@@ -9,9 +9,8 @@ defmodule Bonfire.UI.Me.ProfileLinksLive do
   # def render(assigns) do
   #   user = assigns[:user]
   #   # debug(assigns)
-  #   # should be loading this only once per persistent session, or when we open the composer
   #   assigns
-  #   |> assign(
+  #   |> assign( # NOTE: should not be needed as aliases should be loaded as part of the profile
   #     :aliases,
   #     if(user,
   #       do:

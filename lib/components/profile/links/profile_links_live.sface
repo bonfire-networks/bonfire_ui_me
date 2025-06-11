@@ -32,8 +32,8 @@
   :for={%{edge: %{object: %{id: _id, media_type: type, path: path, metadata: metadata}}} <- @aliases}
 >
   <Bonfire.UI.Me.ProfileLinkLive
-    href={path}
-    text={type |> to_string() |> :string.titlecase()}
+    href={path || e(metadata, "url", nil)}
+    text={Text.upcase_first(type)}
     class={@class}
     metadata={metadata}
   />
