@@ -152,7 +152,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       alice = fake_user!(account)
 
       attrs = %{
-        post_content: %{summary: "summary", name: "test post name", html_body: "first post"}
+        post_content: %{summary: "summary", html_body: "first post"}
       }
 
       assert {:ok, post} =
