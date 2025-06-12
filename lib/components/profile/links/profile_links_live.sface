@@ -32,6 +32,7 @@
   :for={%{edge: %{object: %{id: _id, media_type: type, path: path, metadata: metadata}}} <- @aliases}
 >
   <Bonfire.UI.Me.ProfileLinkLive
+    :if={path || e(metadata, "url", nil)}
     href={path || e(metadata, "url", nil)}
     text={Text.upcase_first(type)}
     class={@class}

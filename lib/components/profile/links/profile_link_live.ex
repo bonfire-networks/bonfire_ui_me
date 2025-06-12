@@ -13,13 +13,15 @@ defmodule Bonfire.UI.Me.ProfileLinkLive do
     assigns
     |> assign(
       :icon,
-      (URI.parse(href).host || "")
+      (URI.parse(href || "").host || "")
       |> String.replace("www.", "")
       |> debug("hooost")
       |> maybe_icon()
     )
     |> render_sface()
   end
+
+  def render(assigns), do: assigns |> render_sface()
 
   def maybe_icon("git" <> _), do: "mdi:git"
   def maybe_icon("orcid" <> _), do: "simple-icons:orcid"
