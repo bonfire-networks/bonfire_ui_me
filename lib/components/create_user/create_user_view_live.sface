@@ -80,7 +80,10 @@
               <span>@</span>
               <TextInput
                 required
-                opts={"x-bind:value": "userModifiedUsername ? $el.value : suggest_username(username)", "@input": "userModifiedUsername = ($event.target.value.trim() !== '')"}
+                opts={
+                  "x-bind:value": "userModifiedUsername ? $el.value : suggest_username(username)",
+                  "@input": "userModifiedUsername = ($event.target.value.trim() !== '')"
+                }
                 type="input"
                 placeholder="Username"
                 minlength="3"
