@@ -60,7 +60,7 @@
       {!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> --}
       <span>{l("Create a new user profile")}</span>
     </div>
-    <div x-data="{username:''}" class="flex flex-col gap-2">
+    <div x-data="{username:'', userModifiedUsername: false}" class="flex flex-col gap-2">
       <Inputs for={:profile}>
         <Field name={:name}>
           <Label class="label">
@@ -80,7 +80,7 @@
               <span>@</span>
               <TextInput
                 required
-                opts={"x-bind:value": "suggest_username(username)"}
+                opts={"x-bind:value": "userModifiedUsername ? $el.value : suggest_username(username)", "@input": "userModifiedUsername = ($event.target.value.trim() !== '')"}
                 type="input"
                 placeholder="Username"
                 minlength="3"
