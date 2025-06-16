@@ -37,7 +37,7 @@
         <fieldset class="fieldset w-full">
           <legend class="fieldset-legend">{l("Site name")}</legend>
           <input
-            value={to_string(Config.get([:ui, :theme, :instance_name], Bonfire.Application.name()))}
+            value={to_string(Config.get([:ui, :theme, :instance_name], Bonfire.Application.name_and_flavour()))}
             name="ui[theme][instance_name]"
             type="text"
             class="input w-full"

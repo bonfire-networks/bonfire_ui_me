@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.ProfileInfoLive do
   prop is_local?, :boolean, default: false
 
   # prop follows_me, :atom, default: false
-  prop aliases, :list, default: []
+  prop aliases, :any, default: []
 
   slot header
 end
