@@ -28,12 +28,12 @@ defmodule Bonfire.UI.Me.MixProject do
           # {:phoenix_live_reload, "~> 1.2", only: :dev},
           {:zest, "~> 0.1", only: :test},
           {:mneme, ">= 0.0.0", only: [:dev, :test]},
-          {:bonfire,
-           git: "https://github.com/bonfire-networks/bonfire",
+          # {:bonfire,
+          #  git: "https://github.com/bonfire-networks/bonfire",
 
-           only: :test,
-           runtime: false
-           }
+          #  only: :test,
+          #  runtime: false
+          #  },
 
           # {:phoenix_test,
           # "~> 0.3",
