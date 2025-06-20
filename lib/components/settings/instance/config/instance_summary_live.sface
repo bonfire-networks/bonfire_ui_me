@@ -27,7 +27,7 @@
                 <div class="text-sm font-medium">{l("Sign ups")}</div>
               </div>
 
-              {#if !Config.get(:invite_only, nil,
+              {#if !Config.get(:invite_only, true,
                   name: l("Invite Only"),
                   description: l("Whether sign-ups require an invitation.")
                 )}

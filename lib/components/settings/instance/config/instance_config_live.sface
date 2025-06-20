@@ -133,10 +133,11 @@
         />
 
         <Bonfire.UI.Common.SettingsToggleLive
-          name={l("Make the instance invite only")}
+          name={l("Invite-only instance")}
           description={l("Only people with a valid invite link can sign up to this instance.")}
           keys={[:invite_only]}
           scope={:instance}
+          default_value
         />
         <div class="flex flex-col gap-2 p-4">
           <!-- <span class="font-medium text-sm">{l("Who can see the list of local users?")}</span>
