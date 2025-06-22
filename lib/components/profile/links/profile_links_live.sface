@@ -6,7 +6,8 @@
 
 <div
   class="w-full p-3 flex gap-3"
-  :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <- @aliases}
+  :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <-
+    @aliases || []}
 >
   <StatelessComponent
     module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
@@ -29,7 +30,7 @@
 
 <div
   class="w-full"
-  :for={%{edge: %{object: %{id: _id, media_type: type, path: path, metadata: metadata}}} <- @aliases}
+  :for={%{edge: %{object: %{id: _id, media_type: type, path: path, metadata: metadata}}} <- @aliases || []}
 >
   <Bonfire.UI.Me.ProfileLinkLive
     :if={path || e(metadata, "url", nil)}

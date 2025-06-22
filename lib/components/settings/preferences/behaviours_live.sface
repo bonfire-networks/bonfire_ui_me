@@ -264,7 +264,7 @@
       <label for="set_default_time_limit" class="sr-only">{l("Set default time limit")}</label>
       <Bonfire.UI.Common.SettingsSelectLive
         keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
-        options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => "Year", 0 => "All time"}}
+        options={%{1 => l("Day"), 7 => l("Week"), 30 => l("Month"), 365 => l("Year"), 0 => l("All time")}}
         default_value={nil}
         name={l("Feed time limit")}
         description={l(
