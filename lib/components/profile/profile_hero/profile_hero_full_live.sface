@@ -9,7 +9,7 @@
                 @character_type != :user} --}
             <div
               data-id="hero_background"
-              class="aspect-[4/3] w-full h-[220px] bg-base-200 relative lg:rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-3"
+              class="aspect-[4/3] w-full h-[220px] bg-base-100 border-b border-base-content/10 relative lg:rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-3"
               style={if not is_binary(color),
                 do: "background-image: url('#{banner_url}')",
                 else: "background-color: #{color}"}
@@ -176,7 +176,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="mt-4 flex flex-col gap-2">
+                <div class="mt-4 flex flex-col pb-4">
                   <Bonfire.UI.Me.ProfileInfoLive
                     ghosted_instance_wide?={@ghosted_instance_wide?}
                     silenced_instance_wide?={@silenced_instance_wide?}
