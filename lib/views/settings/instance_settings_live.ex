@@ -9,7 +9,6 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      socket
      |> assign(
        page_title: l("Instance Settings"),
-       back: true,
        without_secondary_widgets: true,
        nav_items: [Bonfire.UI.Me.InstanceSidebarSettingsNavLive.declared_nav()],
        selected_tab: "instance_dashboard",
