@@ -5,7 +5,7 @@
 {/case}
 
 <div
-  class="w-full p-3 flex gap-3"
+  class="w-full p-3 flex gap-3 items-center justify-between"
   :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <-
     @aliases || []}
 >
@@ -13,18 +13,18 @@
     module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
     show_controls={[]}
     character={character}
+    wrapper_class="flex"
     profile={profile}
     class="btn btn-circle btn-ghost btn-sm"
     avatar_class="w-10 h-10  rounded-full"
   />
-
   {#if Utils.maybe_apply(
       Bonfire.Social.Graph.Aliases,
       :also_known_as?,
       [@user, character],
       fallback_return: nil
     )}
-    <#Icon iconify="mdi:check-circle-outline" class="w-5 h-5 text-success" />
+    <#Icon iconify="garden:check-badge-fill-16" class="w-5 h-5 text-success" />
   {/if}
 </div>
 
