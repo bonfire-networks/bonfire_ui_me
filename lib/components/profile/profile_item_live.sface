@@ -24,6 +24,7 @@
           src={Media.avatar_url(@profile)}
           title={e(@profile, :name, "")}
           class={@avatar_class || "w-12 h-12"}
+          showing_within={@showing_within}
         />
       </LinkLive>
       <div :if={!@only_img}>

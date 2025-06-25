@@ -18,6 +18,7 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
   prop only_img, :boolean, default: false
 
   prop parent_id, :any, default: nil
+  prop showing_within, :any, default: nil
 
   slot default, required: false
 end
