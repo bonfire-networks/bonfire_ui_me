@@ -32,14 +32,17 @@
   class="w-full"
   :for={%{edge: %{object: %{id: _id, media_type: type, path: path, metadata: metadata}}} <- @aliases || []}
 >
-  <Bonfire.UI.Me.ProfileLinkLive
-    :if={path || e(metadata, "url", nil)}
-    href={path || e(metadata, "url", nil)}
-    text={Text.upcase_first(type)}
-    class={@class}
-    metadata={metadata}
-  />
-  <!-- {Bonfire.OpenScience.APIs.fetch_orcid_works(@user, metadata) |> inspect} -->
+  {#case path || e(metadata, "url", nil)}
+    {#match nil}
+    {#match href}
+      <Bonfire.UI.Me.ProfileLinkLive
+        href={href}
+        text={Text.upcase_first(type)}
+        class={@class}
+        metadata={metadata}
+      />
+      {!-- {Bonfire.OpenScience.APIs.fetch_orcid_works(@user, metadata) |> inspect} --}
+  {/case}
 </div>
 
 {!-- 
