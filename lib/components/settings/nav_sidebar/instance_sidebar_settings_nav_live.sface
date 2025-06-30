@@ -391,7 +391,7 @@
         </LinkPatchLive>
       </li>
 
-      <li>
+      <li :if={Config.env() == :dev}>
         <LinkPatchLive
           to={~p"/settings/instance/icons"}
           class={
