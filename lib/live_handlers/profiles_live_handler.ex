@@ -142,7 +142,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       |> assign(user_assigns(user, current_user, follows_me))
       |> maybe_assign_aliases(user)
       |> assign(Bonfire.Boundaries.Blocks.LiveHandler.preload_one(user, current_user))
-      |> assign_new(:selected_tab, fn -> "timeline" end)
+      |> assign_new(:selected_tab, fn -> :timeline end)
       |> assign(
         character_type: :user,
         no_mobile_header: true,

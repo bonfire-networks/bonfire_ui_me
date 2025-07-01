@@ -108,7 +108,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   # end
 
   # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket)
-  #     when tab in ["posts", "boosts", "timeline", "objects"] do
+  #     when tab in ["posts", "boosts", "timeline", :timeline, "objects"] do
   #   debug(tab, "load tab")
 
   #   Bonfire.Social.Feeds.LiveHandler.user_feed_assign_or_load_async(
@@ -161,7 +161,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
   # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket) do
   def prepare_feed_assigns(params, _url, socket) do
-    user_id = e(assigns(socket), :user, :id, nil)
+    user = e(assigns(socket), :user, nil)
+    user_id = id(user)
     debug(user_id, "user to get feed for")
 
     {:noreply,
@@ -169,6 +170,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
        selected_tab: params["tab"] || :timeline,
        feed_filters: Map.put(params, :by, user_id),
        feed_name: :user_activities,
+       feed_id: Bonfire.Social.Feeds.feed_id(:outbox, user),
        loading: false
      )}
   end
@@ -179,7 +181,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #     debug(params, "load guest default tab")
 
   #     prepare_feed_assigns(
-  #       Map.merge(params || %{}, %{"tab" => "timeline"}),
+  #       Map.merge(params || %{}, %{"tab" => :timeline}),
   #       nil,
   #       socket
   #     )
@@ -188,7 +190,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #     debug(params, "load user default tab")
 
   #     prepare_feed_assigns(
-  #       Map.merge(params || %{}, %{"tab" => "timeline"}),
+  #       Map.merge(params || %{}, %{"tab" => :timeline}),
   #       nil,
   #       socket
   #     )

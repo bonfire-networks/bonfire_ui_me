@@ -6,6 +6,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
   # alias Bonfire.Me.Fake
 
   alias Bonfire.Me.Profiles.LiveHandler
+  alias Bonfire.UI.Me.ProfileLive
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
@@ -14,7 +15,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
     {:ok,
      socket
      |> assign(LiveHandler.default_assigns(is_nil(current_user_id(socket))))
-     |> assign_new(:selected_tab, fn -> "timeline" end)}
+     |> assign_new(:selected_tab, fn -> :timeline end)}
   end
 
   def handle_params(params, url, socket) do
@@ -98,6 +99,7 @@ defmodule Bonfire.UI.Me.CharacterLive do
                )
              )
              |> assign(LiveHandler.user_assigns(user_etc, current_user))
+             |> ProfileLive.prepare_feed_assigns(url, params)
              |> assign(
                character_type: :unknown,
                path: prefix
