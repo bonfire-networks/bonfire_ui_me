@@ -27,6 +27,7 @@ defmodule Bonfire.UI.Me.MixProject do
         Mess.deps([
           # {:phoenix_live_reload, "~> 1.2", only: :dev},
           {:zest, "~> 0.1", only: :test},
+          {:repatch, "~> 1.5", only: :test},
           {:mneme, ">= 0.0.0", only: [:dev, :test]},
           # {:bonfire,
           #  git: "https://github.com/bonfire-networks/bonfire",

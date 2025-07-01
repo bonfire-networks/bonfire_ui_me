@@ -8,7 +8,12 @@ defmodule Bonfire.UI.Me.SignupController do
       Plug.Conn.get_session(conn, :auth_second_factor_secret) ||
         Bonfire.Me.Accounts.SecondFactors.new()
 
-    conn
+    if invite = params["invite"] do
+      # Store invite in session if provided in params
+      Plug.Conn.put_session(conn, :invite, invite)
+    else
+      conn
+    end
     |> Plug.Conn.put_session(:auth_second_factor_secret, secret)
     |> render_view(Map.put(params, "auth_second_factor_secret", secret))
   end
@@ -43,18 +48,8 @@ defmodule Bonfire.UI.Me.SignupController do
   def attempt(conn, account_attrs, form \\ %{}, opts \\ []) do
     # debug(Plug.Conn.get_session(conn, :auth_second_factor_secret))
     # changeset = form_cs(conn, params)
-    info(account_attrs, "Account attributes")
 
-    case Accounts.signup(
-           account_attrs,
-           opts
-           |> Keyword.merge(
-             invite: form["invite"] || account_attrs["invite"],
-             # TODO: || Plug.Conn.get_session(conn, :invite)
-             auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret)
-           )
-         )
-         |> info("attempted signup") do
+    case attempt_signup(conn, account_attrs, form, opts) do
       {:ok, %{email: %{confirmed_at: confirmed_at}}} when not is_nil(confirmed_at) ->
         {:ok,
          conn
@@ -70,6 +65,20 @@ defmodule Bonfire.UI.Me.SignupController do
       other ->
         error(other)
     end
+  end
+
+  def attempt_signup(conn, account_attrs, form \\ %{}, opts \\ []) do
+    debug(account_attrs, "Account attributes")
+
+    Accounts.signup(
+      account_attrs,
+      opts
+      |> Keyword.merge(
+        invite: form["invite"] || account_attrs["invite"] || Plug.Conn.get_session(conn, :invite),
+        auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret)
+      )
+    )
+    |> info("attempted signup")
   end
 
   def render_view(conn, params, _changeset \\ nil) do
