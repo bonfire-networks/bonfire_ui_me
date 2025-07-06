@@ -67,6 +67,13 @@
         current_user={current_user(@__context__) |> repo().maybe_preload(:shared_user)}
         selected_tab={@selected_tab}
       />
+    {#match "crawler_boundaries"}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Common.CrawlerBoundaries.SettingsLive, @__context__)}
+        id="crawler_boundaries"
+        selected_tab={@selected_tab}
+        scope={@scope}
+      />
     {#match "icons"}
       <Bonfire.UI.Common.SettingsViewsLive.IconsLive selected_tab={@selected_tab} />
     {#match "emojis"}

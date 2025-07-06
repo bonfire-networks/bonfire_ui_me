@@ -152,6 +152,13 @@
         id="my_acls"
         scope={:instance}
       /> --}
+    {#match "crawler_boundaries"}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Common.CrawlerBoundaries.SettingsLive, @__context__)}
+        id="crawler_boundaries"
+        selected_tab={@selected_tab}
+        scope={@scope}
+      />
     {#match "code"}
       <Bonfire.UI.Common.ExtraDepsLive />
     {#match "config_settings_registry"}
