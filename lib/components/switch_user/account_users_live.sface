@@ -1,9 +1,26 @@
 {#if is_list(@current_account_users) && length(@current_account_users) > 0}
   <div class="flex-1 mt-2">
     <div class="grid grid-cols-2 gap-3 mx-4 lg:mx-0 lg:gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {#for %{character: %{}} = user <- @current_account_users}
-        <div class="col-span-1">
-          <LinkLive to={"/switch-user/#{e(user, :character, :username, "")}#{@go}"}>
+      {#for %{id: user_id, character: %{}} = user <- @current_account_users}
+        <div class="col-span-1 w-full indicator">
+          <Bonfire.UI.Common.BadgeCounterLive
+            parent_id="switch_user_notifications"
+            id={"notifications_#{user_id}"}
+            feed_id={e(user, :character, :notifications_id, nil)}
+            for_user={user}
+            non_async
+          />
+
+          <Bonfire.UI.Common.BadgeCounterLive
+            parent_id="switch_user_notifications"
+            id={"messages_#{user_id}"}
+            feed_id={e(user, :character, :inbox_id, nil)}
+            for_user={user}
+            non_async
+            counter_class="indicator-left"
+          />
+
+          <LinkLive to={"/switch-user/#{e(user, :character, :username, "")}#{@go}"} class="w-full">
             <Bonfire.UI.Me.UserPreviewLive
               user={user}
               path_prefix="/switch-user/"

@@ -450,10 +450,21 @@
           name: l("Highlight Badge Counters"),
           description: l("Show highlighted badge counters for notifications.")
         ) == true}
-        label="Dark Pattern"
-        name="Highlight notifications indicator"
+        label={l("Dark Pattern")}
+        name={l("Highlight notifications indicator")}
         description={l("Use the primary color to highlight the notifications indicator")}
         keys={[Bonfire.UI.Common.BadgeCounterLive, :highlight]}
+        scope={@scope}
+      />
+    </form>
+
+    <form data-scope="show_switch_users_inline" phx-change="Bonfire.Common.Settings:set">
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Make it easer to switch between profiles")}
+        description={l(
+          "Show list of profiles directly in the main dropdown menu instead of a separate page. Also includes notifications badges for each profile."
+        )}
+        keys={[Bonfire.Me.Users, :show_switch_users_inline]}
         scope={@scope}
       />
     </form>
