@@ -1,46 +1,79 @@
-<li :if={@max_users_per_account > 1}>
-  {#if @show_inline_users and @current_account_users != []}
-    <div class="menu-title font-medium text-base-content/70 px-3 py-2">
-      {l("Profiles")}
+{#if @show_inline_users and @current_account_users != []}
+  <li :if={@max_users_per_account > 1}>
+    <div class="menu-title font-medium items-center flex justify-between text-base-content/70 px-3 py-2">
+      <span>{l("Profiles")}</span>
+      <div class="tooltip tooltip-left" data-tip={l("Create new profile")}>
+        <LinkLive
+          :if={length(@current_account_users || []) < @max_users_per_account}
+          to={~p"/create-user"}
+          class="h-[240px]"
+        >
+          <#Icon iconify="heroicons:plus-circle" class="w-5 h-5" />
+        </LinkLive>
+      </div>
     </div>
-    <ul class="menu-compact">
+    <ul class="menu p-0 m-0 w-full">
       <li :for={%{id: user_id} = user <- @current_account_users || []} class="w-full">
-        <div class={
-          "flex items-center gap-2 py-1 cursor-default",
-          "bg-base-200": current_user_id(@__context__) == user_id
-        }>
-          <LinkLive
-            to={"/user/#{user.character.username}"}
-            class="btn btn-ghost btn-xs p-1 min-h-0 h-6 w-6"
-            title={l("View profile")}
-          >
-            <Bonfire.UI.Common.AvatarLive
-              src={Media.avatar_url(user)}
-              user_id={user_id}
-              class="w-6 h-6 rounded-full flex-shrink-0"
-            />
-          </LinkLive>
+        <div class="flex justify-between items-center">
+          <div class="flex items-center gap-3 cursor-default">
+            <LinkLive
+              to={"/user/#{user.character.username}"}
+              class={
+                "relative rounded-full p-0",
+                "ring-primary ring-offset-base-100  ring-2 ring-offset-2":
+                  current_user_id(@__context__) == user_id
+              }
+              title={l("View profile")}
+            >
+              <Bonfire.UI.Common.AvatarLive
+                src={Media.avatar_url(user)}
+                user_id={user_id}
+                class="w-6 h-6 rounded-full flex-shrink-0"
+              />
 
-          <div class="flex-1 min-w-0">
-            <div class="text-xs font-medium truncate">
-              {user.profile.name || user.character.username}
-            </div>
-            <div :if={current_user_id(@__context__) == user_id} class="text-xs text-base-content/50">
-              {l("current")}
+              <div class="indicator absolute top-0 left-0" title={l("View notifications")}>
+                <Bonfire.UI.Common.BadgeCounterLive
+                  :if={current_user_id(@__context__) != user_id}
+                  }
+                  parent_id="switch_user_notifications"
+                  id={"notifications_#{user_id}"}
+                  feed_id={e(user, :character, :notifications_id, nil)}
+                  for_user={user}
+                  counter_class="indicator-middle indicator-center"
+                />
+              </div>
+
+              <div class="indicator absolute right-0 top-0" title={l("View messages")}>
+                <Bonfire.UI.Common.BadgeCounterLive
+                  :if={current_user_id(@__context__) != user_id}
+                  }
+                  parent_id="switch_user_notifications"
+                  id={"messages_#{user_id}"}
+                  feed_id={e(user, :character, :inbox_id, nil)}
+                  for_user={user}
+                  counter_class="indicator-middle indicator-center"
+                />
+              </div>
+            </LinkLive>
+
+            <div class="flex-1 min-w-0 truncate max-w-[140px] w-full">
+              <div class="text-xs font-medium">
+                {user.profile.name || user.character.username}
+              </div>
+              <div :if={current_user_id(@__context__) == user_id} class="text-xs text-base-content/50">
+                {l("current")}
+              </div>
             </div>
           </div>
-          <div class="flex items-center gap-1 flex-shrink-0">
-            <!-- Switch user button -->
-            <LinkLive
-              to={"/switch-user/#{user.character.username}"}
-              class="btn btn-ghost btn-xs p-1 min-h-0 h-6 w-6"
-              title={l("Switch to this profile")}
-            >
+          <div
+            data-tip={l("Switch to this profile")}
+            class="tooltip tooltip-left flex items-center gap-1 flex-shrink-0"
+          >
+            <LinkLive to={"/switch-user/#{user.character.username}"} class="btn btn-ghost btn-square btn-xs">
               <#Icon iconify="heroicons:arrow-right-end-on-rectangle" class="w-4 h-4" />
             </LinkLive>
 
-            <!-- Notifications button with badge -->
-            <LinkLive
+            <!-- <LinkLive
               to={"/switch-user/#{user.character.username}?go=/notifications"}
               class="indicator btn btn-ghost btn-xs p-1 min-h-0"
               title={l("View notifications")}
@@ -72,14 +105,17 @@
                 for_user={user}
                 counter_class="indicator-middle indicator-center"
               />
-            </LinkLive>
+            </LinkLive> -->
           </div>
         </div>
       </li>
     </ul>
-  {#else}
+  </li>
+  <div class="divider h-0 my-1" />
+{#else}
+  <li :if={@max_users_per_account > 1}>
     <LinkLive to={~p"/switch-user"} class="flex items-center gap-2 text-sm text-base-content">
       <div>{l("Switch profile")}</div>
     </LinkLive>
-  {/if}
-</li>
+  </li>
+{/if}
