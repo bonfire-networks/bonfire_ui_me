@@ -1,7 +1,7 @@
 <div>
   <#slot {@header} />
 
-  <div class="flex max-w-[680px] relative z-[99999]  mx-auto">
+  <div class="flex max-w-[680px] relative bg-base-100 shadow-lg rounded-lg  mx-auto">
     <div class="w-full mx-auto">
       <Form for={%{}} as={:outgoing} action="/pub/remote_interaction">
         <HiddenInput name={:type} value={@interaction_type} />
