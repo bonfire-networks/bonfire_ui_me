@@ -1,16 +1,6 @@
 <div data-id="hero_more_actions" class="flex items-center gap-3">
-  {#if current_user_id(@__context__) == id(@user)}
-    <LinkLive
-      to={~p"/settings/user/profile"}
-      class="btn hidden lg:flex btn-soft btn-secondary btn-circle"
-    >
-      <#Icon iconify="ph:gear" class="w-4 h-4" />
-      <span class="sr-only">{l("Edit profile")}</span>
-    </LinkLive>
-  {/if}
-
   <div aria-haspopup="true" class="dropdown dropdown-end">
-    <label tabindex="0" class="btn btn-circle btn-outline border-base-content/10 btn-ghost">
+    <label tabindex="0" class="btn btn-sm btn-circle btn-outline border-base-content/10 btn-soft">
       <#Icon solid="DotsVertical" class="w-4 h-4" />
     </label>
     <ul

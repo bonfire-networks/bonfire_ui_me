@@ -9,11 +9,27 @@
                 @character_type != :user} --}
             <div
               data-id="hero_background"
-              class="aspect-[4/3] w-full h-[220px] bg-base-100 border-b border-base-content/10 relative lg:rounded-t-xl bg-center mt-0 bg-cover bg-no-repeat mb-3"
+              class="aspect-[4/3] w-full h-[180px] relative bg-base-100 border-b border-base-content/10 relative bg-center mt-0 bg-cover bg-no-repeat mb-3"
               style={if not is_binary(color),
                 do: "background-image: url('#{banner_url}')",
                 else: "background-color: #{color}"}
             >
+            <!-- <Bonfire.UI.Common.BackButtonLive class="btn absolute left-3 top-3 btn-circle" /> -->
+                <button class="btn absolute left-3 top-safe lg:top-3 btn-circle btn-soft btn-sm" onclick="history.length > 1 ? history.back() : window.location.href = '/'"><#Icon iconify="iconoir:arrow-left" class="w-4 h-4" /></button>
+                <div class="absolute top-safe lg:top-3 right-3"> 
+                 <Bonfire.UI.Me.HeroMoreActionsLive
+                        character_type={@character_type}
+                        ghosted_instance_wide?={@ghosted_instance_wide?}
+                        silenced_instance_wide?={@silenced_instance_wide?}
+                        ghosted?={@ghosted?}
+                        silenced?={@silenced?}
+                        boundary_preset={@boundary_preset}
+                        user={@user}
+                        members={@members}
+                        moderators={@moderators}
+                        permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
+                      />
+                </div>
               {#case @follows_me}
                 {#match Bonfire.Data.Social.Request}
                   <p
@@ -56,18 +72,16 @@
                     {/if}
 
                     <div class="flex items-center gap-3" data-id="profile_main_actions">
-                      <Bonfire.UI.Me.HeroMoreActionsLive
-                        character_type={@character_type}
-                        ghosted_instance_wide?={@ghosted_instance_wide?}
-                        silenced_instance_wide?={@silenced_instance_wide?}
-                        ghosted?={@ghosted?}
-                        silenced?={@silenced?}
-                        boundary_preset={@boundary_preset}
-                        user={@user}
-                        members={@members}
-                        moderators={@moderators}
-                        permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
-                      />
+                       {#if current_user_id(@__context__) == id(@user)}
+                        <LinkLive
+                          to={~p"/settings/user/profile"}
+                          class="btn hidden lg:flex btn-soft btn-secondary btn-circle"
+                        >
+                          <#Icon iconify="ph:gear" class="w-4 h-4" />
+                          <span class="sr-only">{l("Edit profile")}</span>
+                        </LinkLive>
+                      {/if}
+
                       {#if current_user_id(@__context__) == id(@user)}
                         <div />
                       {#else}
