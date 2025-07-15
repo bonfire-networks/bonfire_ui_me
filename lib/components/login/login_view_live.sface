@@ -125,7 +125,7 @@
 
     <LinkLive
       to={path(Bonfire.UI.Me.ForgotPasswordController)}
-      class="block w-full my-3 text-xs capitalize link link-primary"
+      class="block w-full my-3 text-sm capitalize link link-primary"
     >
       {l("Forgot password?")}</LinkLive>
 
@@ -146,14 +146,9 @@
         </div>
       {#match _}
     {/case} --}
-
-    <div class="mt-6">
-      <span class="block w-full rounded-md shadow-sm">
-        <button type="submit" class="w-full normal-case  btn btn-primary">
-          {l("Log in")}
-        </button>
-      </span>
-    </div>
+    <button type="submit" phx-disable-with="Loading..." class="w-full normal-case  btn btn-primary">
+      {l("Log in")}
+    </button>
 
     <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-4">
       <div class="flex py-4 pb-2 mt-6 border-t border-base-content/10 place-content-center">
