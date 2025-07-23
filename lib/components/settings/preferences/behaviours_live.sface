@@ -536,6 +536,25 @@
       </div>
     </div>
 
+    <form
+      class="p-4"
+      data-scope="set_dm_privacy"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
+      <Bonfire.UI.Common.SettingsSelectLive
+        name={l("Who can send me direct messages")}
+        description={l("Control who can send you direct messages")}
+        keys={[Bonfire.Messages, :dm_privacy]}
+        options={[
+          everyone: l("Everyone"),
+          followed_only: l("Only users I follow")
+        ]}
+        default_value="everyone"
+        scope={@scope}
+      />
+    </form>
+
     <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
     <Bonfire.UI.Me.SettingsViewsLive.IndexableLive scope={@scope} />
   </div>
