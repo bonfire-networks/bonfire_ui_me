@@ -543,8 +543,8 @@
       phx-change="Bonfire.Common.Settings:set"
     >
       <Bonfire.UI.Common.SettingsSelectLive
-        name={l("Who can send me direct messages")}
-        description={l("Control who can send you direct messages")}
+        name={l("Who can reach me by direct message")}
+        description={l("Control who's messages to see by default")}
         keys={[Bonfire.Messages, :dm_privacy]}
         options={[
           everyone: l("Everyone"),
