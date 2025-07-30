@@ -37,11 +37,16 @@
             </div>
         {/case}
 
-        <StatelessComponent
-          module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
-          source={:signup}
-        />
-
+        {#if @open_id_provider}
+          <p>
+            {l("Finish signing up with %{provider}", provider: elem(@open_id_provider, 0))}
+          </p>
+        {#else}
+          <StatelessComponent
+            module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
+            source={:signup}
+          />
+        {/if}
         <Form for={@form} action={current_url(@__context__)} opts={[id: "signup-form"]}>
           <input type="hidden" name="invite" value={@invite}>
           <Inputs for={:email}>
@@ -63,13 +68,16 @@
             <div class="mt-3">
               <Field name={:password}>
                 <Label class="label">
+                  <p class="text-sm label-text" :if={@open_id_provider}>
+                    {l("Optional:")}
+                  </p>
                   <span class="text-xs label-text">
                     {l("Choose a password")} ({l("10 characters minimum")})
                   </span>
                 </Label>
                 <PasswordInput
                   opts={placeholder: l("Type a strong password")}
-                  required
+                  required={!@open_id_provider}
                   class="w-full h-10 text-sm rounded input input-bordered"
                 />
                 <ErrorTag />
@@ -84,7 +92,7 @@
                 </Label>
                 <PasswordInput
                   opts={placeholder: l("Enter the same password again")}
-                  required
+                  required={!@open_id_provider}
                   class="w-full h-10 text-sm rounded input input-bordered"
                 />
                 <ErrorTag />

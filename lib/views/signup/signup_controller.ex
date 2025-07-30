@@ -39,9 +39,9 @@ defmodule Bonfire.UI.Me.SignupController do
             false
           )
         )
-        # FIXME
+        # FIXME?
         |> assign(:form, changeset)
-        |> render_view(form, changeset)
+        |> render_view(form)
     end
   end
 
@@ -50,11 +50,8 @@ defmodule Bonfire.UI.Me.SignupController do
     # changeset = form_cs(conn, params)
 
     case attempt_signup(conn, account_attrs, form, opts) do
-      {:ok, %{email: %{confirmed_at: confirmed_at}}} when not is_nil(confirmed_at) ->
-        {:ok,
-         conn
-         |> assign(:registered, :confirmed)
-         |> render_view(Map.put(form, "registered", :confirmed))}
+      {:ok, %{email: %{confirmed_at: confirmed_at}} = account} when not is_nil(confirmed_at) ->
+        Bonfire.UI.Me.LoginController.logged_in(account, nil, conn)
 
       {:ok, _account} ->
         {:ok,
@@ -75,17 +72,18 @@ defmodule Bonfire.UI.Me.SignupController do
       opts
       |> Keyword.merge(
         invite: form["invite"] || account_attrs["invite"] || Plug.Conn.get_session(conn, :invite),
-        auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret)
+        auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret),
+        open_id_provider: Plug.Conn.get_session(conn, :open_id_provider)
       )
     )
     |> info("attempted signup")
   end
 
-  def render_view(conn, params, _changeset \\ nil) do
-    live_render(
-      conn,
+  def render_view(conn, session_params \\ %{}) do
+    conn
+    |> live_render(
       SignupLive,
-      session: params
+      session: session_params
     )
   end
 

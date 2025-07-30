@@ -1,5 +1,6 @@
 defmodule Bonfire.UI.Me.CreateUserController do
   use Bonfire.UI.Common.Web, :controller
+
   alias Bonfire.Me.Users
   alias Bonfire.UI.Me.CreateUserLive
   alias Bonfire.Me.Accounts
@@ -23,15 +24,20 @@ defmodule Bonfire.UI.Me.CreateUserController do
 
     case Users.create(changeset,
            context: conn.assigns,
+           open_id_provider: Plug.Conn.get_session(conn, :open_id_provider),
            undiscoverable: not empty?(Map.get(params, "undiscoverable")),
            unindexable: not empty?(Map.get(params, "unindexable")),
            request_before_follow: not is_nil(Map.get(params, "request_before_follow"))
          ) do
       {:ok, %{id: id, profile: %{name: name}} = user} ->
-        greet(conn, params, id, name, Accounts.is_admin?(user))
+        conn
+        |> put_session(:open_id_provider, nil)
+        |> greet(params, id, name, Accounts.is_admin?(user))
 
       {:ok, %{id: id, character: %{username: username}} = user} ->
-        greet(conn, params, id, username, Accounts.is_admin?(user))
+        conn
+        |> put_session(:open_id_provider, nil)
+        |> greet(params, id, username, Accounts.is_admin?(user))
 
       {:error, changeset} ->
         debug(changeset_error: changeset)

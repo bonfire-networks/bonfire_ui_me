@@ -14,48 +14,46 @@
     </div>
     <ul class="menu p-0 m-0 w-full">
       <li :for={%{id: user_id} = user <- @current_account_users || []} class="w-full">
-          <LinkLive
-              to={"/switch-user/#{user.character.username}"}
-              class="flex justify-between items-center"
-              title={l("View profile")}
-              >
+        <LinkLive
+          to={"/switch-user/#{user.character.username}"}
+          class="flex justify-between items-center"
+          title={l("View profile")}
+        >
           <div class="flex items-center gap-3 cursor-default">
-              <div class={
-                "relative rounded-full p-0",
-                "ring-primary ring-offset-base-100  ring-2 ring-offset-2":
-                  current_user_id(@__context__) == user_id}>
+            <div class={
+              "relative rounded-full p-0",
+              "ring-primary ring-offset-base-100  ring-2 ring-offset-2":
+                current_user_id(@__context__) == user_id
+            }>
               <Bonfire.UI.Common.AvatarLive
                 src={Media.avatar_url(user)}
                 user_id={user_id}
                 class="w-6 h-6 !rounded-full flex-shrink-0"
               />
-              
 
-                <div class="indicator absolute top-0 left-0" title={l("View notifications")}>
-                  <Bonfire.UI.Common.BadgeCounterLive
-                    :if={current_user_id(@__context__) != user_id}
-                    }
-                    parent_id="switch_user_notifications"
-                    id={"notifications_#{user_id}"}
-                    feed_id={e(user, :character, :notifications_id, nil)}
-                    for_user={user}
-                    counter_class="indicator-middle indicator-center"
-                  />
-                </div>
-                <div class="indicator absolute right-0 top-0" title={l("View messages")}>
-                  <Bonfire.UI.Common.BadgeCounterLive
-                    :if={current_user_id(@__context__) != user_id}
-                    }
-                    parent_id="switch_user_notifications"
-                    id={"messages_#{user_id}"}
-                    feed_id={e(user, :character, :inbox_id, nil)}
-                    for_user={user}
-                    counter_class="indicator-middle indicator-center"
-                  />
-                </div>
+              <div class="indicator absolute top-0 left-0" title={l("View notifications")}>
+                <Bonfire.UI.Common.BadgeCounterLive
+                  :if={current_user_id(@__context__) != user_id}
+                  }
+                  parent_id="switch_user_notifications"
+                  id={"notifications_#{user_id}"}
+                  feed_id={e(user, :character, :notifications_id, nil)}
+                  for_user={user}
+                  counter_class="indicator-middle indicator-center"
+                />
               </div>
-
-            
+              <div class="indicator absolute right-0 top-0" title={l("View messages")}>
+                <Bonfire.UI.Common.BadgeCounterLive
+                  :if={current_user_id(@__context__) != user_id}
+                  }
+                  parent_id="switch_user_notifications"
+                  id={"messages_#{user_id}"}
+                  feed_id={e(user, :character, :inbox_id, nil)}
+                  for_user={user}
+                  counter_class="indicator-middle indicator-center"
+                />
+              </div>
+            </div>
 
             <div class="flex-1 min-w-0 truncate max-w-[140px] w-full">
               <div class="text-xs font-medium">
@@ -69,8 +67,8 @@
           <div
             data-tip={l("Switch to this profile")}
             class="tooltip tooltip-left flex items-center gap-1 flex-shrink-0"
-            >
-              <#Icon iconify="heroicons:arrow-right-end-on-rectangle" class="w-4 h-4 opacity-70" />
+          >
+            <#Icon iconify="heroicons:arrow-right-end-on-rectangle" class="w-4 h-4 opacity-70" />
           </div>
         </LinkLive>
       </li>
