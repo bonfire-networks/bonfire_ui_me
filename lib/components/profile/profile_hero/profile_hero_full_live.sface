@@ -78,16 +78,14 @@
                       {#if current_user_id(@__context__) == id(@user)}
                         <LinkLive
                           to={~p"/settings/user/profile"}
-                          class="btn hidden lg:flex btn-soft btn-secondary btn-circle"
+                          class="btn hidden lg:flex btn-soft btn-primary btn-circle"
                         >
                           <#Icon iconify="ph:gear" class="w-4 h-4" />
                           <span class="sr-only">{l("Edit profile")}</span>
                         </LinkLive>
                       {/if}
 
-                      {#if current_user_id(@__context__) == id(@user)}
-                        <div />
-                      {#else}
+                      {#if current_user_id(@__context__) != id(@user)}
                         <StatelessComponent
                           :if={@character_type == :user and current_user_id(@__context__)}
                           module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
