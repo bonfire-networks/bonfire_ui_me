@@ -14,11 +14,11 @@
           <button
             :on-click="Bonfire.UI.Me.WidgetAdminsLive:reset"
             type="button"
-            class="btn btn-circle btn-xs btn-ghost"
+            class="btn btn-circle btn-xs btn-ghost opacity-90"
             title={l("Refresh")}
           >
             <span class="sr-only">{l("Refresh")}</span>
-            <#Icon iconify="material-symbols-light:refresh" class="w-5 h-5" />
+            <#Icon iconify="ph:arrow-counter-clockwise-duotone" class="w-4 h-4" />
           </button>
         {/if}
       </:action>

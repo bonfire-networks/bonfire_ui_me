@@ -267,16 +267,24 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       Settings.get([Bonfire.Geolocate, :weather], nil, current_user: current_user)
 
     recent_publication_widget_enabled =
-      Settings.get([Bonfire.OpenScience, :widgets, :recent_publication], false, current_user: current_user)
+      Settings.get([Bonfire.OpenScience, :widgets, :recent_publication], false,
+        current_user: current_user
+      )
 
     most_cited_publication_widget_enabled =
-      Settings.get([Bonfire.OpenScience, :widgets, :most_cited_publication], false, current_user: current_user)
+      Settings.get([Bonfire.OpenScience, :widgets, :most_cited_publication], false,
+        current_user: current_user
+      )
 
     author_topics_widget_enabled =
-      Settings.get([Bonfire.OpenScience, :widgets, :author_topics], false, current_user: current_user)
+      Settings.get([Bonfire.OpenScience, :widgets, :author_topics], false,
+        current_user: current_user
+      )
 
     publication_types_widget_enabled =
-      Settings.get([Bonfire.OpenScience, :widgets, :publication_types], false, current_user: current_user)
+      Settings.get([Bonfire.OpenScience, :widgets, :publication_types], false,
+        current_user: current_user
+      )
 
     pandora_public_lists_widget_enabled =
       module_enabled?(Bonfire.PanDoRa.Web.WidgetPublicListsLive, current_user)
@@ -304,13 +312,17 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
             {Bonfire.PanDoRa.Web.WidgetPublicListsLive,
              [type: Surface.LiveComponent, id: "pandora-user-public-lists", user: user]},
           recent_publication_widget_enabled &&
-            {Bonfire.OpenScience.RecentPublicationLive,  [type: Surface.LiveComponent, id: "osn-recent-publication", user: user]},
+            {Bonfire.OpenScience.RecentPublicationLive,
+             [type: Surface.LiveComponent, id: "osn-recent-publication", user: user]},
           most_cited_publication_widget_enabled &&
-            {Bonfire.OpenScience.MostCitedPublicationLive, [type: Surface.LiveComponent, id: "osn-most-cited-publication", user: user]},
+            {Bonfire.OpenScience.MostCitedPublicationLive,
+             [type: Surface.LiveComponent, id: "osn-most-cited-publication", user: user]},
           author_topics_widget_enabled &&
-            {Bonfire.OpenScience.AuthorTopicsLive, [type: Surface.LiveComponent, id: "osn-author-topics", user: user]},
+            {Bonfire.OpenScience.AuthorTopicsLive,
+             [type: Surface.LiveComponent, id: "osn-author-topics", user: user]},
           publication_types_widget_enabled &&
-            {Bonfire.OpenScience.PublicationTypesLive, [type: Surface.LiveComponent, id: "osn-publication-types", user: user]},
+            {Bonfire.OpenScience.PublicationTypesLive,
+             [type: Surface.LiveComponent, id: "osn-publication-types", user: user]},
           weather_widget_enabled &&
             {Bonfire.Geolocate.WidgetForecastLive, [location: e(user, :profile, :location, nil)]},
           {Bonfire.Tag.Web.WidgetTagsLive, []},

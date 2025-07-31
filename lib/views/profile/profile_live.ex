@@ -7,7 +7,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   alias Bonfire.Me.Profiles.LiveHandler
 
   declare_extension("UI for accounts, user profiles and settings",
-    icon: "carbon:user-avatar",
+    icon: "ph:user-circle-duotone",
     emoji: "🧑🏼",
     description:
       l(
@@ -17,8 +17,8 @@ defmodule Bonfire.UI.Me.ProfileLive do
 
   declare_nav_link(l("Profile"),
     page: "profile",
-    icon: "carbon:user-filled",
-    icon_active: "carbon:user-filled"
+    icon: "ph:user-circle-duotone",
+    icon_active: "ph:user-circle-duotone"
   )
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}

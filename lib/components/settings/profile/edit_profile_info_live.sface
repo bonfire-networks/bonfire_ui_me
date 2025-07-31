@@ -69,7 +69,7 @@
         <fieldset class="fieldset w-full">
           <legend class="fieldset-legend">{l("Location")}</legend>
           <label class="input validator w-full">
-            <#Icon iconify="ph:globe" class="w-4 h-4 opacity-50" />
+            <#Icon iconify="ph:globe-duotone" class="w-4 h-4 opacity-50" />
             <input
               type="text"
               name="profile[location]"

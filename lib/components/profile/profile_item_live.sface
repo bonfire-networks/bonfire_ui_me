@@ -3,7 +3,7 @@
   <!-- phx-hook={if @with_popover, do: "Tooltip"} -->
   <div class="w-full" data-trigger="hover" data-position="top-start">
     <div
-      class="tooltip-button flex items-start gap-2 profile-item group"
+      class="tooltip-button flex items-start gap-3 profile-item group"
       tabindex="0"
       role="button"
       aria-haspopup="true"

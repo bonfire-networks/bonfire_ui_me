@@ -18,7 +18,7 @@
               <button
                 class="btn absolute left-3 top-safe lg:top-3 btn-circle btn-soft btn-sm"
                 onclick="history.length > 1 ? history.back() : window.location.href = '/'"
-              ><#Icon iconify="iconoir:arrow-left" class="w-4 h-4" /></button>
+              ><#Icon iconify="ph:arrow-left-duotone" class="w-5 h-5 text-primary" /></button>
               <div class="absolute top-safe lg:top-3 right-3">
                 <Bonfire.UI.Me.HeroMoreActionsLive
                   character_type={@character_type}
@@ -80,7 +80,7 @@
                           to={~p"/settings/user/profile"}
                           class="btn hidden lg:flex btn-soft btn-primary btn-circle"
                         >
-                          <#Icon iconify="ph:gear" class="w-4 h-4" />
+                          <#Icon iconify="ph:gear-six-duotone" class="w-4 h-4" />
                           <span class="sr-only">{l("Edit profile")}</span>
                         </LinkLive>
                       {/if}

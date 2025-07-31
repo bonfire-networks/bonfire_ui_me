@@ -183,7 +183,7 @@
 
   <div class="">
     <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
-      <#Icon iconify="ph:gear" class="w-6 h-6 text-base-content/80" />
+      <#Icon iconify="ph:gear-six-duotone" class="w-6 h-6 text-base-content/80" />
       <span>{l("General Settings")}</span>
     </div>
     <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">

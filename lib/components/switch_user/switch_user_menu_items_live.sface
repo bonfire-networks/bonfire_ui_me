@@ -68,7 +68,7 @@
             data-tip={l("Switch to this profile")}
             class="tooltip tooltip-left flex items-center gap-1 flex-shrink-0"
           >
-            <#Icon iconify="heroicons:arrow-right-end-on-rectangle" class="w-4 h-4 opacity-70" />
+            <#Icon iconify="ph:door-open-duotone" class="w-4 h-4 opacity-70" />
           </div>
         </LinkLive>
       </li>
