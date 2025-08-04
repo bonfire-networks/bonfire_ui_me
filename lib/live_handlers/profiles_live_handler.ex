@@ -267,22 +267,22 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       Settings.get([Bonfire.Geolocate, :weather], nil, current_user: current_user)
 
     recent_publication_widget_enabled =
-      Settings.get([Bonfire.OpenScience, :widgets, :recent_publication], false,
+      Settings.get([Bonfire.OpenScience, :recent_publication_widget], false,
         current_user: current_user
       )
 
-    most_cited_publication_widget_enabled =
-      Settings.get([Bonfire.OpenScience, :widgets, :most_cited_publication], false,
-        current_user: current_user
-      )
+    # most_cited_publication_widget_enabled =
+    #   Settings.get([Bonfire.OpenScience, :most_cited_publication_widget], false,
+    #     current_user: current_user
+    #   )
 
     author_topics_widget_enabled =
-      Settings.get([Bonfire.OpenScience, :widgets, :author_topics], false,
+      Settings.get([Bonfire.OpenScience, :author_topics_widget], false,
         current_user: current_user
       )
 
     publication_types_widget_enabled =
-      Settings.get([Bonfire.OpenScience, :widgets, :publication_types], false,
+      Settings.get([Bonfire.OpenScience, :publication_types_widget], false,
         current_user: current_user
       )
 
@@ -296,8 +296,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
         secondary: [
           recent_publication_widget_enabled &&
             {Bonfire.OpenScience.RecentPublicationLive, [user: user]},
-          most_cited_publication_widget_enabled &&
-            {Bonfire.OpenScience.MostCitedPublicationLive, [user: user]},
+          # most_cited_publication_widget_enabled &&
+          #   {Bonfire.OpenScience.MostCitedPublicationLive, [user: user]},
           author_topics_widget_enabled &&
             {Bonfire.OpenScience.AuthorTopicsLive, [user: user]},
           publication_types_widget_enabled &&
@@ -314,9 +314,9 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
           recent_publication_widget_enabled &&
             {Bonfire.OpenScience.RecentPublicationLive,
              [type: Surface.LiveComponent, id: "osn-recent-publication", user: user]},
-          most_cited_publication_widget_enabled &&
-            {Bonfire.OpenScience.MostCitedPublicationLive,
-             [type: Surface.LiveComponent, id: "osn-most-cited-publication", user: user]},
+          # most_cited_publication_widget_enabled &&
+          #   {Bonfire.OpenScience.MostCitedPublicationLive,
+          #    [type: Surface.LiveComponent, id: "osn-most-cited-publication", user: user]},
           author_topics_widget_enabled &&
             {Bonfire.OpenScience.AuthorTopicsLive,
              [type: Surface.LiveComponent, id: "osn-author-topics", user: user]},
