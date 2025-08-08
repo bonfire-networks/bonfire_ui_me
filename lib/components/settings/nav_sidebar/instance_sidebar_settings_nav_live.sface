@@ -389,7 +389,7 @@
           to={~p"/settings/instance/config_settings_registry"}
           class={
             " ",
-            "menu-active": @selected_tab == "config_settings_registry"
+            "bg-primary/10": @selected_tab == "config_settings_registry"
           }
         >
           <span class="">{l("Extra settings")}</span>
