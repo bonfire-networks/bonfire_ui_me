@@ -18,7 +18,7 @@ floki = ">= 0.0.0"
 
 # surface = "~> 0.12.0" # required if there's any JS hooks or CSS components that need to be found by Surface compiler
 # sourceror = "~> 1.6.0"
-phoenix_live_view = "~> 1.0.9" # usually should let surface or bonfire_ui_common decide the version
+phoenix_live_view = "~> 1.1" # usually should let surface or bonfire_ui_common decide the version
 phoenix = "~> 1.7.0"
 # phoenix_html = "~> 3.2.0"
 # phoenix_html = "~> 4.0"
