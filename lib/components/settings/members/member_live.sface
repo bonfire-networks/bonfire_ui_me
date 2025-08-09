@@ -54,7 +54,6 @@
         <label
           class="relative btn btn-circle btn-outline border-base-content/30 btn-sm"
           tabindex="0"
-          id="user-profile-menu"
           aria-haspopup="true"
           aria-expanded="true"
         >
@@ -65,7 +64,6 @@
           class="relative z-50 mt-3  p-0.5 menu shadow-xl bg-base-100 border rounded border-base-content/5 !block w-52 menu dropdown-content"
           role="menu"
           aria-orientation="vertical"
-          aria-labelledby="user-profile-menu"
         >
           <li><LinkLive to={"/@#{e(@user, :character, :username, nil)}"}>{l("View profile")}</LinkLive></li>
           <li>

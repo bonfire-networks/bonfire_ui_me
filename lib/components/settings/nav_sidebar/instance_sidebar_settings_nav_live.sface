@@ -33,6 +33,18 @@
           <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default User Preferences")}</span>
         </LinkLive>
       </li>
+
+      <li>
+          <LinkLive
+            to={~p"/boundaries/scope/instance/instance_acl"}
+            class={
+              " ",
+              "bg-base-content/10": @selected_tab == "instance_acl"
+            }
+          >
+            <span class="">{l("Instance Permissions")}</span>
+          </LinkLive>
+        </li>
     </details>
   </li>
 
@@ -310,17 +322,7 @@
           </LinkLive>
         </li>
 
-        <li>
-          <LinkLive
-            to={~p"/boundaries/scope/instance/instance_acl"}
-            class={
-              " ",
-              "bg-base-content/10": @selected_tab == "instance_acl"
-            }
-          >
-            <span class="">{l("Instance Permissions")}</span>
-          </LinkLive>
-        </li>
+        
 
         <!-- <li>
           <LinkLive

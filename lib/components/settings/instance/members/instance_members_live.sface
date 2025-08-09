@@ -1,10 +1,55 @@
 <div>
-  <div class="mb-2">
-    {#if Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}
-      <Bonfire.UI.Me.MembersLive users={@users} is_local_users={@show == :local} />
-    {/if}
-  </div>
+  {#if Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}
+    <!-- Search input -->
+    <div class="m-4">
+      <form phx-change="search" phx-target={@myself} phx-debounce="300" class="form-control">
+        <label class="input w-full">
+            <#Icon iconify="ph:magnifying-glass-duotone" class="w-4 h-4 opacity-50" />
+          <input
+            type="text"
+            name="search_term"
+            value={@search_term}
+            placeholder={l("Search users... (min 3 characters)")}
+            class="grow text-sm"
+          />
+        </label>
+      </form>
+    </div>
 
+    <div class="mb-2" id="members-list">
+      {#if @users && length(@users) > 0}
+        <div class="text-sm text-gray-600 m-4 mb-2">
+          {l("Showing %{count} users", count: length(@users))}
+        </div>
+        <Bonfire.UI.Me.MembersLive users={@users} is_local_users={@show == :local} key={"#{@search_term}-#{length(@users)}"} />
+      {#else}
+        <div class="text-center py-8">
+          {#if @search_term && String.trim(@search_term) != ""}
+            {#if String.length(String.trim(@search_term)) < 3}
+              <div class="text-gray-500">
+                <#Icon iconify="heroicons-outline:pencil" class="w-12 h-12 mx-auto mb-2 opacity-50" />
+                <p class="text-lg font-medium mb-1">{l("Keep typing...")}</p>
+                <p class="text-sm">{l("Enter at least 3 characters to search")}</p>
+              </div>
+            {#else}
+              <div class="text-gray-500">
+                <#Icon iconify="heroicons-outline:search" class="w-12 h-12 mx-auto mb-2 opacity-50" />
+                <p class="text-lg font-medium mb-1">{l("No users found")}</p>
+                <p class="text-sm">{l("Try adjusting your search terms")}</p>
+              </div>
+            {/if}
+          {#else}
+            <div class="text-gray-500">
+              <#Icon iconify="heroicons-outline:users" class="w-12 h-12 mx-auto mb-2 opacity-50" />
+              <p class="text-lg font-medium">{l("No users to display")}</p>
+            </div>
+          {/if}
+        </div>
+      {/if}
+    </div>
+  {/if}
+
+  <!-- Load more only shown when not searching (page_info is nil during search) -->
   <Bonfire.UI.Common.LoadMoreLive
     :if={@page_info}
     live_handler={__MODULE__}
