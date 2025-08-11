@@ -1,8 +1,15 @@
 defmodule Bonfire.UI.Me.SettingsViewsLive.InstancesLive do
   use Bonfire.UI.Common.Web, :stateful_component
+  
+  prop title, :string, default: nil
 
   def update(assigns, socket) do
     socket = assign(socket, assigns)
+    
+    # Set page_title if title prop is provided
+    if socket_connected?(socket) && e(assigns, :title, nil) do
+      send_self(page_title: e(assigns, :title, nil))
+    end
 
     {:ok,
      assign(

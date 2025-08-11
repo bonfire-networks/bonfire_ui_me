@@ -8,7 +8,7 @@
   <li>
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("General")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("General")}</span>
       </summary>
 
       <li>
@@ -90,7 +90,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Extensions")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Extensions")}</span>
       </summary>
 
       <li>
@@ -115,7 +115,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Safety")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Safety")}</span>
       </summary>
 
       <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
@@ -175,7 +175,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Boundaries")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Boundaries")}</span>
       </summary>
 
       <li>
@@ -230,7 +230,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Migration")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Migration")}</span>
       </summary>
 
       <li>
@@ -261,7 +261,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Advanced")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Advanced")}</span>
       </summary>
 
       <li>

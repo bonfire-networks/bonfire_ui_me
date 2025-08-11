@@ -44,6 +44,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
            page_title: title,
            page: "users",
            instance: instance,
+           back: true,
            instance_id: instance_id,
            is_remote?: not is_nil(instance_id),
            selected_tab: :users,

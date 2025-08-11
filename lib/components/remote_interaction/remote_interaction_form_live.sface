@@ -32,7 +32,7 @@
           </button>
 
           <p class="mt-4 text-sm">{l("Are you a user of this instance?")} <a class="link link-primary" href={"/login?go=#{@canonical_url}"}>{l("Sign in instead.")}</a></p>
-          <div class="alert mt-3 items-start text-sm rounded alert-info" role="alert">
+          <div class="alert mt-3 items-start text-sm rounded alert-info alert-soft" role="alert">
             <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
             <span class="text-sm">
               {l(

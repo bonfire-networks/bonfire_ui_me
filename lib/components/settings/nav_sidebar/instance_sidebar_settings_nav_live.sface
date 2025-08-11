@@ -1,10 +1,10 @@
 <!-- <nav class="!-mx-2" role="navigation" aria-label={l("Instance settings navigation")}>
   <ul class="menu px-0 py-0"> -->
-<ul class="menu p-0 w-full">
+<ul class="menu relative p-0 w-full">
   <li>
     <details open>
-      <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Instance")}</span>
+      <summary class="relative font-bold uppercase text-xs">
+        <span class="">{l("Instance")}</span>
       </summary>
 
       <li>
@@ -12,12 +12,12 @@
           to={~p"/settings/instance/configuration"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "configuration"
+            "bg-primary/20 ": @selected_tab == "configuration"
           }
         >
           <span class={
             "text-sm text-base-content/80 font-normal",
-            "text-base-content": @selected_tab == "configuration"
+            "text-primary ": @selected_tab == "configuration"
           }>{l("General Configuration")}</span>
         </LinkPatchLive>
       </li>
@@ -27,10 +27,10 @@
           to={~p"/settings/instance/preferences/behaviours"}
           class={
             " ",
-            "bg-base-content/10 ": @id == "behaviours"
+            "bg-primary/20 ": @id == "behaviours"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @id == "behaviours"}>{l("Default User Preferences")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @id == "behaviours"}>{l("Default User Preferences")}</span>
         </LinkLive>
       </li>
 
@@ -39,7 +39,7 @@
             to={~p"/boundaries/scope/instance/instance_acl"}
             class={
               " ",
-              "bg-base-content/10": @selected_tab == "instance_acl"
+              "bg-primary/20 text-primary ": @selected_tab == "instance_acl"
             }
           >
             <span class="">{l("Instance Permissions")}</span>
@@ -51,7 +51,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Pages")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Pages")}</span>
       </summary>
 
       <li>
@@ -59,10 +59,10 @@
           to={~p"/settings/instance/dashboard"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "dashboard"
+            "bg-primary/20 font-bold text-primary": @selected_tab == "dashboard"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "dashboard"}>{l("Dashboard")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "dashboard"}>{l("Dashboard")}</span>
         </LinkPatchLive>
       </li>
 
@@ -71,10 +71,10 @@
           to={~p"/settings/instance/about"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "about"
+            "bg-primary/20 font-bold text-primary": @selected_tab == "about"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "about"}>{l("About")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "about"}>{l("About")}</span>
         </LinkPatchLive>
       </li>
 
@@ -83,10 +83,10 @@
           to={~p"/settings/instance/terms"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "terms"
+            "bg-primary/20 text-primary ": @selected_tab == "terms"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "terms"}>{l("Terms / Policies")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "terms"}>{l("Terms / Policies")}</span>
         </LinkPatchLive>
       </li>
     </details>
@@ -95,7 +95,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Members")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Members")}</span>
       </summary>
 
       <li>
@@ -104,10 +104,10 @@
           to={~p"/settings/instance/invites"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "invites"
+            "bg-primary/20 text-primary ": @selected_tab == "invites"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "invites"}>{l("Invites")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "invites"}>{l("Invites")}</span>
         </LinkPatchLive>
       </li>
 
@@ -116,10 +116,10 @@
           to={~p"/settings/instance/mods"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "mods"
+            "bg-primary/20 text-primary ": @selected_tab == "mods"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "mods"}>{l("Instance Moderators")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "mods"}>{l("Instance Moderators")}</span>
         </LinkLive>
       </li>
 
@@ -128,10 +128,10 @@
           to={~p"/settings/instance/admins"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "admins"
+            "bg-primary/20 text-primary ": @selected_tab == "admins"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "admins"}>{l("Instance Admins")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "admins"}>{l("Instance Admins")}</span>
         </LinkLive>
       </li>
 
@@ -140,10 +140,10 @@
           to={~p"/settings/instance/members"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "members"
+            "bg-primary/20 text-primary ": @selected_tab == "members"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "members"}>{l("Instance members")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "members"}>{l("Instance members")}</span>
         </LinkLive>
       </li>
       <li>
@@ -151,10 +151,10 @@
           to={~p"/settings/instance/remote_users"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "remote_users"
+            "bg-primary/20 text-primary ": @selected_tab == "remote_users"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "remote_users"}>{l("Known remote users")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "remote_users"}>{l("Known remote users")}</span>
         </LinkLive>
       </li>
       <li>
@@ -162,12 +162,12 @@
           to={~p"/settings/instance/remote_instances"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "remote_instances"
+            "bg-primary/20 text-primary ": @selected_tab == "remote_instances"
           }
         >
           <span class={
             "text-sm text-base-content/80 font-normal",
-            "text-base-content": @selected_tab == "remote_instances"
+            "text-primary ": @selected_tab == "remote_instances"
           }>{l("Known remote instances")}</span>
         </LinkLive>
       </li>
@@ -177,7 +177,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Extensions")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Extensions")}</span>
       </summary>
 
       <li>
@@ -185,10 +185,10 @@
           to={~p"/settings/instance/extensions"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "extensions"
+            "bg-primary/20": @selected_tab == "extensions"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
         </LinkLive>
       </li>
       <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
@@ -202,7 +202,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Safety")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Safety")}</span>
       </summary>
 
       <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance) and
@@ -211,10 +211,10 @@
           to={~p"/settings/instance/flags"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "flags"
+            "bg-primary/20 text-primary ": @selected_tab == "flags"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "flags"}>{l("Flagged by users")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "flags"}>{l("Flagged by users")}</span>
         </LinkPatchLive>
       </li>
 
@@ -223,12 +223,12 @@
           to={~p"/boundaries/instance_ghosted"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "instance_ghosted"
+            "bg-primary/20 text-primary ": @selected_tab == "instance_ghosted"
           }
         >
           <span class={
             "text-sm text-base-content/80 font-normal",
-            "text-base-content": @selected_tab == "instance_ghosted"
+            "text-primary ": @selected_tab == "instance_ghosted"
           }>{l("Ghosted instance-wide")}</span>
         </LinkLive>
       </li>
@@ -237,12 +237,12 @@
           to={~p"/boundaries/instance_silenced"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "instance_silenced"
+            "bg-primary/20 text-primary ": @selected_tab == "instance_silenced"
           }
         >
           <span class={
             "text-sm text-base-content/80 font-normal",
-            "text-base-content": @selected_tab == "instance_silenced"
+            "text-primary ": @selected_tab == "instance_silenced"
           }>{l("Silenced instance-wide")}</span>
         </LinkLive>
       </li>
@@ -252,12 +252,12 @@
           to={~p"/settings/instance/blocks_import"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "blocks_import"
+            "bg-primary/20 text-primary ": @selected_tab == "blocks_import"
           }
         >
           <span class={
             "text-sm",
-            "text-base-content": @selected_tab == "blocks_import"
+            "text-primary ": @selected_tab == "blocks_import"
           }>{l("Import block lists")}</span>
         </LinkLive>
       </li>
@@ -267,12 +267,12 @@
           to={~p"/settings/instance/blocks_export"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "blocks_export"
+            "bg-primary/20 text-primary ": @selected_tab == "blocks_export"
           }
         >
           <span class={
             "text-sm text-base-content/80 font-normal",
-            "text-base-content": @selected_tab == "blocks_export"
+            "text-primary ": @selected_tab == "blocks_export"
           }>{l("Export block lists")}</span>
         </LinkLive>
       </li>
@@ -282,7 +282,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Instance Boundaries")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Instance Boundaries")}</span>
       </summary>
 
       <li :if={Bonfire.Boundaries.can?(@__context__, :assign, :instance)}>
@@ -290,7 +290,7 @@
           to={~p"/boundaries/scope/instance/circles"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "circles"
+            "bg-primary/20 text-primary ": @selected_tab == "circles"
           }
         >
           <span class="">{l("Instance Circles")}</span>
@@ -302,7 +302,7 @@
           to={~p"/boundaries/scope/instance/roles"}
           class={
             " ",
-            "bg-base-content/10 ": @selected_tab == "roles"
+            "bg-primary/20 font-bold text-primary": @selected_tab == "roles"
           }
         >
           <span class="">{l("Instance Roles")}</span>
@@ -315,7 +315,7 @@
             to={~p"/boundaries/scope/instance/acls"}
             class={
               " ",
-              "bg-base-content/10": @selected_tab == "acls"
+              "bg-primary/20 text-primary ": @selected_tab == "acls"
             }
           >
             <span class="">{l("Boundary Presets")}</span>
@@ -329,7 +329,7 @@
             to={~p"/boundaries/scope/instance/admin_circle"}
             class={
               " ",
-              "bg-base-content/10": @selected_tab == "admin_circle"
+              "bg-primary/20 text-primary ": @selected_tab == "admin_circle"
             }
           >
             <span class=" ">{l("Admins list")}</span>
@@ -341,7 +341,7 @@
             to={~p"/boundaries/scope/instance/mod_circle"}
             class={
               " ",
-              "bg-base-content/10": @selected_tab == "mod_circle"
+              "bg-primary/20 text-primary ": @selected_tab == "mod_circle"
             }
           >
             <span class=" ">{l("Moderators list")}</span>
@@ -354,7 +354,7 @@
   <li class="">
     <details open>
       <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content/50">{l("Advanced")}</span>
+        <span class="font-bold uppercase text-xs text-base-content">{l("Advanced")}</span>
       </summary>
 
       <li>
@@ -362,7 +362,7 @@
           to={~p"/settings/instance/code"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "code"
+            "bg-primary/20 text-primary ": @selected_tab == "code"
           }
         >
           <span class="">{l("Libraries & Licences")}</span>
@@ -374,10 +374,10 @@
           to={~p"/settings/instance/emojis"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "emojis"
+            "bg-primary/20 text-primary ": @selected_tab == "emojis"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "emojis"}>{l("Custom emoji")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "emojis"}>{l("Custom emoji")}</span>
         </LinkPatchLive>
       </li>
 
@@ -391,7 +391,7 @@
           to={~p"/settings/instance/config_settings_registry"}
           class={
             " ",
-            "bg-primary/10": @selected_tab == "config_settings_registry"
+            "bg-primary/20": @selected_tab == "config_settings_registry"
           }
         >
           <span class="">{l("Extra settings")}</span>
@@ -403,10 +403,10 @@
           to={~p"/settings/instance/icons"}
           class={
             " ",
-            "bg-base-content/10": @selected_tab == "icons"
+            "bg-primary/20 text-primary ": @selected_tab == "icons"
           }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-base-content": @selected_tab == "icons"}>{l("Icons")}</span>
+          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "icons"}>{l("Icons")}</span>
         </LinkPatchLive>
       </li>
     </details>
@@ -422,7 +422,7 @@
         to={~p"/settings/instance/pages"}
         class={
           "mt-8",
-          "bg-base-content/10": @selected_tab == "pages"
+          "bg-primary/20 text-primary ": @selected_tab == "pages"
         }
       >
         <#Icon solid="DocumentDuplicate" class={"w-5 h-5 font-normal text-base-content/70", "": @selected_tab == "pages"} />
@@ -437,7 +437,7 @@
         to={~p"/posts"}
         class={
           "",
-          "bg-base-content/10": @selected_tab == "posts"
+          "bg-primary/20 text-primary ": @selected_tab == "posts"
         }
       >
         
@@ -453,7 +453,7 @@
         to={~p"/settings/instance/tags"}
         class={
           "",
-          "bg-base-content/10": @selected_tab == "tags"
+          "bg-primary/20 text-primary ": @selected_tab == "tags"
         }
       >
         

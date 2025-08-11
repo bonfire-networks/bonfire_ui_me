@@ -4,9 +4,15 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive do
 
   prop show, :any, default: :local
   prop search_term, :string, default: ""
+  prop title, :string, default: nil
 
   def update(assigns, socket) do
     socket = assign(socket, assigns)
+    
+    # Set page_title if title prop is provided
+    if socket_connected?(socket) && e(assigns, :title, nil) do
+      send_self(page_title: e(assigns, :title, nil))
+    end
 
     {:ok,
      assign(

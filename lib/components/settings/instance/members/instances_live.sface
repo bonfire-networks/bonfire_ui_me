@@ -11,7 +11,6 @@
           <label
             class="relative btn btn-sm btn-ghost btn-circle"
             tabindex="0"
-            id="user-profile-menu"
             aria-haspopup="true"
             aria-expanded="true"
           >
@@ -22,7 +21,6 @@
             class="relative z-50 mt-3 p-0.5 menu shadow-xl bg-base-100 border rounded border-base-content/5 !block w-64 menu dropdown-content"
             role="menu"
             aria-orientation="vertical"
-            aria-labelledby="user-profile-menu"
           >
             <li><LinkLive to={"/users/instance/#{display_hostname}/#{id}"} class="grow">{l("View known users from instance")}</LinkLive></li>
             <li><a href={ap_base_uri} target="_blank">{l("Visit instance")}</a></li>

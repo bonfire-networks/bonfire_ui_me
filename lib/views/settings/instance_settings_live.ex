@@ -58,6 +58,36 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      )}
   end
 
+  def handle_params(%{"tab" => "members"}, _url, socket) do
+    {:noreply,
+     assign(
+       socket,
+       back: true,
+       page_title: l("Local Members"),
+       selected_tab: "members"
+     )}
+  end
+
+  def handle_params(%{"tab" => "remote_users"}, _url, socket) do
+    {:noreply,
+     assign(
+       socket,
+       back: true,
+       page_title: l("Remote Users"),
+       selected_tab: "remote_users"
+     )}
+  end
+
+  def handle_params(%{"tab" => "remote_instances"}, _url, socket) do
+    {:noreply,
+     assign(
+       socket,
+       back: true,
+       page_title: l("Remote Instances"),
+       selected_tab: "remote_instances"
+     )}
+  end
+
   def handle_params(%{"tab" => tab}, _url, socket) do
     extension = Bonfire.Common.ExtensionModule.extension(tab)
 
@@ -82,6 +112,11 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
   end
 
   def handle_event("validate", _params, socket) do
+    {:noreply, socket}
+  end
+
+  # Catch-all for events from child components
+  def handle_event(_event, _params, socket) do
     {:noreply, socket}
   end
 end

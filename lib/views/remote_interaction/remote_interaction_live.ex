@@ -13,6 +13,7 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
     {:ok,
      socket
      |> assign_new(:without_sidebar, fn -> true end)
+     |> assign_new(:no_header, fn -> true end)
      |> assign_new(:without_secondary_widgets, fn -> true end)
      |> assign(:canonical_url, Text.text_only(e(params, "url", nil) || e(session, "url", nil)))
      |> assign(:name, Text.text_only(e(params, "name", nil) || e(session, "name", nil)))

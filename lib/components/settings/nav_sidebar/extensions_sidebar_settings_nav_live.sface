@@ -11,32 +11,7 @@
             {#case Bonfire.Common.ExtensionModule.extension(extension)}
               {#match extension_meta}
                 <li>
-                  <LinkLive to={"/settings/#{@scope}/#{extension}"} class="">{e(extension_meta, :name, nil) || extension}</LinkLive>
-                  <!-- {#if not has_settings_nav?}
-                  {#else}
-                    <details open={@selected_tab == to_string(extension) or @id == to_string(extension)}>
-                      <summary class="group !ml-0 !pl-4 !pr-4 !py-2">
-                        <span class="text-sm font-medium ml-0">{e(extension_meta, :name, nil) || extension}</span>
-                      </summary>
-                      <ul class="ml-4 !p-0 !mt-1">
-                        <li :if={has_settings_components?}>
-                          <LinkLive class="!text-sm" to={"/settings/#{@scope}/#{extension}"}>{l("Extension Settings")}</LinkLive>
-                        </li>
-                        <li :for={%{} = subnav <- List.wrap(extension_nav)}>
-                          <Bonfire.UI.Common.WidgetLive
-                            :if={!e(subnav, :exclude_from_nav, nil) and e(subnav, :scope, nil) == @scope and
-                              (is_nil(e(subnav, :module, nil)) or
-                                 module_enabled?(e(subnav, :module, nil), @__context__))}
-                            widget={subnav}
-                            page={@page}
-                            showing_within={@showing_within}
-                            wrapper_class="w-full !block !p-0 !m-0 bg-base-100 hover:bg-base-100"
-                            selected_tab={@selected_tab}
-                          />
-                        </li>
-                      </ul>
-                    </details>
-                  {/if} -->
+                  <LinkLive to={"/settings/#{@scope}/#{extension}"} class={"bg-primary/20 text-primary": to_string(@selected_tab) == to_string(extension) }>{e(extension_meta, :name, nil) || extension}</LinkLive>
                 </li>
             {/case}
           {/if}

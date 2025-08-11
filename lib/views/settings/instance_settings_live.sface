@@ -14,9 +14,9 @@
         module={maybe_component(Bonfire.UI.Boundaries.CircleMembersLive, @__context__)}
         selected_tab={@selected_tab}
         id="admin_circle"
+        show_add={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
+        description={l("Admins have full control over the instance, including managing users, roles, content, and settings.")}
         scope={@scope}
-        show_add={false}
-        read_only
         circle_id={maybe_apply(Bonfire.Boundaries.Scaffold.Instance, :admin_circle, [])}
       />
     {#match "mods"}
@@ -26,8 +26,8 @@
         selected_tab={@selected_tab}
         id="mod_circle"
         scope={@scope}
+        description={l("Moderators help maintain a safe and welcoming community by managing content and user behavior.")}
         show_add={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
-        read_only
         circle_id={maybe_apply(Bonfire.Boundaries.Scaffold.Instance, :mod_circle, [])}
       />
     {#match "remote_allow_list"}
@@ -68,12 +68,16 @@
         module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
         id="blocks"
         selected_tab="silenced"
+        title={l("Silenced Users")}
+        description={l("Silenced users and instances are hidden from your feeds and notifications. You won't see their posts, mentions, or messages, but they can still see your public content.")}
       />
     {#match "ghosted"}
       <StatefulComponent
         module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
         id="blocks"
         selected_tab="ghosted"
+        title={l("Ghosted Users")}
+        description={l("Ghosted users and instances cannot see or interact with you or your content. This is a stronger form of blocking where they are completely invisible to each other.")}
       />
     {#match "blocks_import"}
       <StatefulComponent
@@ -120,11 +124,21 @@
 
     </div> -->
     {#match "members"}
-      <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive id="instance_members" />
+      <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive 
+        id="instance_members" 
+        title={l("Local Members")} 
+      />
     {#match "remote_users"}
-      <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive id="remote_users" show={:remote} />
+      <Bonfire.UI.Me.SettingsViewsLive.InstanceMembersLive 
+        id="remote_users" 
+        show={:remote} 
+        title={l("Remote Users")} 
+      />
     {#match "remote_instances"}
-      <Bonfire.UI.Me.SettingsViewsLive.InstancesLive id="remote_instances" />
+      <Bonfire.UI.Me.SettingsViewsLive.InstancesLive 
+        id="remote_instances" 
+        title={l("Remote Instances")} 
+      />
 
       {!-- {#match "instance_silenced"}
       <StatefulComponent
