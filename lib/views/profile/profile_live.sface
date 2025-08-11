@@ -7,7 +7,7 @@
       {...assigns}
     >
       <:header>
-        <div class="bg-base-100 mb-3 lg:rounded-xl lg:shadow">
+        <div class="bg-base-100 mb-3 border-b border-base-content/10">
           <StatelessComponent
             module={Config.get(
               [:ui, :profile, :hero_component],
