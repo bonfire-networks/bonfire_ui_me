@@ -1,8 +1,7 @@
-<div class="grid mb-2 grid-cols-1 gap-4 max-w-[640px] mx-auto w-full mt-6">
-  <h1 class="text-xl font-bold mb-4">{l ("Local users directory")}</h1>
+<div class="grid mb-2 grid-cols-1 gap-4 max-w-[640px] mx-auto w-full divide-y divide-base-content/10">
   <div
     :for={user <- @users}
-    class="p-4 border rounded-lg shadow bg-base-100 border-base-content/10"
+    class="p-4"
   >
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
