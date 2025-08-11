@@ -4,7 +4,7 @@
       <Bonfire.UI.Me.InstanceSidebarSettingsNavLive selected_tab={@selected_tab} />
     </nav>
   </div> --}
-<section class="bg-base-100 rounded-xl shadow">
+<section class="bg-base-100 ">
   {#case @selected_tab}
     {#match "dashboard"}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive selected_tab={@selected_tab} />
