@@ -247,6 +247,7 @@ defmodule Bonfire.UI.Me.ExportController do
       |> Keyword.merge(
         paginate: false,
         preload: [],
+        select_only_activity_id: true,
         exclude_activity_types: false,
         exclude_object_types: false,
         exclude_verb_ids: false,
@@ -271,6 +272,7 @@ defmodule Bonfire.UI.Me.ExportController do
               |> Keyword.merge(
                 current_user: current_user,
                 preload: [],
+                select_only_activity_id: true,
                 paginate: false,
                 limit: limit,
                 max_depth: limit,
@@ -480,7 +482,9 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp prepare_rows(type, records) when type in ["outbox", "collection"] and is_list(records) do
-    records |> preload_assocs(type) |> Enum.map(&prepare_record_json(type, &1))
+    records
+    |> preload_assocs(type)
+    |> Enum.map(&prepare_record_json(type, &1))
   end
 
   defp prepare_rows(type, %Stream{} = stream) when type in ["outbox", "collection"] do
@@ -605,16 +609,8 @@ defmodule Bonfire.UI.Me.ExportController do
     ]
   end
 
-  defp prepare_record_json(_type, record) do
-    # activity =
-    #   record
-    #   |> preload_assocs(type)
-    #   |> e(:activity, nil)
-
-    with {:ok, json} <-
-           ActivityPub.Web.ActivityPubController.json_object_with_cache(nil, id(record),
-             exporting: true
-           ) do
+  defp prepare_record_json(type \\ nil, record_or_id) do
+    with {:ok, json} <- object_json(id(record_or_id), true) do
       """
       #{json},
       """
@@ -623,7 +619,15 @@ defmodule Bonfire.UI.Me.ExportController do
         ""
     end
 
-    # |> debug("jsssson")
+    # |> debug("jsoon")
+  end
+
+  def object_json(record_or_id, skip_json_context_header \\ false) do
+    ActivityPub.Web.ActivityPubController.json_object_with_cache(nil, id(record_or_id),
+      exporting: true,
+      skip_json_context_header: skip_json_context_header
+    )
+    |> flood("jssson")
   end
 
   defp prepare_csv(records) do
@@ -664,7 +668,7 @@ defmodule Bonfire.UI.Me.ExportController do
   defp collection_header(name) do
     """
     {
-      "@context": "https://www.w3.org/ns/activitystreams",
+      "@context": #{ActivityPub.Utils.make_json_ld_context_list(:object) |> Jason.encode!()},
       "id": "#{name}.json",
       "type": "OrderedCollection",
       "orderedItems": [
