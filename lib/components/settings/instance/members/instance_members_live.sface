@@ -4,7 +4,7 @@
     <div class="m-4">
       <form phx-change="search" phx-target={@myself} phx-debounce="300" class="form-control">
         <label class="input w-full">
-            <#Icon iconify="ph:magnifying-glass-duotone" class="w-4 h-4 opacity-50" />
+          <#Icon iconify="ph:magnifying-glass-duotone" class="w-4 h-4 opacity-50" />
           <input
             type="text"
             name="search_term"
@@ -21,7 +21,11 @@
         <div class="text-sm text-gray-600 m-4 mb-2">
           {l("Showing %{count} users", count: length(@users))}
         </div>
-        <Bonfire.UI.Me.MembersLive users={@users} is_local_users={@show == :local} key={"#{@search_term}-#{length(@users)}"} />
+        <Bonfire.UI.Me.MembersLive
+          users={@users}
+          is_local_users={@show == :local}
+          key={"#{@search_term}-#{length(@users)}"}
+        />
       {#else}
         <div class="text-center py-8">
           {#if @search_term && String.trim(@search_term) != ""}

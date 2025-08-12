@@ -11,7 +11,10 @@
             {#case Bonfire.Common.ExtensionModule.extension(extension)}
               {#match extension_meta}
                 <li>
-                  <LinkLive to={"/settings/#{@scope}/#{extension}"} class={"bg-primary/20 text-primary": to_string(@selected_tab) == to_string(extension) }>{e(extension_meta, :name, nil) || extension}</LinkLive>
+                  <LinkLive
+                    to={"/settings/#{@scope}/#{extension}"}
+                    class={"bg-primary/20 text-primary": to_string(@selected_tab) == to_string(extension)}
+                  >{e(extension_meta, :name, nil) || extension}</LinkLive>
                 </li>
             {/case}
           {/if}
