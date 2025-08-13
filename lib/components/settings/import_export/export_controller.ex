@@ -627,7 +627,7 @@ defmodule Bonfire.UI.Me.ExportController do
       exporting: true,
       skip_json_context_header: skip_json_context_header
     )
-    |> flood("jssson")
+    |> debug("jssson")
   end
 
   defp prepare_csv(records) do
