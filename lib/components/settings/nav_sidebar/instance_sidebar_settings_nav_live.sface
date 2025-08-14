@@ -35,16 +35,16 @@
       </li>
 
       <li>
-          <LinkLive
-            to={~p"/boundaries/scope/instance/instance_acl"}
-            class={
-              " ",
-              "bg-primary/20 text-primary ": @selected_tab == "instance_acl"
-            }
-          >
-            <span class="">{l("Instance Permissions")}</span>
-          </LinkLive>
-        </li>
+        <LinkLive
+          to={~p"/boundaries/scope/instance/instance_acl"}
+          class={
+            " ",
+            "bg-primary/20 text-primary ": @selected_tab == "instance_acl"
+          }
+        >
+          <span class="">{l("Instance Permissions")}</span>
+        </LinkLive>
+      </li>
     </details>
   </li>
 
@@ -321,8 +321,6 @@
             <span class="">{l("Boundary Presets")}</span>
           </LinkLive>
         </li>
-
-        
 
         <!-- <li>
           <LinkLive

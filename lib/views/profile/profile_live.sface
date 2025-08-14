@@ -48,7 +48,7 @@
     </StatelessComponent>
   {#else}
     {!-- when silenced show only the header but no timeline or other content --}
-    <div class="bg-base-100 ">
+    <div class="bg-base-100">
       <StatelessComponent
         module={Config.get(
           [:ui, :profile, :hero_component],

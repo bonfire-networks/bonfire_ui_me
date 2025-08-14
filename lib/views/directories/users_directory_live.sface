@@ -1,8 +1,5 @@
 <div class="grid mb-2 grid-cols-1 gap-4 max-w-[640px] mx-auto w-full divide-y divide-base-content/10">
-  <div
-    :for={user <- @users}
-    class="p-4"
-  >
+  <div :for={user <- @users} class="p-4">
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
       character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}

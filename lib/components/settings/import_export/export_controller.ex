@@ -195,18 +195,35 @@ defmodule Bonfire.UI.Me.ExportController do
     file
   end
 
+  def create_json_stream(current_user, type, opts) do
+    # Create a stream that mimics what json_content does but returns iodata
+    Stream.concat([
+      [collection_header(type)],
+      json_inside_content(current_user, type, opts),
+      [collection_footer()]
+    ])
+  end
+
   defp json_content(conn_or_user, type, opts \\ [])
 
-  defp json_content(conn_or_user, "outbox" = type, _opts) do
+  defp json_content(conn_or_user, "thread" = type, opts) when type in ["thread", "outbox"] do
     {:ok, _conn} = maybe_chunk(conn_or_user, collection_header(type))
 
-    {:ok, _conn} = outbox(conn_or_user)
+    {:ok, _conn} = json_inside_content(conn_or_user, type, opts)
 
     {:ok, _conn} = maybe_chunk(conn_or_user, collection_footer())
   end
 
   defp json_content(conn_or_user, "actor" = _type, _opts) do
     {:ok, _conn} = maybe_chunk(conn_or_user, actor(conn_or_user))
+  end
+
+  defp json_inside_content(conn_or_user, "outbox", opts) do
+    outbox(conn_or_user, opts)
+  end
+
+  defp json_inside_content(conn_or_user, "thread", opts) do
+    thread(conn_or_user, opts)
   end
 
   defp binary_content(conn_or_user, "private_key" = _type) do
@@ -217,27 +234,65 @@ defmodule Bonfire.UI.Me.ExportController do
     {:ok, _conn} = maybe_chunk(conn_or_user, keys(conn_or_user))
   end
 
-  defp outbox(conn_or_user) do
+  def outbox(conn_or_user, opts \\ []) do
     Process.put(:federating, :manual)
 
     user = current_user(conn_or_user)
 
     feed_id = Bonfire.Social.Feeds.feed_id(:outbox, user)
 
-    Bonfire.Social.FeedActivities.feed(feed_id,
-      paginate: false,
-      preload: [],
-      exclude_activity_types: false,
-      exclude_object_types: false,
-      exclude_verb_ids: false,
-      current_user: user,
-      return: :stream,
-      stream_callback: fn stream ->
-        stream_callback("outbox", stream, conn_or_user)
-      end
+    Bonfire.Social.FeedActivities.feed(
+      feed_id,
+      opts
+      |> Keyword.merge(
+        paginate: false,
+        preload: [],
+        select_only_activity_id: true,
+        exclude_activity_types: false,
+        exclude_object_types: false,
+        exclude_verb_ids: false,
+        current_user: user,
+        return: :stream,
+        stream_callback: fn stream ->
+          stream_callback("outbox", stream, conn_or_user)
+        end
+      )
     )
+  end
 
-    # |> IO.inspect(label: "outbx")
+  def thread(current_user, opts \\ []) do
+    Process.put(:federating, :manual)
+
+    limit = 5_000
+
+    case (opts[:replies] ||
+            Bonfire.Social.Threads.list_replies(
+              opts[:thread_id],
+              opts
+              |> Keyword.merge(
+                current_user: current_user,
+                preload: [],
+                select_only_activity_id: true,
+                paginate: false,
+                limit: limit,
+                max_depth: limit,
+                # sort_by: sort_by
+                return: :stream,
+                stream_callback: fn stream ->
+                  stream_callback("collection", stream, opts)
+                end
+              )
+            ))
+         |> debug("threeead") do
+      %{edges: replies} when replies != [] ->
+        stream_callback("collection", replies, opts)
+
+      replies when is_list(replies) and replies != [] ->
+        stream_callback("collection", replies, opts)
+
+      other ->
+        debug(other, "ressss")
+    end
   end
 
   defp csv_content(conn, type, opts \\ [])
@@ -426,17 +481,19 @@ defmodule Bonfire.UI.Me.ExportController do
     {:ok, data}
   end
 
-  defp prepare_rows("outbox" = type, records) when is_list(records) do
-    records |> preload_assocs(type) |> Enum.map(&prepare_record(type, &1))
+  defp prepare_rows(type, records) when type in ["outbox", "collection"] and is_list(records) do
+    records
+    |> preload_assocs(type)
+    |> Enum.map(&prepare_record_json(type, &1))
   end
 
-  defp prepare_rows("outbox" = type, %Stream{} = stream) do
+  defp prepare_rows(type, %Stream{} = stream) when type in ["outbox", "collection"] do
     stream
-    |> Enum.map(&prepare_record(type, &1))
+    |> Enum.map(&prepare_record_json(type, &1))
   end
 
-  defp prepare_rows("outbox" = type, record) do
-    prepare_record(type, record)
+  defp prepare_rows(type, record) when type in ["outbox", "collection"] do
+    prepare_record_json(type, record)
   end
 
   defp prepare_rows(type, records) when is_list(records) do
@@ -552,16 +609,8 @@ defmodule Bonfire.UI.Me.ExportController do
     ]
   end
 
-  defp prepare_record(type, record) when type in ["outbox"] do
-    # activity =
-    #   record
-    #   |> preload_assocs(type)
-    #   |> e(:activity, nil)
-
-    with {:ok, json} <-
-           ActivityPub.Web.ActivityPubController.json_object_with_cache(nil, id(record),
-             exporting: true
-           ) do
+  defp prepare_record_json(type \\ nil, record_or_id) do
+    with {:ok, json} <- object_json(id(record_or_id), true) do
       """
       #{json},
       """
@@ -570,7 +619,15 @@ defmodule Bonfire.UI.Me.ExportController do
         ""
     end
 
-    # |> IO.inspect(label: "jsssson")
+    # |> debug("jsoon")
+  end
+
+  def object_json(record_or_id, skip_json_context_header \\ false) do
+    ActivityPub.Web.ActivityPubController.json_object_with_cache(nil, id(record_or_id),
+      exporting: true,
+      skip_json_context_header: skip_json_context_header
+    )
+    |> debug("jssson")
   end
 
   defp prepare_csv(records) do
@@ -611,7 +668,7 @@ defmodule Bonfire.UI.Me.ExportController do
   defp collection_header(name) do
     """
     {
-      "@context": "https://www.w3.org/ns/activitystreams",
+      "@context": #{ActivityPub.Utils.make_json_ld_context_list(:object) |> Jason.encode!()},
       "id": "#{name}.json",
       "type": "OrderedCollection",
       "orderedItems": [
