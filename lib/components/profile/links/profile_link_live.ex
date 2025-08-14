@@ -15,7 +15,7 @@ defmodule Bonfire.UI.Me.ProfileLinkLive do
       :icon,
       (URI.parse(href || "").host || "")
       |> String.replace("www.", "")
-      |> debug("hooost")
+      # |> debug("hooost")
       |> maybe_icon()
     )
     |> render_sface()
@@ -23,8 +23,9 @@ defmodule Bonfire.UI.Me.ProfileLinkLive do
 
   def render(assigns), do: assigns |> render_sface()
 
-  def maybe_icon("git" <> _), do: "mdi:git"
-  def maybe_icon("orcid" <> _), do: "simple-icons:orcid"
+  def maybe_icon("git" <> _), do: "bi:git"
+  def maybe_icon("orcid" <> _), do: "academicons:orcid"
+  def maybe_icon("zenodo" <> _), do: "academicons:zenodo-square"
   def maybe_icon("liberapay" <> _), do: "streamline:blood-donate-drop-solid"
   def maybe_icon("tumblr" <> _), do: "icon-park-solid:tumblr"
   def maybe_icon("reddit" <> _), do: "teenyicons:reddit-solid"
