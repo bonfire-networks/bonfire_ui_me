@@ -1,6 +1,6 @@
-<div class="bg-base-content/5 rounded-t-xl py-4">
+<div class="py-8">
   {#if Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
-    <div class="mx-auto p-4 bg-base-100 -sm border border-base-content/10 max-w-md">
+    <div class="mx-auto p-4 bg-base-100 -sm border border-base-content/10 max-w-md rounded-xl">
       <StatefulComponent
         module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
         id={:upload_banner}
