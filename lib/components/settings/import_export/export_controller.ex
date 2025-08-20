@@ -449,7 +449,7 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp csv_content(conn, type, _opts) do
-    IO.inspect(type, label: "type not implemented")
+    err(type, "CSV export type not implemented")
     conn
   end
 
