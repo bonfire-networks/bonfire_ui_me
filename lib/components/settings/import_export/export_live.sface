@@ -147,6 +147,18 @@
               <span>PEM</span>
             </a></td>
         </tr>
+        <tr>
+          <td>My activities</td>
+          {!-- <td>23</td> --}
+          <td><a
+              download
+              href="/settings/export/json/outbox"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case  gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>JSON</span>
+            </a></td>
+        </tr>
         <!-- 
         TODO: optimise AP-based export
         <tr>

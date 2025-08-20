@@ -116,12 +116,12 @@ defmodule Bonfire.UI.Me.ExportController do
     Zstream.zip(
       [
         Zstream.entry("actor.json", [actor(user)]),
-        # TODO: optimise AP-based export
-        # Zstream.entry("outbox.json", [
-        #   collection_header("outbox"),
-        #   ok_unwrap(outbox(user)),
-        #   collection_footer()
-        # ]),
+        # WIP: optimise AP-based export
+        Zstream.entry("outbox.json", [
+          collection_header("outbox"),
+          ok_unwrap(outbox(user)),
+          collection_footer()
+        ]),
         Zstream.entry("following.csv", ok_unwrap(csv_content(user, "following"))),
         Zstream.entry("requests.csv", ok_unwrap(csv_content(user, "requests"))),
         Zstream.entry("followers.csv", ok_unwrap(csv_content(user, "followers"))),
@@ -206,12 +206,19 @@ defmodule Bonfire.UI.Me.ExportController do
 
   defp json_content(conn_or_user, type, opts \\ [])
 
-  defp json_content(conn_or_user, "thread" = type, opts) when type in ["thread", "outbox"] do
-    {:ok, _conn} = maybe_chunk(conn_or_user, collection_header(type))
+  defp json_content(conn_or_user, type, opts) when type in ["thread", "outbox"] do
+    {:ok, conn_or_user} = maybe_chunk(conn_or_user, collection_header(type))
 
-    {:ok, _conn} = json_inside_content(conn_or_user, type, opts)
+    result = json_inside_content(conn_or_user, type, opts)
 
-    {:ok, _conn} = maybe_chunk(conn_or_user, collection_footer())
+    case result do
+      {:ok, conn} ->
+        {:ok, final_conn} = maybe_chunk(conn, collection_footer())
+        final_conn
+
+      other ->
+        other
+    end
   end
 
   defp json_content(conn_or_user, "actor" = _type, _opts) do
@@ -227,7 +234,7 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp binary_content(conn_or_user, "private_key" = _type) do
-    {:ok, _conn} = maybe_chunk(conn_or_user, private_key(conn_or_user))
+    {:ok, _conn} = maybe_chunk(conn_or_user, fetch_private_key(conn_or_user))
   end
 
   defp binary_content(conn_or_user, "keys" = _type) do
@@ -239,25 +246,28 @@ defmodule Bonfire.UI.Me.ExportController do
 
     user = current_user(conn_or_user)
 
-    feed_id = Bonfire.Social.Feeds.feed_id(:outbox, user)
+    # feed_id = Bonfire.Social.Feeds.feed_id(:outbox, user)
+    # |> flood("outbox feed")
 
     Bonfire.Social.FeedActivities.feed(
-      feed_id,
+      :user_activities,
       opts
       |> Keyword.merge(
+        current_user: user,
+        by: user,
         paginate: false,
         preload: [],
         select_only_activity_id: true,
-        exclude_activity_types: false,
-        exclude_object_types: false,
-        exclude_verb_ids: false,
-        current_user: user,
+        exclude_activity_types: [],
+        exclude_object_types: [],
+        exclude_verb_ids: [],
         return: :stream,
         stream_callback: fn stream ->
           stream_callback("outbox", stream, conn_or_user)
         end
       )
     )
+    |> flood("outbox res")
   end
 
   def thread(current_user, opts \\ []) do
@@ -454,16 +464,13 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp stream_callback(type, stream, %Plug.Conn{} = conn) do
-    # for result <- stream do
-    #   maybe_chunk(conn, prepare_rows(type, result))
-    # end
     Enum.reduce_while(stream, conn, fn result, conn ->
       case maybe_chunk(conn, prepare_rows(type, result)) do
         {:ok, conn} ->
           {:cont, conn}
 
         other ->
-          IO.inspect(other, label: "unexpected stream_callback")
+          err(other, "unexpected stream_callback")
           {:halt, conn}
       end
     end)
@@ -611,6 +618,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
   defp prepare_record_json(type \\ nil, record_or_id) do
     with {:ok, json} <- object_json(id(record_or_id), true) do
+      # add trailing comma 
       """
       #{json},
       """
@@ -618,8 +626,7 @@ defmodule Bonfire.UI.Me.ExportController do
       _ ->
         ""
     end
-
-    # |> debug("jsoon")
+    |> flood("jsoon")
   end
 
   def object_json(record_or_id, skip_json_context_header \\ false) do
@@ -627,7 +634,8 @@ defmodule Bonfire.UI.Me.ExportController do
       exporting: true,
       skip_json_context_header: skip_json_context_header
     )
-    |> debug("jssson")
+
+    # |> debug("jssson")
   end
 
   defp prepare_csv(records) do
@@ -647,16 +655,26 @@ defmodule Bonfire.UI.Me.ExportController do
     end
   end
 
-  defp private_key(conn_or_user) do
-    current_user(conn_or_user)
-    |> repo().maybe_preload(character: [:actor])
-    |> e(:character, :actor, :signing_key, nil)
+  defp fetch_private_key(conn_or_user) do
+    current_user = current_user(conn_or_user)
 
-    # |> debug()
+    {:ok, actor} =
+      ActivityPub.Actor.get_cached(pointer: current_user)
+      ~> ActivityPub.Safety.Keys.ensure_keys_present()
+
+    # |> flood("actor to sure a key exists")
+
+    e(actor, :keys, nil)
+    # |> flood("made sure a key exists")
+
+    # current_user
+    # |> repo().maybe_preload(character: [:actor], force: true)
+    # |> e(:character, :actor, :signing_key, nil)
+    # |> flood("private key")
   end
 
   defp keys(conn_or_user) do
-    keys = private_key(conn_or_user)
+    keys = fetch_private_key(conn_or_user)
 
     """
     #{keys}
@@ -676,7 +694,8 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp collection_footer() do
-    "  {}\n]}"
+    # includes an empty object to support trailing commas
+    "\n  {}]\n}"
   end
 
   def user_media(user) do
