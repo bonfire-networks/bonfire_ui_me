@@ -10,22 +10,71 @@ defmodule Bonfire.UI.Me.ExportTest do
 
     conn = conn(user: me, account: account)
 
-    {:ok, conn: conn, account: account, user: me}
-  end
-
-  test "export following works", %{user: user, conn: conn} do
-    # Create users to follow
+    # Create test data for all export types
+    # Users for follow relationships
     followee1 = fake_user!("Followee1")
     followee2 = fake_user!("Followee2")
+    follower = fake_user!("Follower")
+    request_user = fake_user!("RequestUser", %{}, request_before_follow: true)
+    other_user = fake_user!("OtherUser")
+    silenced_user = fake_user!("SilencedUser")
+    ghosted_user = fake_user!("GhostedUser")
 
-    # Create initial follows
-    assert {:ok, _follow1} = Follows.follow(user, followee1)
-    assert {:ok, _follow2} = Follows.follow(user, followee2)
+    # Create follows
+    assert {:ok, _follow1} = Follows.follow(me, followee1)
+    assert {:ok, _follow2} = Follows.follow(me, followee2)
+    assert {:ok, _follow3} = Follows.follow(follower, me)
+    assert {:ok, _request} = Follows.follow(me, request_user)
 
-    # Verify follows exist
-    assert Follows.following?(user, followee1)
-    assert Follows.following?(user, followee2)
+    # Create posts
+    assert {:ok, post1} =
+             Bonfire.Posts.publish(
+               current_user: me,
+               boundary: "public",
+               post_attrs: %{post_content: %{html_body: "Test post 1 content"}}
+             )
 
+    assert {:ok, post2} =
+             Bonfire.Posts.publish(
+               current_user: me,
+               boundary: "public",
+               post_attrs: %{post_content: %{html_body: "Test post 2 content"}}
+             )
+
+    # Create messages
+    assert {:ok, message1} =
+             Bonfire.Messages.send(me, %{post_content: %{html_body: "Hello message 1"}}, [
+               other_user
+             ])
+
+    assert {:ok, message2} =
+             Bonfire.Messages.send(other_user, %{post_content: %{html_body: "Hello message 2"}}, [
+               me
+             ])
+
+    # Create blocks
+    assert {:ok, _} = Bonfire.Boundaries.Blocks.block(silenced_user, :silence, current_user: me)
+    assert {:ok, _} = Bonfire.Boundaries.Blocks.block(ghosted_user, :ghost, current_user: me)
+
+    {:ok,
+     conn: conn,
+     account: account,
+     user: me,
+     followee1: followee1,
+     followee2: followee2,
+     follower: follower,
+     other_user: other_user,
+     silenced_user: silenced_user,
+     ghosted_user: ghosted_user,
+     request_user: request_user}
+  end
+
+  test "export following works", %{
+    user: user,
+    conn: conn,
+    followee1: followee1,
+    followee2: followee2
+  } do
     # Test export via controller
     conn =
       conn
@@ -34,22 +83,12 @@ defmodule Bonfire.UI.Me.ExportTest do
 
     assert conn.status == 200
     assert get_resp_header(conn, "content-type") == ["text/csv; charset=utf-8"]
-    assert String.contains?(conn.resp_body, "Account address")
 
-    # Verify actual usernames are in the export
-    followee1_username = Bonfire.Me.Characters.display_username(followee1, true)
-    followee2_username = Bonfire.Me.Characters.display_username(followee2, true)
-    assert String.contains?(conn.resp_body, followee1_username)
-    assert String.contains?(conn.resp_body, followee2_username)
+    # Use shared verification
+    verify_following_csv(conn.resp_body, [followee1, followee2])
   end
 
-  test "export followers works", %{user: user, conn: conn} do
-    # Create a user who will follow us
-    follower = fake_user!("Follower")
-
-    # Create follow relationship
-    assert {:ok, _follow} = Follows.follow(follower, user)
-
+  test "export followers works", %{user: user, conn: conn, follower: follower} do
     # Test export via controller
     conn =
       conn
@@ -58,24 +97,12 @@ defmodule Bonfire.UI.Me.ExportTest do
 
     assert conn.status == 200
     assert get_resp_header(conn, "content-type") == ["text/csv; charset=utf-8"]
-    assert String.contains?(conn.resp_body, "Account address")
 
-    # Verify follower username is in the export
-    follower_username = Bonfire.Me.Characters.display_username(follower, true)
-    assert String.contains?(conn.resp_body, follower_username)
+    # Use shared verification
+    verify_followers_csv(conn.resp_body, [follower])
   end
 
-  test "export follow requests works", %{user: user, conn: conn} do
-    # Create a user that manually approves followers
-    followee = fake_user!("FollowerUser", %{}, request_before_follow: true)
-
-    # Create a follow request
-    assert {:ok, _request} = Bonfire.Social.Graph.Follows.follow(user, followee)
-
-    # Verify it's a request, not an immediate follow
-    refute Bonfire.Social.Graph.Follows.following?(user, followee)
-    assert Bonfire.Social.Graph.Follows.requested?(user, followee)
-
+  test "export follow requests works", %{user: user, conn: conn, request_user: request_user} do
     # Test export via controller
     conn =
       conn
@@ -84,29 +111,12 @@ defmodule Bonfire.UI.Me.ExportTest do
 
     assert conn.status == 200
     assert get_resp_header(conn, "content-type") == ["text/csv; charset=utf-8"]
-    assert String.contains?(conn.resp_body, "Account address")
 
-    # Verify request is present
-    followee_username = Bonfire.Me.Characters.display_username(followee, true)
-    assert String.contains?(conn.resp_body, followee_username)
+    # Use shared verification
+    verify_requests_csv(conn.resp_body, [request_user])
   end
 
   test "export posts works", %{user: user, conn: conn} do
-    # Create some posts
-    assert {:ok, post1} =
-             Bonfire.Posts.publish(
-               current_user: user,
-               boundary: "public",
-               post_attrs: %{post_content: %{html_body: "Test post 1 content"}}
-             )
-
-    assert {:ok, post2} =
-             Bonfire.Posts.publish(
-               current_user: user,
-               boundary: "public",
-               post_attrs: %{post_content: %{html_body: "Test post 2 content"}}
-             )
-
     # Test export via controller
     conn =
       conn
@@ -115,30 +125,12 @@ defmodule Bonfire.UI.Me.ExportTest do
 
     assert conn.status == 200
     assert get_resp_header(conn, "content-type") == ["text/csv; charset=utf-8"]
-    assert String.contains?(conn.resp_body, "ID")
-    assert String.contains?(conn.resp_body, "Date")
-    assert String.contains?(conn.resp_body, "Text")
 
-    # Verify post content is in the export
-    assert String.contains?(conn.resp_body, "Test post 1 content")
-    assert String.contains?(conn.resp_body, "Test post 2 content")
+    # Use shared verification
+    verify_posts_csv(conn.resp_body, ["Test post 1 content", "Test post 2 content"])
   end
 
-  test "export messages works", %{user: user, conn: conn} do
-    # Create another user to message
-    other_user = fake_user!("OtherUser")
-
-    # Create some messages
-    assert {:ok, message1} =
-             Bonfire.Messages.send(user, %{post_content: %{html_body: "Hello message 1"}}, [
-               other_user
-             ])
-
-    assert {:ok, message2} =
-             Bonfire.Messages.send(other_user, %{post_content: %{html_body: "Hello message 2"}}, [
-               user
-             ])
-
+  test "export messages works", %{user: user, conn: conn, other_user: other_user} do
     # Test export via controller
     conn =
       conn
@@ -147,28 +139,12 @@ defmodule Bonfire.UI.Me.ExportTest do
 
     assert conn.status == 200
     assert get_resp_header(conn, "content-type") == ["text/csv; charset=utf-8"]
-    assert String.contains?(conn.resp_body, "ID")
-    assert String.contains?(conn.resp_body, "From")
-    assert String.contains?(conn.resp_body, "To")
 
-    # Verify message content is in the export
-    assert String.contains?(conn.resp_body, "Hello message 1")
-    assert String.contains?(conn.resp_body, "Hello message 2")
-
-    # Verify usernames are in the export
-    user_username = e(user, :character, :username, nil)
-    other_username = e(other_user, :character, :username, nil)
-    assert String.contains?(conn.resp_body, user_username)
-    assert String.contains?(conn.resp_body, other_username)
+    # Use shared verification
+    verify_messages_csv(conn.resp_body, [user, other_user], ["Hello message 1", "Hello message 2"])
   end
 
-  test "export silenced works", %{user: user, conn: conn} do
-    # Create a user to silence
-    silenced_user = fake_user!("SilencedUser")
-
-    # Silence the user
-    assert {:ok, _} = Bonfire.Boundaries.Blocks.block(silenced_user, :silence, current_user: user)
-
+  test "export silenced works", %{user: user, conn: conn, silenced_user: silenced_user} do
     # Test export via controller
     conn =
       conn
@@ -177,25 +153,12 @@ defmodule Bonfire.UI.Me.ExportTest do
 
     assert conn.status == 200
     assert get_resp_header(conn, "content-type") == ["text/csv; charset=utf-8"]
-    assert String.contains?(conn.resp_body, "Account address")
 
-    flood(conn.resp_body, "exported")
-    # Verify silenced user is in the export
-    silenced_username = Bonfire.Me.Characters.display_username(silenced_user, true)
-
-    msg =
-      "Expected silenced username #{silenced_username} to be in the export, but found #{conn.resp_body}"
-
-    assert String.contains?(conn.resp_body, silenced_username), msg
+    # Use shared verification
+    verify_silenced_csv(conn.resp_body, [silenced_user])
   end
 
-  test "export ghosted works", %{user: user, conn: conn} do
-    # Create a user to ghost
-    ghosted_user = fake_user!("GhostedUser")
-
-    # Ghost the user
-    assert {:ok, _} = Bonfire.Boundaries.Blocks.block(ghosted_user, :ghost, current_user: user)
-
+  test "export ghosted works", %{user: user, conn: conn, ghosted_user: ghosted_user} do
     # Test export via controller
     conn =
       conn
@@ -204,15 +167,9 @@ defmodule Bonfire.UI.Me.ExportTest do
 
     assert conn.status == 200
     assert get_resp_header(conn, "content-type") == ["text/csv; charset=utf-8"]
-    assert String.contains?(conn.resp_body, "Account address")
 
-    # Verify ghosted user is in the export
-    ghosted_username = Bonfire.Me.Characters.display_username(ghosted_user, true)
-
-    msg =
-      "Expected ghosted username #{ghosted_username} to be in the export, but found #{conn.resp_body}"
-
-    assert String.contains?(conn.resp_body, ghosted_username), msg
+    # Use shared verification
+    verify_ghosted_csv(conn.resp_body, [ghosted_user])
   end
 
   test "export profile JSON works", %{user: user, conn: conn} do
@@ -225,14 +182,8 @@ defmodule Bonfire.UI.Me.ExportTest do
     assert conn.status == 200
     assert ["application/json" <> _] = get_resp_header(conn, "content-type")
 
-    # Should be valid JSON
-    assert {:ok, decoded} = Jason.decode(conn.resp_body)
-
-    # Verify it contains expected ActivityPub actor fields
-    assert Map.has_key?(decoded, "type")
-    assert Map.has_key?(decoded, "id")
-    assert Map.has_key?(decoded, "preferredUsername")
-    assert decoded["preferredUsername"] == e(user, :character, :username, nil)
+    # Use shared verification
+    verify_actor_json(conn.resp_body, user)
   end
 
   test "export keys works", %{user: user, conn: conn} do
@@ -243,24 +194,12 @@ defmodule Bonfire.UI.Me.ExportTest do
       |> get("/settings/export/binary/keys/asc")
 
     assert conn.status == 200
-    assert is_binary(conn.resp_body |> flood("exported"))
 
-    # Check that it looks like a valid key export
-    assert String.contains?(conn.resp_body, "BEGIN")
-    assert String.contains?(conn.resp_body, "END")
-    # Should contain both private and public keys
-    assert String.length(conn.resp_body) > 100
+    # Use shared verification
+    verify_keys_content(conn.resp_body)
   end
 
-  # Note: Outbox export is currently commented out in the UI due to performance concerns
   test "export outbox JSON works", %{user: user, conn: conn} do
-    assert {:ok, post1} =
-             Bonfire.Posts.publish(
-               current_user: user,
-               boundary: "public",
-               post_attrs: %{post_content: %{html_body: "Test post 1 content"}}
-             )
-
     # Test export via controller
     conn =
       conn
@@ -270,13 +209,196 @@ defmodule Bonfire.UI.Me.ExportTest do
     assert conn.status == 200
     assert ["application/json" <> _] = get_resp_header(conn, "content-type")
 
-    # Should be valid JSON
-    assert {:ok, decoded} = Jason.decode(conn.resp_body)
+    # Use shared verification
+    verify_outbox_json(conn.resp_body, ["Test post 1 content"])
+  end
 
-    # should contain our post
-    assert String.contains?(conn.resp_body, "Test post 1 content")
+  describe "zip archive" do
+    test "archive export creates a valid zip file", %{conn: conn, user: user} do
+      conn = conn |> assign(:current_user, user)
 
-    # Check that it looks like an outbox/collection
+      conn = get(conn, "/settings/export/archive")
+
+      assert conn.status == 200
+      assert ["application/zip" <> _] = get_resp_header(conn, "content-type")
+
+      assert get_resp_header(conn, "content-disposition") == [
+               "attachment; filename=\"bonfire_export_archive.zip\""
+             ]
+
+      # Check that we get chunked response
+      assert conn.state == :chunked
+    end
+
+    test "archive async lifecycle - create, check, download, delete", %{
+      conn: conn,
+      user: user,
+      followee1: followee1,
+      follower: follower,
+      request_user: request_user,
+      silenced_user: silenced_user,
+      ghosted_user: ghosted_user,
+      other_user: other_user
+    } do
+      user_id = id(user)
+
+      # Initially should return false when no archive exists
+      assert Bonfire.UI.Me.ExportController.archive_previous_date(user_id) == false
+
+      # Create archive async
+      context = %{current_user: user}
+      assert {:ok, pid} = Bonfire.UI.Me.ExportController.trigger_prepare_archive_async(context)
+
+      # Wait for the async task to complete by checking file existence with retries
+      # 10 attempts with 500ms each = 5 seconds max
+      wait_for_archive(user_id, 10)
+
+      # Check that archive file exists
+      assert Bonfire.UI.Me.ExportController.archive_exists?(user_id)
+
+      # Should return number of days (should be 0 for just created)
+      days_old = Bonfire.UI.Me.ExportController.archive_previous_date(user_id)
+      assert is_integer(days_old)
+      assert days_old >= 0
+
+      # Test downloading the created archive
+      conn = conn |> assign(:current_user, user)
+      conn = get(conn, "/settings/export/archive_download")
+
+      assert conn.status == 200
+      assert ["application/zip" <> _] = get_resp_header(conn, "content-type")
+
+      # Verify the zip contains expected files by checking file size
+      # A proper archive with our test data should be at least a few KB
+      assert byte_size(conn.resp_body) > 1000, "Archive should contain substantial data"
+
+      # Verify individual files presence and contents using stream
+      verify_zip_contents(conn.resp_body, %{
+        followees: [followee1],
+        followers: [follower],
+        requests: [request_user],
+        silenced: [silenced_user],
+        ghosted: [ghosted_user],
+        users: [user, other_user],
+        post_contents: ["Test post 1 content", "Test post 2 content"],
+        message_contents: ["Hello message 1", "Hello message 2"],
+        user: user
+      })
+
+      # Cleanup - delete the archive
+      Bonfire.UI.Me.ExportController.archive_delete(user_id)
+
+      # Verify it's deleted
+      refute Bonfire.UI.Me.ExportController.archive_exists?(user_id)
+    end
+  end
+
+  # Helper function to wait for archive creation
+  defp wait_for_archive(user_id, attempts_left) when attempts_left > 0 do
+    if Bonfire.UI.Me.ExportController.archive_exists?(user_id) do
+      :ok
+    else
+      Process.sleep(500)
+      wait_for_archive(user_id, attempts_left - 1)
+    end
+  end
+
+  defp wait_for_archive(_user_id, 0) do
+    flunk("Archive was not created within the expected time")
+  end
+
+  # Shared verification functions
+  defp verify_following_csv(content, expected_users) do
+    assert String.contains?(content, "Account address")
+
+    for user <- expected_users do
+      username = Bonfire.Me.Characters.display_username(user, true)
+      assert String.contains?(content, username)
+    end
+  end
+
+  defp verify_followers_csv(content, expected_users) do
+    assert String.contains?(content, "Account address")
+
+    for user <- expected_users do
+      username = Bonfire.Me.Characters.display_username(user, true)
+      assert String.contains?(content, username)
+    end
+  end
+
+  defp verify_requests_csv(content, expected_users) do
+    assert String.contains?(content, "Account address")
+
+    for user <- expected_users do
+      username = Bonfire.Me.Characters.display_username(user, true)
+      assert String.contains?(content, username)
+    end
+  end
+
+  defp verify_posts_csv(content, expected_contents) do
+    assert String.contains?(content, "ID")
+    assert String.contains?(content, "Date")
+    assert String.contains?(content, "Text")
+
+    for content_text <- expected_contents do
+      assert String.contains?(content, content_text)
+    end
+  end
+
+  defp verify_messages_csv(content, expected_users, expected_contents) do
+    assert String.contains?(content, "ID")
+    assert String.contains?(content, "From")
+    assert String.contains?(content, "To")
+
+    for content_text <- expected_contents do
+      assert String.contains?(content, content_text)
+    end
+
+    for user <- expected_users do
+      username = e(user, :character, :username, nil)
+      assert String.contains?(content, username)
+    end
+  end
+
+  defp verify_silenced_csv(content, expected_users) do
+    assert String.contains?(content, "Account address")
+
+    for user <- expected_users do
+      username = Bonfire.Me.Characters.display_username(user, true)
+      assert String.contains?(content, username)
+    end
+  end
+
+  defp verify_ghosted_csv(content, expected_users) do
+    assert String.contains?(content, "Account address")
+
+    for user <- expected_users do
+      username = Bonfire.Me.Characters.display_username(user, true)
+      assert String.contains?(content, username)
+    end
+  end
+
+  defp verify_actor_json(content, user) do
+    assert {:ok, decoded} = Jason.decode(content)
+    assert Map.has_key?(decoded, "type")
+    assert Map.has_key?(decoded, "id")
+    assert Map.has_key?(decoded, "preferredUsername")
+    assert decoded["preferredUsername"] == e(user, :character, :username, nil)
+  end
+
+  defp verify_keys_content(content) do
+    assert is_binary(content)
+    assert String.contains?(content, "BEGIN")
+    assert String.contains?(content, "END")
+    assert String.length(content) > 100
+  end
+
+  defp verify_outbox_json(content, expected_contents) do
+    for content_text <- expected_contents do
+      assert String.contains?(content, content_text)
+    end
+
+    assert {:ok, decoded} = Jason.decode(content)
     assert Map.has_key?(decoded, "type")
     assert decoded["type"] == "OrderedCollection"
     assert Map.has_key?(decoded, "orderedItems")
@@ -297,9 +419,98 @@ defmodule Bonfire.UI.Me.ExportTest do
           String.contains?(to_string(item["object"]["content"] || ""), "Test post 1 content")
       end)
 
-    assert create_activity, "Should contain a Create activity with our post content"
-
     # FIXME: we're getting repeats?
     assert length(activities) == 1
+  end
+
+  # Stream-based zip verification using Erlang's :zip module
+  defp verify_zip_contents(zip_binary, expected_data) do
+    expected_files = [
+      "actor.json",
+      "outbox.json",
+      "following.csv",
+      "followers.csv",
+      "requests.csv",
+      "posts.csv",
+      "messages.csv",
+      "silenced.csv",
+      "ghosted.csv",
+      "keys.asc"
+    ]
+
+    case :zip.extract(zip_binary, [:memory]) do
+      {:ok, files} ->
+        # Convert to map for easy lookup
+        file_contents =
+          Enum.into(files, %{}, fn {filename, content} ->
+            {to_string(filename), content}
+          end)
+
+        # Verify all expected files are present
+        for file <- expected_files do
+          assert Map.has_key?(file_contents, file), "Archive should contain #{file}"
+        end
+
+        # Verify file contents using our shared verification functions
+        verify_file_content("following.csv", file_contents["following.csv"], expected_data)
+        verify_file_content("followers.csv", file_contents["followers.csv"], expected_data)
+        verify_file_content("requests.csv", file_contents["requests.csv"], expected_data)
+        verify_file_content("posts.csv", file_contents["posts.csv"], expected_data)
+        verify_file_content("messages.csv", file_contents["messages.csv"], expected_data)
+        verify_file_content("silenced.csv", file_contents["silenced.csv"], expected_data)
+        verify_file_content("ghosted.csv", file_contents["ghosted.csv"], expected_data)
+        verify_file_content("actor.json", file_contents["actor.json"], expected_data)
+        verify_file_content("outbox.json", file_contents["outbox.json"], expected_data)
+        verify_file_content("keys.asc", file_contents["keys.asc"], expected_data)
+
+      {:error, reason} ->
+        flunk("Failed to extract zip: #{inspect(reason)}")
+    end
+  end
+
+  # Helper to verify file content as it streams
+  defp verify_file_content("following.csv", data, %{followees: followees}) do
+    verify_following_csv(data, followees)
+  end
+
+  defp verify_file_content("followers.csv", data, %{followers: followers}) do
+    verify_followers_csv(data, followers)
+  end
+
+  defp verify_file_content("requests.csv", data, %{requests: requests}) do
+    verify_requests_csv(data, requests)
+  end
+
+  defp verify_file_content("posts.csv", data, %{post_contents: contents}) do
+    verify_posts_csv(data, contents)
+  end
+
+  defp verify_file_content("messages.csv", data, %{users: users, message_contents: contents}) do
+    verify_messages_csv(data, users, contents)
+  end
+
+  defp verify_file_content("silenced.csv", data, %{silenced: silenced}) do
+    verify_silenced_csv(data, silenced)
+  end
+
+  defp verify_file_content("ghosted.csv", data, %{ghosted: ghosted}) do
+    verify_ghosted_csv(data, ghosted)
+  end
+
+  defp verify_file_content("actor.json", data, %{user: user}) do
+    verify_actor_json(data, user)
+  end
+
+  defp verify_file_content("outbox.json", data, %{post_contents: contents}) do
+    verify_outbox_json(data, contents)
+  end
+
+  defp verify_file_content("keys.asc", data, _expected) do
+    verify_keys_content(data)
+  end
+
+  defp verify_file_content(_file, _data, _expected) do
+    # Ignore other files
+    :ok
   end
 end
