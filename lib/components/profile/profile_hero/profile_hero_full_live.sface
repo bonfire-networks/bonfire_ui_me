@@ -209,7 +209,7 @@
                   />
 
                   <StatelessComponent
-                    module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicatorLive, @__context__)}
+                    module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicator, @__context__)}
                     object={@user}
                     user={@user}
                     is_local_user={@is_local?}

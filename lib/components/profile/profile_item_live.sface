@@ -98,7 +98,7 @@
   </div>
   <div class="flex gap-2 items-center">
     <button
-      :if={:accept in @show_controls}
+      :if={:accept in @show_controls and @activity_id}
       :on-click="Bonfire.Social.Graph.Follows:accept"
       phx-value-id={id(@activity_id)}
       type="button"
@@ -107,26 +107,35 @@
       {l("Accept")}
     </button>
 
-    <StatefulComponent
-      module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
-      :if={:follow in @show_controls && id(@profile) &&
+    {#if id(@profile) && current_user_id(@__context__) &&
         current_user_id(@__context__) != id(@profile)}
-      id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile), __MODULE__)}
-      object_id={id(@profile)}
-      path={path(@character)}
-      hide_icon
-      class={@class}
-      container_class="flex items-center gap-2"
-    />
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+        :if={:follow in @show_controls}
+        id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile), @parent_id)}
+        object_id={id(@profile)}
+        path={path(@character)}
+        hide_icon
+        class={@class}
+        container_class="flex items-center gap-2"
+      />
 
-    <StatelessComponent
-      module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @parent_id)}
-      :if={(:add_to_circles in @show_controls and current_user_id(@__context__)) && id(@profile) &&
-        current_user_id(@__context__) != id(@profile)}
-      user_id={id(@profile)}
-      parent_id={"profile_item_add_to_circles_#{@parent_id}_#{id(@profile)}"}
-      hide_icon
-    />
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
+        :if={:add_to_circles in @show_controls}
+        user_id={id(@profile)}
+        parent_id={"profile_item_add_to_circles_#{@parent_id}_#{id(@profile)}"}
+        hide_icon
+      />
+
+      <StatefulComponent
+        id={"profile_item_block_indicator_#{@parent_id}_#{id(@profile)}"}
+        :if={:blocks in @show_controls}
+        module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicatorLive, @__context__)}
+        user={@character}
+        is_local_user={@is_remote? == false}
+      />
+    {/if}
 
     <#slot />
   </div>
