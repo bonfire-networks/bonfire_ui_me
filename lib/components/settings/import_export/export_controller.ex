@@ -247,28 +247,35 @@ defmodule Bonfire.UI.Me.ExportController do
 
     user = current_user(conn_or_user)
 
-    # feed_id = Bonfire.Social.Feeds.feed_id(:outbox, user)
-    # |> debug("outbox feed")
+    feed_id =
+      Bonfire.Social.Feeds.feed_id(:outbox, user)
+      |> flood("outbox feed")
 
-    Bonfire.Social.FeedActivities.feed(
-      :user_activities,
+    Bonfire.Social.FeedLoader.feed_filtered(
+      # :user_activities,
+      feed_id,
+      %{exclude_activity_types: [], exclude_object_types: [], exclude_verb_ids: []},
       opts
       |> Keyword.merge(
         current_user: user,
-        by: user,
+        # by: user,
         paginate: false,
         preload: [],
-        select_only_activity_id: true,
+        query_with_deferred_join: false,
+        # select_only_activity_id: true,
         exclude_activity_types: [],
         exclude_object_types: [],
         exclude_verb_ids: [],
         return: :stream,
         stream_callback: fn stream ->
+          stream
+          |> flood("outbox stream")
+
           stream_callback("outbox", stream, conn_or_user)
         end
       )
     )
-    |> debug("outbox res")
+    |> flood("outbox res")
   end
 
   def thread(current_user, opts \\ []) do
@@ -578,11 +585,11 @@ defmodule Bonfire.UI.Me.ExportController do
 
   defp prepare_rows(type, %Stream{} = stream) when type in ["outbox", "collection"] do
     stream
-    |> Enum.map(&prepare_record_json(type, &1))
+    |> Enum.map(&prepare_record_json(type, &1 |> preload_assocs(type)))
   end
 
   defp prepare_rows(type, record) when type in ["outbox", "collection"] do
-    prepare_record_json(type, record)
+    prepare_record_json(type, record |> preload_assocs(type))
   end
 
   defp prepare_rows(type, records) when is_list(records) do
@@ -628,9 +635,9 @@ defmodule Bonfire.UI.Me.ExportController do
     |> repo().preload(edge: [:object])
   end
 
-  #   defp preload_assocs(records, type) when type in ["outbox"] do
-  #     records |> repo().preload([:activity])
-  #   end
+  defp preload_assocs(records, type) when type in ["outbox"] do
+    records |> repo().preload([:activity])
+  end
 
   defp preload_assocs(records, _type) do
     records
@@ -724,26 +731,49 @@ defmodule Bonfire.UI.Me.ExportController do
     [e(record, :circle, nil), e(record, :member, nil)]
   end
 
-  defp prepare_record_json(type \\ nil, record_or_id) do
-    with {:ok, json} <- object_json(id(record_or_id), true) do
-      # add trailing comma 
-      """
-      #{json},
-      """
-    else
+  defp prepare_record_json(_type \\ nil, record) do
+    case object_json(record, true) do
+      {:ok, json} ->
+        """
+        #{json},
+        """
+
       _ ->
         ""
     end
     |> debug("jsoon")
   end
 
-  def object_json(record_or_id, skip_json_context_header \\ false) do
-    ActivityPub.Web.ActivityPubController.json_object_with_cache(nil, id(record_or_id),
+  def object_json(record, skip_json_context_header \\ false) do
+    flood(record, "an_act")
+
+    cond do
+      e(record, :activity, :verb_id, nil) == "4REATE0RP0STBRANDNEW0BJECT" ->
+        # Get the object from the activity, then get its AP ID, then find the corresponding ActivityPub Create activity
+
+        with {:ok, object} <- ActivityPub.Object.get_cached(pointer: record),
+             ap_object_id when is_binary(ap_object_id) <- e(object, :data, "id", nil),
+             ap_activity when not is_nil(ap_activity) <-
+               ActivityPub.Object.get_activity_for_object_ap_id(ap_object_id, "Create") do
+          do_object_json(ap_activity, skip_json_context_header)
+        else
+          e ->
+            err(e)
+            do_object_json(id(record), skip_json_context_header)
+        end
+
+      true ->
+        do_object_json(id(record), skip_json_context_header)
+    end
+
+    # |> debug("jssson")
+  end
+
+  defp do_object_json(activity, skip_json_context_header \\ false) do
+    ActivityPub.Web.ActivityPubController.json_object_with_cache(nil, activity,
       exporting: true,
       skip_json_context_header: skip_json_context_header
     )
-
-    # |> debug("jssson")
   end
 
   defp prepare_csv(records) do
