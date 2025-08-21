@@ -35,14 +35,14 @@
               </div>
 
               <div class="absolute right-3 bottom-3 flex gap-2">
-                <div class="p-4 px-2 rounded-lg bg-neutral/70 backdrop-blur-sm text-neutral-content text-sm">
+                <div class="">
                   <StatelessComponent
                     module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicator, @__context__)}
                     user={@user}
                     follows_me={@follows_me}
                   />
                 </div>
-                <div class="px-2 p-1 rounded-lg bg-neutral/70 backdrop-blur-sm">
+                <div class="">
                   <StatelessComponent
                     module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicator, @__context__)}
                     object={@user}
