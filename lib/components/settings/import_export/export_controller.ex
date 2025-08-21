@@ -126,7 +126,8 @@ defmodule Bonfire.UI.Me.ExportController do
         Zstream.entry("followers.csv", csv_with_headers(user, "followers")),
         Zstream.entry("posts.csv", csv_with_headers(user, "posts")),
         Zstream.entry("messages.csv", csv_with_headers(user, "messages")),
-        Zstream.entry("bookmarks.csv", csv_content(user, "bookmarks")),
+        Zstream.entry("bookmarks.csv", ok_unwrap(csv_content(user, "bookmarks"))),
+        Zstream.entry("circles.csv", ok_unwrap(csv_content(user, "circles"))),
         Zstream.entry("ghosted.csv", csv_with_headers(user, "ghosted")),
         Zstream.entry("silenced.csv", csv_with_headers(user, "silenced")),
         Zstream.entry("keys.asc", [keys(user)])
@@ -514,7 +515,32 @@ defmodule Bonfire.UI.Me.ExportController do
     |> maybe_chunk(conn, ...)
   end
 
-  defp csv_content(conn, type, _opts) do
+  defp csv_content(conn, "circles" = type, _opts) do
+    current_user = current_user_required!(conn)
+
+    # TODO: only load the assocs/fields we need
+    # Get all circles and their members, then flatten for direct processing (like blocks)
+    circles = Bonfire.Boundaries.Circles.list_my(current_user, exclude_stereotypes: true)
+
+    all_memberships =
+      Enum.flat_map(circles, fn circle ->
+        members = Bonfire.Boundaries.Circles.list_members(circle, paginate: false)
+
+        Enum.map(members, fn member ->
+          %{
+            circle: e(circle, :named, :name, nil) || "Unnamed Circle",
+            member: Bonfire.Me.Characters.display_username(e(member, :subject, nil), true)
+          }
+        end)
+      end)
+
+    # Process directly like blocks export does
+    all_memberships
+    |> prepare_rows(type, ...)
+    |> maybe_chunk(conn, ...)
+  end
+
+  defp csv_content(conn, type, opts) do
     err(type, "CSV export type not implemented")
     conn
   end
@@ -692,6 +718,10 @@ defmodule Bonfire.UI.Me.ExportController do
       # e(bookmarked_object, :created, :creator, :character, :username, nil),
       # e(bookmarked_object, :post_content, :html_body, nil)
     ]
+  end
+
+  defp prepare_record(type, record) when type in ["circles"] do
+    [e(record, :circle, nil), e(record, :member, nil)]
   end
 
   defp prepare_record_json(type \\ nil, record_or_id) do
