@@ -64,6 +64,18 @@ defmodule Bonfire.UI.Me.ExportTest do
     assert {:ok, _} = Bonfire.Boundaries.Blocks.block(silenced_user, :silence, current_user: me)
     assert {:ok, _} = Bonfire.Boundaries.Blocks.block(ghosted_user, :ghost, current_user: me)
 
+    # Create bookmarks
+    assert {:ok, _bookmark1} = Bonfire.Social.Bookmarks.bookmark(me, post1)
+    assert {:ok, _bookmark2} = Bonfire.Social.Bookmarks.bookmark(me, post2)
+
+    # Create circles and add members
+    {:ok, circle1} = Bonfire.Boundaries.Circles.create(me, "Friends")
+    {:ok, circle2} = Bonfire.Boundaries.Circles.create(me, "Work")
+
+    assert {:ok, _} = Bonfire.Boundaries.Circles.add_to_circles(followee1, circle1)
+    assert {:ok, _} = Bonfire.Boundaries.Circles.add_to_circles(followee2, circle1)
+    assert {:ok, _} = Bonfire.Boundaries.Circles.add_to_circles(other_user, circle2)
+
     {:ok,
      conn: conn,
      account: account,
@@ -76,7 +88,11 @@ defmodule Bonfire.UI.Me.ExportTest do
      ghosted_user: ghosted_user,
      request_user: request_user,
      profile_media: profile_media,
-     attachment_media: attachment_media}
+     attachment_media: attachment_media,
+     post1: post1,
+     post2: post2,
+     circle1: circle1,
+     circle2: circle2}
   end
 
   test "export following works", %{
@@ -244,13 +260,18 @@ defmodule Bonfire.UI.Me.ExportTest do
       conn: conn,
       user: user,
       followee1: followee1,
+      followee2: followee2,
       follower: follower,
       request_user: request_user,
       silenced_user: silenced_user,
       ghosted_user: ghosted_user,
       other_user: other_user,
       profile_media: profile_media,
-      attachment_media: attachment_media
+      attachment_media: attachment_media,
+      post1: post1,
+      post2: post2,
+      circle1: circle1,
+      circle2: circle2
     } do
       user_id = id(user)
 
@@ -294,6 +315,8 @@ defmodule Bonfire.UI.Me.ExportTest do
         users: [user, other_user],
         post_contents: ["Test post 1 content", "Test post 2 content"],
         message_contents: ["Hello message 1", "Hello message 2"],
+        bookmarks: [post1, post2],
+        circles: [{circle1, [followee1, followee2]}, {circle2, [other_user]}],
         user: user,
         media_files: [profile_media, attachment_media]
       })
@@ -443,15 +466,17 @@ defmodule Bonfire.UI.Me.ExportTest do
   defp verify_zip_contents(zip_binary, expected_data) do
     expected_files = [
       "actor.json",
-      "outbox.json",
       "following.csv",
       "followers.csv",
       "requests.csv",
       "posts.csv",
       "messages.csv",
+      "bookmarks.csv",
+      "circles.csv",
       "silenced.csv",
       "ghosted.csv",
-      "keys.asc"
+      "keys.asc",
+      "outbox.json"
     ]
 
     case :zip.extract(zip_binary, [:memory]) do
@@ -531,8 +556,37 @@ defmodule Bonfire.UI.Me.ExportTest do
     verify_keys_content(data)
   end
 
+  defp verify_file_content("bookmarks.csv", data, %{bookmarks: bookmarks}) do
+    verify_bookmarks_csv(data, bookmarks)
+  end
+
+  defp verify_file_content("circles.csv", data, %{circles: circles}) do
+    verify_circles_csv(data, circles)
+  end
+
   defp verify_file_content(_file, _data, _expected) do
     # Ignore other files
     :ok
+  end
+
+  # Add verification functions for bookmarks and circles
+  defp verify_bookmarks_csv(content, expected_bookmarks) do
+    # Bookmarks CSV has no headers, just URLs
+    for bookmark <- expected_bookmarks do
+      bookmark_url = URIs.canonical_url(bookmark)
+      assert String.contains?(content, bookmark_url)
+    end
+  end
+
+  defp verify_circles_csv(content, expected_circles) do
+    # Circles CSV has no headers, format: circle_name,username
+    for {circle, members} <- expected_circles do
+      circle_name = e(circle, :named, :name, nil)
+
+      for member <- members do
+        username = Bonfire.Me.Characters.display_username(member, true)
+        assert String.contains?(content, "#{circle_name},#{username}")
+      end
+    end
   end
 end

@@ -103,6 +103,17 @@
             </a></td>
         </tr>
         <tr>
+          <td>Circles</td>
+          <td><a
+              download
+              href="/settings/export/csv/circles"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case  gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>CSV</span>
+            </a></td>
+        </tr>
+        <tr>
           <td>Silenced</td>
           {!-- <td>23</td> --}
           <td><a
