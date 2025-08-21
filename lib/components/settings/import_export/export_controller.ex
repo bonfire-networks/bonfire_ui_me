@@ -116,7 +116,6 @@ defmodule Bonfire.UI.Me.ExportController do
     Zstream.zip(
       [
         Zstream.entry("actor.json", [actor(user)]),
-        # WIP: optimise AP-based export
         Zstream.entry("outbox.json", [
           collection_header("outbox"),
           ok_unwrap(outbox(user)),
@@ -127,6 +126,7 @@ defmodule Bonfire.UI.Me.ExportController do
         Zstream.entry("followers.csv", csv_with_headers(user, "followers")),
         Zstream.entry("posts.csv", csv_with_headers(user, "posts")),
         Zstream.entry("messages.csv", csv_with_headers(user, "messages")),
+        Zstream.entry("bookmarks.csv", csv_content(user, "bookmarks")),
         Zstream.entry("ghosted.csv", csv_with_headers(user, "ghosted")),
         Zstream.entry("silenced.csv", csv_with_headers(user, "silenced")),
         Zstream.entry("keys.asc", [keys(user)])
@@ -318,7 +318,9 @@ defmodule Bonfire.UI.Me.ExportController do
   defp csv_header_for_type("requests"), do: ["Account address"]
   defp csv_header_for_type("posts"), do: ["ID", "Date", "CW", "Summary", "Text"]
   defp csv_header_for_type("messages"), do: ["ID", "Date", "From", "To", "CW", "Summary", "Text"]
-  defp csv_header_for_type(type) when type in ["silenced", "ghosted"], do: ["Account address"]
+  # defp csv_header_for_type("bookmarks"), do: ["URI"] #, "Date", "Author", "Text"]
+  defp csv_header_for_type(type) when type in ["silenced", "ghosted", "blocked"],
+    do: ["Account address"]
 
   defp csv_content(conn, type, opts \\ [])
 
@@ -398,6 +400,34 @@ defmodule Bonfire.UI.Me.ExportController do
     )
   end
 
+  defp csv_content(conn, "bookmarks" = type, _opts) do
+    current_user = current_user_required!(conn)
+
+    # no headers
+    # fields = csv_header_for_type(type)
+    # {:ok, conn} =
+    #   if is_struct(conn, Plug.Conn) do
+    #     maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+    #   end || {:ok, conn}
+
+    Utils.maybe_apply(
+      Bonfire.Social.Bookmarks,
+      :list_by,
+      [
+        current_user,
+        [
+          current_user: current_user,
+          paginate: false,
+          return: :stream,
+          stream_callback: fn stream ->
+            stream_callback(type, stream, conn)
+          end
+        ]
+      ],
+      fallback_return: []
+    )
+  end
+
   defp csv_content(conn, "posts" = type, _opts) do
     fields = csv_header_for_type(type)
     current_user = current_user_required!(conn)
@@ -453,10 +483,16 @@ defmodule Bonfire.UI.Me.ExportController do
     # |> IO.inspect(label: "msgs")
   end
 
-  defp csv_content(conn, type, opts) when type in ["silenced", "ghosted"] do
+  defp csv_content(conn, type, opts) when type in ["silenced", "ghosted", "blocked"] do
     fields = csv_header_for_type(type)
     current_user = current_user_required!(conn)
-    block_type = if type == "ghosted", do: :ghost, else: :silence
+
+    block_type =
+      case type do
+        "ghosted" -> :ghost
+        "silenced" -> :silence
+        "blocked" -> [:ghost, :silence]
+      end
 
     {:ok, conn} =
       if is_struct(conn, Plug.Conn) do
@@ -560,9 +596,16 @@ defmodule Bonfire.UI.Me.ExportController do
     records |> repo().preload([:post_content, :peered])
   end
 
+  defp preload_assocs(records, type) when type in ["bookmarks"] do
+    records
+    # object: [:post_content, :created]])
+    |> repo().preload(edge: [:object])
+  end
+
   #   defp preload_assocs(records, type) when type in ["outbox"] do
   #     records |> repo().preload([:activity])
   #   end
+
   defp preload_assocs(records, _type) do
     records
   end
@@ -633,6 +676,21 @@ defmodule Bonfire.UI.Me.ExportController do
       e(msg, :name, nil),
       e(msg, :summary, nil),
       e(msg, :html_body, nil)
+    ]
+  end
+
+  defp prepare_record(type, record) when type in ["bookmarks"] do
+    record =
+      record
+      |> preload_assocs(type)
+
+    record = e(record, :edge, :object, nil) || record
+
+    [
+      URIs.canonical_url(record)
+      # DatesTimes.date_from_pointer(bookmarked_object),
+      # e(bookmarked_object, :created, :creator, :character, :username, nil),
+      # e(bookmarked_object, :post_content, :html_body, nil)
     ]
   end
 
