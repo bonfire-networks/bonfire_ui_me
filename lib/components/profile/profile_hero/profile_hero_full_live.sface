@@ -151,7 +151,7 @@
                                   follows_me={@follows_me}
                                   path={path(@user)}
                                   hide_icon
-                                  class="btn btn-primary btn-soft"
+                                  class="btn btn-primary btn-soft btn-sm"
                                 />
                               </div>
                           {/case}
