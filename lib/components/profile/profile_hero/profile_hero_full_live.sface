@@ -33,29 +33,29 @@
                   permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
                 />
               </div>
-              {#case @follows_me}
-                {#match Bonfire.Data.Social.Request}
-                  <p
-                    data-role="follows_you"
-                    class="absolute right-3 bottom-3 px-3 p-1 rounded-lg bg-neutral/70 backdrop-blur-sm text-neutral-content text-sm"
-                  >{l("Requested to follow you")}
 
-                    <button
-                      :on-click="Bonfire.Social.Graph.Follows:accept"
-                      phx-value-user_id={id(@user)}
-                      type="button"
-                      class="normal-case border !border-primary/30 btn btn-sm btn-primary ml-2"
-                    >
-                      {l("Accept")}
-                    </button>
-                  </p>
-                {#match follow when follow in [Bonfire.Data.Social.Follow, true]}
-                  <p
-                    data-role="follows_you"
-                    class="absolute right-3 bottom-3 px-3 p-1 rounded-lg bg-neutral/70 backdrop-blur-sm text-neutral-content text-sm"
-                  >{l("Follows you")}</p>
-                {#match _}
-              {/case}
+              <div class="absolute right-3 bottom-3 flex gap-2">
+                <div class="p-4 px-2 rounded-lg bg-neutral/70 backdrop-blur-sm text-neutral-content text-sm">
+                  <StatelessComponent
+                    module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicator, @__context__)}
+                    user={@user}
+                    follows_me={@follows_me}
+                  />
+                </div>
+                <div class="px-2 p-1 rounded-lg bg-neutral/70 backdrop-blur-sm">
+                  <StatelessComponent
+                    module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicator, @__context__)}
+                    object={@user}
+                    user={@user}
+                    is_local_user={@is_local?}
+                    boundary_preset={@boundary_preset}
+                    ghosted_instance_wide?={@ghosted_instance_wide?}
+                    silenced_instance_wide?={@silenced_instance_wide?}
+                    ghosted?={@ghosted?}
+                    silenced?={@silenced?}
+                  />
+                </div>
+              </div>
             </div>
 
             <div data-id="hero_data" class="px-4">
@@ -206,18 +206,6 @@
                     members={@members}
                     moderators={@moderators}
                     aliases={@aliases}
-                  />
-
-                  <StatelessComponent
-                    module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicatorLive, @__context__)}
-                    object={@user}
-                    user={@user}
-                    is_local_user={@is_local?}
-                    boundary_preset={@boundary_preset}
-                    ghosted_instance_wide?={@ghosted_instance_wide?}
-                    silenced_instance_wide?={@silenced_instance_wide?}
-                    ghosted?={@ghosted?}
-                    silenced?={@silenced?}
                   />
                 </div>
 

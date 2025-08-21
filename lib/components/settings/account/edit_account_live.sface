@@ -63,7 +63,7 @@
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <div class="prose prose-sm text-info">
               <p>{l(
-                  "Deleting your account will remove all your data from this server. This includes all your posts, comments, and any other data associated with your account."
+                  "Deleting your account will delete all your user profiles, and remove all your data from this server. This includes all your posts, comments, and any other data associated with your account."
                 )}</p>
               <p class="aside">
                 {rich(

@@ -18,7 +18,7 @@
         <div class="flex-1 ml-3 md:justify-between">
           <div class="prose prose-sm text-info">
             <p>{l(
-                "Deleting your user will remove all associated data from this server. This includes all posts, comments, and any other data associated with this user profile. It will also send requests to delete your data to other fediverse servers."
+                "Deleting your user profile will remove all associated data from this server. This includes all posts, comments, and any other data associated with this user profile. It will also send requests to delete your data to other fediverse servers."
               )}</p>
             <p>Note: You can also delete <LinkLive class="text-info underline" to="/settings/account">your entire account</LinkLive> and all associated users instead.</p>
             <p>{l("This action cannot be undone.")}</p>

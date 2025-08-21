@@ -116,22 +116,22 @@ defmodule Bonfire.UI.Me.ExportController do
     Zstream.zip(
       [
         Zstream.entry("actor.json", [actor(user)]),
-        # TODO: optimise AP-based export
-        # Zstream.entry("outbox.json", [
-        #   collection_header("outbox"),
-        #   ok_unwrap(outbox(user)),
-        #   collection_footer()
-        # ]),
-        Zstream.entry("following.csv", ok_unwrap(csv_content(user, "following"))),
-        Zstream.entry("requests.csv", ok_unwrap(csv_content(user, "requests"))),
-        Zstream.entry("followers.csv", ok_unwrap(csv_content(user, "followers"))),
-        Zstream.entry("posts.csv", ok_unwrap(csv_content(user, "posts"))),
-        Zstream.entry("messages.csv", ok_unwrap(csv_content(user, "messages"))),
-        Zstream.entry("ghosted.csv", ok_unwrap(csv_content(user, "ghosted"))),
-        Zstream.entry("silenced.csv", ok_unwrap(csv_content(user, "silenced"))),
+        Zstream.entry("outbox.json", [
+          collection_header("outbox"),
+          ok_unwrap(outbox(user)),
+          collection_footer()
+        ]),
+        Zstream.entry("following.csv", csv_with_headers(user, "following")),
+        Zstream.entry("requests.csv", csv_with_headers(user, "requests")),
+        Zstream.entry("followers.csv", csv_with_headers(user, "followers")),
+        Zstream.entry("posts.csv", csv_with_headers(user, "posts")),
+        Zstream.entry("messages.csv", csv_with_headers(user, "messages")),
+        Zstream.entry("bookmarks.csv", csv_content(user, "bookmarks")),
+        Zstream.entry("ghosted.csv", csv_with_headers(user, "ghosted")),
+        Zstream.entry("silenced.csv", csv_with_headers(user, "silenced")),
         Zstream.entry("keys.asc", [keys(user)])
       ] ++
-        for {path, uri} <- user_media(user) do
+        for {path, uri} <- user_media(user) |> debug("user_mediaaa") do
           media_stream(path, uri, &Zstream.entry/2) || []
         end
     )
@@ -206,12 +206,19 @@ defmodule Bonfire.UI.Me.ExportController do
 
   defp json_content(conn_or_user, type, opts \\ [])
 
-  defp json_content(conn_or_user, "thread" = type, opts) when type in ["thread", "outbox"] do
-    {:ok, _conn} = maybe_chunk(conn_or_user, collection_header(type))
+  defp json_content(conn_or_user, type, opts) when type in ["thread", "outbox"] do
+    {:ok, conn_or_user} = maybe_chunk(conn_or_user, collection_header(type))
 
-    {:ok, _conn} = json_inside_content(conn_or_user, type, opts)
+    result = json_inside_content(conn_or_user, type, opts)
 
-    {:ok, _conn} = maybe_chunk(conn_or_user, collection_footer())
+    case result do
+      {:ok, conn} ->
+        {:ok, final_conn} = maybe_chunk(conn, collection_footer())
+        final_conn
+
+      other ->
+        other
+    end
   end
 
   defp json_content(conn_or_user, "actor" = _type, _opts) do
@@ -227,7 +234,7 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp binary_content(conn_or_user, "private_key" = _type) do
-    {:ok, _conn} = maybe_chunk(conn_or_user, private_key(conn_or_user))
+    {:ok, _conn} = maybe_chunk(conn_or_user, fetch_private_key(conn_or_user))
   end
 
   defp binary_content(conn_or_user, "keys" = _type) do
@@ -239,25 +246,28 @@ defmodule Bonfire.UI.Me.ExportController do
 
     user = current_user(conn_or_user)
 
-    feed_id = Bonfire.Social.Feeds.feed_id(:outbox, user)
+    # feed_id = Bonfire.Social.Feeds.feed_id(:outbox, user)
+    # |> debug("outbox feed")
 
     Bonfire.Social.FeedActivities.feed(
-      feed_id,
+      :user_activities,
       opts
       |> Keyword.merge(
+        current_user: user,
+        by: user,
         paginate: false,
         preload: [],
         select_only_activity_id: true,
-        exclude_activity_types: false,
-        exclude_object_types: false,
-        exclude_verb_ids: false,
-        current_user: user,
+        exclude_activity_types: [],
+        exclude_object_types: [],
+        exclude_verb_ids: [],
         return: :stream,
         stream_callback: fn stream ->
           stream_callback("outbox", stream, conn_or_user)
         end
       )
     )
+    |> debug("outbox res")
   end
 
   def thread(current_user, opts \\ []) do
@@ -295,15 +305,33 @@ defmodule Bonfire.UI.Me.ExportController do
     end
   end
 
+  # Simple helper for zip files that includes headers
+  defp csv_with_headers(user, type, opts \\ []) do
+    header = [csv_header_for_type(type)] |> CSV.dump_to_iodata()
+    data = csv_content(user, type, opts) |> ok_unwrap()
+    [header, data]
+  end
+
+  # Extract header definitions to avoid duplication
+  defp csv_header_for_type("following"), do: ["Account address"]
+  defp csv_header_for_type("followers"), do: ["Account address"]
+  defp csv_header_for_type("requests"), do: ["Account address"]
+  defp csv_header_for_type("posts"), do: ["ID", "Date", "CW", "Summary", "Text"]
+  defp csv_header_for_type("messages"), do: ["ID", "Date", "From", "To", "CW", "Summary", "Text"]
+  # defp csv_header_for_type("bookmarks"), do: ["URI"] #, "Date", "Author", "Text"]
+  defp csv_header_for_type(type) when type in ["silenced", "ghosted", "blocked"],
+    do: ["Account address"]
+
   defp csv_content(conn, type, opts \\ [])
 
   defp csv_content(conn, "following" = type, _opts) do
-    # ,"Show boosts","Notify on new posts","Languages"]
-    fields = ["Account address"]
-
+    fields = csv_header_for_type(type)
     current_user = current_user_required!(conn)
 
-    {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+    {:ok, conn} =
+      if is_struct(conn, Plug.Conn) do
+        maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+      end || {:ok, conn}
 
     Utils.maybe_apply(
       Bonfire.Social.Graph.Follows,
@@ -319,16 +347,16 @@ defmodule Bonfire.UI.Me.ExportController do
         ]
       ]
     )
-
-    # |> IO.inspect(label: "folg")
   end
 
   defp csv_content(conn, "followers" = type, _opts) do
-    fields = ["Account address"]
-
+    fields = csv_header_for_type(type)
     current_user = current_user_required!(conn)
 
-    {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+    {:ok, conn} =
+      if is_struct(conn, Plug.Conn) do
+        maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+      end || {:ok, conn}
 
     Utils.maybe_apply(
       Bonfire.Social.Graph.Follows,
@@ -344,16 +372,16 @@ defmodule Bonfire.UI.Me.ExportController do
         ]
       ]
     )
-
-    # |> IO.inspect(label: "fols")
   end
 
   defp csv_content(conn, "requests" = type, _opts) do
-    fields = ["Account address"]
-
+    fields = csv_header_for_type(type)
     current_user = current_user_required!(conn)
 
-    {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+    {:ok, conn} =
+      if is_struct(conn, Plug.Conn) do
+        maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+      end || {:ok, conn}
 
     Utils.maybe_apply(
       Bonfire.Social.Requests,
@@ -370,16 +398,44 @@ defmodule Bonfire.UI.Me.ExportController do
         ]
       ]
     )
+  end
 
-    # |> IO.inspect(label: "req")
+  defp csv_content(conn, "bookmarks" = type, _opts) do
+    current_user = current_user_required!(conn)
+
+    # no headers
+    # fields = csv_header_for_type(type)
+    # {:ok, conn} =
+    #   if is_struct(conn, Plug.Conn) do
+    #     maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+    #   end || {:ok, conn}
+
+    Utils.maybe_apply(
+      Bonfire.Social.Bookmarks,
+      :list_by,
+      [
+        current_user,
+        [
+          current_user: current_user,
+          paginate: false,
+          return: :stream,
+          stream_callback: fn stream ->
+            stream_callback(type, stream, conn)
+          end
+        ]
+      ],
+      fallback_return: []
+    )
   end
 
   defp csv_content(conn, "posts" = type, _opts) do
-    fields = ["ID", "Date", "CW", "Summary", "Text"]
-
+    fields = csv_header_for_type(type)
     current_user = current_user_required!(conn)
 
-    {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+    {:ok, conn} =
+      if is_struct(conn, Plug.Conn) do
+        maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+      end || {:ok, conn}
 
     Utils.maybe_apply(
       Bonfire.Posts,
@@ -399,11 +455,13 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp csv_content(conn, "messages" = type, _opts) do
-    fields = ["ID", "Date", "From", "To", "CW", "Summary", "Text"]
-
+    fields = csv_header_for_type(type)
     current_user = current_user_required!(conn)
 
-    {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+    {:ok, conn} =
+      if is_struct(conn, Plug.Conn) do
+        maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+      end || {:ok, conn}
 
     Utils.maybe_apply(
       Bonfire.Messages,
@@ -425,13 +483,21 @@ defmodule Bonfire.UI.Me.ExportController do
     # |> IO.inspect(label: "msgs")
   end
 
-  defp csv_content(conn, type, opts) when type in ["silenced", "ghosted"] do
-    fields = ["Account address"]
+  defp csv_content(conn, type, opts) when type in ["silenced", "ghosted", "blocked"] do
+    fields = csv_header_for_type(type)
     current_user = current_user_required!(conn)
 
-    block_type = if type == "ghosted", do: :ghost, else: :silence
+    block_type =
+      case type do
+        "ghosted" -> :ghost
+        "silenced" -> :silence
+        "blocked" -> [:ghost, :silence]
+      end
 
-    {:ok, conn} = maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+    {:ok, conn} =
+      if is_struct(conn, Plug.Conn) do
+        maybe_chunk(conn, [fields] |> CSV.dump_to_iodata())
+      end || {:ok, conn}
 
     if to_string(opts[:scope]) == "instance_wide" do
       Bonfire.Boundaries.Blocks.instance_wide_circles(block_type)
@@ -449,21 +515,18 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp csv_content(conn, type, _opts) do
-    IO.inspect(type, label: "type not implemented")
+    err(type, "CSV export type not implemented")
     conn
   end
 
   defp stream_callback(type, stream, %Plug.Conn{} = conn) do
-    # for result <- stream do
-    #   maybe_chunk(conn, prepare_rows(type, result))
-    # end
     Enum.reduce_while(stream, conn, fn result, conn ->
       case maybe_chunk(conn, prepare_rows(type, result)) do
         {:ok, conn} ->
           {:cont, conn}
 
         other ->
-          IO.inspect(other, label: "unexpected stream_callback")
+          err(other, "unexpected stream_callback")
           {:halt, conn}
       end
     end)
@@ -533,9 +596,16 @@ defmodule Bonfire.UI.Me.ExportController do
     records |> repo().preload([:post_content, :peered])
   end
 
+  defp preload_assocs(records, type) when type in ["bookmarks"] do
+    records
+    # object: [:post_content, :created]])
+    |> repo().preload(edge: [:object])
+  end
+
   #   defp preload_assocs(records, type) when type in ["outbox"] do
   #     records |> repo().preload([:activity])
   #   end
+
   defp preload_assocs(records, _type) do
     records
   end
@@ -609,8 +679,24 @@ defmodule Bonfire.UI.Me.ExportController do
     ]
   end
 
+  defp prepare_record(type, record) when type in ["bookmarks"] do
+    record =
+      record
+      |> preload_assocs(type)
+
+    record = e(record, :edge, :object, nil) || record
+
+    [
+      URIs.canonical_url(record)
+      # DatesTimes.date_from_pointer(bookmarked_object),
+      # e(bookmarked_object, :created, :creator, :character, :username, nil),
+      # e(bookmarked_object, :post_content, :html_body, nil)
+    ]
+  end
+
   defp prepare_record_json(type \\ nil, record_or_id) do
     with {:ok, json} <- object_json(id(record_or_id), true) do
+      # add trailing comma 
       """
       #{json},
       """
@@ -618,8 +704,7 @@ defmodule Bonfire.UI.Me.ExportController do
       _ ->
         ""
     end
-
-    # |> debug("jsoon")
+    |> debug("jsoon")
   end
 
   def object_json(record_or_id, skip_json_context_header \\ false) do
@@ -627,7 +712,8 @@ defmodule Bonfire.UI.Me.ExportController do
       exporting: true,
       skip_json_context_header: skip_json_context_header
     )
-    |> debug("jssson")
+
+    # |> debug("jssson")
   end
 
   defp prepare_csv(records) do
@@ -647,16 +733,26 @@ defmodule Bonfire.UI.Me.ExportController do
     end
   end
 
-  defp private_key(conn_or_user) do
-    current_user(conn_or_user)
-    |> repo().maybe_preload(character: [:actor])
-    |> e(:character, :actor, :signing_key, nil)
+  defp fetch_private_key(conn_or_user) do
+    current_user = current_user(conn_or_user)
 
-    # |> debug()
+    {:ok, actor} =
+      ActivityPub.Actor.get_cached(pointer: current_user)
+      ~> ActivityPub.Safety.Keys.ensure_keys_present()
+
+    # |> debug("actor to sure a key exists")
+
+    e(actor, :keys, nil)
+    # |> debug("made sure a key exists")
+
+    # current_user
+    # |> repo().maybe_preload(character: [:actor], force: true)
+    # |> e(:character, :actor, :signing_key, nil)
+    # |> debug("private key")
   end
 
   defp keys(conn_or_user) do
-    keys = private_key(conn_or_user)
+    keys = fetch_private_key(conn_or_user)
 
     """
     #{keys}
@@ -676,7 +772,8 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp collection_footer() do
-    "  {}\n]}"
+    # includes an empty object to support trailing commas
+    "\n  {}]\n}"
   end
 
   def user_media(user) do
