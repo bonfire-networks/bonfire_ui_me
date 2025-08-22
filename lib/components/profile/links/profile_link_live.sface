@@ -22,10 +22,10 @@
       {/case}
     {/if}
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-3">
       <span class="text-sm link link-primary">{URIs.display_url(@text || @href)}</span>
       {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
-        <#Icon iconify="lucide:badge-check" class="w-4 h-4 text-primary" />
+        <#Icon iconify="ph:seal-check-duotone" class="w-5 h-5 text-success" />
       {/if}
     </div>
   </div>
