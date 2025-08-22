@@ -1,7 +1,8 @@
+<div>
 <div class={@wrapper_class || "flex items-top gap-3 lg:gap-2 flex-col lg:flex-row justify-between w-full"}>
   <!-- id={if @with_popover, do: "profile_item_tooltip_#{@parent_id}_#{id(@profile)}"} -->
   <!-- phx-hook={if @with_popover, do: "Tooltip"} -->
-  <div class="" data-trigger="hover" data-position="top-start">
+  <div class="flex-1" data-trigger="hover" data-position="top-start">
     <div
       class="tooltip-button flex items-start gap-3 profile-item group"
       tabindex="0"
@@ -134,6 +135,11 @@
         hide_icon
       />
 
+    {/if}
+
+    <#slot />
+  </div>
+</div>
       <StatefulComponent
         id={"profile_item_block_indicator_#{@parent_id}_#{id(@profile)}"}
         :if={:blocks in @show_controls}
@@ -141,8 +147,4 @@
         user={@character}
         is_local_user={@is_remote? == false}
       />
-    {/if}
-
-    <#slot />
-  </div>
 </div>

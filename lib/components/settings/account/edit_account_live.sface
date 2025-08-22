@@ -24,10 +24,10 @@
         <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
       </div>
       <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
-        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        <#Icon iconify="ph:caret-down-duotone" class="w-3 h-3 text-base-content/70" />
       </button>
       <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
-        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        <#Icon iconify="ph:caret-up-duotone" class="w-3 h-3 text-base-content/70" />
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
@@ -48,10 +48,10 @@
         <div class="text-sm font-light text-base-content/70">{l("Delete all the data associated with your account")}</div>
       </div>
       <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
-        <#Icon iconify="fluent:triangle-down-12-filled" class="w-3 h-3 text-base-content/70" />
+        <#Icon iconify="ph:caret-down-duotone" class="w-3 h-3 text-base-content/70" />
       </button>
       <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
-        <#Icon iconify="fluent:triangle-right-12-filled" class="w-3 h-3 text-base-content/70" />
+        <#Icon iconify="ph:caret-up-duotone" class="w-3 h-3 text-base-content/70" />
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
