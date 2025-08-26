@@ -1,13 +1,13 @@
+<div class="flex flex-col rounded-lg bg-primary/10 divide-y divide-base-content/10">
 {#case e(@user, :profile, :website, nil)}
   {#match nil}
   {#match href}
-    <div class="w-full flex flex-col gap-2 p-3 border-b border-base-content/10">
+    <div class="w-full flex flex-col gap-2 p-3 ">
       <span class="text-xs text-base-content/80 font-bold uppercase">{l("Website")}</span>
       <Bonfire.UI.Me.ProfileLinkLive href={href} text={href} class={@class} />
     </div>
 {/case}
-
-<div class="w-full flex flex-col gap-2 p-3 border-b border-base-content/10">
+<div :if={@aliases != []} class="w-full flex flex-col gap-2 p-3 ">
   <span class="text-xs text-base-content/80 font-bold uppercase">{l("Other profiles")}</span>
   <div
     class="w-full py-3 flex gap-3 items-center justify-between"
@@ -54,3 +54,4 @@
 {!-- 
 <Bonfire.UI.Me.ProfileLinkLive href="https://bonfirenetworks.org" text="Bonfire" class={@class}  />
  --}
+</div>
