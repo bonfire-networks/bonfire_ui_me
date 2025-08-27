@@ -14,7 +14,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
      |> assign(
        scope: e(assigns(socket), :live_action, :user),
        page_title: l("Settings"),
-       without_secondary_widgets: true,
+       #  without_secondary_widgets: true,
        nav_items: [Bonfire.UI.Me.SidebarSettingsNavLive.declared_nav()],
        selected_tab: nil,
        id: nil,

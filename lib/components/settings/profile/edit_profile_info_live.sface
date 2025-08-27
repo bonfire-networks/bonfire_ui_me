@@ -1,5 +1,5 @@
 <div class="p-8">
-  <div class="mx-auto p-4 bg-base-100 -sm border border-base-content/10 max-w-md rounded-xl">
+  <div class="">
     <StatefulComponent
       module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
       id={:upload_banner}
