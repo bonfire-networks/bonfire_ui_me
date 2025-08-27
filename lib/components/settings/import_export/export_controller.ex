@@ -249,7 +249,7 @@ defmodule Bonfire.UI.Me.ExportController do
 
     feed_id =
       Bonfire.Social.Feeds.feed_id(:outbox, user)
-      |> flood("outbox feed")
+      |> debug("outbox feed")
 
     Bonfire.Social.FeedLoader.feed_filtered(
       # :user_activities,
@@ -269,13 +269,13 @@ defmodule Bonfire.UI.Me.ExportController do
         return: :stream,
         stream_callback: fn stream ->
           stream
-          |> flood("outbox stream")
+          |> debug("outbox stream")
 
           stream_callback("outbox", stream, conn_or_user)
         end
       )
     )
-    |> flood("outbox res")
+    |> debug("outbox res")
   end
 
   def thread(current_user, opts \\ []) do
@@ -745,7 +745,7 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   def object_json(record, skip_json_context_header \\ false) do
-    flood(record, "an_act")
+    debug(record, "an_act")
 
     cond do
       e(record, :activity, :verb_id, nil) == "4REATE0RP0STBRANDNEW0BJECT" ->
