@@ -295,13 +295,14 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       guests: [
         secondary: [
           recent_publication_widget_enabled &&
-            {Bonfire.OpenScience.RecentPublicationLive, [user: user]},
+            {Bonfire.OpenScience.RecentPublicationLive,
+             [id: "osn-recent-publication", user: user]},
           # most_cited_publication_widget_enabled &&
-          #   {Bonfire.OpenScience.MostCitedPublicationLive, [user: user]},
+          #   {Bonfire.OpenScience.MostCitedPublicationLive, [id: "osn-most-cited-publication", user: user]},
           author_topics_widget_enabled &&
-            {Bonfire.OpenScience.AuthorTopicsLive, [user: user]},
+            {Bonfire.OpenScience.AuthorTopicsLive, [id: "osn-author-topics", user: user]},
           publication_types_widget_enabled &&
-            {Bonfire.OpenScience.PublicationTypesLive, [user: user]},
+            {Bonfire.OpenScience.PublicationTypesLive, [id: "osn-publication-types", user: user]},
           {Bonfire.Tag.Web.WidgetTagsLive, []},
           {Bonfire.UI.Me.WidgetAdminsLive, []}
         ]
