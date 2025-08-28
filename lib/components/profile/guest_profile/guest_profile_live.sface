@@ -9,7 +9,7 @@
             "bg-gradient-to-b h-[40px] md:h-[100px]": is_binary(color)
           }
           style={if not is_binary(color),
-            do: "background-image: url('#{banner_url}')",
+            do: "background-image: url('#{URI.encode(banner_url)}')",
             else: "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"}
         />
 
