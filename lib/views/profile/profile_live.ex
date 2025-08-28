@@ -58,6 +58,12 @@ defmodule Bonfire.UI.Me.ProfileLive do
     |> debug("selected_tab")
   end
 
+  def tab_component(selected_tab) do
+    if tab_module = Config.get([:ui, :profile, :sections], [])[tab(selected_tab)] do
+      maybe_component(tab_module)
+    end
+  end
+
   defp maybe_init(
          %{"username" => load_username} = _params,
          %{assigns: %{user: %{character: %{username: loaded_username}}}} = socket

@@ -1,36 +1,32 @@
 <main data-id="profile" data-user-id={e(@user, :id, "")} data-guest={@is_guest?}>
-  {#if !@silenced_instance_wide? and !@silenced?}
-    <StatelessComponent
-      module={maybe_component(
-        Config.get([:ui, :profile, :sections], [])[tab(@selected_tab)] || Bonfire.UI.Me.ProfileInfoLive
-      )}
-      {...assigns}
-    >
-      <:header>
-        <div class="bg-base-100 border-b border-base-content/10">
-          <StatelessComponent
-            module={Config.get(
-              [:ui, :profile, :hero_component],
-              Bonfire.UI.Me.ProfileHeroFullLive
-            )}
-            object_id={id(@user)}
-            path="@"
-            myself={nil}
-            skip_preload
-            object={@user}
-            user={@user}
-            aliases={@aliases}
-            boundary_preset={@boundary_preset}
-            ghosted_instance_wide?={@ghosted_instance_wide?}
-            silenced_instance_wide?={@silenced_instance_wide?}
-            ghosted?={@ghosted?}
-            silenced?={@silenced?}
-            block_status={e(assigns, :block_status, nil)}
-            selected_tab={@selected_tab}
-            follows_me={@follows_me || false}
-            character_type={@character_type}
-          />
-          <!-- <Bonfire.UI.Common.TabsLive
+  {#case !@silenced_instance_wide? and !@silenced? and tab_component(@selected_tab)}
+    {#match module when not is_nil(module) and not is_boolean(module)}
+      <StatelessComponent module={module} {...assigns}>
+        <:header>
+          <div class="bg-base-100 border-b border-base-content/10">
+            <StatelessComponent
+              module={Config.get(
+                [:ui, :profile, :hero_component],
+                Bonfire.UI.Me.ProfileHeroFullLive
+              )}
+              object_id={id(@user)}
+              path="@"
+              myself={nil}
+              skip_preload
+              object={@user}
+              user={@user}
+              aliases={@aliases}
+              boundary_preset={@boundary_preset}
+              ghosted_instance_wide?={@ghosted_instance_wide?}
+              silenced_instance_wide?={@silenced_instance_wide?}
+              ghosted?={@ghosted?}
+              silenced?={@silenced?}
+              block_status={e(assigns, :block_status, nil)}
+              selected_tab={@selected_tab}
+              follows_me={@follows_me || false}
+              character_type={@character_type}
+            />
+            {!-- <Bonfire.UI.Common.TabsLive
             :if={!@hide_tabs}
             class="px-0 flex justify-between w-full tabs"
             tab_class="flex flex-1 pt-4 text-base capitalize hover:bg-base-content hover:bg-opacity-10 place-content-center lined_tab"
@@ -42,35 +38,35 @@
             tabs={if @character_type == :user,
               do: Config.get([:ui, :profile, :navigation], nil: [{:timeline, l("Timeline")}]),
               else: Config.get([:ui, :group, :profile, :navigation], nil: [{:timeline, l("Timeline")}])}
-          /> -->
-        </div>
-      </:header>
-    </StatelessComponent>
-  {#else}
-    {!-- when silenced show only the header but no timeline or other content --}
-    <div class="bg-base-100">
-      <StatelessComponent
-        module={Config.get(
-          [:ui, :profile, :hero_component],
-          Bonfire.UI.Me.ProfileHeroFullLive
-        )}
-        object_id={id(@user)}
-        object={@user}
-        boundary_preset={@boundary_preset}
-        user={@user}
-        aliases={@aliases}
-        path={@path}
-        myself={nil}
-        skip_preload
-        ghosted_instance_wide?={@ghosted_instance_wide?}
-        silenced_instance_wide?={@silenced_instance_wide?}
-        ghosted?={@ghosted?}
-        silenced?={@silenced?}
-        block_status={e(assigns, :block_status, nil)}
-        selected_tab={@selected_tab}
-        follows_me={@follows_me || false}
-        character_type={@character_type}
-      />
-    </div>
-  {/if}
+          /> --}
+          </div>
+        </:header>
+      </StatelessComponent>
+    {#match _}
+      {!-- when silenced show only the header but no timeline or other content --}
+      <div class="bg-base-100">
+        <StatelessComponent
+          module={Config.get(
+            [:ui, :profile, :hero_component],
+            Bonfire.UI.Me.ProfileHeroFullLive
+          )}
+          object_id={id(@user)}
+          object={@user}
+          boundary_preset={@boundary_preset}
+          user={@user}
+          aliases={@aliases}
+          path={@path}
+          myself={nil}
+          skip_preload
+          ghosted_instance_wide?={@ghosted_instance_wide?}
+          silenced_instance_wide?={@silenced_instance_wide?}
+          ghosted?={@ghosted?}
+          silenced?={@silenced?}
+          block_status={e(assigns, :block_status, nil)}
+          selected_tab={@selected_tab}
+          follows_me={@follows_me || false}
+          character_type={@character_type}
+        />
+      </div>
+  {/case}
 </main>
