@@ -74,28 +74,33 @@
             </a></td>
         </tr>
 
-        {!-- <tr>
-          <td>Circles</td>
-          <td>2</td>
-          <td><button class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case  gap-2">
-              <#Icon iconify="pajamas:import" class="w-4 h-4" />
-              <span>CSV</span>
-            </button></td>
-        </tr>
-        <tr>
-          <td>Boundaries</td>
-          <td>2</td>
-          <td><button class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case  gap-2">
-              <#Icon iconify="pajamas:import" class="w-4 h-4" />
-              <span>CSV</span>
-            </button></td>
-        </tr> --}
-
         <tr>
           <td>Bookmarks</td>
           <td><a
               download
               href="/settings/export/csv/bookmarks"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case  gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>CSV</span>
+            </a></td>
+        </tr>
+        <tr>
+          <td>Likes</td>
+          <td><a
+              download
+              href="/settings/export/csv/likes"
+              class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case  gap-2"
+            >
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>CSV</span>
+            </a></td>
+        </tr>
+        <tr>
+          <td>Boosts</td>
+          <td><a
+              download
+              href="/settings/export/csv/boosts"
               class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case  gap-2"
             >
               <#Icon iconify="pajamas:import" class="w-4 h-4" />
@@ -113,6 +118,17 @@
               <span>CSV</span>
             </a></td>
         </tr>
+
+        {!-- 
+        <tr>
+          <td>Boundaries</td>
+          <td>2</td>
+          <td><button class="btn btn-ghost items-center text-base-content/70 btn-xs normal-case  gap-2">
+              <#Icon iconify="pajamas:import" class="w-4 h-4" />
+              <span>CSV</span>
+            </button></td>
+        </tr> --}
+
         <tr>
           <td>Silenced</td>
           {!-- <td>23</td> --}

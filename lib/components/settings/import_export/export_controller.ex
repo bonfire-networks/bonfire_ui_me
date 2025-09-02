@@ -436,6 +436,46 @@ defmodule Bonfire.UI.Me.ExportController do
     )
   end
 
+  defp csv_content(conn, "likes" = type, _opts) do
+    current_user = current_user_required!(conn)
+
+    Utils.maybe_apply(
+      Bonfire.Social.Likes,
+      :list_my,
+      [
+        [
+          current_user: current_user,
+          paginate: false,
+          return: :stream,
+          stream_callback: fn stream ->
+            stream_callback(type, stream, conn)
+          end
+        ]
+      ],
+      fallback_return: []
+    )
+  end
+
+  defp csv_content(conn, "boosts" = type, _opts) do
+    current_user = current_user_required!(conn)
+
+    Utils.maybe_apply(
+      Bonfire.Social.Boosts,
+      :list_my,
+      [
+        [
+          current_user: current_user,
+          paginate: false,
+          return: :stream,
+          stream_callback: fn stream ->
+            stream_callback(type, stream, conn)
+          end
+        ]
+      ],
+      fallback_return: []
+    )
+  end
+
   defp csv_content(conn, "posts" = type, _opts) do
     fields = csv_header_for_type(type)
     current_user = current_user_required!(conn)
@@ -629,7 +669,7 @@ defmodule Bonfire.UI.Me.ExportController do
     records |> repo().preload([:post_content, :peered])
   end
 
-  defp preload_assocs(records, type) when type in ["bookmarks"] do
+  defp preload_assocs(records, type) when type in ["bookmarks", "likes", "boosts"] do
     records
     # object: [:post_content, :created]])
     |> repo().preload(edge: [:object])
@@ -712,7 +752,7 @@ defmodule Bonfire.UI.Me.ExportController do
     ]
   end
 
-  defp prepare_record(type, record) when type in ["bookmarks"] do
+  defp prepare_record(type, record) when type in ["bookmarks", "likes", "boosts"] do
     record =
       record
       |> preload_assocs(type)
