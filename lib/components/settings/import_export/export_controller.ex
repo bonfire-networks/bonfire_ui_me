@@ -127,6 +127,8 @@ defmodule Bonfire.UI.Me.ExportController do
         Zstream.entry("posts.csv", csv_with_headers(user, "posts")),
         Zstream.entry("messages.csv", csv_with_headers(user, "messages")),
         Zstream.entry("bookmarks.csv", ok_unwrap(csv_content(user, "bookmarks"))),
+        Zstream.entry("likes.csv", ok_unwrap(csv_content(user, "likes"))),
+        Zstream.entry("boosts.csv", ok_unwrap(csv_content(user, "boosts"))),
         Zstream.entry("circles.csv", ok_unwrap(csv_content(user, "circles"))),
         Zstream.entry("ghosted.csv", csv_with_headers(user, "ghosted")),
         Zstream.entry("silenced.csv", csv_with_headers(user, "silenced")),
@@ -898,6 +900,10 @@ defmodule Bonfire.UI.Me.ExportController do
 
         if not is_nil(path) and File.exists?(path), do: {path, path}
     end)
+    |> Enum.filter(fn
+      {_path, _locator} -> true
+      _ -> false
+    end)
     |> Enums.filter_empty([])
   end
 
@@ -926,12 +932,27 @@ defmodule Bonfire.UI.Me.ExportController do
   #   end
   # end
   def media_stream(path, %struct{id: id} = locator, fun) when struct == Entrepot.Locator do
-    # stream files from Disk or S3
-    source_storage = Entrepot.storage!(locator)
+    # stream files from Disk or S3 with error handling
+    try do
+      source_storage = Entrepot.storage!(locator)
 
-    case source_storage.stream(id) do
-      nil -> fun.("#{path}.txt", ["File not found"])
-      stream -> fun.(path, stream)
+      case source_storage.stream(id) do
+        nil ->
+          warn(path, "File not found in storage")
+          fun.("#{path}.txt", ["File not found"])
+
+        stream ->
+          fun.(path, stream)
+      end
+    rescue
+      error in ExAws.Error ->
+        warn(error, "Could not access file #{path} from S3, skipping")
+
+        fun.("#{path}.txt", ["File could not be downloaded from cloud storage: #{inspect(error)}"])
+
+      error ->
+        warn(error, "Unexpected error accessing file #{path}, skipping")
+        fun.("#{path}.txt", ["File could not be accessed: #{inspect(error)}"])
     end
   end
 
@@ -946,7 +967,18 @@ defmodule Bonfire.UI.Me.ExportController do
   #   end
   # end
   def media_stream(path, path, fun) when is_binary(path) do
-    fun.(path, File.stream!(path, [], 512))
+    try do
+      if File.exists?(path) do
+        fun.(path, File.stream!(path, [], 512))
+      else
+        warn(path, "Local file not found")
+        fun.("#{path}.txt", ["Local file not found"])
+      end
+    rescue
+      error ->
+        warn(error, "Could not read local file #{path}, skipping")
+        fun.("#{path}.txt", ["File could not be read: #{inspect(error)}"])
+    end
   end
 
   # defp likes(user) do
