@@ -590,7 +590,7 @@ defmodule Bonfire.UI.Me.ExportController do
   end
 
   defp csv_content(conn, type, opts) do
-    err(type, "CSV export type not implemented")
+    error(type, "CSV export type not implemented")
     conn
   end
 
@@ -601,7 +601,7 @@ defmodule Bonfire.UI.Me.ExportController do
           {:cont, conn}
 
         other ->
-          err(other, "unexpected stream_callback")
+          error(other, "unexpected stream_callback")
           {:halt, conn}
       end
     end)
@@ -800,7 +800,7 @@ defmodule Bonfire.UI.Me.ExportController do
           do_object_json(ap_activity, skip_json_context_header)
         else
           e ->
-            err(e)
+            error(e)
             do_object_json(id(record), skip_json_context_header)
         end
 
