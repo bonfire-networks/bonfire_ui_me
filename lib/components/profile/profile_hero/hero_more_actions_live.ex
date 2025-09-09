@@ -10,6 +10,7 @@ defmodule Bonfire.UI.Me.HeroMoreActionsLive do
   prop ghosted_instance_wide?, :boolean, default: false
   prop ghosted?, :boolean, default: false
   prop silenced?, :boolean, default: false
+  prop parent_id, :any, default: nil
 
   # defp set_clone_context({_, o}) do
   #   [{:clone_context, o}]

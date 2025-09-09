@@ -12,7 +12,7 @@
       <li :if={@permalink}>
         <a
           phx-hook="Copy"
-          id={"hero_action_copy_url_#{id(@user)}"}
+          id={"hero_action_copy_url_#{id(@user)}_#{e(@parent_id, nil)}"}
           href={@permalink}
           class="flex items-center gap-2 text-sm text-base-content"
         >
@@ -20,17 +20,17 @@
           <span data-role="label">{l("Copy link")}</span>
         </a>
       </li>
-
       <li>
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Social.SubscribeFeedLive, @__context__)}
           feed_name={:user_activities}
           params={%{"username" => e(@user, :character, :username, nil)}}
           as_icon={false}
+          parent_id={@parent_id}
         />
       </li>
 
-      <li class="m-1 border-t border-base-content/10" />
+      <li class="m-1 border-t be-content/10" />
 
       {#if @character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
         <li>
@@ -152,7 +152,7 @@
             object={@user}
             permalink={@permalink}
             hide_icon
-            parent_id="profile_hero"
+            parent_id={@parent_id}
             object_type={e(@user, :profile, :name, "this user")}
             class="flex items-center p-4 text-sm text-base-content"
           />
@@ -161,7 +161,7 @@
         {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Boundaries.BlockMenuButtonsLive, @__context__)}
-          parent_id="profile_hero"
+          parent_id={@parent_id}
           object={@user}
           with_icon={false}
           permalink={@permalink}

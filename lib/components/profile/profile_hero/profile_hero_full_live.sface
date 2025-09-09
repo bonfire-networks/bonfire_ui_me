@@ -1,4 +1,5 @@
 <section data-id="profile_hero" class="relative">
+  <!-- Sticky Header -->
   <div>
     {!-- TODO: put this logic in `update` fn instead? --}
     {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
@@ -28,6 +29,7 @@
                   silenced?={@silenced?}
                   boundary_preset={@boundary_preset}
                   user={@user}
+                  parent_id="profile_hero_full"
                   members={@members}
                   moderators={@moderators}
                   permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
@@ -167,7 +169,7 @@
                   <div class="flex flex-col flex-1 w-full">
                     <div class="flex justify-between">
                       <div class="flex flex-col flex-1">
-                        <div class="flex items-center text-xl font-bold text-base-content">
+                        <div id="profile_name_section" class="flex items-center text-xl font-bold text-base-content">
                           <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
                             {rich(e(@user, :profile, :name, "Anonymous"))}
                           </LinkPatchLive>
@@ -180,9 +182,26 @@
                         </div>
                         <div class="flex lg:items-center flex-col lg:flex-row gap-2">
                           <div class="flex items-center gap-0">
-                            <span data-role="label" phx-hook="Copy" id={Bonfire.Me.Characters.display_username(@user, true)} data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)} class="font-normal cursor-copy hover:underline underline-offset-4 decoration-dotted text-sm text-base-content/60 tooltip-right">{Bonfire.Me.Characters.display_username(@user, true)}</span>
-                            <span data-role="label" data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)} phx-hook="Copy" id={"button_" <> Bonfire.Me.Characters.display_username(@user, true)} class="btn btn-ghost btn-xs btn-circle">
-                              <#Icon iconify="ph:clipboard-text-duotone" class="w-4 h-4 opacity-70" title={l("Copy username")} onclick="navigator.clipboard.writeText('@' + '#{Bonfire.Me.Characters.display_username(@user, false)}')" />
+                            <span
+                              data-role="label"
+                              phx-hook="Copy"
+                              id={Bonfire.Me.Characters.display_username(@user, true)}
+                              data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
+                              class="font-normal cursor-copy hover:underline underline-offset-4 decoration-dotted text-sm text-base-content/60 tooltip-right"
+                            >{Bonfire.Me.Characters.display_username(@user, true)}</span>
+                            <span
+                              data-role="label"
+                              data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
+                              phx-hook="Copy"
+                              id={"button_" <> Bonfire.Me.Characters.display_username(@user, true)}
+                              class="btn btn-ghost btn-xs btn-circle"
+                            >
+                              <#Icon
+                                iconify="ph:clipboard-text-duotone"
+                                class="w-4 h-4 opacity-70"
+                                title={l("Copy username")}
+                                onclick="navigator.clipboard.writeText('@' + '#{Bonfire.Me.Characters.display_username(@user, false)}')"
+                              />
                             </span>
                           </div>
                           <span

@@ -6,6 +6,8 @@
     do: "me",
     else: "nofollow"}
 >
+
+<!-- {inspect(@metadata, pretty: true)} -->
   <div class="flex items-center gap-3">
     {#if @icon}
       <Iconify.iconify icon={@icon} class="w-5 h-5 text-base-content/70" />
@@ -21,13 +23,23 @@
           <#Icon iconify="carbon:link" class="w-5 h-5 text-base-content/70" />
       {/case}
     {/if}
-
-    <div class="flex items-center gap-3">
-      <span class="text-sm link link-primary">{URIs.display_url(@text || @href)}</span>
-      {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
-        <#Icon iconify="ph:seal-check-duotone" class="w-5 h-5 text-success" />
-      {/if}
-    </div>
+    {#case @metadata}
+      {#match %{"orcid" => %{"orcid" => orcid}} when is_binary(orcid) and orcid != ""}
+        <div class="flex items-center gap-3">
+          <span class="text-sm link link-primary">{orcid}</span>
+          {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
+            <#Icon iconify="ph:seal-check-fill" class="w-4 h-4 text-success" />
+          {/if}
+        </div>
+        
+      {#match _}
+        <div class="flex items-center gap-3">
+          <span class="text-sm link link-primary">{URIs.display_url(@text || @href)}</span>
+          {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
+            <#Icon iconify="ph:seal-check-fill" class="w-4 h-4 text-success" />
+          {/if}
+        </div>
+    {/case}
   </div>
   {!-- <div class="link link-hover text-base-content/80 text-sm">{@href}</div> --}
 </a>
