@@ -110,12 +110,15 @@
 
       {#if id(@profile || @character) && current_user_id(@__context__) &&
           current_user_id(@__context__) != id(@profile || @character)}
-        {#if :follow in @show_controls}
-          <!-- <StatefulComponent
+        {#if :follows_me in @show_controls}
+          <StatefulComponent
             id={"profile_item_follow_indicator_#{@parent_id}_#{id(@profile || @character)}"}
             module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicatorLive, @__context__)}
             user={@character || @profile}
-          /> -->
+          />
+        {/if}
+
+        {#if :follow in @show_controls}
           <StatefulComponent
             module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
             id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile || @character), @parent_id)}
