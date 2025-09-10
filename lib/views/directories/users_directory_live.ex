@@ -26,7 +26,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
                 Bonfire.Federate.ActivityPub.Instances.get_by_domain(instance)
 
               instance_id ->
-                ok_unwrap(Bonfire.Federate.ActivityPub.Instances.get_by_id(instance_id))
+                from_ok(Bonfire.Federate.ActivityPub.Instances.get_by_id(instance_id))
             end
           end
           |> debug("instanceeee")

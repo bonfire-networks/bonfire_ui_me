@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> send_chunked(:ok)
     # |> send_resp(200, csv_content(conn, type))
     |> csv_content(type, scope: params["scope"])
-    |> ok_unwrap()
+    |> from_ok()
   end
 
   def json_download(conn, %{"type" => type} = params) do
@@ -24,7 +24,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> send_chunked(:ok)
     # |> send_resp(200, csv_content(conn, type))
     |> json_content(type, scope: params["scope"])
-    |> ok_unwrap()
+    |> from_ok()
   end
 
   def binary_download(conn, %{"type" => type, "ext" => ext} = _params) do
@@ -35,7 +35,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> send_chunked(:ok)
     # |> send_resp(200, csv_content(conn, type))
     |> binary_content(type)
-    |> ok_unwrap()
+    |> from_ok()
   end
 
   def archive_export(conn, _params) do
@@ -49,7 +49,7 @@ defmodule Bonfire.UI.Me.ExportController do
     |> send_chunked(:ok)
     # |> send_resp(200, csv_content(conn, type))
     |> zip_archive(current_user_required!(conn))
-    |> ok_unwrap()
+    |> from_ok()
   end
 
   def archive_download(conn, _params) do
@@ -118,7 +118,7 @@ defmodule Bonfire.UI.Me.ExportController do
         Zstream.entry("actor.json", [actor(user)]),
         Zstream.entry("outbox.json", [
           collection_header("outbox"),
-          ok_unwrap(outbox(user)),
+          from_ok(outbox(user)),
           collection_footer()
         ]),
         Zstream.entry("following.csv", csv_with_headers(user, "following")),
@@ -126,10 +126,10 @@ defmodule Bonfire.UI.Me.ExportController do
         Zstream.entry("followers.csv", csv_with_headers(user, "followers")),
         Zstream.entry("posts.csv", csv_with_headers(user, "posts")),
         Zstream.entry("messages.csv", csv_with_headers(user, "messages")),
-        Zstream.entry("bookmarks.csv", ok_unwrap(csv_content(user, "bookmarks"))),
-        Zstream.entry("likes.csv", ok_unwrap(csv_content(user, "likes"))),
-        Zstream.entry("boosts.csv", ok_unwrap(csv_content(user, "boosts"))),
-        Zstream.entry("circles.csv", ok_unwrap(csv_content(user, "circles"))),
+        Zstream.entry("bookmarks.csv", from_ok(csv_content(user, "bookmarks"))),
+        Zstream.entry("likes.csv", from_ok(csv_content(user, "likes"))),
+        Zstream.entry("boosts.csv", from_ok(csv_content(user, "boosts"))),
+        Zstream.entry("circles.csv", from_ok(csv_content(user, "circles"))),
         Zstream.entry("ghosted.csv", csv_with_headers(user, "ghosted")),
         Zstream.entry("silenced.csv", csv_with_headers(user, "silenced")),
         Zstream.entry("keys.asc", [keys(user)])
@@ -318,7 +318,7 @@ defmodule Bonfire.UI.Me.ExportController do
   # Simple helper for zip files that includes headers
   defp csv_with_headers(user, type, opts \\ []) do
     header = [csv_header_for_type(type)] |> CSV.dump_to_iodata()
-    data = csv_content(user, type, opts) |> ok_unwrap()
+    data = csv_content(user, type, opts) |> from_ok()
     [header, data]
   end
 
@@ -859,7 +859,7 @@ defmodule Bonfire.UI.Me.ExportController do
     """
     #{keys}
 
-    #{ok_unwrap(ActivityPub.Safety.Keys.public_key_from_data(%{keys: keys}))}
+    #{from_ok(ActivityPub.Safety.Keys.public_key_from_data(%{keys: keys}))}
     """
   end
 
