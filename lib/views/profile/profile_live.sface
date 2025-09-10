@@ -1,6 +1,6 @@
 <main data-id="profile" data-user-id={e(@user, :id, "")} data-guest={@is_guest?}>
-  <Bonfire.UI.Me.Stickyheader 
-    character_type={@character_type} 
+  <Bonfire.UI.Me.Stickyheader
+    character_type={@character_type}
     user={@user}
     boundary_preset={@boundary_preset}
     ghosted_instance_wide?={@ghosted_instance_wide?}
@@ -8,7 +8,7 @@
     ghosted?={@ghosted?}
     silenced?={@silenced?}
     permalink={e(@user, :character, :peered, :canonical_uri, nil)}
-     />
+  />
   {#case !@silenced_instance_wide? and !@silenced? and tab_component(@selected_tab)}
     {#match module when not is_nil(module) and not is_boolean(module)}
       <StatelessComponent module={module} {...assigns}>

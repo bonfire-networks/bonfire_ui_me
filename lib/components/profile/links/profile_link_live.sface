@@ -6,8 +6,7 @@
     do: "me",
     else: "nofollow"}
 >
-
-<!-- {inspect(@metadata, pretty: true)} -->
+  <!-- {inspect(@metadata, pretty: true)} -->
   <div class="flex items-center gap-3">
     {#if @icon}
       <Iconify.iconify icon={@icon} class="w-5 h-5 text-base-content/70" />
@@ -31,7 +30,6 @@
             <#Icon iconify="ph:seal-check-fill" class="w-4 h-4 text-success" />
           {/if}
         </div>
-        
       {#match _}
         <div class="flex items-center gap-3">
           <span class="text-sm link link-primary">{URIs.display_url(@text || @href)}</span>
