@@ -373,7 +373,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   end
 
   def set_image_setting(:icon, scope, uploaded_media, settings_key, socket) do
-    url = Bonfire.Files.IconUploader.remote_url(uploaded_media)
+    url = Bonfire.Files.IconUploader.permanent_url(uploaded_media)
+    # |> debug("icon url")
 
     with {:ok, settings} <-
            Bonfire.Common.Settings.put(
@@ -394,7 +395,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   end
 
   def set_image_setting(:banner, scope, uploaded_media, settings_key, socket) do
-    url = Bonfire.Files.BannerUploader.remote_url(uploaded_media)
+    url = Bonfire.Files.BannerUploader.permanent_url(uploaded_media)
 
     with {:ok, settings} <-
            Bonfire.Common.Settings.put(
