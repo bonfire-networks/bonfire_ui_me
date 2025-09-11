@@ -72,7 +72,8 @@ defmodule Bonfire.UI.Me.SignupController.Test do
   test "can signup" do
     #  create a first user since confirmation otherwise not required
     fake_user!()
-    Bonfire.Me.Accounts.clear_cache()
+    # Clear caches to ensure test email doesn't collide with existing accounts
+    # Bonfire.Me.Fake.clear_caches()
     conn = conn()
     email = email()
     password = password()
