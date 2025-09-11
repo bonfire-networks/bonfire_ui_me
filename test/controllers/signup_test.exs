@@ -72,7 +72,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
   test "can signup" do
     #  create a first user since confirmation otherwise not required
     fake_user!()
-
+    Bonfire.Me.Accounts.clear_cache()
     conn = conn()
     email = email()
     password = password()
@@ -100,6 +100,8 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       {:ok, admin_user} =
         fake_user!(some_account)
         |> Bonfire.Me.Users.make_admin()
+
+      Bonfire.Me.Fake.clear_caches()
 
       # Create a valid invite
       {:ok, invite} =
@@ -193,7 +195,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       conn = get(conn, "/signup?invite=#{invite_id}")
       assert get_session(conn, :invite) == invite_id
 
-      # Then simulate what SSO controller would do 
+      # Then simulate what SSO controller would do
       assert {:ok, _account} =
                Bonfire.UI.Me.SignupController.attempt_signup(
                  conn,

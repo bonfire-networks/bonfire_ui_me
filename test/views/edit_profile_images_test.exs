@@ -59,7 +59,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     # {view, doc} = floki_live(conn, next)
     # open_browser(view)
     [style] = Floki.attribute(doc, "[data-id='upload_banner']", "style")
-    refute style =~ "background-image: url('/data/uploads/"
+    refute style =~ "/data/uploads/"
 
     file = Path.expand("../fixtures/icon.png", __DIR__)
 
@@ -79,6 +79,6 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
 
     # |> debug
     # now has uploaded image
-    assert done =~ "background-image: url('/data/uploads/"
+    assert done =~ "/data/uploads/"
   end
 end

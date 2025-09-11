@@ -1,5 +1,12 @@
 defmodule Bonfire.UI.Me.CreateUserController.Test do
   use Bonfire.UI.Me.ConnCase, async: true
+  use Repatch.ExUnit
+  import Tesla.Mock
+
+  setup_all do
+    mock_global(fn env -> ActivityPub.Test.HttpRequestMock.request(env) end)
+    :ok
+  end
 
   test "form renders" do
     alice = fake_account!()
@@ -184,6 +191,9 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
   test "first user is autopromoted" do
     Process.put([:bonfire, :env], :prod)
 
+    # Mock the HTTP call to avoid Tesla client issues
+    Repatch.patch(Bonfire.Common.HTTP, :get_cached_body, fn _url -> "1.0.0-rc.2.13" end)
+
     on_exit(fn ->
       Process.delete([:bonfire, :env])
     end)
@@ -210,7 +220,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     # Navigate to user profile
     conn = get(recycle(conn), "/@#{username}")
     doc = floki_response(conn)
-    assert [view] = Floki.find(doc, "span.badge")
+    assert [view] = Floki.find(doc, "span.badge[data-role=admin]")
   end
 
   test "successfully sets privacy options" do

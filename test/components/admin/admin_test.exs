@@ -18,7 +18,7 @@ defmodule Bonfire.UI.Me.AdminTest do
 
     conn
     |> visit("/@#{alice.character.username}")
-    |> click_button("Make admin")
+    |> click_button("#profile_sticky_header button", "Make admin")
     |> assert_has("[role=alert]", text: "They are now an admin!")
   end
 end

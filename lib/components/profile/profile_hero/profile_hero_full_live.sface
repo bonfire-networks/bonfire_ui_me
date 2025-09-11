@@ -206,6 +206,7 @@
                           </div>
                           <span
                             :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
+                            data-role="admin"
                             class="badge min-h-[1.5rem] text-xs badge-sm rounded-md !border-info/20 badge-outline rounded badge-info"
                           >
                             {l("Admin")}

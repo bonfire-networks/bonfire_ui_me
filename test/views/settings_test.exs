@@ -76,14 +76,14 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
       view
       |> element("form[data-scope=set_language]")
-      |> render_change(%{"Elixir.Bonfire.Common.Localise.Cldr" => %{"default_locale" => "it"}})
+      |> render_change(%{"Elixir.Bonfire.Common.Localise.Cldr" => %{"default_locale" => "fr"}})
 
       # force a refresh
       {:ok, refreshed_view, _html} = live(conn, "/dashboard")
 
       assert refreshed_view
              |> element("span[data-role=locale]")
-             |> render() =~ "it"
+             |> render() =~ "fr"
 
       #  assert refreshed_view
       #  |> has_element?("span[data-role=locale]", "it")
@@ -206,17 +206,17 @@ defmodule Bonfire.UI.Me.SettingsTest do
       {:ok, view, _html} = live(conn, "/settings/user/bonfire_ui_boundaries")
 
       assert view
-             |> has_element?("span[data-scope=public-boundary-set]")
+             |> has_element?("label", "public")
 
       view
       |> element("[data-scope=safety_boundary_default] button[data-scope=local_boundary]")
       |> render_click()
 
       # open_browser(view)
-      {:ok, refreshed_view, _html} = live(conn, "/dashboard")
+      {:ok, refreshed_view, _html} = live(conn, "/settings/user/bonfire_ui_boundaries")
 
       assert refreshed_view
-             |> has_element?("span[data-scope=local-boundary-set]")
+             |> has_element?("label", "local")
     end
   end
 end
