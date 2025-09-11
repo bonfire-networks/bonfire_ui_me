@@ -7,15 +7,16 @@ defmodule Bonfire.UI.Me.LocaleTest do
   alias Plug.Conn
 
   test "locale is detected from accept header" do
-    conn = conn()
-    |> Conn.put_req_header(
-      "accept-language",
-      "es_MX, es, en-gb;q=0.8, en;q=0.7"
-    )
-    |> Plug.Test.init_test_session(%{})
-    |> Conn.fetch_query_params()
-    |> Conn.fetch_session()
-    |> SetLocale.call(Localise.set_locale_config())
+    conn =
+      conn()
+      |> Conn.put_req_header(
+        "accept-language",
+        "es_MX, es, en-gb;q=0.8, en;q=0.7"
+      )
+      |> Plug.Test.init_test_session(%{})
+      |> Conn.fetch_query_params()
+      |> Conn.fetch_session()
+      |> SetLocale.call(Localise.set_locale_config())
 
     # Read the locale from the connection's private data
     detected_locale = conn.private[:cldr_locale]
@@ -23,12 +24,13 @@ defmodule Bonfire.UI.Me.LocaleTest do
   end
 
   test "valid locale is detected" do
-    conn = conn()
-    |> Conn.put_req_header("accept-language", "xyz, es;q=0.8")
-    |> Plug.Test.init_test_session(%{})
-    |> Conn.fetch_query_params()
-    |> Conn.fetch_session()
-    |> SetLocale.call(Localise.set_locale_config())
+    conn =
+      conn()
+      |> Conn.put_req_header("accept-language", "xyz, es;q=0.8")
+      |> Plug.Test.init_test_session(%{})
+      |> Conn.fetch_query_params()
+      |> Conn.fetch_session()
+      |> SetLocale.call(Localise.set_locale_config())
 
     # Read the locale from the connection's private data
     detected_locale = conn.private[:cldr_locale]
