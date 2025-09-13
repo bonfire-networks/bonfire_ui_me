@@ -322,7 +322,7 @@
           </LinkLive>
         </li>
 
-        <!-- <li>
+        {!-- <li>
           <LinkLive
             to={~p"/boundaries/scope/instance/admin_circle"}
             class={
@@ -332,9 +332,8 @@
           >
             <span class=" ">{l("Admins list")}</span>
           </LinkLive>
-        </li> -->
-
-        <!-- <li>
+        </li>
+         <li>
           <LinkLive
             to={~p"/boundaries/scope/instance/mod_circle"}
             class={
@@ -344,7 +343,7 @@
           >
             <span class=" ">{l("Moderators list")}</span>
           </LinkLive>
-        </li> -->
+        </li> --}
       {/if}
     </details>
   </li>

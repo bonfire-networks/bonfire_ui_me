@@ -107,7 +107,7 @@
       <input name="scope" value={:instance} type="hidden">
 
       <div class="divide-y divide-base-content/10 flex flex-col w-full">
-        <!-- <div class="flex flex-col gap-2 p-4">
+        {!-- <div class="flex flex-col gap-2 p-4">
           <span class="font-medium text-sm">{l("Federation")}</span>
 
           test - {Bonfire.Common.Settings.get([:activity_pub, :instance, :federating], nil, :instance)}
@@ -122,7 +122,7 @@
             }}
             scope={:instance}
           />
-        </div> -->
+        </div> --}
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Require authentication from federated servers")}
           description={l(
@@ -140,14 +140,13 @@
           default_value
         />
         <div class="flex flex-col gap-2 p-4">
-          <!-- <span class="font-medium text-sm">{l("Who can see the list of local users?")}</span>
+          {!-- <span class="font-medium text-sm">{l("Who can see the list of local users?")}</span>
           <Bonfire.UI.Common.SettingsRadiosLive
             keys={[Bonfire.UI.Me.UsersDirectoryLive, :show_to]}
             options={[guests: l("Guests"), users: l("Users"), admins: l("Admins")]}
             scope={:instance}
-          /> -->
-
-          <!-- description={l("Choose between: Automatic (Push activities to the fediverse and accept remote activities), Manual (Enable looking up usernames and fetching individual posts or activities), Fully disabled")} -->
+          /> 
+           description={l("Choose between: Automatic (Push activities to the fediverse and accept remote activities), Manual (Enable looking up usernames and fetching individual posts or activities), Fully disabled")} --}
           <Bonfire.UI.Common.SettingsSelectLive
             name={l("Who can see the list of local users?")}
             keys={[Bonfire.UI.Me.UsersDirectoryLive, :show_to]}
@@ -214,12 +213,12 @@
         default_value={4}
       />
 
-      <!-- <Bonfire.UI.Common.SettingsToggleLive
+      {!-- <Bonfire.UI.Common.SettingsToggleLive
         name={l("Activate Curated tab")}
         description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
         keys={[Bonfire.UI.Social.FeedsLive, :curated]}
         scope={:instance}
-      /> -->
+      /> --}
 
       <div class="p-4">
         <div class="flex items-center justify-between">

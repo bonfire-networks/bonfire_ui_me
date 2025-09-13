@@ -3,7 +3,7 @@
   <form class="flex flex-col" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={@scope} type="hidden">
 
-    <!-- <Bonfire.UI.Common.SettingsRadiosLive
+    {!-- <Bonfire.UI.Common.SettingsRadiosLive
       keys={[Bonfire.Web.Views.DashboardLive, :default_feed]}
       options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
            Bonfire.Common.Config.get(
@@ -23,7 +23,7 @@
       end}
       default_value={:popular}
       scope={@scope}
-    /> -->
+    /> --}
 
     <div class="font-semibold p-4">{l("Configure your dashboard")}</div>
     <div class="flex flex-col gap-2 divide-y divide-base-content/10">
@@ -35,14 +35,14 @@
         scope={@scope}
       />
 
-      <!-- <Bonfire.UI.Common.SettingsToggleLive
+      {!-- <Bonfire.UI.Common.SettingsToggleLive
           name={l("Show recent users")}
           description={l("Show the most recent users")}
           keys={[Bonfire.Web.Views.DashboardLive, :include, :recent_users]}
           default_value
           scope={@scope}
           compact
-        /> -->
+        /> --}
 
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Show admins")}

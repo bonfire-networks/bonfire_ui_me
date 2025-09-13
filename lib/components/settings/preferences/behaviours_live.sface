@@ -81,14 +81,14 @@
       />
     </form>
 
-    <!-- <form data-scope="set_composer" phx-change="Bonfire.Common.Settings:set">
+    {!-- <form data-scope="set_composer" phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         name="Composer"
         description={l("Show the focused composer")}
         keys={[Bonfire.UI.Common.SmartInputContainerLive, :show_focused]}
         scope={@scope}
       />
-    </form> -->
+    </form> --}
 
     <form data-scope="set_brand" phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
@@ -145,7 +145,7 @@
       />
     </form>
 
-    <!-- <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
+    {!-- <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
 
       <Bonfire.UI.Common.SettingsToggleLive
@@ -154,9 +154,9 @@
         keys={[Bonfire.UI.Social.Activity.ActionsLive, :feed, :hide_until_hovered]}
         scope={@scope}
       />
-    </form> -->
-
-    <!-- <form data-scope="set_hide_actions_on_discussion" phx-change="Bonfire.Common.Settings:set">
+    </form> 
+    
+     <form data-scope="set_hide_actions_on_discussion" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Hide actions on discussions (eg. reply, boost, etc)")}
@@ -164,7 +164,7 @@
         keys={[Bonfire.UI.Social.Activity.ActionsLive, :thread, :hide_until_hovered]}
         scope={@scope}
       />
-    </form> -->
+    </form> --}
   </div>
 
   <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
@@ -196,7 +196,7 @@
       </div>
     </div>
 
-    <!-- <div class="p-4 cursor-pointer">
+    {!-- <div class="p-4 cursor-pointer">
       <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Feed activities")}</div>
@@ -210,10 +210,11 @@
           scope={@scope}
         />
       </div>
-    </div> -->
+    </div> --}
 
-    <!-- Commenting because it is overridden by the settings in the dashboard settings -->
-    <!-- <form
+    {!-- 
+     <!-- Commenting because it is overridden by the settings in the dashboard settings -->
+     <form
       class="p-4"
       data-scope="set_default_feed"
       name="settings"
@@ -246,7 +247,7 @@
         end}
         scope={@scope}
       />
-    </form> -->
+    </form> --}
 
     <form data-scope="time_limit" class="p-4" phx-change="Bonfire.Common.Settings:set">
       <label for="set_default_time_limit" class="sr-only">{l("Set default time limit")}</label>
@@ -262,14 +263,14 @@
       />
     </form>
 
-    <!-- <div class="p-4">
+    {!-- <div class="p-4">
   <StatelessComponent
     module={maybe_component(Bonfire.UI.Social.SortItemsLive, @__context__)}
     scope={@scope}
     name={l("Feed default sort")}
     description={l("Select the default sorting options for your feeds (can always change in the feed controls options)")}
   />
-  </div> -->
+  </div> --}
 
     <div class="p-4 flex flex-col lg:flex-row lg:items-center gap-4 justify-between">
       <div class="flex items-center justify-between gap-4">
@@ -296,13 +297,13 @@
       {!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} --}
     </form>
 
-    <!-- <div x-data="{open: false}" class="p-4 cursor-pointer">
+    {!-- <div x-data="{open: false}" class="p-4 cursor-pointer">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Discussions default layout")}</div>
           <div class="text-sm font-light text-base-content/70">{l("Select the default way to view discussions (can always change in the feed controls options)")}</div>
         </div>
-        {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
+        <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
           <#Icon iconify="ph:caret-down-duotone" class="w-3 h-3 text-base-content/70" />
         </button>
@@ -320,7 +321,7 @@
           />
         </form>
       </div>
-    </div> -->
+    </div> --}
     <form
       class="p-4"
       data-scope="set_thread_layout"
@@ -375,10 +376,10 @@
     <span>{l("Wellbeing")}</span>
   </div>
 
-  <!-- <StatelessComponent
+  {!-- <StatelessComponent
     scope={@scope}
     module={maybe_component(Bonfire.UI.Boundaries.DefaultBoundaryLive, @__context__)}
-  /> -->
+  /> --}
   <div class="divide-y divide-base-content/10">
     <form phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
@@ -438,10 +439,10 @@
       </div>
     </div>
 
-    <!-- <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
+    {!-- <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
     <#Icon iconify="carbon:notification" class="w-5 h-5 text-base-content/80" />
     <span>{l("Notifications")}</span>
-  </div> -->
+  </div> --}
 
     <form data-scope="notification_highlight" phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
@@ -569,7 +570,7 @@
 
     <form class="divide-y divide-base-content/10" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
-      <!-- <Bonfire.UI.Common.SettingsToggleLive
+      {!-- <Bonfire.UI.Common.SettingsToggleLive
         :if={module_enabled?(Bonfire.Social.Pins, @__context__) and
           Bonfire.Common.Config.get(
             [Bonfire.UI.Social.FeedsLive, :curated],
@@ -579,7 +580,7 @@
         description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
         keys={[Bonfire.UI.Social.FeedsLive, :curated]}
         scope={@scope}
-      /> -->
+      /> --}
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Hide trending topics")}
         description={l("Do not show a list of trending tags or groups")}
