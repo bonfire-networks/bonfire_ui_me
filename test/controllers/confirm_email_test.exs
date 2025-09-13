@@ -121,7 +121,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
     test "success" do
       #  create a first user since confirmation otherwise not required
       fake_user!()
-       # Clear the cache so the next signup sees that an account exists
+      # Clear the cache so the next signup sees that an account exists
       Bonfire.Me.Accounts.clear_cache()
 
       conn = conn()
@@ -133,7 +133,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
     test "cannot confirm twice" do
       #  create a first user since confirmation otherwise not required
       fake_user!()
-       # Clear the cache so the next signup sees that an account exists
+      # Clear the cache so the next signup sees that an account exists
       Bonfire.Me.Accounts.clear_cache()
 
       # needs template fix - no feedback
