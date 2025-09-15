@@ -37,7 +37,7 @@
         object={current_user(@__context__)}
         object_type_readable={l("user & data")}
         creator_id={current_user(@__context__)}
-        parent_id={"delete-user-#{current_user_id(@__context__)}"}
+        parent_id={deterministic_dom_id(__MODULE__, current_user_id(@__context__), "delete-user", nil)}
         open_btn_class="btn-error btn mt-3  w-full"
         explanation={l(
           "Deleting your user profile means that this user (%{username}) and all related data and activities (but not any other user profiles under this account) will be deleted.",
