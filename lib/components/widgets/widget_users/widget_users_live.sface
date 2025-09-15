@@ -26,7 +26,7 @@
           module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
           show_controls={[]}
           with_popover
-          parent_id={[@parent_id, "widget_users"]}
+          parent_id={deterministic_dom_id(__MODULE__, nil, "widget_users", @parent_id)}
           character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
           profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
           class="btn btn-square btn-ghost btn-sm"

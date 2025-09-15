@@ -18,7 +18,11 @@
               "-mt-12": @with_banner
             }>
               <div class={"flex gap-3": !@with_banner}>
-                <LinkLive to={@href} parent_id={[@parent_id, "av"]} class="flex items-center justify-between">
+                <LinkLive
+                  to={@href}
+                  parent_id={deterministic_dom_id(__MODULE__, nil, "av", @parent_id)}
+                  class="flex items-center justify-between"
+                >
                   <Bonfire.UI.Common.AvatarLive
                     parent_id="user_preview"
                     class="inline-block object-cover rounded-full w-16 h-16"
@@ -30,7 +34,11 @@
                 </LinkLive>
 
                 <div class="mt-2 truncate ellipsis">
-                  <LinkLive to={@href} parent_id={[@parent_id, "l"]} class="flex hover:underline items-center">
+                  <LinkLive
+                    to={@href}
+                    parent_id={deterministic_dom_id(__MODULE__, nil, "l", @parent_id)}
+                    class="flex hover:underline items-center"
+                  >
                     <span class="text-sm font-semibold text-base-content">{e(@user, :profile, :name, nil)}</span>
                   </LinkLive>
 

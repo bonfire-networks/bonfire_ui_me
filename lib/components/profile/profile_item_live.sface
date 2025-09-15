@@ -11,14 +11,14 @@
         aria-expanded="true"
       >
         <LinkLive
-          parent_id={[@parent_id, "pi_avatar"]}
+          parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
           to={if String.starts_with?(e(@character, :username, ""), "http"),
             do: e(@character, :username, nil),
             else: "/character/#{e(@character, :username, "")}"}
           class=""
         >
           <Bonfire.UI.Common.AvatarLive
-            parent_id={["pi_avatar", @parent_id]}
+            parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
             comment={if @lg, do: false, else: true}
             fallback_class="w-12 h-12"
             user_id={id(@profile)}
@@ -30,7 +30,7 @@
         </LinkLive>
         <div :if={!@only_img}>
           <LinkLive
-            parent_id={["pi_l", @parent_id]}
+            parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_l", @parent_id)}
             to={if String.starts_with?(e(@character, :username, ""), "http"),
               do: e(@character, :username, nil),
               else: "/character/#{e(@character, :username, "")}"}
@@ -65,7 +65,7 @@
         profile: @profile,
         character: @character
       }}
-      parent_id={[@parent_id, "ppr"]}
+      parent_id={deterministic_dom_id(__MODULE__, id(@profile), "ppr", @parent_id)}
       with_summary
       class="tooltip z-[9999999999999999] absolute w-[300px] top-0 left-0 hidden"
     >

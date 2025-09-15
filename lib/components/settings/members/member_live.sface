@@ -3,7 +3,7 @@
   <td class="max-w-[200px]">
     <div class="flex items-center space-x-3">
       <Bonfire.UI.Common.AvatarLive
-        parent_id={["member_avatar", id(@user)]}
+        parent_id={deterministic_dom_id(__MODULE__, id(@user), "member_avatar", nil)}
         class="inline-block  object-cover rounded-full w-8 h-8"
         bg_class="rounded-full"
         user_id={id(@user)}
@@ -13,7 +13,7 @@
         <LinkLive
           to={~p"/@" <> e(@user, :character, :username, "")}
           class="text-sm font-bold link link-hover"
-          parent_id={["member_link", id(@user)]}
+          parent_id={deterministic_dom_id(__MODULE__, id(@user), "member_link", nil)}
         >{e(@user, :profile, :name, "Anonymous")}</LinkLive>
         <div class="text-xs opacity-50">@{e(@user, :character, :username, "")}</div>
       </div>
