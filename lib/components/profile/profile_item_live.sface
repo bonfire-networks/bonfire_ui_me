@@ -85,7 +85,7 @@
           <StatelessComponent
             module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @parent_id)}
             user_id={id(@profile)}
-            parent_id={"profile_item_tooltip_#{@parent_id}_#{id(@profile)}"}
+            parent_id={deterministic_dom_id(__MODULE__, id(@profile), "tooltip", @parent_id)}
             as_icon
           /> 
           </div> 
@@ -112,7 +112,12 @@
           current_user_id(@__context__) != id(@profile || @character)}
         {#if :follows_me in @show_controls}
           <StatefulComponent
-            id={"profile_item_follow_indicator_#{@parent_id}_#{id(@profile || @character)}"}
+            id={deterministic_dom_id(
+              __MODULE__,
+              id(@profile || @character),
+              "profile_item_follow_indicator",
+              @parent_id
+            )}
             module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicatorLive, @__context__)}
             user={@character || @profile}
           />
@@ -134,7 +139,12 @@
           module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
           :if={:add_to_circles in @show_controls}
           user_id={id(@profile || @character)}
-          parent_id={"profile_item_add_to_circles_#{@parent_id}_#{id(@profile || @character)}"}
+          parent_id={deterministic_dom_id(
+            __MODULE__,
+            id(@profile || @character),
+            "profile_item_add_to_circles",
+            @parent_id
+          )}
           hide_icon
         />
       {/if}
@@ -143,7 +153,12 @@
     </div>
   </div>
   <StatefulComponent
-    id={"profile_item_block_indicator_#{@parent_id}_#{id(@profile || @character)}"}
+    id={deterministic_dom_id(
+      __MODULE__,
+      id(@profile || @character),
+      "profile_item_block_indicator",
+      @parent_id
+    )}
     :if={:blocks in @show_controls}
     module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicatorLive, @__context__)}
     user={@character || @profile}

@@ -92,7 +92,7 @@
               object={@user}
               object_type_readable={l("user & data")}
               creator_id={id(@user)}
-              parent_id={"delete-user-#{id(@user)}"}
+              parent_id={deterministic_dom_id(__MODULE__, id(@user), "delete-user", nil)}
               open_btn_class="text-error"
               hide_icon
               explanation={l(
