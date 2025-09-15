@@ -1,5 +1,5 @@
 <div>
-  <div class={@wrapper_class || "flex items-top gap-3 lg:gap-2 flex-col lg:flex-row justify-between w-full"}>
+  <div class={@wrapper_class || "flex items-start gap-3 lg:gap-2 flex-col lg:flex-row justify-between w-full"}>
     <!-- id={if @with_popover, do: "profile_item_tooltip_#{@parent_id}_#{id(@profile)}"} -->
     <!-- phx-hook={if @with_popover, do: "Tooltip"} -->
     <div class="flex-1" data-trigger="hover" data-position="top-start">
