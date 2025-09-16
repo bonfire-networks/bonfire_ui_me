@@ -26,7 +26,7 @@
           feed_name={:user_activities}
           params={%{"username" => e(@user, :character, :username, nil)}}
           as_icon={false}
-          parent_id={@parent_id}
+          parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
         />
       </li>
 
@@ -152,7 +152,7 @@
             object={@user}
             permalink={@permalink}
             hide_icon
-            parent_id={@parent_id}
+            parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
             object_type={e(@user, :profile, :name, "this user")}
             class="flex items-center p-4 text-sm text-base-content"
           />
@@ -161,7 +161,7 @@
         {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Boundaries.BlockMenuButtonsLive, @__context__)}
-          parent_id={@parent_id}
+          parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
           object={@user}
           with_icon={false}
           permalink={@permalink}
