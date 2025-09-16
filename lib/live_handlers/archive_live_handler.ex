@@ -4,7 +4,9 @@ defmodule Bonfire.Me.Archive.LiveHandler do
 
   def handle_event("prepare_archive", _params, socket) do
     {:ok, task_pid} =
-      Bonfire.UI.Me.ExportController.trigger_prepare_archive_async(assigns(socket)[:__context__])
+      Bonfire.UI.Social.ExportController.trigger_prepare_archive_async(
+        assigns(socket)[:__context__]
+      )
 
     # Process.send_after(self(), :clear_flash, 3000)
 
