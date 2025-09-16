@@ -33,7 +33,6 @@
   >
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive, @__context__)}
-      show_summary
       show_controls={[:follow]}
       showing_within={@showing_within}
       lg
