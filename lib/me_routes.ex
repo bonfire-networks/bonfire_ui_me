@@ -165,11 +165,11 @@ defmodule Bonfire.UI.Me.Routes do
           as: :change_email
         )
 
-        get "/settings/export/csv/:type", ExportController, :csv_download
-        get "/settings/export/json/:type", ExportController, :json_download
-        get "/settings/export/binary/:type/:ext", ExportController, :binary_download
-        get "/settings/export/archive", ExportController, :archive_export
-        get "/settings/export/archive_download", ExportController, :archive_download
+        # get "/settings/export/csv/:type", ExportController, :csv_download
+        # get "/settings/export/json/:type", ExportController, :json_download
+        # get "/settings/export/binary/:type/:ext", ExportController, :binary_download
+        # get "/settings/export/archive", ExportController, :archive_export
+        # get "/settings/export/archive_download", ExportController, :archive_download
 
         live("/settings", SettingsLive, :user, as: :settings)
 
