@@ -27,12 +27,15 @@
       <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
     {#match "import"}
       <StatefulComponent
-        module={maybe_component(Bonfire.UI.Social.Graph.ImportLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Social.ImportLive, @__context__)}
         selected_tab={@selected_tab}
         id="import"
       />
     {#match "export"}
-      <Bonfire.UI.Me.SettingsViewsLive.ExportLive selected_tab={@selected_tab} />
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Social.ExportLive, @__context__)}
+        selected_tab={@selected_tab}
+      />
     {#match "extensions"}
       <Bonfire.UI.Common.ExtensionsLive id="extensions" scope={@scope} />
     {#match "flags"}
@@ -56,7 +59,7 @@
       />
     {#match "blocks_import"}
       <StatefulComponent
-        module={maybe_component(Bonfire.UI.Social.Graph.ImportLive, @__context__)}
+        module={maybe_component(Bonfire.UI.Social.ImportLive, @__context__)}
         selected_tab={@selected_tab}
         type={:blocks}
         id="import"
