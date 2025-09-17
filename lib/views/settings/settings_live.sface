@@ -31,10 +31,24 @@
         selected_tab={@selected_tab}
         id="import"
       />
+    {#match "import_status"}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Social.BackgroundProcessingStatusLive, @__context__)}
+        selected_tab="import"
+        page_title={l("Import Status")}
+        id="import_status"
+      />
     {#match "export"}
       <StatelessComponent
         module={maybe_component(Bonfire.UI.Social.ExportLive, @__context__)}
         selected_tab={@selected_tab}
+      />
+    {#match "federation_status"}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Social.BackgroundProcessingStatusLive, @__context__)}
+        selected_tab="federation"
+        page_title={l("Federation Status")}
+        id="federation_status"
       />
     {#match "extensions"}
       <Bonfire.UI.Common.ExtensionsLive id="extensions" scope={@scope} />

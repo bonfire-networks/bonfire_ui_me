@@ -235,6 +235,18 @@
 
       <li>
         <LinkLive
+          to={~p"/settings/user/export"}
+          class={
+            " ",
+            "bg-primary/10 ": @selected_tab == "export"
+          }
+        >
+          <span class="">{l("Export")}</span>
+        </LinkLive>
+      </li>
+
+      <li>
+        <LinkLive
           to={~p"/settings/user/import"}
           class={
             " ",
@@ -245,15 +257,15 @@
         </LinkLive>
       </li>
       <li>
-        <LinkLive
-          to={~p"/settings/user/export"}
+        <LinkPatchLive
+          to={~p"/settings/user/import_status"}
           class={
             " ",
-            "bg-primary/10 ": @selected_tab == "export"
+            "bg-primary/10": @selected_tab == "import_status"
           }
         >
-          <span class="">{l("Export")}</span>
-        </LinkLive>
+          <span class="">{l("Import status")}</span>
+        </LinkPatchLive>
       </li>
     </details>
   </li>
@@ -263,6 +275,18 @@
       <summary class="group mt-2">
         <span class="font-bold uppercase text-xs text-base-content">{l("Advanced")}</span>
       </summary>
+
+      <li :if={Bonfire.Federate.ActivityPub.federating?(current_user(@__context__))}>
+        <LinkPatchLive
+          to={~p"/settings/user/federation_status"}
+          class={
+            " ",
+            "bg-primary/10": @selected_tab == "federation_status"
+          }
+        >
+          <span class="">{l("Federation status")}</span>
+        </LinkPatchLive>
+      </li>
 
       <li>
         <LinkPatchLive
