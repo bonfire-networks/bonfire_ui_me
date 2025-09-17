@@ -1,6 +1,6 @@
 <div class="">
-  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
-    <#Icon iconify="fluent:paint-brush-20-filled" class="w-6 h-6 text-base-content/80" />
+  <div class="p-4 text-xl font-bold flex items-center gap-4 text-primary">
+    <#Icon iconify="ph:paint-brush-duotone" class="w-6 h-6" />
     <span>{l("Appearance")}</span>
   </div>
 
@@ -167,9 +167,9 @@
     </form> --}
   </div>
 
-  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
-    <#Icon iconify="majesticons:list-box" class="w-6 h-6 text-base-content/80" />
-    <span>{l("Feeds and Discussions")}</span>
+  <div class="p-4 text-xl font-bold flex items-center gap-4 text-primary">
+    <#Icon iconify="ph:chats-circle-duotone" class="w-6 h-6" />
+    <span>{l("Discussions")}</span>
   </div>
 
   <div class="divide-y divide-base-content/10">
@@ -249,7 +249,7 @@
       />
     </form> --}
 
-    <form data-scope="time_limit" class="p-4" phx-change="Bonfire.Common.Settings:set">
+    <!-- <form data-scope="time_limit" class="p-4" phx-change="Bonfire.Common.Settings:set">
       <label for="set_default_time_limit" class="sr-only">{l("Set default time limit")}</label>
       <Bonfire.UI.Common.SettingsSelectLive
         keys={[Bonfire.UI.Social.FeedLive, :time_limit]}
@@ -261,7 +261,7 @@
         )}
         scope={@scope}
       />
-    </form>
+    </form> -->
 
     {!-- <div class="p-4">
   <StatelessComponent
@@ -272,7 +272,7 @@
   />
   </div> --}
 
-    <div class="p-4 flex flex-col lg:flex-row lg:items-center gap-4 justify-between">
+    <!-- <div class="p-4 flex flex-col lg:flex-row lg:items-center gap-4 justify-between">
       <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Feed default sort")}</div>
@@ -285,9 +285,9 @@
         module={maybe_component(Bonfire.UI.Social.SortItemsLive, @__context__)}
         scope={@scope}
       />
-    </div>
+    </div> -->
 
-    <form phx-change="Bonfire.Common.Settings:set">
+    <!-- <form phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.Settings.NumberLive
         scope={@scope}
         name={l("How many items to show in feeds and other lists")}
@@ -295,7 +295,7 @@
         unit={l("items")}
       />
       {!-- name={l("How many items to show in feeds and other lists (maximum %{number})", number: Config.get(:pagination_hard_max_limit, 500))} --}
-    </form>
+    </form> -->
 
     {!-- <div x-data="{open: false}" class="p-4 cursor-pointer">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
@@ -371,8 +371,8 @@
     </form>
   </div>
 
-  <div class="p-4 font-bold text-xl flex items-center gap-4 border-b border-base-content/10">
-    <#Icon iconify="material-symbols:digital-wellbeing" class="w-6 h-6 text-base-content/80" />
+  <div class="p-4 font-bold text-xl flex items-center gap-4 text-primary">
+    <#Icon iconify="ph:hand-heart-duotone" class="w-6 h-6" />
     <span>{l("Wellbeing")}</span>
   </div>
 
@@ -493,8 +493,8 @@
   </form> --}
   </div>
 
-  <div class="p-4 text-xl border-b border-base-content/10 font-bold flex items-center gap-4">
-    <#Icon iconify="ic:round-lock" class="w-6 h-6 text-base-content/80" />
+  <div class="p-4 text-xl text-primary font-bold flex items-center gap-4">
+    <#Icon iconify="ph:lock-simple-duotone" class="w-6 h-6" />
     <span>{l("Privacy & Safety")}</span>
   </div>
 
@@ -580,8 +580,8 @@
     <Bonfire.UI.Me.SettingsViewsLive.IndexableLive scope={@scope} />
   </div>
 
-  <div class="p-4 text-xl border-b border-base-content/10 font-bold flex items-center gap-4">
-    <#Icon iconify="streamline:trending-content-solid" class="w-6 h-6 text-base-content/80" />
+  <div class="p-4 text-xl text-primary font-bold flex items-center gap-4">
+    <#Icon iconify="ph:trend-up-duotone" class="w-6 h-6" />
     <span>{l("Curated & Trending topics")}</span>
   </div>
 
