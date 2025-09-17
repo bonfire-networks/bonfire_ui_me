@@ -547,7 +547,7 @@
               <div class="text-sm text-info">
                 {l("Wondering how federation of your incoming and outgoing activities is going?")}
               </div>
-              <Bonfire.UI.Common.LinkLive to="/settings/background_processing" class="btn btn-sm ml-4">
+              <Bonfire.UI.Common.LinkLive to="/settings/user/federation_status" class="btn btn-sm ml-4">
                 <#Icon iconify="heroicons:clock" class="w-4 h-4 mr-2" />
                 {l("View Federation Status")}
               </Bonfire.UI.Common.LinkLive>
