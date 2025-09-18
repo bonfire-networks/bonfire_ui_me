@@ -193,7 +193,7 @@
                               data-role="label"
                               data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
                               phx-hook="Copy"
-                              id={"button_" <> Bonfire.Me.Characters.display_username(@user, true)}
+                              id={"button_#{Bonfire.Me.Characters.display_username(@user, true)}"}
                               class="btn btn-ghost btn-xs btn-circle"
                             >
                               <#Icon
