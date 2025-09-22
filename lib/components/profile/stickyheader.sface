@@ -5,6 +5,7 @@
   class="z-[9999999999999999999999] bg-base-100 border-b border-base-content/10 transition-all duration-300 opacity-0 pointer-events-none -translate-y-full h-0"
   data-show-class="opacity-100 pointer-events-auto translate-y-0"
   data-hide-class="opacity-0 pointer-events-none -translate-y-full"
+  phx-update="ignore"
 >
   <div class="flex items-center justify-between px-4 py-2">
     <!-- Back button -->
