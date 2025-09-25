@@ -1,5 +1,5 @@
 <div class={@class}>
-  <div class="bg-base-100">
+  <div class="">
     {!-- <LinkLive to={"#{@path_prefix}#{e(@user, :character, :username, "")}#{@go}"}> --}
     {#case {Media.avatar_url(@user), @with_banner && Media.banner_url(@user)}}
       {#match {avatar_url, banner_url}}
