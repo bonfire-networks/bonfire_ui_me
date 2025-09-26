@@ -88,6 +88,16 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      )}
   end
 
+  def handle_params(%{"tab" => "federation_status"}, _url, socket) do
+    {:noreply,
+     assign(
+       socket,
+       back: true,
+       page_title: l("Federation Status"),
+       selected_tab: "federation_status"
+     )}
+  end
+
   def handle_params(%{"tab" => tab}, _url, socket) do
     extension = Bonfire.Common.ExtensionModule.extension(tab)
 
