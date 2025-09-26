@@ -7,52 +7,52 @@
   data-hide-class="opacity-0 pointer-events-none -translate-y-full"
   phx-update="ignore"
 >
-<div class="pt-safe">
-  <div class="flex items-center justify-between px-4 py-2">
-    <!-- Back button -->
+  <div class="pt-safe">
+    <div class="flex items-center justify-between px-4 py-2">
+      <!-- Back button -->
 
-    <button
-      class="btn btn-circle btn-ghost btn-sm"
-      onclick="history.length > 1 ? history.back() : window.location.href = '/'"
-    >
-      <#Icon iconify="ph:arrow-left" class="text-primary w-5 h-5" />
-    </button>
+      <button
+        class="btn btn-circle btn-ghost btn-sm"
+        onclick="history.length > 1 ? history.back() : window.location.href = '/'"
+      >
+        <#Icon iconify="ph:arrow-left" class="text-primary w-5 h-5" />
+      </button>
 
-    <!-- Avatar and name -->
-    <div class="flex items-center gap-2 flex-1 px-3">
-      <span>
-        {#if @character_type == :user and
-            !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
-          <Bonfire.UI.Common.AvatarLive
-            parent_id="profile-hero-sticky"
-            class="w-8 h-8 rounded-full"
-            user_id={id(@user)}
-            src={Media.avatar_url(@user)}
-          />
-        {/if}
-      </span>
-      <span class="font-semibold text-sm">
-        {rich(e(@user, :profile, :name, "Anonymous"))}
-      </span>
+      <!-- Avatar and name -->
+      <div class="flex items-center gap-2 flex-1 px-3">
+        <span>
+          {#if @character_type == :user and
+              !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
+            <Bonfire.UI.Common.AvatarLive
+              parent_id="profile-hero-sticky"
+              class="w-8 h-8 rounded-full"
+              user_id={id(@user)}
+              src={Media.avatar_url(@user)}
+            />
+          {/if}
+        </span>
+        <span class="font-semibold text-sm">
+          {rich(e(@user, :profile, :name, "Anonymous"))}
+        </span>
+      </div>
+
+      <!-- More actions -->
+      <div class="flex-shrink-0">
+        <Bonfire.UI.Me.HeroMoreActionsLive
+          character_type={@character_type}
+          parent_id="profile-hero-sticky"
+          ghosted_instance_wide?={@ghosted_instance_wide?}
+          silenced_instance_wide?={@silenced_instance_wide?}
+          ghosted?={@ghosted?}
+          silenced?={@silenced?}
+          boundary_preset={@boundary_preset}
+          user={@user}
+          members={@members}
+          moderators={@moderators}
+          permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
+          class="btn-sm"
+        />
+      </div>
     </div>
-
-    <!-- More actions -->
-    <div class="flex-shrink-0">
-      <Bonfire.UI.Me.HeroMoreActionsLive
-        character_type={@character_type}
-        parent_id="profile-hero-sticky"
-        ghosted_instance_wide?={@ghosted_instance_wide?}
-        silenced_instance_wide?={@silenced_instance_wide?}
-        ghosted?={@ghosted?}
-        silenced?={@silenced?}
-        boundary_preset={@boundary_preset}
-        user={@user}
-        members={@members}
-        moderators={@moderators}
-        permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
-        class="btn-sm"
-      />
-    </div>
-  </div>
   </div>
 </div>

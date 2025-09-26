@@ -354,6 +354,18 @@
         <span class="font-bold uppercase text-xs text-base-content">{l("Advanced")}</span>
       </summary>
 
+      <li :if={Bonfire.Federate.ActivityPub.federating?()}>
+        <LinkPatchLive
+          to={~p"/settings/instance/federation_status"}
+          class={
+            " ",
+            "bg-primary/10": @selected_tab == "federation_status"
+          }
+        >
+          <span class="">{l("Federation status")}</span>
+        </LinkPatchLive>
+      </li>
+
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/code"}
