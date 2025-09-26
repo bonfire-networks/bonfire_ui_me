@@ -189,7 +189,7 @@
                               data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
                               class="font-normal cursor-copy hover:underline underline-offset-4 decoration-dotted text-sm text-base-content/60 tooltip-right"
                             >{Bonfire.Me.Characters.display_username(@user, true)}</span>
-                            <span
+                            <!-- <span
                               data-role="label"
                               data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
                               phx-hook="Copy"
@@ -202,7 +202,7 @@
                                 title={l("Copy username")}
                                 onclick="navigator.clipboard.writeText('@' + '#{Bonfire.Me.Characters.display_username(@user, false)}')"
                               />
-                            </span>
+                            </span> -->
                           </div>
                           <span
                             :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
