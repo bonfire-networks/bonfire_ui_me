@@ -1,4 +1,4 @@
-<main data-id="profile" data-user-id={e(@user, :id, "")} data-guest={@is_guest?}>
+<main class="pt-safe" data-id="profile" data-user-id={e(@user, :id, "")} data-guest={@is_guest?}>
   <Bonfire.UI.Me.Stickyheader
     character_type={@character_type}
     user={@user}

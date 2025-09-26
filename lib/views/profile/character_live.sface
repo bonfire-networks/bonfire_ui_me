@@ -1,4 +1,4 @@
-<main data-id="profile" data-user-id={e(@user, :id, "")}>
+<main data-id="profile" class="pt-safe" data-user-id={e(@user, :id, "")}>
   <Bonfire.UI.Me.Stickyheader character_type={@character_type} user={@user} />
   <StatelessComponent
     module={maybe_component(Bonfire.UI.Social.ProfileTimelineLive, @user)}
