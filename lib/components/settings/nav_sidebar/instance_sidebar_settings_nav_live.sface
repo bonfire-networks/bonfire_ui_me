@@ -362,7 +362,19 @@
             "bg-primary/10": @selected_tab == "federation_status"
           }
         >
-          <span class="">{l("Federation status")}</span>
+          <span class="">{l("Federation status")} {l("(instance wide)")}</span>
+        </LinkPatchLive>
+      </li>
+
+      <li>
+        <LinkPatchLive
+          to={~p"/settings/instance/import_status"}
+          class={
+            " ",
+            "bg-primary/10": @selected_tab == "import_status"
+          }
+        >
+          <span class="">{l("Import status")} {l("(instance wide)")}</span>
         </LinkPatchLive>
       </li>
 
