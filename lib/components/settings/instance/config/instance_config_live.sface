@@ -1,4 +1,4 @@
-<div class="py-8">
+<div class="p-4">
   {#if Bonfire.Boundaries.can?(@__context__, :describe, :instance)}
     <div class="">
       <StatefulComponent
@@ -74,8 +74,8 @@
 </div>
 {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
-      <#Icon iconify="eos-icons:network" class="w-6 h-6 text-base-content/80" />
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
+      <#Icon iconify="eos-icons:network" class="w-6 h-6 text-primary" />
       <span>{l("Federation & Privacy")}</span>
     </div>
 
@@ -180,8 +180,8 @@
   </div>
 
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
-      <#Icon iconify="ph:gear-six-duotone" class="w-6 h-6 text-base-content/80" />
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
+      <#Icon iconify="ph:gear-six-duotone" class="w-6 h-6 text-primary" />
       <span>{l("General Settings")}</span>
     </div>
     <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
@@ -244,8 +244,8 @@
   </div>
 
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
-      <#Icon iconify="lucide:server" class="w-6 h-6 text-base-content/80" />
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
+      <#Icon iconify="lucide:server" class="w-6 h-6 text-primary" />
       <span>{l("Resource Usage")}</span>
     </div>
     <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
@@ -301,6 +301,194 @@
     </form>
   </div>
   {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div> --}
+
+  <div class="">
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
+      <#Icon iconify="ri:mail-send-line" class="w-6 h-6 text-primary" />
+      <span>{l("Email Configuration")}</span>
+    </div>
+
+    <div class="divide-y divide-base-content/10 flex flex-col">
+    
+      <form phx-change="Bonfire.Common.Settings:set" class="p-4">
+        <input name="scope" value={:instance} type="hidden">
+          <Bonfire.UI.Common.SettingsSelectLive
+            name={l("Email Backend")}
+            description={l("Select which service to use for sending emails")}
+            keys={[:bonfire_mailer, :mail_backend]}
+            options={[
+              smtp: l("SMTP"),
+              mailgun: l("Mailgun"),
+              sendgrid: l("SendGrid"),
+              none: l("Disabled")
+            ]}
+            scope={:instance}
+          />
+        </form>
+
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("Mail API Key")}
+          description={l("API key for your email service provider")}
+          keys={[:bonfire_mailer, :mail_key]}
+          default_value={System.get_env("MAIL_KEY")}
+          placeholder="your-api-key-here"
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("Mail From Address")}
+          description={l("Email address that will appear as sender")}
+          keys={[:bonfire_mailer, :mail_from]}
+          default_value={System.get_env("MAIL_FROM")}
+          placeholder="noreply@example.com"
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("Mail Domain")}
+          description={l("Your email domain")}
+          keys={[:bonfire_mailer, :mail_domain]}
+          default_value={System.get_env("MAIL_DOMAIN")}
+          placeholder="example.com"
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("Mail Base URI")}
+          description={l("Base URI for mail service API (if applicable)")}
+          keys={[:bonfire_mailer, :mail_base_uri]}
+          default_value={System.get_env("MAIL_BASE_URI")}
+          placeholder="https://api.mailgun.net/v3"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
+      <#Icon iconify="mdi:cloud-search" class="w-6 h-6 text-primary" />
+      <span>{l("Search Configuration")}</span>
+    </div>
+    <div class="divide-y divide-base-content/10">
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("Meilisearch Instance URL")}
+          description={l("URL of your Meilisearch server")}
+          keys={[:bonfire_search, :instance]}
+          placeholder="http://localhost:7700"
+        />
+      </div>
+      <div class="p-4">
+      <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("Meilisearch Master Key")}
+          description={l("Master key for Meilisearch authentication")}
+          keys={[:bonfire_search, :api_key]}
+          placeholder="your-master-key"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
+      <#Icon iconify="carbon:cloud-upload" class="w-6 h-6 text-primary" />
+      <span>{l("File Storage (S3)")}</span>
+    </div>
+    <div class="divide-y divide-base-content/10">
+      <div class="p-4">
+      <Bonfire.UI.Common.SettingsInputLive
+        scope={:instance}
+        name={l("S3 Bucket Name")}
+        description={l("Name of your S3 bucket for file uploads")}
+        keys={[:bonfire_files, :uploads_s3_bucket]}
+        default_value={System.get_env("UPLOADS_S3_BUCKET")}
+        placeholder="my-bonfire-uploads"
+      />
+      </div>
+      <div class="p-4">
+      <Bonfire.UI.Common.SettingsInputLive
+        scope={:instance}
+        name={l("S3 Access Key ID")}
+        description={l("AWS/S3 access key ID")}
+        keys={[:bonfire_files, :uploads_s3_access_key_id]}
+        default_value={System.get_env("UPLOADS_S3_ACCESS_KEY_ID")}
+        placeholder="AKIAIOSFODNN7EXAMPLE"
+      />
+</div>
+<div class="p-4">
+      <Bonfire.UI.Common.SettingsInputLive
+        scope={:instance}
+        name={l("S3 Secret Access Key")}
+        description={l("AWS/S3 secret access key")}
+        keys={[:bonfire_files, :uploads_s3_secret_access_key]}
+        default_value={System.get_env("UPLOADS_S3_SECRET_ACCESS_KEY")}
+        placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+      />
+      </div>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
+      <#Icon iconify="ph:heartbeat-duotone" class="w-6 h-6 text-primary" />
+      <span>{l("Telemetry & Monitoring")}</span>
+    </div>
+
+    <div class="divide-y divide-base-content/10 flex flex-col">
+      <form phx-change="Bonfire.Common.Settings:set" class="">
+        <input name="scope" value={:instance} type="hidden">
+
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Enable OpenTelemetry")}
+          description={l("Enable telemetry data collection and export")}
+          keys={[:opentelemetry, :enabled]}
+          scope={:instance}
+        />
+
+      </form>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("Sentry DSN")}
+          description={l("Sentry DSN for error tracking and reporting")}
+          keys={[:sentry, :dsn]}
+          default_value={System.get_env("SENTRY_DSN")}
+          placeholder="https://public@sentry.example.com/1"
+        />
+        </div>
+      <div class="p-4">
+            <Bonfire.UI.Common.SettingsInputLive
+              scope={:instance}
+              name={l("Honeycomb API Key")}
+              description={l("API key for Honeycomb.io telemetry")}
+              keys={[:opentelemetry, :honeycomb_api_key]}
+              default_value={System.get_env("OTEL_HONEYCOMB_API_KEY")}
+              placeholder="your-honeycomb-api-key"
+            />
+      </div>
+        <div class="p-4">
+          <Bonfire.UI.Common.SettingsInputLive
+            scope={:instance}
+            name={l("Lightstep API Key")}
+            description={l("API key for Lightstep/ServiceNow telemetry")}
+            keys={[:opentelemetry, :lightstep_api_key]}
+            default_value={System.get_env("OTEL_LIGHTSTEP_API_KEY")}
+            placeholder="your-lightstep-api-key"
+          />
+      </div>
+    </div>
+  </div>
+
+
+
+
 {#else}
   {l("You don't have permission to configure the instance, sorry!")}
 {/if}
