@@ -309,22 +309,21 @@
     </div>
 
     <div class="divide-y divide-base-content/10 flex flex-col">
-    
       <form phx-change="Bonfire.Common.Settings:set" class="p-4">
         <input name="scope" value={:instance} type="hidden">
-          <Bonfire.UI.Common.SettingsSelectLive
-            name={l("Email Backend")}
-            description={l("Select which service to use for sending emails")}
-            keys={[:bonfire_mailer, :mail_backend]}
-            options={[
-              smtp: l("SMTP"),
-              mailgun: l("Mailgun"),
-              sendgrid: l("SendGrid"),
-              none: l("Disabled")
-            ]}
-            scope={:instance}
-          />
-        </form>
+        <Bonfire.UI.Common.SettingsSelectLive
+          name={l("Email Backend")}
+          description={l("Select which service to use for sending emails")}
+          keys={[:bonfire_mailer, :mail_backend]}
+          options={[
+            smtp: l("SMTP"),
+            mailgun: l("Mailgun"),
+            sendgrid: l("SendGrid"),
+            none: l("Disabled")
+          ]}
+          scope={:instance}
+        />
+      </form>
 
       <div class="p-4">
         <Bonfire.UI.Common.SettingsInputLive
@@ -385,7 +384,7 @@
         />
       </div>
       <div class="p-4">
-      <Bonfire.UI.Common.SettingsInputLive
+        <Bonfire.UI.Common.SettingsInputLive
           scope={:instance}
           name={l("Meilisearch Master Key")}
           description={l("Master key for Meilisearch authentication")}
@@ -403,34 +402,34 @@
     </div>
     <div class="divide-y divide-base-content/10">
       <div class="p-4">
-      <Bonfire.UI.Common.SettingsInputLive
-        scope={:instance}
-        name={l("S3 Bucket Name")}
-        description={l("Name of your S3 bucket for file uploads")}
-        keys={[:bonfire_files, :uploads_s3_bucket]}
-        default_value={System.get_env("UPLOADS_S3_BUCKET")}
-        placeholder="my-bonfire-uploads"
-      />
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("S3 Bucket Name")}
+          description={l("Name of your S3 bucket for file uploads")}
+          keys={[:bonfire_files, :uploads_s3_bucket]}
+          default_value={System.get_env("UPLOADS_S3_BUCKET")}
+          placeholder="my-bonfire-uploads"
+        />
       </div>
       <div class="p-4">
-      <Bonfire.UI.Common.SettingsInputLive
-        scope={:instance}
-        name={l("S3 Access Key ID")}
-        description={l("AWS/S3 access key ID")}
-        keys={[:bonfire_files, :uploads_s3_access_key_id]}
-        default_value={System.get_env("UPLOADS_S3_ACCESS_KEY_ID")}
-        placeholder="AKIAIOSFODNN7EXAMPLE"
-      />
-</div>
-<div class="p-4">
-      <Bonfire.UI.Common.SettingsInputLive
-        scope={:instance}
-        name={l("S3 Secret Access Key")}
-        description={l("AWS/S3 secret access key")}
-        keys={[:bonfire_files, :uploads_s3_secret_access_key]}
-        default_value={System.get_env("UPLOADS_S3_SECRET_ACCESS_KEY")}
-        placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
-      />
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("S3 Access Key ID")}
+          description={l("AWS/S3 access key ID")}
+          keys={[:bonfire_files, :uploads_s3_access_key_id]}
+          default_value={System.get_env("UPLOADS_S3_ACCESS_KEY_ID")}
+          placeholder="AKIAIOSFODNN7EXAMPLE"
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("S3 Secret Access Key")}
+          description={l("AWS/S3 secret access key")}
+          keys={[:bonfire_files, :uploads_s3_secret_access_key]}
+          default_value={System.get_env("UPLOADS_S3_SECRET_ACCESS_KEY")}
+          placeholder="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+        />
       </div>
     </div>
   </div>
@@ -451,7 +450,6 @@
           keys={[:opentelemetry, :enabled]}
           scope={:instance}
         />
-
       </form>
       <div class="p-4">
         <Bonfire.UI.Common.SettingsInputLive
@@ -462,33 +460,29 @@
           default_value={System.get_env("SENTRY_DSN")}
           placeholder="https://public@sentry.example.com/1"
         />
-        </div>
-      <div class="p-4">
-            <Bonfire.UI.Common.SettingsInputLive
-              scope={:instance}
-              name={l("Honeycomb API Key")}
-              description={l("API key for Honeycomb.io telemetry")}
-              keys={[:opentelemetry, :honeycomb_api_key]}
-              default_value={System.get_env("OTEL_HONEYCOMB_API_KEY")}
-              placeholder="your-honeycomb-api-key"
-            />
       </div>
-        <div class="p-4">
-          <Bonfire.UI.Common.SettingsInputLive
-            scope={:instance}
-            name={l("Lightstep API Key")}
-            description={l("API key for Lightstep/ServiceNow telemetry")}
-            keys={[:opentelemetry, :lightstep_api_key]}
-            default_value={System.get_env("OTEL_LIGHTSTEP_API_KEY")}
-            placeholder="your-lightstep-api-key"
-          />
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("Honeycomb API Key")}
+          description={l("API key for Honeycomb.io telemetry")}
+          keys={[:opentelemetry, :honeycomb_api_key]}
+          default_value={System.get_env("OTEL_HONEYCOMB_API_KEY")}
+          placeholder="your-honeycomb-api-key"
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          scope={:instance}
+          name={l("Lightstep API Key")}
+          description={l("API key for Lightstep/ServiceNow telemetry")}
+          keys={[:opentelemetry, :lightstep_api_key]}
+          default_value={System.get_env("OTEL_LIGHTSTEP_API_KEY")}
+          placeholder="your-lightstep-api-key"
+        />
       </div>
     </div>
   </div>
-
-
-
-
 {#else}
   {l("You don't have permission to configure the instance, sorry!")}
 {/if}
