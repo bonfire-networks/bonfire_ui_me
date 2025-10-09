@@ -249,7 +249,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       ghosted_instance_wide?: nil,
       ghosted?: nil,
       silenced?: nil,
-      selected_tab: nil
+      selected_tab: :timeline
     ]
   end
 
