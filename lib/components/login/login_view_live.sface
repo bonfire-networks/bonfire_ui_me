@@ -1,8 +1,8 @@
 <div class="w-full p-4 mx-auto rounded-box shadow-lg bg-base-100 border border-base-content/10">
-    <StatelessComponent
-      module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
-      source={:login}
-    />
+  <StatelessComponent
+    module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
+    source={:login}
+  />
   <.simple_form
     for={@form}
     action={path(:login, :create)}
