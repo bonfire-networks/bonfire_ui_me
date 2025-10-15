@@ -66,7 +66,7 @@ defmodule Bonfire.UI.Me.LoginController do
   def logged_in(%{id: account_id} = current_account, %{id: user_id} = current_user, conn, form) do
     info(account_id, "Account logged in")
     info(user_id, "Logged in as user")
-    # maybe_apply(Bonfire.Boundaries.Users, :create_missing_boundaries, user)
+    # maybe_apply(Bonfire.Boundaries.Scaffold.Users, :create_missing_boundaries, user)
 
     conn
     |> put_session(:current_account_id, account_id)
