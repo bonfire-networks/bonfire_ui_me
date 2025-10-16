@@ -3,7 +3,7 @@
     {!-- <LinkLive to={"#{@path_prefix}#{e(@user, :character, :username, "")}#{@go}"}> --}
     {#case {Media.avatar_url(@user), @with_banner && Media.banner_url(@user)}}
       {#match {avatar_url, banner_url}}
-        {#case @with_banner && Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
+        {#case @with_banner && Media.maybe_dominant_color(@user, avatar_url, banner_url)}
           {#match color}
             <div
               :if={@with_banner}
@@ -13,11 +13,11 @@
                 do: "background-image: url('#{URI.encode(banner_url)}')",
                 else: "background-color: #{color}"}
             />
-            <div class={
+            <div class={[
               "p-3",
               "-mt-12": @with_banner
-            }>
-              <div class={"flex gap-3": !@with_banner}>
+            ]}>
+              <div class={["flex gap-3": !@with_banner]}>
                 <LinkLive
                   to={@href}
                   parent_id={deterministic_dom_id(__MODULE__, nil, "av", @parent_id)}

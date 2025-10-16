@@ -16,9 +16,63 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentAccountUsers do
     {:ok, socket}
   end
 
-  # pull from account
+  # based on account
+  def mount(
+        _,
+        _,
+        %{assigns: %{current_account: %Account{} = account, current_user: %{id: user_id}}} =
+          socket
+      ) do
+    {:ok,
+     assign_global(socket,
+       current_account_users: Users.by_account!(account, exclude_user_id: user_id)
+     )}
+  end
+
+  def mount(
+        _,
+        _,
+        %{assigns: %{current_account: %Account{} = account, current_user_id: user_id}} = socket
+      ) do
+    {:ok,
+     assign_global(socket,
+       current_account_users: Users.by_account!(account, exclude_user_id: user_id)
+     )}
+  end
+
   def mount(_, _, %{assigns: %{current_account: %Account{} = account}} = socket) do
     {:ok, assign_global(socket, current_account_users: Users.by_account!(account))}
+  end
+
+  # based on account in context
+  def mount(
+        _,
+        _,
+        %{
+          assigns: %{
+            __context__: %{current_account: %Account{} = account, current_user: %{id: user_id}}
+          }
+        } = socket
+      ) do
+    {:ok,
+     assign_global(socket,
+       current_account_users: Users.by_account!(account, exclude_user_id: user_id)
+     )}
+  end
+
+  def mount(
+        _,
+        _,
+        %{
+          assigns: %{
+            __context__: %{current_account: %Account{} = account, current_user_id: user_id}
+          }
+        } = socket
+      ) do
+    {:ok,
+     assign_global(socket,
+       current_account_users: Users.by_account!(account, exclude_user_id: user_id)
+     )}
   end
 
   def mount(
@@ -27,6 +81,18 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentAccountUsers do
         %{assigns: %{__context__: %{current_account: %Account{} = account}}} = socket
       ) do
     {:ok, assign_global(socket, current_account_users: Users.by_account!(account))}
+  end
+
+  # based on account in user
+  def mount(
+        _,
+        _,
+        %{assigns: %{current_user: %{account: %Account{} = account, id: user_id}}} = socket
+      ) do
+    {:ok,
+     assign_global(socket,
+       current_account_users: Users.by_account!(account, exclude_user_id: user_id)
+     )}
   end
 
   def mount(_, _, %{assigns: %{current_user: %{account: %Account{} = account}}} = socket) do

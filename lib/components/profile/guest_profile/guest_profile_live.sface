@@ -1,6 +1,6 @@
 {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
   {#match {avatar_url, banner_url}}
-    {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
+    {#case Media.maybe_dominant_color((@user), avatar_url, banner_url)}
       {#match color}
         <div
           class={

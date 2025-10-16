@@ -4,7 +4,7 @@
     {!-- TODO: put this logic in `update` fn instead? --}
     {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
       {#match {avatar_url, banner_url}}
-        {#case Media.maybe_dominant_color(id(@user), avatar_url, banner_url)}
+        {#case Media.maybe_dominant_color(@user, avatar_url, banner_url)}
           {#match color}
             {!-- {#if Settings.get([Bonfire.UI.Me.ProfileHeroFullLive, :background], false, @__context__) or
                 @character_type != :user} --}
@@ -32,7 +32,8 @@
                   parent_id="profile_hero_full"
                   members={@members}
                   moderators={@moderators}
-                  permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
+                  permalink={e(@user, :character, :peered, :canonical_uri, nil) ||
+                    URIs.canonical_url(@user, preload_if_needed: false)}
                 />
               </div>
 

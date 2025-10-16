@@ -1,10 +1,10 @@
-{#if @show_inline_users and @current_account_users != []}
+{#if @show_inline_users and is_list(@current_account_users) and @current_account_users != []}
   <li :if={@max_users_per_account > 1}>
     <div class="menu-title font-medium items-center flex justify-between text-base-content/70 px-3 py-2">
       <span>{l("Profiles")}</span>
       <div class="tooltip tooltip-left" data-tip={l("Create new profile")}>
         <LinkLive
-          :if={length(@current_account_users || []) < @max_users_per_account}
+          :if={(length(@current_account_users || []) + 1) < @max_users_per_account}
           to={~p"/create-user"}
           class="h-[240px]"
         >
@@ -13,7 +13,7 @@
       </div>
     </div>
     <ul class="menu p-0 m-0 w-full">
-      <li :for={%{id: user_id} = user <- @current_account_users || []} class="w-full">
+      <li :for={{%{id: user_id} = user, i} <- Enum.with_index([current_user(@__context__)] ++ (@current_account_users || []))} class="w-full">
         <LinkLive
           to={"/switch-user/#{user.character.username}"}
           class="flex justify-between items-center"
@@ -23,7 +23,7 @@
             <div class={
               "relative rounded-full p-0",
               "ring-primary ring-offset-base-100  ring-2 ring-offset-2":
-                current_user_id(@__context__) == user_id
+                i == 0
             }>
               <Bonfire.UI.Common.AvatarLive
                 src={Media.avatar_url(user)}
@@ -33,8 +33,7 @@
 
               <div class="indicator absolute top-0 left-0" title={l("View notifications")}>
                 <Bonfire.UI.Common.BadgeCounterLive
-                  :if={current_user_id(@__context__) != user_id}
-                  }
+                  :if={i != 0}
                   parent_id="switch_user_notifications"
                   id={"notifications_#{user_id}"}
                   feed_id={e(user, :character, :notifications_id, nil)}
@@ -44,8 +43,8 @@
               </div>
               <div class="indicator absolute right-0 top-0" title={l("View messages")}>
                 <Bonfire.UI.Common.BadgeCounterLive
-                  :if={current_user_id(@__context__) != user_id}
-                  }
+                        :if={i != 0}
+
                   parent_id="switch_user_notifications"
                   id={"messages_#{user_id}"}
                   feed_id={e(user, :character, :inbox_id, nil)}
@@ -59,7 +58,8 @@
               <div class="text-xs font-medium">
                 {user.profile.name || user.character.username}
               </div>
-              <div :if={current_user_id(@__context__) == user_id} class="text-xs text-base-content/50">
+              <div        :if={i == 0}
+ class="text-xs text-base-content/50">
                 {l("current")}
               </div>
             </div>
