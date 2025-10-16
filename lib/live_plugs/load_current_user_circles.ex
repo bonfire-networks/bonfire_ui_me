@@ -11,6 +11,21 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserCircles do
     end
   end
 
+  def mount(_, _, %{assigns: %{my_circles: circles}} = socket) when is_list(circles) do
+    # already loaded
+    {:ok, socket}
+  end
+
+  def mount(
+        _,
+        _,
+        %{assigns: %{__context__: %{my_circles: circles}}} = socket
+      )
+      when is_list(circles) do
+    # already loaded
+    {:ok, socket}
+  end
+
   def mount(_, _, %{assigns: %{current_user: %User{} = user}} = socket) do
     {:ok,
      assign_global(socket, :my_circles, Circles.list_my(user, exclude_block_stereotypes: true))}
