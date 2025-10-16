@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.LoginController.Test do
-  use Bonfire.UI.Me.ConnCase, async: true
+  use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
   alias Bonfire.Me.Accounts
 
   test "form renders" do

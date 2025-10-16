@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.LocaleTest do
-  use Bonfire.UI.Me.ConnCase, async: true
+  use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
   # alias Bonfire.Social.Fake
   import Phoenix.LiveViewTest
   alias Bonfire.Common.Localise

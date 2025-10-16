@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.Boundaries.InstanceWideGhostActorTest do
-  use Bonfire.UI.Me.ConnCase, async: true
+  use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
   # import Bonfire.Boundaries.Debug
   alias ActivityPub.Config
 

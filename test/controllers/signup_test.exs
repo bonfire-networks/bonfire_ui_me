@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.SignupController.Test do
-  use Bonfire.UI.Me.ConnCase, async: true
+  use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
   use Repatch.ExUnit
 
   test "form renders" do
