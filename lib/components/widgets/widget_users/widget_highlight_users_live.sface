@@ -7,5 +7,6 @@
         Settings.get([Bonfire.UI.Me.WidgetAdminsLive, :show_guests], true, @__context__)}
       widget_title={e(@widget_title, l("Recently joined"))}
       users={users}
+      parent_id="widget_highlight_users"
     />
 {/case}
