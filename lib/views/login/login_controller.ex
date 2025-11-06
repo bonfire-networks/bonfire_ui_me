@@ -56,7 +56,7 @@ defmodule Bonfire.UI.Me.LoginController do
     |> assign_flash(:info, l("Welcome back!"))
     # to support redirect after a POST
     |> Plug.Conn.put_status(303)
-    |> redirect_to(path(:switch_user) <> copy_go(form))
+    |> redirect_to("#{path(:switch_user) || "/switch-user/"}#{copy_go(form)}")
   end
 
   # the user logged in via username, or they logged in via email and

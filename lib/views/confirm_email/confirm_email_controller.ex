@@ -60,7 +60,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
         "Welcome back! Thanks for confirming your email address. You can now create a user profile."
       )
     )
-    |> redirect_to(path(:switch_user))
+    |> redirect_to(path(:switch_user) || "/switch-user/")
   end
 
   defp already_confirmed(conn) do

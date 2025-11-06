@@ -31,7 +31,7 @@ defmodule Bonfire.UI.Me.LivePlugs.UserRequired do
     {:halt,
      socket
      |> assign_flash(:info, l("You need to choose a user to see that page."))
-     |> redirect_to(path(:switch_user))}
+     |> redirect_to(path(:switch_user)) || "/switch-user/"}
   end
 
   defp no(_account, socket) do
