@@ -296,13 +296,15 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
         secondary: [
           recent_publication_widget_enabled &&
             {Bonfire.OpenScience.RecentPublicationLive,
-             [id: "osn-recent-publication", user: user]},
+             [type: Surface.LiveComponent, id: "osn-recent-publication", user: user]},
           # most_cited_publication_widget_enabled &&
           #   {Bonfire.OpenScience.MostCitedPublicationLive, [id: "osn-most-cited-publication", user: user]},
           author_topics_widget_enabled &&
-            {Bonfire.OpenScience.AuthorTopicsLive, [id: "osn-author-topics", user: user]},
+            {Bonfire.OpenScience.AuthorTopicsLive,
+             [type: Surface.LiveComponent, id: "osn-author-topics", user: user]},
           publication_types_widget_enabled &&
-            {Bonfire.OpenScience.PublicationTypesLive, [id: "osn-publication-types", user: user]},
+            {Bonfire.OpenScience.PublicationTypesLive,
+             [type: Surface.LiveComponent, id: "osn-publication-types", user: user]},
           {Bonfire.Tag.Web.WidgetTagsLive, []},
           {Bonfire.UI.Me.WidgetAdminsLive, []}
         ]
