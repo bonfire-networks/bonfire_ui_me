@@ -220,6 +220,20 @@
 
       <li>
         <LinkLive
+          to={~p"/boundaries/instance_blocked"}
+          class={
+            " ",
+            "bg-primary/20 text-primary ": @selected_tab == "instance_blocked"
+          }
+        >
+          <span class={
+            "text-sm text-base-content/80 font-normal",
+            "text-primary ": @selected_tab == "instance_blocked"
+          }>{l("Blocked instance-wide")}</span>
+        </LinkLive>
+      </li>
+      <li>
+        <LinkLive
           to={~p"/boundaries/instance_ghosted"}
           class={
             " ",

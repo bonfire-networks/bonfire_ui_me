@@ -132,6 +132,19 @@
 
       <li>
         <LinkLive
+          to={~p"/boundaries/blocked"}
+          class={
+            " ",
+            "bg-primary/10": @selected_tab == "blocked"
+          }
+        >
+          <div class="flex flex-col">
+            <span class="">{l("Blocked")}</span>
+          </div>
+        </LinkLive>
+      </li>
+      <li>
+        <LinkLive
           to={~p"/boundaries/ghosted"}
           class={
             " ",
