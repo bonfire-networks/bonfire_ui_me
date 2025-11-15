@@ -108,7 +108,10 @@
             />
           </li> -->
           <li :if={current_user_id(@__context__)}>
-            <LinkLive to={path(@user, :settings)} class="flex items-center gap-2 justify-between text-base-content">
+            <LinkLive
+              to={path(@user, :settings)}
+              class="flex items-center gap-2 justify-between text-base-content"
+            >
               <span class="text-sm font-medium">{l("Settings")}</span>
               <#Icon iconify="ph:gear-duotone" class="w-5 h-5 shrink-0" />
             </LinkLive>
@@ -163,8 +166,6 @@
           />
         </li>
 
-       
-
         {#if !e(@user, :character, :peered, nil)}
           {#if @character_type == :user and
               maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
@@ -215,13 +216,13 @@
             </a>
           </li>
         {/if}
-      
-         {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
+
+        {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Boundaries.BlockMenuButtonsLive, @__context__)}
           parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
           object={@user}
-          with_icon={true}
+          with_icon
           permalink={@permalink}
         />
       {/if}
