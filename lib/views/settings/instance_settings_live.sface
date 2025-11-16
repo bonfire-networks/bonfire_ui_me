@@ -72,7 +72,7 @@
         module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
         id="blocks"
         selected_tab="silenced"
-        title={l("Silenced Users")}
+        title={l("Silenced People & Instances")}
         description={l(
           "Silenced users and instances are hidden from your feeds and notifications. You won't see their posts, mentions, or messages, but they can still see your public content."
         )}
@@ -82,7 +82,7 @@
         module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
         id="blocks"
         selected_tab="ghosted"
-        title={l("Ghosted Users")}
+        title={l("Ghosted People & Instances")}
         description={l(
           "Ghosted users and instances cannot see or interact with you or your content. This is a stronger form of blocking where they are completely invisible to each other."
         )}
