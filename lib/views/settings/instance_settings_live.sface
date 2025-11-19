@@ -7,7 +7,7 @@
 <section class="bg-base-100">
   {#case @selected_tab}
     {#match "dashboard"}
-      <Bonfire.UI.Me.SettingsViewsLive.InstanceDashboardLive selected_tab={@selected_tab} />
+      <Bonfire.UI.Me.SettingsViewsLive.DashboardSettingsLive selected_tab={@selected_tab} />
     {#match "admins"}
       <StatefulComponent
         :if={current_user(@__context__)}
