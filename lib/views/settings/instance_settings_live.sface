@@ -20,6 +20,7 @@
         )}
         scope={@scope}
         circle_id={maybe_apply(Bonfire.Boundaries.Scaffold.Instance, :admin_circle, [])}
+        local_only
       />
     {#match "mods"}
       <StatefulComponent
@@ -33,6 +34,7 @@
         )}
         show_add={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
         circle_id={maybe_apply(Bonfire.Boundaries.Scaffold.Instance, :mod_circle, [])}
+        local_only
       />
     {#match "remote_allow_list"}
       <StatefulComponent
