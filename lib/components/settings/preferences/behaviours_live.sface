@@ -559,6 +559,21 @@
 
     <form
       class="p-4"
+      data-scope="set_flag_forward_default"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
+      <Bonfire.UI.Common.SettingsToggleLive
+        name={l("Forward flags to remote instances by default")}
+        description={l("When flagging remote content, automatically check the 'Forward to remote instance' option.")}
+        keys={[Bonfire.Social.Flags, :forward_by_default]}
+        default_value={false}
+        scope={@scope}
+      />
+    </form>
+
+    <form
+      class="p-4"
       data-scope="set_dm_privacy"
       name="settings"
       phx-change="Bonfire.Common.Settings:set"

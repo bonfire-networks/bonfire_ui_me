@@ -160,6 +160,7 @@
             module={maybe_component(Bonfire.UI.Moderation.FlagActionLive, @__context__)}
             object={@user}
             permalink={@permalink}
+            is_remote={not is_nil(e(@user, :character, :peered, nil))}
             parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
             object_type={e(@user, :profile, :name, "this user")}
             class="flex items-center p-4 justify-between text-base-content"
