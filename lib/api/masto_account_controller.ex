@@ -19,6 +19,9 @@ if Application.compile_env(:bonfire_api_graphql, :modularity) != :disabled do
     def mutes(conn, params), do: Adapter.mutes(params, conn)
     def blocks(conn, params), do: Adapter.blocks(params, conn)
 
+    # Account relationships
+    def relationships(conn, params), do: Adapter.relationships(params, conn)
+
     def mute(conn, %{"id" => id}), do: Adapter.mute_account(%{"id" => id}, conn)
     def unmute(conn, %{"id" => id}), do: Adapter.unmute_account(%{"id" => id}, conn)
     def block(conn, %{"id" => id}), do: Adapter.block_account(%{"id" => id}, conn)
