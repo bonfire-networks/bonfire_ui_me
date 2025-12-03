@@ -43,6 +43,25 @@
       />
     </form>
 
+    <form
+      class="p-4"
+      data-scope="set_autoplay_media"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
+      <Bonfire.UI.Common.SettingsSelectLive
+        name={l("Autoplay media attachments")}
+        description={l("Choose when to autoplay video or audio attachments")}
+        keys={[Bonfire.UI.Social.Activity.MediaLive, :autoplay]}
+        options={[
+          {true, l("When viewing a post directly")},
+          {nil, l("Only when clicking on a post in a feed")},
+          {false, l("Never")}
+        ]}
+        scope={@scope}
+      />
+    </form>
+
     <div class="p-4">
       <form data-scope="set_language" name="settings" phx-change="Bonfire.Common.Settings:set_locale">
         <label class="flex items-center justify-between gap-4">
