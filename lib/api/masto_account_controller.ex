@@ -33,5 +33,15 @@ if Application.compile_env(:bonfire_api_graphql, :modularity) != :disabled do
     def unmute(conn, %{"id" => id}), do: BoundariesAdapter.unmute_account(%{"id" => id}, conn)
     def block(conn, %{"id" => id}), do: BoundariesAdapter.block_account(%{"id" => id}, conn)
     def unblock(conn, %{"id" => id}), do: BoundariesAdapter.unblock_account(%{"id" => id}, conn)
+
+    # Follow request endpoints
+    def follow_requests(conn, params), do: Adapter.follow_requests(params, conn)
+    def follow_requests_outgoing(conn, params), do: Adapter.follow_requests_outgoing(params, conn)
+
+    def authorize_follow_request(conn, %{"account_id" => id}),
+      do: Adapter.authorize_follow_request(id, conn)
+
+    def reject_follow_request(conn, %{"account_id" => id}),
+      do: Adapter.reject_follow_request(id, conn)
   end
 end
