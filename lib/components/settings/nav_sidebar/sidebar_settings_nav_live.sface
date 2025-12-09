@@ -10,7 +10,7 @@
       <summary class="group mt-2">
         <span class="font-bold uppercase text-xs text-base-content">{l("General")}</span>
       </summary>
-
+      <ul class="menu p-0">
       <li>
         <LinkLive
           to={~p"/settings/user/profile"}
@@ -84,6 +84,7 @@
           <span class="">{l("Team Profiles")}</span>
         </LinkLive>
       </li>
+      </ul>
     </details>
   </li>
 
@@ -92,7 +93,7 @@
       <summary class="group mt-2">
         <span class="font-bold uppercase text-xs text-base-content">{l("Extensions")}</span>
       </summary>
-
+      <ul class="menu p-0">
       <li>
         <LinkLive
           to={~p"/settings/user/extensions"}
@@ -109,6 +110,7 @@
         id={@id}
         scope={:user}
       />
+      </ul>
     </details>
   </li>
 
@@ -117,7 +119,7 @@
       <summary class="group mt-2">
         <span class="font-bold uppercase text-xs text-base-content">{l("Safety")}</span>
       </summary>
-
+      <ul class="menu p-0">
       <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
         <LinkLive
           to={~p"/settings/user/flags"}
@@ -182,6 +184,7 @@
           }>{l("Import block lists")}</span>
         </LinkLive>
       </li>
+      </ul>
     </details>
   </li>
 
@@ -190,7 +193,7 @@
       <summary class="group mt-2">
         <span class="font-bold uppercase text-xs text-base-content">{l("Boundaries")}</span>
       </summary>
-
+      <ul class="menu p-0">
       <li>
         <LinkLive
           to={~p"/boundaries/circles"}
@@ -237,6 +240,7 @@
           <span class="">{l("Instance-wide roles")}</span>
         </LinkLive>
       </li>
+      </ul>
     </details>
   </li>
 
@@ -245,7 +249,7 @@
       <summary class="group mt-2">
         <span class="font-bold uppercase text-xs text-base-content">{l("Migration")}</span>
       </summary>
-
+      <ul class="menu p-0">
       <li>
         <LinkLive
           to={~p"/settings/user/export"}
@@ -280,6 +284,7 @@
           <span class="">{l("Import status")}</span>
         </LinkPatchLive>
       </li>
+      </ul>
     </details>
   </li>
 
@@ -288,7 +293,7 @@
       <summary class="group mt-2">
         <span class="font-bold uppercase text-xs text-base-content">{l("Advanced")}</span>
       </summary>
-
+      <ul class="menu p-0">
       <li :if={Bonfire.Federate.ActivityPub.federating?(current_user(@__context__))}>
         <LinkPatchLive
           to={~p"/settings/user/federation_status"}
@@ -341,6 +346,7 @@
           <span class="">{l("Libraries & Licences")}</span>
         </LinkPatchLive>
       </li>
+      </ul>
     </details>
   </li>
 </ul>

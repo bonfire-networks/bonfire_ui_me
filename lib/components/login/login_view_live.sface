@@ -1,4 +1,4 @@
-<div class="w-full p-4 mx-auto rounded-box shadow-lg bg-base-100 border border-base-content/10">
+<div class="w-full p-4 mx-auto">
   <StatelessComponent
     module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
     source={:login}
@@ -81,21 +81,21 @@
       </div>
     {/if}
 
-    <.input
-      field={@form[:email_or_username]}
-      required
-      label={l("Email address or @username")}
-      placeholder="alice@email.com"
-      label_class="text-xs label-text"
-      class="w-full h-10 text-sm rounded input input-bordered"
-    />
+    <div class="fieldset">
+      <.input
+        field={@form[:email_or_username]}
+        required
+        label={l("Email address or @username")}
+        placeholder="alice@email.com"
+        label_class="fieldset-legend"
+        class="w-full input"
+      />
+    </div>
 
-    <label class="form-control w-full mt-2">
-      <div class="label mt-6">
-        <span class="text-xs label-text">
-          {l("Password (Min 10 characters)")}
-        </span>
-      </div>
+    <label class="fieldset w-full">
+      <legend class="fieldset-legend">
+        {l("Password (Min 10 characters)")}
+      </legend>
       <div class="w-full relative" x-data="{show: false}">
         <input
           name="login_fields[password]"
@@ -103,7 +103,7 @@
           placeholder={l("Type your password")}
           :type="show ? 'text' : 'password'"
           required
-          class="w-full h-10 text-sm rounded input input-bordered"
+          class="w-full input"
         />
         <div
           x-show="show == false"
@@ -146,13 +146,13 @@
         </div>
       {#match _}
     {/case} --}
-    <button type="submit" phx-disable-with="Loading..." class="w-full normal-case  btn btn-primary">
+    <button type="submit" phx-disable-with="Loading..." class="w-full  btn btn-primary">
       {l("Log in")}
     </button>
 
-    <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-4">
-      <div class="flex py-4 pb-2 mt-6 border-t border-base-content/10 place-content-center">
-        <LinkLive to={path(:signup)} class="text-xs text-center normal-case">
+    <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-3">
+      <div class="flex py-3 pb-2 mt-3 border-t border-base-content/10 place-content-center">
+        <LinkLive to={path(:signup)} class="text-sm text-center normal-case">
           {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></LinkLive>
       </div>
     </div>

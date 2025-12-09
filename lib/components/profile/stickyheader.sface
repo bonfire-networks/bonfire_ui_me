@@ -49,7 +49,7 @@
           user={@user}
           members={@members}
           moderators={@moderators}
-          permalink={e(@user, :character, :peered, :canonical_uri, nil) || URIs.canonical_url(@user)}
+          permalink={@permalink || e(@user, :character, :peered, :canonical_uri, nil)}
           class="btn-sm"
         />
       </div>
