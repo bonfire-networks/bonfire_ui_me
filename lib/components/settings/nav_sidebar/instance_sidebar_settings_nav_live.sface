@@ -10,37 +10,37 @@
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/configuration"}
-          class={
-            " ",
-            "bg-primary/20 ": @selected_tab == "configuration"
-          }
+            class={[
+              " ",
+              "bg-primary/20 ": @selected_tab == "configuration"
+            ]}
         >
-          <span class={
+          <span class={[
             "text-sm text-base-content/80 font-normal",
             "text-primary ": @selected_tab == "configuration"
-          }>{l("General Configuration")}</span>
+          ]}>{l("General Configuration")}</span>
         </LinkPatchLive>
       </li>
 
       <li>
         <LinkLive
           to={~p"/settings/instance/preferences/behaviours"}
-          class={
+          class={[
             " ",
             "bg-primary/20 ": @id == "behaviours"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @id == "behaviours"}>{l("Default User Preferences")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @id == "behaviours"]}>{l("Default User Preferences")}</span>
         </LinkLive>
       </li>
 
       <li>
         <LinkLive
           to={~p"/boundaries/scope/instance/instance_acl"}
-          class={
+          class={[  
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "instance_acl"
-          }
+          ]}
         >
           <span class="">{l("Instance Permissions")}</span>
         </LinkLive>
@@ -57,36 +57,36 @@
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/dashboard"}
-          class={
+          class={[
             " ",
             "bg-primary/20 font-bold text-primary": @selected_tab == "dashboard"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "dashboard"}>{l("Dashboard")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "dashboard"]}>{l("Dashboard")}</span>
         </LinkPatchLive>
       </li>
 
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/about"}
-          class={
+          class={[
             " ",
             "bg-primary/20 font-bold text-primary": @selected_tab == "about"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "about"}>{l("About")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "about"]}>{l("About")}</span>
         </LinkPatchLive>
       </li>
 
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/terms"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "terms"
-          }
+          ]}  
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "terms"}>{l("Terms / Policies")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "terms"]}>{l("Terms / Policies")}</span>
         </LinkPatchLive>
       </li>
     </details>
@@ -102,73 +102,82 @@
         <LinkPatchLive
           module={maybe_component(Bonfire.Invite.Links, @__context__)}
           to={~p"/settings/instance/invites"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "invites"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "invites"}>{l("Invites")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "invites"]}>{l("Invites")}</span>
         </LinkPatchLive>
       </li>
 
       <li>
         <LinkLive
           to={~p"/settings/instance/mods"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "mods"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "mods"}>{l("Instance Moderators")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "mods"]}>{l("Instance Moderators")}</span>
         </LinkLive>
       </li>
 
       <li>
         <LinkLive
           to={~p"/settings/instance/admins"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "admins"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "admins"}>{l("Instance Admins")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "admins"]}>{l("Instance Admins")}</span>
+        </LinkLive>
+      </li>
+
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/suggested_profiles"}
+          class={[
+            " ",
+            "bg-primary/20 text-primary ": @selected_tab == "suggested_profiles"
+          ]}
+        >
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "suggested_profiles"]}>{l("Suggested Profiles")}</span>
         </LinkLive>
       </li>
 
       <li>
         <LinkLive
           to={~p"/settings/instance/members"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "members"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "members"}>{l("Instance members")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "members"]}>{l("Instance members")}</span>
         </LinkLive>
       </li>
       <li>
         <LinkLive
           to={~p"/settings/instance/remote_users"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "remote_users"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "remote_users"}>{l("Known remote users")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "remote_users"]}>{l("Known remote users")}</span>
         </LinkLive>
       </li>
       <li>
         <LinkLive
           to={~p"/settings/instance/remote_instances"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "remote_instances"
-          }
+          ]}
         >
-          <span class={
-            "text-sm text-base-content/80 font-normal",
-            "text-primary ": @selected_tab == "remote_instances"
-          }>{l("Known remote instances")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "remote_instances"]}>{l("Known remote instances")}</span>
         </LinkLive>
       </li>
     </details>
@@ -183,12 +192,12 @@
       <li>
         <LinkLive
           to={~p"/settings/instance/extensions"}
-          class={
+          class={[
             " ",
             "bg-primary/20": @selected_tab == "extensions"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "extensions"}>{l("Configure Extensions")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "extensions"]}>{l("Configure Extensions")}</span>
         </LinkLive>
       </li>
       <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
@@ -209,85 +218,79 @@
         extension_enabled?(:bonfire_ui_moderation, @__context__)}>
         <LinkPatchLive
           to={~p"/settings/instance/flags"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "flags"
-          }
+          ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "flags"}>{l("Flagged by users")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "flags"]}>{l("Flagged by users")}</span>
         </LinkPatchLive>
       </li>
 
       <li>
         <LinkLive
           to={~p"/boundaries/instance_blocked"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "instance_blocked"
-          }
+          ]}
         >
-          <span class={
-            "text-sm text-base-content/80 font-normal",
-            "text-primary ": @selected_tab == "instance_blocked"
-          }>{l("Blocked instance-wide")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "instance_blocked"]}>{l("Blocked instance-wide")}</span>
         </LinkLive>
       </li>
       <li>
         <LinkLive
           to={~p"/boundaries/instance_ghosted"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "instance_ghosted"
-          }
+          ]}
         >
-          <span class={
-            "text-sm text-base-content/80 font-normal",
-            "text-primary ": @selected_tab == "instance_ghosted"
-          }>{l("Ghosted instance-wide")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "instance_ghosted"]}>{l("Ghosted instance-wide")}</span>
         </LinkLive>
       </li>
       <li>
         <LinkLive
           to={~p"/boundaries/instance_silenced"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "instance_silenced"
-          }
+          ]}
         >
-          <span class={
+          <span class={[
             "text-sm text-base-content/80 font-normal",
             "text-primary ": @selected_tab == "instance_silenced"
-          }>{l("Silenced instance-wide")}</span>
+          ]}>{l("Silenced instance-wide")}</span>
         </LinkLive>
       </li>
 
       <li>
         <LinkLive
           to={~p"/settings/instance/blocks_import"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "blocks_import"
-          }
+          ]}
         >
-          <span class={
+          <span class={[
             "text-sm",
             "text-primary ": @selected_tab == "blocks_import"
-          }>{l("Import block lists")}</span>
+          ]}>{l("Import block lists")}</span>
         </LinkLive>
       </li>
 
       <li>
         <LinkLive
           to={~p"/settings/instance/blocks_export"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "blocks_export"
-          }
+          ]}
         >
-          <span class={
+          <span class={[
             "text-sm text-base-content/80 font-normal",
             "text-primary ": @selected_tab == "blocks_export"
-          }>{l("Export block lists")}</span>
+          ]}>{l("Export block lists")}</span>
         </LinkLive>
       </li>
     </details>
@@ -302,10 +305,10 @@
       <li :if={Bonfire.Boundaries.can?(@__context__, :assign, :instance)}>
         <LinkLive
           to={~p"/boundaries/scope/instance/circles"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "circles"
-          }
+          ]}
         >
           <span class="">{l("Instance Circles")}</span>
         </LinkLive>
@@ -314,10 +317,10 @@
       <li>
         <LinkLive
           to={~p"/boundaries/scope/instance/roles"}
-          class={
+          class={[
             " ",
             "bg-primary/20 font-bold text-primary": @selected_tab == "roles"
-          }
+         ] }
         >
           <span class="">{l("Instance Roles")}</span>
         </LinkLive>
@@ -327,10 +330,10 @@
         <li>
           <LinkLive
             to={~p"/boundaries/scope/instance/acls"}
-            class={
+            class={[
               " ",
               "bg-primary/20 text-primary ": @selected_tab == "acls"
-            }
+            ]}
           >
             <span class="">{l("Boundary Presets")}</span>
           </LinkLive>
@@ -371,10 +374,10 @@
       <li :if={Bonfire.Federate.ActivityPub.federating?()}>
         <LinkPatchLive
           to={~p"/settings/instance/federation_status"}
-          class={
+          class={[
             " ",
             "bg-primary/10": @selected_tab == "federation_status"
-          }
+         ] }
         >
           <span class="">{l("Federation status")} {l("(instance wide)")}</span>
         </LinkPatchLive>
@@ -383,10 +386,10 @@
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/import_status"}
-          class={
+          class={[
             " ",
             "bg-primary/10": @selected_tab == "import_status"
-          }
+         ] }
         >
           <span class="">{l("Import status")} {l("(instance wide)")}</span>
         </LinkPatchLive>
@@ -395,10 +398,10 @@
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/code"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "code"
-          }
+         ] }
         >
           <span class="">{l("Libraries & Licences")}</span>
         </LinkPatchLive>
@@ -407,12 +410,12 @@
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/emojis"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "emojis"
-          }
+         ] }
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "emojis"}>{l("Custom emoji")}</span>
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "emojis"]}>{l("Custom emoji")}</span>
         </LinkPatchLive>
       </li>
 
@@ -424,10 +427,10 @@
         )}>
         <LinkPatchLive
           to={~p"/settings/instance/config_settings_registry"}
-          class={
+          class={[
             " ",
             "bg-primary/20": @selected_tab == "config_settings_registry"
-          }
+         ] }
         >
           <span class="">{l("Extra settings")}</span>
         </LinkPatchLive>
@@ -436,10 +439,10 @@
       <li :if={Config.env() == :dev}>
         <LinkPatchLive
           to={~p"/settings/instance/icons"}
-          class={
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "icons"
-          }
+         ] }
         >
           <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "icons"}>{l("Icons")}</span>
         </LinkPatchLive>

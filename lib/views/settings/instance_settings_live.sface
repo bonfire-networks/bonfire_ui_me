@@ -36,6 +36,20 @@
         circle_id={maybe_apply(Bonfire.Boundaries.Scaffold.Instance, :mod_circle, [])}
         local_only
       />
+    {#match "suggested_profiles"}
+      <StatefulComponent
+        :if={current_user(@__context__)}
+        module={maybe_component(Bonfire.UI.Boundaries.CircleMembersLive, @__context__)}
+        selected_tab={@selected_tab}
+        id="suggested_profiles_circle"
+        scope={@scope}
+        description={l("A curated list of profiles that new users of this instance may want to follow.")}
+        show_add={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true or
+          maybe_apply(Bonfire.Boundaries, :can?, [@__context__, :mediate, :instance],
+            fallback_return: nil
+          ) == true}
+        circle_id={maybe_apply(Bonfire.Boundaries.Scaffold.Instance, :suggested_profiles_circle, [])}
+      />
     {#match "remote_allow_list"}
       <StatefulComponent
         :if={current_user(@__context__)}
