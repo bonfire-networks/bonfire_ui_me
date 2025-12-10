@@ -1,5 +1,6 @@
-<div class="p-4">
-  <div class="flex flex-col flex-1 gap-2">
+<div class="">
+  <div class="flex flex-col flex-1">
+  <div class="flex flex-col flex-1 gap-2 p-4">
     <div class="flex justify-between">
       <div class="text-xl flex-1 font-semibold flex items-center gap-2">
         <span>{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</span>
@@ -18,36 +19,36 @@
         <Bonfire.UI.Common.ExtensionCodeMenuLive dep={@dep} />
       </div>
     </div>
-
     <div :if={e(@dep, :extra, :description, nil)} class="text-sm text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
+  </div>
 
     {#case extension_enabled?(@extension, @__context__) &&
         Bonfire.UI.Common.SettingsModule.components(@extension)}
       {#match extension_settings when is_list(extension_settings) and extension_settings != []}
-        <div role="tablist" class="tabs tabs-box mt-2">
+        <div role="tablist" class="tabs tabs-border justify-evenly p-0 mt-2">
           <input
             type="radio"
             name="my_tabs_3"
             role="tab"
-            class="tab"
+            class="tab flex-1"
             aria-label="Preferences"
             checked="checked"
           />
-          <div class="tab-content bg-base-100 border-base-300 p-2 mt-1 rounded-lg">
+          <div class="tab-content p-4 border-0 border-t border-base-content/20 ">
             <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
               <Bonfire.UI.Common.WidgetsLive
                 widgets={extension_settings}
                 container_class="w-full list"
                 extra_data={scope: @scope}
-                wrapper_class="list-row"
+                wrapper_class="flex justify-between items-center w-full"
                 with_title
                 with_description
               />
             </form>
           </div>
 
-          <input type="radio" name="my_tabs_3" role="tab" class="tab" aria-label="About">
-          <div class="tab-content bg-base-100 border-base-300 p-6 mt-1 rounded-lg">
+          <input type="radio" name="my_tabs_3" role="tab" class="tab flex-1" aria-label="About">
+          <div class="tab-content p-4 border-0 border-t border-base-content/20">
             {#case e(@dep, :extra, :readme_contents, nil)}
               {#match nil}
               {#match readme_contents}
