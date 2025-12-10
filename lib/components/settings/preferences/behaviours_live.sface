@@ -66,8 +66,8 @@
       <form data-scope="set_language" name="settings" phx-change="Bonfire.Common.Settings:set_locale">
         <label class="flex items-center justify-between gap-4">
           <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Language")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("What language do you want your interface to speak?")}</div>
+            <div class="text-sm font-medium">{l("Preferred language")}</div>
+            <div class="text-sm font-light text-base-content/70 max-w-xs">{l("Used for the interface and as default when creating or displaying content.")}</div>
           </div>
 
           <input name="scope" value={@scope} type="hidden">
@@ -83,6 +83,18 @@
           </div>
         </label>
       </form>
+      <div class="mt-6">
+        <Bonfire.UI.Common.ExtraLocalesLive
+          id="extra_locales"
+          extra_locales={Settings.get([Bonfire.Common.Localise, :extra_locales], [],
+            context: @scoped,
+            name: l("Other languages"),
+            description: l("List of other languages you understand, in order of priority.")
+          )}
+          primary_locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", context: @scoped)}
+          scope={@scope}
+        />
+      </div>
     </div>
 
     <form
