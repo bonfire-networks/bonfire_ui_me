@@ -23,6 +23,9 @@ if Application.compile_env(:bonfire_api_graphql, :modularity) != :disabled do
     # Account relationships
     def relationships(conn, params), do: Adapter.relationships(params, conn)
 
+    # Account search
+    def search(conn, params), do: Adapter.search_accounts(params, conn)
+
     # Followers and following lists
     def followers(conn, %{"id" => id} = params), do: Adapter.followers(id, params, conn)
     def following(conn, %{"id" => id} = params), do: Adapter.following(id, params, conn)
@@ -43,5 +46,8 @@ if Application.compile_env(:bonfire_api_graphql, :modularity) != :disabled do
 
     def reject_follow_request(conn, %{"account_id" => id}),
       do: Adapter.reject_follow_request(id, conn)
+
+    # Suggestions endpoint (v2)
+    def suggestions(conn, params), do: Adapter.suggestions(params, conn)
   end
 end
