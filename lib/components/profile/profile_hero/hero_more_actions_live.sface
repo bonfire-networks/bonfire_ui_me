@@ -1,13 +1,13 @@
 <div data-id="hero_more_actions" class="flex items-center gap-3">
   <div aria-haspopup="true" class="dropdown dropdown-end">
-    <label tabindex="0" class="btn btn-sm btn-circle btn-outline border-base-content/10 btn-soft">
-      <#Icon iconify="ph:dots-three-outline-vertical-duotone" class="w-4 h-4" />
+    <label tabindex="0" class="btn glass btn-circle btn-outline border-base-content/10 btn-soft">
+      <#Icon iconify="ph:dots-three-vertical-duotone" class="w-4 h-4 text-primary" />
     </label>
     <ul
       tabindex="0"
       role="menu"
       aria-orientation="vertical"
-      class="mt-1 relative z-50 rounded-box dropdown_actions w-60 menu-lg menu dropdown-content bg-base-300 border border-base-content/10"
+      class="mt-1 z-50 rounded-box dropdown_actions w-60 menu-lg menu dropdown-content bg-base-300 border border-base-content/10"
     >
       <li :if={@permalink}>
         <a

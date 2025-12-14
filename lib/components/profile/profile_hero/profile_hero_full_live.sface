@@ -17,7 +17,7 @@
             >
               {!-- <Bonfire.UI.Common.BackButtonLive class="btn absolute left-3 top-3 btn-circle" /> --}
               <button
-                class="btn absolute left-3 top-3 btn-circle btn-soft btn-sm"
+                class="btn absolute left-3 top-3 btn-circle btn-soft glass"
                 onclick="history.length > 1 ? history.back() : window.location.href = '/'"
               ><#Icon iconify="ph:arrow-left" class="w-5 h-5 text-primary" /></button>
               <div class="absolute top-3 right-3">

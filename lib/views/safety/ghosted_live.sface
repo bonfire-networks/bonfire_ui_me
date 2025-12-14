@@ -1,0 +1,6 @@
+<StatefulComponent
+  module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
+  id="ghosted_component"
+  selected_tab="ghosted"
+  title={l("Ghosted People & Instances")}
+/>

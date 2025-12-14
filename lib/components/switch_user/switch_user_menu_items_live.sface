@@ -77,8 +77,9 @@
   <div class="divider h-0 my-1" />
 {#else}
   <li :if={@max_users_per_account > 1}>
-    <LinkLive to={~p"/switch-user"} class="flex items-center gap-2 text-sm text-base-content">
+    <LinkLive to={~p"/switch-user"} class="flex items-center gap-2 text-sm text-base-content justify-between">
       <div>{l("Switch profile")}</div>
+      <#Icon iconify="ph:user-switch-duotone" class="w-5 h-5 shrink-0" />
     </LinkLive>
   </li>
 {/if}

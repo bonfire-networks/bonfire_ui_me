@@ -1,0 +1,6 @@
+<StatefulComponent
+  module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
+  id="blocks_component"
+  selected_tab="blocked"
+  title={l("Blocked People & Instances")}
+/>
