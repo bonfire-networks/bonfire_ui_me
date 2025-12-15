@@ -53,12 +53,19 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   def set_profile_image(:icon, %{} = user, uploaded_media, assign_field, socket) do
     with {:ok, user} <-
            Bonfire.Me.Profiles.set_profile_image(:icon, user, uploaded_media) do
+      updated_user = deep_merge(user, %{profile: %{icon: uploaded_media}})
+
+      # Send updated user to PersistentLive so composer gets updated avatar
+      Bonfire.UI.Common.PersistentLive.maybe_send(
+        assigns(socket)[:__context__],
+        %{__context__: %{current_user: updated_user}}
+      )
+
       {:noreply,
        socket
-       #  |> assign_global(assign_field, deep_merge(user, %{profile: %{icon: uploaded_media}}))
        |> assign_flash(:info, l("Avatar changed!"))
        |> assign(src: Bonfire.Files.IconUploader.remote_url(uploaded_media))
-       |> send_self_global({assign_field, deep_merge(user, %{profile: %{icon: uploaded_media}})})}
+       |> send_self_global({assign_field, updated_user})}
     end
   end
 
@@ -71,7 +78,6 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
        socket
        |> assign_flash(:info, l("Background image changed!"))
        |> assign(src: Bonfire.Files.BannerUploader.remote_url(uploaded_media))
-       #  |> assign_global(assign_field, deep_merge(user, %{profile: %{image: uploaded_media}}) |> debug)
        |> send_self_global({assign_field, deep_merge(user, %{profile: %{image: uploaded_media}})})}
     end
   end
