@@ -135,7 +135,7 @@
             />
           {#else}
             <a
-              href={"/remote_interaction?type=message&name=#{l("this user")}&url=#{@permalink || URIs.canonical_url(@object)}"}
+              href={"/remote_interaction?type=message&name=#{l("this user")}&url=#{@permalink || URIs.canonical_url(@user)}"}
               class="flex items-center justify-between text-base-content"
             >
               <!-- <#Icon iconify="carbon:email" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
