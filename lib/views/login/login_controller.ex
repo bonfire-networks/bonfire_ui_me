@@ -35,7 +35,7 @@ defmodule Bonfire.UI.Me.LoginController do
         {:ok, logged_in(account, user, conn, form)}
 
       other ->
-        error(other, "Login error")
+        err(other, "Login error")
 
         other
     end
