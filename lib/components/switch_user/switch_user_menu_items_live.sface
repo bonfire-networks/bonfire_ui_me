@@ -1,30 +1,18 @@
 {#if @show_inline_users and is_list(@current_account_users) and @current_account_users != []}
-  <li :if={@max_users_per_account > 1}>
-    <div class="menu-title font-medium items-center flex justify-between text-base-content/70 px-3 py-2">
-      <span>{l("Profiles")}</span>
-      <div class="tooltip tooltip-left" data-tip={l("Create new profile")}>
-        <LinkLive
-          :if={(length(@current_account_users || []) + 1) < @max_users_per_account}
-          to={~p"/create-user"}
-          class="h-[240px]"
-        >
-          <#Icon iconify="heroicons:plus-circle" class="w-5 h-5" />
-        </LinkLive>
-      </div>
-    </div>
-    <ul class="menu p-0 m-0 w-full">
-      <li :for={{%{id: user_id} = user, i} <- Enum.with_index([current_user(@__context__)] ++ (@current_account_users || []))} class="w-full">
+  <li class="hover:bg-base-300" :if={@max_users_per_account > 1}>
+
+    <div class="flex items-center gap-2 justify-evenly py-2 w-full">
+      <div :for={{%{id: user_id} = user, i} <- Enum.with_index([current_user(@__context__)] ++ (@current_account_users || []))} class="">
         <LinkLive
           to={"/switch-user/#{user.character.username}"}
-          class="flex justify-between items-center"
+         class={
+              "relative rounded-full p-0",
+              "ring-primary block ring-offset-base-100  ring-2 ring-offset-2":
+                i == 0
+            }
           title={l("View profile")}
         >
-          <div class="flex items-center gap-3 cursor-default">
-            <div class={
-              "relative rounded-full p-0",
-              "ring-primary ring-offset-base-100  ring-2 ring-offset-2":
-                i == 0
-            }>
+            
               <Bonfire.UI.Common.AvatarLive
                 src={Media.avatar_url(user)}
                 user_id={user_id}
@@ -34,8 +22,8 @@
               <div class="indicator absolute top-0 left-0" title={l("View notifications")}>
                 <Bonfire.UI.Common.BadgeCounterLive
                   :if={i != 0}
-                  parent_id="switch_user_notifications"
-                  id={"notifications_#{user_id}"}
+                  parent_id="switch_user_menu"
+                  id={"#{random_dom_id()}_notifications_#{user_id}"}
                   feed_id={e(user, :character, :notifications_id, nil)}
                   for_user={user}
                   counter_class="indicator-middle indicator-center"
@@ -43,36 +31,27 @@
               </div>
               <div class="indicator absolute right-0 top-0" title={l("View messages")}>
                 <Bonfire.UI.Common.BadgeCounterLive
-                        :if={i != 0}
-
-                  parent_id="switch_user_notifications"
-                  id={"messages_#{user_id}"}
+                  :if={i != 0}
+                  parent_id="switch_user_menu"
+                  id={"#{random_dom_id()}_messages_#{user_id}"}
                   feed_id={e(user, :character, :inbox_id, nil)}
                   for_user={user}
                   counter_class="indicator-middle indicator-center"
                 />
               </div>
-            </div>
-
-            <div class="flex-1 min-w-0 truncate max-w-[140px] w-full">
-              <div class="text-xs font-medium">
-                {user.profile.name || user.character.username}
-              </div>
-              <div        :if={i == 0}
- class="text-xs text-base-content/50">
-                {l("current")}
-              </div>
-            </div>
-          </div>
-          <div
-            data-tip={l("Switch to this profile")}
-            class="tooltip tooltip-left flex items-center gap-1 flex-shrink-0"
-          >
-            <#Icon iconify="ph:door-open-duotone" class="w-4 h-4 opacity-70" />
-          </div>
         </LinkLive>
-      </li>
-    </ul>
+      </div>
+      <div 
+      :if={(length(@current_account_users || []) + 1) < @max_users_per_account}
+      class="tooltip tooltip-left" data-tip={l("Create new profile")}>
+        <LinkLive
+          to={~p"/create-user"}
+          class="w-6 h-6 !rounded-full flex-shrink-0"
+        >
+          <#Icon iconify="heroicons:plus-circle" class="w-5 h-5" />
+        </LinkLive>
+      </div>
+    </div>
   </li>
   <div class="divider h-0 my-1" />
 {#else}
