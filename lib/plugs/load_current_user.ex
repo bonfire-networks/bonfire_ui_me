@@ -16,16 +16,21 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
   end
 
   def call(conn, opts) do
-    case get_session(conn, :current_user_id) do
+    case conn
+         |> Plug.Conn.fetch_session()
+         |> Plug.Conn.get_session(:current_user_id) do
       nil ->
-        debug(get_session(conn), "no current_user_id in session")
+        # debug(get_session(conn), "no current_user_id in session")
         Bonfire.UI.Me.Plugs.LoadCurrentAccount.call(conn, opts)
 
       current_user_id ->
         assign(
           conn,
           :current_user,
-          LoadCurrentUser.get_current(current_user_id, get_session(conn, :current_account_id))
+          LoadCurrentUser.get_current(
+            current_user_id,
+            Plug.Conn.get_session(conn, :current_account_id)
+          )
         )
     end
   end
