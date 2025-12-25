@@ -15,11 +15,11 @@ defmodule Bonfire.UI.Me.ProfileLive do
       )
   )
 
-  declare_nav_link(l("Profile"),
-    page: "profile",
-    icon: "ph:user-circle-duotone",
-    icon_active: "ph:user-circle-duotone"
-  )
+  # declare_nav_link(l("Profile"),
+  #   page: "profile",
+  #   icon: "ph:user-circle-duotone",
+  #   icon_active: "ph:user-circle-duotone"
+  # )
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
