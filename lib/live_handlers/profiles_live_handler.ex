@@ -255,7 +255,10 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       ghosted_instance_wide?: nil,
       ghosted?: nil,
       silenced?: nil,
-      selected_tab: :timeline
+      selected_tab: :timeline,
+      post_count: nil,
+      followers_count: nil,
+      following_count: nil
     ]
   end
 
@@ -343,15 +346,13 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     # Only load counts if the setting is enabled (avoids unnecessary DB queries)
     {followers_count, following_count, post_count} =
       if Settings.get([:ui, :show_activity_counts], false, current_user: current_user) do
-        user_id = id(user)
-
         # Count followers (users who follow this user)
         followers =
           Bonfire.Social.Edges.count(
             Bonfire.Data.Social.Follow,
             [objects: user],
             skip_boundary_check: true
-          ) || 0
+          )
 
         # Count following (users this user follows)
         following =
@@ -359,25 +360,20 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
             Bonfire.Data.Social.Follow,
             [subjects: user],
             skip_boundary_check: true
-          ) || 0
+          )
 
         # Count posts by this user
         posts =
-          if user_id do
-            Utils.maybe_apply(
-              Bonfire.Social.Posts.Counts,
-              :batch_load_for_users,
-              [[user]],
-              fallback_return: %{}
-            )
-            |> Map.get(user_id, 0)
-          else
-            0
-          end
+          Utils.maybe_apply(
+            Bonfire.Posts,
+            :count_for_user,
+            [user],
+            fallback_return: nil
+          )
 
         {followers, following, posts}
       else
-        {0, 0, 0}
+        {nil, nil, nil}
       end
 
     [

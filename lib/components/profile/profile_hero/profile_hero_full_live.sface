@@ -232,9 +232,9 @@
                     members={@members}
                     moderators={@moderators}
                     aliases={@aliases}
-                    post_count={e(assigns, :post_count, 0)}
-                    followers_count={e(assigns, :followers_count, 0)}
-                    following_count={e(assigns, :following_count, 0)}
+                    post_count={e(assigns, :post_count, nil)}
+                    followers_count={e(assigns, :followers_count, nil)}
+                    following_count={e(assigns, :following_count, nil)}
                   />
                 </div>
 

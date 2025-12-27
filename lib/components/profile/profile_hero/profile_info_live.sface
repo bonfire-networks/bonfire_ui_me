@@ -6,7 +6,11 @@
       <div :if={@character_type == :user} class="w-full prose prose-sm max-w-none">
         {rich(e(@user, :profile, :summary, nil))}
       </div>
-      <Bonfire.UI.Me.ProfileLinksLive user={@user} aliases={@aliases || []} />
+      <Bonfire.UI.Me.ProfileLinksLive
+        :if={not is_nil(e(@user, :profile, :website, nil)) || (@aliases && @aliases != [])}
+        user={@user}
+        aliases={@aliases || []}
+      />
       <Bonfire.UI.Me.ProfileStatsLive
         :if={@character_type == :user}
         user={@user}
@@ -14,6 +18,7 @@
         followers_count={@followers_count}
         following_count={@following_count}
       />
+      {!-- TODO: add widgets from config instead of hardcoded --}
       <StatelessComponent
         module={maybe_component(Bonfire.OpenScience.Orcid.AboutLive)}
         user={@user}
