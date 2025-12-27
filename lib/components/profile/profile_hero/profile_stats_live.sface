@@ -2,26 +2,17 @@
   :if={Settings.get([:ui, :show_activity_counts], false, @__context__)}
   class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/70 mt-3"
 >
-  <LinkLive
-    to={~p"/@#{e(@user, :character, :username, nil)}"}
-    class="hover:underline"
-  >
+  <LinkLive to={~p"/@#{e(@user, :character, :username, nil)}"} class="hover:underline">
     <span class="font-semibold text-base-content">{@post_count}</span>
     <span class="ml-1">{l("posts")}</span>
   </LinkLive>
 
-  <LinkLive
-    to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
-    class="hover:underline"
-  >
+  <LinkLive to={~p"/@#{e(@user, :character, :username, nil)}/followers"} class="hover:underline">
     <span class="font-semibold text-base-content">{@followers_count}</span>
     <span class="ml-1">{l("followers")}</span>
   </LinkLive>
 
-  <LinkLive
-    to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
-    class="hover:underline"
-  >
+  <LinkLive to={~p"/@#{e(@user, :character, :username, nil)}/followed"} class="hover:underline">
     <span class="font-semibold text-base-content">{@following_count}</span>
     <span class="ml-1">{l("following")}</span>
   </LinkLive>
