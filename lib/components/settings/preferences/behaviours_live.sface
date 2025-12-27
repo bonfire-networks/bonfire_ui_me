@@ -505,24 +505,24 @@
     {!-- <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
     <#Icon iconify="material-symbols:add-reaction" class="w-5 h-5 text-base-content/80" />
     <span>{l("Reactions")}</span>
-  </div> 
+  </div>  --}
 
-   <form data-scope="set_show_reaction_counts" phx-change="Bonfire.Common.Settings:set">
+   <form data-scope="set_show_metrics" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
-      show_label={Settings.get([:ui, :show_activity_counts], false, 
+      show_label={Settings.get([:ui, :show_activity_counts], false,
         context: @__context__,
-        name: l("Show Activity Counts"),
-        description: l("Display the number of activities in the UI.")
+        name: l("Show Metrics"),
+        description: l("Display metrics in the UI.")
       ) == true}
-      label="Vanity Metric"
-      name={l("Show reaction counts (likes / boosts)")}
+      label="Vanity Metrics"
+      name={l("Show metrics (likes, boosts, followers, posts)")}
       description={l(
-        "You will see the number of reactions to activities (may not indicate the real amount for federated posts)"
+        "Display reaction counts, follower counts, and post counts on profiles and activities (may not be accurate for federated content)"
       )}
       keys={[:ui, :show_activity_counts]}
       scope={@scope}
     />
-  </form> --}
+  </form>
   </div>
 
   <div class="p-4 text-xl text-primary font-bold flex items-center gap-4">

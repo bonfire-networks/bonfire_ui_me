@@ -35,6 +35,9 @@
               selected_tab={@selected_tab}
               follows_me={@follows_me || false}
               character_type={@character_type}
+              post_count={@post_count}
+              followers_count={@followers_count}
+              following_count={@following_count}
             />
             {!-- <Bonfire.UI.Common.TabsLive
             :if={!@hide_tabs}
@@ -76,6 +79,9 @@
           selected_tab={@selected_tab}
           follows_me={@follows_me || false}
           character_type={@character_type}
+          post_count={@post_count}
+          followers_count={@followers_count}
+          following_count={@following_count}
         />
       </div>
   {/case}

@@ -8,6 +8,9 @@ defmodule Bonfire.UI.Me.ProfileInfoLive do
   prop selected_tab, :any, default: nil
   prop character_type, :atom, default: nil
   prop is_local?, :boolean, default: false
+  prop post_count, :integer, default: 0
+  prop followers_count, :integer, default: 0
+  prop following_count, :integer, default: 0
 
   # prop follows_me, :atom, default: false
   prop aliases, :any, default: []

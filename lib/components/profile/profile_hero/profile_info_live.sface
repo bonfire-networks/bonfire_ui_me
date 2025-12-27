@@ -6,11 +6,18 @@
       <div :if={@character_type == :user} class="w-full prose prose-sm max-w-none">
         {rich(e(@user, :profile, :summary, nil))}
       </div>
-      <Bonfire.UI.Me.ProfileLinksLive user={@user} aliases={@aliases} />
+      <Bonfire.UI.Me.ProfileLinksLive user={@user} aliases={@aliases || []} />
+      <Bonfire.UI.Me.ProfileStatsLive
+        :if={@character_type == :user}
+        user={@user}
+        post_count={@post_count}
+        followers_count={@followers_count}
+        following_count={@following_count}
+      />
       <StatelessComponent
         module={maybe_component(Bonfire.OpenScience.Orcid.AboutLive)}
         user={@user}
-        aliases={@aliases}
+        aliases={@aliases || []}
       />
     </div>
   </div>
