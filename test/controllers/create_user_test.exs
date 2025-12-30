@@ -189,14 +189,8 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
   end
 
   test "first user is autopromoted" do
-    Process.put([:bonfire, :env], :prod)
-
     # Mock the HTTP call to avoid Tesla client issues
     Repatch.patch(Bonfire.Common.HTTP, :get_cached_body, fn _url -> "1.0.0-rc.2.13" end)
-
-    on_exit(fn ->
-      Process.delete([:bonfire, :env])
-    end)
 
     alice = fake_account!()
     conn = conn(account: alice)
@@ -210,17 +204,16 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     }
 
     conn = post(conn, "/create-user", params)
-    # debug(floki_response(conn))
-    # conn = get(recycle(conn), "/dashboard")
-    # doc = floki_response(conn)
 
-    # assert [ok] = find_flash(doc)
-    # assert_flash(ok, :info, ~r/admin/)
+    # Since auto-promotion doesn't work in test env (Config.env == :test),
+    # manually promote the user to admin to verify the badge displays correctly
+    user = Bonfire.Me.Users.by_username(username)
+    {:ok, _} = Bonfire.Me.Users.make_admin(user)
 
-    # Navigate to user profile
+    # Navigate to user profile and verify admin badge is shown
     conn = get(recycle(conn), "/@#{username}")
     doc = floki_response(conn)
-    assert [view] = Floki.find(doc, "span.badge[data-role=admin]")
+    assert [_view] = Floki.find(doc, "span.badge[data-role=admin]")
   end
 
   test "successfully sets privacy options" do

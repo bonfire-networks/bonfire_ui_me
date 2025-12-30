@@ -83,7 +83,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     # assert [div] = Floki.find(doc, "div.box__warning")
     # assert [span] = Floki.find(div, "span")
     assert Floki.text(login) =~ ~r/incorrect/
-    assert [_] = Floki.find(login, "form")
+    assert [_] = Floki.find(login, "#login-form")
   end
 
   test "not activated" do

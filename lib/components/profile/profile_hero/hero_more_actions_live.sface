@@ -1,4 +1,4 @@
-<div data-id="hero_more_actions" class="flex items-center gap-3">
+<div data-id={"hero_more_actions-#{@parent_id}"} class="flex items-center gap-3">
   <div aria-haspopup="true" class="dropdown dropdown-end">
     <label tabindex="0" class="btn glass btn-circle btn-outline border-base-content/10 btn-soft">
       <#Icon iconify="ph:dots-three-vertical-duotone" class="w-4 h-4 text-primary" />

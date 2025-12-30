@@ -119,26 +119,17 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
     end
 
     test "success" do
-      #  create a first user since confirmation otherwise not required
-      fake_user!()
-      # Clear the cache so the next signup sees that an account exists
-      Bonfire.Me.Accounts.clear_cache()
-
       conn = conn()
-      {:ok, account} = Bonfire.Me.Accounts.signup(signup_form())
+      # Explicitly require confirmation to bypass is_first_account? sandbox isolation
+      {:ok, account} = Bonfire.Me.Accounts.signup(signup_form(), must_confirm?: true)
       conn = get(conn, "/signup/email/confirm/#{account.email.confirm_token}")
       assert redirected_to(conn) == "/switch-user"
     end
 
     test "cannot confirm twice" do
-      #  create a first user since confirmation otherwise not required
-      fake_user!()
-      # Clear the cache so the next signup sees that an account exists
-      Bonfire.Me.Accounts.clear_cache()
-
-      # needs template fix - no feedback
       conn = conn()
-      {:ok, account} = Bonfire.Me.Accounts.signup(signup_form())
+      # Explicitly require confirmation to bypass is_first_account? sandbox isolation
+      {:ok, account} = Bonfire.Me.Accounts.signup(signup_form(), must_confirm?: true)
       conn = get(conn, "/signup/email/confirm/#{account.email.confirm_token}")
       assert redirected_to(conn) == "/switch-user"
 

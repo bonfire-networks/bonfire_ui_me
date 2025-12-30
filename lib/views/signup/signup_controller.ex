@@ -51,7 +51,7 @@ defmodule Bonfire.UI.Me.SignupController do
 
     case attempt_signup(conn, account_attrs, form, opts) do
       {:ok, %{email: %{confirmed_at: confirmed_at}} = account} when not is_nil(confirmed_at) ->
-        Bonfire.UI.Me.LoginController.logged_in(account, nil, conn)
+        {:ok, Bonfire.UI.Me.LoginController.logged_in(account, nil, conn)}
 
       {:ok, _account} ->
         {:ok,

@@ -35,7 +35,7 @@ defmodule Bonfire.UI.Me.LoginController do
         {:ok, logged_in(account, user, conn, form)}
 
       other ->
-        err(other, "Login error")
+        warn(other, "Login validation error")
 
         other
     end
