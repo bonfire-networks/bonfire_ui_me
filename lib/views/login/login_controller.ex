@@ -20,7 +20,7 @@ defmodule Bonfire.UI.Me.LoginController do
         conn
 
       {:error, changeset} ->
-        warn(changeset)
+        warn(changeset, "Login attempt failed in #{Config.repo()}")
         paint(conn, changeset)
 
       _other ->
