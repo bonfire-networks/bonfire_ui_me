@@ -338,6 +338,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
           weather_widget_enabled &&
             {Bonfire.Geolocate.WidgetForecastLive, [location: e(user, :profile, :location, nil)]},
           {Bonfire.Tag.Web.WidgetTagsLive, []},
+          {Bonfire.UI.Social.WidgetTrendingLinksLive, []},
           {Bonfire.UI.Me.WidgetAdminsLive, []}
         ]
       ]
