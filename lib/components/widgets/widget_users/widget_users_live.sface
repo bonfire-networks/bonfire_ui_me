@@ -1,6 +1,6 @@
 <Bonfire.UI.Common.WidgetBlockLive
   widget_title={e(@widget_title, "Users")}
-  title_class="flex pb-2 text-sm font-semibold tracking-wide"
+  title_class="flex pb-2 text-lg font-bold tracking-wide"
 >
   <:action>
     <div class="flex ml-auto gap-2">

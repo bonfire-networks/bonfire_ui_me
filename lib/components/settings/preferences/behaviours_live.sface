@@ -401,6 +401,26 @@
         scope={@scope}
       />
     </form>
+
+    <form
+      class="p-4"
+      data-scope="reply_context_mode"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
+      <Bonfire.UI.Common.SettingsSelectLive
+        name={l("Reply context in feeds")}
+        description={l("Choose what to show above replies in your feed")}
+        keys={[Bonfire.UI.Social.ActivityLive, :reply_context_mode]}
+        id="reply_context_mode"
+        options={[
+          reply_to: l("Show post being replied to"),
+          thread_start: l("Show original thread post"),
+          minimal: l("Show only 'Replied in thread' label")
+        ]}
+        scope={@scope}
+      />
+    </form>
   </div>
 
   <div class="p-4 font-bold text-xl flex items-center gap-4 text-primary">
@@ -590,7 +610,7 @@
     </div>
 
     <form
-      class="p-4"
+      class=""
       data-scope="set_flag_forward_default"
       name="settings"
       phx-change="Bonfire.Common.Settings:set"
