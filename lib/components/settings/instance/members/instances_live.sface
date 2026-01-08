@@ -1,62 +1,168 @@
 <div>
-  <div class="grid mb-2 p-4 md:grid-cols-2 gap-4">
+  <div class="flex p-3 flex-col gap-3">
     <div
       :for={%{id: id, ap_base_uri: ap_base_uri, display_hostname: display_hostname} = instance <- @instances}
-      class="p-4 border rounded border-base-content/10 flex flex-col gap-0"
+      class="p-4 border rounded-lg border-base-content/10 bg-base-100"
     >
-      {!-- TODO: link to member directory in settings instead --}
-      <div class="flex justify-between items-center">
-        <div class="text-lg font-semibold">{display_hostname}</div>
-        <div class="dropdown dropdown-end">
-          <label
-            class="relative btn btn-sm btn-ghost btn-circle"
-            tabindex="0"
-            aria-haspopup="true"
-            aria-expanded="true"
-          >
-            <#Icon iconify="material-symbols:more-horiz" class="w-5 h-5" />
-          </label>
-          <ul
-            tabindex="0"
-            class="relative z-50 mt-3 p-0.5 menu shadow-xl bg-base-100 border rounded border-base-content/5 !block w-64 menu dropdown-content"
-            role="menu"
-            aria-orientation="vertical"
-          >
-            <li><LinkLive to={"/users/instance/#{display_hostname}/#{id}"} class="grow">{l("View known users from instance")}</LinkLive></li>
-            <li><a href={ap_base_uri} target="_blank">{l("Visit instance")}</a></li>
-            <li>
-              <StatelessComponent
-                module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
-                object={instance}
-                parent_id="instances"
-                type={:block}
-                hide_icon
-                is_local_user={false}
-                open_btn_wrapper_class="w-full text-left"
-                label={display_hostname}
-                open_btn_label={if e(instance, :ghosted_instance_wide?, nil) && e(instance, :silenced_instance_wide?, nil) do
-                  l("Unblock")
-                else
-                  l("Block")
-                end}
-                class="text-error text-left"
-              />
-            </li></ul>
+      {!-- Instance Card Header --}
+      <div class="flex justify-between items-start gap-4">
+        <div class="flex items-center gap-3 min-w-0 flex-1">
+          {!-- Globe Icon --}
+          <div class="w-10 h-10 rounded-lg bg-base-200 flex items-center justify-center shrink-0">
+            <#Icon iconify="ph:globe-duotone" class="w-6 h-6 text-base-content/60" />
+          </div>
+
+          {!-- Instance Info --}
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2">
+              <a
+                href={ap_base_uri}
+                target="_blank"
+                class="text-lg font-semibold truncate link link-hover"
+                title={l("Visit instance")}
+              >
+                {display_hostname}
+                <#Icon iconify="heroicons-solid:external-link" class="w-3.5 h-3.5 inline-block ml-1 opacity-50" />
+              </a>
+            </div>
+
+            {!-- Stats row --}
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-base-content/60">
+              {!-- User count --}
+              <span class="flex items-center gap-1">
+                <#Icon iconify="ph:users-duotone" class="w-4 h-4" />
+                {e(@instances_metadata, id, :user_count, 0)} {l("known users")}
+              </span>
+
+              {!-- First seen --}
+              {#if e(@instances_metadata, id, :first_seen, nil)}
+                <span class="flex items-center gap-1" title={l("First seen")}>
+                  <#Icon iconify="ph:calendar-duotone" class="w-4 h-4" />
+                  {DatesTimes.date_from_now(e(@instances_metadata, id, :first_seen, nil))}
+                </span>
+              {/if}
+
+              {!-- Last activity --}
+              {#if e(@instances_metadata, id, :last_activity, nil)}
+                <span class="flex items-center gap-1" title={l("Last activity")}>
+                  <#Icon iconify="ph:clock-duotone" class="w-4 h-4" />
+                  {DatesTimes.date_from_now(e(@instances_metadata, id, :last_activity, nil))}
+                </span>
+              {/if}
+            </div>
+          </div>
+        </div>
+
+        {!-- Status Badge --}
+        <div class="shrink-0">
+          {#case {e(instance, :ghosted_instance_wide?, nil), e(instance, :silenced_instance_wide?, nil)}}
+            {#match {nil, nil}}
+              <span class="badge badge-sm loading">{l("loading")}</span>
+            {#match {true, true}}
+              <span class="badge badge-sm badge-error">{l("Blocked")}</span>
+            {#match {true, _}}
+              <span class="badge badge-sm badge-warning">{l("Ghosted")}</span>
+            {#match {_, true}}
+              <span class="badge badge-sm badge-warning">{l("Silenced")}</span>
+            {#match {_, _}}
+              <span class="badge badge-sm badge-success">{l("Active")}</span>
+          {/case}
         </div>
       </div>
 
-      {#case {e(instance, :ghosted_instance_wide?, nil), e(instance, :silenced_instance_wide?, nil)}}
-        {#match {nil, nil}}
-          <span class="btn btn-xs  normal-case loading btn-disabled">{l("loading")}</span>
-        {#match {true, true}}
-          <span class="badge badge-sm badge-error">{l("Blocked")}</span>
-        {#match {true, _}}
-          <span class="badge badge-sm badge-warning">{l("Ghosted")}</span>
-        {#match {_, true}}
-          <span class="badge badge-sm badge-warning">{l("Silenced")}</span>
-        {#match {_, _}}
-          <span class="badge badge-sm badge-success">{l("Active")}</span>
-      {/case}
+      {!-- Quick Actions Bar --}
+      <div class="flex items-center justify-between mt-4 pt-3 border-t border-base-content/5">
+        <div class="flex items-center gap-2">
+          <LinkLive to={"/users/instance/#{display_hostname}/#{id}"} class="btn btn-sm btn-soft gap-1">
+            <#Icon iconify="ph:users-duotone" class="w-4 h-4" />
+            {l("View users")}
+          </LinkLive>
+        </div>
+
+        {!-- Quick Action Buttons --}
+        <div class="flex items-center gap-1">
+          {!-- Ghost/Unghost Button --}
+          {#if e(instance, :ghosted_instance_wide?, false)}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
+              object={instance}
+              parent_id={"instance-ghost-#{id}"}
+              type={:ghost}
+              is_local_user={false}
+              label={display_hostname}
+              open_btn_label={l("Unghost")}
+              with_icon
+              class="btn btn-sm btn-soft btn-warning gap-1"
+            />
+          {#else}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
+              object={instance}
+              parent_id={"instance-ghost-#{id}"}
+              type={:ghost}
+              is_local_user={false}
+              label={display_hostname}
+              open_btn_label={l("Ghost")}
+              with_icon
+              class="btn btn-sm btn-soft gap-1"
+            />
+          {/if}
+
+          {!-- Silence/Unsilence Button --}
+          {#if e(instance, :silenced_instance_wide?, false)}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
+              object={instance}
+              parent_id={"instance-silence-#{id}"}
+              type={:silence}
+              is_local_user={false}
+              label={display_hostname}
+              open_btn_label={l("Unsilence")}
+              with_icon
+              class="btn btn-sm btn-soft btn-warning gap-1"
+            />
+          {#else}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
+              object={instance}
+              parent_id={"instance-silence-#{id}"}
+              type={:silence}
+              is_local_user={false}
+              label={display_hostname}
+              open_btn_label={l("Silence")}
+              with_icon
+              class="btn btn-sm btn-soft gap-1"
+            />
+          {/if}
+
+          {!-- Block/Unblock Button --}
+          {#if e(instance, :ghosted_instance_wide?, false) && e(instance, :silenced_instance_wide?, false)}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
+              object={instance}
+              parent_id={"instance-block-#{id}"}
+              type={:block}
+              is_local_user={false}
+              label={display_hostname}
+              open_btn_label={l("Unblock")}
+              with_icon
+              class="btn btn-sm btn-error gap-1"
+            />
+          {#else}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
+              object={instance}
+              parent_id={"instance-block-#{id}"}
+              type={:block}
+              is_local_user={false}
+              label={display_hostname}
+              open_btn_label={l("Block")}
+              with_icon
+              class="btn btn-sm btn-soft text-error gap-1"
+            />
+          {/if}
+        </div>
+      </div>
     </div>
   </div>
 
