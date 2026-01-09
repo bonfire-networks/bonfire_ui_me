@@ -65,7 +65,7 @@
                     </span>
                   </div>
 
-                  <div :if={@with_summary} class="text-left prose prose-sm text-sm line-clamp-4">
+                  <div :if={@with_summary} class="text-left prose prose-sm text-sm line-clamp-2">
                     {rich(e(@user, :profile, :summary, nil), sanitize: true, skip_markdown: true)}
                   </div>
                 </div>
