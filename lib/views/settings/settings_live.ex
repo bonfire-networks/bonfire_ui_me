@@ -154,4 +154,5 @@ defmodule Bonfire.UI.Me.SettingsLive do
   def handle_event("validate", _params, socket) do
     {:noreply, socket}
   end
+
 end

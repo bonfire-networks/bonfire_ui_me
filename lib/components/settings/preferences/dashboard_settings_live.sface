@@ -1,66 +1,129 @@
-<div class="flex flex-col gap-6 w-full">
-  <!-- <div class="font-semibold">{"Main feed to show"}</div> -->
-  <form class="flex flex-col" phx-change="Bonfire.Common.Settings:set">
-    <input name="scope" value={@scope} type="hidden">
+{#case Settings.get([Bonfire.Web.Views.DashboardLive, :default_feed], false, @__context__)}
+  {#match feed when feed in [:my, true]}
+    <div class="flex flex-col gap-6 w-full">
+      <form class="flex flex-col" phx-change="Bonfire.Common.Settings:set">
+        <input name="scope" value={@scope} type="hidden">
 
-    {!-- <Bonfire.UI.Common.SettingsRadiosLive
-      keys={[Bonfire.Web.Views.DashboardLive, :default_feed]}
-      options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
-           Bonfire.Common.Config.get(
-             [Bonfire.UI.Social.FeedsLive, :curated],
-             false
-           ) do
-        [
-          my: l("My Feed"),
-          curated: l("Curated"),
-          popular: l("Popular Discussions")
-        ]
-      else
-        [
-          my: l("My Feed"),
-          popular: l("Popular Discussions")
-        ]
-      end}
-      default_value={:popular}
-      scope={@scope}
-    /> --}
+        <div class="flex flex-col gap-1 p-4">
+          <h2 class="text-xl font-bold">{l("Dashboard Configuration")}</h2>
+          <p class="text-sm text-base-content/70">{l("Choose what to display on your home screen.")}</p>
+        </div>
 
-    <div class="font-semibold p-4">{l("Configure your dashboard")}</div>
-    <div class="flex flex-col gap-2 divide-y divide-base-content/10">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Show popular topics")}
-        description={l("Show the most popular topics")}
-        keys={[Bonfire.Web.Views.DashboardLive, :include, :popular_topics]}
-        default_value
-        scope={@scope}
-      />
+        {!-- Main Content Selection --}
+        <div class="flex flex-col gap-2 p-4">
+          <h3 class="font-semibold text-base-content/80">{l("Main Content")}</h3>
+          <div class="flex flex-col rounded-xl border border-base-content/10 divide-y divide-base-content/10">
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("My Following Feed")}
+              description={l("Show activities from people you follow instead of discovery widgets.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :default_feed]}
+              default_value={false}
+              scope={@scope}
+            />
+          </div>
+          <p class="text-xs text-base-content/50 mt-1 px-1">{l("When enabled, your dashboard shows your feed. Disable to show discovery widgets instead.")}</p>
+        </div>
 
-      {!-- <Bonfire.UI.Common.SettingsToggleLive
-          name={l("Show recent users")}
-          description={l("Show the most recent users")}
-          keys={[Bonfire.Web.Views.DashboardLive, :include, :recent_users]}
-          default_value
-          scope={@scope}
-          compact
-        /> --}
+        {!-- Sidebar Widgets --}
+        <div class="flex flex-col gap-2 p-4">
+          <h3 class="font-semibold text-base-content/80">{l("Sidebar Widgets")}</h3>
+          <div class="flex flex-col rounded-xl border border-base-content/10 divide-y divide-base-content/10">
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Popular Topics")}
+              description={l("Show trending topics and hashtags.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :popular_topics]}
+              default_value
+              scope={@scope}
+            />
 
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Show admins")}
-        description={l("Show the admins")}
-        keys={[Bonfire.Web.Views.DashboardLive, :include, :admins]}
-        default_value
-        scope={@scope}
-      />
-
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Show my following feed")}
-        description={l("Include the feed with activities of people I follow on the dashboard")}
-        keys={[Bonfire.Web.Views.DashboardLive, :default_feed]}
-        default_value={false}
-        scope={@scope}
-      />
-
-      <div class="p-4 text-sm">{l("More widgets coming soon....")}</div>
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Instance Admins")}
+              description={l("Display the instance administrators.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :admins]}
+              default_value
+              scope={@scope}
+            />
+          </div>
+        </div>
+      </form>
     </div>
-  </form>
-</div>
+  {#match _}
+    <div class="flex flex-col gap-6 w-full">
+      <form class="flex flex-col" phx-change="Bonfire.Common.Settings:set">
+        <input name="scope" value={@scope} type="hidden">
+
+        <div class="flex flex-col gap-1 p-4">
+          <h2 class="text-xl font-bold">{l("Dashboard Configuration")}</h2>
+          <p class="text-sm text-base-content/70">{l("Choose what to display on your home screen.")}</p>
+        </div>
+
+        {!-- Main Content Selection --}
+        <div class="flex flex-col gap-2 p-4">
+          <h3 class="font-semibold text-base-content/80">{l("Main Content")}</h3>
+          <div class="flex flex-col rounded-xl border border-base-content/10 divide-y divide-base-content/10">
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("My Following Feed")}
+              description={l("Show activities from people you follow instead of discovery widgets.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :default_feed]}
+              default_value={false}
+              scope={@scope}
+            />
+          </div>
+          <p class="text-xs text-base-content/50 mt-1 px-1">{l("When enabled, your dashboard shows your feed. Disable to show discovery widgets instead.")}</p>
+        </div>
+
+        {!-- Discovery Widgets --}
+        <div class="flex flex-col gap-2 p-4">
+          <h3 class="font-semibold text-base-content/80">{l("Discovery Widgets")}</h3>
+          <p class="text-xs text-base-content/50 mb-1">{l("These widgets are shown when the following feed is disabled.")}</p>
+          <div class="flex flex-col rounded-xl border border-base-content/10 divide-y divide-base-content/10">
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Who to follow Carousel")}
+              description={l("Large profile cards for discovery.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :suggested_profiles]}
+              default_value
+              scope={@scope}
+            />
+
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Trending Links")}
+              description={l("Visual cards with large images for external URLs.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :trending_links]}
+              default_value
+              scope={@scope}
+            />
+
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Recent Articles")}
+              description={l("Long-form internal content posts.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :recent_articles]}
+              default_value
+              scope={@scope}
+            />
+          </div>
+        </div>
+
+        {!-- Sidebar Widgets --}
+        <div class="flex flex-col gap-2 p-4">
+          <h3 class="font-semibold text-base-content/80">{l("Sidebar Widgets")}</h3>
+          <div class="flex flex-col rounded-xl border border-base-content/10 divide-y divide-base-content/10">
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Popular Topics")}
+              description={l("Show trending topics and hashtags.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :popular_topics]}
+              default_value
+              scope={@scope}
+            />
+
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Instance Admins")}
+              description={l("Display the instance administrators.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :admins]}
+              default_value
+              scope={@scope}
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+{/case}
