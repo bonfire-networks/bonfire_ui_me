@@ -4,7 +4,7 @@
     <span>{l("Appearance")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-y divide-base-content/20">
     <div x-data="{open: false}" class="p-4">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
         <div class="flex flex-col gap-1">
@@ -203,7 +203,7 @@
     <span>{l("Discussions")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-y divide-base-content/20">
     <div x-data="{open: false}" class="p-4 cursor-pointer">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
@@ -432,7 +432,7 @@
     scope={@scope}
     module={maybe_component(Bonfire.UI.Boundaries.DefaultBoundaryLive, @__context__)}
   /> --}
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-y divide-base-content/20">
     <form phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Mark as sensitive media")}
@@ -550,7 +550,7 @@
     <span>{l("Privacy & Safety")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-y divide-base-content/20">
     <div
       x-data="{open: false}"
       class="p-4 cursor-pointer"
@@ -570,7 +570,7 @@
       <div x-show="open" x-cloak x-collapse class="pt-2">
         <form phx-change="Bonfire.Common.Settings:set">
           <input name="scope" value={@scope} type="hidden">
-          <div class="divide-y divide-base-content/10">
+          <div class="divide-y divide-base-content/20">
             <Bonfire.UI.Common.SettingsRadiosLive
               keys={[:activity_pub, :user_federating]}
               options={if ActivityPub.Config.federating?() == nil,
@@ -652,10 +652,10 @@
     <span>{l("Curated & Trending topics")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-y divide-base-content/20">
     <!-- if curated tab is enabled, then show the settings for disabling on the user side -->
 
-    <form class="divide-y divide-base-content/10" phx-change="Bonfire.Common.Settings:set">
+    <form class="divide-y divide-base-content/20" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       {!-- <Bonfire.UI.Common.SettingsToggleLive
         :if={module_enabled?(Bonfire.Social.Pins, @__context__) and
