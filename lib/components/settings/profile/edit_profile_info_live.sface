@@ -89,7 +89,7 @@
     </form>
   </div>
 </div>
-<!-- <div class="border-t border-base-content/10">
+<!-- <div class="border-t border-base-content/20">
   <form data-scope="set_background" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Background"
@@ -99,7 +99,7 @@
     />
   </form>
 </div> -->
-<div class="border-t border-b border-base-content/10">
+<div class="border-t border-b border-base-content/20">
   <form data-scope="set-weather" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Weather"

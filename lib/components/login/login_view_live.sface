@@ -151,7 +151,7 @@
     </button>
 
     <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-3">
-      <div class="flex py-3 pb-2 mt-3 border-t border-base-content/10 place-content-center">
+      <div class="flex py-3 pb-2 mt-3 border-t border-base-content/20 place-content-center">
         <LinkLive to={path(:signup)} class="text-sm text-center normal-case">
           {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></LinkLive>
       </div>

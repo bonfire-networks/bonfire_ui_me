@@ -1,13 +1,13 @@
 <div data-id={"hero_more_actions-#{@parent_id}"} class="flex items-center gap-3">
   <div aria-haspopup="true" class="dropdown dropdown-end">
-    <label tabindex="0" class="btn glass btn-circle btn-outline border-base-content/10 btn-soft">
+    <label tabindex="0" class="btn glass btn-circle btn-outline border-base-content/20 btn-soft">
       <#Icon iconify="ph:dots-three-vertical-duotone" class="w-4 h-4 text-primary" />
     </label>
     <ul
       tabindex="0"
       role="menu"
       aria-orientation="vertical"
-      class="mt-1 z-50 rounded-box dropdown_actions w-60 menu-lg menu dropdown-content bg-base-300 border border-base-content/10"
+      class="mt-1 z-50 rounded-box dropdown_actions w-60 menu-lg menu dropdown-content bg-base-300 border border-base-content/20"
     >
       <li :if={@permalink}>
         <a
@@ -63,7 +63,7 @@
           </LinkPatchLive>
         </li>
       {/if}
-      <li class="m-1 border-t border-base-content/10" />
+      <li class="m-1 border-t border-base-content/20" />
       {#if current_user_id(@__context__) == id(@user)}
         <li>
           <LinkLive to="/settings" class="flex items-center gap-2 justify-between text-base-content">

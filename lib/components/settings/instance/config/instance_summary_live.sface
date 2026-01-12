@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-2">
-  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
+  <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/20">
     <div iconify="eos-icons:network" class="w-6 h-6 text-base-content/80" aria-hidden="true" />
     <span>{l("Digital Space Defaults")}</span>
   </div>

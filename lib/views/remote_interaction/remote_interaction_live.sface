@@ -4,6 +4,6 @@
   interaction_type={@interaction_type}
 >
   <:header>
-    <div class="max-w-[680px] mx-auto p-3 border-b border-base-content/10 font-bold text-base bg-base-100 rounded-t-lg text-center mt-6">{l("Navigate to your server")}</div>
+    <div class="max-w-[680px] mx-auto p-3 border-b border-base-content/20 font-bold text-base bg-base-100 rounded-t-lg text-center mt-6">{l("Navigate to your server")}</div>
   </:header>
 </Bonfire.UI.Me.RemoteInteractionFormLive>

@@ -10,7 +10,7 @@
                 @character_type != :user} --}
             <div
               data-id="hero_background"
-              class="aspect-[4/3] w-full h-[180px] relative bg-base-100 border-b border-base-content/10 relative bg-center mt-0 bg-cover bg-no-repeat mb-3"
+              class="aspect-[4/3] w-full h-[180px] relative bg-base-100 border-b border-base-content/20 relative bg-center mt-0 bg-cover bg-no-repeat mb-3"
               style={cond do
                 is_binary(color) -> "background-color: #{color}"
                 is_binary(banner_url) -> "background-image: url('#{URI.encode(banner_url)}')"

@@ -13,7 +13,7 @@
     {#match module when not is_nil(module) and not is_boolean(module)}
       <StatelessComponent module={module} {...assigns}>
         <:header>
-          <div class="bg-base-100 border-b border-base-content/10">
+          <div class="bg-base-100 border-b border-base-content/20">
             <StatelessComponent
               module={Config.get(
                 [:ui, :profile, :hero_component],

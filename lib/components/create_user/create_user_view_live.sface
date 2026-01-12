@@ -52,7 +52,7 @@
     for={@form}
     action={path(:create_user, :create)}
     opts={[
-      class: "rounded-box p-4 mb-12 border bg-base-100 shadow-sm border-base-content/10",
+      class: "rounded-box p-4 mb-12 border bg-base-100 shadow-sm border-base-content/20",
       id: "create-user-form"
     ]}
   >
@@ -97,10 +97,10 @@
               {l("Choose a username")}
             </span>
           </Label>
-          <label class="flex w-full border border-base-content/10 items-center rounded-md">
-            <span class="h-[48px] flex items-center place-content-center border-r px-2 border-base-content/10 text-sm">@</span>
+          <label class="flex w-full border border-base-content/20 items-center rounded-md">
+            <span class="h-[48px] flex items-center place-content-center border-r px-2 border-base-content/20 text-sm">@</span>
             <TextInput class="input flex-1" required opts={"x-bind:value": "suggest_username(username)"} />
-            <span class="hidden flex items-center place-content-center h-[48px] px-2 text-sm md:flex border-l border-base-content/10">@{base_domain()}</span>
+            <span class="hidden flex items-center place-content-center h-[48px] px-2 text-sm md:flex border-l border-base-content/20">@{base_domain()}</span>
           </label> --}
           <ErrorTag />
         </Field>

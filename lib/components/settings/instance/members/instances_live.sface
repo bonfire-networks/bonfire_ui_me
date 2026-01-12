@@ -2,7 +2,7 @@
   <div class="flex p-3 flex-col gap-3">
     <div
       :for={%{id: id, ap_base_uri: ap_base_uri, display_hostname: display_hostname} = instance <- @instances}
-      class="p-4 border rounded-lg border-base-content/10 bg-base-100"
+      class="p-4 border rounded-lg border-base-content/20 bg-base-100"
     >
       {!-- Instance Card Header --}
       <div class="flex justify-between items-start gap-4">

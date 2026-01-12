@@ -1,7 +1,7 @@
 <div class="grid mb-2 px-4 md:px-0 md:grid-cols-2 gap-4 max-w-screen-md mx-auto w-full">
   <div
     :for={%{id: id, ap_base_uri: ap_base_uri, display_hostname: display_hostname} <- @instances}
-    class="p-4 border rounded border-base-content/10 flex"
+    class="p-4 border rounded border-base-content/20 flex"
   >
     <LinkLive to={"/users/instance/#{display_hostname}/#{id}"} class="grow">{display_hostname}</LinkLive>
     <a href={ap_base_uri} target="_blank"><#Icon iconify="heroicons-solid:external-link" class="w-4 h-4" /></a>
