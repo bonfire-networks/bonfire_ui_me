@@ -44,11 +44,10 @@
 
                   <div class="flex items-center gap-2">
                     <div
-                      :if={e(@user, :character, :username, nil)}
-                      data-role="username"
-                      class="text-sm font-normal text-base-content text-opacity-80"
+                      :if={e(@user, :profile, :summary, nil)}
+                      class="text-sm font-normal text-base-content text-opacity-80 line-clamp-2"
                     >
-                      @{e(@user, :character, :username, nil)}
+                      {e(@user, :profile, :summary, nil)}
                     </div>
 
                     <span
