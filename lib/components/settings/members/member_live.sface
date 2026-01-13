@@ -69,6 +69,8 @@
           tabindex="0"
           class="tooltip z-[99999999] menu shadow bg-base-300 w-60 absolute rounded-box top-0 right-0 hidden"
           role="menu"
+          id={"members_menu_links_#{id(@user)}_content"}
+          phx-update="ignore"
           aria-orientation="vertical"
           aria-labelledby="member-menu-item"
         >
