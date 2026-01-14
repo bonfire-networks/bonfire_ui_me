@@ -207,7 +207,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
 
     # Since auto-promotion doesn't work in test env (Config.env == :test),
     # manually promote the user to admin to verify the badge displays correctly
-    user = Bonfire.Me.Users.by_username(username)
+    {:ok, user} = Bonfire.Me.Users.by_username(username)
     {:ok, _} = Bonfire.Me.Users.make_admin(user)
 
     # Navigate to user profile and verify admin badge is shown

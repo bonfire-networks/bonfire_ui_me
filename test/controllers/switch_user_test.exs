@@ -26,8 +26,8 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       user_previews = Floki.find(doc, ".component_user_preview")
       assert length(user_previews) == 2
       all_text = user_previews |> Enum.map(&Floki.text/1) |> Enum.join(" ")
-      assert all_text =~ "@#{alice.character.username}"
-      assert all_text =~ "@#{bob.character.username}"
+      assert all_text =~ alice.profile.name
+      assert all_text =~ bob.profile.name
     end
   end
 

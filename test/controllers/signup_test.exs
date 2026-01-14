@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.SignupController.Test do
-  use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
+  use Bonfire.UI.Me.ConnCase, async: false
   use Repatch.ExUnit
 
   test "form renders" do
@@ -66,14 +66,19 @@ defmodule Bonfire.UI.Me.SignupController.Test do
 
   setup do
     Bonfire.Me.Fake.clear_caches()
+    # Set bypass key so that nil != "key" is true, forcing email confirmation
+    System.put_env("INVITE_KEY_EMAIL_CONFIRMATION_BYPASS", "test_bypass_key")
+
+    on_exit(fn ->
+      System.delete_env("INVITE_KEY_EMAIL_CONFIRMATION_BYPASS")
+    end)
+
     :ok
   end
 
   test "can signup" do
     #  create a first user since confirmation otherwise not required
     fake_user!()
-    # Clear caches to ensure test email doesn't collide with existing accounts
-    # Bonfire.Me.Fake.clear_caches()
     conn = conn()
     email = email()
     password = password()
