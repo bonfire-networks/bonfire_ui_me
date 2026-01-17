@@ -12,10 +12,10 @@
       <!-- Back button -->
 
       <button
-        class="btn btn-circle btn-ghost glass"
+        class="btn btn-circle btn-sm"
         onclick="history.length > 1 ? history.back() : window.location.href = '/'"
       >
-        <#Icon iconify="ph:arrow-left" class="text-primary w-5 h-5" />
+        <#Icon iconify="ph:arrow-left" class="w-4 h-4" />
       </button>
 
       <!-- Avatar and name -->
