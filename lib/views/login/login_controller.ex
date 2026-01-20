@@ -83,7 +83,7 @@ defmodule Bonfire.UI.Me.LoginController do
     # )
     # to support redirect after a POST
     |> Plug.Conn.put_status(303)
-    |> redirect_to_previous_go(debug(form), "/", "/login")
+    |> redirect_to_previous_go(form, "/", "/login")
   end
 
   def form_cs(params \\ %{}), do: Accounts.changeset(:login, params)
