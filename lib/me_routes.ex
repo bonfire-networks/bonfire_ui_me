@@ -87,7 +87,9 @@ defmodule Bonfire.UI.Me.Routes do
         live("/users/instance/:display_name/:instance", UsersDirectoryLive)
         live("/known_instances", InstancesDirectoryLive)
 
-        resources("/signup/email/confirm/:id", ConfirmEmailController, only: [:show])
+        # NOTE: commented out because it generates /signup/email/confirm/:id/:id (double :id)
+        # since resources already adds :id for show action. Line 114 provides the correct route.
+        # resources("/signup/email/confirm/:id", ConfirmEmailController, only: [:show])
       end
 
       # pages only guests can view
