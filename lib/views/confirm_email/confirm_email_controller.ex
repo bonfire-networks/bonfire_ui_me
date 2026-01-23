@@ -56,39 +56,21 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
   defp confirmed(conn, %{id: id}, redirect_uri) do
     conn = put_session(conn, :current_account_id, id)
 
-    # If redirect_uri is a valid app deep link, redirect to the app
-    case validate_redirect_uri(redirect_uri) do
-      {:ok, uri} ->
-        conn
-        |> assign_flash(:info, l("Email confirmed! Redirecting to app..."))
-        |> redirect(external: uri)
-
-      :error ->
-        # Web signup: user needs to create profile, go to switch-user
-        conn
-        |> assign_flash(
-          :info,
-          l("Thanks for confirming your email address. Please create a user profile.")
-        )
-        |> redirect_to("/switch-user")
-    end
+    conn
+    |> assign_flash(
+      :info,
+      l("Thanks for confirming your email address. Please create a user profile.")
+    )
+    |> redirect_to(validate_redirect_uri(redirect_uri, path(:switch_user) || "/switch-user/"))
   end
 
   defp already_confirmed(conn, redirect_uri) do
-    case validate_redirect_uri(redirect_uri) do
-      {:ok, uri} ->
-        conn
-        |> assign_flash(:info, l("Email already confirmed. Redirecting to app..."))
-        |> redirect(external: uri)
-
-      :error ->
-        conn
-        |> assign_flash(
-          :error,
-          l("You've already confirmed your email address. You can log in now.")
-        )
-        |> redirect_to(path(:login))
-    end
+    conn
+    |> assign_flash(
+      :error,
+      l("You've already confirmed your email address. You can log in now.")
+    )
+    |> redirect_to(validate_redirect_uri(redirect_uri, path(:login) || "/login/"))
   end
 
   defp show_error(conn, text) do
@@ -101,26 +83,26 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
 
   # Validate redirect_uri is safe for mobile app deep-linking
   # Only allows custom URL schemes (e.g., myapp://, com.example.app://)
-  # Blocks web URLs and dangerous schemes to prevent open redirect attacks
+  # Blocks web URLs and other schemes
   @blocked_schemes ~w(http https javascript data file mailto tel sms ftp)
 
-  defp validate_redirect_uri(nil), do: :error
-  defp validate_redirect_uri(""), do: :error
+  defp validate_redirect_uri(nil, default), do: default
+  defp validate_redirect_uri("", default), do: default
 
-  defp validate_redirect_uri(uri) when is_binary(uri) do
+  defp validate_redirect_uri(uri, default) when is_binary(uri) do
     case URI.parse(uri) do
       # Only allow custom schemes - these open the registered mobile app
       %URI{scheme: scheme} when is_binary(scheme) and scheme != "" ->
         if scheme in @blocked_schemes do
-          :error
+          default
         else
-          {:ok, uri}
+          uri
         end
 
       _ ->
-        :error
+        default
     end
   end
 
-  defp validate_redirect_uri(_), do: :error
+  defp validate_redirect_uri(_, default), do: default
 end
