@@ -1,9 +1,14 @@
 <!-- <nav class="!-mx-2" role="navigation" aria-label={l("Settings navigation")}>
   <ul class="menu px-0 py-0"> -->
-<button class="btn z-50 w-full btn-primary" onclick="history.back()">
-  <#Icon iconify="ion:chevron-back" class="w-4 h-4" />
-  <span class="">{l("Back")}</span>
-</button>
+<Bonfire.UI.Common.DesignSystem.button
+  variant="primary"
+  full_width={true}
+  icon_left="ion:chevron-back"
+  class="z-50"
+  onclick="history.back()"
+>
+  {l("Back")}
+</Bonfire.UI.Common.DesignSystem.button>
 <ul class="menu p-0 w-full">
   <li>
     <details open>

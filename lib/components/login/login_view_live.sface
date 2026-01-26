@@ -146,9 +146,15 @@
         </div>
       {#match _}
     {/case} --}
-    <button type="submit" phx-disable-with="Loading..." class="w-full  btn btn-primary">
+    <Bonfire.UI.Common.DesignSystem.button
+      id="login_submit_btn"
+      type="submit"
+      variant="primary"
+      full_width={true}
+      loading_text={l("Logging in...")}
+    >
       {l("Log in")}
-    </button>
+    </Bonfire.UI.Common.DesignSystem.button>
 
     <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-3">
       <div class="flex py-3 pb-2 mt-3 border-t border-base-content/20 place-content-center">

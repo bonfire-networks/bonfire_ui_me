@@ -162,13 +162,16 @@
       {/case} --}
 
           <div class="mt-6">
-            <span class="block w-full rounded-md shadow-sm">
-              <button
-                data-role="signup_submit"
-                type="submit"
-                class="flex w-full normal-case btn btn-primary place-content-center"
-              >{l("Sign up")}</button>
-            </span>
+            <Bonfire.UI.Common.DesignSystem.button
+              id="signup_submit"
+              type="submit"
+              variant="primary"
+              full_width={true}
+              loading_text={l("Creating account...")}
+              data-role="signup_submit"
+            >
+              {l("Sign up")}
+            </Bonfire.UI.Common.DesignSystem.button>
           </div>
 
           <div class="flex py-4 pb-2 mt-6 text-xs border-t border-base-content/20 place-content-center">

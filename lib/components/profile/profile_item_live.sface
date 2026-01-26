@@ -67,7 +67,7 @@
       }}
       parent_id={deterministic_dom_id(__MODULE__, id(@profile), "ppr", @parent_id)}
       with_summary
-      class="tooltip z-[9999999999999999] absolute w-[300px] top-0 left-0 hidden"
+      class="tooltip z-tooltip absolute w-[300px] top-0 left-0 hidden"
     >
       <:actions>
        <div
