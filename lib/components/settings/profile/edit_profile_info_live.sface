@@ -87,7 +87,7 @@
         <Bonfire.UI.Common.DesignSystem.button
           type="submit"
           variant="soft"
-          full_width={true}
+          full_width
           loading_text={l("Saving...")}
         >
           {l("Save")}

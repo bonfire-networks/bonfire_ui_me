@@ -150,7 +150,7 @@
       id="login_submit_btn"
       type="submit"
       variant="primary"
-      full_width={true}
+      full_width
       loading_text={l("Logging in...")}
     >
       {l("Log in")}
