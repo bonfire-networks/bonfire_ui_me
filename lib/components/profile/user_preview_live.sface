@@ -47,7 +47,7 @@
                       :if={e(@user, :profile, :summary, nil)}
                       class="text-sm font-normal text-base-content text-opacity-80 line-clamp-2"
                     >
-                      {e(@user, :profile, :summary, nil)}
+                      {Text.text_only(e(@user, :profile, :summary, nil))}
                     </div>
 
                     <span
