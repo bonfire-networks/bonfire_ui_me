@@ -3,7 +3,7 @@
   title_class="flex pb-2 text-lg font-bold tracking-wide"
 >
   <:action>
-    <div class="flex ml-auto gap-2">
+    <div class="flex items-center ml-auto gap-2">
       {#if @with_batch_follow && current_user_id(@__context__)}
         <StatefulComponent
           module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
