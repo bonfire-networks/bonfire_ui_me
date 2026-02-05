@@ -23,7 +23,7 @@
                 <Bonfire.UI.Common.BadgeCounterLive
                   :if={i != 0}
                   parent_id="switch_user_menu"
-                  id={"#{random_dom_id()}_notifications_#{user_id}"}
+                  id={"#{deterministic_dom_id("notifications", user_id)}"}
                   feed_id={e(user, :character, :notifications_id, nil)}
                   for_user={user}
                   counter_class="indicator-middle indicator-center"
@@ -33,7 +33,7 @@
                 <Bonfire.UI.Common.BadgeCounterLive
                   :if={i != 0}
                   parent_id="switch_user_menu"
-                  id={"#{random_dom_id()}_messages_#{user_id}"}
+                  id={"#{deterministic_dom_id("messages", user_id)}"}
                   feed_id={e(user, :character, :inbox_id, nil)}
                   for_user={user}
                   counter_class="indicator-middle indicator-center"
