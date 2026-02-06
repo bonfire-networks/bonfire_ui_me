@@ -49,7 +49,6 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
     end
   end
 
-  @decorate time()
   def mount(params \\ nil, session, socket)
 
   def mount(params, session, {:ok, socket} = _) do
@@ -67,13 +66,18 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   def mount(_, %{"current_user_id" => user_id} = session, socket) when is_binary(user_id) do
-    user =
+    import Bonfire.UI.Common.Timing
+
+    user = time_section :lv_get_current_user do
       get_current(
         user_id,
         current_account_id(assigns(socket)) || session["current_account_id"]
       )
+    end
 
-    assign_current_user(socket, user)
+    time_section :lv_assign_current_user do
+      assign_current_user(socket, user)
+    end
   end
 
   def mount(_, _, socket) do
