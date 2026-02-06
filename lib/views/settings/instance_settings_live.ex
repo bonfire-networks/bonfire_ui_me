@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      |> assign(
        page_title: l("Instance Settings"),
        #  without_secondary_widgets: true,
-       nav_items: [Bonfire.UI.Me.InstanceSidebarSettingsNavLive.declared_nav()],
+       nav_items: Bonfire.UI.Me.InstanceSidebarSettingsNavLive.declared_nav() |> List.wrap(),
        selected_tab: "instance_dashboard",
        id: nil,
        page: "instance_settings",

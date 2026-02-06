@@ -242,7 +242,6 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       page_title: l("Profile"),
       feed_title: l("User timeline"),
       back: true,
-      nav_items: Bonfire.Common.ExtensionModule.default_nav(),
       user: %{},
       canonical_url: nil,
       character_type: nil,

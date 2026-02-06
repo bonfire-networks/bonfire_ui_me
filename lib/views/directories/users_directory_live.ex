@@ -49,7 +49,6 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
            is_remote?: not is_nil(instance_id),
            selected_tab: :users,
            is_guest?: is_guest?,
-           nav_items: Bonfire.Common.ExtensionModule.default_nav(),
            search_placeholder: "Search users",
            users: edges,
            page_info: page_info

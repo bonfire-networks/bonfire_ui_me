@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.BlockedLive do
         socket,
         selected_tab: "blocked",
         # without_secondary_widgets: true,
-        nav_items: Bonfire.Common.ExtensionModule.default_nav(),
+
         back: true,
         page: "Blocked People & Instances",
         page_title: l("Blocked People & Instances"),

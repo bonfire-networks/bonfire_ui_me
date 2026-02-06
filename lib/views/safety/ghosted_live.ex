@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.GhostedLive do
         socket,
         selected_tab: "ghosted",
         # without_secondary_widgets: true,
-        nav_items: Bonfire.Common.ExtensionModule.default_nav(),
+
         back: true,
         page: "Ghosted People & Instances",
         page_title: l("Ghosted People & Instances"),

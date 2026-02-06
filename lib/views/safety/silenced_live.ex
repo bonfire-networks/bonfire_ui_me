@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.SilencedLive do
         socket,
         selected_tab: "silenced",
         # without_secondary_widgets: true,
-        nav_items: Bonfire.Common.ExtensionModule.default_nav(),
+
         back: true,
         page: "Silenced People & Instances",
         page_title: l("Silenced People & Instances"),
