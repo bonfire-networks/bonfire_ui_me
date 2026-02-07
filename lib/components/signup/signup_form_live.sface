@@ -166,7 +166,7 @@
               id="signup_submit"
               type="submit"
               variant="primary"
-              full_width={true}
+              full_width
               loading_text={l("Creating account...")}
               data-role="signup_submit"
             >

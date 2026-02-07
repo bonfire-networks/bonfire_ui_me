@@ -1,53 +1,53 @@
 {#if @show_inline_users and is_list(@current_account_users) and @current_account_users != []}
   <li class="hover:bg-base-300" :if={@max_users_per_account > 1}>
-
     <div class="flex items-center gap-2 justify-evenly py-2 w-full">
-      <div :for={{%{id: user_id} = user, i} <- Enum.with_index([current_user(@__context__)] ++ (@current_account_users || []))} class="">
+      <div
+        :for={{%{id: user_id} = user, i} <-
+          Enum.with_index([current_user(@__context__)] ++ (@current_account_users || []))}
+        class=""
+      >
         <LinkLive
           to={"/switch-user/#{user.character.username}"}
-         class={
-              "relative rounded-full p-0",
-              "ring-primary block ring-offset-base-100  ring-2 ring-offset-2":
-                i == 0
-            }
+          class={
+            "relative rounded-full p-0",
+            "ring-primary block ring-offset-base-100  ring-2 ring-offset-2": i == 0
+          }
           title={l("View profile")}
         >
-            
-              <Bonfire.UI.Common.AvatarLive
-                src={Media.avatar_url(user)}
-                user_id={user_id}
-                class="w-6 h-6 !rounded-full flex-shrink-0"
-              />
+          <Bonfire.UI.Common.AvatarLive
+            src={Media.avatar_url(user)}
+            user_id={user_id}
+            class="w-6 h-6 !rounded-full flex-shrink-0"
+          />
 
-              <div class="indicator absolute top-0 left-0" title={l("View notifications")}>
-                <Bonfire.UI.Common.BadgeCounterLive
-                  :if={i != 0}
-                  parent_id="switch_user_menu"
-                  id={"#{deterministic_dom_id("notifications", user_id)}"}
-                  feed_id={e(user, :character, :notifications_id, nil)}
-                  for_user={user}
-                  counter_class="indicator-middle indicator-center"
-                />
-              </div>
-              <div class="indicator absolute right-0 top-0" title={l("View messages")}>
-                <Bonfire.UI.Common.BadgeCounterLive
-                  :if={i != 0}
-                  parent_id="switch_user_menu"
-                  id={"#{deterministic_dom_id("messages", user_id)}"}
-                  feed_id={e(user, :character, :inbox_id, nil)}
-                  for_user={user}
-                  counter_class="indicator-middle indicator-center"
-                />
-              </div>
+          <div class="indicator absolute top-0 left-0" title={l("View notifications")}>
+            <Bonfire.UI.Common.BadgeCounterLive
+              :if={i != 0}
+              parent_id="switch_user_menu"
+              id={"#{deterministic_dom_id("notifications", user_id)}"}
+              feed_id={e(user, :character, :notifications_id, nil)}
+              for_user={user}
+              counter_class="indicator-middle indicator-center"
+            />
+          </div>
+          <div class="indicator absolute right-0 top-0" title={l("View messages")}>
+            <Bonfire.UI.Common.BadgeCounterLive
+              :if={i != 0}
+              parent_id="switch_user_menu"
+              id={"#{deterministic_dom_id("messages", user_id)}"}
+              feed_id={e(user, :character, :inbox_id, nil)}
+              for_user={user}
+              counter_class="indicator-middle indicator-center"
+            />
+          </div>
         </LinkLive>
       </div>
-      <div 
-      :if={(length(@current_account_users || []) + 1) < @max_users_per_account}
-      class="tooltip tooltip-left" data-tip={l("Create new profile")}>
-        <LinkLive
-          to={~p"/create-user"}
-          class="w-6 h-6 !rounded-full flex-shrink-0"
-        >
+      <div
+        :if={length(@current_account_users || []) + 1 < @max_users_per_account}
+        class="tooltip tooltip-left"
+        data-tip={l("Create new profile")}
+      >
+        <LinkLive to={~p"/create-user"} class="w-6 h-6 !rounded-full flex-shrink-0">
           <#Icon iconify="heroicons:plus-circle" class="w-5 h-5" />
         </LinkLive>
       </div>
@@ -56,7 +56,10 @@
   <div class="divider h-0 my-1" />
 {#else}
   <li :if={@max_users_per_account > 1}>
-    <LinkLive to={~p"/switch-user"} class="flex items-center gap-2 text-sm text-base-content justify-between">
+    <LinkLive
+      to={~p"/switch-user"}
+      class="flex items-center gap-2 text-sm text-base-content justify-between"
+    >
       <div>{l("Switch profile")}</div>
       <#Icon iconify="ph:user-switch-duotone" class="w-5 h-5 shrink-0" />
     </LinkLive>

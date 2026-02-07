@@ -68,12 +68,13 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   def mount(_, %{"current_user_id" => user_id} = session, socket) when is_binary(user_id) do
     import Bonfire.UI.Common.Timing
 
-    user = time_section :lv_get_current_user do
-      get_current(
-        user_id,
-        current_account_id(assigns(socket)) || session["current_account_id"]
-      )
-    end
+    user =
+      time_section :lv_get_current_user do
+        get_current(
+          user_id,
+          current_account_id(assigns(socket)) || session["current_account_id"]
+        )
+      end
 
     time_section :lv_assign_current_user do
       assign_current_user(socket, user)

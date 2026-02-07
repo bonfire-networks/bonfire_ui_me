@@ -2,7 +2,7 @@
   <ul class="menu px-0 py-0"> -->
 <Bonfire.UI.Common.DesignSystem.button
   variant="primary"
-  full_width={true}
+  full_width
   icon_left="ion:chevron-back"
   class="z-50"
   onclick="history.back()"
@@ -16,79 +16,79 @@
         <span class="font-bold uppercase text-xs text-base-content">{l("General")}</span>
       </summary>
       <ul class="menu p-0">
-      <li>
-        <LinkLive
-          to={~p"/settings/user/profile"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "profile"
-          }
-        >
-          <span class="">{l("Profile")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/settings/account"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "account"
-          }
-        >
-          <span class="">{l("Account")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/settings/user/preferences/behaviours"}
-          class={
-            " ",
-            "bg-primary/10 ": @id == "behaviours"
-          }
-        >
-          <span class="">{l("Preferences")}</span>
-        </LinkLive>
-      </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/profile"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "profile"
+            }
+          >
+            <span class="">{l("Profile")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/account"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "account"
+            }
+          >
+            <span class="">{l("Account")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/preferences/behaviours"}
+            class={
+              " ",
+              "bg-primary/10 ": @id == "behaviours"
+            }
+          >
+            <span class="">{l("Preferences")}</span>
+          </LinkLive>
+        </li>
 
-      <li>
-        <LinkPatchLive
-          to={~p"/settings/user/dashboard"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "dashboard"
-          }
-        >
-          <span class="">{l("Configure Dashboard")}</span>
-        </LinkPatchLive>
-      </li>
-      <li>
-        <LinkPatchLive
-          to={~p"/settings/user/feeds"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "feeds"
-          }
-        >
-          <span class="">{l("Feed presets")}</span>
-        </LinkPatchLive>
-      </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/dashboard"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "dashboard"
+            }
+          >
+            <span class="">{l("Configure Dashboard")}</span>
+          </LinkPatchLive>
+        </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/feeds"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "feeds"
+            }
+          >
+            <span class="">{l("Feed presets")}</span>
+          </LinkPatchLive>
+        </li>
 
-      <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) &&
-        Settings.get(:experimental_features_enabled, false,
-          context: @__context__,
-          name: l("Experimental Features"),
-          description: l("Enable experimental and in-development features.")
-        )}>
-        <LinkLive
-          to={~p"/settings/user/shared_user"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "shared_user"
-          }
-        >
-          <span class="">{l("Team Profiles")}</span>
-        </LinkLive>
-      </li>
+        <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) &&
+          Settings.get(:experimental_features_enabled, false,
+            context: @__context__,
+            name: l("Experimental Features"),
+            description: l("Enable experimental and in-development features.")
+          )}>
+          <LinkLive
+            to={~p"/settings/user/shared_user"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "shared_user"
+            }
+          >
+            <span class="">{l("Team Profiles")}</span>
+          </LinkLive>
+        </li>
       </ul>
     </details>
   </li>
@@ -99,22 +99,22 @@
         <span class="font-bold uppercase text-xs text-base-content">{l("Extensions")}</span>
       </summary>
       <ul class="menu p-0">
-      <li>
-        <LinkLive
-          to={~p"/settings/user/extensions"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "extensions"
-          }
-        >
-          <span class="">{l("Configure Extensions")}</span>
-        </LinkLive>
-      </li>
-      <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
-        selected_tab={@selected_tab}
-        id={@id}
-        scope={:user}
-      />
+        <li>
+          <LinkLive
+            to={~p"/settings/user/extensions"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "extensions"
+            }
+          >
+            <span class="">{l("Configure Extensions")}</span>
+          </LinkLive>
+        </li>
+        <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
+          selected_tab={@selected_tab}
+          id={@id}
+          scope={:user}
+        />
       </ul>
     </details>
   </li>
@@ -125,70 +125,70 @@
         <span class="font-bold uppercase text-xs text-base-content">{l("Safety")}</span>
       </summary>
       <ul class="menu p-0">
-      <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
-        <LinkLive
-          to={~p"/settings/user/flags"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "flags"
-          }
-        >
-          <span class="">{l("My Flags")}</span>
-        </LinkLive>
-      </li>
+        <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
+          <LinkLive
+            to={~p"/settings/user/flags"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "flags"
+            }
+          >
+            <span class="">{l("My Flags")}</span>
+          </LinkLive>
+        </li>
 
-      <li>
-        <LinkLive
-          to={~p"/boundaries/blocked"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "blocked"
-          }
-        >
-          <div class="flex flex-col">
-            <span class="">{l("Blocked")}</span>
-          </div>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/ghosted"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "ghosted"
-          }
-        >
-          <div class="flex flex-col">
-            <span class="">{l("Ghosted")}</span>
-          </div>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/silenced"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "silenced"
-          }
-        >
-          <span class="">{l("Silenced")}</span>
-        </LinkLive>
-      </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/blocked"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "blocked"
+            }
+          >
+            <div class="flex flex-col">
+              <span class="">{l("Blocked")}</span>
+            </div>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/ghosted"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "ghosted"
+            }
+          >
+            <div class="flex flex-col">
+              <span class="">{l("Ghosted")}</span>
+            </div>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/silenced"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "silenced"
+            }
+          >
+            <span class="">{l("Silenced")}</span>
+          </LinkLive>
+        </li>
 
-      <li>
-        <LinkLive
-          to={~p"/settings/user/blocks_import"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "blocks_import"
-          }
-        >
-          <span class={
-            "",
-            "bg-primary/10": @selected_tab == "blocks_import"
-          }>{l("Import block lists")}</span>
-        </LinkLive>
-      </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/blocks_import"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "blocks_import"
+            }
+          >
+            <span class={
+              "",
+              "bg-primary/10": @selected_tab == "blocks_import"
+            }>{l("Import block lists")}</span>
+          </LinkLive>
+        </li>
       </ul>
     </details>
   </li>
@@ -199,52 +199,52 @@
         <span class="font-bold uppercase text-xs text-base-content">{l("Boundaries")}</span>
       </summary>
       <ul class="menu p-0">
-      <li>
-        <LinkLive
-          to={~p"/boundaries/circles"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "circles"
-          }
-        >
-          <div class="flex flex-col">
-            <span class="">{l("Circles")}</span>
-          </div>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/acls"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "acls"
-          }
-        >
-          <span class="">{l("Boundary presets")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/roles"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "roles"
-          }
-        >
-          <span class="">{l("Roles")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/default_roles"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "default_roles"
-          }
-        >
-          <span class="">{l("Instance-wide roles")}</span>
-        </LinkLive>
-      </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/circles"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "circles"
+            }
+          >
+            <div class="flex flex-col">
+              <span class="">{l("Circles")}</span>
+            </div>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/acls"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "acls"
+            }
+          >
+            <span class="">{l("Boundary presets")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/roles"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "roles"
+            }
+          >
+            <span class="">{l("Roles")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/default_roles"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "default_roles"
+            }
+          >
+            <span class="">{l("Instance-wide roles")}</span>
+          </LinkLive>
+        </li>
       </ul>
     </details>
   </li>
@@ -255,40 +255,40 @@
         <span class="font-bold uppercase text-xs text-base-content">{l("Migration")}</span>
       </summary>
       <ul class="menu p-0">
-      <li>
-        <LinkLive
-          to={~p"/settings/user/export"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "export"
-          }
-        >
-          <span class="">{l("Export")}</span>
-        </LinkLive>
-      </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/export"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "export"
+            }
+          >
+            <span class="">{l("Export")}</span>
+          </LinkLive>
+        </li>
 
-      <li>
-        <LinkLive
-          to={~p"/settings/user/import"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "import"
-          }
-        >
-          <span class="">{l("Import")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkPatchLive
-          to={~p"/settings/user/import_status"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "import_status"
-          }
-        >
-          <span class="">{l("Import status")}</span>
-        </LinkPatchLive>
-      </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/import"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "import"
+            }
+          >
+            <span class="">{l("Import")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/import_status"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "import_status"
+            }
+          >
+            <span class="">{l("Import status")}</span>
+          </LinkPatchLive>
+        </li>
       </ul>
     </details>
   </li>
@@ -299,58 +299,58 @@
         <span class="font-bold uppercase text-xs text-base-content">{l("Advanced")}</span>
       </summary>
       <ul class="menu p-0">
-      <li :if={Bonfire.Federate.ActivityPub.federating?(current_user(@__context__))}>
-        <LinkPatchLive
-          to={~p"/settings/user/federation_status"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "federation_status"
-          }
-        >
-          <span class="">{l("Federation status")}</span>
-        </LinkPatchLive>
-      </li>
+        <li :if={Bonfire.Federate.ActivityPub.federating?(current_user(@__context__))}>
+          <LinkPatchLive
+            to={~p"/settings/user/federation_status"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "federation_status"
+            }
+          >
+            <span class="">{l("Federation status")}</span>
+          </LinkPatchLive>
+        </li>
 
-      <li>
-        <LinkPatchLive
-          to={~p"/settings/user/emojis"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "emojis"
-          }
-        >
-          <span class="">{l("Custom emoji")}</span>
-        </LinkPatchLive>
-      </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/emojis"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "emojis"
+            }
+          >
+            <span class="">{l("Custom emoji")}</span>
+          </LinkPatchLive>
+        </li>
 
-      <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) &&
-        Settings.get(:experimental_features_enabled, false,
-          context: @__context__,
-          name: l("Experimental Features"),
-          description: l("Enable experimental and in-development features.")
-        )}>
-        <LinkPatchLive
-          to={~p"/settings/user/config_settings_registry"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "config_settings_registry"
-          }
-        >
-          <span class="">{l("Extra settings")}</span>
-        </LinkPatchLive>
-      </li>
+        <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) &&
+          Settings.get(:experimental_features_enabled, false,
+            context: @__context__,
+            name: l("Experimental Features"),
+            description: l("Enable experimental and in-development features.")
+          )}>
+          <LinkPatchLive
+            to={~p"/settings/user/config_settings_registry"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "config_settings_registry"
+            }
+          >
+            <span class="">{l("Extra settings")}</span>
+          </LinkPatchLive>
+        </li>
 
-      <li>
-        <LinkPatchLive
-          to={~p"/settings/user/code"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "code"
-          }
-        >
-          <span class="">{l("Libraries & Licences")}</span>
-        </LinkPatchLive>
-      </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/code"}
+            class={
+              " ",
+              "bg-primary/10": @selected_tab == "code"
+            }
+          >
+            <span class="">{l("Libraries & Licences")}</span>
+          </LinkPatchLive>
+        </li>
       </ul>
     </details>
   </li>

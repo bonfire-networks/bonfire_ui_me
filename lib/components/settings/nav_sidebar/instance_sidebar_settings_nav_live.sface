@@ -10,10 +10,10 @@
       <li>
         <LinkPatchLive
           to={~p"/settings/instance/configuration"}
-            class={[
-              " ",
-              "bg-primary/20 ": @selected_tab == "configuration"
-            ]}
+          class={[
+            " ",
+            "bg-primary/20 ": @selected_tab == "configuration"
+          ]}
         >
           <span class={[
             "text-sm text-base-content/80 font-normal",
@@ -37,7 +37,7 @@
       <li>
         <LinkLive
           to={~p"/boundaries/scope/instance/instance_acl"}
-          class={[  
+          class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "instance_acl"
           ]}
@@ -84,7 +84,7 @@
           class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "terms"
-          ]}  
+          ]}
         >
           <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "terms"]}>{l("Terms / Policies")}</span>
         </LinkPatchLive>
@@ -143,7 +143,10 @@
             "bg-primary/20 text-primary ": @selected_tab == "suggested_profiles"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "suggested_profiles"]}>{l("Suggested Profiles")}</span>
+          <span class={[
+            "text-sm text-base-content/80 font-normal",
+            "text-primary ": @selected_tab == "suggested_profiles"
+          ]}>{l("Suggested Profiles")}</span>
         </LinkLive>
       </li>
 
@@ -320,7 +323,7 @@
           class={[
             " ",
             "bg-primary/20 font-bold text-primary": @selected_tab == "roles"
-         ] }
+          ]}
         >
           <span class="">{l("Instance Roles")}</span>
         </LinkLive>
@@ -377,7 +380,7 @@
           class={[
             " ",
             "bg-primary/10": @selected_tab == "federation_status"
-         ] }
+          ]}
         >
           <span class="">{l("Federation status")} {l("(instance wide)")}</span>
         </LinkPatchLive>
@@ -389,7 +392,7 @@
           class={[
             " ",
             "bg-primary/10": @selected_tab == "import_status"
-         ] }
+          ]}
         >
           <span class="">{l("Import status")} {l("(instance wide)")}</span>
         </LinkPatchLive>
@@ -401,7 +404,7 @@
           class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "code"
-         ] }
+          ]}
         >
           <span class="">{l("Libraries & Licences")}</span>
         </LinkPatchLive>
@@ -413,7 +416,7 @@
           class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "emojis"
-         ] }
+          ]}
         >
           <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "emojis"]}>{l("Custom emoji")}</span>
         </LinkPatchLive>
@@ -430,7 +433,7 @@
           class={[
             " ",
             "bg-primary/20": @selected_tab == "config_settings_registry"
-         ] }
+          ]}
         >
           <span class="">{l("Extra settings")}</span>
         </LinkPatchLive>
@@ -442,7 +445,7 @@
           class={[
             " ",
             "bg-primary/20 text-primary ": @selected_tab == "icons"
-         ] }
+          ]}
         >
           <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "icons"}>{l("Icons")}</span>
         </LinkPatchLive>

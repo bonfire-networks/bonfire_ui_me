@@ -50,12 +50,12 @@
     <div class="flex justify-end">
       <div
         :if={current_user(@__context__) && current_user_id(@__context__) != id(@user)}
-        data-position="top-end" 
-        phx-hook="Tooltip" 
+        data-position="top-end"
+        phx-hook="Tooltip"
         id={"members_menu_links_#{id(@user)}"}
         class="relative w-full"
       >
-       <label
+        <label
           class="tooltip-button btn btn-sm btn-ghost btn-circle"
           tabindex="0"
           role="button"

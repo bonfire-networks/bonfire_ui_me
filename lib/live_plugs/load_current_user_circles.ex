@@ -29,9 +29,10 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserCircles do
   def mount(_, _, %{assigns: %{current_user: %User{} = user}} = socket) do
     import Bonfire.UI.Common.Timing
 
-    circles = time_section :lv_circles_query do
-      Circles.list_my_for_sidebar(user, exclude_stereotypes: true, exclude_built_ins: true)
-    end
+    circles =
+      time_section :lv_circles_query do
+        Circles.list_my_for_sidebar(user, exclude_stereotypes: true, exclude_built_ins: true)
+      end
 
     {:ok, assign_global(socket, :my_circles, circles)}
   end
@@ -43,9 +44,10 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserCircles do
       ) do
     import Bonfire.UI.Common.Timing
 
-    circles = time_section :lv_circles_query do
-      Circles.list_my_for_sidebar(user, exclude_stereotypes: true, exclude_built_ins: true)
-    end
+    circles =
+      time_section :lv_circles_query do
+        Circles.list_my_for_sidebar(user, exclude_stereotypes: true, exclude_built_ins: true)
+      end
 
     {:ok, assign_global(socket, :my_circles, circles)}
   end

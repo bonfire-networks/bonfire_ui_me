@@ -1,26 +1,26 @@
 <div class="">
   <div class="flex flex-col flex-1">
-  <div class="flex flex-col flex-1 gap-2 p-4">
-    <div class="flex justify-between">
-      <div class="text-xl flex-1 font-semibold flex items-center gap-2">
-        <span>{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</span>
-        <span class="bg-base-content/10 rounded px-2 py-1 text-xs inline-block">{get_version(@dep)}</span>
-      </div>
+    <div class="flex flex-col flex-1 gap-2 p-4">
+      <div class="flex justify-between">
+        <div class="text-xl flex-1 font-semibold flex items-center gap-2">
+          <span>{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</span>
+          <span class="bg-base-content/10 rounded px-2 py-1 text-xs inline-block">{get_version(@dep)}</span>
+        </div>
 
-      <div class="flex items-center gap-4">
-        {#if to_string(@extension) not in Bonfire.Application.required_deps()}
-          <Bonfire.UI.Common.ExtensionToggleLive
-            id={@extension}
-            scope={@scope}
-            can_instance_wide={Bonfire.Boundaries.can?(@__context__, :toggle, :instance)}
-          />
-        {/if}
+        <div class="flex items-center gap-4">
+          {#if to_string(@extension) not in Bonfire.Application.required_deps()}
+            <Bonfire.UI.Common.ExtensionToggleLive
+              id={@extension}
+              scope={@scope}
+              can_instance_wide={Bonfire.Boundaries.can?(@__context__, :toggle, :instance)}
+            />
+          {/if}
 
-        <Bonfire.UI.Common.ExtensionCodeMenuLive dep={@dep} />
+          <Bonfire.UI.Common.ExtensionCodeMenuLive dep={@dep} />
+        </div>
       </div>
+      <div :if={e(@dep, :extra, :description, nil)} class="text-sm text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
     </div>
-    <div :if={e(@dep, :extra, :description, nil)} class="text-sm text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
-  </div>
 
     {#case extension_enabled?(@extension, @__context__) &&
         Bonfire.UI.Common.SettingsModule.components(@extension)}
@@ -34,7 +34,7 @@
             aria-label="Preferences"
             checked="checked"
           />
-          <div class="tab-content p-4 border-0 border-t border-base-content/20 ">
+          <div class="tab-content p-4 border-0 border-t border-base-content/20">
             <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
               <Bonfire.UI.Common.WidgetsLive
                 widgets={extension_settings}
