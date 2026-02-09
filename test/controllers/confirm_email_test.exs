@@ -126,6 +126,32 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
       assert redirected_to(conn) == "/switch-user"
     end
 
+    test "success with custom scheme redirect_uri for mobile deep-linking" do
+      conn = conn()
+      {:ok, account} = Bonfire.Me.Accounts.signup(signup_form(), must_confirm?: true)
+
+      conn =
+        get(
+          conn,
+          "/signup/email/confirm/#{account.email.confirm_token}?redirect_uri=#{URI.encode_www_form("totnespulse://oauth")}"
+        )
+
+      assert redirected_to(conn) == "totnespulse://oauth"
+    end
+
+    test "redirect_uri with blocked scheme falls back to default" do
+      conn = conn()
+      {:ok, account} = Bonfire.Me.Accounts.signup(signup_form(), must_confirm?: true)
+
+      conn =
+        get(
+          conn,
+          "/signup/email/confirm/#{account.email.confirm_token}?redirect_uri=#{URI.encode_www_form("https://evil.com")}"
+        )
+
+      assert redirected_to(conn) == "/switch-user"
+    end
+
     test "cannot confirm twice" do
       conn = conn()
       # Explicitly require confirmation to bypass is_first_account? sandbox isolation

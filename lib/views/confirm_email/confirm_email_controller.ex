@@ -61,7 +61,9 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
       :info,
       l("Thanks for confirming your email address. Please create a user profile.")
     )
-    |> redirect_to(validate_redirect_uri(redirect_uri, path(:switch_user) || "/switch-user/"))
+    |> redirect_to(validate_redirect_uri(redirect_uri, path(:switch_user) || "/switch-user/"),
+      type: :maybe_external
+    )
   end
 
   defp already_confirmed(conn, redirect_uri) do
@@ -70,7 +72,9 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
       :error,
       l("You've already confirmed your email address. You can log in now.")
     )
-    |> redirect_to(validate_redirect_uri(redirect_uri, path(:login) || "/login/"))
+    |> redirect_to(validate_redirect_uri(redirect_uri, path(:login) || "/login/"),
+      type: :maybe_external
+    )
   end
 
   defp show_error(conn, text) do
