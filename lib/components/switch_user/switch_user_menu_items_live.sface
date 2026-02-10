@@ -3,7 +3,10 @@
     <div class="flex items-center gap-2 justify-evenly py-2 w-full">
       <div
         :for={{%{id: user_id} = user, i} <-
-          Enum.with_index([current_user(@__context__)] ++ (@current_account_users || []))}
+          Enum.with_index(
+            [current_user(@__context__)] ++
+              Enum.reject(@current_account_users || [], &(Enums.id(&1) == current_user_id(@__context__)))
+          )}
         class=""
       >
         <LinkLive
