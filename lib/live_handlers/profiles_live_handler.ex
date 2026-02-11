@@ -400,7 +400,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       :aliases,
       fn
         nil ->
-          if(user,
+          if(Types.uid(user),
             do:
               Utils.maybe_apply(
                 Bonfire.Social.Graph.Aliases,

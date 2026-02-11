@@ -90,20 +90,22 @@ defmodule Bonfire.UI.Me.CharacterLive do
           else
             debug("show a simple fallback profile")
 
-            {:noreply,
-             socket
-             |> assign_flash(
-               :info,
-               l(
-                 "The extension needed to display this doesn't seem installed or enabled. Showing a simplified profile instead..."
-               )
-             )
-             |> assign(LiveHandler.user_assigns(user_etc, current_user))
-             |> ProfileLive.prepare_feed_assigns(url, params)
-             |> assign(
-               character_type: :unknown,
-               path: prefix
-             )}
+            socket
+            |> assign_flash(
+              :info,
+              l(
+                "The extension needed to display this doesn't seem installed or enabled. Showing a simplified profile instead..."
+              )
+            )
+            |> flood("preassigned")
+            |> assign(LiveHandler.user_assigns(user_etc, current_user) |> flood("user_assigns"))
+            |> flood("assigned")
+            |> flood("returned")
+            |> assign(
+              character_type: :unknown,
+              path: prefix
+            )
+            |> ProfileLive.prepare_feed_assigns(params, url, ..., user_etc)
           end
         else
           debug("redir to remote profile")

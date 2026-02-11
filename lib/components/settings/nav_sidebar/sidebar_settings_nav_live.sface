@@ -73,12 +73,7 @@
           </LinkPatchLive>
         </li>
 
-        <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) &&
-          Settings.get(:experimental_features_enabled, false,
-            context: @__context__,
-            name: l("Experimental Features"),
-            description: l("Enable experimental and in-development features.")
-          )}>
+        <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__)}>
           <LinkLive
             to={~p"/settings/user/shared_user"}
             class={

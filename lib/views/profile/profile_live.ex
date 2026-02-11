@@ -113,7 +113,9 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #   {:noreply, assign(socket, block_status: result)}
   # end
 
-  # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket)
+  def prepare_feed_assigns(params, _url, socket, user \\ nil)
+
+  # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket, user)
   #     when tab in ["posts", "boosts", "timeline", :timeline, "objects"] do
   #   debug(tab, "load tab")
 
@@ -126,11 +128,11 @@ defmodule Bonfire.UI.Me.ProfileLive do
   # end
 
   # WIP: Include circles in profile without redirecting to circles page
-  # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket)
+  # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket, user)
   #     when tab in ["circles"] do
   #   debug(tab, "load tab")
   #   current_user = current_user(socket)
-  #   user = e(assigns(socket), :user, nil)
+  #   user = user || e(assigns(socket), :user, nil)
   #   circles =
   #     Bonfire.Boundaries.Circles.list_my_with_counts(current_user, exclude_stereotypes: true)
   #     |> repo().maybe_preload(encircles: [subject: [:profile]])
@@ -146,10 +148,10 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #     )}
   # end
 
-  def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket)
+  def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket, user)
       when tab in ["followers", "followed", "requests", "requested"] do
     # debug(tab, "load tab")
-    user = e(assigns(socket), :user, nil)
+    user = user || e(assigns(socket), :user, nil)
     # debug(user, "user to get #{tab} for")
 
     {:noreply,
@@ -165,23 +167,15 @@ defmodule Bonfire.UI.Me.ProfileLive do
      )}
   end
 
-  # def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket) do
-  def prepare_feed_assigns(params, _url, socket) do
-    user = e(assigns(socket), :user, nil)
-    user_id = id(user)
-    debug(user_id, "user to get feed for")
-
-    {:noreply,
-     assign(socket,
-       selected_tab: params["tab"] || :timeline,
-       feed_filters: Map.put(params, :by, user_id),
-       feed_name: :user_activities,
-       feed_id: Bonfire.Social.Feeds.feed_id(:outbox, user),
-       loading: false
-     )}
+  def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket, user) do
+    do_prepare_feed_assigns(params, socket, user, tab)
   end
 
-  # def prepare_feed_assigns(params, _url, socket) do
+  def prepare_feed_assigns(params, _url, socket, user) do
+    do_prepare_feed_assigns(params, socket, user)
+  end
+
+  # def prepare_feed_assigns(params, _url, socket, user) do
   #   if is_nil(current_user_id(socket)) do
   #     # TODO: configurable by user
   #     debug(params, "load guest default tab")
@@ -202,4 +196,28 @@ defmodule Bonfire.UI.Me.ProfileLive do
   #     )
   #   end
   # end
+
+  defp do_prepare_feed_assigns(params, socket, user, tab \\ nil) do
+    user =
+      user ||
+        e(assigns(socket), :user, nil)
+        |> flood("user")
+
+    if user_id = id(user) do
+      debug(user_id, "user to get feed for")
+
+      {:noreply,
+       socket
+       |> assign(
+         selected_tab: tab || :timeline,
+         feed_filters: Map.put(params, :by, user_id),
+         feed_name: :user_activities,
+         feed_id: Bonfire.Social.Feeds.feed_id(:outbox, user),
+         loading: false
+       )}
+    else
+      warn(user, "no ID for profile")
+      {:noreply, socket}
+    end
+  end
 end
