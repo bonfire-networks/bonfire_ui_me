@@ -31,6 +31,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop post_count, :any, default: nil
   prop followers_count, :any, default: nil
   prop following_count, :any, default: nil
+  prop familiar_followers, :list, default: []
 
   # NOTE: the update functions are not used in user profile page because it is currently used statelessles
   def update(%{skip_preload: true} = assigns, socket) do

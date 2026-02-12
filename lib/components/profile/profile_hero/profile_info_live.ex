@@ -14,6 +14,7 @@ defmodule Bonfire.UI.Me.ProfileInfoLive do
 
   # prop follows_me, :atom, default: false
   prop aliases, :any, default: []
+  prop familiar_followers, :list, default: []
 
   slot header
 end

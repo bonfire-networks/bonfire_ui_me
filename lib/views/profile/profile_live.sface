@@ -38,6 +38,7 @@
               post_count={@post_count}
               followers_count={@followers_count}
               following_count={@following_count}
+              familiar_followers={@familiar_followers}
             />
             {!-- <Bonfire.UI.Common.TabsLive
             :if={!@hide_tabs}
@@ -82,6 +83,7 @@
           post_count={@post_count}
           followers_count={@followers_count}
           following_count={@following_count}
+          familiar_followers={@familiar_followers}
         />
       </div>
   {/case}

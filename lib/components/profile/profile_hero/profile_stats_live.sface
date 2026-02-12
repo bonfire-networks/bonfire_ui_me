@@ -1,7 +1,4 @@
-<div
-  :if={Settings.get([:ui, :show_activity_counts], false, @__context__)}
-  class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/70 mt-3"
->
+<div class="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-base-content/70 mt-3">
   <LinkLive
     :if={@post_count}
     to={~p"/@#{e(@user, :character, :username, nil)}"}

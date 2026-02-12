@@ -257,7 +257,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       selected_tab: :timeline,
       post_count: nil,
       followers_count: nil,
-      following_count: nil
+      following_count: nil,
+      familiar_followers: []
     ]
   end
 
@@ -376,6 +377,13 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
         {nil, nil, nil}
       end
 
+    familiar_followers =
+      if current_user && id(current_user) != id(user) do
+        compute_familiar_followers(current_user, user, limit: 5)
+      else
+        []
+      end
+
     [
       page_title: title,
       user: user,
@@ -385,6 +393,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       followers_count: followers_count,
       following_count: following_count,
       post_count: post_count,
+      familiar_followers: familiar_followers,
       no_index:
         Bonfire.Common.Settings.get([Bonfire.Me.Users, :undiscoverable], false,
           current_user: user
@@ -417,6 +426,56 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
           aliases
       end
     )
+  end
+
+  defp compute_familiar_followers(viewer, target, opts) do
+    limit = Keyword.get(opts, :limit, 5)
+
+    my_following_ids =
+      case Utils.maybe_apply(
+             Bonfire.Social.Graph.Follows,
+             :list_followed,
+             [viewer, [paginate?: false, type: Bonfire.Data.Identity.User]],
+             fallback_return: []
+           ) do
+        %{edges: edges} when is_list(edges) ->
+          Enum.map(edges, &id(e(&1, :edge, :object, nil) || e(&1, :object, nil) || &1))
+          |> Enum.reject(&is_nil/1)
+
+        edges when is_list(edges) ->
+          Enum.map(edges, &id(e(&1, :edge, :object, nil) || e(&1, :object, nil) || &1))
+          |> Enum.reject(&is_nil/1)
+
+        _ ->
+          []
+      end
+
+    if my_following_ids == [] do
+      []
+    else
+      familiar_ids =
+        Bonfire.Social.Edges.batch_subjects_exist?(
+          Bonfire.Data.Social.Follow,
+          target,
+          my_following_ids
+        )
+
+      if MapSet.size(familiar_ids) > 0 do
+        familiar_ids
+        |> MapSet.to_list()
+        |> Enum.take(limit)
+        |> Enum.flat_map(fn fid ->
+          case Bonfire.Me.Users.by_id(fid, preload: :profile) do
+            {:ok, user} -> [user]
+            _ -> []
+          end
+        end)
+      else
+        []
+      end
+    end
+  rescue
+    _ -> []
   end
 
   def set_image_setting(:icon, scope, uploaded_media, settings_key, socket) do

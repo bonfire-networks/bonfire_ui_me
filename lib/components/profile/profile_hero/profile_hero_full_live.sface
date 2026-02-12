@@ -237,6 +237,7 @@
                     post_count={e(assigns, :post_count, nil)}
                     followers_count={e(assigns, :followers_count, nil)}
                     following_count={e(assigns, :following_count, nil)}
+                    familiar_followers={e(assigns, :familiar_followers, [])}
                   />
                 </div>
 
