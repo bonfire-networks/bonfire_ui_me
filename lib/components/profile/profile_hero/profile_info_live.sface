@@ -1,7 +1,7 @@
 <section>
   <#slot {@header} />
 
-  <div class="flex flex-col w-full gap-1">
+  <div class="flex flex-col w-full gap-3">
     <div :if={@familiar_followers != [] and current_user_id(@__context__) != id(@user)} class="flex items-center gap-2 text-sm text-base-content/70">
         <div class="flex -space-x-2">
           {#for user <- Enum.take(@familiar_followers, 3)}
