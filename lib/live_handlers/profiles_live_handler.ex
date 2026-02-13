@@ -335,8 +335,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
           publication_types_widget_enabled &&
             {Bonfire.OpenScience.PublicationTypesLive,
              [type: Surface.LiveComponent, id: "osn-publication-types", user: user]},
-          weather_widget_enabled &&
-            {Bonfire.Geolocate.WidgetForecastLive, [location: e(user, :profile, :location, nil)]},
+          # weather_widget_enabled &&
+          #   {Bonfire.Geolocate.WidgetForecastLive, [location: Settings.get([Bonfire.Geolocate, :location], nil, current_user: user)]},
           {Bonfire.Tag.Web.WidgetTagsLive, []},
           {Bonfire.UI.Social.WidgetTrendingLinksLive, []},
           {Bonfire.UI.Me.WidgetAdminsLive, []}

@@ -1,67 +1,51 @@
 <div class="">
   <div class="flex flex-col flex-1">
-    <div class="flex flex-col flex-1 gap-2 p-4">
-      <div class="flex justify-between">
-        <div class="text-xl flex-1 font-semibold flex items-center gap-2">
-          <span>{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</span>
-          <span class="bg-base-content/10 rounded px-2 py-1 text-xs inline-block">{get_version(@dep)}</span>
+    <div class="flex flex-col gap-4 p-6 pb-4">
+      <div class="flex items-start justify-between gap-4">
+        <div class="flex flex-col gap-1.5">
+          <div class="flex items-center gap-3">
+            <h2 class="text-xl font-bold tracking-tight">{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</h2>
+            <span class="text-xs text-base-content/50 font-medium">{get_version(@dep)}</span>
+          </div>
+          <p :if={e(@dep, :extra, :description, nil)} class="text-sm text-base-content/60 max-w-prose">{e(@dep, :extra, :description, nil)}</p>
         </div>
 
-        <div class="flex items-center gap-4">
-          {#if to_string(@extension) not in Bonfire.Application.required_deps()}
-            <Bonfire.UI.Common.ExtensionToggleLive
-              id={@extension}
-              scope={@scope}
-              can_instance_wide={Bonfire.Boundaries.can?(@__context__, :toggle, :instance)}
-            />
-          {/if}
+        <div class="flex items-center gap-3 shrink-0">
+          <!-- {#if to_string(@extension) not in Bonfire.Application.required_deps()}
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-base-content/50">{l("Enabled")}</span>
+              <Bonfire.UI.Common.ExtensionToggleLive
+                id={@extension}
+                scope={@scope}
+                can_instance_wide={Bonfire.Boundaries.can?(@__context__, :toggle, :instance)}
+              />
+            </div>
+          {/if} -->
 
-          <Bonfire.UI.Common.ExtensionCodeMenuLive dep={@dep} />
+          <div class="tooltip tooltip-bottom" data-tip={l("Extension info & source code")}>
+            <Bonfire.UI.Common.ExtensionCodeMenuLive dep={@dep} />
+          </div>
         </div>
       </div>
-      <div :if={e(@dep, :extra, :description, nil)} class="text-sm text-base-content/90">{e(@dep, :extra, :description, nil)}</div>
     </div>
 
     {#case extension_enabled?(@extension, @__context__) &&
         Bonfire.UI.Common.SettingsModule.components(@extension)}
       {#match extension_settings when is_list(extension_settings) and extension_settings != []}
-        <div role="tablist" class="tabs tabs-border justify-evenly p-0 mt-2">
-          <input
-            type="radio"
-            name="my_tabs_3"
-            role="tab"
-            class="tab flex-1"
-            aria-label="Preferences"
-            checked="checked"
+        <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
+          <Bonfire.UI.Common.WidgetsLive
+            widgets={extension_settings}
+            container_class="divide-y divide-base-content/10 bg-base-content/5 rounded-xl mx-3"
+            extra_data={scope: @scope}
+            wrapper_class="px-6 py-4"
+            with_title
+            with_description
           />
-          <div class="tab-content p-4 border-0 border-t border-base-content/20">
-            <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
-              <Bonfire.UI.Common.WidgetsLive
-                widgets={extension_settings}
-                container_class="w-full list"
-                extra_data={scope: @scope}
-                wrapper_class="flex justify-between items-center w-full"
-                with_title
-                with_description
-              />
-            </form>
-          </div>
-
-          <input type="radio" name="my_tabs_3" role="tab" class="tab flex-1" aria-label="About">
-          <div class="tab-content p-4 border-0 border-t border-base-content/20">
-            {#case e(@dep, :extra, :readme_contents, nil)}
-              {#match nil}
-              {#match readme_contents}
-                <div class="prose max-w-full prose-sm">{rich(readme_contents)}</div>
-            {/case}
-          </div>
-        </div>
+        </form>
       {#match _}
-        {#case e(@dep, :extra, :readme_contents, nil)}
-          {#match nil}
-          {#match readme_contents}
-            <div class="prose prose-sm mt-6 max-w-full">{rich(readme_contents)}</div>
-        {/case}
+        <div class="p-6">
+          <p class="text-sm text-base-content/60">{l("No settings available for this extension.")}</p>
+        </div>
     {/case}
   </div>
 </div>

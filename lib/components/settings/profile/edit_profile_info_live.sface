@@ -66,21 +66,6 @@
           </label>
         </fieldset>
 
-        <fieldset class="fieldset w-full">
-          <legend class="fieldset-legend">{l("Location")}</legend>
-          <label class="input validator w-full">
-            <#Icon iconify="ph:globe-duotone" class="w-4 h-4 opacity-50" />
-            <input
-              type="text"
-              name="profile[location]"
-              id="location"
-              class="w-full"
-              placeholder="Neptune"
-              autocomplete="location"
-              value={e(current_user(@__context__), :profile, :location, "")}
-            />
-          </label>
-        </fieldset>
       </div>
 
       <div class="mt-4">
