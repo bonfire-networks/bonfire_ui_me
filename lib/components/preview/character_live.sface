@@ -28,7 +28,8 @@
     data-role="character"
     class={
       "flex-1 mb-4",
-      "!-ml-[2.5rem]": @__context__[:ui_compact] && !@viewing_main_object
+      "!-ml-[2.5rem]": @__context__[:ui_compact] && !@viewing_main_object,
+      "!-ml-[60px]": @showing_within in [:search, :notifications]
     }
   >
     <StatelessComponent

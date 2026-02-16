@@ -163,18 +163,6 @@
       />
     </form>
 
-    <form class="p-4" data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
-      <input name="scope" value={@scope} type="hidden">
-
-      <Bonfire.UI.Common.SettingsToggleLive
-        id="set_hide_avatar"
-        name={l("Hide avatars")}
-        description={l("Hide avatars throughout the app?")}
-        keys={[Bonfire.UI.Common.AvatarLive, :hide_avatars]}
-        default_value={false}
-        scope={@scope}
-      />
-    </form>
 
     {!-- <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
