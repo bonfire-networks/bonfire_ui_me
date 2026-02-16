@@ -88,38 +88,23 @@
     </details>
   </li>
 
-  <li class="">
-    <details open>
-      <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content">{l("Extensions")}</span>
-      </summary>
-      <ul class="menu p-0">
-        <li>
-          <LinkLive
-            to={~p"/settings/user/extensions"}
-            class={
-              " ",
-              "bg-primary/10 ": @selected_tab == "extensions"
-            }
-          >
-            <span class="">{l("Configure Extensions")}</span>
-          </LinkLive>
-        </li>
-        <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
-          selected_tab={@selected_tab}
-          id={@id}
-          scope={:user}
-        />
-      </ul>
-    </details>
-  </li>
-
-  <li class="">
+    <li class="">
     <details open>
       <summary class="group mt-2">
         <span class="font-bold uppercase text-xs text-base-content">{l("Safety")}</span>
       </summary>
       <ul class="menu p-0">
+        <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
+          <LinkLive
+            to={~p"/settings/user/safety"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "safety"
+            }
+          >
+            <span class="">{l("My Safety Settings")}</span>
+          </LinkLive>
+        </li>
         <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
           <LinkLive
             to={~p"/settings/user/flags"}
@@ -187,6 +172,34 @@
       </ul>
     </details>
   </li>
+
+  <li class="">
+    <details open>
+      <summary class="group mt-2">
+        <span class="font-bold uppercase text-xs text-base-content">{l("Extensions")}</span>
+      </summary>
+      <ul class="menu p-0">
+        <li>
+          <LinkLive
+            to={~p"/settings/user/extensions"}
+            class={
+              " ",
+              "bg-primary/10 ": @selected_tab == "extensions"
+            }
+          >
+            <span class="">{l("Configure Extensions")}</span>
+          </LinkLive>
+        </li>
+        <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
+          selected_tab={@selected_tab}
+          id={@id}
+          scope={:user}
+        />
+      </ul>
+    </details>
+  </li>
+
+
 
   <li class="">
     <details open>

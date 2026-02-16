@@ -6,6 +6,7 @@
         parent_id={deterministic_dom_id(__MODULE__, id(@user), "member_avatar", nil)}
         class="inline-block  object-cover rounded-full w-8 h-8"
         bg_class="rounded-full"
+        title={e(@user, :profile, :name, "Anon")}
         wrapper_class="border-0 avatar !flex"
         user_id={id(@user)}
         src={Media.avatar_url(@user)}

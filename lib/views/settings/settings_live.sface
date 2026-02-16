@@ -52,6 +52,8 @@
       />
     {#match "extensions"}
       <Bonfire.UI.Common.ExtensionsLive id="extensions" scope={@scope} />
+    {#match "safety"}
+      <Bonfire.UI.Me.SettingsViewsLive.SafetyLive selected_tab={@selected_tab} scope={@scope} />
     {#match "flags"}
       <StatefulComponent
         :if={current_user(@__context__)}

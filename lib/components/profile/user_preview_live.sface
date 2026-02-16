@@ -27,6 +27,7 @@
                     parent_id="user_preview"
                     class="inline-block object-cover rounded-full w-16 h-16"
                     bg_class="h-full"
+                    title={e(@user, :profile, :name, "Anon")}
                     src={avatar_url}
                     user_id={id(@user)}
                   />

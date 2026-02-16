@@ -27,6 +27,7 @@
               parent_id="profile-hero-sticky"
               class="w-8 h-8 rounded-full"
               user_id={id(@user)}
+              title={e(@user, :profile, :name, "Anon")}
               src={Media.avatar_url(@user)}
             />
           {/if}

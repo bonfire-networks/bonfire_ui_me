@@ -91,7 +91,7 @@
     />
   </form>
 </div> -->
-<div class="border-t border-b border-base-content/20">
+<!-- <div class="border-t border-b border-base-content/20">
   <form data-scope="set-weather" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Weather"
@@ -100,4 +100,4 @@
       scope={:user}
     />
   </form>
-</div>
+</div> -->

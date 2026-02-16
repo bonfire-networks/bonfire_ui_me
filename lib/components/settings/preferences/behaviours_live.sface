@@ -121,16 +121,16 @@
       />
     </form> --}
 
-    <form data-scope="set_brand" phx-change="Bonfire.Common.Settings:set">
+    <!-- <form class="p-4" data-scope="set_brand" phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         name="Brand"
         description={l("Show only the instance logo")}
         keys={[Bonfire.UI.Common.LogoLive, :only_logo]}
         scope={@scope}
       />
-    </form>
+    </form> -->
 
-    <form data-scope="set_avatar_shape" phx-change="Bonfire.Common.Settings:set">
+    <form class="p-4" data-scope="set_avatar_shape" phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         name="Avatar shape"
         description={l("Show square avatars")}
@@ -141,7 +141,7 @@
     </form>
 
     {!-- name={l("Missing avatars")} --}
-    <form data-scope="set_animal_avatar" phx-change="Bonfire.Common.Settings:set">
+    <form class="p-4" data-scope="set_animal_avatar" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
 
       <Bonfire.UI.Common.SettingsToggleLive
@@ -153,7 +153,7 @@
       />
     </form>
 
-    <form data-scope="set_compact_layout" phx-change="Bonfire.Common.Settings:set">
+    <form class="p-4" data-scope="set_compact_layout" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Prefer compact layouts")}
@@ -163,7 +163,7 @@
       />
     </form>
 
-    <form data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
+    <form class="p-4" data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
 
       <Bonfire.UI.Common.SettingsToggleLive
@@ -398,230 +398,6 @@
         scope={@scope}
       />
     </form>
-  </div>
-
-  <div class="p-4 font-bold text-xl flex items-center gap-4 text-primary">
-    <#Icon iconify="ph:hand-heart-duotone" class="w-6 h-6" />
-    <span>{l("Wellbeing")}</span>
-  </div>
-
-  {!-- <StatelessComponent
-    scope={@scope}
-    module={maybe_component(Bonfire.UI.Boundaries.DefaultBoundaryLive, @__context__)}
-  /> --}
-  <div class="divide-y divide-base-content/20">
-    <form phx-change="Bonfire.Common.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Mark as sensitive media")}
-        description={l(
-          "Mark all your uploaded media as sensitive by default (you can still mark *as not sensitive* when posting)"
-        )}
-        keys={[Bonfire.UI.Common.UploadPreviewsLive, :mark_as_sensitive]}
-        scope={@scope}
-      />
-    </form>
-
-    <form phx-change="Bonfire.Common.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Hide media")}
-        description={l("Blur all media in feeds and discussions (and click to reveal)")}
-        keys={[Bonfire.UI.Social.Activity.MediaLive, :hide]}
-        scope={@scope}
-      />
-    </form>
-
-    <div x-data="{open: false}" class="p-4 cursor-pointer">
-      <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
-        <div class="flex flex-col gap-1">
-          <div
-            :if={Settings.get([:ui, :infinite_scroll], :preload,
-              context: @__context__,
-              name: l("Infinite Scrolling"),
-              description: l("Enable infinite scrolling in feeds.")
-            ) == true}
-            class="badge mb-2 !border !border-warning/30 badge-outline badge-warning"
-          >{l("Dark Pattern")}</div>
-          <div class="text-sm font-medium">{l("Infinite scrolling")}</div>
-          <!-- <div class="text-sm font-light text-base-content/70">{l("Infinite scrolling")}</div> -->
-        </div>
-        {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
-        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="ph:caret-down-duotone" class="w-4 h-4 text-base-content/70" />
-        </button>
-        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
-        </button>
-      </div>
-      <div x-show="open" x-cloak x-collapse class="pt-2">
-        <form phx-change="Bonfire.Common.Settings:set">
-          <Bonfire.UI.Common.SettingsRadiosLive
-            keys={[:ui, :infinite_scroll]}
-            options={[
-              preload: l("Pre-load extra activities, but require clicking on 'Show more' to see them"),
-              true: l("Enable doom scrolling"),
-              false: "Disable"
-            ]}
-            default_value={:preload}
-            scope={@scope}
-          />
-        </form>
-      </div>
-    </div>
-
-    {!-- <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-    <#Icon iconify="carbon:notification" class="w-5 h-5 text-base-content/80" />
-    <span>{l("Notifications")}</span>
-  </div> --}
-
-    <form data-scope="notification_highlight" phx-change="Bonfire.Common.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        show_label={Settings.get([Bonfire.UI.Common.BadgeCounterLive, :highlight], false,
-          context: @__context__,
-          name: l("Highlight Badge Counters"),
-          description: l("Show highlighted badge counters for notifications.")
-        ) == true}
-        label={l("Dark Pattern")}
-        name={l("Highlight notifications indicator")}
-        description={l("Use the primary color to highlight the notifications indicator")}
-        keys={[Bonfire.UI.Common.BadgeCounterLive, :highlight]}
-        scope={@scope}
-      />
-    </form>
-
-    <form data-scope="show_switch_users_inline" phx-change="Bonfire.Common.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Make it easer to switch between profiles")}
-        description={l(
-          "Show list of profiles directly in the main dropdown menu instead of a separate page. Also includes notifications badges for each profile."
-        )}
-        keys={[Bonfire.Me.Users, :show_switch_users_inline]}
-        scope={@scope}
-      />
-    </form>
-
-    {!-- <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-    <#Icon iconify="material-symbols:add-reaction" class="w-5 h-5 text-base-content/80" />
-    <span>{l("Reactions")}</span>
-  </div>  --}
-
-    <form data-scope="set_show_metrics" phx-change="Bonfire.Common.Settings:set">
-      <Bonfire.UI.Common.SettingsToggleLive
-        show_label={Settings.get([:ui, :show_activity_counts], false,
-          context: @__context__,
-          name: l("Show Metrics"),
-          description: l("Display metrics in the UI.")
-        ) == true}
-        label="Vanity Metrics"
-        name={l("Show metrics (likes, boosts, followers, posts)")}
-        description={l(
-          "Display reaction counts, follower counts, and post counts on profiles and activities (may not be accurate for federated content)"
-        )}
-        keys={[:ui, :show_activity_counts]}
-        scope={@scope}
-      />
-    </form>
-  </div>
-
-  <div class="p-4 text-xl text-primary font-bold flex items-center gap-4">
-    <#Icon iconify="ph:lock-simple-duotone" class="w-6 h-6" />
-    <span>{l("Privacy & Safety")}</span>
-  </div>
-
-  <div class="divide-y divide-base-content/20">
-    <div
-      x-data="{open: false}"
-      class="p-4 cursor-pointer"
-      :if={@scope != :instance and ActivityPub.Config.federating?() != false}
-    >
-      <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
-        <div class="flex flex-col gap-1">
-          <div class="text-sm font-medium">{l("Enable federation?")}</div>
-        </div>
-        <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="ph:caret-down-duotone" class="w-4 h-4 text-base-content/70" />
-        </button>
-        <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
-        </button>
-      </div>
-      <div x-show="open" x-cloak x-collapse class="pt-2">
-        <form phx-change="Bonfire.Common.Settings:set">
-          <input name="scope" value={@scope} type="hidden">
-          <div class="divide-y divide-base-content/20">
-            <Bonfire.UI.Common.SettingsRadiosLive
-              keys={[:activity_pub, :user_federating]}
-              options={if ActivityPub.Config.federating?() == nil,
-                do: %{
-                  "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
-                  "false" => l("Fully disabled")
-                },
-                else: %{
-                  "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
-                  "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
-                  "false" => l("Fully disabled")
-                }}
-            />
-          </div>
-        </form>
-
-        <div
-          :if={Bonfire.Federate.ActivityPub.federating?(current_user(@__context__))}
-          class="p-4 mt-2 mb-0 rounded-md bg-info/10"
-        >
-          <div class="flex items-center">
-            <div class="flex-shrink-0">
-              <div iconify="ph:info-duotone" class="w-5 h-5 text-info" aria-hidden="true" />
-            </div>
-            <div class="flex-1 ml-3 md:flex items-center md:justify-between">
-              <div class="text-sm text-info">
-                {l("Wondering how federation of your incoming and outgoing activities is going?")}
-              </div>
-              <Bonfire.UI.Common.LinkLive to="/settings/user/federation_status" class="btn btn-sm ml-4">
-                <#Icon iconify="heroicons:clock" class="w-4 h-4 mr-2" />
-                {l("View Federation Status")}
-              </Bonfire.UI.Common.LinkLive>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <form
-      class=""
-      data-scope="set_flag_forward_default"
-      name="settings"
-      phx-change="Bonfire.Common.Settings:set"
-    >
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Forward flags to remote instances by default")}
-        description={l("When flagging remote content, automatically check the 'Forward to remote instance' option.")}
-        keys={[Bonfire.Social.Flags, :forward_by_default]}
-        default_value={false}
-        scope={@scope}
-      />
-    </form>
-
-    <form
-      class="p-4"
-      data-scope="set_dm_privacy"
-      name="settings"
-      phx-change="Bonfire.Common.Settings:set"
-    >
-      <Bonfire.UI.Common.SettingsSelectLive
-        name={l("Who can reach me by direct message")}
-        description={l("Control who's messages to see by default")}
-        keys={[Bonfire.Messages, :dm_privacy]}
-        options={[
-          everyone: l("Everyone"),
-          followed_only: l("Only users I follow")
-        ]}
-        default_value="everyone"
-        scope={@scope}
-      />
-    </form>
-
-    <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
-    <Bonfire.UI.Me.SettingsViewsLive.IndexableLive scope={@scope} />
   </div>
 
   <div class="p-4 text-xl text-primary font-bold flex items-center gap-4">

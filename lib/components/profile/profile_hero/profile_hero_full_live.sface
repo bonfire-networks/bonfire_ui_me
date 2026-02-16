@@ -71,6 +71,7 @@
                         !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                       <Bonfire.UI.Common.AvatarLive
                         parent_id="profile-hero"
+                        title={e(@user, :profile, :name, "Anon")}
                         class="inline-block object-cover w-24 h-24 md:mx-0 rounded-full -mt-14"
                         user_id={id(@user)}
                         fallback_class="w-24 h-24"

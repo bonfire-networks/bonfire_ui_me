@@ -20,6 +20,7 @@
           <Bonfire.UI.Common.AvatarLive
             src={Media.avatar_url(user)}
             user_id={user_id}
+            title={e(user, :profile, :name, "Anon")}
             class="w-6 h-6 !rounded-full flex-shrink-0"
           />
 

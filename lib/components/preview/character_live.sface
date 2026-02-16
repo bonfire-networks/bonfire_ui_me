@@ -7,6 +7,7 @@
           parent_id={deterministic_dom_id(__MODULE__, id(@object), "character", @activity_component_id)}
           class="w-6 h-6 rounded-full"
           bg_class="rounded-btn"
+          titke={e(@the_character, :profile, :name, "Anon")}
           src={Media.avatar_url(@the_character)}
           user_id={id(@the_character)}
           showing_within={@showing_within}
@@ -27,8 +28,7 @@
     data-role="character"
     class={
       "flex-1 mb-4",
-      "!-ml-[2.5rem]": @__context__[:ui_compact] && !@viewing_main_object,
-      "-ml-[4rem]": !Media.hide_avatars?(@__context__, @showing_within)
+      "!-ml-[2.5rem]": @__context__[:ui_compact] && !@viewing_main_object
     }
   >
     <StatelessComponent
