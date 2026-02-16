@@ -52,17 +52,6 @@
 
         <li>
           <LinkPatchLive
-            to={~p"/settings/user/dashboard"}
-            class={
-              " ",
-              "bg-primary/10 ": @selected_tab == "dashboard"
-            }
-          >
-            <span class="">{l("Configure Dashboard")}</span>
-          </LinkPatchLive>
-        </li>
-        <li>
-          <LinkPatchLive
             to={~p"/settings/user/feeds"}
             class={
               " ",

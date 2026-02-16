@@ -1,10 +1,5 @@
 <section class="bg-base-100">
   {#case @selected_tab}
-    {#match "dashboard"}
-      <Bonfire.UI.Me.SettingsViewsLive.DashboardSettingsLive
-        selected_tab={@selected_tab}
-        scope={@scope}
-      />
     {#match "profile"}
       <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
         :if={current_user_id(@__context__)}
