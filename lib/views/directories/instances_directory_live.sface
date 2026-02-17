@@ -1,10 +1,54 @@
-<div class="grid mb-2 px-4 md:px-0 md:grid-cols-2 gap-4 max-w-screen-md mx-auto w-full">
+<div class="grid mb-2 p-4 gap-3 mx-auto w-full">
   <div
     :for={%{id: id, ap_base_uri: ap_base_uri, display_hostname: display_hostname} <- @instances}
-    class="p-4 border rounded border-base-content/20 flex"
+    class="p-4 border rounded-lg border-base-content/20 bg-base-100"
   >
-    <LinkLive to={"/users/instance/#{display_hostname}/#{id}"} class="grow">{display_hostname}</LinkLive>
-    <a href={ap_base_uri} target="_blank"><#Icon iconify="heroicons-solid:external-link" class="w-4 h-4" /></a>
+    <div class="flex items-start gap-3">
+      {!-- Globe Icon --}
+      <div class="w-10 h-10 rounded-lg bg-base-200 flex items-center justify-center shrink-0">
+        <#Icon iconify="ph:globe-duotone" class="w-6 h-6 text-base-content/60" />
+      </div>
+
+      {!-- Instance Info --}
+      <div class="min-w-0 flex-1">
+        <div class="flex items-center gap-2">
+          <LinkLive
+            to={"/users/instance/#{display_hostname}/#{id}"}
+            class="text-lg font-semibold truncate link link-hover max-w-[360px]"
+          >
+            {display_hostname}
+          </LinkLive>
+          <a href={ap_base_uri} target="_blank" title={l("Visit instance")}>
+            <#Icon iconify="heroicons-solid:external-link" class="w-3.5 h-3.5 text-base-content/40 hover:text-primary transition-colors" />
+          </a>
+        </div>
+
+        {!-- Stats row --}
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-base-content/60">
+          {!-- User count --}
+          <span class="flex items-center gap-1">
+            <#Icon iconify="ph:users-duotone" class="w-4 h-4" />
+            {e(@instances_metadata, id, :user_count, 0)} {l("known users")}
+          </span>
+
+          {!-- First seen --}
+          {#if e(@instances_metadata, id, :first_seen, nil)}
+            <span class="flex items-center gap-1" title={l("First seen")}>
+              <#Icon iconify="ph:calendar-duotone" class="w-4 h-4" />
+              {DatesTimes.date_from_now(e(@instances_metadata, id, :first_seen, nil))}
+            </span>
+          {/if}
+
+          {!-- Last activity --}
+          {#if e(@instances_metadata, id, :last_activity, nil)}
+            <span class="flex items-center gap-1" title={l("Last activity")}>
+              <#Icon iconify="ph:clock-duotone" class="w-4 h-4" />
+              {DatesTimes.date_from_now(e(@instances_metadata, id, :last_activity, nil))}
+            </span>
+          {/if}
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

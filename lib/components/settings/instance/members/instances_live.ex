@@ -30,8 +30,8 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstancesLive do
      socket
      |> assign(
        loaded: true,
-       instances: instances,
-       instances_metadata: metadata,
+       instances: e(assigns(socket), :instances, []) ++ instances,
+       instances_metadata: Map.merge(e(assigns(socket), :instances_metadata, %{}), metadata),
        page_info: page_info
      )}
   end

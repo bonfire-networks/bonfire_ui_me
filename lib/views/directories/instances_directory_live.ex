@@ -1,7 +1,7 @@
 defmodule Bonfire.UI.Me.InstancesDirectoryLive do
   use Bonfire.UI.Common.Web, :surface_live_view
 
-  # import Bonfire.UI.Me
+  alias Bonfire.Federate.ActivityPub.Instances
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
 
@@ -19,31 +19,17 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
            fallback_return: nil
          ) == true do
       if (show_to == :guests or current_user(socket)) || current_account(socket) do
-        %{edges: instances, page_info: page_info} =
-          Bonfire.Federate.ActivityPub.Instances.list_paginated(input_to_atoms(params))
-
-        # TODO
-        count = nil
-        # Bonfire.Me.Users.maybe_count()
-        # count = length(instances)
-
-        is_guest? = is_nil(current_user)
+        %{instances: instances, instances_metadata: instances_metadata, page_info: page_info} =
+          list_instances(input_to_atoms(params))
 
         {:ok,
          assign(
            socket,
-           page_title:
-             if(count,
-               do: l("Known fediverse instances (%{total})", total: count),
-               else: l("Known fediverse instances")
-             ),
+           page_title: l("Known fediverse instances"),
            page: "known_instances",
            selected_tab: :instances,
-           is_guest?: is_guest?,
-           without_sidebar: is_guest?,
-           without_secondary_widgets: is_guest?,
-           no_header: is_guest?,
            instances: instances,
+           instances_metadata: instances_metadata,
            page_info: page_info
          )}
       else
@@ -55,15 +41,38 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
   end
 
   def handle_event("load_more", attrs, socket) do
-    %{page_info: page_info, edges: edges} =
-      Bonfire.Federate.ActivityPub.Instances.list_paginated(input_to_atoms(attrs))
+    %{instances: instances, instances_metadata: metadata, page_info: page_info} =
+      list_instances(input_to_atoms(attrs))
 
     {:noreply,
      socket
      |> assign(
        loaded: true,
-       instances: e(assigns(socket), :instances, []) ++ edges,
+       instances: e(assigns(socket), :instances, []) ++ instances,
+       instances_metadata: Map.merge(e(assigns(socket), :instances_metadata, %{}), metadata),
        page_info: page_info
      )}
+  end
+
+  defp list_instances(attrs) do
+    %{edges: instances, page_info: page_info} =
+      Instances.list_paginated(attrs)
+
+    peer_ids = Enum.map(instances, & &1.id)
+
+    user_counts = Instances.count_users_by_peer_ids(peer_ids)
+    last_activities = Instances.last_activity_by_peer_ids(peer_ids)
+
+    instances_metadata =
+      Map.new(instances, fn instance ->
+        {instance.id,
+         %{
+           user_count: Map.get(user_counts, instance.id, 0),
+           last_activity: Map.get(last_activities, instance.id),
+           first_seen: Map.get(instance, :inserted_at)
+         }}
+      end)
+
+    %{instances: instances, instances_metadata: instances_metadata, page_info: page_info}
   end
 end

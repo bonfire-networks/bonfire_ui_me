@@ -18,11 +18,11 @@
               <a
                 href={ap_base_uri}
                 target="_blank"
-                class="text-lg font-semibold truncate link link-hover"
+                class="text-lg max-w-[360px] font-semibold truncate link  link-primarylink-hover"
                 title={l("Visit instance")}
               >
                 {display_hostname}
-                <#Icon iconify="heroicons-solid:external-link" class="w-3.5 h-3.5 inline-block ml-1 opacity-50" />
+                <#Icon iconify="ph:arrow-square-out-duotone" class="w-4 h-4 shrink-0" />
               </a>
             </div>
 
@@ -43,12 +43,12 @@
               {/if}
 
               {!-- Last activity --}
-              {#if e(@instances_metadata, id, :last_activity, nil)}
+              <!-- {#if e(@instances_metadata, id, :last_activity, nil)}
                 <span class="flex items-center gap-1" title={l("Last activity")}>
                   <#Icon iconify="ph:clock-duotone" class="w-4 h-4" />
                   {DatesTimes.date_from_now(e(@instances_metadata, id, :last_activity, nil))}
                 </span>
-              {/if}
+              {/if} -->
             </div>
           </div>
         </div>
