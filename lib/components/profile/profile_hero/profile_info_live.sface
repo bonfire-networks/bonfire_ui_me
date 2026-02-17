@@ -2,43 +2,58 @@
   <#slot {@header} />
 
   <div class="flex flex-col w-full gap-3">
-    <div :if={@familiar_followers != [] and current_user_id(@__context__) != id(@user)} class="flex items-center gap-2 text-sm text-base-content/70">
-        <div class="flex -space-x-2">
-          {#for user <- Enum.take(@familiar_followers, 3)}
-            <Bonfire.UI.Common.AvatarLive
-              parent_id="familiar-followers"
-              class="w-6 h-6 rounded-full"
-              wrapper_class="inline-flex"
-              user_id={id(user)}
-              src={Media.avatar_url(user)}
-              title={e(user, :profile, :name, "")}
-            />
-          {/for}
-        </div>
-        <span class="text-sm">
-          {l("Followed by")}
-          {#case @familiar_followers}
-            {#match []}
-            {#match [one]}
-              <LinkLive to={~p"/@#{e(one, :character, :username, "")}"} class="font-semibold text-base-content link link-hover">
-                {e(one, :profile, :name, e(one, :character, :username, ""))}
-              </LinkLive>
-            {#match [one, two]}
-              <LinkLive to={~p"/@#{e(one, :character, :username, "")}"} class="font-semibold text-base-content link link-hover">
-                {e(one, :profile, :name, e(one, :character, :username, ""))}
-              </LinkLive>
-              {l(" and ")}
-              <LinkLive to={~p"/@#{e(two, :character, :username, "")}"} class="font-semibold text-base-content link link-hover">
-                {e(two, :profile, :name, e(two, :character, :username, ""))}
-              </LinkLive>
-            {#match [one | rest]}
-              <LinkLive to={~p"/@#{e(one, :character, :username, "")}"} class="font-semibold text-base-content link link-hover">
-                {e(one, :profile, :name, e(one, :character, :username, ""))}
-              </LinkLive>
-              {l(" and %{count} others you follow", count: length(rest))}
-          {/case}
-        </span>
+    <div
+      :if={@familiar_followers != [] and current_user_id(@__context__) != id(@user)}
+      class="flex items-center gap-2 text-sm text-base-content/70"
+    >
+      <div class="flex -space-x-2">
+        {#for user <- Enum.take(@familiar_followers, 3)}
+          <Bonfire.UI.Common.AvatarLive
+            parent_id="familiar-followers"
+            class="w-6 h-6 rounded-full"
+            wrapper_class="inline-flex"
+            user_id={id(user)}
+            src={Media.avatar_url(user)}
+            title={e(user, :profile, :name, "")}
+          />
+        {/for}
       </div>
+      <span class="text-sm">
+        {l("Followed by")}
+        {#case @familiar_followers}
+          {#match []}
+          {#match [one]}
+            <LinkLive
+              to={~p"/@#{e(one, :character, :username, "")}"}
+              class="font-semibold text-base-content link link-hover"
+            >
+              {e(one, :profile, :name, e(one, :character, :username, ""))}
+            </LinkLive>
+          {#match [one, two]}
+            <LinkLive
+              to={~p"/@#{e(one, :character, :username, "")}"}
+              class="font-semibold text-base-content link link-hover"
+            >
+              {e(one, :profile, :name, e(one, :character, :username, ""))}
+            </LinkLive>
+            {l(" and ")}
+            <LinkLive
+              to={~p"/@#{e(two, :character, :username, "")}"}
+              class="font-semibold text-base-content link link-hover"
+            >
+              {e(two, :profile, :name, e(two, :character, :username, ""))}
+            </LinkLive>
+          {#match [one | rest]}
+            <LinkLive
+              to={~p"/@#{e(one, :character, :username, "")}"}
+              class="font-semibold text-base-content link link-hover"
+            >
+              {e(one, :profile, :name, e(one, :character, :username, ""))}
+            </LinkLive>
+            {l(" and %{count} others you follow", count: length(rest))}
+        {/case}
+      </span>
+    </div>
 
     <div class="flex flex-col gap-3">
       <div :if={@character_type == :user} class="w-full prose prose-sm max-w-none">

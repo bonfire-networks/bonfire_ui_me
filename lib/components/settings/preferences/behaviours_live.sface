@@ -163,7 +163,6 @@
       />
     </form>
 
-
     {!-- <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
 

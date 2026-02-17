@@ -77,7 +77,7 @@
     </details>
   </li>
 
-    <li class="">
+  <li class="">
     <details open>
       <summary class="group mt-2">
         <span class="font-bold uppercase text-xs text-base-content">{l("Safety")}</span>
@@ -187,8 +187,6 @@
       </ul>
     </details>
   </li>
-
-
 
   <li class="">
     <details open>

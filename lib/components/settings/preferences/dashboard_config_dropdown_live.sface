@@ -4,11 +4,7 @@
   id="dashboard_config_dropdown"
   class="relative"
 >
-  <label
-    tabindex="0"
-    role="button"
-    class="tooltip-button btn btn-sm btn-ghost btn-circle"
-  >
+  <label tabindex="0" role="button" class="tooltip-button btn btn-sm btn-ghost btn-circle">
     <#Icon iconify="ph:gear-six-duotone" class="w-5 h-5 text-base-content/70" />
     <span class="sr-only">{l("Configure dashboard")}</span>
   </label>
