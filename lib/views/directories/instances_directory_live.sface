@@ -19,7 +19,10 @@
             {display_hostname}
           </LinkLive>
           <a href={ap_base_uri} target="_blank" title={l("Visit instance")}>
-            <#Icon iconify="heroicons-solid:external-link" class="w-3.5 h-3.5 text-base-content/40 hover:text-primary transition-colors" />
+            <#Icon
+              iconify="heroicons-solid:external-link"
+              class="w-3.5 h-3.5 text-base-content/40 hover:text-primary transition-colors"
+            />
           </a>
         </div>
 
