@@ -9,7 +9,7 @@ defmodule Bonfire.UI.Me.LoginController do
   # GET only supports 'go'
   def index(conn, _) do
     conn = fetch_query_params(conn)
-    paint(conn, form_cs(Map.take(conn.query_params, [:go, "go"])))
+    paint(conn, form_cs(Map.take(conn.query_params, [:go, "go", "email_or_username"])))
   end
 
   def create(conn, form) do
