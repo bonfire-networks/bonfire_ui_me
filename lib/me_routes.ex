@@ -18,12 +18,10 @@ defmodule Bonfire.UI.Me.Routes do
         plug(Bonfire.UI.Me.Plugs.UserRequired)
       end
 
-      # an alias of :user_required
+      # similar to :user_required but returns error in JSON instead of redirecting, for API routes that require a user
       pipeline :require_authenticated_user do
-        plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
-
         plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
-        plug(Bonfire.UI.Me.Plugs.UserRequired)
+        plug(Bonfire.UI.Me.Plugs.UserRequired, json: true)
       end
 
       pipeline :account_required do
