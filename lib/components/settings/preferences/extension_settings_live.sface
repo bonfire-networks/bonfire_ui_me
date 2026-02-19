@@ -30,8 +30,8 @@
     </div>
 
     {#case extension_enabled?(@extension, @__context__) &&
-        Bonfire.UI.Common.SettingsModule.components(@extension)
-        |> Enum.filter(fn c -> Map.get(c, :scope, :user) == (@scope || :user) end)}
+        (Bonfire.UI.Common.SettingsModule.components(@extension)
+         |> Enum.filter(fn c -> Map.get(c, :scope, :user) == (@scope || :user) end))}
       {#match extension_settings when is_list(extension_settings) and extension_settings != []}
         <form data-role="extension_settings" phx-change="Bonfire.Common.Settings:set">
           <Bonfire.UI.Common.WidgetsLive

@@ -8,9 +8,12 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
       {:ok, account} ->
         change_pw(conn, account)
 
-      {:error, changeset} ->
+      {:error, _changeset} ->
         conn
-        |> assign(:form, changeset)
+        |> assign_flash(
+          :error,
+          l("This password reset link is invalid or has expired. Please request a new one.")
+        )
         |> live_render(ForgotPasswordLive)
     end
   end

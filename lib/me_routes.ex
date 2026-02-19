@@ -80,6 +80,12 @@ defmodule Bonfire.UI.Me.Routes do
           as: :forgot_password
         )
 
+        resources(
+          "/login/forgot-password/:login_token",
+          ForgotPasswordController,
+          only: [:index]
+        )
+
         live("/users", UsersDirectoryLive)
         live("/users/instance/:instance", UsersDirectoryLive, as: Bonfire.Data.ActivityPub.Peer)
         live("/users/instance/:display_name/:instance", UsersDirectoryLive)
@@ -112,12 +118,6 @@ defmodule Bonfire.UI.Me.Routes do
         )
 
         resources("/signup/email/confirm", ConfirmEmailController, only: [:index, :create, :show])
-
-        resources(
-          "/login/forgot-password/:login_token",
-          ForgotPasswordController,
-          only: [:index]
-        )
 
         # tell the browser to preload the LiveView JS when logging in
         pipe_through(:early_hints_authed)
