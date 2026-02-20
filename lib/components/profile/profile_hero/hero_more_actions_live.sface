@@ -189,7 +189,7 @@
                   class="w-full justify-between text-base-content"
                 >
                   <span class="text-sm font-medium text-error">{l("Revoke admin")}</span>
-                  <#Icon iconify="ph:user-remove-duotone" class="w-5 h-5 shrink-0" />
+                  <#Icon iconify="ph:key-duotone" class="w-5 h-5 shrink-0" />
                 </button>
               </li>
             {/if}

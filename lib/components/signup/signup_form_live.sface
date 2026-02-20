@@ -174,7 +174,7 @@
             </Bonfire.UI.Common.DesignSystem.button>
           </div>
 
-          <div class="flex py-4 pb-2 mt-6 text-xs border-t border-base-content/20 place-content-center">
+          <div class="flex py-4 pb-2 mt-6 text-xs border-t border-base-content/20 place-content-center w-full">
             <p>
               {l("Do you already have an account?")}
               <LinkLive class="link link-primary" to={path(:login, :index)}>{l("Log in")}</LinkLive>
