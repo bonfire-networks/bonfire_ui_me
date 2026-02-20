@@ -9,7 +9,7 @@
               :if={@with_banner}
               aria-hidden="true"
               class="h-24 bg-center bg-cover rounded-t-xl"
-              style={if not is_binary(color),
+              style={if is_binary(banner_url),
                 do: "background-image: url('#{URI.encode(banner_url)}')",
                 else: "background-color: #{color}"}
             />
