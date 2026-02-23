@@ -409,28 +409,28 @@
         scope={@scope}
       /> --}
       <div class="p-4">
-      <Bonfire.UI.Common.SettingsToggleLive
-        name={l("Hide trending topics")}
-        description={l("Do not show a list of trending tags or groups")}
-        keys={[:ui, :show_trending_tags, :disabled]}
-        scope={@scope}
-      />
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Hide trending topics")}
+          description={l("Do not show a list of trending tags or groups")}
+          keys={[:ui, :show_trending_tags, :disabled]}
+          scope={@scope}
+        />
       </div>
       <div class="p-4">
-      <Bonfire.UI.Common.Settings.NumberLive
-        scope={@scope}
-        name={l("How many days of activity to include when calculating trending topics")}
-        keys={[:ui, :show_trending_tags, :for_last_x_days]}
-        unit={l("days")}
-      />
+        <Bonfire.UI.Common.Settings.NumberLive
+          scope={@scope}
+          name={l("How many days of activity to include when calculating trending topics")}
+          keys={[:ui, :show_trending_tags, :for_last_x_days]}
+          unit={l("days")}
+        />
       </div>
       <div class="p-4">
-      <Bonfire.UI.Common.Settings.NumberLive
-        scope={@scope}
-        name={l("How many trending topics to show")}
-        keys={[:ui, :show_trending_tags, :limit]}
-        unit={l("topics")}
-      />
+        <Bonfire.UI.Common.Settings.NumberLive
+          scope={@scope}
+          name={l("How many trending topics to show")}
+          keys={[:ui, :show_trending_tags, :limit]}
+          unit={l("topics")}
+        />
       </div>
     </form>
   </div>

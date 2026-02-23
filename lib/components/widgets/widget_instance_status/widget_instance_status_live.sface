@@ -1,49 +1,47 @@
 {#case load()}
   {#match %{
-    instance_name: instance_name,
-    instance_image: instance_image,
-    user_count: user_count,
-    online_count: online_count,
-    invite_only?: invite_only?,
-    federation_enabled?: federation_enabled?,
-    blocked_instances_count: blocked_instances_count,
-    known_instances_count: known_instances_count,
-    admins: admins,
-    instance_description: instance_description
-  }}
-    <Bonfire.UI.Common.WidgetBlockLive
-      class="w-full flex-auto mx-auto rounded-xl border border-base-content/5 bg-base-content/5 overflow-hidden"
-    >
+      instance_name: instance_name,
+      instance_image: instance_image,
+      user_count: user_count,
+      online_count: online_count,
+      invite_only?: invite_only?,
+      federation_enabled?: federation_enabled?,
+      blocked_instances_count: blocked_instances_count,
+      known_instances_count: known_instances_count,
+      admins: admins,
+      instance_description: instance_description
+    }}
+    <Bonfire.UI.Common.WidgetBlockLive class="w-full flex-auto mx-auto rounded-xl border border-base-content/5 bg-base-content/5 overflow-hidden">
       {!-- Instance banner --}
       {#if instance_image}
         <div class="-mx-3 relative -mt-3 mb-3">
-          <img
-            src={instance_image}
-            alt={instance_name}
-            class="w-full h-48 object-cover"
-          />
+          <img src={instance_image} alt={instance_name} class="w-full h-48 object-cover">
 
-        {!-- Registration status --}
-        <div class="flex absolute top-6 left-5  badge badge-sm items-center gap-2">
-          {#if invite_only?}
-            <#Icon iconify="ph:lock-duotone" class="w-4 h-4" aria-hidden="true" />
-            <span>{l("Invite-only")}</span>
-          {#else}
-            <#Icon iconify="ph:lock-simple-open-duotone" class="w-4 h-4 inline text-success" aria-hidden="true" />
-            <span>{l("Open Registration")}</span>
-          {/if}
-        </div>
+          {!-- Registration status --}
+          <div class="flex absolute top-6 left-5  badge badge-sm items-center gap-2">
+            {#if invite_only?}
+              <#Icon iconify="ph:lock-duotone" class="w-4 h-4" aria-hidden="true" />
+              <span>{l("Invite-only")}</span>
+            {#else}
+              <#Icon
+                iconify="ph:lock-simple-open-duotone"
+                class="w-4 h-4 inline text-success"
+                aria-hidden="true"
+              />
+              <span>{l("Open Registration")}</span>
+            {/if}
+          </div>
 
           {!-- Federation --}
-            <div class="flex absolute top-6 right-6  badge badge-sm items-center gap-2">
-              {#if federation_enabled?}
-                <span class="inline-block w-2 h-2 rounded-full bg-success animate-pulse" />
-                <span>{l("Federated")}</span>
-              {#else}
-                <span class="inline-block w-2 h-2 rounded-full bg-base-content/20" />
-                <span class="text-base-content/50">{l("Local")}</span>
-              {/if}
-            </div>
+          <div class="flex absolute top-6 right-6  badge badge-sm items-center gap-2">
+            {#if federation_enabled?}
+              <span class="inline-block w-2 h-2 rounded-full bg-success animate-pulse" />
+              <span>{l("Federated")}</span>
+            {#else}
+              <span class="inline-block w-2 h-2 rounded-full bg-base-content/20" />
+              <span class="text-base-content/50">{l("Local")}</span>
+            {/if}
+          </div>
 
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
           <div class="absolute bottom-2 left-2 text-white px-4 py-1">
@@ -62,17 +60,15 @@
       {/if}
 
       <div class="flex flex-col gap-3 text-sm text-base-content/80 px-3 pb-3">
-        
-
-
-          {#if federation_enabled? && known_instances_count > 0}
-            <p class="text-sm">
-              {l("Federating with")}
-              <LinkLive to={~p"/known_instances"} class="font-semibold text-base-content hover:underline">
-                {l("%{count} servers", count: known_instances_count)}</LinkLive>{#if blocked_instances_count > 0}
-                <span class="text-base-content/50"> ({l("%{count} blocked", count: blocked_instances_count)})</span>{/if}.
-            </p>
-          {/if}
+        {#if federation_enabled? && known_instances_count > 0}
+          <p class="text-sm">
+            {l("Federating with")}
+            <LinkLive to={~p"/known_instances"} class="font-semibold text-base-content hover:underline">
+              {l("%{count} servers", count: known_instances_count)}</LinkLive>{#if blocked_instances_count > 0}
+              <span class="text-base-content/50">
+                ({l("%{count} blocked", count: blocked_instances_count)})</span>{/if}.
+          </p>
+        {/if}
 
         {!-- Admins --}
         {#if admins != []}
@@ -103,7 +99,6 @@
         {/if} -->
       </div>
     </Bonfire.UI.Common.WidgetBlockLive>
-
   {#match _}
     <Bonfire.UI.Common.WidgetBlockLive widget_title={l("Your Instance")}>
       <p class="text-sm text-base-content/50">{l("Loading instance info...")}</p>

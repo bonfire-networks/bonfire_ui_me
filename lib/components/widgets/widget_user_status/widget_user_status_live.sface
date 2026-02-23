@@ -1,24 +1,22 @@
 {#if current_user_id(@__context__)}
   {#case load(current_user(@__context__))}
     {#match %{
-      user_name: user_name,
-      username: username,
-      join_date_formatted: join_date_formatted,
-      post_count: post_count,
-      bookmark_count: bookmark_count,
-      followers_count: followers_count,
-      following_count: following_count,
-      user_federating?: user_federating?,
-      blocked_count: blocked_count,
-      ghosted_count: ghosted_count,
-      silenced_count: silenced_count,
-      dm_privacy: dm_privacy,
-      undiscoverable?: undiscoverable?,
-      search_indexing_disabled?: search_indexing_disabled?
-    }}
-      <Bonfire.UI.Common.WidgetBlockLive
-        class="w-full flex-auto mx-auto rounded-xl border border-base-content/5 bg-base-content/5 overflow-hidden"
-      >
+        user_name: user_name,
+        username: username,
+        join_date_formatted: join_date_formatted,
+        post_count: post_count,
+        bookmark_count: bookmark_count,
+        followers_count: followers_count,
+        following_count: following_count,
+        user_federating?: user_federating?,
+        blocked_count: blocked_count,
+        ghosted_count: ghosted_count,
+        silenced_count: silenced_count,
+        dm_privacy: dm_privacy,
+        undiscoverable?: undiscoverable?,
+        search_indexing_disabled?: search_indexing_disabled?
+      }}
+      <Bonfire.UI.Common.WidgetBlockLive class="w-full flex-auto mx-auto rounded-xl border border-base-content/5 bg-base-content/5 overflow-hidden">
         <div class="flex flex-col gap-4 p-3">
           {!-- Header: greeting + join date + federation badge --}
           <div class="flex flex-col gap-1">
@@ -45,28 +43,40 @@
 
           {!-- Stats grid --}
           <div class="grid grid-cols-2 gap-2">
-            <LinkLive to={~p"/@#{username}"} class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors">
+            <LinkLive
+              to={~p"/@#{username}"}
+              class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors"
+            >
               <span class="flex items-center gap-1.5 text-lg font-bold text-base-content tabular-nums">
                 <#Icon iconify="ph:note-pencil-duotone" class="w-4 h-4 text-primary" />
                 {post_count}
               </span>
               <span class="text-sm text-base-content/50">{l("activities")}</span>
             </LinkLive>
-            <LinkLive to={~p"/bookmarks"} class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors">
+            <LinkLive
+              to={~p"/bookmarks"}
+              class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors"
+            >
               <span class="flex items-center gap-1.5 text-lg font-bold text-base-content tabular-nums">
                 <#Icon iconify="ph:bookmark-duotone" class="w-4 h-4 text-primary" />
                 {bookmark_count}
               </span>
               <span class="text-sm text-base-content/50">{l("bookmarks")}</span>
             </LinkLive>
-            <LinkLive to={~p"/@#{username}/followers"} class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors">
+            <LinkLive
+              to={~p"/@#{username}/followers"}
+              class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors"
+            >
               <span class="flex items-center gap-1.5 text-lg font-bold text-base-content tabular-nums">
                 <#Icon iconify="ph:users-duotone" class="w-4 h-4 text-primary" />
                 {followers_count}
               </span>
               <span class="text-sm text-base-content/50">{l("followers")}</span>
             </LinkLive>
-            <LinkLive to={~p"/@#{username}/followed"} class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors">
+            <LinkLive
+              to={~p"/@#{username}/followed"}
+              class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors"
+            >
               <span class="flex items-center gap-1.5 text-lg font-bold text-base-content tabular-nums">
                 <#Icon iconify="ph:user-plus-duotone" class="w-4 h-4 text-primary" />
                 {following_count}
@@ -111,7 +121,10 @@
                   {/case}
                 </LinkLive> -->
 
-                <LinkLive to={~p"/settings/user/safety"} class="flex items-center gap-2 hover:text-base-content transition-colors group">
+                <LinkLive
+                  to={~p"/settings/user/safety"}
+                  class="flex items-center gap-2 hover:text-base-content transition-colors group"
+                >
                   {#if undiscoverable?}
                     <#Icon iconify="ph:eye-slash-duotone" class="w-4 h-4 shrink-0" />
                     <span>{l("Profile is hidden")}</span>
@@ -122,7 +135,10 @@
                   <!-- <#Icon iconify="ph:pencil-simple" class="w-3.5 h-3.5 ml-auto opacity-0 group-hover:opacity-50 transition-opacity shrink-0" /> -->
                 </LinkLive>
 
-                <LinkLive to={~p"/settings/user/safety"} class="flex items-center gap-2 hover:text-base-content transition-colors group">
+                <LinkLive
+                  to={~p"/settings/user/safety"}
+                  class="flex items-center gap-2 hover:text-base-content transition-colors group"
+                >
                   {#if search_indexing_disabled?}
                     <#Icon iconify="ph:magnifying-glass-minus-duotone" class="w-4 h-4 shrink-0" />
                     <span>{l("Search indexing is off")}</span>
@@ -137,7 +153,6 @@
           </div>
         </div>
       </Bonfire.UI.Common.WidgetBlockLive>
-
     {#match _}
       <Bonfire.UI.Common.WidgetBlockLive widget_title={l("Your Account")}>
         <p class="text-sm text-base-content/50">{l("Loading your stats...")}</p>

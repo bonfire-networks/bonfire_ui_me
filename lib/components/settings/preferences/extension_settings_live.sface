@@ -30,34 +30,37 @@
     </div>
 
     {#case extension_enabled?(@extension, @__context__) &&
-       Bonfire.UI.Common.SettingsModule.components(@extension)}
+        Bonfire.UI.Common.SettingsModule.components(@extension)}
       {#match extension_settings when is_list(extension_settings) and extension_settings != []}
         <div data-role="extension_settings">
-        {#case if @scope != :instance,
-          do: Enum.filter(extension_settings, fn widget ->
-            keys = e(widget, :data, :keys, nil)
-            keys && Bonfire.Common.Settings.get(keys, nil, scope: :instance)
-          end),
-          else: []}
-          {#match instance_configured when instance_configured != []}
-            <div class="mx-3 mb-3 rounded-xl border border-info/20 bg-info/5 px-4 py-3">
-              <div class="flex items-start gap-2.5">
-                <#Icon iconify="ph:seal-check-duotone" class="w-5 h-5 text-info shrink-0 mt-0.5" />
-                <div class="flex flex-col gap-2 min-w-0">
-                  <p class="text-sm text-base-content/80">{l("The following settings are already configured by the instance admin. You can still override them with your own values.")}</p>
-                  <div class="flex flex-wrap gap-1.5">
-                    {#for widget <- instance_configured}
-                      <span class="inline-flex items-center gap-1 rounded-md bg-info/10 px-2 py-0.5 text-xs font-medium text-info ring-1 ring-inset ring-info/20">
-                        {e(widget, :name, nil) || e(widget, :data, :name, nil)}
-                      </span>
-                    {/for}
+          {#case if @scope != :instance,
+              do:
+                Enum.filter(extension_settings, fn widget ->
+                  keys = e(widget, :data, :keys, nil)
+                  keys && Bonfire.Common.Settings.get(keys, nil, scope: :instance)
+                end),
+              else: []}
+            {#match instance_configured when instance_configured != []}
+              <div class="mx-3 mb-3 rounded-xl border border-info/20 bg-info/5 px-4 py-3">
+                <div class="flex items-start gap-2.5">
+                  <#Icon iconify="ph:seal-check-duotone" class="w-5 h-5 text-info shrink-0 mt-0.5" />
+                  <div class="flex flex-col gap-2 min-w-0">
+                    <p class="text-sm text-base-content/80">{l(
+                        "The following settings are already configured by the instance admin. You can still override them with your own values."
+                      )}</p>
+                    <div class="flex flex-wrap gap-1.5">
+                      {#for widget <- instance_configured}
+                        <span class="inline-flex items-center gap-1 rounded-md bg-info/10 px-2 py-0.5 text-xs font-medium text-info ring-1 ring-inset ring-info/20">
+                          {e(widget, :name, nil) || e(widget, :data, :name, nil)}
+                        </span>
+                      {/for}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          {#match _}
-        {/case}
-        <!-- <div data-role="extension_settings"> -->
+            {#match _}
+          {/case}
+          <!-- <div data-role="extension_settings"> -->
           <Bonfire.UI.Common.WidgetsLive
             widgets={extension_settings}
             container_class="divide-y divide-base-content/10 bg-base-content/5 rounded-xl mx-3"
