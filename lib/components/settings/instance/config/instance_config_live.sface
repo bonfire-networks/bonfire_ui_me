@@ -122,6 +122,7 @@
             scope={:instance}
           />
         </div> --}
+        <div class="p-4">
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Require authentication from federated servers")}
           description={l(
@@ -130,7 +131,8 @@
           keys={[:activity_pub, :reject_unsigned]}
           scope={:instance}
         />
-
+        </div>
+        <div class="p-4">
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Invite-only instance")}
           description={l("Only people with a valid invite link can sign up to this instance.")}
@@ -138,6 +140,7 @@
           scope={:instance}
           default_value
         />
+        </div>
         <div class="flex flex-col gap-2 p-4">
           {!-- <span class="font-medium text-sm">{l("Who can see the list of local users?")}</span>
           <Bonfire.UI.Common.SettingsRadiosLive
@@ -186,7 +189,7 @@
     </div>
     <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/20">
       <!-- <input name="scope" value={:instance} type="hidden"> -->
-
+      <div class="p-4">
       <Bonfire.UI.Common.Settings.NumberLive
         scope={:instance}
         name={l("Maximum number of users per account")}
@@ -194,7 +197,8 @@
         unit={l("users")}
         default_value={4}
       />
-
+      </div>
+      <div class="p-4">
       <Bonfire.UI.Common.Settings.NumberLive
         scope={:instance}
         name={l("Maximum length of text inputs (e.g. posts)")}
@@ -202,7 +206,8 @@
         unit={l("words")}
         default_value={nil}
       />
-
+      </div>
+      <div class="p-4">
       {!-- MAX AMOUNT OF FILES ONE CAN ATTACH TO A POST OR OTHER ACTIVITIES --}
       <Bonfire.UI.Common.Settings.NumberLive
         scope={:instance}
@@ -211,7 +216,8 @@
         unit={l("items")}
         default_value={4}
       />
-
+      </div>
+      
       {!-- <Bonfire.UI.Common.SettingsToggleLive
         name={l("Activate Curated tab")}
         description={l("By enabling the curated tab it will replace the everything tab in the explore feed")}
@@ -249,6 +255,7 @@
       <span>{l("Resource Usage")}</span>
     </div>
     <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/20">
+      <div class="p-4">
       <Bonfire.UI.Common.Settings.NumberLive
         scope={:instance}
         name={l("Maximum number of items to query in lists")}
@@ -256,7 +263,8 @@
         keys={[:pagination_hard_max_limit]}
         unit={l("items")}
       />
-
+</div>
+      <div class="p-4">
       {!-- MAX FILE SIZE --}
       <Bonfire.UI.Common.Settings.NumberLive
         scope={:instance}
@@ -267,7 +275,8 @@
         keys={[:bonfire_files, :max_docs_file_size]}
         unit={l("MB")}
       />
-
+</div>
+      <div class="p-4">
       <Bonfire.UI.Common.Settings.NumberLive
         scope={:instance}
         name={l("Maximum file size of uploads like avatars or banners")}
@@ -277,27 +286,31 @@
         keys={[:bonfire_files, :max_user_images_file_size]}
         unit={l("MB")}
       />
-
+</div>
+      <div class="p-4">
       <Bonfire.UI.Common.Settings.NumberLive
         scope={:instance}
         name={l("Maximum dimensions when resizing an avatar")}
         keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_avatar]}
         unit={l("px")}
       />
-
+</div>
+      <div class="p-4">
       <Bonfire.UI.Common.Settings.NumberLive
         scope={:instance}
         name={l("Maximum dimensions when resizing a banner")}
         keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_banner]}
         unit={l("px")}
       />
-
+</div>
+      <div class="p-4">
       <Bonfire.UI.Common.Settings.NumberLive
         scope={:instance}
         name={l("Maximum dimensions when resizing images")}
         keys={[Bonfire.UI.Common.SmartInputLive, :max_dimensions_banner]}
         unit={l("px")}
-      />
+      /></div>
+
     </form>
   </div>
   {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div> --}
@@ -444,12 +457,14 @@
       <form phx-change="Bonfire.Common.Settings:set" class="">
         <input name="scope" value={:instance} type="hidden">
 
+      <div class="p-4">
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Enable OpenTelemetry")}
           description={l("Enable telemetry data collection and export")}
           keys={[:opentelemetry, :enabled]}
           scope={:instance}
         />
+        </div>
       </form>
       <div class="p-4">
         <Bonfire.UI.Common.SettingsInputLive

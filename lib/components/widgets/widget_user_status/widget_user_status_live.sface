@@ -1,0 +1,146 @@
+{#if current_user_id(@__context__)}
+  {#case load(current_user(@__context__))}
+    {#match %{
+      user_name: user_name,
+      username: username,
+      join_date_formatted: join_date_formatted,
+      post_count: post_count,
+      bookmark_count: bookmark_count,
+      followers_count: followers_count,
+      following_count: following_count,
+      user_federating?: user_federating?,
+      blocked_count: blocked_count,
+      ghosted_count: ghosted_count,
+      silenced_count: silenced_count,
+      dm_privacy: dm_privacy,
+      undiscoverable?: undiscoverable?,
+      search_indexing_disabled?: search_indexing_disabled?
+    }}
+      <Bonfire.UI.Common.WidgetBlockLive
+        class="w-full flex-auto mx-auto rounded-xl border border-base-content/5 bg-base-content/5 overflow-hidden"
+      >
+        <div class="flex flex-col gap-4 p-3">
+          {!-- Header: greeting + join date + federation badge --}
+          <div class="flex flex-col gap-1">
+            <div class="flex items-center justify-between">
+              <span class="text-lg font-bold text-base-content">{"\u{1F44B}"} {l("Hi %{name}", name: user_name)}</span>
+              {#if module_enabled?(Bonfire.Federate.ActivityPub, @__context__)}
+                {#if user_federating?}
+                  <span class="badge badge-sm gap-1">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+                    {l("Federated")}
+                  </span>
+                {#else}
+                  <span class="badge badge-sm badge-ghost gap-1">
+                    <span class="inline-block w-1.5 h-1.5 rounded-full bg-base-content/20" />
+                    {l("Local only")}
+                  </span>
+                {/if}
+              {/if}
+            </div>
+            {#if join_date_formatted}
+              <span class="text-sm text-base-content/50">{l("Member since %{date}", date: join_date_formatted)}</span>
+            {/if}
+          </div>
+
+          {!-- Stats grid --}
+          <div class="grid grid-cols-2 gap-2">
+            <LinkLive to={~p"/@#{username}"} class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors">
+              <span class="flex items-center gap-1.5 text-lg font-bold text-base-content tabular-nums">
+                <#Icon iconify="ph:note-pencil-duotone" class="w-4 h-4 text-primary" />
+                {post_count}
+              </span>
+              <span class="text-sm text-base-content/50">{l("activities")}</span>
+            </LinkLive>
+            <LinkLive to={~p"/bookmarks"} class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors">
+              <span class="flex items-center gap-1.5 text-lg font-bold text-base-content tabular-nums">
+                <#Icon iconify="ph:bookmark-duotone" class="w-4 h-4 text-primary" />
+                {bookmark_count}
+              </span>
+              <span class="text-sm text-base-content/50">{l("bookmarks")}</span>
+            </LinkLive>
+            <LinkLive to={~p"/@#{username}/followers"} class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors">
+              <span class="flex items-center gap-1.5 text-lg font-bold text-base-content tabular-nums">
+                <#Icon iconify="ph:users-duotone" class="w-4 h-4 text-primary" />
+                {followers_count}
+              </span>
+              <span class="text-sm text-base-content/50">{l("followers")}</span>
+            </LinkLive>
+            <LinkLive to={~p"/@#{username}/followed"} class="flex flex-col rounded-lg bg-base-content/5 px-3 py-2 hover:bg-base-content/10 transition-colors">
+              <span class="flex items-center gap-1.5 text-lg font-bold text-base-content tabular-nums">
+                <#Icon iconify="ph:user-plus-duotone" class="w-4 h-4 text-primary" />
+                {following_count}
+              </span>
+              <span class="text-sm text-base-content/50">{l("following")}</span>
+            </LinkLive>
+          </div>
+
+          {!-- Safety & Privacy --}
+          <div class="">
+            <!-- <div class="text-xs font-semibold uppercase tracking-wider text-base-content/50 mb-2.5">{l("Safety & Privacy")}</div> -->
+
+            <div class="flex flex-col gap-2">
+              {!-- Blocked users counts --}
+              <!-- <div class="flex flex-wrap gap-x-3 gap-y-1 text-sm">
+                <LinkLive to={~p"/blocked"} class="inline-flex items-center gap-1.5 text-base-content/70 hover:text-base-content transition-colors">
+                  <#Icon iconify="ph:prohibit-duotone" class="w-4 h-4" />
+                  <span class="font-semibold text-base-content">{blocked_count}</span> {l("blocked")}
+                </LinkLive>
+                <LinkLive to={~p"/ghosted"} class="inline-flex items-center gap-1.5 text-base-content/70 hover:text-base-content transition-colors">
+                  <#Icon iconify="ph:ghost-duotone" class="w-4 h-4" />
+                  <span class="font-semibold text-base-content">{ghosted_count}</span> {l("ghosted")}
+                </LinkLive>
+                <LinkLive to={~p"/silenced"} class="inline-flex items-center gap-1.5 text-base-content/70 hover:text-base-content transition-colors">
+                  <#Icon iconify="ph:speaker-simple-x-duotone" class="w-4 h-4" />
+                  <span class="font-semibold text-base-content">{silenced_count}</span> {l("silenced")}
+                </LinkLive>
+              </div> -->
+
+              {!-- Divider --}
+              <!-- <div class="border-t border-base-content/5" /> -->
+
+              {!-- Settings indicators --}
+              <div class="flex flex-col gap-1.5 text-sm text-base-content/60">
+                <!-- <LinkLive to={~p"/settings/user/safety"} class="flex items-center gap-2 hover:text-base-content transition-colors group">
+                  <#Icon iconify="ph:envelope-duotone" class="w-4 h-4 shrink-0" />
+                  {#case dm_privacy}
+                    {#match "followed_only"}
+                      <span>{l("DMs from people you follow only")}</span>
+                    {#match _}
+                      <span>{l("DMs open to everyone")}</span>
+                  {/case}
+                </LinkLive> -->
+
+                <LinkLive to={~p"/settings/user/safety"} class="flex items-center gap-2 hover:text-base-content transition-colors group">
+                  {#if undiscoverable?}
+                    <#Icon iconify="ph:eye-slash-duotone" class="w-4 h-4 shrink-0" />
+                    <span>{l("Profile is hidden")}</span>
+                  {#else}
+                    <#Icon iconify="ph:eye-duotone" class="w-4 h-4 shrink-0" />
+                    <span>{l("Profile is discoverable")}</span>
+                  {/if}
+                  <!-- <#Icon iconify="ph:pencil-simple" class="w-3.5 h-3.5 ml-auto opacity-0 group-hover:opacity-50 transition-opacity shrink-0" /> -->
+                </LinkLive>
+
+                <LinkLive to={~p"/settings/user/safety"} class="flex items-center gap-2 hover:text-base-content transition-colors group">
+                  {#if search_indexing_disabled?}
+                    <#Icon iconify="ph:magnifying-glass-minus-duotone" class="w-4 h-4 shrink-0" />
+                    <span>{l("Search indexing is off")}</span>
+                  {#else}
+                    <#Icon iconify="ph:magnifying-glass-duotone" class="w-4 h-4 shrink-0" />
+                    <span>{l("Content is search-indexed")}</span>
+                  {/if}
+                  <!-- <#Icon iconify="ph:pencil-simple" class="w-3.5 h-3.5 ml-auto opacity-0 group-hover:opacity-50 transition-opacity shrink-0" /> -->
+                </LinkLive>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Bonfire.UI.Common.WidgetBlockLive>
+
+    {#match _}
+      <Bonfire.UI.Common.WidgetBlockLive widget_title={l("Your Account")}>
+        <p class="text-sm text-base-content/50">{l("Loading your stats...")}</p>
+      </Bonfire.UI.Common.WidgetBlockLive>
+  {/case}
+{/if}

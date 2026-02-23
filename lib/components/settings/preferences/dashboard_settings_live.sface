@@ -29,6 +29,22 @@
           <h3 class="font-semibold text-base-content/80">{l("Sidebar Widgets")}</h3>
           <div class="flex flex-col rounded-xl border border-base-content/20 divide-y divide-base-content/20">
             <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Instance Status")}
+              description={l("Overview of your instance: community size, federation, and admin contacts.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :instance_status]}
+              default_value
+              scope={@scope}
+            />
+
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Your Account")}
+              description={l("Personal stats: activity, connections, and safety setup.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :user_status]}
+              default_value
+              scope={@scope}
+            />
+
+            <Bonfire.UI.Common.SettingsToggleLive
               name={l("Popular Topics")}
               description={l("Show trending topics and hashtags.")}
               keys={[Bonfire.Web.Views.DashboardLive, :include, :popular_topics]}
@@ -107,6 +123,22 @@
         <div class="flex flex-col gap-2 p-4">
           <h3 class="font-semibold text-base-content/80">{l("Sidebar Widgets")}</h3>
           <div class="flex flex-col rounded-xl border border-base-content/20 divide-y divide-base-content/20">
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Instance Status")}
+              description={l("Overview of your instance: community size, federation, and admin contacts.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :instance_status]}
+              default_value
+              scope={@scope}
+            />
+
+            <Bonfire.UI.Common.SettingsToggleLive
+              name={l("Your Account")}
+              description={l("Personal stats: activity, connections, and safety setup.")}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, :user_status]}
+              default_value
+              scope={@scope}
+            />
+
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("Popular Topics")}
               description={l("Show trending topics and hashtags.")}
