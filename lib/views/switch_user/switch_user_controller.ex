@@ -26,7 +26,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
         "list of users for the account, unless one of them have been blocked instance-wide"
       )
     )
-    |> assign(:go, go_query(conn))
+    |> assign(:go, copy_go(conn.query_params))
     |> live_render(SwitchUserLive)
   end
 
@@ -48,7 +48,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
     |> show(conn, params)
   end
 
-  defp show({:ok, %{id: user_id} = _user}, conn, params) do
+  defp show({:ok, %{id: user_id} = user}, conn, params) do
     # maybe_apply(Bonfire.Boundaries.Scaffold.Users, :create_missing_boundaries, user)
 
     debug(user_id, "user to switch to")
@@ -57,6 +57,8 @@ defmodule Bonfire.UI.Me.SwitchUserController do
     |> Bonfire.Me.Users.LiveHandler.disconnect_user_session()
     |> put_session(:current_user_id, user_id)
     |> put_session(:live_socket_id, "socket_user:#{user_id}")
+    # Update assigns so redirect_to_previous_go -> authorize sees the new user
+    |> assign(:current_user, user)
     # |> assign_flash(:info, l("Welcome back, %{name}!", name: greet(user)))
     |> redirect_to_previous_go(params, "/", "/switch-user")
   end
