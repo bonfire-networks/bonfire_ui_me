@@ -108,26 +108,26 @@ defmodule Bonfire.UI.Me.SettingsTest do
              |> has_element?("div[data-id=logo] div[data-scope=logo_name]")
     end
 
-    test "As a user I want to change avatar shape to square" do
-      account = fake_account!()
-      alice = fake_user!(account)
-      conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/appearance"
-      {:ok, view, _html} = live(conn, next)
+    # test "As a user I want to change avatar shape to square" do
+    #   account = fake_account!()
+    #   alice = fake_user!(account)
+    #   conn = conn(user: alice, account: account)
+    #   next = "/settings/user/preferences/appearance"
+    #   {:ok, view, _html} = live(conn, next)
 
-      view
-      |> element("form[data-scope=set_avatar_shape]")
-      |> render_change(%{"Elixir.Bonfire.UI.Common.AvatarLive" => %{"shape" => "true"}})
+    #   view
+    #   |> element("form[data-scope=set_avatar_shape]")
+    #   |> render_change(%{"Elixir.Bonfire.UI.Common.AvatarLive" => %{"shape" => "true"}})
 
-      # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, "/@#{alice.character.username}")
+    #   # force a refresh
+    #   {:ok, refreshed_view, _html} = live(conn, "/@#{alice.character.username}")
 
-      assert refreshed_view
-             |> has_element?("div[data-scope=avatar]")
+    #   assert refreshed_view
+    #          |> has_element?("div[data-scope=avatar]")
 
-      assert refreshed_view
-             |> has_element?("div[data-scope=avatar] div[data-square]")
-    end
+    #   assert refreshed_view
+    #          |> has_element?("div[data-scope=avatar] div[data-square]")
+    # end
 
     test "As a user I want to set the animal avatar" do
       account = fake_account!()

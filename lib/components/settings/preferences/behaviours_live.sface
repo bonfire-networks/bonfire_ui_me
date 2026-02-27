@@ -130,7 +130,7 @@
       />
     </form> -->
 
-    <form class="p-4" data-scope="set_avatar_shape" phx-change="Bonfire.Common.Settings:set">
+    <!-- <form class="p-4" data-scope="set_avatar_shape" phx-change="Bonfire.Common.Settings:set">
       <Bonfire.UI.Common.SettingsToggleLive
         name="Avatar shape"
         description={l("Show square avatars")}
@@ -138,7 +138,7 @@
         scope={@scope}
         default_value
       />
-    </form>
+    </form> -->
 
     {!-- name={l("Missing avatars")} --}
     <form class="p-4" data-scope="set_animal_avatar" phx-change="Bonfire.Common.Settings:set">
