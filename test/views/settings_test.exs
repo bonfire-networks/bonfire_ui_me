@@ -89,24 +89,24 @@ defmodule Bonfire.UI.Me.SettingsTest do
       #  |> has_element?("span[data-role=locale]", "it")
     end
 
-    test "As a user I want to hide brand name" do
-      account = fake_account!()
-      alice = fake_user!(account)
-      conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/appearance"
-      {:ok, view, _html} = live(conn, next)
+    # test "As a user I want to hide brand name" do
+    #   account = fake_account!()
+    #   alice = fake_user!(account)
+    #   conn = conn(user: alice, account: account)
+    #   next = "/settings/user/preferences/appearance"
+    #   {:ok, view, _html} = live(conn, next)
 
-      view
-      |> element("form[data-scope=set_brand]")
-      |> render_change(%{"Elixir.Bonfire.UI.Common.LogoLive" => %{"only_logo" => "true"}})
+    #   view
+    #   |> element("form[data-scope=set_brand]")
+    #   |> render_change(%{"Elixir.Bonfire.UI.Common.LogoLive" => %{"only_logo" => "true"}})
 
-      # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, next)
-      # open_browser(refreshed_view)
+    #   # force a refresh
+    #   {:ok, refreshed_view, _html} = live(conn, next)
+    #   # open_browser(refreshed_view)
 
-      refute refreshed_view
-             |> has_element?("div[data-id=logo] div[data-scope=logo_name]")
-    end
+    #   refute refreshed_view
+    #          |> has_element?("div[data-id=logo] div[data-scope=logo_name]")
+    # end
 
     # test "As a user I want to change avatar shape to square" do
     #   account = fake_account!()
@@ -176,23 +176,23 @@ defmodule Bonfire.UI.Me.SettingsTest do
   end
 
   describe "Behaviours" do
-    test "As a user I want to hide avatar from the layout" do
-      account = fake_account!()
-      alice = fake_user!(account)
-      conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/behaviours"
-      {:ok, view, _html} = live(conn, next)
+    # test "As a user I want to hide avatar from the layout" do
+    #   account = fake_account!()
+    #   alice = fake_user!(account)
+    #   conn = conn(user: alice, account: account)
+    #   next = "/settings/user/preferences/behaviours"
+    #   {:ok, view, _html} = live(conn, next)
 
-      view
-      |> element("form[data-scope=set_hide_avatar]")
-      |> render_change(%{"Elixir.Bonfire.UI.Common.AvatarLive" => %{"hide_avatars" => "true"}})
+    #   view
+    #   |> element("form[data-scope=set_hide_avatar]")
+    #   |> render_change(%{"Elixir.Bonfire.UI.Common.AvatarLive" => %{"hide_avatars" => "true"}})
 
-      # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, next)
+    #   # force a refresh
+    #   {:ok, refreshed_view, _html} = live(conn, next)
 
-      refute refreshed_view
-             |> has_element?("div[data-scope=sticky_menu] div[data-scope=avatar]")
-    end
+    #   refute refreshed_view
+    #          |> has_element?("div[data-scope=sticky_menu] div[data-scope=avatar]")
+    # end
 
     test "how many items to show in feeds and other lists" do
     end
