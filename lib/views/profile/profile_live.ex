@@ -201,7 +201,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
     user =
       user ||
         e(assigns(socket), :user, nil)
-        |> flood("user")
+        |> debug("user")
 
     if user_id = id(user) do
       debug(user_id, "user to get feed for")

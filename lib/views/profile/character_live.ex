@@ -97,10 +97,10 @@ defmodule Bonfire.UI.Me.CharacterLive do
                 "The extension needed to display this doesn't seem installed or enabled. Showing a simplified profile instead..."
               )
             )
-            |> flood("preassigned")
-            |> assign(LiveHandler.user_assigns(user_etc, current_user) |> flood("user_assigns"))
-            |> flood("assigned")
-            |> flood("returned")
+            |> debug("preassigned")
+            |> assign(LiveHandler.user_assigns(user_etc, current_user) |> debug("user_assigns"))
+            |> debug("assigned")
+            |> debug("returned")
             |> assign(
               character_type: :unknown,
               path: prefix
