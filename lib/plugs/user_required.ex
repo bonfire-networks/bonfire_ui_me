@@ -36,7 +36,7 @@ defmodule Bonfire.UI.Me.Plugs.UserRequired do
     |> halt()
   end
 
-  defp check(_user, _account, conn) do
+  defp check(_user, _account, _, conn) do
     conn
     |> clear_session()
     |> assign_flash(:info, l("You need to log in to see that page."))
