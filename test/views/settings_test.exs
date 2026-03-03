@@ -137,7 +137,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       {:ok, view, _html} = live(conn, next)
 
       view
-      |> element("form[data-scope=set_hide_avatar]")
+      |> element("form[data-scope=set_animal_avatar]")
       |> render_change(%{"Elixir.Bonfire.UI.Common.AvatarLive" => %{"animal_avatars" => "false"}})
 
       # force a refresh
