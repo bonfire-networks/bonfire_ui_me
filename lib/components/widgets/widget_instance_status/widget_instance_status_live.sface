@@ -6,8 +6,8 @@
       online_count: online_count,
       invite_only?: invite_only?,
       federation_enabled?: federation_enabled?,
-      blocked_instances_count: blocked_instances_count,
       known_instances_count: known_instances_count,
+      federation_details: federation_details,
       admins: admins,
       instance_description: instance_description
     }}
@@ -62,11 +62,11 @@
       <div class="flex flex-col gap-3 text-sm text-base-content/80 px-3 pb-3">
         {#if federation_enabled? && known_instances_count > 0}
           <p class="text-sm">
-            {l("Federating with")}
             <LinkLive to={~p"/known_instances"} class="font-semibold text-base-content hover:underline">
-              {l("%{count} servers", count: known_instances_count)}</LinkLive>{#if blocked_instances_count > 0}
-              <span class="text-base-content/50">
-                ({l("%{count} blocked", count: blocked_instances_count)})</span>{/if}.
+              {l("%{count} known federated instances", count: known_instances_count)}</LinkLive>
+            {#if federation_details}
+              <span class="text-base-content/50">({federation_details})</span>
+            {/if}
           </p>
         {/if}
 

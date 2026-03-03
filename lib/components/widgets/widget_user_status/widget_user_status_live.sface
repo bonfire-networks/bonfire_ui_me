@@ -51,7 +51,7 @@
                 <#Icon iconify="ph:note-pencil-duotone" class="w-4 h-4 text-primary" />
                 {post_count}
               </span>
-              <span class="text-sm text-base-content/50">{l("activities")}</span>
+              <span class="text-sm text-base-content/50">{l("posts")}</span>
             </LinkLive>
             <LinkLive
               to={~p"/bookmarks"}
