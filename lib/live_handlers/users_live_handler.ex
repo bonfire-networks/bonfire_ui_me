@@ -61,7 +61,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
      socket
      |> assign_flash(
        :info,
-       l("Syncing with remote server. Content will gradually appear in the user feed..")
+       l("Syncing with remote server. Content will gradually appear in the feed.")
      )}
   end
 
