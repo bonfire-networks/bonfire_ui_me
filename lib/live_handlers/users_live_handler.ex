@@ -50,7 +50,9 @@ defmodule Bonfire.Me.Users.LiveHandler do
 
   def handle_event("fetch_outbox", _, socket) do
     ActivityPub.Federator.Fetcher.fetch_outbox([pointer: assigns(socket)[:user]],
+      mode: :async,
       fetch_collection: :async,
+      fetch_collection_entries: true,
       user_id: current_user_id(socket),
       triggered_by: "LiveHandler:fetch_outbox"
     )
