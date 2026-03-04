@@ -71,9 +71,11 @@ defmodule Bonfire.UI.Me.Routes do
         get "/settings/deleted/account/:id", DeletedController, :account
         get "/settings/deleted/user/:id", DeletedController, :user
         get "/settings/deleted/:type/:id", DeletedController, :other
+      end
 
-        # throttle the routes below
-        pipe_through(:throttle_forms)
+      # pages anyone can view, with throttling
+      scope "/", Bonfire.UI.Me do
+        pipe_through([:throttle_forms, :browser])
 
         resources("/login/forgot-password", ForgotPasswordController,
           only: [:index, :create],
@@ -96,7 +98,7 @@ defmodule Bonfire.UI.Me.Routes do
         # resources("/signup/email/confirm/:id", ConfirmEmailController, only: [:show])
       end
 
-      # pages only guests can view
+      # pages only guests can view, with throttling
       scope "/", Bonfire.UI.Me do
         pipe_through([:throttle_forms, :browser, :guest_only])
         # throttling POST to the routes below
@@ -184,9 +186,11 @@ defmodule Bonfire.UI.Me.Routes do
         # resources "/settings/account/delete", AccountDeleteController, only: [:index, :create]
 
         resources("/logout", LogoutController, only: [:index, :create])
+      end
 
-        # throttling POST to the routes below
-        pipe_through(:throttle_forms)
+      # pages that required an account, with throttling 
+      scope "/", Bonfire.UI.Me do
+        pipe_through([:throttle_forms, :browser])
 
         resources("/create-user", CreateUserController,
           only: [:index, :create],
