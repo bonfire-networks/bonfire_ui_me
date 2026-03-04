@@ -3,7 +3,7 @@
   <span>{l("Privacy & Safety")}</span>
 </div>
 
-<div class="divide-y divide-base-content/20">
+<div class="divide-y divide-base-content/10">
   <div
     x-data="{open: false}"
     class="p-4 cursor-pointer"
@@ -14,7 +14,7 @@
         <div class="text-sm font-medium">{l("Enable federation?")}</div>
       </div>
       <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-        <#Icon iconify="ph:caret-down-duotone" class="w-4 h-4 text-base-content/70" />
+        <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
       </button>
       <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
         <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
@@ -23,7 +23,7 @@
     <div x-show="open" x-cloak x-collapse class="pt-2">
       <form phx-change="Bonfire.Common.Settings:set">
         <input name="scope" value={@scope} type="hidden">
-        <div class="divide-y divide-base-content/20">
+        <div class="divide-y divide-base-content/10">
           <Bonfire.UI.Common.SettingsRadiosLive
             keys={[:activity_pub, :user_federating]}
             options={if ActivityPub.Config.federating?() == nil,
@@ -113,7 +113,7 @@
     scope={@scope}
     module={maybe_component(Bonfire.UI.Boundaries.DefaultBoundaryLive, @__context__)}
   /> --}
-  <div class="divide-y divide-base-content/20">
+  <div class="divide-y divide-base-content/10">
     <form class="p-4" data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
 
@@ -163,7 +163,7 @@
         </div>
         {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="ph:caret-down-duotone" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />

@@ -1,7 +1,7 @@
 <div class="grid mb-2 p-4 gap-3 mx-auto w-full">
   <div
     :for={%{id: id, ap_base_uri: ap_base_uri, display_hostname: display_hostname} <- @instances}
-    class="p-4 border rounded-lg border-base-content/20 bg-base-100"
+    class="p-4 border rounded-lg border-base-content/10 bg-base-100"
   >
     <div class="flex items-start gap-3">
       {!-- Globe Icon --}
