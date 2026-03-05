@@ -50,7 +50,9 @@ defmodule Bonfire.Me.Users.LiveHandler do
 
   def handle_event("fetch_outbox", _, socket) do
     ActivityPub.Federator.Fetcher.fetch_outbox([pointer: assigns(socket)[:user]],
+      mode: :async,
       fetch_collection: :async,
+      fetch_collection_entries: true,
       user_id: current_user_id(socket),
       triggered_by: "LiveHandler:fetch_outbox"
     )
@@ -59,7 +61,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
      socket
      |> assign_flash(
        :info,
-       l("Syncing with remote server. Content will gradually appear in the user feed..")
+       l("Syncing with remote server. Content will gradually appear in the feed.")
      )}
   end
 
