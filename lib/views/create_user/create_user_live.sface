@@ -1,7 +1,12 @@
 <div class="w-full mt-8" id="create_user">
   <div class="w-[90%] mx-auto">
     {!-- {#if length(@current_account_users || []) < @max_users_per_account} --}
-
+    <Bonfire.UI.Common.LogoLinkLive
+      with_name
+      image_class="w-12 h-12 aspect-square rounded-full bg-center bg-no-repeat bg-contain"
+      container_class="flex items-center mb-8 justify-center gap-4"
+      href="/"
+    />
     <Bonfire.UI.Me.CreateUserViewLive form={@form} error={@error} />
 
     {!-- {#else}

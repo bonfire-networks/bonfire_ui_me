@@ -66,8 +66,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
       list_users(current_user(socket), attrs, e(assigns(socket), :instance_id, nil))
 
     {:noreply,
-     socket
-     |> assign(
+     assign_generic(socket,
        loaded: true,
        users: e(assigns(socket), :users, []) ++ edges,
        page_info: page_info

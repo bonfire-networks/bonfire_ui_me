@@ -20,6 +20,24 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert [_] = Floki.find(form, "button[type='submit']")
   end
 
+  test "form renders when a user is already logged in" do
+    account = fake_account!()
+    user = fake_user!(account)
+    conn = conn(user: user, account: account)
+    conn = get(conn, "/create-user")
+    doc = floki_response(conn)
+    assert [form] = Floki.find(doc, "#create-user-form")
+    assert [_] = Floki.find(form, "#create-user-form_profile_0_name")
+    assert [_] = Floki.find(form, "#create-user-form_character_0_username")
+    assert [_] = Floki.find(form, "button[type='submit']")
+  end
+
+  test "redirects to login when not authenticated" do
+    conn = conn()
+    conn = get(conn, "/create-user")
+    assert redirected_to(conn) =~ "/login"
+  end
+
   describe "required fields" do
     test "missing all" do
       alice = fake_account!()

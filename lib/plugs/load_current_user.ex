@@ -24,14 +24,15 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
         Bonfire.UI.Me.Plugs.LoadCurrentAccount.call(conn, opts)
 
       current_user_id ->
-        assign(
-          conn,
-          :current_user,
+        user =
           LoadCurrentUser.get_current(
             current_user_id,
             Plug.Conn.get_session(conn, :current_account_id)
           )
-        )
+
+        conn
+        |> assign(:current_user, user)
+        |> assign(:current_account, e(user, :account, nil))
     end
   end
 end

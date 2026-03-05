@@ -9,10 +9,15 @@ defmodule Bonfire.UI.Me.CreateUserController do
     conn = fetch_query_params(conn)
     params = Map.take(conn.query_params, [:go, "go"])
 
-    paint(
-      conn,
-      Users.changeset(:create, params, current_account(conn.assigns))
-    )
+    case Users.changeset(:create, params, current_account(conn.assigns)) do
+      {:error, _reason} ->
+        conn
+        |> assign_flash(:error, l("You need to log in first."))
+        |> redirect(to: path(:login, :login))
+
+      changeset ->
+        paint(conn, changeset)
+    end
   end
 
   def create(conn, params) do
@@ -20,8 +25,18 @@ defmodule Bonfire.UI.Me.CreateUserController do
 
     form = Map.get(params, "user", %{})
 
-    changeset = Users.changeset(:create, form, current_account(conn.assigns))
+    case Users.changeset(:create, form, current_account(conn.assigns)) do
+      {:error, _reason} ->
+        conn
+        |> assign_flash(:error, l("You need to log in first."))
+        |> redirect(to: path(:login, :login))
 
+      changeset ->
+        create_from_changeset(conn, params, changeset)
+    end
+  end
+
+  defp create_from_changeset(conn, params, changeset) do
     case Users.create(changeset,
            context: conn.assigns,
            open_id_provider: Plug.Conn.get_session(conn, :open_id_provider),

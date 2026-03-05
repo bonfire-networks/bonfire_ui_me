@@ -188,9 +188,9 @@ defmodule Bonfire.UI.Me.Routes do
         resources("/logout", LogoutController, only: [:index, :create])
       end
 
-      # pages that required an account, with throttling 
+      # pages that required an account, with throttling
       scope "/", Bonfire.UI.Me do
-        pipe_through([:throttle_forms, :browser])
+        pipe_through([:throttle_forms, :browser, :account_required])
 
         resources("/create-user", CreateUserController,
           only: [:index, :create],
