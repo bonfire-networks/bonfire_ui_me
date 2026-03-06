@@ -76,6 +76,8 @@
         <Bonfire.UI.Me.SettingsViewsLive.InstanceNavigationLive selected_tab={@selected_tab} /> --}
     {#match "extensions"}
       <Bonfire.UI.Common.ExtensionsLive id="extensions" scope={:instance} />
+    {#match "safety"}
+      <Bonfire.UI.Me.SettingsViewsLive.SafetyLive selected_tab={@selected_tab} scope={:instance} />
     {#match "flags"}
       <StatefulComponent
         module={maybe_component(Bonfire.UI.Moderation.FlagsLive, @__context__)}

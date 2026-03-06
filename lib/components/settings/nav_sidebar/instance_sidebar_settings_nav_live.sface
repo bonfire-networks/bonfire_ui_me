@@ -217,6 +217,18 @@
         <span class="font-bold uppercase text-xs text-base-content">{l("Safety")}</span>
       </summary>
 
+      <li>
+        <LinkLive
+          to={~p"/settings/instance/safety"}
+          class={[
+            " ",
+            "bg-primary/20 text-primary ": @selected_tab == "safety"
+          ]}
+        >
+          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "safety"]}>{l("Safety settings")}</span>
+        </LinkLive>
+      </li>
+
       <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance) and
         extension_enabled?(:bonfire_ui_moderation, @__context__)}>
         <LinkPatchLive
