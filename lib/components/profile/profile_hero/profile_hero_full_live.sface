@@ -1,4 +1,4 @@
-<section data-id="profile_hero" class="relative">
+<section data-id="profile_hero" class="relative mt-2 my-3 rounded-2xl bg-base-100 outline shadow outline-base-content/10">
   <!-- Sticky Header -->
   <div>
     {!-- TODO: put this logic in `update` fn instead? --}
@@ -10,7 +10,7 @@
                 @character_type != :user} --}
             <div
               data-id="hero_background"
-              class="aspect-[4/3] w-full h-[180px] relative bg-base-100 border-b border-base-content/10 relative bg-center mt-0 bg-cover bg-no-repeat mb-3"
+              class="aspect-[4/3] w-full h-[180px] relative bg-base-100 border-b border-base-content/10 rounded-t-2xl relative bg-center mt-0 bg-cover bg-no-repeat mb-3"
               style={cond do
                 is_binary(color) -> "background-color: #{color}"
                 is_binary(banner_url) -> "background-image: url('#{URI.encode(banner_url)}')"
@@ -18,7 +18,7 @@
               end}
             >
               {!-- <Bonfire.UI.Common.BackButtonLive class="btn absolute left-3 top-3 btn-circle" /> --}
-              <button
+              <!-- <button
                 class="btn absolute left-3 top-3 btn-circle btn-sm"
                 onclick="history.length > 1 ? history.back() : window.location.href = '/'"
               ><#Icon iconify="ph:arrow-left" class="w-4 h-4" /></button>
@@ -37,7 +37,7 @@
                   permalink={e(@user, :character, :peered, :canonical_uri, nil) ||
                     URIs.canonical_url(@user, preload_if_needed: false)}
                 />
-              </div>
+              </div> -->
 
               <div class="absolute right-3 bottom-3 flex gap-2">
                 <div class="">
@@ -67,18 +67,20 @@
               <div class="w-full gap-2">
                 <div class="flex flex-col lg:items-start gap-2">
                   <div class="flex justify-between items-center w-full">
-                    {#if @character_type == :user and
-                        !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
+                    <div>
+                    {#if !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                       <Bonfire.UI.Common.AvatarLive
                         parent_id="profile-hero"
                         title={e(@user, :profile, :name, "Anon")}
-                        class="inline-block object-cover w-24 h-24 md:mx-0 rounded-full -mt-14"
+                        class={"inline-block object-cover w-24 h-24 md:mx-0 -mt-14 border-4 border-base-100",
+                          "rounded-xl": @character_type == :group,
+                          "rounded-full": @character_type != :group}
                         user_id={id(@user)}
                         fallback_class="w-24 h-24"
                         src={avatar_url}
                       />
-                      {!-- NOTE: removed border as it looks a bit strange when around smaller avatars, such as the generated animal ones: border-4 border-base-100 --}
                     {/if}
+                    </div>
 
                     <div class="flex items-center gap-3" data-id="profile_main_actions">
                       {#if current_user_id(@__context__) == id(@user)}
@@ -108,7 +110,7 @@
                         {#else}
                           {#case @character_type}
                             {#match :group}
-                              <div class="flex items-center flex-1 gap-2" data-role="follow_wrapper">
+                              <div class="flex items-center gap-2" data-role="follow_wrapper">
                                 <StatefulComponent
                                   module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
                                   :if={(not is_nil(e(@user, :character, nil)) and e(@boundary_preset, "open", nil)) ||
@@ -119,7 +121,7 @@
                                   follows_me={@follows_me}
                                   path={path(@user)}
                                   hide_icon
-                                  class="font-semibold !h-[34px] flex-1 btn-sm px-6 normal-case btn w-full btn-neutral"
+                                  class="btn btn-sm btn-neutral max-sm:touch-target focus-ring transition-interactive"
                                   verb={if e(@user, :type, nil) == :group,
                                     do: if(e(@boundary_preset, "open", nil), do: l("Join"), else: l("Request to join"))}
                                   verb_undo={l("Leave")}
@@ -129,11 +131,12 @@
                                   <:if_followed>
                                     <Bonfire.UI.Common.SmartInputButtonLive
                                       :if={current_user_id(@__context__)}
-                                      prompt={l("Post")}
+                                      prompt={l("Create post")}
+                                      without_icon
                                       smart_input_opts={%{
                                         context_id: id(@user),
                                         mentions: [id(@user)],
-                                        to_boundaries: set_clone_context(@boundary_preset || @user),
+                                        to_boundaries: set_clone_context({:clone_context, ed(@user, :profile, :name, nil) || ed(@user, :character, :username, l("Group"))}),
                                         to_circles: [
                                           %{
                                             (ed(@user, :profile, :name, nil) || ed(@user, :character, :username, l("someone"))) =>
@@ -141,8 +144,7 @@
                                           }
                                         ]
                                       }}
-                                      icon="mdi:pencil"
-                                      class="flex btn btn-sm flex-1 btn-primary w-full items-center gap-2 normal-case"
+                                      class="btn btn-sm btn-primary"
                                     />
                                   </:if_followed>
                                 </StatefulComponent>

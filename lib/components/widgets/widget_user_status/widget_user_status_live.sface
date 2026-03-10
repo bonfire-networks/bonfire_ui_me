@@ -16,7 +16,7 @@
         undiscoverable?: undiscoverable?,
         search_indexing_disabled?: search_indexing_disabled?
       }}
-      <Bonfire.UI.Common.WidgetBlockLive class="w-full flex-auto mx-auto rounded-xl border border-base-content/5 bg-base-content/5 overflow-hidden">
+      <Bonfire.UI.Common.WidgetBlockLive class="w-full flex-auto mx-auto rounded-2xl outline shadow outline-base-content/10 bg-base-100 overflow-hidden">
         <div class="flex flex-col gap-4 p-3">
           {!-- Header: greeting + join date + federation badge --}
           <div class="flex flex-col gap-1">

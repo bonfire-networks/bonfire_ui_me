@@ -152,7 +152,16 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       |> assign(
         character_type: :user,
         no_mobile_header: true,
-        is_local?: is_local?
+        is_local?: is_local?,
+        page_header_aside: [
+          {Bonfire.UI.Me.HeroMoreActionsLive,
+           [
+             character_type: :user,
+             user: user,
+             parent_id: "profile_header",
+             permalink: canonical_url(user, preload_if_needed: false)
+           ]}
+        ]
       )
 
       # |> assign_global(
@@ -231,7 +240,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       is_guest?: false,
       without_sidebar: false,
       without_secondary_widgets: false,
-      no_header: true,
+      # no_header: true,
       hide_tabs: false,
       smart_input: true,
       feed: nil,

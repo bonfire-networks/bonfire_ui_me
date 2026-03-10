@@ -30,9 +30,9 @@
         />
       </li>
 
-      <li class="m-1 border-t be-content/10" />
 
       {#if @character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
+      <li class="m-1 border-t be-content/10" />
         <li>
           <LinkPatchLive
             class="flex items-center justify-between gap-2 text-base-content"
@@ -97,7 +97,7 @@
         </li>
       {#else}
         {#if @character_type == :group}
-          <!-- <li
+          <li
             class="create_new_topic"
             module={Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
           >
@@ -106,10 +106,10 @@
               parent={@user}
               label={l("New topic")}
             />
-          </li> -->
+          </li>
           <li :if={current_user_id(@__context__)}>
             <LinkLive
-              to={path(@user, :settings)}
+              to={~p"/group/#{e(@user, :character, :username, nil)}/settings"}
               class="flex items-center gap-2 justify-between text-base-content"
             >
               <span class="text-sm font-medium">{l("Settings")}</span>

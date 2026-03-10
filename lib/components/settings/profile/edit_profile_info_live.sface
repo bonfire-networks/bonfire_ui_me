@@ -1,4 +1,4 @@
-<div class="p-8">
+<div class="p-4">
   <div class="">
     <StatefulComponent
       module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}

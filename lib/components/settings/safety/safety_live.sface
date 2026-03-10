@@ -237,5 +237,15 @@
         scope={@scope}
       />
     </form>
+
+    <div class="p-4">
+      <StatefulComponent
+        id="filter_keywords"
+        module={maybe_component(Bonfire.UI.Me.SettingsViewsLive.FilterKeywordsLive, @__context__)}
+        filter_keywords={Settings.get([:bonfire_boundaries, :filter_keywords], [],
+          context: @scoped, one_scope_only: true) |> List.wrap() |> Enum.filter(&is_binary/1)}
+        scope={@scope}
+      />
+    </div>
   </div>
 </div>
