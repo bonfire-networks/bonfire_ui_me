@@ -11,7 +11,7 @@
       admins: admins,
       instance_description: instance_description
     }}
-    <Bonfire.UI.Common.WidgetBlockLive class="w-full flex-auto mx-auto rounded-2xl outline shadow outline-base-content/10 bg-base-100 overflow-hidden">
+    <Bonfire.UI.Common.WidgetBlockLive class="w-full flex-auto mx-auto lg:rounded-2xl outline shadow outline-base-content/10 bg-base-100 overflow-hidden">
       {!-- Instance banner --}
       {#if instance_image}
         <div class="-mx-3 relative -mt-3 mb-3">
