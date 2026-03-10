@@ -2,7 +2,6 @@
   {#case @selected_tab}
     {#match "profile"}
       <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
-
         <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
           :if={current_user_id(@__context__)}
           selected_tab={@selected_tab}
@@ -10,7 +9,6 @@
       </div>
     {#match "preferences"}
       <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
-
         <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive
           selected_tab={@selected_tab}
           id={@id}

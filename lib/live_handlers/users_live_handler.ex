@@ -129,30 +129,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
   def disconnect_account_session(%{assigns: assigns} = conn) do
     disconnect_sockets(assigns)
 
-    renew_session(conn)
-  end
-
-  # This function renews the session ID and erases the whole
-  # session to avoid fixation attacks. If there is any data
-  # in the session you may want to preserve after log in/log out,
-  # you must explicitly fetch the session data before clearing
-  # and then immediately set it after clearing, for example:
-  #
-  #     defp renew_session(conn) do
-  #       preferred_locale = get_session(conn, :preferred_locale)
-  #
-  #       conn
-  #       |> configure_session(renew: true)
-  #       |> clear_session()
-  #       |> put_session(:preferred_locale, preferred_locale)
-  #     end
-  #
-  defp renew_session(conn) do
-    Phoenix.Controller.delete_csrf_token()
-
-    conn
-    |> Plug.Conn.configure_session(renew: true)
-    |> Plug.Conn.clear_session()
+    Bonfire.UI.Common.Web.renew_session(conn)
   end
 
   def disconnect_sockets(context) do
