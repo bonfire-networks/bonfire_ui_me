@@ -238,7 +238,7 @@
       />
     </form>
 
-    <div class="p-4">
+    <!-- <div class="p-4">
       <StatefulComponent
         id="filter_keywords"
         module={maybe_component(Bonfire.UI.Me.SettingsViewsLive.FilterKeywordsLive, @__context__)}
@@ -246,6 +246,6 @@
           context: @scoped, one_scope_only: true) |> List.wrap() |> Enum.filter(&is_binary/1)}
         scope={@scope}
       />
-    </div>
+    </div> -->
   </div>
 </div>
