@@ -1,14 +1,14 @@
 <section class="">
   {#case @selected_tab}
     {#match "profile"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
           :if={current_user_id(@__context__)}
           selected_tab={@selected_tab}
         />
       </div>
     {#match "preferences"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <Bonfire.UI.Me.SettingsViewsLive.PreferencesLive
           selected_tab={@selected_tab}
           id={@id}
@@ -16,7 +16,7 @@
         />
       </div>
     {#match "feeds"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Social.FeedsSettingsLive, @__context__)}
           selected_tab={@selected_tab}
@@ -25,11 +25,11 @@
         />
       </div>
     {#match "account"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} />
       </div>
     {#match "import"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <StatefulComponent
           module={maybe_component(Bonfire.UI.Social.ImportLive, @__context__)}
           selected_tab={@selected_tab}
@@ -37,7 +37,7 @@
         />
       </div>
     {#match "import_status"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <StatefulComponent
           module={maybe_component(Bonfire.UI.Social.BackgroundProcessingStatusLive, @__context__)}
           selected_tab="import"
@@ -46,14 +46,14 @@
         />
       </div>
     {#match "export"}
-      <div class="bg-base-100 mt-1 rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 mt-1 rounded-2xl shadow outline outline-base-content/10">
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Social.ExportLive, @__context__)}
           selected_tab={@selected_tab}
         />
       </div>
     {#match "federation_status"}
-      <div class="bg-base-100 mt-1 rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 mt-1 rounded-2xl shadow outline outline-base-content/10">
         <StatefulComponent
           module={maybe_component(Bonfire.UI.Social.BackgroundProcessingStatusLive, @__context__)}
           selected_tab="federation"
@@ -62,11 +62,11 @@
         />
       </div>
     {#match "extensions"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <Bonfire.UI.Common.ExtensionsLive id="extensions" scope={@scope} />
       </div>
     {#match "safety"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <Bonfire.UI.Me.SettingsViewsLive.SafetyLive selected_tab={@selected_tab} scope={@scope} />
       </div>
     {#match "flags"}
@@ -89,7 +89,7 @@
         selected_tab="ghosted"
       />
     {#match "blocks_import"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <StatefulComponent
           module={maybe_component(Bonfire.UI.Social.ImportLive, @__context__)}
           selected_tab={@selected_tab}
@@ -98,7 +98,7 @@
         />
       </div>
     {#match "shared_user"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive
           :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__)}
           current_user={current_user(@__context__) |> repo().maybe_preload(:shared_user)}
@@ -106,7 +106,7 @@
         />
       </div>
     {#match "crawler_boundaries"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <StatefulComponent
           module={maybe_component(Bonfire.UI.Common.CrawlerBoundaries.SettingsLive, @__context__)}
           id="crawler_boundaries"
@@ -115,11 +115,11 @@
         />
       </div>
     {#match "icons"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <Bonfire.UI.Common.SettingsViewsLive.IconsLive selected_tab={@selected_tab} />
       </div>
     {#match "emojis"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <StatefulComponent
           module={maybe_component(Bonfire.Files.Web.UploadEmojiLive, @__context__)}
           id="custom_emojis"
@@ -127,20 +127,20 @@
         />
       </div>
     {#match "code"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <Bonfire.UI.Common.ExtraDepsLive />
       </div>
     {#match "config_settings_registry"}
-      <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+      <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
         <Bonfire.UI.Common.ConfigSettingsRegistryLive id="config_settings_registry" scope={@scope} />
       </div>
     {#match nil}
       {#if @scope == :account}
-        <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+        <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
           <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} scope={@scope} />
         </div>
       {#else}
-        <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+        <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
           <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
             :if={current_user_id(@__context__)}
             selected_tab={@selected_tab}
@@ -152,11 +152,11 @@
       {#case maybe_to_atom!(@selected_tab)}
         {#match nil}
           {#if @scope == :account}
-            <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+            <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
               <Bonfire.UI.Me.SettingsViewsLive.EditAccountLive selected_tab={@selected_tab} scope={@scope} />
             </div>
           {#else}
-            <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+            <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
               <Bonfire.UI.Me.SettingsViewsLive.EditProfileLive
                 :if={current_user_id(@__context__)}
                 selected_tab={@selected_tab}
@@ -167,7 +167,7 @@
 
           <!-- <Bonfire.UI.Me.SettingsViewsLive.UserDashboardLive selected_tab={@selected_tab} /> -->
         {#match extension}
-          <div class="bg-base-100 mt-1 lg:rounded-2xl shadow outline outline-base-content/10">
+          <div class="bg-base-200 lg:bg-base-100 lg:rounded-2xl shadow outline outline-base-content/10">
             <Bonfire.UI.Me.ExtensionSettingsLive
               id="extension_settings"
               extension={extension}

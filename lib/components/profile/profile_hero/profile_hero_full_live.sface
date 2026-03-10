@@ -1,6 +1,6 @@
 <section
   data-id="profile_hero"
-  class="relative mt-2 my-3 lg:rounded-2xl bg-base-100 outline shadow outline-base-content/10"
+  class="relative mb-4 lg:rounded-2xl bg-base-200 lg:bg-base-100 outline shadow outline-base-content/10"
 >
   <!-- Sticky Header -->
   <div>
