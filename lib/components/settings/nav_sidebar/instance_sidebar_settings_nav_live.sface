@@ -16,7 +16,7 @@
           ]}
         >
           <span class={[
-            "text-sm text-base-content/80 font-normal",
+            "text-sm text-base-content font-normal",
             "text-primary ": @selected_tab == "configuration"
           ]}>{l("General Configuration")}</span>
         </LinkPatchLive>
@@ -30,7 +30,7 @@
             "bg-primary/20 ": @id == "behaviours"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @id == "behaviours"]}>{l("Default User Preferences")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @id == "behaviours"]}>{l("Default User Preferences")}</span>
         </LinkLive>
       </li>
 
@@ -62,7 +62,7 @@
             "bg-primary/20 font-bold text-primary": @selected_tab == "dashboard"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "dashboard"]}>{l("Dashboard")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "dashboard"]}>{l("Dashboard")}</span>
         </LinkPatchLive>
       </li>
 
@@ -74,7 +74,7 @@
             "bg-primary/20 font-bold text-primary": @selected_tab == "about"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "about"]}>{l("About")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "about"]}>{l("About")}</span>
         </LinkPatchLive>
       </li>
 
@@ -86,7 +86,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "terms"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "terms"]}>{l("Terms / Policies")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "terms"]}>{l("Terms / Policies")}</span>
         </LinkPatchLive>
       </li>
     </details>
@@ -107,7 +107,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "invites"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "invites"]}>{l("Invites")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "invites"]}>{l("Invites")}</span>
         </LinkPatchLive>
       </li>
 
@@ -119,7 +119,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "mods"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "mods"]}>{l("Instance Moderators")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "mods"]}>{l("Instance Moderators")}</span>
         </LinkLive>
       </li>
 
@@ -131,7 +131,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "admins"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "admins"]}>{l("Instance Admins")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "admins"]}>{l("Instance Admins")}</span>
         </LinkLive>
       </li>
 
@@ -144,7 +144,7 @@
           ]}
         >
           <span class={[
-            "text-sm text-base-content/80 font-normal",
+            "text-sm text-base-content font-normal",
             "text-primary ": @selected_tab == "suggested_profiles"
           ]}>{l("Suggested Profiles")}</span>
         </LinkLive>
@@ -158,7 +158,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "members"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "members"]}>{l("Instance members")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "members"]}>{l("Instance members")}</span>
         </LinkLive>
       </li>
       <li>
@@ -169,7 +169,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "remote_users"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "remote_users"]}>{l("Known remote users")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "remote_users"]}>{l("Known remote users")}</span>
         </LinkLive>
       </li>
       <li>
@@ -180,7 +180,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "remote_instances"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "remote_instances"]}>{l("Known remote instances")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "remote_instances"]}>{l("Known remote instances")}</span>
         </LinkLive>
       </li>
     </details>
@@ -200,7 +200,7 @@
             "bg-primary/20": @selected_tab == "extensions"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "extensions"]}>{l("Configure Extensions")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "extensions"]}>{l("Configure Extensions")}</span>
         </LinkLive>
       </li>
       <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
@@ -225,7 +225,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "safety"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "safety"]}>{l("Safety settings")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "safety"]}>{l("Safety settings")}</span>
         </LinkLive>
       </li>
 
@@ -238,7 +238,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "flags"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "flags"]}>{l("Flagged by users")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "flags"]}>{l("Flagged by users")}</span>
         </LinkPatchLive>
       </li>
 
@@ -250,7 +250,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "instance_blocked"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "instance_blocked"]}>{l("Blocked instance-wide")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "instance_blocked"]}>{l("Blocked instance-wide")}</span>
         </LinkLive>
       </li>
       <li>
@@ -261,7 +261,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "instance_ghosted"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "instance_ghosted"]}>{l("Ghosted instance-wide")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "instance_ghosted"]}>{l("Ghosted instance-wide")}</span>
         </LinkLive>
       </li>
       <li>
@@ -273,7 +273,7 @@
           ]}
         >
           <span class={[
-            "text-sm text-base-content/80 font-normal",
+            "text-sm text-base-content font-normal",
             "text-primary ": @selected_tab == "instance_silenced"
           ]}>{l("Silenced instance-wide")}</span>
         </LinkLive>
@@ -303,7 +303,7 @@
           ]}
         >
           <span class={[
-            "text-sm text-base-content/80 font-normal",
+            "text-sm text-base-content font-normal",
             "text-primary ": @selected_tab == "blocks_export"
           ]}>{l("Export block lists")}</span>
         </LinkLive>
@@ -430,7 +430,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "emojis"
           ]}
         >
-          <span class={["text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "emojis"]}>{l("Custom emoji")}</span>
+          <span class={["text-sm text-base-content font-normal", "text-primary ": @selected_tab == "emojis"]}>{l("Custom emoji")}</span>
         </LinkPatchLive>
       </li>
 
@@ -459,7 +459,7 @@
             "bg-primary/20 text-primary ": @selected_tab == "icons"
           ]}
         >
-          <span class={"text-sm text-base-content/80 font-normal", "text-primary ": @selected_tab == "icons"}>{l("Icons")}</span>
+          <span class={"text-sm text-base-content font-normal", "text-primary ": @selected_tab == "icons"}>{l("Icons")}</span>
         </LinkPatchLive>
       </li>
     </details>
