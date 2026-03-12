@@ -17,17 +17,18 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
         current_account_id: account_id
       )
 
-    {:ok, socket} =
-      with {:ok, socket} <-
-             Settings.get([Bonfire.Me.Users, :show_switch_users_inline], false,
-               current_user: user
-             ) &&
-               Bonfire.UI.Me.LivePlugs.LoadCurrentAccountUsers.mount(nil, %{}, socket) do
-        {:ok, socket}
-      else
-        _ ->
-          {:ok, socket}
-      end
+    # NOTE: disabled since we now show this in PersistentLive
+    # {:ok, socket} =
+    #   with {:ok, socket} <-
+    #          Settings.get([Bonfire.Me.Users, :show_switch_users_inline], false,
+    #            current_user: user
+    #          ) &&
+    #            Bonfire.UI.Me.LivePlugs.LoadCurrentAccountUsers.mount(nil, %{}, socket) do
+    #     {:ok, socket}
+    #   else
+    #     _ ->
+    #       {:ok, socket}
+    #   end
 
     with {:ok, socket} <-
            Bonfire.Common.Settings.get(

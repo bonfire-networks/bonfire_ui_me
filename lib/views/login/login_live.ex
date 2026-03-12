@@ -31,5 +31,6 @@ defmodule Bonfire.UI.Me.LoginLive do
     |> render()
   end
 
-  defp login_form(params), do: Accounts.changeset(:login, params)
+  defp login_form(params) when is_map(params), do: Accounts.changeset(:login, params) |> to_form()
+  defp login_form(_), do: login_form(%{})
 end

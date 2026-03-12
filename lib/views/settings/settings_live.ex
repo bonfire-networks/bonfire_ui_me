@@ -16,6 +16,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        page_title: l("Settings"),
        #  without_secondary_widgets: true,
        nav_items: Bonfire.UI.Me.SidebarSettingsNavLive.declared_nav() |> List.wrap(),
+       without_sidebar: :minimal,
        selected_tab: nil,
        id: nil,
        page: "settings",

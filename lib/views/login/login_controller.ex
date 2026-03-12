@@ -23,7 +23,7 @@ defmodule Bonfire.UI.Me.LoginController do
         warn(changeset, "Login attempt failed in #{Config.repo()}")
         paint(conn, changeset)
 
-      _other ->
+      _other when is_map(params) ->
         paint(conn, Accounts.changeset(:login, params))
     end
   end
@@ -86,7 +86,8 @@ defmodule Bonfire.UI.Me.LoginController do
     |> redirect_to_previous_go(form, "/", "/login")
   end
 
-  def form_cs(params \\ %{}), do: Accounts.changeset(:login, params)
+  def form_cs(params \\ %{})
+  def form_cs(params) when is_map(params), do: Accounts.changeset(:login, params)
 
   def paint(conn, changeset \\ form_cs()) do
     conn

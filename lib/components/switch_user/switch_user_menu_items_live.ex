@@ -13,14 +13,16 @@ defmodule Bonfire.UI.Me.SwitchUserMenuItemsLive do
         current_user: current_user(assigns)
       )
     end)
-    |> assign_new(:current_account_users, fn ->
-      e(assigns, :__context__, :current_account_users, [])
-      #   if assigns[:current_account] do
-      #     Users.by_account(assigns.current_account) |> filter_empty([])
-      #   else
-      #     []
-      #   end
-    end)
+    # |> assign_new(:current_account_users, fn ->
+    #   debug(assigns, "swassigns")
+    #   e(assigns, :__context__, :current_account_users, nil)
+    #   #   if assigns[:current_account] do
+    #   #     Users.by_account(assigns.current_account) |> filter_empty([])
+    #   #   else
+    #   #     []
+    #   #   end
+    # end)
+    # |> debug("set_assign")
     |> render_sface()
   end
 end

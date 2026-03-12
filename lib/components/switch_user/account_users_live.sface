@@ -5,7 +5,7 @@
         <div class="col-span-1 w-full indicator">
           <Bonfire.UI.Common.BadgeCounterLive
             parent_id="switch_user_notifications"
-            id={"notifications_#{user_id}"}
+            id={"unseen_count_#{e(user, :character, :notifications_id, nil)}"}
             feed_id={e(user, :character, :notifications_id, nil)}
             for_user={user}
             non_async
@@ -13,7 +13,7 @@
 
           <Bonfire.UI.Common.BadgeCounterLive
             parent_id="switch_user_notifications"
-            id={"messages_#{user_id}"}
+            id={"unseen_count_#{e(user, :character, :inbox_id, nil)}"}
             feed_id={e(user, :character, :inbox_id, nil)}
             for_user={user}
             non_async

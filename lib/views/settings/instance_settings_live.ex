@@ -11,6 +11,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
        page_title: l("Instance Settings"),
        #  without_secondary_widgets: true,
        nav_items: Bonfire.UI.Me.InstanceSidebarSettingsNavLive.declared_nav() |> List.wrap(),
+       without_sidebar: :minimal,
        selected_tab: "instance_dashboard",
        id: nil,
        page: "instance_settings",
