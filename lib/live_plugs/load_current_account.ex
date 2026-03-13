@@ -29,11 +29,13 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentAccount do
 
   def mount(_, %{"current_account_id" => account_id}, socket)
       when is_binary(account_id) do
+    flood("loading current_account")
     account = Accounts.get_current(account_id)
     {:ok, assign_global(socket, current_account: account, current_account_id: uid(account))}
   end
 
   def mount(_, _, socket) do
+    flood("no current_account")
     {:ok, assign_global(socket, current_account: nil, current_account_id: nil)}
   end
 end

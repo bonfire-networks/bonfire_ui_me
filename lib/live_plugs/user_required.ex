@@ -17,12 +17,16 @@ defmodule Bonfire.UI.Me.LivePlugs.UserRequired do
 
   @decorate time()
   def mount(_params \\ nil, session \\ nil, socket) do
-    check(current_user(socket), current_account(socket), session, socket)
+    check(current_user_or_id(socket) |> flood("ccuid"), current_account(socket), session, socket)
   end
 
   defp check(%User{}, _account, _, socket), do: {:ok, socket}
 
+  # NOTE: should we assume provided ID is a valid user? workaround was needed for disconnected mount
+  defp check(id, _account, _, socket) when is_binary(id), do: {:ok, socket}
+
   defp check(nil, _, session, socket) when is_map(session),
+    #  FIXME: does this risk a loop?
     do: Bonfire.UI.Me.LivePlugs.LoadCurrentUser.mount(session, socket) ~> mount()
 
   defp check(_, account, _, socket), do: no(account, socket)
