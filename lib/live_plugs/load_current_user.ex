@@ -77,7 +77,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   def mount(_, %{"current_user_id" => user_id} = session, socket) when is_binary(user_id) do
     account_id = current_account_id(assigns(socket)) || session["current_account_id"]
 
-    if socket_connected?(socket) || socket.assigns[:__loading_screen__] do
+    if socket_connected?(socket) || socket.assigns[:__loading_screen__] || Config.env() == :test do
       # Connected mount: full load
 
       user =
@@ -99,7 +99,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   defp maybe_assign_current_user(socket, user) do
-    if socket_connected?(socket) || socket.assigns[:__loading_screen__] do
+    if socket_connected?(socket) || socket.assigns[:__loading_screen__] || Config.env() == :test do
       assign_current_user(socket, user)
     else
       disconnected_mount(socket, Enums.id(user), current_account_id(user))
