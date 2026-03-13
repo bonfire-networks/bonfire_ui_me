@@ -50,7 +50,11 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
 
   def on_mount(:default, params, session, socket) do
     with {:ok, socket} <- mount(params, session, socket) do
-      {:cont, socket}
+      if socket.assigns[:__loading_screen__] do
+        {:cont, socket, layout: {Bonfire.UI.Common.LayoutView, :loading}}
+      else
+        {:cont, socket}
+      end
     end
   end
 
