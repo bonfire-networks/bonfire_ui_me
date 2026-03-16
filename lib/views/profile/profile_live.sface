@@ -1,4 +1,4 @@
-<main class="pt-safe" data-id="profile" data-user-id={e(@user, :id, "")} data-guest={@is_guest?}>
+<main class="" data-id="profile" data-user-id={e(@user, :id, "")} data-guest={@is_guest?}>
   {#case !@silenced_instance_wide? and !@silenced? and tab_component(@selected_tab)}
     {#match module when not is_nil(module) and not is_boolean(module)}
       <StatelessComponent module={module} {...assigns}>

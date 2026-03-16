@@ -1,7 +1,4 @@
-<section
-  data-id="profile_hero"
-  class="relative mb-4 lg:rounded-2xl bg-base-200 lg:bg-base-100 outline shadow outline-base-content/10"
->
+<section data-id="profile_hero" class="relative lg:mb-4 bonfire-wrapper mb-[1px]">
   <!-- Sticky Header -->
   <div>
     {!-- TODO: put this logic in `update` fn instead? --}
