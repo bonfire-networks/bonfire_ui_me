@@ -1,6 +1,6 @@
 {!-- <nav class="!-mx-2" role="navigation" aria-label={l("Settings navigation")}>
   <ul class="menu px-0 py-0"> --}
-{!-- <Bonfire.UI.Common.DesignSystem.button
+{!-- <.button
   variant="primary"
   full_width
   icon_left="ion:chevron-back"
@@ -8,7 +8,7 @@
   onclick="history.back()"
 >
   {l("Back")}
-</Bonfire.UI.Common.DesignSystem.button> --}
+</.button> --}
 <ul class="menu p-0 w-full">
   <li>
     <details open>

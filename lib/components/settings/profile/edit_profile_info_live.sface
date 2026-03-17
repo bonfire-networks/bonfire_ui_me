@@ -68,14 +68,9 @@
       </div>
 
       <div class="mt-4">
-        <Bonfire.UI.Common.DesignSystem.button
-          type="submit"
-          variant="soft"
-          full_width
-          loading_text={l("Saving...")}
-        >
+        <.button type="submit" variant="soft" full_width loading_text={l("Saving...")}>
           {l("Save")}
-        </Bonfire.UI.Common.DesignSystem.button>
+        </.button>
       </div>
     </form>
   </div>

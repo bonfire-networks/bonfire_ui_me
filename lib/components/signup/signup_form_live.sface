@@ -162,7 +162,7 @@
       {/case} --}
 
           <div class="mt-6">
-            <Bonfire.UI.Common.DesignSystem.button
+            <.button
               id="signup_submit"
               type="submit"
               variant="primary"
@@ -171,7 +171,7 @@
               data-role="signup_submit"
             >
               {l("Sign up")}
-            </Bonfire.UI.Common.DesignSystem.button>
+            </.button>
           </div>
 
           <div class="flex py-4 pb-2 mt-6 text-xs border-t border-base-content/10 place-content-center w-full">
