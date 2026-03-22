@@ -39,7 +39,9 @@
 
         {#if @open_id_provider}
           <p>
-            {l("Finish signing up with %{provider}", provider: elem(@open_id_provider, 0))}
+            {l("Please enter your email addres to finish signing up with %{provider}:",
+              provider: (elem(@open_id_provider, 0) || "") |> String.capitalize()
+            )}
           </p>
         {#else}
           <StatelessComponent
