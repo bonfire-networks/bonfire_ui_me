@@ -90,19 +90,9 @@
         <div class="flex flex-col divide-y divide-base-content/5 rounded-lg bg-base-200/30">
           <div class="py-1.5">
             <Bonfire.UI.Common.SettingsToggleLive
-              name={l("Instance Status")}
+              name={l("Instance & Account")}
               compact
               keys={[Bonfire.Web.Views.DashboardLive, :include, :instance_status]}
-              default_value
-              scope={@scope}
-            />
-          </div>
-
-          <div class="py-1.5">
-            <Bonfire.UI.Common.SettingsToggleLive
-              name={l("Your Account")}
-              compact
-              keys={[Bonfire.Web.Views.DashboardLive, :include, :user_status]}
               default_value
               scope={@scope}
             />

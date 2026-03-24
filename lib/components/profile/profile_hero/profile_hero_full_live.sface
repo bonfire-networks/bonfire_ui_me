@@ -1,3 +1,4 @@
+<div>
 <section data-id="profile_hero" class="relative lg:mb-4 bonfire-wrapper mb-[1px]">
   <!-- Sticky Header -->
   <div>
@@ -258,4 +259,25 @@
         {/case}
     {/case}
   </div>
+
+  {#if @character_type == :group and @subcategories != []}
+    <div class="flex items-center gap-2 border-t border-base-content/5 px-4 py-3 overflow-hidden">
+      <span class="text-xs text-base-content/40 flex-shrink-0">{l("Topics")}</span>
+      <div
+        id="profile-topics-carousel"
+        class="flex items-center gap-1.5 overflow-x-auto scroll-smooth snap-x snap-mandatory"
+        phx-hook="CarouselScroll"
+      >
+        {#for category <- @subcategories}
+          <LinkLive
+            to={~p"/+#{e(category, :character, :username, "")}"}
+            class="badge badge-soft badge-sm font-medium flex-shrink-0 snap-start whitespace-nowrap"
+          >
+            {e(category, :profile, :name, l("Untitled topic"))}
+          </LinkLive>
+        {/for}
+      </div>
+    </div>
+  {/if}
 </section>
+</div>

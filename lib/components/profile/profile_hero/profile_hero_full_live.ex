@@ -27,6 +27,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
 
   prop members, :any, default: nil
   prop moderators, :any, default: nil
+  prop subcategories, :list, default: []
 
   prop post_count, :any, default: nil
   prop followers_count, :any, default: nil

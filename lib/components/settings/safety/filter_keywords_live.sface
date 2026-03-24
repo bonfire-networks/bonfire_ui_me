@@ -39,7 +39,7 @@
               class="btn btn-xs btn-ghost btn-circle text-error/70 hover:text-error"
               aria-label={l("Remove keyword: %{keyword}", keyword: keyword)}
             >
-              <#Icon iconify="ph:x-duotone" class="size-3.5" />
+              <#Icon iconify="ph:x-duotone" class="size-4" />
             </button>
           </li>
         {/for}

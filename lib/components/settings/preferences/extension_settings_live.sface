@@ -63,7 +63,7 @@
           <!-- <div data-role="extension_settings"> -->
           <Bonfire.UI.Common.WidgetsLive
             widgets={extension_settings}
-            container_class="divide-y divide-base-content/10 bg-base-content/5 rounded-xl mx-3"
+            container_class="divide-y divide-base-content/10 bg-base-content/5 rounded-xl mx-3 mb-3"
             extra_data={scope: @scope}
             wrapper_class="px-6 py-4"
             with_title

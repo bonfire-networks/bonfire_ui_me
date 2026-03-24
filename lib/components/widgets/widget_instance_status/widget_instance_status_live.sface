@@ -14,90 +14,210 @@
     <Bonfire.UI.Common.WidgetBlockLive class="w-full flex-auto mx-auto bonfire-wrapper overflow-hidden">
       {!-- Instance banner --}
       {#if instance_image}
-        <div class="-mx-3 relative -mt-3 mb-3">
-          <img src={instance_image} alt={instance_name} class="w-full h-48 object-cover">
+        <div class="relative isolate">
+          <img src={instance_image} alt={instance_name} class="w-full h-32 object-cover">
 
-          {!-- Registration status --}
-          <div class="flex absolute top-6 left-5  badge badge-sm items-center gap-2">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+
+          {!-- Badges --}
+          <div class="absolute top-2.5 left-3 z-10 badge badge-sm flex items-center gap-1.5">
             {#if invite_only?}
-              <#Icon iconify="ph:lock-duotone" class="w-4 h-4" aria-hidden="true" />
+              <#Icon iconify="ph:lock-duotone" class="w-3.5 h-3.5" aria-hidden="true" />
               <span>{l("Invite-only")}</span>
             {#else}
-              <#Icon
-                iconify="ph:lock-simple-open-duotone"
-                class="w-4 h-4 inline text-success"
-                aria-hidden="true"
-              />
+              <#Icon iconify="ph:lock-simple-open-duotone" class="w-3.5 h-3.5 inline text-success" aria-hidden="true" />
               <span>{l("Open Registration")}</span>
             {/if}
           </div>
-
-          {!-- Federation --}
-          <div class="flex absolute top-6 right-6  badge badge-sm items-center gap-2">
+          <div class="absolute top-2.5 right-3 z-10 badge badge-sm flex items-center gap-1.5">
             {#if federation_enabled?}
-              <span class="inline-block w-2 h-2 rounded-full bg-success animate-pulse" />
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
               <span>{l("Federated")}</span>
             {#else}
-              <span class="inline-block w-2 h-2 rounded-full bg-base-content/20" />
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-base-content/20" />
               <span class="text-base-content/50">{l("Local")}</span>
             {/if}
           </div>
 
-          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          <div class="absolute bottom-2 left-2 text-white px-4 py-1">
-            <div class="text-lg font-bold">{l("Welcome back to %{name}", name: instance_name)}</div>
-            {!-- Community stats --}
-            <div class="text-sm">
-              {l("A home for %{count} people", count: user_count)}
-              <span>
-                {#if online_count > 0}
-                  {l(" - %{online} online right now.", online: online_count)}
-                {/if}
-              </span>
+          <div class="absolute bottom-2 left-3 right-3 z-10 text-white">
+            {#if current_user_id(@__context__)}
+              <div class="text-base font-bold leading-tight">{l("Welcome back, %{name}", name: e(current_user(@__context__), :profile, :name, nil) || e(current_user(@__context__), :character, :username, ""))}</div>
+            {#else}
+              <div class="text-base font-bold leading-tight">{l("Welcome to %{name}", name: instance_name)}</div>
+            {/if}
+            <div class="text-xs text-white/70 mt-0.5">
+              {instance_name} · {l("%{count} people", count: user_count)}
+              {#if online_count > 0}
+                <span> · {l("%{online} online", online: online_count)}</span>
+              {/if}
             </div>
           </div>
         </div>
       {/if}
 
-      <div class="flex flex-col gap-3 text-sm text-base-content/80 px-3 pb-3">
-        {#if federation_enabled? && known_instances_count > 0}
-          <p class="text-sm">
-            <LinkLive to={~p"/known_instances"} class="font-semibold text-base-content hover:underline">
-              {l("%{count} known federated instances", count: known_instances_count)}</LinkLive>
-            {#if federation_details}
-              <span class="text-base-content/50">({federation_details})</span>
-            {/if}
-          </p>
-        {/if}
+      {!-- User section (logged-in only) --}
+      {#if current_user_id(@__context__)}
+        {#case Bonfire.UI.Me.WidgetUserStatusLive.load(current_user(@__context__))}
+          {#match %{
+              user_name: user_name,
+              username: username,
+              join_date_formatted: join_date_formatted,
+              post_count: post_count,
+              bookmark_count: bookmark_count,
+              followers_count: followers_count,
+              following_count: following_count,
+              user_federating?: user_federating?,
+              undiscoverable?: undiscoverable?,
+              search_indexing_disabled?: search_indexing_disabled?
+            }}
 
-        {!-- Admins --}
-        {#if admins != []}
-          <div class="mt-1">
-            <div class="text-xs font-semibold uppercase tracking-wider text-base-content/50 mb-2">{l("Admins")}</div>
-            <div class="flex flex-col gap-2">
-              {#for admin <- admins}
-                <StatelessComponent
-                  module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
-                  show_controls={[]}
-                  with_popover
-                  parent_id="widget_instance_status"
-                  character={e(admin, :character, nil)}
-                  profile={e(admin, :profile, nil)}
-                  class="btn btn-ghost btn-sm"
-                  avatar_class="w-10 h-10 rounded-full"
-                />
-              {/for}
+            {!-- Your account section — tinted background to distinguish from instance data --}
+            <div class="bg-base-content/[0.03]">
+              <div class="px-4 pt-3 pb-1">
+                {#if join_date_formatted}
+                  <div class="text-xs text-base-content/40 mb-2">{l("Member since %{date}", date: join_date_formatted)}</div>
+                {/if}
+
+                {!-- Stats row --}
+                <div class="flex items-center justify-between mt-3">
+                  <LinkLive
+                    to={~p"/@#{username}"}
+                    title={l("Posts")}
+                    class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 hover:bg-base-content/5 transition-colors"
+                  >
+                    <#Icon iconify="ph:note-pencil-duotone" class="size-4 text-base-content/40" aria-hidden="true" />
+                    <span class="text-sm font-bold text-base-content tabular-nums" style="font-variant-numeric: tabular-nums">{post_count}</span>
+                  </LinkLive>
+                  <LinkLive
+                    to={~p"/bookmarks"}
+                    title={l("Bookmarks")}
+                    class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 hover:bg-base-content/5 transition-colors"
+                  >
+                    <#Icon iconify="ph:bookmark-duotone" class="size-4 text-base-content/40" aria-hidden="true" />
+                    <span class="text-sm font-bold text-base-content tabular-nums" style="font-variant-numeric: tabular-nums">{bookmark_count}</span>
+                  </LinkLive>
+                  <LinkLive
+                    to={~p"/@#{username}/followers"}
+                    title={l("Followers")}
+                    class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 hover:bg-base-content/5 transition-colors"
+                  >
+                    <#Icon iconify="ph:users-duotone" class="size-4 text-base-content/40" aria-hidden="true" />
+                    <span class="text-sm font-bold text-base-content tabular-nums" style="font-variant-numeric: tabular-nums">{followers_count}</span>
+                  </LinkLive>
+                  <LinkLive
+                    to={~p"/@#{username}/followed"}
+                    title={l("Following")}
+                    class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 hover:bg-base-content/5 transition-colors"
+                  >
+                    <#Icon iconify="ph:user-plus-duotone" class="size-4 text-base-content/40" aria-hidden="true" />
+                    <span class="text-sm font-bold text-base-content tabular-nums" style="font-variant-numeric: tabular-nums">{following_count}</span>
+                  </LinkLive>
+                </div>
+              </div>
+
+              {!-- Privacy indicators --}
+              <div class="px-4 py-3">
+                <LinkLive
+                  to={~p"/settings/user/safety"}
+                  class="flex items-center gap-3 text-xs text-base-content/50 hover:text-base-content/70 transition-colors"
+                >
+                  {#if undiscoverable?}
+                    <span class="flex items-center gap-1" title={l("Profile is hidden")}>
+                      <#Icon iconify="ph:eye-slash-duotone" class="w-3.5 h-3.5 shrink-0" />
+                      <span>{l("Hidden")}</span>
+                    </span>
+                  {#else}
+                    <span class="flex items-center gap-1" title={l("Profile is discoverable")}>
+                      <#Icon iconify="ph:eye-duotone" class="w-3.5 h-3.5 shrink-0" />
+                      <span>{l("Discoverable")}</span>
+                    </span>
+                  {/if}
+                  <span class="text-base-content/15">·</span>
+                  {#if search_indexing_disabled?}
+                    <span class="flex items-center gap-1" title={l("Search indexing is off")}>
+                      <#Icon iconify="ph:magnifying-glass-minus-duotone" class="w-3.5 h-3.5 shrink-0" />
+                      <span>{l("Not indexed")}</span>
+                    </span>
+                  {#else}
+                    <span class="flex items-center gap-1" title={l("Content is search-indexed")}>
+                      <#Icon iconify="ph:magnifying-glass-duotone" class="w-3.5 h-3.5 shrink-0" />
+                      <span>{l("Indexed")}</span>
+                    </span>
+                  {/if}
+                </LinkLive>
+              </div>
             </div>
-          </div>
-        {/if}
 
-        {!-- Instance description --}
-        <!-- {#if instance_description}
-          <p class="italic text-base-content/50 text-xs mt-1">
-            "{instance_description}"
-          </p>
-        {/if} -->
-      </div>
+            {!-- Instance details --}
+            <div class="flex flex-col gap-2.5 px-4 py-3">
+              {#if federation_enabled? && known_instances_count > 0}
+                <p class="text-xs text-base-content/60">
+                  <LinkLive to={~p"/known_instances"} class="font-medium text-base-content/80 hover:text-base-content hover:underline transition-colors">
+                    {l("%{count} known federated instances", count: known_instances_count)}</LinkLive>
+                  {#if federation_details}
+                    <span class="text-base-content/40"> · {federation_details}</span>
+                  {/if}
+                </p>
+              {/if}
+
+              {!-- Admins --}
+              {#if admins != []}
+                <div>
+                  <div class="text-[11px] font-medium uppercase tracking-wider text-base-content/40 mb-1.5">{l("Admins")}</div>
+                  <div class="flex flex-col gap-1.5">
+                    {#for admin <- admins}
+                      <StatelessComponent
+                        module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
+                        show_controls={[]}
+                        with_popover
+                        parent_id="widget_instance_status"
+                        character={e(admin, :character, nil)}
+                        profile={e(admin, :profile, nil)}
+                        class="btn btn-ghost btn-sm"
+                        avatar_class="w-7 h-7 rounded-full"
+                      />
+                    {/for}
+                  </div>
+                </div>
+              {/if}
+            </div>
+
+          {#match _}
+        {/case}
+      {#else}
+        {!-- Guest view: just instance details --}
+        <div class="flex flex-col gap-2.5 px-4 py-3">
+          {#if federation_enabled? && known_instances_count > 0}
+            <p class="text-xs text-base-content/60">
+              <LinkLive to={~p"/known_instances"} class="font-medium text-base-content/80 hover:text-base-content hover:underline transition-colors">
+                {l("%{count} known federated instances", count: known_instances_count)}</LinkLive>
+              {#if federation_details}
+                <span class="text-base-content/40"> · {federation_details}</span>
+              {/if}
+            </p>
+          {/if}
+
+          {#if admins != []}
+            <div>
+              <div class="text-[11px] font-medium uppercase tracking-wider text-base-content/40 mb-1.5">{l("Admins")}</div>
+              <div class="flex flex-col gap-1.5">
+                {#for admin <- admins}
+                  <StatelessComponent
+                    module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
+                    show_controls={[]}
+                    with_popover
+                    parent_id="widget_instance_status"
+                    character={e(admin, :character, nil)}
+                    profile={e(admin, :profile, nil)}
+                    class="btn btn-ghost btn-sm"
+                    avatar_class="w-7 h-7 rounded-full"
+                  />
+                {/for}
+              </div>
+            </div>
+          {/if}
+        </div>
+      {/if}
     </Bonfire.UI.Common.WidgetBlockLive>
   {#match _}
     <Bonfire.UI.Common.WidgetBlockLive widget_title={l("Your Instance")}>
