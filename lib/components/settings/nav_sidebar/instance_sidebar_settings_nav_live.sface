@@ -9,7 +9,10 @@
         <li>
           <LinkPatchLive
             to={~p"/settings/instance/configuration"}
-            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "configuration" or @selected_tab in [nil, "instance_settings"]]}
+            class={[
+              "gap-3 py-1",
+              "bg-primary/10": @selected_tab == "configuration" or @selected_tab in [nil, "instance_settings"]
+            ]}
           >
             <div class="w-8 h-8 flex items-center place-content-center">
               <#Icon iconify="ph:gear-six-duotone" class="w-5 h-5 text-primary" />
