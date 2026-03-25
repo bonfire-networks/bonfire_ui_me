@@ -1,348 +1,320 @@
-{!-- <nav class="!-mx-2" role="navigation" aria-label={l("Settings navigation")}>
-  <ul class="menu px-0 py-0"> --}
-{!-- <.button
-  variant="primary"
-  full_width
-  icon_left="ion:chevron-back"
-  class="z-50"
-  onclick="history.back()"
->
-  {l("Back")}
-</.button> --}
-<ul class="menu p-0 w-full">
-  <li>
-    <details open>
-      <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content">{l("General")}</span>
-      </summary>
+<div>
+  <ul class="menu relative p-0 w-full mt-2">
+    <li class="w-full">
+      <details open class="w-full overflow-hidden">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+          <span>{l("General")}</span>
+        </summary>
 
-      <li>
-        <LinkLive
-          to={~p"/settings/user/profile"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "profile"
-          }
-        >
-          <span class="">{l("Profile")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/settings/account"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "account"
-          }
-        >
-          <span class="">{l("Account")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/settings/user/preferences/behaviours"}
-          class={
-            " ",
-            "bg-primary/10 ": @id == "behaviours"
-          }
-        >
-          <span class="">{l("Preferences")}</span>
-        </LinkLive>
-      </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/profile"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "profile" or @selected_tab in [nil, "settings"]]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:user-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Profile")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/account"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "account"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:key-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Account")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/preferences/behaviours"}
+            class={["gap-3 py-1", "bg-primary/10": @id == "behaviours"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:sliders-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Preferences")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/feeds"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "feeds"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:rss-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Feed presets")}</span>
+          </LinkPatchLive>
+        </li>
+        <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__)}>
+          <LinkLive
+            to={~p"/settings/user/shared_user"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "shared_user"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:users-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Team Profiles")}</span>
+          </LinkLive>
+        </li>
+      </details>
+    </li>
 
-      <li>
-        <LinkPatchLive
-          to={~p"/settings/user/feeds"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "feeds"
-          }
-        >
-          <span class="">{l("Feed presets")}</span>
-        </LinkPatchLive>
-      </li>
+    <li class="w-full">
+      <details open class="w-full overflow-hidden">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+          <span>{l("Safety")}</span>
+        </summary>
 
-      <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__)}>
-        <LinkLive
-          to={~p"/settings/user/shared_user"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "shared_user"
-          }
-        >
-          <span class="">{l("Team Profiles")}</span>
-        </LinkLive>
-      </li>
-    </details>
-  </li>
+        <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
+          <LinkLive
+            to={~p"/settings/user/safety"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "safety"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:shield-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("My Safety Settings")}</span>
+          </LinkLive>
+        </li>
+        <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
+          <LinkLive
+            to={~p"/settings/user/flags"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "flags"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:flag-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("My Flags")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/blocked"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "blocked"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:prohibit-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Blocked")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/ghosted"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "ghosted"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:ghost-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Ghosted")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/silenced"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "silenced"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:speaker-simple-slash-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Silenced")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/blocks_import"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "blocks_import"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:tray-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Import block lists")}</span>
+          </LinkLive>
+        </li>
+      </details>
+    </li>
 
-  <li class="">
-    <details open>
-      <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content">{l("Safety")}</span>
-      </summary>
+    <li class="w-full">
+      <details open class="w-full overflow-hidden">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+          <span>{l("Extensions")}</span>
+        </summary>
 
-      <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
-        <LinkLive
-          to={~p"/settings/user/safety"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "safety"
-          }
-        >
-          <span class="">{l("My Safety Settings")}</span>
-        </LinkLive>
-      </li>
-      <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
-        <LinkLive
-          to={~p"/settings/user/flags"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "flags"
-          }
-        >
-          <span class="">{l("My Flags")}</span>
-        </LinkLive>
-      </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/extensions"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "extensions"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:toggle-right-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Configure Extensions")}</span>
+          </LinkLive>
+        </li>
+        <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
+          selected_tab={@selected_tab}
+          id={@id}
+          scope={:user}
+        />
+      </details>
+    </li>
 
-      <li>
-        <LinkLive
-          to={~p"/boundaries/blocked"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "blocked"
-          }
-        >
-          <div class="flex flex-col">
-            <span class="">{l("Blocked")}</span>
-          </div>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/ghosted"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "ghosted"
-          }
-        >
-          <div class="flex flex-col">
-            <span class="">{l("Ghosted")}</span>
-          </div>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/silenced"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "silenced"
-          }
-        >
-          <span class="">{l("Silenced")}</span>
-        </LinkLive>
-      </li>
+    <li class="w-full">
+      <details open class="w-full overflow-hidden">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+          <span>{l("Boundaries")}</span>
+        </summary>
 
-      <li>
-        <LinkLive
-          to={~p"/settings/user/blocks_import"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "blocks_import"
-          }
-        >
-          <span class={
-            "",
-            "bg-primary/10": @selected_tab == "blocks_import"
-          }>{l("Import block lists")}</span>
-        </LinkLive>
-      </li>
-    </details>
-  </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/circles"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "circles"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:circle-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Circles")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/acls"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "acls"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:lock-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Boundary presets")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/roles"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "roles"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:users-three-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Roles")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/boundaries/default_roles"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "default_roles"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:shield-check-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Instance-wide roles")}</span>
+          </LinkLive>
+        </li>
+      </details>
+    </li>
 
-  <li class="">
-    <details open>
-      <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content">{l("Extensions")}</span>
-      </summary>
+    <li class="w-full">
+      <details open class="w-full overflow-hidden">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+          <span>{l("Migration")}</span>
+        </summary>
 
-      <li>
-        <LinkLive
-          to={~p"/settings/user/extensions"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "extensions"
-          }
-        >
-          <span class="">{l("Configure Extensions")}</span>
-        </LinkLive>
-      </li>
-      <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
-        selected_tab={@selected_tab}
-        id={@id}
-        scope={:user}
-      />
-    </details>
-  </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/export"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "export"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:arrow-square-out-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Export")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkLive
+            to={~p"/settings/user/import"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "import"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:download-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Import")}</span>
+          </LinkLive>
+        </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/import_status"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "import_status"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:clock-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Import status")}</span>
+          </LinkPatchLive>
+        </li>
+      </details>
+    </li>
 
-  <li class="">
-    <details open>
-      <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content">{l("Boundaries")}</span>
-      </summary>
+    <li class="w-full">
+      <details open class="w-full overflow-hidden">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+          <span>{l("Advanced")}</span>
+        </summary>
 
-      <li>
-        <LinkLive
-          to={~p"/boundaries/circles"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "circles"
-          }
-        >
-          <div class="flex flex-col">
-            <span class="">{l("Circles")}</span>
-          </div>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/acls"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "acls"
-          }
-        >
-          <span class="">{l("Boundary presets")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/roles"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "roles"
-          }
-        >
-          <span class="">{l("Roles")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkLive
-          to={~p"/boundaries/default_roles"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "default_roles"
-          }
-        >
-          <span class="">{l("Instance-wide roles")}</span>
-        </LinkLive>
-      </li>
-    </details>
-  </li>
-
-  <li class="">
-    <details open>
-      <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content">{l("Migration")}</span>
-      </summary>
-
-      <li>
-        <LinkLive
-          to={~p"/settings/user/export"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "export"
-          }
-        >
-          <span class="">{l("Export")}</span>
-        </LinkLive>
-      </li>
-
-      <li>
-        <LinkLive
-          to={~p"/settings/user/import"}
-          class={
-            " ",
-            "bg-primary/10 ": @selected_tab == "import"
-          }
-        >
-          <span class="">{l("Import")}</span>
-        </LinkLive>
-      </li>
-      <li>
-        <LinkPatchLive
-          to={~p"/settings/user/import_status"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "import_status"
-          }
-        >
-          <span class="">{l("Import status")}</span>
-        </LinkPatchLive>
-      </li>
-    </details>
-  </li>
-
-  <li class="">
-    <details open>
-      <summary class="group mt-2">
-        <span class="font-bold uppercase text-xs text-base-content">{l("Advanced")}</span>
-      </summary>
-
-      <li :if={Bonfire.Federate.ActivityPub.federating?(current_user(@__context__))}>
-        <LinkPatchLive
-          to={~p"/settings/user/federation_status"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "federation_status"
-          }
-        >
-          <span class="">{l("Federation status")}</span>
-        </LinkPatchLive>
-      </li>
-
-      <li>
-        <LinkPatchLive
-          to={~p"/settings/user/emojis"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "emojis"
-          }
-        >
-          <span class="">{l("Custom emoji")}</span>
-        </LinkPatchLive>
-      </li>
-
-      <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) &&
-        Settings.get(:experimental_features_enabled, false,
-          context: @__context__,
-          name: l("Experimental Features"),
-          description: l("Enable experimental and in-development features.")
-        )}>
-        <LinkPatchLive
-          to={~p"/settings/user/config_settings_registry"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "config_settings_registry"
-          }
-        >
-          <span class="">{l("Extra settings")}</span>
-        </LinkPatchLive>
-      </li>
-
-      <li>
-        <LinkPatchLive
-          to={~p"/settings/user/code"}
-          class={
-            " ",
-            "bg-primary/10": @selected_tab == "code"
-          }
-        >
-          <span class="">{l("Libraries & Licences")}</span>
-        </LinkPatchLive>
-      </li>
-    </details>
-  </li>
-</ul>
-{!-- </ul>
-</nav> --}
+        <li :if={Bonfire.Federate.ActivityPub.federating?(current_user(@__context__))}>
+          <LinkPatchLive
+            to={~p"/settings/user/federation_status"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "federation_status"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:globe-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Federation status")}</span>
+          </LinkPatchLive>
+        </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/emojis"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "emojis"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:smiley-wink-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Custom emoji")}</span>
+          </LinkPatchLive>
+        </li>
+        <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) &&
+          Settings.get(:experimental_features_enabled, false,
+            context: @__context__,
+            name: l("Experimental Features"),
+            description: l("Enable experimental and in-development features.")
+          )}>
+          <LinkPatchLive
+            to={~p"/settings/user/config_settings_registry"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "config_settings_registry"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:gear-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Extra settings")}</span>
+          </LinkPatchLive>
+        </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/code"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "code"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:book-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Libraries & Licences")}</span>
+          </LinkPatchLive>
+        </li>
+      </details>
+    </li>
+  </ul>
+</div>

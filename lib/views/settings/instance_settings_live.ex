@@ -12,6 +12,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
        #  without_secondary_widgets: true,
        nav_items: Bonfire.UI.Me.InstanceSidebarSettingsNavLive.declared_nav() |> List.wrap(),
        without_sidebar: :minimal,
+       back: true,
        selected_tab: "instance_dashboard",
        id: nil,
        page: "instance_settings",
