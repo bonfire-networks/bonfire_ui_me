@@ -1,6 +1,13 @@
 <div data-id={"hero_more_actions-#{@parent_id}"} class="flex items-center gap-3">
   <div aria-haspopup="true" class="dropdown dropdown-end">
-    <label tabindex="0" class="btn btn-sm btn-circle">
+    <label
+      tabindex="0"
+      role="button"
+      aria-haspopup="true"
+      aria-expanded="true"
+      aria-label={l("More actions")}
+      class="btn btn-sm btn-circle"
+    >
       <#Icon iconify="ph:dots-three-vertical-duotone" class="w-4 h-4" />
     </label>
     <ul
@@ -31,7 +38,7 @@
       </li>
 
       {#if @character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
-        <li class="m-1 border-t be-content/10" />
+        <li class="m-1 border-t border-base-content/10" />
         <li>
           <LinkPatchLive
             class="flex items-center justify-between gap-2 text-base-content"
@@ -51,7 +58,6 @@
             class="flex items-center justify-between gap-2 text-base-content"
             to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
           >
-            <!-- <#Icon iconify="fe:users" class="w-5 h-5 shrink-0 text-base-content/90" /> -->
             <span class="text-sm font-medium">
               {l("Followers")}
               <span :if={e(@user, :followers_count, nil)} class="text-sm font-medium">
@@ -73,7 +79,6 @@
 
         <li>
           <LinkLive to="/notifications" class="flex items-center gap-2 justify-between text-base-content">
-            <!-- <#Icon iconify="carbon:notification-filled" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
             <span class="text-sm font-medium">{l("Notifications")}</span>
             <#Icon iconify="ph:bell-duotone" class="w-5 h-5 shrink-0" />
           </LinkLive>
@@ -81,15 +86,12 @@
 
         <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
           <LinkLive to="/messages" class="flex items-center gap-2 justify-between text-base-content">
-            <!-- <#Icon iconify="mingcute:inbox-2-fill" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
             <span class="text-sm font-medium">{l("Messages")}</span>
             <#Icon iconify="ph:tray-duotone" class="w-5 h-5 shrink-0" />
           </LinkLive>
         </li>
         <li>
           <LinkLive to={~p"/logout"} class="flex items-center gap-2 justify-between">
-            <!-- <#Icon iconify="uil:exit" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
-
             <span class="text-sm font-medium">{l("Logout")}</span>
             <#Icon iconify="ph:sign-out-duotone" class="w-5 h-5 shrink-0" />
           </LinkLive>
@@ -137,22 +139,10 @@
               href={"/remote_interaction?type=message&name=#{l("this user")}&url=#{@permalink || URIs.canonical_url(@user)}"}
               class="flex items-center justify-between text-base-content"
             >
-              <!-- <#Icon iconify="carbon:email" class="w-4 h-4 shrink-0 text-base-content/90" /> -->
               <span class="truncate ellipsis">{l("Send a message")}</span>
             </a>
           {/if}
         </li>
-
-        <!-- {#if @character_type == :user and current_user_id(@__context__)}
-          <li>
-            <StatelessComponent
-              :if={current_user(@__context__)}
-              module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
-              user_id={id(@user)}
-              parent_id="profile_hero"
-            />
-          </li>
-        {/if} -->
 
         <li class="">
           <StatelessComponent
@@ -195,14 +185,15 @@
           {/if}
         {#else}
           <li>
-            <div
+            <button
+              type="button"
               phx-click="Bonfire.Me.Users:fetch_outbox"
               phx-value-canonical_uri={@permalink}
               class="flex items-center gap-2 justify-between text-base-content"
             >
               <span class="text-sm font-medium">{l("Get latest activities")}</span>
               <#Icon iconify="ph:sort-ascending-duotone" class="w-5 h-5 shrink-0" />
-            </div>
+            </button>
           </li>
           <li>
             <a

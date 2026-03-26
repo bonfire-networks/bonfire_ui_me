@@ -6,7 +6,6 @@
     do: "me",
     else: "nofollow"}
 >
-  <!-- {inspect(@metadata, pretty: true)} -->
   <div class="flex items-center gap-3">
     {#if @icon}
       <Iconify.iconify icon={@icon} class="w-5 h-5 text-base-content/70" />
@@ -15,6 +14,7 @@
         {#match image when is_binary(image)}
           <img
             src={image}
+            alt=""
             class="w-4 h-4"
             onerror="this.classList.add('iconify'); this.setAttribute('iconify','carbon:link')"
           />

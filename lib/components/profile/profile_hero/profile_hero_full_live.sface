@@ -1,5 +1,9 @@
 <div>
-  <section data-id="profile_hero" class="relative lg:mb-4 bonfire-wrapper mb-[1px]">
+  <section
+    data-id="profile_hero"
+    aria-label={l("Profile")}
+    class="relative lg:mb-4 bonfire-wrapper mb-[1px]"
+  >
     <!-- Sticky Header -->
     <div>
       {!-- TODO: put this logic in `update` fn instead? --}
@@ -11,56 +15,32 @@
                 @character_type != :user} --}
               <div
                 data-id="hero_background"
-                class="aspect-[4/3] w-full h-[180px] relative bg-base-100 border-b border-base-content/10 lg:rounded-t-2xl relative bg-center mt-0 bg-cover bg-no-repeat mb-3"
+                role="img"
+                aria-label={l("Profile banner")}
+                class="w-full h-[140px] sm:h-[180px] lg:h-[220px] relative bg-base-100 border-b border-base-content/10 lg:rounded-t-2xl bg-center mt-0 bg-cover bg-no-repeat mb-2"
                 style={cond do
                   is_binary(color) -> "background-color: #{color}"
                   is_binary(banner_url) -> "background-image: url('#{URI.encode(banner_url)}')"
                   true -> ""
                 end}
               >
-                {!-- <Bonfire.UI.Common.BackButtonLive class="btn absolute left-3 top-3 btn-circle" /> --}
-                <!-- <button
-                class="btn absolute left-3 top-3 btn-circle btn-sm"
-                onclick="history.length > 1 ? history.back() : window.location.href = '/'"
-              ><#Icon iconify="ph:arrow-left" class="w-4 h-4" /></button>
-              <div class="absolute top-3 right-3">
-                <Bonfire.UI.Me.HeroMoreActionsLive
-                  character_type={@character_type}
-                  ghosted_instance_wide?={@ghosted_instance_wide?}
-                  silenced_instance_wide?={@silenced_instance_wide?}
-                  ghosted?={@ghosted?}
-                  silenced?={@silenced?}
-                  boundary_preset={@boundary_preset}
-                  user={@user}
-                  parent_id="profile_hero_full"
-                  members={@members}
-                  moderators={@moderators}
-                  permalink={e(@user, :character, :peered, :canonical_uri, nil) ||
-                    URIs.canonical_url(@user, preload_if_needed: false)}
-                />
-              </div> -->
-
                 <div class="absolute right-3 bottom-3 flex gap-2">
-                  <div class="">
-                    <StatelessComponent
-                      module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicator, @__context__)}
-                      user={@user}
-                      follows_me={@follows_me}
-                    />
-                  </div>
-                  <div class="">
-                    <StatelessComponent
-                      module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicator, @__context__)}
-                      object={@user}
-                      user={@user}
-                      is_local_user={@is_local?}
-                      boundary_preset={@boundary_preset}
-                      ghosted_instance_wide?={@ghosted_instance_wide?}
-                      silenced_instance_wide?={@silenced_instance_wide?}
-                      ghosted?={@ghosted?}
-                      silenced?={@silenced?}
-                    />
-                  </div>
+                  <StatelessComponent
+                    module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicator, @__context__)}
+                    user={@user}
+                    follows_me={@follows_me}
+                  />
+                  <StatelessComponent
+                    module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicator, @__context__)}
+                    object={@user}
+                    user={@user}
+                    is_local_user={@is_local?}
+                    boundary_preset={@boundary_preset}
+                    ghosted_instance_wide?={@ghosted_instance_wide?}
+                    silenced_instance_wide?={@silenced_instance_wide?}
+                    ghosted?={@ghosted?}
+                    silenced?={@silenced?}
+                  />
                 </div>
               </div>
 
@@ -85,14 +65,11 @@
                         {/if}
                       </div>
 
-                      <div class="flex items-center gap-3" data-id="profile_main_actions">
+                      <div class="flex items-center gap-2" data-id="profile_main_actions">
                         {#if current_user_id(@__context__) == id(@user)}
-                          <LinkLive
-                            to={~p"/settings/user/profile"}
-                            class="btn hidden lg:flex btn-soft btn-primary btn-circle"
-                          >
-                            <#Icon iconify="ph:gear-six-duotone" class="w-4 h-4" />
-                            <span class="sr-only">{l("Edit profile")}</span>
+                          <LinkLive to={~p"/settings/user/profile"} class="btn btn-soft btn-primary btn-sm">
+                            <#Icon iconify="ph:pencil-simple-duotone" class="w-4 h-4" />
+                            <span class="hidden sm:inline">{l("Edit profile")}</span>
                           </LinkLive>
                         {/if}
 
@@ -200,27 +177,15 @@
                                 phx-hook="Copy"
                                 id={Bonfire.Me.Characters.display_username(@user, true)}
                                 data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
-                                class="font-normal cursor-copy hover:underline underline-offset-4 decoration-dotted text-sm text-base-content/60 tooltip-right"
+                                title={l("Click to copy username")}
+                                class="font-normal cursor-copy hover:underline underline-offset-4 decoration-dotted text-sm text-base-content/60 tooltip tooltip-right"
                               >{Bonfire.Me.Characters.display_username(@user, true)}</span>
-                              <!-- <span
-                              data-role="label"
-                              data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
-                              phx-hook="Copy"
-                              id={"button_#{Bonfire.Me.Characters.display_username(@user, true)}"}
-                              class="btn btn-ghost btn-xs btn-circle"
-                            >
-                              <#Icon
-                                iconify="ph:clipboard-text-duotone"
-                                class="w-4 h-4 opacity-70"
-                                title={l("Copy username")}
-                                onclick="navigator.clipboard.writeText('@' + '#{Bonfire.Me.Characters.display_username(@user, false)}')"
-                              />
-                            </span> -->
                             </div>
                             <span
                               :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
                               data-role="admin"
-                              class="badge min-h-[1.5rem] text-xs badge-sm rounded-md !border-info/20 badge-outline rounded badge-info"
+                              title={l("This user is an instance administrator")}
+                              class="badge badge-sm text-xs badge-outline badge-info"
                             >
                               {l("Admin")}
                             </span>
@@ -229,7 +194,7 @@
                       </div>
                     </div>
                   </div>
-                  <div class="mt-4 flex flex-col pb-4">
+                  <div class="mt-2 flex flex-col pb-2">
                     <Bonfire.UI.Me.ProfileInfoLive
                       ghosted_instance_wide?={@ghosted_instance_wide?}
                       silenced_instance_wide?={@silenced_instance_wide?}
