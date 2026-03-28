@@ -51,7 +51,7 @@
           <span>{l("Pages")}</span>
         </summary>
 
-        <li>
+        <!-- <li>
           <LinkPatchLive
             to={~p"/settings/instance/dashboard"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "dashboard"]}
@@ -61,7 +61,7 @@
             </div>
             <span class="font-normal text-base">{l("Dashboard")}</span>
           </LinkPatchLive>
-        </li>
+        </li> -->
         <li>
           <LinkPatchLive
             to={~p"/settings/instance/about"}
