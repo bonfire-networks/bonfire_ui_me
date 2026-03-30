@@ -24,15 +24,22 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
         Bonfire.UI.Me.Plugs.LoadCurrentAccount.call(conn, opts)
 
       current_user_id ->
-        user =
-          LoadCurrentUser.get_current(
-            current_user_id,
-            Plug.Conn.get_session(conn, :current_account_id)
-          )
+        if Bonfire.Common.Cache.get!("force_logout:#{current_user_id}") do
+          conn
+          |> Bonfire.UI.Common.Web.renew_session()
+          |> assign(:current_user, nil)
+          |> assign(:current_account, nil)
+        else
+          user =
+            LoadCurrentUser.get_current(
+              current_user_id,
+              Plug.Conn.get_session(conn, :current_account_id)
+            )
 
-        conn
-        |> assign(:current_user, user)
-        |> assign(:current_account, e(user, :account, nil))
+          conn
+          |> assign(:current_user, user)
+          |> assign(:current_account, e(user, :account, nil))
+        end
     end
   end
 end
