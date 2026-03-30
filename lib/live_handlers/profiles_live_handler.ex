@@ -323,8 +323,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
           publication_types_widget_enabled &&
             {Bonfire.OpenScience.PublicationTypesLive,
              [type: Surface.LiveComponent, id: "osn-publication-types", user: user]},
-          {Bonfire.Tag.Web.WidgetTagsLive, []},
-          {Bonfire.UI.Me.WidgetAdminsLive, []}
+          # {Bonfire.Tag.Web.WidgetTagsLive, []},
+          # {Bonfire.UI.Me.WidgetAdminsLive, []}
         ]
       ],
       users: [
