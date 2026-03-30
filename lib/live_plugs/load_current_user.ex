@@ -109,7 +109,12 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   def mount(_, _, socket) do
-    {:ok, assign_global(socket, current_user: nil, current_user_id: nil)}
+    theme = Bonfire.UI.Common.ThemeHelper.current_theme(%{})
+
+    {:ok,
+     socket
+     |> assign_global(current_user: nil, current_user_id: nil)
+     |> Phoenix.LiveView.push_event("set_theme", %{theme: theme})}
   end
 
   defp maybe_assign_current_user(socket, user) do
