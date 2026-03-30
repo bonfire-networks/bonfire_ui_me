@@ -79,22 +79,32 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   def mount(_, %{"current_user_id" => user_id} = session, socket) when is_binary(user_id) do
-    account_id = current_account_id(assigns(socket)) || session["current_account_id"]
-
-    if socket_connected?(socket) || socket.assigns[:__loading_screen__] || Config.env() == :test do
-      # Connected mount: full load
-
-      user =
-        time_section :lv_get_current_user do
-          get_current(
-            user_id,
-            account_id
-          )
-        end
-
-      assign_current_user(socket, user)
+    if Bonfire.Common.Cache.get!("force_logout:#{user_id}") do
+      {:ok,
+       assign_global(socket,
+         current_user: nil,
+         current_user_id: nil,
+         current_account: nil,
+         current_account_id: nil
+       )}
     else
-      disconnected_mount(socket, user_id, account_id)
+      account_id = current_account_id(assigns(socket)) || session["current_account_id"]
+
+      if socket_connected?(socket) || socket.assigns[:__loading_screen__] || Config.env() == :test do
+        # Connected mount: full load
+
+        user =
+          time_section :lv_get_current_user do
+            get_current(
+              user_id,
+              account_id
+            )
+          end
+
+        assign_current_user(socket, user)
+      else
+        disconnected_mount(socket, user_id, account_id)
+      end
     end
   end
 

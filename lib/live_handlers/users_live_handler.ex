@@ -117,6 +117,41 @@ defmodule Bonfire.Me.Users.LiveHandler do
     {e(u, :profile, :name, "Someone"), uid(u)}
   end
 
+  @doc "Force-logout a user: disconnect their active WebSocket and add to cache blocklist (60-day TTL) so any existing cookie sessions are invalidated on the next request"
+  def force_logout_user(user_id) when is_binary(user_id) do
+    Utils.maybe_apply(
+      Bonfire.Web.Endpoint,
+      :broadcast,
+      ["socket_user:#{user_id}", "disconnect", %{}]
+    )
+
+    Bonfire.Common.Cache.put("force_logout:#{user_id}", true, ttl: :timer.hours(24 * 60))
+  end
+
+  @doc "Force-logout all sessions for an account AND all its users"
+  def force_logout_account(account_id) when is_binary(account_id) do
+    # Disconnect account-level sockets (pre-user-pick sessions)
+    Utils.maybe_apply(
+      Bonfire.Web.Endpoint,
+      :broadcast,
+      ["socket_account:#{account_id}", "disconnect", %{}]
+    )
+
+    # Per-user: disconnect socket + set cache flag (one iteration for both)
+    Bonfire.Me.Users.ids_by_account(account_id)
+    |> Enum.each(&force_logout_user/1)
+  end
+
+  @doc "Remove the force-logout flag for a user, re-allowing login"
+  def cancel_force_logout_user(user_id) when is_binary(user_id),
+    do: Bonfire.Common.Cache.remove("force_logout:#{user_id}")
+
+  @doc "Remove force-logout flags for all users of an account"
+  def cancel_force_logout_account(account_id) when is_binary(account_id) do
+    Bonfire.Me.Users.ids_by_account(account_id)
+    |> Enum.each(&cancel_force_logout_user/1)
+  end
+
   @doc "This function disconnects the user but leaves the account session alone"
   def disconnect_user_session(%{assigns: assigns} = conn) do
     disconnect_user_sockets(assigns)
