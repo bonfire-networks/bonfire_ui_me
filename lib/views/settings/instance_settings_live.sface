@@ -36,6 +36,15 @@
         circle_id={maybe_apply(Bonfire.Boundaries.Scaffold.Instance, :mod_circle, [])}
         local_only
       />
+    {#match "feeds"}
+      <div class="bonfire-wrapper">
+        <StatelessComponent
+          module={maybe_component(Bonfire.UI.Social.FeedsSettingsLive, @__context__)}
+          selected_tab={@selected_tab}
+          id={@id}
+          scope={@scope}
+        />
+      </div>
     {#match "suggested_profiles"}
       <StatefulComponent
         :if={current_user(@__context__)}

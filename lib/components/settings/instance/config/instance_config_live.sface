@@ -190,6 +190,67 @@
     <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
       <!-- <input name="scope" value={:instance} type="hidden"> -->
       <div class="p-4">
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Disable collapsible sidebar navigation")}
+          description={l(
+            "When enabled, sidebar navigation sections (Feeds, Circles, Groups) are always expanded and cannot be collapsed."
+          )}
+          keys={[:ui, :sidebar, :disable_collapsible]}
+          scope={:instance}
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Disable user feed customization")}
+          description={l("When enabled, users cannot customize which feed presets appear in their sidebar.")}
+          keys={[:ui, :sidebar, :disable_feeds_customization]}
+          scope={:instance}
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsSelectLive
+          name={l("Sidebar section divider")}
+          description={l("Add a visual separator between sidebar navigation sections (Feeds, Circles, Groups).")}
+          keys={[:ui, :sidebar, :section_divider]}
+          options={[
+            none: l("None"),
+            line: l("Line"),
+            custom: l("Custom image")
+          ]}
+          scope={:instance}
+        />
+      </div>
+    </form>
+    <div
+      class="p-4 border-b border-base-content/10"
+      :if={Bonfire.Common.Settings.get(
+        [:ui, :sidebar, :section_divider],
+        "none",
+        @__context__[:instance_settings] || :instance
+      )
+      |> to_string() == "custom"}
+    >
+      <StatefulComponent
+        module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
+        id={:upload_sidebar_divider}
+        object={:instance}
+        boundary_verb={:configure}
+        label={l("Upload divider image")}
+        label_on_hover={false}
+        wrapper_class="flex flex-col items-center gap-2"
+        container_class="relative flex-shrink-0 block w-full h-16 rounded-md ring-2 ring-base-content/10 bg-base-200 divider-upload-preview"
+        class="w-full h-16 flex items-center justify-center"
+        src={Bonfire.Common.Settings.get(
+          [:ui, :sidebar, :section_divider_image],
+          "",
+          @__context__[:instance_settings] || :instance
+        )}
+        set_field={[:ui, :sidebar, :section_divider_image]}
+        set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
+      />
+    </div>
+    <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
+      <div class="p-4">
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
           name={l("Maximum number of users per account")}

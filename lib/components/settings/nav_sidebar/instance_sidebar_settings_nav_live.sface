@@ -31,6 +31,18 @@
             <span class="font-normal text-base">{l("Default User Preferences")}</span>
           </LinkLive>
         </li>
+
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/user/feeds"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "feeds"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:rss-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Feed presets")}</span>
+          </LinkPatchLive>
+        </li>
         <li>
           <LinkLive
             to={~p"/boundaries/scope/instance/instance_acl"}
