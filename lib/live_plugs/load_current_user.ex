@@ -126,7 +126,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   defp disconnected_mount(socket, user_id, account_id) do
-    flood(
+    debug(
       "Disconnected mount: skips expensive work and shows loading screen until socket connects"
     )
 
