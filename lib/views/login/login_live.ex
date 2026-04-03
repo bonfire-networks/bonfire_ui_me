@@ -16,6 +16,7 @@ defmodule Bonfire.UI.Me.LoginLive do
     |> assign_new(:no_header, fn -> true end)
     |> assign_new(:without_secondary_widgets, fn -> true end)
     |> assign_new(:current_account, fn -> nil end)
+    |> assign_new(:full_width, fn -> true end)
     |> assign_new(:current_account_id, fn -> nil end)
     |> assign_new(:current_user, fn -> nil end)
     |> assign_new(:current_user_id, fn -> nil end)

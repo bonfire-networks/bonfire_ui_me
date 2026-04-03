@@ -1,0 +1,42 @@
+<form
+  data-scope="upload_auth_background_form"
+  phx-change="validate"
+  phx-submit="save"
+  phx-target={@myself}
+>
+  <div
+    data-id="upload_auth_background"
+    phx-drop-target={@uploads.auth_background.ref}
+    class="relative rounded-xl flex justify-center px-6 py-10 bg-center bg-cover h-[200px]"
+    style={"background-image: url('#{@src}?v=#{System.system_time(:second)}')"}
+  >
+    <div class="space-y-1 text-center">
+      <div class="flex text-sm text-base-content">
+        <label
+          for={@uploads.auth_background.ref}
+          class="absolute inset-0 flex flex-col items-center justify-center w-full h-full text-sm font-medium text-white rounded-lg cursor-pointer bg-black/50 hover:bg-black/70"
+        >
+          <Phoenix.Component.live_file_input upload={@uploads.auth_background} class="sr-only" />
+
+          <div class="text-center">
+            <span>{l("Upload a background image")}</span>
+            <p class="pl-1">{l("or drag and drop")}</p>
+          </div>
+          {#if length(@uploads.auth_background.entries) > 0}
+            {#for entry <- @uploads.auth_background.entries}
+              <p class="block mt-2 text-xs text-center text-base-content">
+                {entry.client_name} - {entry.progress}%
+              </p>
+            {/for}
+          {#else}
+            <p class="block mt-2 text-xs text-center text-base-content">
+              {l("PNG, JPG, GIF, WebP up to %{size} MB",
+                size: Bonfire.Common.Config.get([:bonfire_files, :max_user_images_file_size], 5)
+              )}
+            </p>
+          {/if}
+        </label>
+      </div>
+    </div>
+  </div>
+</form>

@@ -20,6 +20,15 @@
       description: l("Description text displayed on the welcome/about page.")
     )}
   />
+  <StatefulComponent
+    module={maybe_component(Bonfire.UI.Common.SettingsLinksEditorLive, @__context__)}
+    id="instance_welcome_links_editor"
+    scope={:instance}
+    keys={[:ui, :theme, :instance_welcome, :links]}
+    name={l("Community Links")}
+    description={l("Links shown to visitors on the guest homepage (e.g., forum, chat, documentation).")}
+  />
+
   <div class="font-semibold">Components to include in the about page</div>
   <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={:instance} type="hidden">

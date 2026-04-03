@@ -1,0 +1,64 @@
+<div class="flex flex-col p-4 gap-6 w-full">
+  <form phx-change="Bonfire.Common.Settings:set">
+    <input name="scope" value={:instance} type="hidden">
+
+    <Bonfire.UI.Common.SettingsSelectLive
+      scope={:instance}
+      id="auth_layout_select"
+      input="ui[auth][layout]"
+      name={l("Login / Signup page layout")}
+      description={l("Choose the layout template used for the login and signup pages.")}
+      keys={[:ui, :auth, :layout]}
+      options={[minimal: l("Minimal"), two_panels: l("Two panels")]}
+      default_value={Config.get([:ui, :auth, :layout], :minimal,
+        name: l("Login / Signup page layout"),
+        description: l("Choose the layout template used for the login and signup pages.")
+      )}
+    />
+  </form>
+
+  <div
+    :if={Bonfire.Common.Settings.get(
+      [:ui, :auth, :layout],
+      :minimal,
+      @__context__[:instance_settings] || :instance
+    ) == :two_panels}
+    class="flex flex-col gap-2"
+  >
+    <div class="text-sm font-medium text-base-content/90">{l("Left panel background image")}</div>
+    <div class="text-sm text-base-content/50">{l("Upload a custom image for the left panel of the login and signup pages.")}</div>
+    <StatefulComponent
+      module={maybe_component(Bonfire.UI.Me.UploadAuthBackgroundLive, @__context__)}
+      id={:upload_auth_background}
+      object={:instance}
+      boundary_verb={:describe}
+      src={Bonfire.Common.Settings.get(
+        [:ui, :auth, :background_image],
+        "",
+        @__context__[:instance_settings] || :instance
+      )}
+      set_field={[:ui, :auth, :background_image]}
+      set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
+    />
+
+    <div class="text-sm font-medium text-base-content/90 mt-2">{l("Auth page logo")}</div>
+    <div class="text-sm text-base-content/50">{l(
+        "Upload a custom logo for the login and signup pages. Defaults to the instance icon if not set."
+      )}</div>
+    <StatefulComponent
+      module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
+      id={:upload_auth_logo}
+      object={:instance}
+      boundary_verb={:describe}
+      container_class="relative flex-shrink-0 block w-32 h-32 overflow-hidden rounded-full ring-4 ring-base-content/10 bg-base-200"
+      class="inline-block w-32 h-32"
+      src={Bonfire.Common.Settings.get(
+        [:ui, :auth, :logo],
+        "",
+        @__context__[:instance_settings] || :instance
+      )}
+      set_field={[:ui, :auth, :logo]}
+      set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
+    />
+  </div>
+</div>

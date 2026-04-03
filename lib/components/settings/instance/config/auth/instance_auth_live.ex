@@ -1,0 +1,5 @@
+defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceAuthLive do
+  use Bonfire.UI.Common.Web, :stateless_component
+
+  prop selected_tab, :any
+end

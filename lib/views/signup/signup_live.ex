@@ -20,6 +20,7 @@ defmodule Bonfire.UI.Me.SignupLive do
      |> assign_new(:current_account, fn -> nil end)
      |> assign_new(:current_account_id, fn -> nil end)
      |> assign_new(:current_user, fn -> nil end)
+     |> assign_new(:full_width, fn -> true end)
      |> assign_new(:current_user_id, fn -> nil end)
      |> assign_new(:open_id_provider, fn -> session["open_id_provider"] end)
      |> assign_global(:csrf_token, session["_csrf_token"])

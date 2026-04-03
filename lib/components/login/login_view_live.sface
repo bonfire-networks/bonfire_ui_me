@@ -1,4 +1,4 @@
-<div class="w-full p-4 mx-auto">
+<div class="w-full p-4 lg:p-0 mx-auto">
   <StatelessComponent
     module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
     source={:login}

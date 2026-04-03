@@ -131,6 +131,8 @@
       />
     {#match "terms"}
       <Bonfire.UI.Me.SettingsViewsLive.TermsLive selected_tab={@selected_tab} />
+    {#match "auth"}
+      <Bonfire.UI.Me.SettingsViewsLive.InstanceAuthLive selected_tab={@selected_tab} />
     {#match "invites"}
       <StatefulComponent
         module={maybe_component(Bonfire.Invite.Links.Web.InvitesLive, @__context__)}

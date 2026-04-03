@@ -96,6 +96,17 @@
             <span class="font-normal text-base">{l("Terms / Policies")}</span>
           </LinkPatchLive>
         </li>
+        <li>
+          <LinkPatchLive
+            to={~p"/settings/instance/auth"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "auth"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:sign-in-duotone" class="w-5 h-5 text-primary" />
+            </div>
+            <span class="font-normal text-base">{l("Authentication")}</span>
+          </LinkPatchLive>
+        </li>
       </details>
     </li>
 
