@@ -337,6 +337,23 @@
 
     <form
       class="p-4"
+      data-scope="set_max_visual_depth"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
+      <Bonfire.UI.Common.SettingsSelectLive
+        name={l("Max nesting depth")}
+        id="max_visual_depth"
+        label_name="Set max nesting depth"
+        description={l("Maximum number of nested reply levels to display before keeping them at the same indentation level")}
+        keys={[:ui, :thread, :max_visual_depth]}
+        options={[{3, l("3 levels (default)")}, {4, l("4 levels")}, {5, l("5 levels")}, {8, l("8 levels")}]}
+        scope={@scope}
+      />
+    </form>
+
+    <form
+      class="p-4"
       data-scope="set_thread_sorting"
       name="settings"
       phx-change="Bonfire.Common.Settings:set"
