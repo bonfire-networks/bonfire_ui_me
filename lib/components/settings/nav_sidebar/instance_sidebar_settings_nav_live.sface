@@ -34,13 +34,13 @@
 
         <li>
           <LinkPatchLive
-            to={~p"/settings/user/feeds"}
+            to={~p"/settings/instance/feeds"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "feeds"]}
           >
             <div class="w-8 h-8 flex items-center place-content-center">
               <#Icon iconify="ph:rss-duotone" class="w-5 h-5 text-primary" />
             </div>
-            <span class="font-normal text-base">{l("Feed presets")}</span>
+            <span class="font-normal text-base">{l("Feed Defaults")}</span>
           </LinkPatchLive>
         </li>
         <li>
@@ -236,7 +236,7 @@
             <div class="w-8 h-8 flex items-center place-content-center">
               <#Icon iconify="ph:shield-duotone" class="w-5 h-5 text-primary" />
             </div>
-            <span class="font-normal text-base">{l("Safety settings")}</span>
+            <span class="font-normal text-base">{l("Safety Defaults")}</span>
           </LinkLive>
         </li>
         <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance) and

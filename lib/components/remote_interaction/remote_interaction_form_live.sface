@@ -8,10 +8,24 @@
         <HiddenInput name={:object} value={@canonical_url} />
 
         <div class="w-full p-4 mx-auto">
+          <div class="alert mb-6 items-start text-sm rounded alert-info alert-soft" role="alert">
+            <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
+            <div class="text-sm">
+              <p>
+                <strong>{l("Are you a fediverse user?")}</strong> {l(
+                  "Enter your username and you will be forwarded to your home instance, where you'll be able to proceed to %{verb} %{thing_or_name} there.",
+                  thing_or_name: @name,
+                  verb: @interaction_type
+                )}
+              </p>
+              <p class="mt-4"><strong>{l("Are you a user of this instance?")}</strong> {l("You can sign in instead.")}</p>
+            </div>
+          </div>
+
           <Field name={:me}>
             <Label class="block p-0 mb-4 text-center label">
-              <span class="text-base font-medium">{l("Enter your fediverse nick to %{verb} %{user_name} remotely",
-                  user_name: @name,
+              <span class="text-base font-medium">{l("Enter your fediverse nick to %{verb} %{thing_or_name} remotely",
+                  thing_or_name: @name,
                   verb: @interaction_type
                 )}</span>
             </Label>
@@ -30,16 +44,6 @@
           >
             {l("Proceed to %{verb}", verb: @interaction_type)}
           </button>
-
-          <p class="mt-4 text-sm">{l("Are you a user of this instance?")} <a class="link link-primary" href={"/login?go=#{@canonical_url}"}>{l("Sign in instead.")}</a></p>
-          <div class="alert mt-3 items-start text-sm rounded alert-info alert-soft" role="alert">
-            <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
-            <span class="text-sm">
-              {l(
-                "Why is this step necessary? This might not be the fediverse instance where you are registered, in which case we first need to redirect you to your home instance where you'll be able to proceed to %{verb}.",
-                verb: @interaction_type
-              )}</span>
-          </div>
         </div>
       </Form>
     </div>

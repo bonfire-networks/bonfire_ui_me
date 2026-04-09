@@ -12,7 +12,7 @@
     <input
       type="hidden"
       name="go"
-      value={e(debug(@form), :params, :go, nil) || e(debug(@form), :source, :changes, :go, nil)}
+      value={@go || e(@form, :params, :go, nil) || e(@form, :source, :changes, :go, nil)}
     />
     {!-- <%= hidden_input f, :go %> --}
 

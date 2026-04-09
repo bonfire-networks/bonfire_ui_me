@@ -5,10 +5,10 @@ defmodule Bonfire.UI.Me.LoginLive do
   # because this isn't a live link and it will always be accessed by a
   # guest, it will always be offline
   def mount(params, session, socket) do
-    {:ok, assign_defaults(params, session, socket)}
+    {:ok, assign_defaults(socket, params, session)}
   end
 
-  def assign_defaults(params \\ %{}, session \\ %{}, socket_or_assigns) do
+  def assign_defaults(socket_or_assigns, params \\ %{}, session \\ %{}) do
     socket_or_assigns
     |> assign(:page, "login")
     |> assign(:page_title, l("Log in"))

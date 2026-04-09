@@ -1,9 +1,56 @@
-<Bonfire.UI.Me.RemoteInteractionFormLive
-  canonical_url={@canonical_url}
-  name={@name}
-  interaction_type={@interaction_type}
->
-  <:header>
-    <div class="max-w-[680px] mx-auto p-3 border-b border-base-content/10 font-bold text-base bg-base-100 rounded-t-lg text-center mt-6">{l("Navigate to your server")}</div>
-  </:header>
-</Bonfire.UI.Me.RemoteInteractionFormLive>
+<div class="w-full px-4 lg:px-0 mt-8 mx-auto md:mt-12" id="remote-interaction">
+  <Bonfire.UI.Common.LogoLinkLive
+    with_name
+    image_class="w-12 h-12 aspect-square rounded-full bg-center bg-no-repeat bg-contain"
+    container_class="flex items-center mb-8 justify-center gap-4"
+    href="/"
+  />
+
+  <div class="max-w-lg mx-auto">
+    <div class="tabs tabs-lift">
+      {#if @federating?}
+        <input
+          type="radio"
+          name="remote_interaction_tabs"
+          class="tab"
+          aria-label={l("Interact remotely")}
+          checked
+        />
+        <div class="tab-content bg-base-100 border-base-300 p-6">
+          <Bonfire.UI.Me.RemoteInteractionFormLive
+            canonical_url={@canonical_url}
+            name={@name}
+            interaction_type={@interaction_type}
+          >
+            {!-- <:header>
+              <div class="font-bold text-base text-center mb-4">{l("Navigate to your server")}</div>
+            </:header> --}
+          </Bonfire.UI.Me.RemoteInteractionFormLive>
+        </div>
+      {/if}
+
+      <input
+        type="radio"
+        name="remote_interaction_tabs"
+        class="tab"
+        aria-label={l("Log in")}
+        checked={!@federating?}
+      />
+      <div class="tab-content bg-base-100 border-base-300 p-6">
+        <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} go={@canonical_url} />
+      </div>
+
+      <input type="radio" name="remote_interaction_tabs" class="tab" aria-label={l("Sign up")}>
+      <div class="tab-content bg-base-100 border-base-300 p-6">
+        <Bonfire.UI.Me.SignupFormLive
+          form={@signup_form}
+          error={@error}
+          invite={@invite}
+          auth_second_factor_secret={@auth_second_factor_secret}
+          open_id_provider={@open_id_provider}
+          go={@canonical_url}
+        />
+      </div>
+    </div>
+  </div>
+</div>

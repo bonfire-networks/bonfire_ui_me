@@ -68,13 +68,28 @@ defmodule Bonfire.UI.Me.LoginController do
     info(user_id, "Logged in as user")
     # maybe_apply(Bonfire.Boundaries.Scaffold.Users, :create_missing_boundaries, user)
 
-    conn
-    |> put_session(:current_account_id, account_id)
-    |> assign(:current_account, current_account)
-    |> put_session(:current_user_id, user_id)
-    # needed if we run oAuth logic instead of redirecting
-    |> assign(:current_user, current_user)
-    |> put_session(:live_socket_id, "socket_user:#{user_id}")
+    conn =
+      conn
+      |> put_session(:current_account_id, account_id)
+      |> assign(:current_account, current_account)
+      |> put_session(:current_user_id, user_id)
+      # needed if we run oAuth logic instead of redirecting
+      |> assign(:current_user, current_user)
+      |> put_session(:live_socket_id, "socket_user:#{user_id}")
+
+    # If redirecting to an allowed external iframe embed host, append a signed token
+    # so the embed JS can authenticate the iframe without third-party cookies.
+    go = Plug.Conn.get_session(conn, :go) || e(form, "go", nil) || e(form, :go, nil)
+
+    conn =
+      if is_binary(go) and not String.starts_with?(go, "/") and embed_allowed_origin?(go) do
+        token = Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken.sign(conn, user_id)
+        sep = if String.contains?(go, "?"), do: "&", else: "?"
+        Plug.Conn.put_session(conn, :go, go <> sep <> "bonfire_embed_token=" <> token)
+      else
+        conn
+      end
+
     # |> assign_flash(
     #   :info,
     #   l("Welcome back, %{name}!",
@@ -82,8 +97,20 @@ defmodule Bonfire.UI.Me.LoginController do
     #   )
     # )
     # to support redirect after a POST
+    conn
     |> Plug.Conn.put_status(303)
     |> redirect_to_previous_go(form, "/", "/login")
+  end
+
+  defp embed_allowed_origin?(url) do
+    allowed = System.get_env("IFRAME_ALLOWED_ORIGINS", "")
+    return_host = URI.parse(url).host
+
+    allowed
+    |> String.split()
+    |> Enum.any?(fn origin ->
+      origin == "*" or URI.parse(origin).host == return_host
+    end)
   end
 
   def form_cs(params \\ %{})

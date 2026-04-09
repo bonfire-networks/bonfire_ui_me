@@ -50,6 +50,7 @@
           />
         {/if}
         <Form for={@form} action={current_url(@__context__)} opts={[id: "signup-form"]}>
+          <input type="hidden" name="go" value={@go}>
           <input type="hidden" name="invite" value={@invite}>
           <Inputs for={:email}>
             <Field name={:email_address}>

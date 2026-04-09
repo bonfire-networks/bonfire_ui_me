@@ -66,7 +66,7 @@ defmodule Bonfire.UI.Me.Routes do
         # live("/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile)
         # live("/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character)
 
-        live("/remote_interaction", RemoteInteractionLive)
+        live("/remote_interaction", RemoteInteractionLive, as: :remote_interaction)
 
         get "/settings/deleted/account/:id", DeletedController, :account
         get "/settings/deleted/user/:id", DeletedController, :user

@@ -47,7 +47,7 @@
             <div class="w-8 h-8 flex items-center place-content-center">
               <#Icon iconify="ph:rss-duotone" class="w-5 h-5 text-primary" />
             </div>
-            <span class="font-normal text-base">{l("Feed presets")}</span>
+            <span class="font-normal text-base">{l("Feeds")}</span>
           </LinkPatchLive>
         </li>
         <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__)}>

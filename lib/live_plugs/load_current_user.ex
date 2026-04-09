@@ -9,7 +9,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   @behaviour Bonfire.UI.Common.LivePlugModule
 
   # Helper to DRY assignment and optional loading, checks settings internally
-  defp assign_current_user(socket, user) do
+  def assign_current_user(socket, user) do
     time_section :lv_assign_current_user do
       account_id = e(user, :account, :id, nil)
 
