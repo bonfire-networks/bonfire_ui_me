@@ -9,9 +9,12 @@ defmodule Bonfire.UI.Me.LoginLive do
   end
 
   def assign_defaults(socket_or_assigns, params \\ %{}, session \\ %{}) do
+    go = e(params, "go", nil) || e(params, :go, nil) || e(session, "go", nil)
+
     socket_or_assigns
     |> assign(:page, "login")
     |> assign(:page_title, l("Log in"))
+    |> assign_new(:go, fn -> go end)
     |> assign_new(:without_sidebar, fn -> true end)
     |> assign_new(:no_header, fn -> true end)
     |> assign_new(:without_secondary_widgets, fn -> true end)

@@ -12,16 +12,16 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
 
     url = Text.text_only(e(params, "url", nil) || e(session, "url", nil))
 
-    go_after_sign_in = e(params, "go_after_sign_in", nil)
+    go = e(params, "go", nil) || e(params, "go", nil)
 
-    params = Map.put(params, "go", Text.text_only(go_after_sign_in || url))
+    params = Map.put(params, "go", Text.text_only(go || url))
 
     {:ok,
      socket
      |> assign(:page, page)
      |> assign(:page_title, page)
      |> assign(:canonical_url, url)
-     |> assign_global(:go_after_sign_in, go_after_sign_in)
+     |> assign_global(:go, go)
      |> assign(:name, Text.text_only(e(params, "name", nil) || e(session, "name", nil)))
      |> assign(
        :interaction_type,
@@ -36,10 +36,14 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
      |> Bonfire.UI.Me.SignupLive.assign_defaults(params, session, form_key: :signup_form)}
   end
 
-  def generate_url(type, name, url, context) do
-    go_after_sign_in =
-      e(context, :go_after_sign_in, nil) || e(context, :__context__, :go_after_sign_in, nil)
+  def generate_url(type, name, url, opts) do
+    assigns = assigns(opts)
 
-    "/remote_interaction?type=#{type}&name=#{name}&url=#{url}&go_after_sign_in=#{go_after_sign_in}"
+    go =
+      e(assigns, :go, nil) ||
+        e(assigns, :__context__, :go, nil) ||
+        e(assigns, :__context__, :current_params, "go", nil)
+
+    "/remote_interaction?type=#{type}&name=#{name}&url=#{url}&go=#{go}"
   end
 end

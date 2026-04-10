@@ -77,15 +77,22 @@ defmodule Bonfire.UI.Me.LoginController do
       |> assign(:current_user, current_user)
       |> put_session(:live_socket_id, "socket_user:#{user_id}")
 
-    # If redirecting to an allowed external iframe embed host, append a signed token
-    # so the embed JS can authenticate the iframe without third-party cookies.
+    # Ensure external `go` URLs are written to the session so go_where? allows the redirect.
+    # For allowed iframe embed origins, also append a signed token for cross-origin auth.
     go = Plug.Conn.get_session(conn, :go) || e(form, "go", nil) || e(form, :go, nil)
 
     conn =
-      if is_binary(go) and not String.starts_with?(go, "/") and embed_allowed_origin?(go) do
-        token = Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken.sign(conn, user_id)
-        sep = if String.contains?(go, "?"), do: "&", else: "?"
-        Plug.Conn.put_session(conn, :go, go <> sep <> "bonfire_embed_token=" <> token)
+      if is_binary(go) and not String.starts_with?(go, "/") do
+        go =
+          if embed_allowed_origin?(go) do
+            token = Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken.sign(conn, user_id)
+            sep = if String.contains?(go, "?"), do: "&", else: "?"
+            go <> sep <> "bonfire_embed_token=" <> token
+          else
+            go
+          end
+
+        Plug.Conn.put_session(conn, :go, go)
       else
         conn
       end

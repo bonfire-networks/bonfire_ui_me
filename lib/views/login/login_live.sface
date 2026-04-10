@@ -40,7 +40,7 @@
             />
           {/if}
 
-          <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} />
+          <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} go={@go} />
         </div>
 
         <div class="max-w-md mx-auto w-full mt-12">
@@ -71,7 +71,7 @@
         href="/"
       />
       <div class="w-full max-w-md mx-auto">
-        <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} />
+        <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} go={@go} />
       </div>
     </div>
 {/case}

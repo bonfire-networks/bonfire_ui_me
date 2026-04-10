@@ -37,7 +37,7 @@
         checked={!@federating?}
       />
       <div class="tab-content bg-base-100 border-base-300 p-6">
-        <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} go={@canonical_url} />
+        <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} go={@go || @canonical_url} />
       </div>
 
       <input type="radio" name="remote_interaction_tabs" class="tab" aria-label={l("Sign up")}>
@@ -48,7 +48,7 @@
           invite={@invite}
           auth_second_factor_secret={@auth_second_factor_secret}
           open_id_provider={@open_id_provider}
-          go={@canonical_url}
+          go={@go || @canonical_url}
         />
       </div>
     </div>
