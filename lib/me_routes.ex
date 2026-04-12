@@ -66,8 +66,6 @@ defmodule Bonfire.UI.Me.Routes do
         # live("/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile)
         # live("/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character)
 
-        live("/remote_interaction", RemoteInteractionLive, as: :remote_interaction)
-
         get "/settings/deleted/account/:id", DeletedController, :account
         get "/settings/deleted/user/:id", DeletedController, :user
         get "/settings/deleted/:type/:id", DeletedController, :other
@@ -127,6 +125,10 @@ defmodule Bonfire.UI.Me.Routes do
         resources("/login", LoginController, only: [:index, :create], as: :login)
 
         resources("/login/:login_token", LoginController, only: [:index])
+
+        live("/remote_interaction", RemoteInteractionLive, as: :remote_interaction)
+
+        # TODO: also have a path for remote interaction for logged in users who have another identity they want to use?
       end
 
       scope "/", Bonfire do

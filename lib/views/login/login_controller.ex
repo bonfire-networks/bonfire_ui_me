@@ -9,7 +9,15 @@ defmodule Bonfire.UI.Me.LoginController do
   # GET only supports 'go'
   def index(conn, _) do
     conn = fetch_query_params(conn)
-    paint(conn, form_cs(Map.take(conn.query_params, [:go, "go", "email_or_username"])))
+
+    if user_id =
+         Plug.Conn.get_session(conn, :current_user_id) ||
+           Plug.Conn.get_session(conn, :current_account_id) do
+      # already logged in — redirect with embed token if needed
+      redirect_after_auth(conn, user_id, conn.query_params)
+    else
+      paint(conn, form_cs(Map.take(conn.query_params, [:go, "go", "email_or_username"])))
+    end
   end
 
   def create(conn, form) do
@@ -77,6 +85,13 @@ defmodule Bonfire.UI.Me.LoginController do
       |> assign(:current_user, current_user)
       |> put_session(:live_socket_id, "socket_user:#{user_id}")
 
+    # to support redirect after a POST
+    conn
+    |> Plug.Conn.put_status(303)
+    |> redirect_after_auth(user_id, form)
+  end
+
+  def redirect_after_auth(conn, user_id, form) do
     # Ensure external `go` URLs are written to the session so go_where? allows the redirect.
     # For allowed iframe embed origins, also append a signed token for cross-origin auth.
     go = Plug.Conn.get_session(conn, :go) || e(form, "go", nil) || e(form, :go, nil)
@@ -84,11 +99,13 @@ defmodule Bonfire.UI.Me.LoginController do
     conn =
       if is_binary(go) and not String.starts_with?(go, "/") do
         go =
-          if embed_allowed_origin?(go) do
+          if is_binary(user_id) and embed_allowed_origin?(go) do
+            info(go, "Adding embed token for allowed iframe origin")
             token = Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken.sign(conn, user_id)
             sep = if String.contains?(go, "?"), do: "&", else: "?"
             go <> sep <> "bonfire_embed_token=" <> token
           else
+            info({go, user_id}, "Skipping embed token (not an allowed origin or no user_id)")
             go
           end
 
@@ -97,27 +114,30 @@ defmodule Bonfire.UI.Me.LoginController do
         conn
       end
 
-    # |> assign_flash(
-    #   :info,
-    #   l("Welcome back, %{name}!",
-    #     name: e(user, :profile, :name, e(user, :character, :username, "anonymous"))
-    #   )
-    # )
-    # to support redirect after a POST
-    conn
-    |> Plug.Conn.put_status(303)
-    |> redirect_to_previous_go(form, "/", "/login")
+    redirect_to_previous_go(
+      conn,
+      form,
+      path(:dashboard) || path(:home) || "/dashboard",
+      path(:login) || "/login"
+    )
   end
 
   defp embed_allowed_origin?(url) do
     allowed = System.get_env("IFRAME_ALLOWED_ORIGINS", "")
     return_host = URI.parse(url).host
 
-    allowed
-    |> String.split()
-    |> Enum.any?(fn origin ->
-      origin == "*" or URI.parse(origin).host == return_host
-    end)
+    result =
+      allowed
+      |> String.split()
+      |> Enum.any?(fn origin ->
+        parsed_host = URI.parse(origin).host
+        # handle bare hostnames like "example.com" (no scheme) where URI.parse gives nil host
+        origin_host = parsed_host || origin
+        origin_host == return_host
+      end)
+
+    info({return_host, allowed, result}, "embed_allowed_origin? check")
+    result
   end
 
   def form_cs(params \\ %{})

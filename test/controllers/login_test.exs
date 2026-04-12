@@ -1,6 +1,10 @@
 defmodule Bonfire.UI.Me.LoginController.Test do
   use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
   alias Bonfire.Me.Accounts
+  alias Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken
+
+  @external_host "https://blog.example.com"
+  @external_url "#{@external_host}/my-article/"
 
   test "form renders" do
     conn = conn()
@@ -160,6 +164,99 @@ defmodule Bonfire.UI.Me.LoginController.Test do
 
       conn = post(conn, "/login", params)
       assert redirected_to(conn, 303) == "/"
+    end
+  end
+
+  describe "embed token on redirect" do
+    # see also Bonfire.UI.Social.CommentsEmbedTokenTest
+
+    setup do
+      account = fake_account!()
+      user = fake_user!(account)
+      {:ok, account} = Accounts.confirm_email(account)
+      System.put_env("IFRAME_ALLOWED_ORIGINS", @external_host)
+      on_exit(fn -> System.delete_env("IFRAME_ALLOWED_ORIGINS") end)
+      {:ok, account: account, user: user}
+    end
+
+    defp login_params(user, account, extra \\ %{}) do
+      Map.merge(extra, %{
+        "login_fields" => %{
+          "email_or_username" => user.character.username,
+          "password" => account.credential.password
+        }
+      })
+    end
+
+    test "redirect includes bonfire_embed_token when go is an allowed external origin", %{
+      account: account,
+      user: user
+    } do
+      conn =
+        conn()
+        |> Plug.Conn.fetch_session()
+        |> Plug.Conn.put_session(:go, @external_url)
+
+      conn = post(conn, "/login", login_params(user, account))
+
+      redirect = redirected_to(conn, 303)
+      assert redirect =~ @external_url
+      assert redirect =~ "bonfire_embed_token="
+    end
+
+    test "redirect includes bonfire_embed_token when IFRAME_ALLOWED_ORIGINS is a bare hostname",
+         %{account: account, user: user} do
+      System.put_env("IFRAME_ALLOWED_ORIGINS", "blog.example.com")
+
+      conn =
+        conn()
+        |> Plug.Conn.fetch_session()
+        |> Plug.Conn.put_session(:go, @external_url)
+
+      conn = post(conn, "/login", login_params(user, account))
+
+      redirect = redirected_to(conn, 303)
+      assert redirect =~ @external_url
+      assert redirect =~ "bonfire_embed_token="
+    end
+
+    test "redirect includes token when go comes as form param", %{account: account, user: user} do
+      conn = post(conn(), "/login", login_params(user, account, %{"go" => @external_url}))
+
+      redirect = redirected_to(conn, 303)
+      assert redirect =~ @external_url
+      assert redirect =~ "bonfire_embed_token="
+    end
+
+    test "redirect does NOT include bonfire_embed_token when go is an internal path", %{
+      account: account,
+      user: user
+    } do
+      conn =
+        conn()
+        |> Plug.Conn.fetch_session()
+        |> Plug.Conn.put_session(:go, "/feed")
+
+      conn = post(conn, "/login", login_params(user, account))
+      refute redirected_to(conn, 303) =~ "bonfire_embed_token="
+    end
+
+    test "redirect goes to external go URL without token when origin is not allowed", %{
+      account: account,
+      user: user
+    } do
+      System.put_env("IFRAME_ALLOWED_ORIGINS", "https://other.example.com")
+
+      conn =
+        conn()
+        |> Plug.Conn.fetch_session()
+        |> Plug.Conn.put_session(:go, @external_url)
+
+      conn = post(conn, "/login", login_params(user, account))
+
+      redirect = redirected_to(conn, 303)
+      assert redirect =~ @external_url
+      refute redirect =~ "bonfire_embed_token="
     end
   end
 end
