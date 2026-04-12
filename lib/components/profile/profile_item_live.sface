@@ -1,8 +1,8 @@
 <div>
-  <div class={@wrapper_class || "flex items-start gap-3 lg:gap-2 flex-row justify-between w-full"}>
+  <div class={@wrapper_class || "flex items-start gap-3 lg:gap-6 flex-row justify-between w-full"}>
     <!-- id={if @with_popover, do: "profile_item_tooltip_#{@parent_id}_#{id(@profile)}"} -->
     <!-- phx-hook={if @with_popover, do: "Tooltip"} -->
-    <div class="flex-1" data-trigger="hover" data-position="top-start">
+    <div class="flex-1 min-w-0" data-trigger="hover" data-position="top-start">
       <div
         class="tooltip-button flex items-start gap-3 profile-item group"
         tabindex="0"
@@ -28,13 +28,13 @@
             showing_within={@showing_within}
           />
         </LinkLive>
-        <div :if={!@only_img}>
+        <div :if={!@only_img} class="min-w-0">
           <LinkLive
             parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_l", @parent_id)}
             to={if String.starts_with?(e(@character, :username, ""), "http"),
               do: e(@character, :username, nil),
               else: "/character/#{e(@character, :username, "")}"}
-            class={"text-sm flex-1", "flex gap-1 items-baseline": @inline}
+            class={"text-sm -mt-[2px] flex-1", "flex gap-1 items-baseline": @inline}
           >
             <div
               data-id="profile_name"

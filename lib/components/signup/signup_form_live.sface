@@ -1,4 +1,4 @@
-<div class="p-4 w-full md:w-[360px] border border-base-content/10 rounded-xl bg-base-100 shadow-sm">
+<div class="">
   <div class="mx-auto">
     {#case prepare_error(@error || e(@form, :errors, :form, nil))}
       {#match "invite_only"}
