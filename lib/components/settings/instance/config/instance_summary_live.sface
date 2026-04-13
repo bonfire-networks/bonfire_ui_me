@@ -323,7 +323,7 @@
                 <div class="text-sm font-medium">{l("Default boundary for new posts")}</div>
               </div>
 
-              <div class="font-bold text-sm">{case Bonfire.Boundaries.default_boundaries() do
+              <div class="font-bold text-sm">{case Bonfire.Boundaries.Presets.default_boundaries() do
                   [{_, name}] -> name
                   {_, name} -> name
                   nil -> l("Public")
