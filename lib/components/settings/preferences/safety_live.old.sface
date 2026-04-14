@@ -64,7 +64,7 @@
           set_action="Bonfire.Boundaries:set_default_boundary"
           set_opts={%{"phx-value-scope" => @scope}}
           boundary_preset={Settings.get(
-            [:ui, :boundary_preset],
+            [:bonfire_boundaries, :default_boundary_preset],
             "public",
             Bonfire.Common.Settings.LiveHandler.scoped(@scope, @__context__)
           )
