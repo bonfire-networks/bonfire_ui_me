@@ -94,6 +94,52 @@
         id="blocks"
         selected_tab="ghosted"
       />
+    {#match "blocked"}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
+        id="blocks"
+        selected_tab="blocked"
+        title={l("Blocked People & Instances")}
+      />
+    {#match "circles"}
+      <div class="bonfire-wrapper">
+        <StatefulComponent
+          :if={current_user(@__context__)}
+          module={maybe_component(Bonfire.UI.Boundaries.MyCirclesLive, @__context__)}
+          id="circles"
+          scope={@scope}
+        />
+      </div>
+    {#match "acls"}
+      <div class="bonfire-wrapper">
+        <StatefulComponent
+          :if={current_user(@__context__)}
+          module={maybe_component(Bonfire.UI.Boundaries.MyAclsLive, @__context__)}
+          selected_tab="acls"
+          section={@section}
+          id="acls"
+          scope={@scope}
+        />
+      </div>
+    {#match "roles"}
+      <div class="bonfire-wrapper">
+        <StatefulComponent
+          :if={current_user(@__context__)}
+          module={maybe_component(Bonfire.UI.Boundaries.RolesLive, @__context__)}
+          id="roles"
+          scope={@scope}
+        />
+      </div>
+    {#match "default_roles"}
+      <div class="bonfire-wrapper">
+        <StatefulComponent
+          :if={current_user(@__context__)}
+          module={maybe_component(Bonfire.UI.Boundaries.RolesLive, @__context__)}
+          id="roles"
+          scope={:instance}
+          read_only
+        />
+      </div>
     {#match "blocks_import"}
       <div class="bonfire-wrapper">
         <StatefulComponent

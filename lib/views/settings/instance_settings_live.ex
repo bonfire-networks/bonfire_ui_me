@@ -15,10 +15,24 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
        back: true,
        selected_tab: "instance_dashboard",
        id: nil,
+       section: nil,
        page: "instance_settings",
        trigger_submit: false,
        scope: :instance
      )}
+  end
+
+  # Unwrap /settings/instance/boundaries/:sub_tab which otherwise matches
+  # /settings/instance/:tab/:id as {tab: "boundaries", id: sub_tab}.
+  def handle_params(%{"tab" => "boundaries", "id" => sub_tab} = params, url, socket) do
+    handle_params(
+      params
+      |> Map.put("tab", sub_tab)
+      |> Map.put("id", params["section"])
+      |> Map.delete("section"),
+      url,
+      socket
+    )
   end
 
   def handle_params(%{"tab" => "preferences" = tab} = params, _url, socket) do
@@ -100,7 +114,7 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      )}
   end
 
-  def handle_params(%{"tab" => tab}, _url, socket) do
+  def handle_params(%{"tab" => tab} = params, _url, socket) do
     extension = Bonfire.Common.ExtensionModule.extension(tab)
 
     {:noreply,
@@ -109,6 +123,8 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
        back: true,
        page_title: e(extension, :name, nil) || String.capitalize(tab),
        selected_tab: tab,
+       id: params["id"],
+       section: params["section"],
        page_header_aside: [
          {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
           [

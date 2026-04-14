@@ -16,7 +16,7 @@
                     class={["gap-3 py-1", "bg-primary/10": to_string(@selected_tab) == to_string(extension)]}
                   >
                     <div class="w-8 h-8 flex items-center place-content-center">
-                      <#Icon iconify="ph:gear-duotone" class="w-5 h-5 text-primary" />
+                      <#Icon iconify="ph:gear-duotone" class="w-5 h-5 text-secondary" />
                     </div>
                     <span class="font-normal text-base">{e(extension_meta, :name, nil) || extension}</span>
                   </LinkLive>

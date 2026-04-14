@@ -20,6 +20,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        without_sidebar: :minimal,
        selected_tab: nil,
        id: nil,
+       section: nil,
        page: "settings",
        trigger_submit: false,
        uploaded_files: []
@@ -57,12 +58,13 @@ defmodule Bonfire.UI.Me.SettingsLive do
      )}
   end
 
-  def handle_params(%{"tab" => tab, "id" => id}, _url, socket) do
+  def handle_params(%{"tab" => tab, "id" => id} = params, _url, socket) do
     {:noreply,
      assign(socket,
        back: true,
        selected_tab: tab,
-       id: id
+       id: id,
+       section: params["section"]
      )}
   end
 
@@ -106,7 +108,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
      )}
   end
 
-  def handle_params(%{"tab" => tab}, _url, socket) do
+  def handle_params(%{"tab" => tab} = params, _url, socket) do
     extension = Bonfire.Common.ExtensionModule.extension(tab)
 
     {:noreply,
@@ -115,22 +117,8 @@ defmodule Bonfire.UI.Me.SettingsLive do
        back: true,
        page_title: e(extension, :name, nil) || String.capitalize(tab),
        selected_tab: tab,
-       page_header_aside: [
-         {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
-          [
-            selected_tab: tab,
-            scope: assigns(socket)[:scope]
-          ]}
-       ]
-     )}
-  end
-
-  def handle_params(%{"tab" => tab}, _url, socket) do
-    {:noreply,
-     assign(
-       socket,
-       back: true,
-       selected_tab: tab,
+       id: params["id"],
+       section: params["section"],
        page_header_aside: [
          {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
           [

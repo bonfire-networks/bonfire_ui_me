@@ -22,6 +22,8 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken do
 
   # Salt namespaces for this token type — NOTE: security comes from SECRET_KEY_BASE, not this value.
   @token_salt "bonfire_embed_token_v1"
+  @param_name "bonfire_embed_token"
+  @max_age 365 * 24 * 3600
 
   def on_mount(:default, params, session, socket) do
     with {:ok, socket} <- mount(params, session, socket) do
@@ -29,21 +31,18 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken do
     end
   end
 
-  # If a user is already loaded, nothing to do
   def mount(_, _, %{assigns: %{__context__: %{current_user: %{id: _}}}} = socket),
     do: {:ok, socket}
 
   def mount(_, _, %{assigns: %{current_user: %{id: _}}} = socket), do: {:ok, socket}
 
-  def mount(%{"bonfire_embed_token" => token}, _session, socket) when is_binary(token) do
-    endpoint = Bonfire.Common.Config.endpoint_module()
-
-    case Phoenix.Token.verify(endpoint, @token_salt, token, max_age: 365 * 24 * 3600) do
-      {:ok, %{user_id: user_id}} ->
+  def mount(%{@param_name => token}, _session, socket) when is_binary(token) do
+    case verify_token(token) do
+      {:ok, user_id} ->
         user = Bonfire.UI.Me.LivePlugs.LoadCurrentUser.get_current(user_id, nil)
         Bonfire.UI.Me.LivePlugs.LoadCurrentUser.assign_current_user(socket, user)
 
-      _ ->
+      :error ->
         {:ok, socket}
     end
   end
@@ -53,5 +52,39 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken do
   @doc "Sign a long-lived embed token for the given user ID."
   def sign(conn_or_endpoint, user_id) do
     Phoenix.Token.sign(conn_or_endpoint, @token_salt, %{user_id: user_id})
+  end
+
+  @doc """
+  Check whether a conn's query params include a valid `bonfire_embed_token`.
+
+  Used by HTTP-layer plugs (e.g. CSRF, live-socket asset selection) that need to
+  know the request will be authenticated at LV mount — without actually loading
+  the user into conn assigns (token auth stays LV-only).
+  """
+  def valid_token?(%Plug.Conn{query_string: qs} = conn) when is_binary(qs) do
+    # Hot-path short-circuit: most requests carry no embed token, so avoid
+    # parsing the query string at all when the param name isn't present.
+    case :binary.match(qs, @param_name) do
+      :nomatch ->
+        false
+
+      _ ->
+        valid_token?(Plug.Conn.fetch_query_params(conn).query_params)
+    end
+  end
+
+  def valid_token?(%{@param_name => token}) when is_binary(token) do
+    match?({:ok, _}, verify_token(token))
+  end
+
+  def valid_token?(_), do: false
+
+  defp verify_token(token) do
+    endpoint = Bonfire.Common.Config.endpoint_module()
+
+    case Phoenix.Token.verify(endpoint, @token_salt, token, max_age: @max_age) do
+      {:ok, %{user_id: user_id}} when is_binary(user_id) -> {:ok, user_id}
+      _ -> :error
+    end
   end
 end
