@@ -194,7 +194,7 @@
           {#for category <- @subcategories}
             <LinkLive
               to={~p"/+#{e(category, :character, :username, "")}"}
-              class="badge badge-soft badge-sm font-medium flex-shrink-0 snap-start whitespace-nowrap"
+              class="badge badge-soft badge-lg font-medium flex-shrink-0 snap-start whitespace-nowrap"
             >
               {e(category, :profile, :name, l("Untitled topic"))}
             </LinkLive>
