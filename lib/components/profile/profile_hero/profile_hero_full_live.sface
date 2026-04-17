@@ -90,7 +90,26 @@
                           {#else}
                             {#case @character_type}
                               {#match :group}
-                                {!-- NOTE: showing buttons in sidebar instead --}
+                                <Bonfire.UI.Common.SmartInputButtonLive
+                                  :if={current_user_id(@__context__)}
+                                  prompt={l("Write in group")}
+                                  without_icon
+                                  smart_input_opts={%{
+                                    context_id: id(@user),
+                                    mentions: [id(@user)],
+                                    to_boundaries: [
+                                      {:clone_context,
+                                       e(@user, :profile, :name, nil) ||
+                                         e(@user, :character, :username, l("Group"))}
+                                    ],
+                                    to_circles: [
+                                      {id(@user),
+                                       e(@user, :profile, :name, nil) ||
+                                         e(@user, :character, :username, l("Group"))}
+                                    ]
+                                  }}
+                                  class="btn btn-sm btn-primary"
+                                />
                               {#match _}
                                 <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
                                   <StatefulComponent
@@ -183,24 +202,12 @@
       {/case}
     </div>
 
-    {#if @character_type == :group and @subcategories != []}
-      <div class="flex items-center gap-2 border-t border-base-content/5 px-4 py-3 overflow-hidden">
-        <span class="text-xs text-base-content/40 flex-shrink-0">{l("Topics")}</span>
-        <div
-          id="profile-topics-carousel"
-          class="flex items-center gap-1.5 overflow-x-auto scroll-smooth snap-x snap-mandatory"
-          phx-hook="CarouselScroll"
-        >
-          {#for category <- @subcategories}
-            <LinkLive
-              to={~p"/+#{e(category, :character, :username, "")}"}
-              class="badge badge-soft badge-lg font-medium flex-shrink-0 snap-start whitespace-nowrap"
-            >
-              {e(category, :profile, :name, l("Untitled topic"))}
-            </LinkLive>
-          {/for}
-        </div>
-      </div>
+    {#if @character_type == :group}
+      <Bonfire.UI.Groups.GroupTopicsNavLive
+        group={@user}
+        topics={@subcategories}
+        selected_id={@selected_category_id || id(@user)}
+      />
     {/if}
   </section>
 </div>
