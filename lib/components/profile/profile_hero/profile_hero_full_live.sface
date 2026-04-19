@@ -203,7 +203,12 @@
     </div>
 
     {#if @character_type == :group}
-      <Bonfire.UI.Groups.GroupTopicsNavLive
+      {!-- TODO: make this config based, maybe a slot? --}
+      <StatelessComponent
+        module={maybe_component(
+          Bonfire.UI.Groups.GroupTopicsNavLive,
+          @__context__
+        )}
         group={@user}
         topics={@subcategories}
         selected_id={@selected_category_id || id(@user)}
