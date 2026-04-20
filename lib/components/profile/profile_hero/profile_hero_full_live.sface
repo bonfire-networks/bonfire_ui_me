@@ -90,9 +90,18 @@
                           {#else}
                             {#case @character_type}
                               {#match :group}
-                                <StatefulComponent
-                                  module={maybe_component(Bonfire.UI.Groups.ComposerGroupLive, @__context__)}
+                                <StatelessComponent
+                                  module={maybe_component(Bonfire.UI.Groups.ComposeInCategoryLive, @__context__)}
                                   :if={current_user_id(@__context__)}
+                                  prompt={l("Write in group")}
+                                  category={@user}
+                                />
+                              {#match :topic}
+                                <StatelessComponent
+                                  module={maybe_component(Bonfire.UI.Groups.ComposeInCategoryLive, @__context__)}
+                                  :if={current_user_id(@__context__)}
+                                  prompt={l("Write in topic")}
+                                  category={@user}
                                 />
                               {#match _}
                                 <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
