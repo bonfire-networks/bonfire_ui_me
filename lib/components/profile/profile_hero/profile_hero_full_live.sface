@@ -90,25 +90,9 @@
                           {#else}
                             {#case @character_type}
                               {#match :group}
-                                <Bonfire.UI.Common.SmartInputButtonLive
+                                <StatefulComponent
+                                  module={maybe_component(Bonfire.UI.Groups.ComposerGroupLive, @__context__)}
                                   :if={current_user_id(@__context__)}
-                                  prompt={l("Write in group")}
-                                  without_icon
-                                  smart_input_opts={%{
-                                    context_id: id(@user),
-                                    mentions: [id(@user)],
-                                    to_boundaries: [
-                                      {:clone_context,
-                                       e(@user, :profile, :name, nil) ||
-                                         e(@user, :character, :username, l("Group"))}
-                                    ],
-                                    to_circles: [
-                                      {id(@user),
-                                       e(@user, :profile, :name, nil) ||
-                                         e(@user, :character, :username, l("Group"))}
-                                    ]
-                                  }}
-                                  class="btn btn-sm btn-primary"
                                 />
                               {#match _}
                                 <div data-role="follow_wrapper" :if={current_user_id(@__context__) != id(@user)}>
