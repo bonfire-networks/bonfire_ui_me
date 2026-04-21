@@ -1,9 +1,8 @@
 <div class="bonfire-wrapper">
-
-<StatefulComponent
-  module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
-  id="silenced_component"
-  selected_tab="silenced"
-  title={l("Silenced People & Instances")}
-/>
+  <StatefulComponent
+    module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
+    id="silenced_component"
+    selected_tab="silenced"
+    title={l("Silenced People & Instances")}
+  />
 </div>

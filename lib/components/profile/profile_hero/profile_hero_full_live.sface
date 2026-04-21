@@ -183,7 +183,6 @@
     </div>
 
     {#if @character_type == :group}
-
       {!-- TODO: make this config based, maybe a slot? --}
       <StatelessComponent
         module={maybe_component(

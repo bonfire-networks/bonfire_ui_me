@@ -1,7 +1,4 @@
-<Bonfire.UI.Common.WidgetBlockLive
-  widget_title={e(@widget_title, "Users")}
-  class=""
->
+<Bonfire.UI.Common.WidgetBlockLive widget_title={e(@widget_title, "Users")} class="">
   <:action>
     <div class="flex items-center ml-auto gap-2">
       {#if @with_batch_follow && current_user_id(@__context__)}
