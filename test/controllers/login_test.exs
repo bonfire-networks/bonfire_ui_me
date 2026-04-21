@@ -16,6 +16,33 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     assert [_] = Floki.find(form, "button[type='submit']")
   end
 
+  describe "passwordless_only? mode" do
+    setup do
+      Application.put_env(:bonfire_ui_me, :login, passwordless_only: true)
+      on_exit(fn -> Application.delete_env(:bonfire_ui_me, :login) end)
+      :ok
+    end
+
+    test "renders email-only magic-link form, hides password and signup" do
+      conn = get(conn(), "/login")
+      doc = floki_response(conn)
+
+      assert [form] = Floki.find(doc, "#login-form")
+      assert [_] = Floki.find(form, "input[type='email']")
+      assert [] = Floki.find(form, "input[type='password']")
+      assert Floki.text(form) =~ ~r/Send login link/
+      # Signup prompt should NOT be visible in passwordless-only mode.
+      refute Floki.text(doc) =~ ~r/Don't have an account/
+    end
+
+    test "posts to forgot-password endpoint" do
+      conn = get(conn(), "/login")
+      doc = floki_response(conn)
+      [form] = Floki.find(doc, "#login-form")
+      assert Floki.attribute(form, "action") |> List.first() =~ "/login/forgot-password"
+    end
+  end
+
   describe "required fields" do
     test "missing both" do
       conn = conn()

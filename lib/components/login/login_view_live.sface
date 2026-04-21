@@ -1,14 +1,54 @@
 <div class="w-full p-4 lg:p-0 mx-auto">
-  <StatelessComponent
-    module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
-    source={:login}
-  />
-  <.simple_form
-    for={@form}
-    action={path(:login, :create)}
-    class="w-full md:ml-0"
-    opts={[id: "login-form"]}
-  >
+  {#if @passwordless_only?}
+    <.simple_form
+      for={to_form(%{}, as: :forgot_password_fields)}
+      action={path(Bonfire.UI.Me.ForgotPasswordController, :create)}
+      class="w-full md:ml-0"
+      opts={[id: "login-form"]}
+    >
+      <input
+        type="hidden"
+        name="go"
+        value={@go || e(@form, :params, :go, nil) || e(@form, :source, :changes, :go, nil)}
+      />
+
+      <div class="fieldset">
+        <.input
+          field={to_form(%{}, as: :forgot_password_fields)[:email]}
+          type="email"
+          required
+          label={l("Email address")}
+          placeholder="alice@email.com"
+          label_class="fieldset-legend"
+          class="w-full input"
+        />
+      </div>
+
+      <.button
+        id="login_submit_btn"
+        type="submit"
+        variant="primary"
+        full_width
+        loading_text={l("Sending...")}
+      >
+        {l("Send login link")}
+      </.button>
+
+      <p class="text-xs text-base-content/60 mt-3 text-center">
+        {l("We'll email you a one-time link to sign in. No password needed.")}
+      </p>
+    </.simple_form>
+  {#else}
+    <StatelessComponent
+      module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
+      source={:login}
+    />
+    <.simple_form
+      for={@form}
+      action={path(:login, :create)}
+      class="w-full md:ml-0"
+      opts={[id: "login-form"]}
+    >
     <input
       type="hidden"
       name="go"
@@ -163,4 +203,5 @@
       </div>
     </div>
   </.simple_form>
+  {/if}
 </div>

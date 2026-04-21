@@ -40,7 +40,12 @@
             />
           {/if}
 
-          <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} go={@go} />
+          <Bonfire.UI.Me.LoginViewLive
+            form={@form}
+            error={@error}
+            go={@go}
+            passwordless_only?={@passwordless_only?}
+          />
         </div>
 
         <div class="max-w-md mx-auto w-full mt-12">
@@ -71,7 +76,12 @@
         href="/"
       />
       <div class="w-full max-w-md mx-auto">
-        <Bonfire.UI.Me.LoginViewLive form={@form} error={@error} go={@go} />
+        <Bonfire.UI.Me.LoginViewLive
+          form={@form}
+          error={@error}
+          go={@go}
+          passwordless_only?={@passwordless_only?}
+        />
       </div>
     </div>
 {/case}

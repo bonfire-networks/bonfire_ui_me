@@ -3,4 +3,5 @@ defmodule Bonfire.UI.Me.LoginViewLive do
   prop form, :any
   prop error, :any
   prop go, :any, default: nil
+  prop passwordless_only?, :boolean, default: false
 end

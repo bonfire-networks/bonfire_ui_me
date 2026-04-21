@@ -28,6 +28,17 @@ defmodule Bonfire.UI.Me.LoginLive do
     |> assign_new(:feed_title, fn -> "Public Feed" end)
     |> assign_new(:form, fn -> login_form(params) end)
     |> assign_new(:conn, fn -> session["conn"] end)
+    |> assign_new(:passwordless_only?, fn -> passwordless_only?() end)
+  end
+
+  # Instance-scoped flag populated by extensions (e.g. bonfire_ghost writes it
+  # from GHOST_GATED_MODE). `bonfire_ui_me` never references those extensions
+  # directly — it just reads its own setting.
+  def passwordless_only? do
+    Bonfire.Common.Settings.get(
+      [:bonfire_ui_me, :login, :passwordless_only],
+      false
+    ) in [true, "true", "1", "yes"]
   end
 
   def custom_render(socket_or_assigns \\ %{}) do
