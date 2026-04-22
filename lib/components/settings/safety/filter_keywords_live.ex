@@ -34,7 +34,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.FilterKeywordsLive do
   end
 
   defp save_and_update(socket, keywords) do
-    Settings.put([:bonfire_boundaries, :filter_keywords], keywords,
+    Bonfire.Boundaries.BlockKeywords.put_block_keywords_settings(keywords,
       scope: e(assigns(socket), :scope, nil),
       current_user: current_user(socket)
     )
