@@ -46,7 +46,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
         |> live_render(ForgotPasswordLive, session: %{"form" => changeset})
 
       other ->
-        Logger.error("Unexpected result from forgot password flow: #{inspect(other)}")
+        error(other, "Unexpected result from forgot password flow")
         live_render(conn, ForgotPasswordLive, session: %{"error" => true})
     end
   end
@@ -70,7 +70,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
   defp maybe_run_login_email_providers(data) do
     with email when is_binary(email) and email != "" <- Map.get(data, "email"),
          nil <- Accounts.get_by_email(email) do
-      Bonfire.UI.Me.LoginEmailProviders.ensure(email)
+      Bonfire.UI.Me.LoginEmailProvider.ensure(email)
     end
   end
 
