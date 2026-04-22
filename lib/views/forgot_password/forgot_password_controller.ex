@@ -1,5 +1,6 @@
 defmodule Bonfire.UI.Me.ForgotPasswordController do
   use Bonfire.UI.Common.Web, :controller
+  require Logger
   alias Bonfire.UI.Me.ForgotPasswordLive
   alias Bonfire.UI.Me.LoginLive
   alias Bonfire.UI.Me.LoginController
@@ -28,38 +29,25 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
 
   def create(conn, params) do
     data = Map.get(params, "forgot_password_fields", %{})
+    email = Map.get(data, "email")
 
     maybe_run_login_email_providers(data)
 
     case request_email(data) do
       {:ok, _, _} ->
-        conn
-        |> assign_flash(
-          :info,
-          l(
-            "Thanks for your request. If your email address is linked to an account here, a link should be on its way to you."
-          )
-        )
-        |> live_render(ForgotPasswordLive, session: %{"requested" => true})
+        live_render(conn, ForgotPasswordLive, session: %{"requested" => true, "email" => email})
 
       {:error, :not_found} ->
         # don't tell snoopers if someone has an account here or not
-        conn
-        |> assign_flash(
-          :info,
-          l(
-            "Thanks for your request. If your email address is linked to an account here, a link should be on its way to you."
-          )
-        )
-        |> live_render(ForgotPasswordLive, session: %{"requested" => true})
+        live_render(conn, ForgotPasswordLive, session: %{"requested" => true, "email" => email})
 
       {:error, changeset} ->
         conn
         |> live_render(ForgotPasswordLive, session: %{"form" => changeset})
 
       other ->
-        conn
-        |> live_render(ForgotPasswordLive, session: %{"error" => other})
+        Logger.error("Unexpected result from forgot password flow: #{inspect(other)}")
+        live_render(conn, ForgotPasswordLive, session: %{"error" => true})
     end
   end
 

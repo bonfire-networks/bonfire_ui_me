@@ -12,7 +12,7 @@
         value={@go || e(@form, :params, :go, nil) || e(@form, :source, :changes, :go, nil)}
       />
 
-      <div class="fieldset">
+      <div class="fieldset mb-2">
         <.input
           field={to_form(%{}, as: :forgot_password_fields)[:email]}
           type="email"

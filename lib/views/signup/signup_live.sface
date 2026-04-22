@@ -94,7 +94,7 @@
   {#match _}
     <div class="w-full px-4 lg:px-0 mt-8 mx-auto md:mt-24" id="signup">
       <Bonfire.UI.Common.LogoLinkLive
-        image_class="w-12 h-12 aspect-square rounded-full bg-center bg-no-repeat bg-contain"
+        image_class="w-12 h-12 aspect-square bg-center bg-no-repeat bg-contain"
         container_class="flex items-center mb-8 justify-center gap-4"
         href="/"
       />
