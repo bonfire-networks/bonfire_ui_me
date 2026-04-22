@@ -371,10 +371,11 @@
         options={if extension_enabled?(:bonfire_ui_reactions, @__context__),
           do: [
             nil: l("Chronological"),
-            latest_reply: l("Surface latest replies"),
+            latest_reply: l("By latest reply"),
             reply_count: l("Amount of replies"),
             boost_count: l("Amount of boosts"),
-            like_count: l("Amount of likes")
+            like_count: l("Amount of likes"),
+            popularity_score: l("Popularity (combined score)")
           ],
           else: [
             nil: l("Chronological"),
