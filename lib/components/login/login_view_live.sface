@@ -49,128 +49,128 @@
       class="w-full md:ml-0"
       opts={[id: "login-form"]}
     >
-    <input
-      type="hidden"
-      name="go"
-      value={@go || e(@form, :params, :go, nil) || e(@form, :source, :changes, :go, nil)}
-    />
-    {!-- <%= hidden_input f, :go %> --}
+      <input
+        type="hidden"
+        name="go"
+        value={@go || e(@form, :params, :go, nil) || e(@form, :source, :changes, :go, nil)}
+      />
+      {!-- <%= hidden_input f, :go %> --}
 
-    {!-- <%= f = form_for @form, path(:login, :create), class: "w-full md:ml-0" %> --}
+      {!-- <%= f = form_for @form, path(:login, :create), class: "w-full md:ml-0" %> --}
 
-    {!-- Display form-level errors --}
-    {#case @form && (e(@form, :source, :errors, :form, nil) || e(@form, :errors, :form, nil))}
-      {#match {"not_found", _}}
-        <div role="status" class="alert alert-warning">
-          <div class="flex flex-1">
-            <label>
-              {l("Account not found. Either your username or password was incorrect. Did you want to ")} <LinkLive to={path(:signup)} class="font-bold underline text-neutral">sign up</LinkLive> ?
-            </label>
-          </div>
-        </div>
-      {#match {"email_not_confirmed", _}}
-        {!-- <%= {"email_not_confirmed",_} -> %> --}
-        <div role="status" class="alert alert-warning">
-          <div class="flex flex-1">
-            <label>
-              {l(
-                "You need to to click the link in the email you should have received to verify your email address.  Need to have it "
-              )} <LinkLive
-                to={path(Bonfire.UI.Me.ConfirmEmailController)}
-                class="font-bold underline text-neutral"
-              >resent</LinkLive> ?
-            </label>
-          </div>
-        </div>
-      {#match {error_msg, _}}
-        {!-- Generic error message for other form errors --}
-        <div role="status" class="p-4 mb-4 rounded-md bg-yellow-50">
-          <div class="flex">
-            <div class="flex-shrink-0">
-              {!-- Heroicon name: exclamation --}
-              <svg
-                class="w-5 h-5 text-yellow-400"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
-            <div class="ml-3">
-              <h3 class="text-sm font-medium text-yellow-800">
-                {l("There was an error:")} ({error_msg}), {l("please try again.")}
-              </h3>
-            </div>
-          </div>
-        </div>
-      {#match _}
-        {#if @error}
+      {!-- Display form-level errors --}
+      {#case @form && (e(@form, :source, :errors, :form, nil) || e(@form, :errors, :form, nil))}
+        {#match {"not_found", _}}
           <div role="status" class="alert alert-warning">
             <div class="flex flex-1">
               <label>
-                {l("Error: ")} {@error}
+                {l("Account not found. Either your username or password was incorrect. Did you want to ")} <LinkLive to={path(:signup)} class="font-bold underline text-neutral">sign up</LinkLive> ?
               </label>
             </div>
           </div>
-        {/if}
-    {/case}
+        {#match {"email_not_confirmed", _}}
+          {!-- <%= {"email_not_confirmed",_} -> %> --}
+          <div role="status" class="alert alert-warning">
+            <div class="flex flex-1">
+              <label>
+                {l(
+                  "You need to to click the link in the email you should have received to verify your email address.  Need to have it "
+                )} <LinkLive
+                  to={path(Bonfire.UI.Me.ConfirmEmailController)}
+                  class="font-bold underline text-neutral"
+                >resent</LinkLive> ?
+              </label>
+            </div>
+          </div>
+        {#match {error_msg, _}}
+          {!-- Generic error message for other form errors --}
+          <div role="status" class="p-4 mb-4 rounded-md bg-yellow-50">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                {!-- Heroicon name: exclamation --}
+                <svg
+                  class="w-5 h-5 text-yellow-400"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-yellow-800">
+                  {l("There was an error:")} ({error_msg}), {l("please try again.")}
+                </h3>
+              </div>
+            </div>
+          </div>
+        {#match _}
+          {#if @error}
+            <div role="status" class="alert alert-warning">
+              <div class="flex flex-1">
+                <label>
+                  {l("Error: ")} {@error}
+                </label>
+              </div>
+            </div>
+          {/if}
+      {/case}
 
-    <div class="fieldset">
-      <.input
-        field={@form[:email_or_username]}
-        required
-        label={l("Email address or @username")}
-        placeholder="alice@email.com"
-        label_class="fieldset-legend"
-        class="w-full input"
-      />
-    </div>
-
-    <label class="fieldset w-full">
-      <legend class="fieldset-legend">
-        {l("Password (Min 10 characters)")}
-      </legend>
-      <div class="w-full relative" x-data="{show: false}">
-        <input
-          name="login_fields[password]"
-          type="password"
-          placeholder={l("Type your password")}
-          :type="show ? 'text' : 'password'"
+      <div class="fieldset">
+        <.input
+          field={@form[:email_or_username]}
           required
+          label={l("Email address or @username")}
+          placeholder="alice@email.com"
+          label_class="fieldset-legend"
           class="w-full input"
         />
-        <div
-          x-show="show == false"
-          x-on:click="show = true"
-          class="absolute cursor-pointer top-1 right-2 btn btn-ghost btn-circle btn-sm"
-        >
-          <#Icon solid="EyeOff" class="w-4 h-4" />
-        </div>
-        <div
-          x-show="show == true"
-          x-on:click="show = false"
-          class="absolute cursor-pointer top-1 right-2 btn btn-ghost btn-circle btn-sm"
-        >
-          <#Icon solid="Eye" class="w-3 h-3 text-primary" />
-        </div>
       </div>
-    </label>
-    {!-- <%= error_tag f, :password %> --}
 
-    <LinkLive
-      to={path(Bonfire.UI.Me.ForgotPasswordController)}
-      class="block w-full my-3 text-sm capitalize link link-primary"
-    >
-      {l("Forgot password?")}</LinkLive>
+      <label class="fieldset w-full">
+        <legend class="fieldset-legend">
+          {l("Password (Min 10 characters)")}
+        </legend>
+        <div class="w-full relative" x-data="{show: false}">
+          <input
+            name="login_fields[password]"
+            type="password"
+            placeholder={l("Type your password")}
+            :type="show ? 'text' : 'password'"
+            required
+            class="w-full input"
+          />
+          <div
+            x-show="show == false"
+            x-on:click="show = true"
+            class="absolute cursor-pointer top-1 right-2 btn btn-ghost btn-circle btn-sm"
+          >
+            <#Icon solid="EyeOff" class="w-4 h-4" />
+          </div>
+          <div
+            x-show="show == true"
+            x-on:click="show = false"
+            class="absolute cursor-pointer top-1 right-2 btn btn-ghost btn-circle btn-sm"
+          >
+            <#Icon solid="Eye" class="w-3 h-3 text-primary" />
+          </div>
+        </div>
+      </label>
+      {!-- <%= error_tag f, :password %> --}
 
-    {!-- WIP: ADD A CONFIG TO ENABLE / DISABLE 2FA --}
-    {!-- {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
+      <LinkLive
+        to={path(Bonfire.UI.Me.ForgotPasswordController)}
+        class="block w-full my-3 text-sm capitalize link link-primary"
+      >
+        {l("Forgot password?")}</LinkLive>
+
+      {!-- WIP: ADD A CONFIG TO ENABLE / DISABLE 2FA --}
+      {!-- {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
       {#match true}
         <div class="mt-4 rounded-md shadow alert bg-base-content/10">
           <p class="mb-2">{l(
@@ -186,22 +186,22 @@
         </div>
       {#match _}
     {/case} --}
-    <.button
-      id="login_submit_btn"
-      type="submit"
-      variant="primary"
-      full_width
-      loading_text={l("Logging in...")}
-    >
-      {l("Log in")}
-    </.button>
+      <.button
+        id="login_submit_btn"
+        type="submit"
+        variant="primary"
+        full_width
+        loading_text={l("Logging in...")}
+      >
+        {l("Log in")}
+      </.button>
 
-    <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-3">
-      <div class="flex py-3 pb-2 mt-3 border-t border-base-content/10 place-content-center">
-        <LinkLive to={path(:signup)} class="text-sm text-center normal-case">
-          {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></LinkLive>
+      <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-3">
+        <div class="flex py-3 pb-2 mt-3 border-t border-base-content/10 place-content-center">
+          <LinkLive to={path(:signup)} class="text-sm text-center normal-case">
+            {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></LinkLive>
+        </div>
       </div>
-    </div>
-  </.simple_form>
+    </.simple_form>
   {/if}
 </div>
