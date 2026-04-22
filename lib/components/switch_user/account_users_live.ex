@@ -5,4 +5,5 @@ defmodule Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive do
   prop current_account_users, :any
   prop max_users_per_account, :any, default: 4
   prop go, :any
+  prop active_user_id, :any, default: nil
 end

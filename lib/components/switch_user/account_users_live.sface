@@ -1,69 +1,65 @@
 {#if is_list(@current_account_users) && length(@current_account_users) > 0}
-  <div class="flex-1 mt-2">
-    <div class="grid grid-cols-2 gap-3 mx-4 lg:mx-0 lg:gap-6 md:grid-cols-2 lg:grid-cols-3">
-      {#for %{id: user_id, character: %{}} = user <- @current_account_users}
-        <div class="col-span-1 w-full indicator">
-          <Bonfire.UI.Common.BadgeCounterLive
-            parent_id="switch_user_notifications"
-            id={"unseen_count_#{e(user, :character, :notifications_id, nil)}"}
-            feed_id={e(user, :character, :notifications_id, nil)}
-            for_user={user}
-            non_async
-          />
+  <div class="grid grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    {#for %{id: user_id, character: %{}} = user <- @current_account_users}
+      <div class={[
+        "relative w-full indicator rounded-xl",
+        "ring-2 ring-primary ring-offset-2 ring-offset-base-100": user_id == @active_user_id
+      ]}>
+        <Bonfire.UI.Common.BadgeCounterLive
+          parent_id="switch_user_notifications"
+          id={"unseen_count_#{e(user, :character, :notifications_id, nil)}"}
+          feed_id={e(user, :character, :notifications_id, nil)}
+          for_user={user}
+          non_async
+        />
 
-          <Bonfire.UI.Common.BadgeCounterLive
-            parent_id="switch_user_notifications"
-            id={"unseen_count_#{e(user, :character, :inbox_id, nil)}"}
-            feed_id={e(user, :character, :inbox_id, nil)}
-            for_user={user}
-            non_async
-            counter_class="indicator-left"
-          />
+        <Bonfire.UI.Common.BadgeCounterLive
+          parent_id="switch_user_notifications"
+          id={"unseen_count_#{e(user, :character, :inbox_id, nil)}"}
+          feed_id={e(user, :character, :inbox_id, nil)}
+          for_user={user}
+          non_async
+          counter_class="indicator-left"
+        />
 
-          <LinkLive to={"/switch-user/#{e(user, :character, :username, "")}#{@go}"} class="w-full">
-            <Bonfire.UI.Me.UserPreviewLive
-              user={user}
-              path_prefix="/switch-user/"
-              go={@go}
-              with_banner
-              with_summary={false}
-              is_local
-              class="transition rounded-xl duration-300 ease-out component_user_preview ring-0 ring-primary ring-opacity-90 hover:ring-4"
-            />
-          </LinkLive>
-        </div>
-      {/for}
-      <div
-        :if={length(@current_account_users || []) < @max_users_per_account}
-        class="flex flex-col col-span-1 text-center divide-y divide-gray-200 place-content-center group"
-      >
-        <a href={path(:create_user)}>
-          <div class="flex flex-col items-center flex-1 tooltip" data-tip={l("Create a new user profile")}>
-            <div class="w-32 h-32">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="w-32 h-32 transition-colors duration-200 ease-in-out text-base-content opacity-80 group-hover:text-base-content"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </div>
-            <h3 class="mt-2 sr-only">{l("Create a new user profile")}</h3>
-          </div>
-        </a>
+        <span
+          :if={user_id == @active_user_id}
+          class="absolute top-2 left-2 z-10 badge badge-primary badge-sm font-medium"
+        >
+          {l("Current")}
+        </span>
+
+        <LinkLive to={"/switch-user/#{e(user, :character, :username, "")}#{@go}"} class="w-full block">
+          <Bonfire.UI.Me.UserPreviewLive
+            user={user}
+            path_prefix="/switch-user/"
+            go={@go}
+            with_banner
+            with_summary={false}
+            is_local
+            class="transition rounded-xl duration-300 ease-out component_user_preview ring-0 ring-primary ring-opacity-90 hover:ring-4"
+          />
+        </LinkLive>
       </div>
-    </div>
+    {/for}
+
+    <a
+      :if={length(@current_account_users || []) < @max_users_per_account}
+      href={path(:create_user)}
+      aria-label={l("Create a new profile")}
+      class="flex flex-col items-center justify-center min-h-[180px] rounded-xl border-2 border-dashed border-base-content/20 text-base-content/60 transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group"
+    >
+      <#Icon solid="PlusCircle" class="w-10 h-10 mb-2 transition-transform duration-200 group-hover:scale-110" />
+      <span class="text-sm font-medium">{l("Create a new profile")}</span>
+    </a>
   </div>
 {#else}
-  <a href={path(:create_user)}>
-    <div class="flex flex-col items-center flex-1 py-4">
-      <#Icon solid="PlusCircle" class="w-32 h-32" />
-      <h3 class="mt-4 text-lg font-medium text-primary-content-700">{l("Create a user profile")}</h3>
-    </div>
+  <a
+    href={path(:create_user)}
+    class="flex flex-col items-center justify-center min-h-[240px] rounded-xl border-2 border-dashed border-base-content/20 text-base-content/70 transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group p-8"
+  >
+    <#Icon solid="PlusCircle" class="w-16 h-16 mb-3 transition-transform duration-200 group-hover:scale-110" />
+    <h3 class="text-lg font-medium">{l("Create your first profile")}</h3>
+    <p class="mt-1 text-sm text-base-content/60">{l("Set up an identity for yourself, an organization, or a project.")}</p>
   </a>
 {/if}

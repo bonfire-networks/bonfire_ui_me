@@ -1,29 +1,39 @@
-<main id="switch-user">
-  {!-- <Bonfire.UI.Common.LogoLinkLive
-    container_class="flex items-center my-8 justify-center gap-2"
-    name_class="text-2xl font-bold tracking-wider"
-    href="/"
-  /> --}
-  <div class="flex-1 max-w-[680px] mx-auto">
-    <div class="alert alert-info alert-soft my-6">
-      <div class="flex">
-        <div class="flex-shrink-0">
-          <#Icon solid="InformationCircle" class="w-5 h-5" />
-        </div>
-        <div class="flex-1 ml-3 md:flex md:justify-between">
-          <p class="text-sm">
-            {l(
-              "You can have up to %{max_users} user profiles for different online identities, or for your organizations or projects.",
-              max_users: @max_users_per_account
-            )}</p>
-        </div>
-      </div>
+<main id="switch-user" class="min-h-[calc(100vh-4rem)] flex items-center justify-center py-10 px-4">
+  <div class="w-full max-w-3xl">
+    <div class="text-center mb-10">
+      {#if @active_user}
+        <p class="text-sm text-base-content/60">{l("You're currently signed in as")}</p>
+        <h1 class="text-2xl font-bold text-base-content mt-1">
+          {e(@active_user, :profile, :name, nil) || "@" <> e(@active_user, :character, :username, "")}
+        </h1>
+      {#else}
+        <h1 class="text-2xl font-bold text-base-content">{l("Choose a profile")}</h1>
+        <p class="text-sm text-base-content/60 mt-1">{l("Pick the identity you'd like to use.")}</p>
+      {/if}
+    </div>
+
+    <div class="flex items-baseline justify-between mb-4 px-1">
+      <h2 class="text-lg font-semibold text-base-content">
+        {if @active_user, do: l("Switch to…"), else: l("Your profiles")}
+      </h2>
+      <span class="text-xs text-base-content/50">
+        {l("%{count} of %{max} profiles", count: length(@current_account_users || []), max: @max_users_per_account)}
+      </span>
     </div>
 
     <Bonfire.UI.Me.SwitchUserViewLive.AccountUsersLive
       go={@go}
       current_account_users={@current_account_users}
       max_users_per_account={@max_users_per_account}
+      active_user_id={@active_user_id}
     />
+
+    <p class="mt-8 text-center text-xs text-base-content/50 max-w-lg mx-auto">
+      <#Icon solid="InformationCircle" class="inline w-4 h-4 -mt-0.5 mr-1 align-middle" />
+      {l(
+        "You can keep up to %{max_users} profiles for different identities for yourself, your organizations, or your projects.",
+        max_users: @max_users_per_account
+      )}
+    </p>
   </div>
 </main>
