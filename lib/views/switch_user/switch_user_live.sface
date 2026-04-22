@@ -1,4 +1,7 @@
-<main id="switch-user" class="min-h-[calc(100vh-4rem)] flex items-center justify-center py-10 px-4">
+<main
+  id="switch-user"
+  class="min-h-[calc(100vh-4rem)] flex items-center justify-center py-10 px-4"
+>
   <div class="w-full max-w-3xl">
     <div class="text-center mb-10">
       {#if @active_user}
@@ -17,7 +20,10 @@
         {if @active_user, do: l("Switch to…"), else: l("Your profiles")}
       </h2>
       <span class="text-xs text-base-content/50">
-        {l("%{count} of %{max} profiles", count: length(@current_account_users || []), max: @max_users_per_account)}
+        {l("%{count} of %{max} profiles",
+          count: length(@current_account_users || []),
+          max: @max_users_per_account
+        )}
       </span>
     </div>
 
