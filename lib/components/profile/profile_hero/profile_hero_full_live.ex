@@ -52,20 +52,30 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
 
   def update(assigns, socket) do
     user = e(assigns, :user, nil) || e(assigns(socket), :user, nil)
+    user_id = uid(user)
 
     socket =
       socket
       |> assign(assigns)
       |> LiveHandler.maybe_assign_aliases(user)
 
-    {:ok,
-     socket
-     |> assign(
-       Bonfire.Boundaries.Blocks.LiveHandler.preload_one(
-         user,
-         current_user(socket)
-       )
-     )}
+    # Only re-run block-status queries when the user prop changes — parent
+    # re-renders (e.g. smart_input_opts changes) otherwise trigger an n+1.
+    socket =
+      if user_id && e(assigns(socket), :__preloaded_blocks_for, nil) == user_id do
+        socket
+      else
+        socket
+        |> assign(
+          Bonfire.Boundaries.Blocks.LiveHandler.preload_one(
+            user,
+            current_user(socket)
+          )
+        )
+        |> assign(:__preloaded_blocks_for, user_id)
+      end
+
+    {:ok, socket}
   end
 
   # def update_many([{%{skip_preload: true}, _}] = assigns_sockets) do
