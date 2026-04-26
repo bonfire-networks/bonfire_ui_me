@@ -46,7 +46,6 @@
                     silenced?={@silenced?}
                   />
                 </div>
-
               </div>
 
               <div data-id="hero_data" class="px-4">
@@ -214,14 +213,10 @@
 
                     {#if @character_type == :group && current_user_id(@__context__) != id(@user) &&
                         not ((@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
-                          (@ghosted? == true && @silenced? == true))}
+                               (@ghosted? == true && @silenced? == true))}
                       <div class="flex flex-col lg:flex-row gap-2 mt-3">
                         {#if current_user_moderator?(current_user_id(@__context__), @moderators)}
-                          <LinkLive
-                            to={path(@user, :settings)}
-                            class="btn btn-primary w-full flex-1"
-                            label={l("Manage")}
-                          >
+                          <LinkLive to={path(@user, :settings)} class="btn btn-primary w-full flex-1" label={l("Manage")}>
                             <#Icon iconify="ph:gear-six-duotone" class="w-4 h-4" />
                             <span>{l("Manage")}</span>
                           </LinkLive>
@@ -239,27 +234,24 @@
                           />
                         {/if}
                         <div class="flex-1">
-                        <StatefulComponent
-                          module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
-                          id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
-                          object_id={id(@user)}
-                          object={@user}
-                          follows_me={@follows_me}
-                          path={path(@user)}
-                          verb={l("Follow")}
-                          verb_undo={l("Unfollow")}
-                          verb_already={l("Following")}
-                          hide_icon
-                          class="btn btn-soft btn-block flex-1"
-                        />
+                          <StatefulComponent
+                            module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+                            id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
+                            object_id={id(@user)}
+                            object={@user}
+                            follows_me={@follows_me}
+                            path={path(@user)}
+                            verb={l("Follow")}
+                            verb_undo={l("Unfollow")}
+                            verb_already={l("Following")}
+                            hide_icon
+                            class="btn btn-soft btn-block flex-1"
+                          />
                         </div>
                       </div>
                     {/if}
 
-                    <div
-                      :if={@character_type == :group && @date}
-                      class="text-xs text-base-content/50 mt-3"
-                    >
+                    <div :if={@character_type == :group && @date} class="text-xs text-base-content/50 mt-3">
                       {l("Created")} {@date}
                     </div>
                   </div>
