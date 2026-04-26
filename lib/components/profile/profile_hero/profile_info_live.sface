@@ -56,7 +56,10 @@
     </div>
 
     <div class="flex flex-col gap-3">
-      <div :if={@character_type == :user} class="w-full prose prose-sm max-w-none">
+      <div
+        :if={@character_type in [:user, :group] && e(@user, :profile, :summary, nil)}
+        class="w-full prose prose-sm max-w-none"
+      >
         {rich(e(@user, :profile, :summary, nil))}
       </div>
       <Bonfire.UI.Me.ProfileLinksLive

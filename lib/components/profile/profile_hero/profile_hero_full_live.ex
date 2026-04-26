@@ -35,6 +35,25 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop following_count, :any, default: nil
   prop familiar_followers, :list, default: []
 
+  prop preset_slug, :string, default: nil
+  prop membership_slug, :string, default: "on_request"
+  prop member_count, :integer, default: 0
+  prop topic_count, :integer, default: 0
+  prop date, :string, default: nil
+
+  defdelegate preset_meta(slug), to: Bonfire.Boundaries.Presets, as: :group_preset_meta
+
+  @doc """
+  Whether the current user is in `@moderators`. Membership check using already-loaded list ids,
+  not a Boundaries query — safe to call per render.
+  """
+  def current_user_moderator?(current_user_id, moderators)
+      when is_binary(current_user_id) and is_list(moderators) do
+    current_user_id in Enums.ids(moderators)
+  end
+
+  def current_user_moderator?(_, _), do: false
+
   # NOTE: the update functions are not used in user profile page because it is currently used statelessles
   def update(%{skip_preload: true} = assigns, socket) do
     {:ok,
