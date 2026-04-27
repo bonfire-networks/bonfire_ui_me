@@ -36,7 +36,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop familiar_followers, :list, default: []
 
   prop preset_slug, :string, default: nil
-  prop membership_slug, :string, default: "on_request"
+  prop membership_slug, :string, default: nil
   prop member_count, :integer, default: 0
   prop topic_count, :integer, default: 0
   prop date, :string, default: nil
