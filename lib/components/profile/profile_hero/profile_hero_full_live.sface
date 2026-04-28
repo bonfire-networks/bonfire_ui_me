@@ -267,8 +267,9 @@
                       </div>
                     {/if}
 
-                    <div :if={@character_type == :group && @date} class="text-xs text-base-content/50 mt-3">
-                      {l("Created")} {@date}
+                    <div :if={@character_type == :group && @date} class="text-xs text-base-content/50 mt-3 flex items-center gap-2">
+                      <#Icon iconify="ph:calendar-blank-duotone" class="w-4 h-4" />
+                      <span>{l("Created")} {@date}</span>
                     </div>
                   </div>
 

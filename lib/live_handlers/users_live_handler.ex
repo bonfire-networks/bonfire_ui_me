@@ -125,7 +125,13 @@ defmodule Bonfire.Me.Users.LiveHandler do
       ["socket_user:#{user_id}", "disconnect", %{}]
     )
 
-    Bonfire.Common.Cache.put("force_logout:#{user_id}", true, ttl: :timer.hours(24 * 60))
+    # `expire` is the option name `Cache.put` expects (not `ttl`); `async: false`
+    # blocks until the write commits, so admin-block flows can rely on the flag
+    # being live before they return.
+    Bonfire.Common.Cache.put("force_logout:#{user_id}", true,
+      expire: :timer.hours(24 * 60),
+      async: false
+    )
   end
 
   @doc "Force-logout all sessions for an account AND all its users"

@@ -37,13 +37,22 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
       {:ok, _, _} ->
         live_render(conn, ForgotPasswordLive, session: %{"requested" => true, "email" => email})
 
-      {:error, :not_found} ->
-        # don't tell snoopers if someone has an account here or not
-        live_render(conn, ForgotPasswordLive, session: %{"requested" => true, "email" => email})
+      {:error, %Ecto.Changeset{} = changeset} ->
+        # `request_confirm_email` adds `:form` errors like "not_found" /
+        # "confirmation_disabled" when the email is unknown or otherwise can't
+        # produce a link. Don't tell snoopers if someone has an account here
+        # or not — show the same neutral success state as the {:ok,_,_} branch
+        # whenever the form itself is otherwise valid.
+        if neutral_form_error?(changeset) do
+          live_render(conn, ForgotPasswordLive,
+            session: %{"requested" => true, "email" => email}
+          )
+        else
+          live_render(conn, ForgotPasswordLive, session: %{"form" => changeset})
+        end
 
-      {:error, changeset} ->
-        conn
-        |> live_render(ForgotPasswordLive, session: %{"form" => changeset})
+      {:error, :not_found} ->
+        live_render(conn, ForgotPasswordLive, session: %{"requested" => true, "email" => email})
 
       other ->
         error(other, "Unexpected result from forgot password flow")
@@ -52,6 +61,16 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
   end
 
   def form(params \\ %{}), do: Accounts.changeset(:forgot_password, params)
+
+  # Treat any errors that are only on `:form` (e.g. "not_found",
+  # "confirmation_disabled") as the neutral success case — the user typed a
+  # syntactically valid email, we just won't actually email anyone. Validation
+  # errors on the `:email` field (bad format, etc.) keep showing the form.
+  defp neutral_form_error?(%Ecto.Changeset{errors: errors}) when errors != [] do
+    Enum.all?(errors, fn {field, _} -> field == :form end)
+  end
+
+  defp neutral_form_error?(_), do: false
 
   # In passwordless mode the same form requests a magic sign-in link; otherwise
   # it's the classic forgot-password flow. The pipeline is shared — only the

@@ -205,8 +205,13 @@ defmodule Bonfire.UI.Me.SettingsTest do
       conn = conn(user: alice, account: account)
       {:ok, view, _html} = live(conn, "/settings/user/bonfire_ui_boundaries")
 
+      # Each preset button is wrapped in a div carrying `bg-primary` when
+      # selected. Default is "public", so the public button should be the
+      # selected one.
       assert view
-             |> has_element?("label", "public")
+             |> has_element?(
+               "[data-scope=safety_boundary_default] .bg-primary button[data-scope=public_boundary]"
+             )
 
       view
       |> element("[data-scope=safety_boundary_default] button[data-scope=local_boundary]")
@@ -216,7 +221,9 @@ defmodule Bonfire.UI.Me.SettingsTest do
       {:ok, refreshed_view, _html} = live(conn, "/settings/user/bonfire_ui_boundaries")
 
       assert refreshed_view
-             |> has_element?("label", "local")
+             |> has_element?(
+               "[data-scope=safety_boundary_default] .bg-primary button[data-scope=local_boundary]"
+             )
     end
   end
 end
