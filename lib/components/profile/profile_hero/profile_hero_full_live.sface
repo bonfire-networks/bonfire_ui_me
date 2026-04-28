@@ -228,7 +228,11 @@
                                (@ghosted? == true && @silenced? == true))}
                       <div class="flex flex-col lg:flex-row gap-2 mt-3">
                         {#if current_user_moderator?(current_user_id(@__context__), @moderators)}
-                          <LinkLive to={path(@user, :settings)} class="btn btn-primary w-full flex-1" label={l("Manage")}>
+                          <LinkLive
+                            to={"#{path(@user)}/settings"}
+                            class="btn btn-primary w-full flex-1"
+                            label={l("Manage")}
+                          >
                             <#Icon iconify="ph:gear-six-duotone" class="w-4 h-4" />
                             <span>{l("Manage")}</span>
                           </LinkLive>
