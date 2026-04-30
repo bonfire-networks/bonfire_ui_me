@@ -61,10 +61,10 @@
       {!-- Display form-level errors --}
       {#case @form && (e(@form, :source, :errors, :form, nil) || e(@form, :errors, :form, nil))}
         {#match {"not_found", _}}
-          <div role="status" class="alert alert-warning">
+          <div role="status" class="text-error">
             <div class="flex flex-1">
               <label>
-                {l("Account not found. Either your username or password was incorrect. Did you want to ")} <LinkLive to={path(:signup)} class="font-bold underline text-neutral">sign up</LinkLive> ?
+                {l("Account not found. Either your username or password was incorrect. Did you want to ")} <LinkLive to={path(:signup)} class="font-bold underline text-error">sign up</LinkLive> ?
               </label>
             </div>
           </div>
