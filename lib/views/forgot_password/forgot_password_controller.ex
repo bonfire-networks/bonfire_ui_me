@@ -44,9 +44,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
         # or not — show the same neutral success state as the {:ok,_,_} branch
         # whenever the form itself is otherwise valid.
         if neutral_form_error?(changeset) do
-          live_render(conn, ForgotPasswordLive,
-            session: %{"requested" => true, "email" => email}
-          )
+          live_render(conn, ForgotPasswordLive, session: %{"requested" => true, "email" => email})
         else
           live_render(conn, ForgotPasswordLive, session: %{"form" => changeset})
         end
