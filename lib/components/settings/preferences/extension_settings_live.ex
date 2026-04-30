@@ -53,4 +53,17 @@ defmodule Bonfire.UI.Me.ExtensionSettingsLive do
   def find_dep_by_app_name(deps, app_name) do
     Enum.find(deps, fn %{app: app} -> app == app_name end)
   end
+
+  def visible_in_scope?(widget, scope) do
+    widget_scope = e(widget, :scope, :user)
+
+    allowed =
+      case scope do
+        :instance -> [:user, :account, :instance]
+        :account -> [:user, :account]
+        _ -> [:user]
+      end
+
+    widget_scope in allowed
+  end
 end

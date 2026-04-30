@@ -3,7 +3,10 @@
       Bonfire.UI.Common.SettingsModule.nav(extension)}
     {#match false}
     {#match extension_nav}
-      {#case {Bonfire.UI.Common.SettingsModule.extension_has_components?(extension, modules),
+      {#case {Enum.any?(
+           Bonfire.UI.Common.SettingsModule.components(extension),
+           &Bonfire.UI.Me.ExtensionSettingsLive.visible_in_scope?(&1, @scope)
+         ),
          is_list(extension_nav) and extension_nav != [] and extension_nav != [true] and
            extension_nav != [false]}}
         {#match {has_settings_components?, has_settings_nav?}}
