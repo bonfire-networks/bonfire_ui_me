@@ -127,27 +127,27 @@
                             ((@member_count && @member_count > 0) || (@topic_count && @topic_count > 0))}
                           class="flex items-stretch gap-4 mr-2"
                         >
-                          <LinkPatchLive
+                          <LinkLive
                             :if={@member_count && @member_count > 0}
                             to={"#{path(@user)}/members"}
                             class="flex flex-col items-center min-w-[3rem] cursor-pointer"
                           >
                             <span class="tabular-nums text-base font-bold leading-tight">{@member_count}</span>
                             <span class="text-xs text-base-content/60 leading-tight">{l("members")}</span>
-                          </LinkPatchLive>
+                          </LinkLive>
                           <div
                             :if={@member_count && @member_count > 0 && @topic_count && @topic_count > 0}
                             class="w-px bg-base-content/10"
                             aria-hidden="true"
                           />
-                          <LinkPatchLive
+                          <LinkLive
                             :if={@topic_count && @topic_count > 0}
                             to={"#{path(@user)}/topics"}
                             class="flex flex-col items-center min-w-[3rem] cursor-pointer"
                           >
                             <span class="tabular-nums text-base font-bold leading-tight">{@topic_count}</span>
                             <span class="text-xs text-base-content/60 leading-tight">{l("topics")}</span>
-                          </LinkPatchLive>
+                          </LinkLive>
                         </div>
                       </div>
                     </div>

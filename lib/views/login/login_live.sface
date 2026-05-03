@@ -1,67 +1,73 @@
 {#case Settings.get([:ui, :auth, :layout], :minimal, @__context__)}
   {#match :two_panels}
     <div class="flex min-h-screen w-full" id="login">
-      <div class="hidden lg:flex lg:w-1/2 bg-primary items-center justify-center sticky top-0 h-screen overflow-hidden">
+      <div class="hidden lg:block lg:w-1/2 relative bg-primary sticky top-0 h-screen overflow-hidden">
         <img
           :if={Settings.get([:ui, :auth, :background_image], nil, @__context__)}
           src={Settings.get([:ui, :auth, :background_image], nil, @__context__)}
           alt=""
-          class="absolute inset-0 w-full h-full object-fill"
+          class="absolute inset-0 w-full h-full object-cover"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-primary/20 pointer-events-none"
+          aria-hidden="true"
         />
       </div>
 
-      <div class="w-full lg:w-1/2 flex flex-col justify-between p-8 lg:px-16 lg:py-12 bg-base-100 min-h-screen">
-        <div class="max-w-md mx-auto w-full flex flex-col gap-10">
-          <div
-            :if={Config.get([:ui, :theme, :instance_tagline], nil)}
-            class="text-4xl font-semibold text-base-content"
-          >
-            {rich(
-              Config.get(
-                [:ui, :theme, :instance_tagline],
-                "Welcome to #{Bonfire.Application.name_and_flavour()}"
-              )
-            )}
-          </div>
+      <div class="w-full lg:w-1/2 flex flex-col p-8 lg:px-16 lg:py-12 bg-base-100 min-h-screen">
+        <div class="flex-1 flex items-center">
+          <div class="max-w-md mx-auto w-full flex flex-col gap-8">
+            <div
+              :if={Config.get([:ui, :theme, :instance_tagline], nil)}
+              class="text-3xl lg:text-4xl font-semibold text-base-content leading-tight"
+            >
+              {rich(
+                Config.get(
+                  [:ui, :theme, :instance_tagline],
+                  "Welcome to #{Bonfire.Application.name_and_flavour()}"
+                )
+              )}
+            </div>
 
-          {#if Settings.get([:ui, :auth, :logo], nil, @__context__)}
-            <a href="/">
-              <img
-                src={Settings.get([:ui, :auth, :logo], nil, @__context__)}
-                alt=""
-                class="w-40 h-40 bg-center bg-no-repeat bg-contain object-contain"
+            {#if Settings.get([:ui, :auth, :logo], nil, @__context__)}
+              <a href="/" class="inline-block">
+                <img
+                  src={Settings.get([:ui, :auth, :logo], nil, @__context__)}
+                  alt=""
+                  class="w-24 h-24 object-contain"
+                />
+              </a>
+            {#else}
+              <Bonfire.UI.Common.LogoLinkLive
+                image_class="w-24 h-24 bg-center bg-no-repeat bg-contain"
+                container_class="flex items-center gap-4"
+                href="/"
               />
-            </a>
-          {#else}
-            <Bonfire.UI.Common.LogoLinkLive
-              image_class="w-40 h-40 bg-center bg-no-repeat bg-contain"
-              container_class="flex items-center gap-4"
-              href="/"
-            />
-          {/if}
+            {/if}
 
-          <Bonfire.UI.Me.LoginViewLive
-            form={@form}
-            error={@error}
-            go={@go}
-            passwordless_only?={@passwordless_only?}
-          />
+            <Bonfire.UI.Me.LoginViewLive
+              form={@form}
+              error={@error}
+              go={@go}
+              passwordless_only?={@passwordless_only?}
+            />
+          </div>
         </div>
 
-        <div class="max-w-md mx-auto w-full mt-12">
+        <div class="max-w-md mx-auto w-full pt-8">
           <div
             :if={Config.get([:ui, :theme, :instance_welcome, :description], nil)}
             class="text-sm text-base-content/70 mb-3"
           >
             {rich(Config.get([:ui, :theme, :instance_welcome, :description]))}
           </div>
-          <div class="text-xs text-base-content/50 flex flex-wrap gap-1">
+          <div class="text-xs text-base-content/50 flex flex-wrap items-center gap-x-2 gap-y-1">
             <LinkLive to="/about" class="link link-hover">{l("About")}</LinkLive>
-            <span>·</span>
+            <span aria-hidden="true">·</span>
             <LinkLive to="/conduct" class="link link-hover">{l("Code of conduct")}</LinkLive>
-            <span>·</span>
+            <span aria-hidden="true">·</span>
             <LinkLive to="/privacy" class="link link-hover">{l("Privacy")}</LinkLive>
-            <span>·</span>
+            <span aria-hidden="true">·</span>
             <LinkLive to="/users" class="link link-hover">{l("Users")}</LinkLive>
           </div>
         </div>
