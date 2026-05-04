@@ -24,15 +24,31 @@
         />
       </div>
 
-      <.button
-        id="login_submit_btn"
-        type="submit"
-        variant="primary"
-        full_width
-        loading_text={l("Sending...")}
-      >
-        {l("Send login link")}
-      </.button>
+      <div class={
+        "flex flex-col gap-2",
+        "sm:flex-row sm:gap-3": @external_signup_url
+      }>
+        <.button
+          id="login_submit_btn"
+          type="submit"
+          variant="primary"
+          full_width={!@external_signup_url}
+          class={"sm:flex-1": @external_signup_url}
+          loading_text={l("Sending...")}
+        >
+          {l("Send login link")}
+        </.button>
+
+        <a
+          :if={@external_signup_url}
+          href={@external_signup_url}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-ghost btn-outline sm:flex-1"
+        >
+          {l("Sign up")}
+        </a>
+      </div>
 
       <p class="text-xs text-base-content/60 mt-3 text-center">
         {l("We'll email you a one-time link to sign in. No password needed.")}

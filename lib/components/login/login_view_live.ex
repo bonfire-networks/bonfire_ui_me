@@ -4,4 +4,5 @@ defmodule Bonfire.UI.Me.LoginViewLive do
   prop error, :any
   prop go, :any, default: nil
   prop passwordless_only?, :boolean, default: false
+  prop external_signup_url, :string, default: nil
 end

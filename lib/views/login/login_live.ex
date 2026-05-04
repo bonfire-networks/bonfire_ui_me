@@ -29,6 +29,7 @@ defmodule Bonfire.UI.Me.LoginLive do
     |> assign_new(:form, fn -> login_form(params) end)
     |> assign_new(:conn, fn -> session["conn"] end)
     |> assign_new(:passwordless_only?, fn -> passwordless_only?() end)
+    |> assign_new(:external_signup_url, fn -> external_signup_url() end)
   end
 
   # Instance-scoped flag populated by extensions (e.g. bonfire_ghost writes it
@@ -39,6 +40,16 @@ defmodule Bonfire.UI.Me.LoginLive do
       [:bonfire_ui_me, :login, :passwordless_only],
       false
     ) in [true, "true", "1", "yes"]
+  end
+
+  def external_signup_url do
+    case Bonfire.Common.Settings.get(
+           [:bonfire_ui_me, :login, :external_signup_url],
+           nil
+         ) do
+      url when is_binary(url) and url != "" -> url
+      _ -> nil
+    end
   end
 
   def custom_render(socket_or_assigns \\ %{}) do
