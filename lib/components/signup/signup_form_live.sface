@@ -40,11 +40,7 @@
                     {l("Contact an administrator of this instance to request access.")}
                   </p>
               {/case}
-              <LinkLive
-                to="/about"
-                class="text-sm link link-primary"
-                data-role="instance_about_link"
-              >
+              <LinkLive to="/about" class="text-sm link link-primary" data-role="instance_about_link">
                 {l("Learn more about this instance")}
               </LinkLive>
             </div>
