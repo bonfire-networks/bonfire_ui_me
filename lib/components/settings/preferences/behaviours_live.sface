@@ -153,7 +153,7 @@
       />
     </form>
 
-    <form class="p-4" data-scope="set_compact_layout" phx-change="Bonfire.Common.Settings:set">
+    <!-- <form class="p-4" data-scope="set_compact_layout" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       <Bonfire.UI.Common.SettingsToggleLive
         name={l("Prefer compact layouts")}
@@ -161,7 +161,7 @@
         keys={[:ui, :compact]}
         scope={@scope}
       />
-    </form>
+    </form> -->
 
     {!-- <form data-scope="set_hide_actions_on_feed" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">

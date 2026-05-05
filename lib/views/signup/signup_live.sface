@@ -12,12 +12,12 @@
           class="absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-primary/20 pointer-events-none"
           aria-hidden="true"
         />
-        <div class="relative z-10 w-full max-h-screen overflow-y-auto p-8">
+        <!-- <div class="relative z-10 w-full max-h-screen overflow-y-auto p-8">
           <StatelessComponent
             module={maybe_component(Bonfire.CommunityRules.Web.InstanceRulesDisplayLive, @__context__)}
             show_header
           />
-        </div>
+        </div> -->
       </div>
 
       <div class="w-full lg:w-1/2 flex flex-col p-8 lg:px-16 lg:py-12 bg-base-100 min-h-screen">

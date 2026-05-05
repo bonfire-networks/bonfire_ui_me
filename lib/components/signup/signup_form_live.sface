@@ -2,10 +2,51 @@
   <div class="mx-auto">
     {#case prepare_error(@error || e(@form, :errors, :form, nil))}
       {#match "invite_only"}
-        <div role="status" class="my-4 alert alert-warning">
-          <div class="flex">
-            <div class="whitespace-normal">
-              {l("This instance is currently invite-only.")}
+        <div
+          role="status"
+          id="invite_only_notice"
+          data-role="invite_only_notice"
+          class="my-4 rounded-2xl border border-base-content/10 bg-base-200/60 p-6"
+        >
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-2">
+              <#Icon outline="Key" class="w-4 h-4 text-base-content/60" />
+              <span class="text-xs font-semibold uppercase tracking-wider text-base-content/60">
+                {l("Invite only")}
+              </span>
+            </div>
+            <div class="flex flex-col gap-2">
+              <h2 class="text-xl font-semibold text-base-content leading-tight">
+                {l("This community is invitation-based")}
+              </h2>
+              <p class="text-sm text-base-content/70 leading-relaxed">
+                {l(
+                  "New members join by invitation from an existing member or admin. If you'd like to take part, you can ask for an invite."
+                )}
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-1">
+              {#case Config.get([:ui, :theme, :instance_welcome, :invite_contact_email], nil)}
+                {#match invite_email when is_binary(invite_email) and invite_email != ""}
+                  <a
+                    href={"mailto:#{invite_email}?subject=#{URI.encode(l("Invite request"))}"}
+                    class="btn btn-primary btn-sm"
+                    data-role="request_invite"
+                  >
+                    {l("Request an invite")}
+                  </a>
+                {#match _}
+                  <p class="text-sm text-base-content/60">
+                    {l("Contact an administrator of this instance to request access.")}
+                  </p>
+              {/case}
+              <LinkLive
+                to="/about"
+                class="text-sm link link-primary"
+                data-role="instance_about_link"
+              >
+                {l("Learn more about this instance")}
+              </LinkLive>
             </div>
           </div>
         </div>

@@ -1,13 +1,27 @@
 <div class="p-4">
   <div class="">
-    <StatefulComponent
-      module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
-      id={:upload_banner}
-      object={current_user(@__context__)}
-      set_field={:current_user}
-      set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
-    />
-    <div class="flex mx-4 items-center">
+    <div class="relative">
+      <StatefulComponent
+        module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
+        id={:upload_banner}
+        object={current_user(@__context__)}
+        set_field={:current_user}
+        set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
+      />
+      {#if e(current_user(@__context__), :profile, :image_id, nil)}
+        <button
+          type="button"
+          id="remove_banner"
+          class="btn btn-sm btn-error absolute top-2 right-2"
+          phx-click="Bonfire.Me.Profiles:delete_profile_image"
+          phx-value-kind="banner"
+          data-confirm={l("Remove background image?")}
+        >
+          {l("Remove")}
+        </button>
+      {/if}
+    </div>
+    <div class="flex mx-4 items-center gap-3">
       <!-- <div class="flex items-center gap-3 p-3"> -->
       <StatefulComponent
         module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
@@ -19,6 +33,18 @@
         set_field={:current_user}
         set_fn={&Bonfire.Me.Profiles.LiveHandler.set_profile_image/5}
       />
+      {#if e(current_user(@__context__), :profile, :icon_id, nil)}
+        <button
+          type="button"
+          id="remove_avatar"
+          class="btn btn-sm btn-outline"
+          phx-click="Bonfire.Me.Profiles:delete_profile_image"
+          phx-value-kind="icon"
+          data-confirm={l("Remove avatar?")}
+        >
+          {l("Remove avatar")}
+        </button>
+      {/if}
     </div>
 
     <!-- phx-change="Bonfire.Me.Profiles:validate" -->

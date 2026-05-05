@@ -1,13 +1,13 @@
 <div>
   <#slot {@header} />
 
-  <div class="flex max-w-[680px] relative bg-base-100 shadow-lg rounded-lg  mx-auto">
+  <div class="flex max-w-[680px] relative mx-auto">
     <div class="w-full mx-auto">
       <Form for={%{}} as={:outgoing} action="/pub/remote_interaction">
         <HiddenInput name={:type} value={@interaction_type} />
         <HiddenInput name={:object} value={@canonical_url} />
 
-        <div class="w-full p-4 mx-auto">
+        <div class="w-full mx-auto">
           <div class="alert mb-6 items-start text-sm rounded alert-info alert-soft" role="alert">
             <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
             <div class="text-sm">

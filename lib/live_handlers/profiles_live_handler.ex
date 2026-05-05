@@ -50,6 +50,39 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
     end
   end
 
+  def handle_event("delete_profile_image", %{"kind" => kind}, socket)
+      when kind in ["icon", "banner"] do
+    type = String.to_existing_atom(kind)
+    user = current_user_required!(socket)
+
+    with {:ok, updated_user} <- Bonfire.Me.Profiles.unset_profile_image(type, user) do
+      # Users.update doesn't refresh assocs after nil-ing the FK, so clear the in-memory struct too
+      {updated_user, flash} =
+        case type do
+          :icon ->
+            {deep_merge(updated_user, %{profile: %{icon: nil, icon_id: nil}}),
+             l("Avatar removed!")}
+
+          :banner ->
+            {deep_merge(updated_user, %{profile: %{image: nil, image_id: nil}}),
+             l("Background image removed!")}
+        end
+
+      if type == :icon do
+        Bonfire.UI.Common.PersistentLive.maybe_send(
+          assigns(socket)[:__context__],
+          %{__context__: %{current_user: updated_user}}
+        )
+      end
+
+      {:noreply,
+       socket
+       |> assign_flash(:info, flash)
+       |> send_self_global(current_user: updated_user)
+       |> redirect_to(current_url(socket))}
+    end
+  end
+
   def set_profile_image(:icon, %{} = user, uploaded_media, assign_field, socket) do
     with {:ok, user} <-
            Bonfire.Me.Profiles.set_profile_image(:icon, user, uploaded_media) do

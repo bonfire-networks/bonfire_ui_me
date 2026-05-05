@@ -55,9 +55,55 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> render_change(%{"ui" => %{"font_family" => "Luciole"}})
 
       # force a refresh
-      {:ok, refreshed_view, html} = live(conn, next)
+      {:ok, _refreshed_view, html} = live(conn, next)
 
       assert html =~ "fonts/luciole.css"
+      # the default Inter font CSS should not be loaded after switching
+      refute html =~ "fonts/inter-latin.css"
+      # the CSS variable should reflect the chosen font name
+      assert html =~ ~s|--font-sans: "Luciole"|
+    end
+
+    test "As a user, the chosen font is reflected in the page <head> after a fresh load" do
+      account = fake_account!()
+      alice = fake_user!(account)
+      conn = conn(user: alice, account: account)
+      next = "/settings/user/preferences/appearance"
+      {:ok, view, _html} = live(conn, next)
+
+      view
+      |> element("form[data-scope=set_font]")
+      |> render_change(%{"ui" => %{"font_family" => "OpenDyslexic"}})
+
+      # simulate a hard refresh with a NEW conn for the same user
+      fresh_conn = conn(user: alice, account: account)
+      {:ok, _view, html} = live(fresh_conn, "/dashboard")
+
+      assert html =~ "fonts/opendyslexic.css"
+      refute html =~ "fonts/inter-latin.css"
+      assert html =~ ~s|--font-sans: "OpenDyslexic"|
+    end
+
+    test "Changing the font pushes a set_font event so the head updates without a refresh" do
+      account = fake_account!()
+      alice = fake_user!(account)
+      conn = conn(user: alice, account: account)
+      next = "/settings/user/preferences/appearance"
+      {:ok, view, _html} = live(conn, next)
+
+      view
+      |> element("form[data-scope=set_font]")
+      |> render_change(%{
+        "_target" => ["ui", "font_family"],
+        "ui" => %{"font_family" => "OpenDyslexic"}
+      })
+
+      # Without this push, the initial `<head>` (rendered once via root.html.heex) keeps
+      # the old font across LV navigations until a full HTTP refresh.
+      assert_push_event(view, "set_font", %{
+        font_name: "OpenDyslexic",
+        href: "/fonts/opendyslexic.css"
+      })
     end
 
     test "As a user I want to select a different language" do
