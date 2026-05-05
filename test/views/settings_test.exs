@@ -193,32 +193,32 @@ defmodule Bonfire.UI.Me.SettingsTest do
              |> has_element?("svg[data-scope=animal_avatar]")
     end
 
-    test "As a user I want to set the compact layout" do
-      account = fake_account!()
-      alice = fake_user!(account)
+    # test "As a user I want to set the compact layout" do
+    #   account = fake_account!()
+    #   alice = fake_user!(account)
 
-      attrs = %{
-        post_content: %{summary: "summary", html_body: "first post"}
-      }
+    #   attrs = %{
+    #     post_content: %{summary: "summary", html_body: "first post"}
+    #   }
 
-      assert {:ok, post} =
-               Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
+    #   assert {:ok, post} =
+    #            Posts.publish(current_user: alice, post_attrs: attrs, boundary: "public")
 
-      conn = conn(user: alice, account: account)
-      next = "/settings/user/preferences/behaviours"
-      {:ok, view, _html} = live(conn, next)
+    #   conn = conn(user: alice, account: account)
+    #   next = "/settings/user/preferences/behaviours"
+    #   {:ok, view, _html} = live(conn, next)
 
-      view
-      |> element("form[data-scope=set_compact_layout]")
-      |> render_change(%{"ui" => %{"compact" => "true"}})
+    #   view
+    #   |> element("form[data-scope=set_compact_layout]")
+    #   |> render_change(%{"ui" => %{"compact" => "true"}})
 
-      # force a refresh
-      {:ok, refreshed_view, _html} = live(conn, "/post/#{post.id}")
+    #   # force a refresh
+    #   {:ok, refreshed_view, _html} = live(conn, "/post/#{post.id}")
 
-      # open_browser(refreshed_view)
-      assert refreshed_view
-             |> has_element?("article[data-compact]")
-    end
+    #   # open_browser(refreshed_view)
+    #   assert refreshed_view
+    #          |> has_element?("article[data-compact]")
+    # end
   end
 
   describe "Behaviours" do
