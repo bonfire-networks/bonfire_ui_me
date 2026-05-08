@@ -18,8 +18,7 @@ defmodule Bonfire.UI.Me.CreateUserLive do
      |> assign(:page, l("Create a new user profile"))
      |> assign(:page_title, l("Create a new user profile"))
      |> assign_new(:form, fn -> user_form(current_account(socket)) end)
-     |> assign_new(:error, fn -> nil end)
-     #  |> assign_new(:current_account_users, fn -> nil end) 
+     #  |> assign_new(:current_account_users, fn -> nil end)
      |> assign(
        without_sidebar: true,
        no_header: true,

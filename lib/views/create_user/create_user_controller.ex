@@ -56,16 +56,12 @@ defmodule Bonfire.UI.Me.CreateUserController do
 
       {:error, changeset} ->
         debug(changeset_error: changeset)
-        # |> IO.inspect
-        err =
-          EctoSparkles.Changesets.Errors.changeset_errors_string(
-            changeset,
-            false
-          )
 
         conn
-        |> assign(:error, err)
-        |> assign_flash(:error, l("Please double check your inputs... ") <> err)
+        |> assign_flash(
+          :error,
+          l("Please double check your inputs: ") <> flat_changeset_errors(changeset)
+        )
         |> paint(changeset)
 
       r ->
@@ -97,5 +93,36 @@ defmodule Bonfire.UI.Me.CreateUserController do
     conn
     |> assign(:form, changeset)
     |> live_render(CreateUserLive)
+  end
+
+  # Walks traversed changeset errors and produces a comma-separated, user-facing
+  # list like "Name can't be blank, Username has invalid format" — without
+  # exposing nested-changeset parent keys (e.g. "Profile:", "Character:").
+  defp flat_changeset_errors(%Ecto.Changeset{} = changeset) do
+    changeset
+    |> Ecto.Changeset.traverse_errors(fn {msg, opts} ->
+      Enum.reduce(opts, msg, fn {key, value}, acc ->
+        String.replace(acc, "%{#{key}}", to_string(value))
+      end)
+    end)
+    |> collect_errors()
+    |> Enum.join(", ")
+  end
+
+  defp collect_errors(errors) when is_map(errors) do
+    Enum.flat_map(errors, fn
+      {field, msgs} when is_list(msgs) ->
+        Enum.map(msgs, &"#{humanize_field(field)} #{&1}")
+
+      {_field, nested} when is_map(nested) ->
+        collect_errors(nested)
+    end)
+  end
+
+  defp humanize_field(field) do
+    field
+    |> to_string()
+    |> String.replace("_", " ")
+    |> String.capitalize()
   end
 end

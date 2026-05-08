@@ -207,44 +207,6 @@
       </div>
     </div> --}
 
-    <form
-      class="p-4"
-      data-scope="set_default_feed"
-      name="settings"
-      phx-change="Bonfire.Common.Settings:set"
-    >
-      <label for="set_default_feed" class="sr-only">{l("Set default feed")}</label>
-      <Bonfire.UI.Common.SettingsSelectLive
-        id="set_default_feed"
-        name={l("Default feed")}
-        description={l("Select the feed you want to display on the homepage or main feed page.")}
-        keys={[Bonfire.UI.Social.FeedLive, :default_feed]}
-        options={if module_enabled?(Bonfire.Social.Pins, @__context__) and
-             Bonfire.Common.Config.get(
-               [Bonfire.UI.Social.FeedsLive, :curated],
-               false
-             ) do
-          [
-            # my: l("My Feed"),
-            curated: l("Curated"),
-            explore: l("All"),
-            local: l("Local"),
-            fediverse: l("Remote"),
-            none: l("None")
-          ]
-        else
-          [
-            # my: l("My Feed"),
-            explore: l("All"),
-            local: l("Local"),
-            fediverse: l("Remote"),
-            none: l("None")
-          ]
-        end}
-        scope={@scope}
-      />
-    </form>
-
     <!-- <form data-scope="time_limit" class="p-4" phx-change="Bonfire.Common.Settings:set">
       <label for="set_default_time_limit" class="sr-only">{l("Set default time limit")}</label>
       <Bonfire.UI.Common.SettingsSelectLive
@@ -330,7 +292,8 @@
         label_name="Set thread layout"
         description={l("Select the default way to view discussions (can always change in the feed controls options)")}
         keys={[Bonfire.UI.Social.ThreadLive, :thread_mode]}
-        options={[flat: l("Flat"), nested: l("Nested threads")]}
+        options={[nested: l("Nested threads"), flat: l("Flat")]}
+        default_value={Bonfire.Common.Config.get([Bonfire.UI.Social.ThreadLive, :thread_mode], nil, :bonfire_ui_social)}
         scope={@scope}
       />
     </form>
