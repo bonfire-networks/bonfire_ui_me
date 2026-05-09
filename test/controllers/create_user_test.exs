@@ -45,7 +45,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       conn = post(conn, "/create-user", %{"user" => %{}})
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
-      assert Floki.text(view) =~ "error occurred"
+      assert Floki.text(view) =~ "can't be blank"
       assert [form] = Floki.find(doc, "#create-user-form")
 
       assert [_] = Floki.find(form, "#create-user-form_character_0_username")
@@ -69,7 +69,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
 
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
-      assert Floki.text(view) =~ "error occurred"
+      assert Floki.text(view) =~ "can't be blank"
       assert [form] = Floki.find(doc, "#create-user-form")
 
       assert_form_field_good(form, "#create-user-form_profile_0_name", ["user", "profile", "name"])
@@ -91,7 +91,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
 
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
-      assert Floki.text(view) =~ "error occurred"
+      assert Floki.text(view) =~ "can't be blank"
       assert [form] = Floki.find(doc, "#create-user-form")
 
       assert [summary_field] = Floki.find(form, "#create-user-form_profile_0_summary")
@@ -114,7 +114,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
 
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
-      assert Floki.text(view) =~ "error occurred"
+      assert Floki.text(view) =~ "can't be blank"
       assert [form] = Floki.find(doc, "#create-user-form")
 
       assert_form_field_good(form, "#create-user-form_profile_0_name", ["user", "profile", "name"])
@@ -139,7 +139,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
 
       doc = floki_response(conn)
       assert [view] = Floki.find(doc, "#create_user")
-      assert Floki.text(view) =~ "error occurred"
+      assert Floki.text(view) =~ "can't be blank"
       assert [form] = Floki.find(doc, "#create-user-form")
 
       assert [summary_field] = Floki.find(form, "#create-user-form_profile_0_summary")
