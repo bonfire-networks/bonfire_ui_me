@@ -16,7 +16,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     # has placeholder avatar
     # assert src =~ "/images/avatar.png"
 
-    {:ok, view, doc} = live(conn, next)
+    {:ok, view, _doc} = live(conn, next)
 
     # //////////////////
 
@@ -32,10 +32,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
         }
       ])
 
-    uploaded = render_upload(icon, "image.png")
-
-    # Floki.find(uploaded, "[data-id=upload_icon]")
-    # |> debug("dsdssddsds")
+    {:ok, uploaded} = Floki.parse_document(render_upload(icon, "image.png"))
 
     [done] = Floki.attribute(uploaded, "[data-id=preview_icon]", "src")
 
@@ -55,9 +52,8 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
 
     next = "/settings/user/profile"
     {:ok, view, doc} = live(conn, next)
-    # |> IO.inspect
-    # {view, doc} = floki_live(conn, next)
-    # open_browser(view)
+    {:ok, doc} = Floki.parse_document(doc)
+
     [style] = Floki.attribute(doc, "[data-id='upload_banner']", "style")
     refute style =~ "/data/uploads/"
 
@@ -73,7 +69,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
         }
       ])
 
-    uploaded = render_upload(icon, "image.png")
+    {:ok, uploaded} = Floki.parse_document(render_upload(icon, "image.png"))
 
     [done] = Floki.attribute(uploaded, "[data-id=upload_banner]", "style")
 
