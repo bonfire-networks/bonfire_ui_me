@@ -45,16 +45,29 @@ defmodule Bonfire.UI.Me.LoginEmailProvider do
   @doc false
   @spec ensure([module()], String.t()) :: {:ok, term()} | :no_match
   def ensure(providers, email) when is_list(providers) and is_binary(email) and email != "" do
-    Enum.reduce_while(providers, :no_match, fn provider, acc ->
-      case safe_call(provider, email) do
-        {:ok, _} = ok -> {:halt, ok}
-        :no_match -> {:cont, acc}
-        {:error, reason} -> {:cont, log_and_continue(provider, reason, acc)}
-      end
-    end)
+    result =
+      Enum.reduce_while(providers, :no_match, fn provider, acc ->
+        case safe_call(provider, email) do
+          {:ok, _} = ok -> {:halt, ok}
+          :no_match -> {:cont, acc}
+          {:error, reason} -> {:cont, log_and_continue(provider, reason, acc)}
+        end
+      end)
+
+    if result == :no_match, do: maybe_send_registration_hint(email)
+    result
   end
 
   def ensure(_, _), do: :no_match
+
+  defp maybe_send_registration_hint(email) do
+    with url when is_binary(url) and url != "" <-
+           Bonfire.Common.Config.get([:bonfire_ui_me, :login, :external_signup_url]),
+         mailer when not is_nil(mailer) <- Bonfire.Me.Mails.mailer() do
+      Bonfire.Me.Mails.registration_hint(url)
+      |> mailer.send_now(email)
+    end
+  end
 
   defp safe_call(provider, email) do
     provider.ensure_account(email)
