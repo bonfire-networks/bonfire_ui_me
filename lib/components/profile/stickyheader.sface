@@ -29,6 +29,7 @@
               user_id={id(@user)}
               title={e(@user, :profile, :name, "Anon")}
               src={Media.avatar_url(@user)}
+              is_remote={!check_is_local?(@user, preload_if_needed: false)}
             />
           {/if}
         </span>

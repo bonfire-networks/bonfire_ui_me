@@ -11,6 +11,7 @@
           src={Media.avatar_url(@the_character)}
           user_id={id(@the_character)}
           showing_within={@showing_within}
+          is_remote={!check_is_local?(@the_character, preload_if_needed: false)}
         />
       </div>
       <div class="flex items-center justify-between flex-1 ml-8 space-x-1">

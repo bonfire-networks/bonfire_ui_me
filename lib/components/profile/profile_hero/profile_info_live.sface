@@ -15,6 +15,7 @@
             user_id={id(user)}
             src={Media.avatar_url(user)}
             title={e(user, :profile, :name, "")}
+            is_remote={!check_is_local?(user, preload_if_needed: false)}
           />
         {/for}
       </div>

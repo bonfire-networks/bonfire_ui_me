@@ -26,6 +26,7 @@
             title={e(@profile, :name, "")}
             class={@avatar_class || "w-12 h-12"}
             showing_within={@showing_within}
+            is_remote={@is_remote?}
           />
         </LinkLive>
         <div :if={!@only_img} class="min-w-0">

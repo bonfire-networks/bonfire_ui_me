@@ -10,6 +10,7 @@
         wrapper_class="border-0 avatar !flex"
         user_id={id(@user)}
         src={Media.avatar_url(@user)}
+        is_remote={!@is_local_user}
       />
       <div class="truncate ellipsis">
         <LinkLive

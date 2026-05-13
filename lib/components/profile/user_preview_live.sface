@@ -24,12 +24,13 @@
                   class="flex items-center justify-between"
                 >
                   <Bonfire.UI.Common.AvatarLive
-                    parent_id="user_preview"
+                    parent_id={deterministic_dom_id(__MODULE__, id(@user), "user_preview", @parent_id)}
                     class="inline-block object-cover rounded-full w-16 h-16"
                     bg_class="h-full"
                     title={e(@user, :profile, :name, "Anon")}
                     src={avatar_url}
                     user_id={id(@user)}
+                    is_remote={!check_is_local?(@user, preload_if_needed: false)}
                   />
                   {!-- rounded-full bg-base-300 --}
                 </LinkLive>

@@ -20,6 +20,7 @@
             class="inline-block object-cover w-[140px] h-[140px] border-4 border-base-100 rounded-full"
             src={Media.avatar_url(@user)}
             user_id={id(@user)}
+            is_remote={!check_is_local?(@user, preload_if_needed: false)}
           />
 
           <div id="guest_info" class="flex text-center place-content-center flex-col">

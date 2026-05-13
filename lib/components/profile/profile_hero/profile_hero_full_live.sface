@@ -28,6 +28,16 @@
                   true -> ""
                 end}
               >
+                {!-- Hidden probe: if banner 404s, push refetch event via LiveView --}
+                {#if is_binary(banner_url) && id(@user)}
+                  <img
+                    src={banner_url}
+                    style="display:none;"
+                    aria-hidden="true"
+                    data-on-error={JS.push("Bonfire.Federate.ActivityPub:refetch_profile:#{id(@user)}")}
+                    onerror="if(window.liveSocket&&this.dataset.onError)liveSocket.execJS(this,this.dataset.onError)"
+                  />
+                {/if}
                 <div class="absolute right-3 bottom-3 flex gap-2">
                   <StatelessComponent
                     module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicator, @__context__)}
@@ -76,6 +86,7 @@
                               user_id={id(@user)}
                               fallback_class="w-24 h-24"
                               src={avatar_url}
+                              is_remote={!@is_local?}
                             />
                           {/if}
                         {/if}
