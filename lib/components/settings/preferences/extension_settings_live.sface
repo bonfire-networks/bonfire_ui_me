@@ -37,7 +37,7 @@
               do:
                 Enum.filter(extension_settings, fn widget ->
                   keys = e(widget, :data, :keys, nil)
-                  keys && Bonfire.Common.Settings.get(keys, nil, scope: :instance)
+                  keys && Config.get(keys, nil)
                 end),
               else: []}
             {#match instance_configured when instance_configured != []}
