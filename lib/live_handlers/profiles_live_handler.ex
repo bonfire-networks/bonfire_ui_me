@@ -196,6 +196,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
            ]}
         ]
       )
+      |> maybe_seo_assign(user)
 
       # |> assign_global(
       # following: following || [],
@@ -443,6 +444,15 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       sidebar_widgets: sidebar_widgets
     ]
     |> debug()
+  end
+
+  # Assign the SEO item only on the disconnected (dead) render — that is what
+  # crawlers/unfurlers (X, Mastodon, Slack, Facebook) actually fetch, and it
+  # avoids paying for it on every connected LiveView mount.
+  defp maybe_seo_assign(socket, user) do
+    if !socket_connected?(socket),
+      do: SEO.assign(socket, user),
+      else: socket
   end
 
   def maybe_assign_aliases(socket, user) do
