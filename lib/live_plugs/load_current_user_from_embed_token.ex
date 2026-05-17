@@ -50,8 +50,8 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken do
   def mount(_, _, socket), do: {:ok, socket}
 
   @doc "Sign a long-lived embed token for the given user ID."
-  def sign(conn_or_endpoint, user_id) do
-    Phoenix.Token.sign(conn_or_endpoint, @token_salt, %{user_id: user_id})
+  def sign(_conn_or_endpoint \\ nil, user_id) do
+    Bonfire.Me.Auth.BearerToken.sign(%{user_id: user_id}, salt: @token_salt)
   end
 
   @doc """
@@ -80,9 +80,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken do
   def valid_token?(_), do: false
 
   defp verify_token(token) do
-    endpoint = Bonfire.Common.Config.endpoint_module()
-
-    case Phoenix.Token.verify(endpoint, @token_salt, token, max_age: @max_age) do
+    case Bonfire.Me.Auth.BearerToken.verify(token, salt: @token_salt, max_age: @max_age) do
       {:ok, %{user_id: user_id}} when is_binary(user_id) -> {:ok, user_id}
       _ -> :error
     end
