@@ -59,5 +59,4 @@
   :if={@page_info}
   live_handler={__MODULE__}
   page_info={@page_info}
-  hide_guest_fallback
 />

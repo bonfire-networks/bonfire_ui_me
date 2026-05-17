@@ -54,10 +54,10 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
            page_info: page_info
          )}
       else
-        throw(l("You need to log in before browsing the user directory"))
+        raise(Bonfire.Fail.Auth, :needs_login)
       end
     else
-      throw(l("The user directory is disabled on this instance"))
+      throw({:error, l("The user directory is disabled on this instance")})
     end
   end
 
@@ -75,7 +75,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
 
   def list_users(current_user, params, instance \\ nil) do
     paginate =
-      input_to_atoms(params)
+      Bonfire.UI.Common.LiveHandlers.unwrap_namespaced_params(params, __MODULE__)
       |> debug
 
     if instance do

@@ -20,7 +20,9 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
          ) == true do
       if (show_to == :guests or current_user(socket)) || current_account(socket) do
         %{instances: instances, instances_metadata: instances_metadata, page_info: page_info} =
-          list_instances(input_to_atoms(params))
+          list_instances(
+            Bonfire.UI.Common.LiveHandlers.unwrap_namespaced_params(params, __MODULE__)
+          )
 
         {:ok,
          assign(
@@ -33,16 +35,16 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
            page_info: page_info
          )}
       else
-        throw(l("You need to log in before browsing the user directory"))
+        raise(Bonfire.Fail.Auth, :needs_login)
       end
     else
-      throw(l("The user directory is disabled on this instance"))
+      throw({:error, l("The fediverse instances directory is disabled on this instance")})
     end
   end
 
   def handle_event("load_more", attrs, socket) do
     %{instances: instances, instances_metadata: metadata, page_info: page_info} =
-      list_instances(input_to_atoms(attrs))
+      list_instances(Bonfire.UI.Common.LiveHandlers.unwrap_namespaced_params(attrs, __MODULE__))
 
     {:noreply,
      socket
