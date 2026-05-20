@@ -160,6 +160,18 @@
                             <span class="text-xs text-base-content/60 leading-tight">{l("topics")}</span>
                           </LinkLive>
                         </div>
+
+                        <Bonfire.UI.Me.HeroMoreActionsLive
+                          character_type={@character_type}
+                          user={@user}
+                          parent_id="profile_hero"
+                          ghosted_instance_wide?={@ghosted_instance_wide?}
+                          silenced_instance_wide?={@silenced_instance_wide?}
+                          ghosted?={@ghosted?}
+                          silenced?={@silenced?}
+                          boundary_preset={@boundary_preset}
+                          permalink={canonical_url(@user, preload_if_needed: false)}
+                        />
                       </div>
                     </div>
 

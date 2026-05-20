@@ -185,16 +185,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       |> assign(
         character_type: :user,
         no_mobile_header: true,
-        is_local?: is_local?,
-        page_header_aside: [
-          {Bonfire.UI.Me.HeroMoreActionsLive,
-           [
-             character_type: :user,
-             user: user,
-             parent_id: "profile_header",
-             permalink: canonical_url(user, preload_if_needed: false)
-           ]}
-        ]
+        is_local?: is_local?
       )
       |> Bonfire.UI.Common.SEO.maybe_assign_seo(user)
 
