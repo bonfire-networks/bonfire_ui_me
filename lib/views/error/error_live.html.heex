@@ -1,5 +1,60 @@
-<div class="flex-grow w-full bg-base-100 rounded-md shrink-0 ">
-  <h1 class="p-4 text-2xl font-bold text-center text-base-content">
+<section
+  id="error-page"
+  role="alert"
+  aria-live="polite"
+  aria-labelledby="error-headline"
+  class="flex flex-col items-center text-center px-4 py-12 sm:py-16 bonfire-wrapper"
+>
+  <div
+    class="relative w-16 h-16 mb-6 motion-safe:animate-[fade-in_0.5s_ease-out]"
+    aria-hidden="true"
+  >
+    <div class="absolute inset-0 rounded-full bg-warning/15" />
+    <div class="relative w-16 h-16 rounded-full flex items-center justify-center">
+      <Iconify.iconify icon="ph:warning-circle-duotone" class="w-8 h-8 text-warning" />
+    </div>
+  </div>
+
+  <h1 id="error-headline" class="text-2xl font-bold text-base-content mb-2 text-balance">
     {@message}
   </h1>
-</div>
+
+  <p class="text-base-content/70 text-sm leading-relaxed max-w-sm mb-8 text-balance">
+    <%= if @code do %>
+      {l("This path didn't lead anywhere we recognise. The page may have moved, been removed, or never existed.")}
+    <% else %>
+      {l("Something interrupted that page. You can head back, return home, or keep exploring.")}
+    <% end %>
+  </p>
+
+  <div class="w-full flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center justify-center gap-2">
+    <button
+      type="button"
+      onclick="history.length > 1 ? history.back() : window.location.href = '/'"
+      class="btn btn-primary btn-md gap-2 normal-case"
+    >
+      <Iconify.iconify icon="ph:arrow-left" class="w-4 h-4" />
+      {l("Go back")}
+    </button>
+    <a
+      href="/"
+      class="btn btn-soft btn-md gap-2 normal-case"
+    >
+      <Iconify.iconify icon="ph:house-duotone" class="w-4 h-4" />
+      {l("Home")}
+    </a>
+    <a
+      href="/feed"
+      class="btn btn-ghost btn-md gap-2 normal-case"
+    >
+      <Iconify.iconify icon="ph:compass-duotone" class="w-4 h-4" />
+      {l("Explore")}
+    </a>
+  </div>
+
+  <%= if @code do %>
+    <p class="mt-8 text-xs text-base-content/40 font-mono tracking-tight">
+      {l("ref")}: {@code}
+    </p>
+  <% end %>
+</section>
