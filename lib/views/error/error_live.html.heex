@@ -21,7 +21,9 @@
 
   <p class="text-base-content/70 text-sm leading-relaxed max-w-sm mb-8 text-balance">
     <%= if @code do %>
-      {l("This path didn't lead anywhere we recognise. The page may have moved, been removed, or never existed.")}
+      {l(
+        "This path didn't lead anywhere we recognise. The page may have moved, been removed, or never existed."
+      )}
     <% else %>
       {l("Something interrupted that page. You can head back, return home, or keep exploring.")}
     <% end %>
