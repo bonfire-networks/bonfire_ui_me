@@ -18,9 +18,7 @@
                 role="img"
                 aria-label={l("Profile banner")}
                 class={
-                  "w-full relative bg-base-100 border-b border-base-content/10 lg:rounded-t-2xl bg-center mt-0 bg-cover bg-no-repeat mb-2",
-                  "h-[140px]": @character_type == :group,
-                  "h-[140px] sm:h-[180px] lg:h-[220px]": @character_type != :group
+                  "w-full relative aspect-[3/1] bg-base-100 border-b border-base-content/10 lg:rounded-t-2xl bg-center mt-0 bg-cover bg-no-repeat mb-2"
                 }
                 style={cond do
                   is_binary(color) -> "background-color: #{color}"
