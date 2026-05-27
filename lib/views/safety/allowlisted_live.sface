@@ -1,0 +1,11 @@
+<div class="bonfire-wrapper">
+  <StatefulComponent
+    module={maybe_component(Bonfire.UI.Boundaries.AllowlistLive, @__context__)}
+    id="allowlisted_component"
+    selected_tab="allowlisted"
+    title={l("Federation Archipelago")}
+    description={l(
+      "Only these instances and actors will be able to federate with you when you are in archipelago mode."
+    )}
+  />
+</div>

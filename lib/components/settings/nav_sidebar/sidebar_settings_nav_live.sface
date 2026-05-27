@@ -125,6 +125,18 @@
             <span class="font-normal text-base">{l("Silenced")}</span>
           </LinkLive>
         </li>
+        <li :if={extension_enabled?(:bonfire_federate_activitypub, @__context__) and
+          Bonfire.Federate.ActivityPub.allowlist_only?(current_user(@__context__))}>
+          <LinkLive
+            to={~p"/allowlisted"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "allowlisted"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:list-checks-duotone" class="w-5 h-5 text-secondary" />
+            </div>
+            <span class="font-normal text-base">{l("Federation Allowlist")}</span>
+          </LinkLive>
+        </li>
         <li>
           <LinkLive
             to={~p"/settings/user/blocks_import"}

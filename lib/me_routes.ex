@@ -210,6 +210,7 @@ defmodule Bonfire.UI.Me.Routes do
         live("/blocked", BlockedLive)
         live("/silenced", SilencedLive)
         live("/ghosted", GhostedLive)
+        live("/allowlisted", AllowlistedLive)
         #  used for testing
         live("/feed/user_activities", ProfileLive, as: :user_activities)
 

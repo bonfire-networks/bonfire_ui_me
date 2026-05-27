@@ -90,17 +90,25 @@
       <Bonfire.UI.Common.SettingsSelectLive
         id="set_federation"
         name={l("Federation")}
-        description={l(
-          "Choose between: Automatic (Push activities to the fediverse and accept remote activities), Manual (Enable looking up usernames and fetching individual posts or activities), Fully disabled"
-        )}
+        description={l("Choose if and how to federate with the wider fediverse.")}
         keys={[:activity_pub, :instance, :federating]}
         options={[
-          true: l("Automatic"),
-          manual: l("Manual"),
+          true: l("Automatic: push activities to the fediverse and accept remote activities"),
+          allowlist_only: l("Archipelago: only federate with explicitly allowed instances and actors"),
+          manual: l("Manual: enable looking up usernames and fetching individual posts or activities"),
           false: l("Fully disabled")
         ]}
         scope={:instance}
       />
+      <div :if={Bonfire.Federate.ActivityPub.allowlist_only?()} class="mt-3">
+        <Bonfire.UI.Common.LinkLive
+          to={~p"/settings/instance/remote_allow_list"}
+          class="btn btn-sm btn-outline"
+        >
+          <#Icon iconify="ph:list-checks-duotone" class="w-4 h-4 mr-2" />
+          {l("Manage instance federation allowlist")}
+        </Bonfire.UI.Common.LinkLive>
+      </div>
     </form>
 
     <form phx-change="Bonfire.Common.Settings:set">

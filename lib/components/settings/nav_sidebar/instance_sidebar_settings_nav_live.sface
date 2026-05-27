@@ -370,6 +370,17 @@
             <span class="font-normal text-base">{l("Federation status")}</span>
           </LinkPatchLive>
         </li>
+        <li :if={Bonfire.Federate.ActivityPub.allowlist_only?()}>
+          <LinkPatchLive
+            to={~p"/settings/instance/remote_allow_list"}
+            class={["gap-3 py-1", "bg-primary/10": @selected_tab == "remote_allow_list"]}
+          >
+            <div class="w-8 h-8 flex items-center place-content-center">
+              <#Icon iconify="ph:list-checks-duotone" class="w-5 h-5 text-secondary" />
+            </div>
+            <span class="font-normal text-base">{l("Federation allowlist")}</span>
+          </LinkPatchLive>
+        </li>
         <li>
           <LinkPatchLive
             to={~p"/settings/instance/import_status"}

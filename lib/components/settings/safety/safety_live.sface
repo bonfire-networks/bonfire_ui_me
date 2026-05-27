@@ -21,22 +21,67 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse class="pt-2">
-      <form phx-change="Bonfire.Common.Settings:set">
+      <div
+        :if={Bonfire.Federate.ActivityPub.allowlist_only?()}
+        class="p-3 mb-2 rounded-md bg-warning/10 text-sm text-warning flex gap-2 items-start"
+      >
+        <#Icon iconify="ph:warning-duotone" class="w-5 h-5 mt-0.5 shrink-0" />
+        <div>
+          <span>{l(
+              "This instance is operating in Archipelago mode: only explicitly allowed instances and actors can federate. You can view the instance-wide allowlist and also add your own."
+            )}</span>
+          <div class="flex gap-3 mt-1 flex-wrap">
+            <Bonfire.UI.Common.LinkLive
+              to={~p"/settings/instance/remote_allow_list"}
+              class="underline font-medium"
+            >{l("View instance allowlist")}</Bonfire.UI.Common.LinkLive>
+            <Bonfire.UI.Common.LinkLive to={~p"/allowlisted"} class="underline font-medium">{l("Manage my allowlist")}</Bonfire.UI.Common.LinkLive>
+          </div>
+        </div>
+      </div>
+      <form data-scope="federation_mode" phx-change="Bonfire.Common.Settings:set">
         <input name="scope" value={@scope} type="hidden">
         <div class="divide-y divide-base-content/10">
           <Bonfire.UI.Common.SettingsRadiosLive
             keys={[:activity_pub, :user_federating]}
-            options={if ActivityPub.Config.federating?() == nil,
-              do: %{
-                "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
-                "false" => l("Fully disabled")
-              },
-              else: %{
-                "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
-                "nil" => l("Manual: Enable looking up usernames or fetching individual posts or activities"),
-                "false" => l("Fully disabled")
-              }}
+            options={cond do
+              ActivityPub.Config.federating?() == nil ->
+                %{
+                  "nil" =>
+                    l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+                  "false" => l("Fully disabled")
+                }
+
+              Bonfire.Federate.ActivityPub.allowlist_only?() ->
+                %{
+                  "allowlist_only" =>
+                    l("Archipelago: Only federate with instances and actors you explicitly allow"),
+                  "nil" =>
+                    l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+                  "false" => l("Fully disabled")
+                }
+
+              true ->
+                %{
+                  "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
+                  "allowlist_only" =>
+                    l("Archipelago: Only federate with instances and actors you explicitly allow"),
+                  "nil" =>
+                    l("Manual: Enable looking up usernames or fetching individual posts or activities"),
+                  "false" => l("Fully disabled")
+                }
+            end}
           />
+          <div
+            :if={Bonfire.Federate.ActivityPub.allowlist_only?(current_user(@__context__)) and
+              not Bonfire.Federate.ActivityPub.allowlist_only?()}
+            class="mt-3"
+          >
+            <Bonfire.UI.Common.LinkLive to="/allowlisted" class="btn btn-sm btn-outline">
+              <#Icon iconify="ph:list-checks-duotone" class="w-4 h-4 mr-2" />
+              {l("Manage my federation allowlist")}
+            </Bonfire.UI.Common.LinkLive>
+          </div>
         </div>
       </form>
 
