@@ -73,7 +73,11 @@
         scope={:instance_wide}
         title={l("Instance Federation Archipelago")}
         description={l(
-          "Only allowed instances and actors can federate with this instance when in archipelago mode. Users can also allow specific instances or actors for themselves in their own settings."
+          "Add a domain (e.g. `mastodon.social`) to allow all actors on that instance, or paste a specific actor URL to allow just that person.
+
+        - Only instances and actors listed here (or in a user's personal allowlist) can federate with this instance.
+        - Users can extend this list with their own personal allowlist, which applies to their own outgoing activities and to direct messages and @mentions addressed to them.
+        - Blocks (instance-wide and per-user) always take priority over allowlists."
         )}
       />
     {#match "about"}

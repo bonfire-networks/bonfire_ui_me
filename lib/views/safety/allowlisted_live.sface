@@ -5,7 +5,13 @@
     selected_tab="allowlisted"
     title={l("Federation Archipelago")}
     description={l(
-      "Only these instances and actors will be able to federate with you when you are in archipelago mode."
+      "Add a domain (e.g. `mastodon.social`) to allow all actors on that instance, or paste a specific actor URL to allow just that person.
+
+    - In Archipelago mode, your outgoing activities are only delivered to actors/instances on your allowlist or the instance-wide allowlist.
+    - Incoming direct messages and @mentions are only accepted from actors/instances on your allowlist or the instance-wide allowlist.
+    - Posts not addressed to you (e.g. public posts you see in timelines) are governed by the instance-wide policy, not your personal allowlist.
+    - Blocks (yours and the instance's) always take priority over allowlists.
+    "
     )}
   />
 </div>
