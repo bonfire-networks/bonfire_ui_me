@@ -53,6 +53,8 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   def on_mount(:default, params, session, socket) do
+    socket = Phoenix.Component.assign_new(socket, :force_static, fn -> false end)
+
     with {:ok, socket} <- mount(params, session, socket) do
       if socket.assigns[:__loading_screen__] do
         {:cont, socket, layout: {Bonfire.UI.Common.LayoutView, :loading}}
@@ -90,7 +92,8 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
     else
       account_id = current_account_id(assigns(socket)) || session["current_account_id"]
 
-      if socket_connected?(socket) || socket.assigns[:__loading_screen__] || Config.env() == :test do
+      if socket_connected?(socket) || socket.assigns[:__loading_screen__] ||
+           socket.assigns[:force_static] || Config.env() == :test do
         # Connected mount: full load
 
         user =
@@ -118,7 +121,8 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   defp maybe_assign_current_user(socket, user) do
-    if socket_connected?(socket) || socket.assigns[:__loading_screen__] || Config.env() == :test do
+    if socket_connected?(socket) || socket.assigns[:__loading_screen__] ||
+         socket.assigns[:force_static] || Config.env() == :test do
       assign_current_user(socket, user)
     else
       disconnected_mount(socket, Enums.id(user), current_account_id(user))
