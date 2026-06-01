@@ -13,8 +13,6 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
     time_section :lv_assign_current_user do
       account_id = e(user, :account, :id, nil)
 
-      theme = Bonfire.UI.Common.ThemeHelper.current_theme(%{current_user: user})
-
       socket =
         socket
         |> assign_global(
@@ -22,7 +20,7 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
           current_user_id: id(user),
           current_account_id: account_id
         )
-        |> Bonfire.UI.Common.ThemeHelper.push_theme(theme)
+        |> Bonfire.UI.Common.ThemeHelper.push_current_theme()
 
       # NOTE: disabled since we now show this in PersistentLive
       # {:ok, socket} =
@@ -112,12 +110,10 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   def mount(_, _, socket) do
-    theme = Bonfire.UI.Common.ThemeHelper.current_theme(%{})
-
     {:ok,
      socket
      |> assign_global(current_user: nil, current_user_id: nil)
-     |> Bonfire.UI.Common.ThemeHelper.push_theme(theme)}
+     |> Bonfire.UI.Common.ThemeHelper.push_current_theme()}
   end
 
   defp maybe_assign_current_user(socket, user) do

@@ -54,7 +54,7 @@
           id="add_shared_user"
           name="add_shared_user"
           class="input w-full"
-          placeholder="Enter their emails or usernames, comma seperated"
+          placeholder={l("Enter their emails or usernames, comma seperated")}
         />
       </div>
 

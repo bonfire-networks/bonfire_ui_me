@@ -49,7 +49,7 @@
                   "@input": "userModifiedUsername = true"
                 }
                 type="input"
-                placeholder="Username"
+                placeholder={l("Username")}
                 minlength="3"
                 maxlength="30"
               />
@@ -75,7 +75,7 @@
           <Field name={:summary}>
             <fieldset class="fieldset">
               <legend class="fieldset-legend">{l("Tell people a bit about yourself")}</legend>
-              <TextArea class="w-full h-24 mt-1 textarea-bordered textarea" placeholder="Type your bio" />
+              <TextArea class="w-full h-24 mt-1 textarea-bordered textarea" placeholder={l("Type your bio")} />
             </fieldset>
             <ErrorTag />
           </Field>

@@ -59,7 +59,7 @@
             type="text"
             class="w-full input"
             value={e(current_user(@__context__), :profile, :name, "")}
-            placeholder="Type here"
+            placeholder={l("Type here")}
           />
         </fieldset>
 

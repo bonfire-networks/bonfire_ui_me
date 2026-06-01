@@ -41,7 +41,7 @@
             name="ui[theme][instance_name]"
             type="text"
             class="input w-full"
-            placeholder="Type here"
+            placeholder={l("Type here")}
           />
         </fieldset>
 
