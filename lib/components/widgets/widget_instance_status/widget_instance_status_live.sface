@@ -15,7 +15,11 @@
       {!-- Instance banner --}
       {#if instance_image}
         <div class="relative isolate">
-          <Bonfire.UI.Common.NextGenImageLive src={instance_image} alt={instance_name} class="w-full h-32 object-cover" />
+          <Bonfire.UI.Common.NextGenImageLive
+            src={instance_image}
+            alt={instance_name}
+            class="w-full h-32 object-cover"
+          />
 
           <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
