@@ -20,7 +20,7 @@
                 class="w-full relative aspect-[3/1] bg-base-100 border-b border-base-content/10 lg:rounded-t-2xl bg-center mt-0 bg-cover bg-no-repeat mb-2"
                 style={cond do
                   is_binary(color) -> "background-color: #{color}"
-                  is_binary(banner_url) -> "background-image: url('#{URI.encode(banner_url)}')"
+                  is_binary(banner_url) -> Bonfire.UI.Common.NextGenImageLive.background_image_set(banner_url)
                   true -> ""
                 end}
               >
