@@ -6,7 +6,11 @@
   </div> --}
 <section class="bonfire-wrapper">
   <div class="px-4 lg:hidden">
-    <label for="sidebar-drawer" aria-label={l("Open navigation sidebar")} class="btn btn-soft mt-3 w-full">
+    <label
+      for="sidebar-drawer"
+      aria-label={l("Open navigation sidebar")}
+      class="btn btn-soft mt-3 w-full"
+    >
       <#Icon iconify="ph:list-duotone" class="w-5 h-5 text-base-content/70" />
       <span class="ml-2">{l("Open Settings Menu")}</span>
     </label>
@@ -75,9 +79,9 @@
         description={l(
           "Add a domain (e.g. `mastodon.social`) to allow all actors on that instance, or paste a specific actor URL to allow just that person.
 
-- Only instances and actors listed here (or in a user's personal allowlist) can federate with this instance.
-- Users can extend this list with their own personal allowlist, which applies to their own outgoing activities and to direct messages and @mentions addressed to them.
-- Blocks (instance-wide and per-user) always take priority over allowlists."
+        - Only instances and actors listed here (or in a user's personal allowlist) can federate with this instance.
+        - Users can extend this list with their own personal allowlist, which applies to their own outgoing activities and to direct messages and @mentions addressed to them.
+        - Blocks (instance-wide and per-user) always take priority over allowlists."
         )}
       />
     {#match "about"}

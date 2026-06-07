@@ -64,7 +64,9 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive do
         tag: nil,
         icon: "ph:plugs-duotone",
         description:
-          l("Turn federation off entirely, keeping this instance fully isolated from the fediverse.")
+          l(
+            "Turn federation off entirely, keeping this instance fully isolated from the fediverse."
+          )
       }
     ]
   end
