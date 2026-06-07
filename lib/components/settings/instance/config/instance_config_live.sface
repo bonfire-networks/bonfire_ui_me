@@ -86,29 +86,69 @@
       phx-change="Bonfire.Common.Settings:set"
     >
       <input name="scope" value={:instance} type="hidden">
-      <label for="set_federation" class="sr-only">{l("Set Federation")}</label>
-      <Bonfire.UI.Common.SettingsSelectLive
-        id="set_federation"
-        name={l("Federation")}
-        description={l("Choose if and how to federate with the wider fediverse.")}
-        keys={[:activity_pub, :instance, :federating]}
-        options={[
-          true: l("Automatic: push activities to the fediverse and accept remote activities"),
-          allowlist_only: l("Archipelago: only federate with explicitly allowed instances and actors"),
-          manual: l("Manual: enable looking up usernames and fetching individual posts or activities"),
-          false: l("Fully disabled")
-        ]}
-        scope={:instance}
-      />
-      <div :if={Bonfire.Federate.ActivityPub.allowlist_only?()} class="mt-3">
-        <Bonfire.UI.Common.LinkLive
-          to={~p"/settings/instance/remote_allow_list"}
-          class="btn btn-sm btn-outline"
-        >
-          <#Icon iconify="ph:list-checks-duotone" class="w-4 h-4 mr-2" />
-          {l("Manage instance federation allowlist")}
-        </Bonfire.UI.Common.LinkLive>
-      </div>
+
+      {#case current_federation_mode(@__context__)}
+        {#match current_mode}
+          <div class="flex flex-col gap-1 mb-4">
+            <span class="text-sm font-medium text-base-content/90">{l("Federation")}</span>
+            <p class="text-sm text-base-content/50">
+              {l("Choose if and how this instance federates with the wider fediverse.")}
+            </p>
+          </div>
+
+          <fieldset>
+            <legend class="sr-only">{l("Federation mode")}</legend>
+            {!-- Selected state is owned by the native radios + `peer-checked`/`has-[:checked]` CSS:
+              clicking a card highlights it instantly, `phx-change` persists it, and `checked` seeds
+              the initial choice. `phx-update="ignore"` stops the post-save re-render from resetting
+              the user's selection (the same reason a native <select> "just works" here). --}
+            <div id="federation_mode_options" phx-update="ignore" class="grid sm:grid-cols-2 gap-2">
+              {#for card <- federation_modes()}
+                <label class="relative flex flex-wrap items-start gap-x-3 gap-y-2 rounded-lg border border-base-content/10 p-3 cursor-pointer transition-colors hover:border-base-content/30 hover:bg-base-content/5 has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:ring-1 has-[:checked]:ring-primary has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-1 has-[:focus-visible]:ring-offset-base-100">
+                  <input
+                    type="radio"
+                    name="activity_pub[instance][federating]"
+                    value={card.value}
+                    checked={current_mode == card.value}
+                    class="peer sr-only"
+                  />
+                  <span class="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full transition-colors bg-base-content/10 text-base-content/70 peer-checked:bg-primary peer-checked:text-primary-content">
+                    <Iconify.iconify icon={card.icon} class="w-4 h-4" />
+                  </span>
+
+                  <div class="flex flex-col gap-0.5 min-w-0 flex-1">
+                    <div class="flex items-center gap-2 flex-wrap">
+                      <span class="text-sm font-semibold text-base-content">{card.name}</span>
+                      <span
+                        :if={card.tag}
+                        class="badge badge-sm badge-ghost font-normal text-base-content/60"
+                      >{card.tag}</span>
+                    </div>
+                    <span class="text-sm text-base-content/60 leading-snug">{card.description}</span>
+                  </div>
+
+                  <#Icon
+                    iconify="ph:check-circle-fill"
+                    class="hidden peer-checked:block w-5 h-5 text-primary flex-shrink-0"
+                  />
+
+                  <div
+                    :if={card.value == "allowlist_only"}
+                    class="hidden peer-checked:block w-full pl-12"
+                  >
+                    <Bonfire.UI.Common.LinkLive
+                      to={~p"/settings/instance/remote_allow_list"}
+                      class="btn btn-xs btn-outline"
+                    >
+                      <#Icon iconify="ph:list-checks-duotone" class="w-3.5 h-3.5 mr-1.5" />
+                      {l("Manage allowlist")}
+                    </Bonfire.UI.Common.LinkLive>
+                  </div>
+                </label>
+              {/for}
+            </div>
+          </fieldset>
+      {/case}
     </form>
 
     <form phx-change="Bonfire.Common.Settings:set">
