@@ -26,7 +26,7 @@
           avatar_class="w-6 h-6 rounded-full"
         />
         {#if Utils.maybe_apply(
-            Bonfire.Social.Graph.Aliases,
+            Bonfire.Federate.ActivityPub.AdapterUtils,
             :also_known_as?,
             [@user, character],
             fallback_return: nil
