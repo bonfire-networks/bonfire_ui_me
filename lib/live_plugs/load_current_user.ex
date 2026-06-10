@@ -140,20 +140,40 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   def get_current(user_id, account_id) do
-    # if ProcessTree.get(:approach_to_current_user)==:cache do
-    # Cache.get!("current_user:#{user_id}") ||
-    #   Users.get_current(
-    #     user_id,
-    #     account_id
-    #   )
-    #   |> Cache.put("current_user:#{user_id}", ...)
-    # else
-    Users.get_current(
-      user_id,
-      account_id
-    )
+    # Short-TTL cache: its main job is deduplicating the repeated full user load
+    # within a single page view (HTTP plug + websocket mount) and across quick
+    # navigations. Invalidated on profile/settings changes via
+    # `Bonfire.Me.Users.invalidate_cached_current/1`; the short TTL bounds
+    # staleness for any mutation path that doesn't invalidate explicitly.
+    if Config.get([__MODULE__, :cache_current_user], true) do
+      case Bonfire.Common.Cache.get!(Users.current_user_cache_key(user_id)) do
+        %{} = user ->
+          # a user can be shared across accounts, so only reuse the cached copy
+          # when it was loaded for the same account context
+          if is_nil(account_id) or Enums.id(e(user, :account, nil)) == account_id do
+            user
+          else
+            load_and_cache_current(user_id, account_id)
+          end
 
-    # end
+        _ ->
+          load_and_cache_current(user_id, account_id)
+      end
+    else
+      Users.get_current(user_id, account_id)
+    end
+  end
+
+  defp load_and_cache_current(user_id, account_id) do
+    user = Users.get_current(user_id, account_id)
+
+    if is_struct(user),
+      do:
+        Bonfire.Common.Cache.put(Users.current_user_cache_key(user_id), user,
+          expire: Config.get([__MODULE__, :cache_current_user_ttl], 60_000)
+        )
+
+    user
   end
 
   # def user_to_assign(%{id: id} = user) do

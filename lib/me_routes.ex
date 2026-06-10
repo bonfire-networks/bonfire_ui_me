@@ -4,7 +4,9 @@ defmodule Bonfire.UI.Me.Routes do
   defmacro __using__(_) do
     quote do
       pipeline :early_hints_authed do
-        plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
+        plug PlugEarlyHints,
+          paths: Bonfire.UI.Common.Routes.early_hints_authed(),
+          callback: &Bonfire.UI.Common.Routes.expand_static_path/2
       end
 
       pipeline :guest_only do
@@ -12,7 +14,9 @@ defmodule Bonfire.UI.Me.Routes do
       end
 
       pipeline :user_required do
-        plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
+        plug PlugEarlyHints,
+          paths: Bonfire.UI.Common.Routes.early_hints_authed(),
+          callback: &Bonfire.UI.Common.Routes.expand_static_path/2
 
         plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
         plug(Bonfire.UI.Me.Plugs.UserRequired)
@@ -25,7 +29,9 @@ defmodule Bonfire.UI.Me.Routes do
       end
 
       pipeline :account_required do
-        plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
+        plug PlugEarlyHints,
+          paths: Bonfire.UI.Common.Routes.early_hints_authed(),
+          callback: &Bonfire.UI.Common.Routes.expand_static_path/2
 
         # plug(Bonfire.UI.Me.Plugs.LoadCurrentAccount)
         # ^ no need to call LoadCurrentAccount if also calling LoadCurrentUser
