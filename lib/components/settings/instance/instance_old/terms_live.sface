@@ -63,7 +63,9 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Impressum")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("Legal notice / site identification details for your instance (when left empty, no impressum link is shown)")}</div>
+              <div class="text-sm font-light text-base-content/70">{l(
+                  "Legal notice / site identification details for your instance (when left empty, no impressum link is shown)"
+                )}</div>
             </div>
             <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
