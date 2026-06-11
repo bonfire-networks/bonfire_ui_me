@@ -58,6 +58,30 @@
             </div>
           </div>
         </div>
+
+        <div x-data="{open: false}" class="p-4 rounded-b">
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-medium">{l("Impressum")}</div>
+              <div class="text-sm font-light text-base-content/70">{l("Legal notice / site identification details for your instance (when left empty, no impressum link is shown)")}</div>
+            </div>
+            <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
+          </div>
+          <div x-show="open" x-cloak x-collapse>
+            <div class="w-full mt-4 form-control">
+              <div class="mt-0 mb-4 sm:mt-0 sm:col-span-2">
+                <div class="flex">
+                  <textarea
+                    id="impressum"
+                    name="terms[impressum]"
+                    rows="10"
+                    class="w-full h-50 textarea textarea-bordered"
+                  >{Config.get([:terms, :impressum])}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <button type="submit" class="justify-end mt-4 normal-case rounded btn btn-sm btn-primary">{l("Save")}</button>
     </form>
