@@ -36,18 +36,27 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken do
 
   def mount(_, _, %{assigns: %{current_user: %{id: _}}} = socket), do: {:ok, socket}
 
-  def mount(%{@param_name => token}, _session, socket) when is_binary(token) do
-    case verify_token(token) do
-      {:ok, user_id} ->
-        user = Bonfire.UI.Me.LivePlugs.LoadCurrentUser.get_current(user_id, nil)
-        Bonfire.UI.Me.LivePlugs.LoadCurrentUser.assign_current_user(socket, user)
+  def mount(params, session, socket) do
+    session_params = if is_map(session), do: session["params"]
 
-      :error ->
+    case token_param(params) || token_param(session_params) do
+      token when is_binary(token) ->
+        case verify_token(token) do
+          {:ok, user_id} ->
+            user = Bonfire.UI.Me.LivePlugs.LoadCurrentUser.get_current(user_id, nil)
+            Bonfire.UI.Me.LivePlugs.LoadCurrentUser.assign_current_user(socket, user)
+
+          :error ->
+            {:ok, socket}
+        end
+
+      _ ->
         {:ok, socket}
     end
   end
 
-  def mount(_, _, socket), do: {:ok, socket}
+  defp token_param(%{@param_name => token}) when is_binary(token), do: token
+  defp token_param(_), do: nil
 
   @doc "Sign a long-lived embed token for the given user ID."
   def sign(_conn_or_endpoint \\ nil, user_id) do
