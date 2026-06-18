@@ -118,6 +118,35 @@
               <#Icon iconify="ph:gear-duotone" class="w-5 h-5 shrink-0" />
             </LinkLive>
           </li>
+          <li :if={current_user_id(@__context__)}>
+            {#if Bonfire.Social.Pins.pinned?(:instance, @user)}
+              {!-- instance-pinned groups stay in everyone's sidebar; personal pin/unpin can't remove them --}
+              <div
+                class="flex items-center gap-2 justify-between text-base-content/60"
+                title={l("This group is pinned to everyone's sidebar by the admins")}
+              >
+                <span class="text-sm font-medium">{l("Pinned by admins")}</span>
+                <#Icon iconify="ph:push-pin-duotone" class="w-5 h-5 shrink-0" />
+              </div>
+            {#else}
+              <StatelessComponent
+                module={maybe_component(Bonfire.UI.Reactions.PinActionLive, @__context__)}
+                object={@user}
+                parent_id={deterministic_dom_id(__MODULE__, id(@user), "sidebar_pin", @parent_id)}
+                class="flex items-center gap-2 justify-between text-base-content"
+                scope={:sidebar}
+                pinned?={Bonfire.Social.Pins.pinned?(current_user(@__context__), @user)}
+              />
+            {/if}
+          </li>
+          {!-- instance admins can pin/unpin the group to EVERYONE's sidebar from here (no need to be a group mod) --}
+          <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}>
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Groups.InstanceSidebarPinLive, @__context__)}
+              group={@user}
+              class="flex items-center gap-2 justify-between w-full text-base-content"
+            />
+          </li>
         {/if}
 
         <li :if={extension_enabled?(:bonfire_ui_messages, @__context__) and @character_type == :user}>
