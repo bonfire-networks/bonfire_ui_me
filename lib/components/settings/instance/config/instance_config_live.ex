@@ -35,7 +35,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive do
         icon: "ph:globe-hemisphere-west-duotone",
         description:
           l(
-            "Push your public activity to the fediverse, and accept activity from anyone you haven't blocked."
+            "Push activities to the fediverse, and accept activities from anyone that isn't blocked."
           )
       },
       %{
@@ -45,7 +45,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive do
         icon: "ph:list-checks-duotone",
         description:
           l(
-            "Federate only with the instances and people you've explicitly added to your allowlist."
+            "Federate only with instances and people that are explicitly allowed."
           )
       },
       %{
@@ -55,7 +55,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive do
         icon: "ph:cursor-click-duotone",
         description:
           l(
-            "Nothing is pushed out automatically. People here can still look up and fetch individual profiles and posts on demand."
+            "Nothing is pushed automatically. People can still look up and fetch individual profiles and posts on demand."
           )
       },
       %{
@@ -65,7 +65,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive do
         icon: "ph:plugs-duotone",
         description:
           l(
-            "Turn federation off entirely, keeping this instance fully isolated from the fediverse."
+            "Turn federation off entirely, keeping this instance isolated from the fediverse."
           )
       }
     ]
