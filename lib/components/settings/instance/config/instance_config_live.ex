@@ -43,10 +43,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive do
         name: l("Allowlist only"),
         tag: l("Archipelago"),
         icon: "ph:list-checks-duotone",
-        description:
-          l(
-            "Federate only with instances and people that are explicitly allowed."
-          )
+        description: l("Federate only with instances and people that are explicitly allowed.")
       },
       %{
         value: "manual",
@@ -64,9 +61,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceConfigLive do
         tag: nil,
         icon: "ph:plugs-duotone",
         description:
-          l(
-            "Turn federation off entirely, keeping this instance isolated from the fediverse."
-          )
+          l("Turn federation off entirely, keeping this instance isolated from the fediverse.")
       }
     ]
   end

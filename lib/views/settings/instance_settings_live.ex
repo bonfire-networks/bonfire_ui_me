@@ -35,6 +35,25 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
     )
   end
 
+  # No scope switcher on the instance-wide blocks pages: there's no per-user or
+  # per-account equivalent (account-level blocks don't exist, and /settings/user/blocked
+  # has no settings page → "No settings available"), so showing the persona toggle was
+  # broken. See bonfire-app#2018. `page_header_aside: nil` also clears any stale aside
+  # carried over from a previous navigation.
+  def handle_params(%{"tab" => tab} = params, _url, socket)
+      when tab in ["blocked", "ghosted", "silenced"] do
+    {:noreply,
+     assign(
+       socket,
+       back: true,
+       page_title: String.capitalize(tab),
+       selected_tab: tab,
+       id: params["id"],
+       section: params["section"],
+       page_header_aside: nil
+     )}
+  end
+
   def handle_params(%{"tab" => "preferences" = tab} = params, _url, socket) do
     id = params["id"]
 

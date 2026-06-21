@@ -244,6 +244,22 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
   end
 
+  describe "Instance blocks scope switcher (#2018)" do
+    test "the user/account/instance scope switcher is NOT shown on the instance blocks page" do
+      account = fake_account!()
+      admin = fake_admin!(account)
+      conn = conn(user: admin, account: account)
+
+      {:ok, view, _html} = live(conn, "/settings/instance/boundaries/blocked")
+
+      # The persona switcher links to per-user/account settings that don't exist for
+      # blocks (account-level blocks aren't a thing, and /settings/user/blocked has no
+      # settings page → "No settings available"). So it must not be shown here. #2018
+      refute view |> has_element?("a[href^='/settings/user/blocked']")
+      refute view |> has_element?("a[href^='/settings/account/blocked']")
+    end
+  end
+
   describe "Privacy & Settings" do
     test "default boundary" do
       account = fake_account!()
