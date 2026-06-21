@@ -114,8 +114,8 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.FederationModeLive do
 
   @doc "Where the allowlist-management link points, and its label, for this scope."
   def allowlist_link(:instance),
-    do: {~p"/settings/instance/remote_allow_list", l("Manage allowlist")}
+    do: {~p"/settings/instance/remote_allow_list", l("Manage archipelago federation allow-list")}
 
   def allowlist_link(_user_or_account),
-    do: {~p"/allowlisted", l("Manage my federation allowlist")}
+    do: {~p"/allowlisted", l("Manage my federation archipelago allow-list")}
 end

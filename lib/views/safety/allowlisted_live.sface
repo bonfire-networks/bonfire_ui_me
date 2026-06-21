@@ -1,5 +1,5 @@
 <div class="bonfire-wrapper">
-  <pre>User level allow-lists are coming soon. For now the instance allow-list defined by the instance moderators applies.</pre>
+  <p>User level allow-lists are coming soon. For now the instance allow-list defined by the instance moderators applies.</p>
   {!-- <StatefulComponent
     module={maybe_component(Bonfire.UI.Boundaries.AllowlistLive, @__context__)}
     id="allowlisted_component"
