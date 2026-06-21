@@ -1,0 +1,73 @@
+<form
+  class={"p-4", "border-b border-base-content/10": @scope == :instance}
+  data-scope={form_data_scope(@scope)}
+  name="settings"
+  phx-change="Bonfire.Common.Settings:set"
+>
+  <input name="scope" value={@scope} type="hidden">
+
+  {#case current_federation_mode(@__context__)}
+    {#match current_mode}
+      <div :if={@scope == :instance} class="flex flex-col gap-1 mb-4">
+        <span class="text-sm font-medium text-base-content/90">{l("Federation")}</span>
+        <p class="text-sm text-base-content/50">
+          {l("Choose if and how this instance federates with the wider fediverse.")}
+        </p>
+      </div>
+
+      <fieldset>
+        <legend class="sr-only">{l("Federation mode")}</legend>
+        {!-- Selected state is owned by the native radios + `peer-checked`/`has-[:checked]` CSS:
+          clicking a card highlights it instantly, `phx-change` persists it, and `checked` seeds
+          the initial choice. `phx-update="ignore"` stops the post-save re-render from resetting
+          the user's selection (the same reason a native <select> "just works" here). --}
+        <div
+          id={"federation_mode_options_#{@scope}"}
+          phx-update="ignore"
+          class="grid sm:grid-cols-2 gap-2"
+        >
+          {#for card <- federation_modes(@scope)}
+            <label class="relative flex flex-wrap items-start gap-x-3 gap-y-2 rounded-lg border border-base-content/10 p-3 cursor-pointer transition-colors hover:border-base-content/30 hover:bg-base-content/5 has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:ring-1 has-[:checked]:ring-primary has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-1 has-[:focus-visible]:ring-offset-base-100">
+              <input
+                type="radio"
+                name={field_name(@scope)}
+                value={card.value}
+                checked={current_mode == card.value}
+                class="peer sr-only"
+              />
+              <span class="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full transition-colors bg-base-content/10 text-base-content/70 peer-checked:bg-primary peer-checked:text-primary-content">
+                <Iconify.iconify icon={card.icon} class="w-4 h-4" />
+              </span>
+
+              <div class="flex flex-col gap-0.5 min-w-0 flex-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="text-sm font-semibold text-base-content">{card.name}</span>
+                  <span :if={card.tag} class="badge badge-sm badge-ghost font-normal text-base-content/60">{card.tag}</span>
+                </div>
+                <span class="text-sm text-base-content/60 leading-snug">{card.description}</span>
+              </div>
+
+              <#Icon
+                iconify="ph:check-circle-fill"
+                class="hidden peer-checked:block w-5 h-5 text-primary flex-shrink-0"
+              />
+            </label>
+          {/for}
+        </div>
+      </fieldset>
+
+      {!-- Allowlist-management link: rendered server-side only when allowlist-only is the
+        current mode (re-renders on save, since the grid above is `phx-update="ignore"`). --}
+      {#if current_mode == "allowlist_only"}
+        {#case allowlist_link(@scope)}
+          {#match {link, label}}
+            <div class="mt-3">
+              <Bonfire.UI.Common.LinkLive to={link} class="btn btn-sm btn-outline">
+                <#Icon iconify="ph:list-checks-duotone" class="w-4 h-4 mr-2" />
+                {label}
+              </Bonfire.UI.Common.LinkLive>
+            </div>
+        {/case}
+      {/if}
+  {/case}
+</form>

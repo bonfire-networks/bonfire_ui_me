@@ -39,51 +39,7 @@
           </div>
         </div>
       </div>
-      <form data-scope="federation_mode" phx-change="Bonfire.Common.Settings:set">
-        <input name="scope" value={@scope} type="hidden">
-        <div class="divide-y divide-base-content/10">
-          <Bonfire.UI.Common.SettingsRadiosLive
-            keys={[:activity_pub, :user_federating]}
-            options={cond do
-              ActivityPub.Config.federating?() == nil ->
-                %{
-                  "nil" =>
-                    l("Manual: Enable looking up usernames or fetching individual posts or activities"),
-                  "false" => l("Fully disabled")
-                }
-
-              Bonfire.Federate.ActivityPub.allowlist_only?() ->
-                %{
-                  "allowlist_only" =>
-                    l("Archipelago: Only federate with instances and actors you explicitly allow"),
-                  "nil" =>
-                    l("Manual: Enable looking up usernames or fetching individual posts or activities"),
-                  "false" => l("Fully disabled")
-                }
-
-              true ->
-                %{
-                  "true" => l("Automatic: Push activities to the fediverse, and accept remote activities"),
-                  "allowlist_only" =>
-                    l("Archipelago: Only federate with instances and actors you explicitly allow"),
-                  "nil" =>
-                    l("Manual: Enable looking up usernames or fetching individual posts or activities"),
-                  "false" => l("Fully disabled")
-                }
-            end}
-          />
-          <div
-            :if={Bonfire.Federate.ActivityPub.allowlist_only?(current_user(@__context__)) and
-              not Bonfire.Federate.ActivityPub.allowlist_only?()}
-            class="mt-3"
-          >
-            <Bonfire.UI.Common.LinkLive to="/allowlisted" class="btn btn-sm btn-outline">
-              <#Icon iconify="ph:list-checks-duotone" class="w-4 h-4 mr-2" />
-              {l("Manage my federation allowlist")}
-            </Bonfire.UI.Common.LinkLive>
-          </div>
-        </div>
-      </form>
+      <Bonfire.UI.Me.SettingsViewsLive.FederationModeLive scope={@scope} />
 
       <div
         :if={Bonfire.Federate.ActivityPub.federating?(current_user(@__context__))}

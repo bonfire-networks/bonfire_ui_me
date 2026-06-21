@@ -260,6 +260,194 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
   end
 
+  describe "Instance federation-mode selector (#2056)" do
+    setup do
+      on_exit(fn ->
+        parent = self()
+
+        Task.start(fn ->
+          Ecto.Adapters.SQL.Sandbox.allow(Bonfire.Common.Repo, parent, self())
+          Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, false)
+        end)
+      end)
+
+      account = fake_account!()
+      admin = fake_admin!(account)
+      conn = conn(user: admin, account: account)
+      {:ok, conn: conn, admin: admin, account: account}
+    end
+
+    test "all four federation-mode cards are offered", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/settings/instance/configuration")
+
+      for value <- ["true", "allowlist_only", "manual", "false"] do
+        assert view
+               |> has_element?("input[name='activity_pub[instance][federating]'][value=#{value}]"),
+               "expected a federation-mode card with value=#{value}"
+      end
+    end
+
+    # saved instance setting -> {radio card `value` pre-selected, computed federation_mode}
+    @mode_cases [
+      {true, "true", true},
+      {:allowlist_only, "allowlist_only", :allowlist_only},
+      {:manual, "manual", nil},
+      {false, "false", false}
+    ]
+
+    for {stored, expected_value, expected_mode} <- @mode_cases do
+      @stored stored
+      @expected_value expected_value
+      @expected_mode expected_mode
+
+      test "highlights the #{inspect(@stored)} card and only that one (#2056)", %{conn: conn} do
+        Bonfire.Common.Settings.set([activity_pub: [instance: [federating: @stored]]],
+          scope: :instance,
+          skip_boundary_check: true
+        )
+
+        {:ok, view, _html} = live(conn, "/settings/instance/configuration")
+
+        assert view
+               |> has_element?(
+                 "input[name='activity_pub[instance][federating]'][value=#{@expected_value}][checked]"
+               ),
+               "expected the #{@expected_value} card to be checked"
+
+        # none of the other cards may be checked
+        for other <- ["true", "allowlist_only", "manual", "false"], other != @expected_value do
+          refute view
+                 |> has_element?(
+                   "input[name='activity_pub[instance][federating]'][value=#{other}][checked]"
+                 ),
+                 "did not expect the #{other} card to be checked"
+        end
+      end
+
+      test "clicking the #{inspect(@stored)} card persists it (and stays highlighted on reload)",
+           %{conn: conn} do
+        # start from a different mode so the change is meaningful
+        Bonfire.Common.Settings.set([activity_pub: [instance: [federating: true]]],
+          scope: :instance,
+          skip_boundary_check: true
+        )
+
+        {:ok, view, _html} = live(conn, "/settings/instance/configuration")
+
+        # selecting a card fires the form's phx-change → Settings:set
+        view
+        |> element("form[data-scope=set_federation]")
+        |> render_change(%{
+          "scope" => "instance",
+          "activity_pub" => %{"instance" => %{"federating" => @expected_value}}
+        })
+
+        # the change must actually persist as the computed instance federation_mode
+        assert Bonfire.Federate.ActivityPub.federation_mode() == @expected_mode,
+               "expected federation_mode() to be #{inspect(@expected_mode)} after saving"
+
+        # ...and a fresh mount must reflect the saved choice
+        {:ok, reloaded, _html} = live(conn, "/settings/instance/configuration")
+
+        assert reloaded
+               |> has_element?(
+                 "input[name='activity_pub[instance][federating]'][value=#{@expected_value}][checked]"
+               ),
+               "expected the #{@expected_value} card to remain checked after saving"
+      end
+    end
+  end
+
+  describe "User federation-mode selector (#2056, shared component)" do
+    setup do
+      on_exit(fn ->
+        parent = self()
+
+        Task.start(fn ->
+          Ecto.Adapters.SQL.Sandbox.allow(Bonfire.Common.Repo, parent, self())
+          Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, false)
+        end)
+      end)
+
+      account = fake_account!()
+      alice = fake_user!(account)
+      conn = conn(user: alice, account: account)
+      {:ok, conn: conn, alice: alice, account: account}
+    end
+
+    # --- option visibility, constrained by the instance's own mode ---
+
+    test "instance open → all four user options are offered", %{conn: conn} do
+      Bonfire.Federate.ActivityPub.set_federating(:instance, true)
+
+      {:ok, view, _html} = live(conn, "/settings/user/safety")
+
+      for value <- ["true", "allowlist_only", "manual", "false"] do
+        assert view
+               |> has_element?("input[name='activity_pub[user_federating]'][value=#{value}]"),
+               "expected the #{value} option to be offered"
+      end
+    end
+
+    test "instance allowlist-only → the Open option is hidden", %{conn: conn} do
+      Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, true)
+
+      {:ok, view, _html} = live(conn, "/settings/user/safety")
+
+      refute view |> has_element?("input[name='activity_pub[user_federating]'][value=true]")
+
+      assert view
+             |> has_element?("input[name='activity_pub[user_federating]'][value=allowlist_only]")
+
+      assert view |> has_element?("input[name='activity_pub[user_federating]'][value=manual]")
+      assert view |> has_element?("input[name='activity_pub[user_federating]'][value=false]")
+    end
+
+    test "instance manual → only manual and disabled are offered", %{conn: conn} do
+      Bonfire.Common.Settings.set([activity_pub: [instance: [federating: :manual]]],
+        scope: :instance,
+        skip_boundary_check: true
+      )
+
+      {:ok, view, _html} = live(conn, "/settings/user/safety")
+
+      refute view |> has_element?("input[name='activity_pub[user_federating]'][value=true]")
+
+      refute view
+             |> has_element?("input[name='activity_pub[user_federating]'][value=allowlist_only]")
+
+      assert view |> has_element?("input[name='activity_pub[user_federating]'][value=manual]")
+      assert view |> has_element?("input[name='activity_pub[user_federating]'][value=false]")
+    end
+
+    # --- highlight reflects the user's saved (effective) choice ---
+
+    for {stored, expected_value} <- [
+          {true, "true"},
+          {:allowlist_only, "allowlist_only"},
+          {:manual, "manual"},
+          {false, "false"}
+        ] do
+      @stored stored
+      @expected_value expected_value
+
+      test "saved user mode #{inspect(@stored)} highlights the #{@expected_value} card",
+           %{conn: conn, alice: alice} do
+        Bonfire.Common.Settings.put([:activity_pub, :user_federating], @stored,
+          current_user: alice
+        )
+
+        {:ok, view, _html} = live(conn, "/settings/user/safety")
+
+        assert view
+               |> has_element?(
+                 "input[name='activity_pub[user_federating]'][value=#{@expected_value}][checked]"
+               ),
+               "expected the #{@expected_value} card to be checked"
+      end
+    end
+  end
+
   describe "Privacy & Settings" do
     test "default boundary" do
       account = fake_account!()
