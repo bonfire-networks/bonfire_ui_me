@@ -149,7 +149,13 @@
           </li>
         {/if}
 
-        <li :if={extension_enabled?(:bonfire_ui_messages, @__context__) and @character_type == :user}>
+        <li :if={extension_enabled?(:bonfire_ui_messages, @__context__) and @character_type == :user and
+          maybe_apply(
+            Bonfire.Federate.ActivityPub,
+            :interaction_allowed?,
+            [current_user(@__context__), @user],
+            fallback_return: true
+          )}>
           {#if current_user_id(@__context__)}
             <Bonfire.UI.Common.SmartInputButtonLive
               create_object_type={:message}

@@ -37,6 +37,61 @@ defmodule Bonfire.UI.Me.ProfileTest do
     |> refute_has("[data-role=follows_you]", text: "Follows you")
   end
 
+  describe "follow button federation gating (#647)" do
+    setup do
+      # global HTTP mock so creating the remote actor (+ any LiveView-side fetch) works
+      Tesla.Mock.mock_global(fn env -> ActivityPub.Test.HttpRequestMock.request(env) end)
+
+      # ensure OPEN federation while we create the remote actor (a prior test's async on_exit
+      # reset may not have landed yet; creating a remote actor under a restricted mode fails)
+      Bonfire.Federate.ActivityPub.set_federating(:instance, true)
+
+      on_exit(fn ->
+        parent = self()
+
+        Task.start(fn ->
+          Ecto.Adapters.SQL.Sandbox.allow(Bonfire.Common.Repo, parent, self())
+          Bonfire.Federate.ActivityPub.set_federating(:instance, true)
+        end)
+      end)
+
+      account = fake_account!()
+      me = fake_user!(account)
+      remote = fake_remote_user!()
+      conn = conn(user: me, account: account)
+      {:ok, conn: conn, me: me, remote: remote}
+    end
+
+    test "follow button is ENABLED for a remote user when federation is open",
+         %{conn: conn, remote: remote} do
+      conn
+      |> visit("/@#{remote.character.username}")
+      |> wait_async()
+      |> assert_has("[data-id=follow]")
+      |> refute_has("[data-id=follow].btn-disabled")
+    end
+
+    test "follow button is DISABLED for a remote user when federation is disabled",
+         %{conn: conn, remote: remote} do
+      Bonfire.Federate.ActivityPub.set_federating(:instance, false)
+
+      conn
+      |> visit("/@#{remote.character.username}")
+      |> wait_async()
+      |> assert_has("[data-id=follow].btn-disabled")
+    end
+
+    test "follow button is DISABLED for a remote user in archipelago (allowlist-only) mode",
+         %{conn: conn, remote: remote} do
+      Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, true)
+
+      conn
+      |> visit("/@#{remote.character.username}")
+      |> wait_async()
+      |> assert_has("[data-id=follow].btn-disabled")
+    end
+  end
+
   describe "profile stat counts (#1862)" do
     # FIXME: the stat links render correctly (verified via open_browser dump), but PhoenixTest
     # `assert_has` doesn't match them here. Needs a working

@@ -24,6 +24,12 @@ defmodule Bonfire.UI.Me.Routes do
         plug(Bonfire.UI.Me.Plugs.UserRequired, json: true)
       end
 
+      # requires an authenticated user SESSION but does NOT load the full user struct from the DB
+      # (for hot endpoints like tag/@mention autocomplete) — assigns only `:current_user_id`
+      pipeline :user_session_required do
+        plug(Bonfire.UI.Me.Plugs.UserSessionRequired)
+      end
+
       pipeline :account_required do
         plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
 
