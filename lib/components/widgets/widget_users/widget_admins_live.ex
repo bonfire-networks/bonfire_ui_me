@@ -9,9 +9,7 @@ defmodule Bonfire.UI.Me.WidgetAdminsLive do
         _,
         socket
       ) do
-    Bonfire.UI.Me.WidgetUsersLive.list_admins_reset()
-
-    debug("")
+    Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
 
     {:noreply,
      socket

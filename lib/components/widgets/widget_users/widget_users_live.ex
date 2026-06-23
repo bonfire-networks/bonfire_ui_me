@@ -32,15 +32,20 @@ defmodule Bonfire.UI.Me.WidgetUsersLive do
 
   # 6 hours
   @default_cache_ttl 1_000 * 60 * 60 * 6
-  def list_admins() do
-    Cache.maybe_apply_cached(&do_list_admins/0, [], expire: @default_cache_ttl)
+
+  @doc """
+  Lists instance admins (cached 6h). Pass the standard `:cache` opt (`cache: :refresh` busts +
+  recomputes — the admins widget's manual refresh button).
+  """
+  def list_admins(opts \\ []) do
+    Cache.maybe_apply_cached(
+      &do_list_admins/0,
+      [],
+      Keyword.put_new(opts, :expire, @default_cache_ttl)
+    )
   end
 
   defp do_list_admins() do
     repo().maybe_preload(Bonfire.Me.Users.list_admins(), [:character, profile: :icon])
-  end
-
-  def list_admins_reset do
-    Cache.reset(&do_list_admins/0, [])
   end
 end
