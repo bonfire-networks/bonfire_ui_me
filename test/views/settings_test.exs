@@ -360,6 +360,14 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
   describe "User federation-mode selector (#2056, shared component)" do
     setup do
+      # Instance federation settings persist in Application env / DB and are NOT rolled back by the
+      # Ecto sandbox, so earlier tests in this describe (e.g. "instance manual"/"instance allowlist")
+      # leak their restrictive instance mode into later tests — clamping/hiding the `true` and
+      # `allowlist_only` user cards. Reset to the open default before each test so the highlight
+      # tests see all four cards reflect the user's own saved choice. See bonfire-app#2056.
+      Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, false)
+      Bonfire.Federate.ActivityPub.set_federating(:instance, true)
+
       on_exit(fn ->
         parent = self()
 
