@@ -39,7 +39,6 @@ defmodule Bonfire.UI.Me.ObanThroughputTest do
     |> visit(@path)
     |> wait_async()
     |> choose("Eco", exact: false)
-    |> PhoenixTest.open_browser()
 
     assert ObanPresets.current_preset() == :eco
   end
@@ -51,7 +50,6 @@ defmodule Bonfire.UI.Me.ObanThroughputTest do
     |> within("[data-role=oban_throughput_advanced]", fn session ->
       fill_in(session, "federator_outgoing", with: "1")
     end)
-    |> PhoenixTest.open_browser()
 
     assert ObanPresets.current_preset() == :custom
     assert ObanPresets.current_overrides()[:federator_outgoing] == 1
