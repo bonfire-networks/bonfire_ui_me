@@ -81,6 +81,8 @@
 
     <Bonfire.UI.Me.SettingsViewsLive.FederationModeLive scope={:instance} />
 
+    <Bonfire.UI.Me.SettingsViewsLive.ObanThroughputLive scope={:instance} />
+
     <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={:instance} type="hidden">
 
