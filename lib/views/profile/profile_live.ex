@@ -6,7 +6,7 @@ defmodule Bonfire.UI.Me.ProfileLive do
   # alias Bonfire.Me.Integration
   alias Bonfire.Me.Profiles.LiveHandler
 
-  declare_extension("UI for accounts, user profiles and settings",
+  declare_extension(l("UI for accounts, user profiles and settings"),
     icon: "ph:user-circle-duotone",
     emoji: "🧑🏼",
     description:
