@@ -7,7 +7,7 @@
             <h2 class="text-xl font-bold tracking-tight">{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</h2>
             <span class="text-xs text-base-content/50 font-medium">{get_version(@dep)}</span>
           </div>
-          <p :if={e(@dep, :extra, :description, nil)} class="text-sm text-base-content/60 max-w-prose">{e(@dep, :extra, :description, nil)}</p>
+          <p :if={e(@dep, :extra, :description, nil)} class="text-sm text-muted max-w-prose">{e(@dep, :extra, :description, nil)}</p>
         </div>
 
         <div class="flex items-center gap-3 shrink-0">
@@ -63,7 +63,7 @@
           <!-- <div data-role="extension_settings"> -->
           <Bonfire.UI.Common.WidgetsLive
             widgets={Enum.filter(extension_settings, &visible_in_scope?(&1, @scope))}
-            container_class="divide-y divide-base-content/10 bg-base-content/5 rounded-xl mx-3 mb-3"
+            container_class="divide-hair divide-secondary bg-base-content/5 rounded-xl mx-3 mb-3"
             extra_data={scope: @scope}
             wrapper_class="px-6 py-4"
             with_title
@@ -72,7 +72,7 @@
         </div>
       {#match _}
         <div class="p-6">
-          <p class="text-sm text-base-content/60">{l("No settings available for this extension.")}</p>
+          <p class="text-sm text-muted">{l("No settings available for this extension.")}</p>
         </div>
     {/case}
   </div>

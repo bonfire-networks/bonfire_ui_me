@@ -54,7 +54,7 @@
                   </div>
                   <div class="flex-col flex-1 md:flex md:justify-between text-center">
                     <h3 class="text-xl font-bold text-base-content mt-4">{l("Hooray! You are registered")}</h3>
-                    <div class="mt-2 text-base text-base-content/70" id="signup_success">
+                    <div class="mt-2 text-base text-muted" id="signup_success">
                       {#if @registered == :check_email}
                         {l(
                           "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."
@@ -87,7 +87,7 @@
         <div class="max-w-md mx-auto w-full pt-8">
           <div
             :if={Config.get([:ui, :theme, :instance_welcome, :description], nil)}
-            class="text-sm text-base-content/70 mb-3"
+            class="text-sm text-muted mb-3"
           >
             {rich(Config.get([:ui, :theme, :instance_welcome, :description]))}
           </div>
@@ -121,7 +121,7 @@
                 </div>
                 <div class="flex-col flex-1 md:flex md:justify-between text-center">
                   <h3 class="text-xl font-bold text-base-content mt-4">{l("Hooray! You are registered")}</h3>
-                  <div class="mt-2 text-base text-base-content/70" id="signup_success">
+                  <div class="mt-2 text-base text-muted" id="signup_success">
                     {#if @registered == :check_email}
                       {l(
                         "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."

@@ -1,4 +1,4 @@
-<div class="bonfire-wrapper">
+<div class="bonfire-wrapper !p-0">
   <StatefulComponent
     module={maybe_component(Bonfire.UI.Boundaries.BlocksLive, @__context__)}
     id="silenced_component"

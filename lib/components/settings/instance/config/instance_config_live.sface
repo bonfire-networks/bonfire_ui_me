@@ -18,7 +18,7 @@
         <StatefulComponent
           module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
           id={:upload_icon}
-          container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden rounded-full ring-4 ring-base-300"
+          container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden ring-4 ring-base-300"
           class="inline-block w-32 h-32"
           object={:instance}
           boundary_verb={:describe}
@@ -86,7 +86,7 @@
     <form phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={:instance} type="hidden">
 
-      <div class="divide-y divide-base-content/10 flex flex-col w-full">
+      <div class="divide-hair divide-secondary flex flex-col w-full">
         {!-- <div class="flex flex-col gap-2 p-4">
           <span class="font-medium text-sm">{l("Federation")}</span>
 
@@ -141,7 +141,7 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Hide the number of total users on this instance")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("Hide the number of total users on this instance")}</div>
+              <div class="text-sm font-light text-muted">{l("Hide the number of total users on this instance")}</div>
             </div>
             <input name="Bonfire.Me.Users[public_count]" value="true" type="hidden">
             <input
@@ -167,7 +167,7 @@
       <#Icon iconify="ph:gear-six-duotone" class="w-6 h-6 text-primary" />
       <span>{l("General Settings")}</span>
     </div>
-    <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
+    <form phx-change="Bonfire.Common.Settings:set" class="divide-hair divide-secondary">
       <!-- <input name="scope" value={:instance} type="hidden"> -->
       <div class="p-4">
         <Bonfire.UI.Common.SettingsToggleLive
@@ -229,7 +229,7 @@
         set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
       />
     </div>
-    <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
+    <form phx-change="Bonfire.Common.Settings:set" class="divide-hair divide-secondary">
       <div class="p-4">
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
@@ -270,7 +270,7 @@
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Show list of admins on public homepage")}</div>
-            <div class="text-sm font-light text-base-content/70">{l("Show list of admins on public homepage")}</div>
+            <div class="text-sm font-light text-muted">{l("Show list of admins on public homepage")}</div>
           </div>
           <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
           <input
@@ -295,7 +295,7 @@
       <#Icon iconify="lucide:server" class="w-6 h-6 text-primary" />
       <span>{l("Resource Usage")}</span>
     </div>
-    <form phx-change="Bonfire.Common.Settings:set" class="divide-y divide-base-content/10">
+    <form phx-change="Bonfire.Common.Settings:set" class="divide-hair divide-secondary">
       <div class="p-4">
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}
@@ -353,7 +353,7 @@
         /></div>
     </form>
   </div>
-  {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-base-content/70 font-medium">{l("Advanced settings")}</div> --}
+  {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-muted font-medium">{l("Advanced settings")}</div> --}
 
   <div class="">
     <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
@@ -361,7 +361,7 @@
       <span>{l("Email Configuration")}</span>
     </div>
 
-    <div class="divide-y divide-base-content/10 flex flex-col">
+    <div class="divide-hair divide-secondary flex flex-col">
       <form phx-change="Bonfire.Common.Settings:set" class="p-4">
         <input name="scope" value={:instance} type="hidden">
         <Bonfire.UI.Common.SettingsSelectLive
@@ -426,7 +426,7 @@
       <#Icon iconify="mdi:cloud-search" class="w-6 h-6 text-primary" />
       <span>{l("Search Configuration")}</span>
     </div>
-    <div class="divide-y divide-base-content/10">
+    <div class="divide-hair divide-secondary">
       <div class="p-4">
         <Bonfire.UI.Common.SettingsInputLive
           scope={:instance}
@@ -453,7 +453,7 @@
       <#Icon iconify="carbon:cloud-upload" class="w-6 h-6 text-primary" />
       <span>{l("File Storage (S3)")}</span>
     </div>
-    <div class="divide-y divide-base-content/10">
+    <div class="divide-hair divide-secondary">
       <div class="p-4">
         <Bonfire.UI.Common.SettingsInputLive
           scope={:instance}
@@ -493,7 +493,7 @@
       <span>{l("Telemetry & Monitoring")}</span>
     </div>
 
-    <div class="divide-y divide-base-content/10 flex flex-col">
+    <div class="divide-hair divide-secondary flex flex-col">
       <form phx-change="Bonfire.Common.Settings:set" class="">
         <input name="scope" value={:instance} type="hidden">
 

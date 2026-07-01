@@ -1,60 +1,145 @@
-<div>
-  <div class={@wrapper_class || "flex items-start gap-3 lg:gap-6 flex-row justify-between w-full"}>
-    <!-- id={if @with_popover, do: "profile_item_tooltip_#{@parent_id}_#{id(@profile)}"} -->
-    <!-- phx-hook={if @with_popover, do: "Tooltip"} -->
-    <div class="flex-1 min-w-0" data-trigger="hover" data-position="top-start">
-      <div
-        class="tooltip-button flex items-start gap-3 profile-item group"
-        tabindex="0"
-        role="button"
-        aria-haspopup="true"
-        aria-expanded="true"
+{#if @showing_within == :search}
+  {!-- Search result layout: avatar + name/handle + follow on one row, bio full-width below --}
+  <div class={@wrapper_class || "p-card"}>
+    <div class="flex items-start gap-3">
+      <LinkLive
+        parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
+        to={if String.starts_with?(e(@character, :username, ""), "http"),
+          do: e(@character, :username, nil),
+          else: "/character/#{e(@character, :username, "")}"}
+        class="shrink-0"
       >
-        <LinkLive
+        <Bonfire.UI.Common.AvatarLive
           parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
-          to={if String.starts_with?(e(@character, :username, ""), "http"),
-            do: e(@character, :username, nil),
-            else: "/character/#{e(@character, :username, "")}"}
-          class=""
-        >
-          <Bonfire.UI.Common.AvatarLive
-            parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
-            comment={if @lg, do: false, else: true}
-            fallback_class="w-12 h-12"
-            user_id={id(@profile)}
-            src={Media.avatar_url(@profile)}
-            title={e(@profile, :name, "")}
-            class={@avatar_class || "w-12 h-12"}
-            showing_within={@showing_within}
-            is_remote={@is_remote?}
-          />
-        </LinkLive>
-        <div :if={!@only_img} class="min-w-0">
+          comment={false}
+          fallback_class="w-12 h-12 rounded-full"
+          user_id={id(@profile)}
+          ring
+          src={Media.avatar_url(@profile)}
+          title={e(@profile, :name, "")}
+          showing_within={@showing_within}
+          is_remote={@is_remote?}
+        />
+      </LinkLive>
+
+      <div class="flex-1 min-w-0">
+        <div class="flex items-start justify-between gap-2">
           <LinkLive
             parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_l", @parent_id)}
             to={if String.starts_with?(e(@character, :username, ""), "http"),
               do: e(@character, :username, nil),
               else: "/character/#{e(@character, :username, "")}"}
-            class={"text-sm -mt-[2px] flex-1", "flex gap-1 items-baseline": @inline}
+            class="min-w-0 text-body group"
           >
             <div
               data-id="profile_name"
-              class={"font-medium text-base-content line-clamp-1 group-hover:underline", "!text-base": @lg}
+              class="font-bold text-base-content line-clamp-1 group-hover:underline flex items-center gap-1"
             >
-              {rich(e(@profile, :name, nil))}</div>
-
-            <div :if={!@inline} class="text-base-content/70 line-clamp-1">
+              {rich(e(@profile, :name, nil))}
+              {#if :follows_me in @show_controls}
+                <StatefulComponent
+                  id={deterministic_dom_id(
+                    __MODULE__,
+                    id(@profile || @character),
+                    "profile_item_follow_indicator",
+                    @parent_id
+                  )}
+                  module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicatorLive, @__context__)}
+                  user={@character || @profile}
+                />
+              {/if}
+            </div>
+            <div class="text-muted line-clamp-1 -mt-[2px]">
               {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}
             </div>
           </LinkLive>
 
-          <div
-            :if={@show_summary && {e(@profile, :summary, nil)}}
-            class="!text-base-content/100 prose prose-sm text-sm mt-1 line-clamp-4"
-          >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote?)}</div>
+          {#if id(@profile || @character) && current_user_id(@__context__) &&
+              current_user_id(@__context__) != id(@profile || @character) &&
+              :follow in @show_controls}
+            <StatefulComponent
+              module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+              id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile || @character), @parent_id)}
+              object_id={id(@profile || @character)}
+              path={path(@character || @profile)}
+              container_class="flex items-center gap-2 shrink-0"
+            />
+          {/if}
         </div>
+      </div>
+    </div>
 
-        {!-- </div>
+    <div
+      :if={e(@profile, :summary, nil)}
+      class="!text-base-content/100 prose prose-sm text-sm mt-2 line-clamp-4"
+    >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote?)}</div>
+
+    <#slot />
+  </div>
+{#else}
+  <div>
+    <div class={@wrapper_class || "bg-base-100 rounded-box border-hair border-secondary p-card"}>
+      <!-- id={if @with_popover, do: "profile_item_tooltip_#{@parent_id}_#{id(@profile)}"} -->
+      <!-- phx-hook={if @with_popover, do: "Tooltip"} -->
+      <div class="flex-1 min-w-0" data-trigger="hover" data-position="top-start">
+        <div
+          class="tooltip-button flex items-start gap-3 profile-item group"
+          tabindex="0"
+          role="button"
+          aria-haspopup="true"
+          aria-expanded="true"
+        >
+          <LinkLive
+            parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
+            to={if String.starts_with?(e(@character, :username, ""), "http"),
+              do: e(@character, :username, nil),
+              else: "/character/#{e(@character, :username, "")}"}
+            class=""
+          >
+            <Bonfire.UI.Common.AvatarLive
+              parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
+              comment={if @lg, do: false, else: true}
+              fallback_class={@fallback_class || "w-12 h-12"}
+              class={@avatar_class || "w-12 h-12"}
+              user_id={id(@profile)}
+              ring
+              src={Media.avatar_url(@profile)}
+              title={e(@profile, :name, "")}
+              showing_within={@showing_within}
+              is_remote={@is_remote?}
+            />
+            <!-- class={@avatar_class || "w-12 h-12"} -->
+          </LinkLive>
+          <div :if={!@only_img} class="min-w-0">
+            <LinkLive
+              parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_l", @parent_id)}
+              to={if String.starts_with?(e(@character, :username, ""), "http"),
+                do: e(@character, :username, nil),
+                else: "/character/#{e(@character, :username, "")}"}
+              class={"text-body flex-1", "flex gap-1 items-baseline": @inline}
+            >
+              <div data-id="profile_name" class="font-medium text-body">
+                {rich(e(@profile, :name, nil))}
+                {#if :follows_me in @show_controls}
+                  <StatefulComponent
+                    id={deterministic_dom_id(
+                      __MODULE__,
+                      id(@profile || @character),
+                      "profile_item_follow_indicator",
+                      @parent_id
+                    )}
+                    module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicatorLive, @__context__)}
+                    user={@character || @profile}
+                  />
+                {/if}</div>
+
+              <div :if={!@inline} class="text-muted line-clamp-1 -mt-[2px]">
+                {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}
+              </div>
+            </LinkLive>
+          </div>
+
+          {!-- </div>
     
     <Bonfire.UI.Me.UserPreviewLive
       href={if String.starts_with?(e(@character, :username, ""), "http"),
@@ -96,47 +181,37 @@
 
     
   </div>--}
+        </div>
+        <div
+          :if={@show_summary && {e(@profile, :summary, nil)}}
+          class="!text-base-content/100 prose prose-sm text-sm my-2 line-clamp-4"
+        >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote?)}</div>
       </div>
-    </div>
-    <div class="flex gap-2 items-center">
-      <button
-        :if={:accept in @show_controls and @activity_id}
-        :on-click="Bonfire.Social.Graph.Follows:accept"
-        phx-value-id={id(@activity_id)}
-        type="button"
-        class="btn btn-sm btn-primary"
-      >
-        {l("Accept")}
-      </button>
+      <div class="flex gap-2 items-center">
+        <button
+          :if={:accept in @show_controls and @activity_id}
+          :on-click="Bonfire.Social.Graph.Follows:accept"
+          phx-value-id={id(@activity_id)}
+          type="button"
+          class="btn btn-sm btn-primary w-full"
+        >
+          {l("Accept")}
+        </button>
 
-      {#if id(@profile || @character) && current_user_id(@__context__) &&
-          current_user_id(@__context__) != id(@profile || @character)}
-        {#if :follows_me in @show_controls}
-          <StatefulComponent
-            id={deterministic_dom_id(
-              __MODULE__,
-              id(@profile || @character),
-              "profile_item_follow_indicator",
-              @parent_id
-            )}
-            module={maybe_component(Bonfire.UI.Social.Graph.ProfileFollowIndicatorLive, @__context__)}
-            user={@character || @profile}
-          />
-        {/if}
+        {#if id(@profile || @character) && current_user_id(@__context__) &&
+            current_user_id(@__context__) != id(@profile || @character)}
+          {#if :follow in @show_controls}
+            <StatefulComponent
+              module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+              id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile || @character), @parent_id)}
+              object_id={id(@profile || @character)}
+              path={path(@character || @profile)}
+              hide_icon
+              container_class="flex items-center gap-2 w-full"
+            />
+          {/if}
 
-        {#if :follow in @show_controls}
-          <StatefulComponent
-            module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
-            id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile || @character), @parent_id)}
-            object_id={id(@profile || @character)}
-            path={path(@character || @profile)}
-            hide_icon
-            class={@class}
-            container_class="flex items-center gap-2"
-          />
-        {/if}
-
-        <StatelessComponent
+          <!-- <StatelessComponent
           module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
           :if={:add_to_circles in @show_controls}
           user_id={id(@profile || @character)}
@@ -147,22 +222,23 @@
             @parent_id
           )}
           hide_icon
-        />
-      {/if}
+        /> -->
+        {/if}
 
-      <#slot />
+        <#slot />
+      </div>
     </div>
+    <StatefulComponent
+      id={deterministic_dom_id(
+        __MODULE__,
+        id(@profile || @character),
+        "profile_item_block_indicator",
+        @parent_id
+      )}
+      :if={:blocks in @show_controls}
+      module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicatorLive, @__context__)}
+      user={@character || @profile}
+      is_local_user={@is_remote? == false}
+    />
   </div>
-  <StatefulComponent
-    id={deterministic_dom_id(
-      __MODULE__,
-      id(@profile || @character),
-      "profile_item_block_indicator",
-      @parent_id
-    )}
-    :if={:blocks in @show_controls}
-    module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicatorLive, @__context__)}
-    user={@character || @profile}
-    is_local_user={@is_remote? == false}
-  />
-</div>
+{/if}

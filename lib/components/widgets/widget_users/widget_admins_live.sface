@@ -14,7 +14,7 @@
           <button
             :on-click="Bonfire.UI.Me.WidgetAdminsLive:reset"
             type="button"
-            class="btn btn-circle btn-xs btn-ghost opacity-90"
+            class="btn btn-circle btn-sm btn-ghost opacity-90"
             title={l("Refresh")}
           >
             <span class="sr-only">{l("Refresh")}</span>

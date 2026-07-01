@@ -1,264 +1,257 @@
 <div data-id={"hero_more_actions-#{@parent_id}"} class="flex items-center gap-3">
-  <div aria-haspopup="true" class="dropdown dropdown-end">
-    <label
-      tabindex="0"
-      role="button"
-      aria-haspopup="true"
-      aria-expanded="true"
-      aria-label={l("More actions")}
-      class="btn btn-sm btn-circle"
-    >
-      <#Icon iconify="ph:dots-three-vertical-duotone" class="w-4 h-4" />
-    </label>
-    <ul
-      tabindex="0"
-      role="menu"
-      aria-orientation="vertical"
-      class="mt-1 z-50 rounded-box dropdown_actions w-72 menu-lg menu dropdown-content bg-base-100 border border-base-content/10"
-    >
-      <li :if={@permalink}>
-        <a
-          phx-hook="Copy"
-          id={deterministic_dom_id(__MODULE__, id(@user), "hero_action_copy_url", @parent_id)}
-          href={@permalink}
-          target="_top"
-          class="flex items-center justify-between"
+  <Dropdown
+    id={"hero_more_actions_menu_#{@parent_id}"}
+    position="bottom-end"
+    trigger_class="btn btn-sm btn-circle btn-outline btn-primary"
+    panel_class="dropdown_actions menu-lg"
+    label={l("More actions")}
+  >
+    <:trigger>
+      <#Icon iconify="ph:dots-three-outline-vertical-fill" class="w-4 h-4" />
+    </:trigger>
+
+    <li :if={@permalink}>
+      <a
+        phx-hook="Copy"
+        id={deterministic_dom_id(__MODULE__, id(@user), "hero_action_copy_url", @parent_id)}
+        href={@permalink}
+        target="_top"
+        class="flex items-center justify-between"
+      >
+        <span class="flex-1 text-sm" data-role="label">{l("Copy link")}</span>
+        <#Icon iconify="ph:copy-duotone" class="w-5 h-5 shrink-0" />
+      </a>
+    </li>
+    <li>
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Social.SubscribeFeedLive, @__context__)}
+        feed_name={:user_activities}
+        params={%{"username" => e(@user, :character, :username, nil)}}
+        as_icon={false}
+        parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
+      />
+    </li>
+
+    {#if @character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
+      <li class="m-1 border-t border-base-content/10" />
+      <li>
+        <LinkPatchLive
+          class="flex items-center justify-between gap-2 text-base-content"
+          to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
         >
-          <span class="flex-1 text-sm font-medium" data-role="label">{l("Copy link")}</span>
-          <#Icon iconify="ph:copy-duotone" class="w-5 h-5 shrink-0" />
-        </a>
+          <span class="text-sm">
+            {l("Following")}
+            <span :if={e(@user, :following_count, nil)} class="text-sm">
+              {e(@user, :following_count, 0)}
+            </span>
+          </span>
+          <#Icon iconify="ph:users-duotone" class="w-5 h-5 shrink-0" />
+        </LinkPatchLive>
       </li>
       <li>
+        <LinkPatchLive
+          class="flex items-center justify-between gap-2 text-base-content"
+          to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
+        >
+          <span class="text-sm">
+            {l("Followers")}
+            <span :if={e(@user, :followers_count, nil)} class="text-sm">
+              {e(@user, :followers_count, 0)}
+            </span>
+          </span>
+          <#Icon iconify="ph:users-duotone" class="w-5 h-5 shrink-0" />
+        </LinkPatchLive>
+      </li>
+    {/if}
+    <li class="m-1 border-t border-base-content/10" />
+    {#if current_user_id(@__context__) == id(@user)}
+      <li>
+        <LinkLive to="/settings" class="flex items-center gap-2 justify-between text-base-content">
+          <span class="text-sm">{l("Settings")}</span>
+          <#Icon iconify="ph:gear-six-duotone" class="w-5 h-5 shrink-0" />
+        </LinkLive>
+      </li>
+
+      <li>
+        <LinkLive to="/notifications" class="flex items-center gap-2 justify-between text-base-content">
+          <span class="text-sm">{l("Notifications")}</span>
+          <#Icon iconify="ph:bell-duotone" class="w-5 h-5 shrink-0" />
+        </LinkLive>
+      </li>
+
+      <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
+        <LinkLive to="/messages" class="flex items-center gap-2 justify-between text-base-content">
+          <span class="text-sm">{l("Messages")}</span>
+          <#Icon iconify="ph:tray-duotone" class="w-5 h-5 shrink-0" />
+        </LinkLive>
+      </li>
+      <li>
+        <LinkLive to={~p"/logout"} class="flex items-center gap-2 justify-between">
+          <span class="text-sm">{l("Logout")}</span>
+          <#Icon iconify="ph:sign-out-duotone" class="w-5 h-5 shrink-0" />
+        </LinkLive>
+      </li>
+    {#else}
+      {#if @character_type == :group}
+        <li
+          class="create_new_topic"
+          module={Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
+        >
+          <StatelessComponent
+            module={maybe_component(Bonfire.UI.Topics.NewTopicLive, @__context__)}
+            parent={@user}
+            label={l("New topic")}
+          />
+        </li>
+        <li :if={current_user_id(@__context__)}>
+          <LinkLive
+            to={~p"/group/#{e(@user, :character, :username, nil)}/settings"}
+            class="flex items-center gap-2 justify-between text-base-content"
+          >
+            <span class="text-sm">{l("Settings")}</span>
+            <#Icon iconify="ph:gear-duotone" class="w-5 h-5 shrink-0" />
+          </LinkLive>
+        </li>
+        <li :if={current_user_id(@__context__)}>
+          {#if Bonfire.Social.Pins.pinned?(:instance, @user)}
+            {!-- instance-pinned groups stay in everyone's sidebar; personal pin/unpin can't remove them --}
+            <div
+              class="flex items-center gap-2 justify-between text-muted"
+              title={l("This group is pinned to everyone's sidebar by the admins")}
+            >
+              <span class="text-sm">{l("Pinned by admins")}</span>
+              <#Icon iconify="ph:push-pin-duotone" class="w-5 h-5 shrink-0" />
+            </div>
+          {#else}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Reactions.PinActionLive, @__context__)}
+              object={@user}
+              parent_id={deterministic_dom_id(__MODULE__, id(@user), "sidebar_pin", @parent_id)}
+              class="flex items-center gap-2 justify-between text-base-content"
+              scope={:sidebar}
+              pinned?={Bonfire.Social.Pins.pinned?(current_user(@__context__), @user)}
+            />
+          {/if}
+        </li>
+        {!-- instance admins can pin/unpin the group to EVERYONE's sidebar from here (no need to be a group mod) --}
+        <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}>
+          <StatelessComponent
+            module={maybe_component(Bonfire.UI.Groups.InstanceSidebarPinLive, @__context__)}
+            group={@user}
+            class="flex items-center gap-2 justify-between w-full text-base-content"
+          />
+        </li>
+      {/if}
+
+      <li :if={extension_enabled?(:bonfire_ui_messages, @__context__) and @character_type == :user and
+        maybe_apply(
+          Bonfire.Federate.ActivityPub,
+          :interaction_allowed?,
+          [current_user(@__context__), @user],
+          fallback_return: true
+        )}>
+        {#if current_user_id(@__context__)}
+          <Bonfire.UI.Common.SmartInputButtonLive
+            create_object_type={:message}
+            prompt={l("Send a message")}
+            icon_class="!w-5 !h-5"
+            smart_input_opts={%{
+              create_object_type: :message,
+              recipients_editable: true,
+              to_circles: [
+                {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
+              ]
+            }}
+            class="flex items-center justify-between text-base-content"
+          />
+        {#else}
+          <a
+            href={Bonfire.UI.Me.RemoteInteractionLive.generate_url(
+              "message",
+              l("this user"),
+              @permalink || URIs.canonical_url(@user),
+              @__context__
+            )}
+            target="_top"
+            class="flex items-center justify-between text-base-content"
+          >
+            <span class="truncate ellipsis">{l("Send a message")}</span>
+          </a>
+        {/if}
+      </li>
+
+      <li class="">
         <StatelessComponent
-          module={maybe_component(Bonfire.UI.Social.SubscribeFeedLive, @__context__)}
-          feed_name={:user_activities}
-          params={%{"username" => e(@user, :character, :username, nil)}}
-          as_icon={false}
+          module={maybe_component(Bonfire.UI.Moderation.FlagActionLive, @__context__)}
+          object={@user}
+          permalink={@permalink}
+          is_remote={not is_nil(e(@user, :character, :peered, nil))}
           parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
+          object_type={e(@user, :profile, :name, "this user")}
+          class="flex items-center p-4 justify-between text-base-content"
         />
       </li>
 
-      {#if @character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
-        <li class="m-1 border-t border-base-content/10" />
-        <li>
-          <LinkPatchLive
-            class="flex items-center justify-between gap-2 text-base-content"
-            to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
-          >
-            <span class="text-sm font-medium">
-              {l("Following")}
-              <span :if={e(@user, :following_count, nil)} class="text-sm font-medium">
-                {e(@user, :following_count, 0)}
-              </span>
-            </span>
-            <#Icon iconify="ph:users-duotone" class="w-5 h-5 shrink-0" />
-          </LinkPatchLive>
-        </li>
-        <li>
-          <LinkPatchLive
-            class="flex items-center justify-between gap-2 text-base-content"
-            to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
-          >
-            <span class="text-sm font-medium">
-              {l("Followers")}
-              <span :if={e(@user, :followers_count, nil)} class="text-sm font-medium">
-                {e(@user, :followers_count, 0)}
-              </span>
-            </span>
-            <#Icon iconify="ph:users-duotone" class="w-5 h-5 shrink-0" />
-          </LinkPatchLive>
-        </li>
-      {/if}
-      <li class="m-1 border-t border-base-content/10" />
-      {#if current_user_id(@__context__) == id(@user)}
-        <li>
-          <LinkLive to="/settings" class="flex items-center gap-2 justify-between text-base-content">
-            <span class="text-sm font-medium">{l("Settings")}</span>
-            <#Icon iconify="ph:gear-six-duotone" class="w-5 h-5 shrink-0" />
-          </LinkLive>
-        </li>
-
-        <li>
-          <LinkLive to="/notifications" class="flex items-center gap-2 justify-between text-base-content">
-            <span class="text-sm font-medium">{l("Notifications")}</span>
-            <#Icon iconify="ph:bell-duotone" class="w-5 h-5 shrink-0" />
-          </LinkLive>
-        </li>
-
-        <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
-          <LinkLive to="/messages" class="flex items-center gap-2 justify-between text-base-content">
-            <span class="text-sm font-medium">{l("Messages")}</span>
-            <#Icon iconify="ph:tray-duotone" class="w-5 h-5 shrink-0" />
-          </LinkLive>
-        </li>
-        <li>
-          <LinkLive to={~p"/logout"} class="flex items-center gap-2 justify-between">
-            <span class="text-sm font-medium">{l("Logout")}</span>
-            <#Icon iconify="ph:sign-out-duotone" class="w-5 h-5 shrink-0" />
-          </LinkLive>
-        </li>
-      {#else}
-        {#if @character_type == :group}
-          <li
-            class="create_new_topic"
-            module={Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
-          >
-            <StatelessComponent
-              module={maybe_component(Bonfire.UI.Topics.NewTopicLive, @__context__)}
-              parent={@user}
-              label={l("New topic")}
-            />
-          </li>
-          <li :if={current_user_id(@__context__)}>
-            <LinkLive
-              to={~p"/group/#{e(@user, :character, :username, nil)}/settings"}
-              class="flex items-center gap-2 justify-between text-base-content"
-            >
-              <span class="text-sm font-medium">{l("Settings")}</span>
-              <#Icon iconify="ph:gear-duotone" class="w-5 h-5 shrink-0" />
-            </LinkLive>
-          </li>
-          <li :if={current_user_id(@__context__)}>
-            {#if Bonfire.Social.Pins.pinned?(:instance, @user)}
-              {!-- instance-pinned groups stay in everyone's sidebar; personal pin/unpin can't remove them --}
-              <div
-                class="flex items-center gap-2 justify-between text-base-content/60"
-                title={l("This group is pinned to everyone's sidebar by the admins")}
+      {#if !e(@user, :character, :peered, nil)}
+        {#if @character_type == :user and
+            maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
+          {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
+            <li class="">
+              <button
+                phx-click="Bonfire.Me.Users:make_admin"
+                phx-value-username_or_id={id(@user)}
+                class="flex items-center w-full gap-2 justify-between text-base-content"
               >
-                <span class="text-sm font-medium">{l("Pinned by admins")}</span>
-                <#Icon iconify="ph:push-pin-duotone" class="w-5 h-5 shrink-0" />
-              </div>
-            {#else}
-              <StatelessComponent
-                module={maybe_component(Bonfire.UI.Reactions.PinActionLive, @__context__)}
-                object={@user}
-                parent_id={deterministic_dom_id(__MODULE__, id(@user), "sidebar_pin", @parent_id)}
-                class="flex items-center gap-2 justify-between text-base-content"
-                scope={:sidebar}
-                pinned?={Bonfire.Social.Pins.pinned?(current_user(@__context__), @user)}
-              />
-            {/if}
-          </li>
-          {!-- instance admins can pin/unpin the group to EVERYONE's sidebar from here (no need to be a group mod) --}
-          <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}>
-            <StatelessComponent
-              module={maybe_component(Bonfire.UI.Groups.InstanceSidebarPinLive, @__context__)}
-              group={@user}
-              class="flex items-center gap-2 justify-between w-full text-base-content"
-            />
-          </li>
-        {/if}
-
-        <li :if={extension_enabled?(:bonfire_ui_messages, @__context__) and @character_type == :user and
-          maybe_apply(
-            Bonfire.Federate.ActivityPub,
-            :interaction_allowed?,
-            [current_user(@__context__), @user],
-            fallback_return: true
-          )}>
-          {#if current_user_id(@__context__)}
-            <Bonfire.UI.Common.SmartInputButtonLive
-              create_object_type={:message}
-              prompt={l("Send a message")}
-              icon_class="!w-5 !h-5"
-              smart_input_opts={%{
-                create_object_type: :message,
-                recipients_editable: true,
-                to_circles: [
-                  {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
-                ]
-              }}
-              class="flex items-center justify-between text-base-content"
-            />
+                <span class="text-sm">{l("Make admin")}</span>
+                <#Icon iconify="ph:key-duotone" class="w-5 h-5 shrink-0" />
+              </button>
+            </li>
           {#else}
-            <a
-              href={Bonfire.UI.Me.RemoteInteractionLive.generate_url(
-                "message",
-                l("this user"),
-                @permalink || URIs.canonical_url(@user),
-                @__context__
-              )}
-              target="_top"
-              class="flex items-center justify-between text-base-content"
-            >
-              <span class="truncate ellipsis">{l("Send a message")}</span>
-            </a>
+            <li class="">
+              <button
+                phx-click="Bonfire.Me.Users:revoke_admin"
+                phx-value-username_or_id={id(@user)}
+                class="flex items-center w-full gap-2 justify-between text-base-content"
+              >
+                <span class="text-sm text-error">{l("Revoke admin")}</span>
+                <#Icon iconify="ph:key-duotone" class="w-5 h-5 shrink-0" />
+              </button>
+            </li>
           {/if}
-        </li>
-
-        <li class="">
-          <StatelessComponent
-            module={maybe_component(Bonfire.UI.Moderation.FlagActionLive, @__context__)}
-            object={@user}
-            permalink={@permalink}
-            is_remote={not is_nil(e(@user, :character, :peered, nil))}
-            parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
-            object_type={e(@user, :profile, :name, "this user")}
-            class="flex items-center p-4 justify-between text-base-content"
-          />
-        </li>
-
-        {#if !e(@user, :character, :peered, nil)}
-          {#if @character_type == :user and
-              maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
-            {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
-              <li class="">
-                <button
-                  phx-click="Bonfire.Me.Users:make_admin"
-                  phx-value-username_or_id={id(@user)}
-                  class="w-full justify-between text-base-content"
-                >
-                  <span class="text-sm font-medium">{l("Make admin")}</span>
-                  <#Icon iconify="ph:key-duotone" class="w-5 h-5 shrink-0" />
-                </button>
-              </li>
-            {#else}
-              <li class="">
-                <button
-                  phx-click="Bonfire.Me.Users:revoke_admin"
-                  phx-value-username_or_id={id(@user)}
-                  class="w-full justify-between text-base-content"
-                >
-                  <span class="text-sm font-medium text-error">{l("Revoke admin")}</span>
-                  <#Icon iconify="ph:key-duotone" class="w-5 h-5 shrink-0" />
-                </button>
-              </li>
-            {/if}
-          {/if}
-        {#else}
-          <li>
-            <button
-              type="button"
-              phx-click="Bonfire.Me.Users:fetch_outbox"
-              phx-value-canonical_uri={@permalink}
-              class="flex items-center gap-2 justify-between text-base-content"
-            >
-              <span class="text-sm font-medium">{l("Get latest activities")}</span>
-              <#Icon iconify="ph:sort-ascending-duotone" class="w-5 h-5 shrink-0" />
-            </button>
-          </li>
-          <li>
-            <a
-              href={@permalink}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="flex items-center gap-2 justify-between text-base-content"
-            >
-              <span class="text-sm font-medium">{l("View remotely")}</span>
-              <#Icon iconify="ph:arrow-square-out-duotone" class="w-5 h-5 shrink-0" />
-            </a>
-          </li>
         {/if}
-
-        {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
-        <StatelessComponent
-          module={maybe_component(Bonfire.UI.Boundaries.BlockMenuButtonsLive, @__context__)}
-          parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
-          object={@user}
-          with_icon
-          permalink={@permalink}
-        />
+      {#else}
+        <li>
+          <button
+            type="button"
+            phx-click="Bonfire.Me.Users:fetch_outbox"
+            phx-value-canonical_uri={@permalink}
+            class="flex items-center gap-2 justify-between text-base-content"
+          >
+            <span class="text-sm">{l("Get latest activities")}</span>
+            <#Icon iconify="ph:sort-ascending-duotone" class="w-5 h-5 shrink-0" />
+          </button>
+        </li>
+        <li>
+          <a
+            href={@permalink}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-center gap-2 justify-between text-base-content"
+          >
+            <span class="text-sm">{l("View remotely")}</span>
+            <#Icon iconify="ph:arrow-square-out-duotone" class="w-5 h-5 shrink-0" />
+          </a>
+        </li>
       {/if}
-    </ul>
-  </div>
+
+      {!-- TODO: pass the silenced/ghosted/blocked booleans so it isn't re-queried by BlockButtonLive --}
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Boundaries.BlockMenuButtonsLive, @__context__)}
+        parent_id={deterministic_dom_id(__MODULE__, id(@user), nil, @parent_id)}
+        object={@user}
+        with_icon
+        permalink={@permalink}
+      />
+    {/if}
+  </Dropdown>
 </div>

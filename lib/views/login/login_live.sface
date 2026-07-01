@@ -58,7 +58,7 @@
         <div class="max-w-md mx-auto w-full pt-8">
           <div
             :if={Config.get([:ui, :theme, :instance_welcome, :description], nil)}
-            class="text-sm text-base-content/70 mb-3"
+            class="text-sm text-muted mb-3"
           >
             {rich(Config.get([:ui, :theme, :instance_welcome, :description]))}
           </div>

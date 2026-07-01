@@ -1,10 +1,15 @@
 <section>
-  <#slot {@header} />
+  <div class="flex mt-[32px] flex-col">
+    <div
+      :if={@character_type in [:user, :group] && e(@user, :profile, :summary, nil)}
+      class="w-full mb-[18px] prose !text-body max-w-none"
+    >
+      {rich(e(@user, :profile, :summary, nil))}
+    </div>
 
-  <div class="flex flex-col w-full gap-3">
     <div
       :if={@familiar_followers != [] and current_user_id(@__context__) != id(@user)}
-      class="flex items-center gap-2 text-sm text-base-content/70"
+      class="flex items-center gap-2 text-sm text-muted"
     >
       <div class="flex -space-x-2">
         {#for user <- Enum.take(@familiar_followers, 3)}
@@ -56,33 +61,24 @@
       </span>
     </div>
 
-    <div class="flex flex-col gap-3">
-      <div
-        :if={@character_type in [:user, :group] && e(@user, :profile, :summary, nil)}
-        class="w-full prose prose-sm max-w-none"
-      >
-        {rich(e(@user, :profile, :summary, nil))}
-      </div>
-      <Bonfire.UI.Me.ProfileLinksLive
-        :if={not is_nil(e(@user, :profile, :website, nil)) || (@aliases && @aliases != [])}
-        user={@user}
-        aliases={@aliases || []}
-      />
-      <Bonfire.UI.Me.ProfileStatsLive
-        :if={@character_type == :user && Settings.get([:ui, :show_activity_counts], false, @__context__)}
-        user={@user}
-        post_count={@post_count}
-        followers_count={@followers_count}
-        following_count={@following_count}
-      />
-      {!-- TODO: add widgets from config instead of hardcoded --}
-      <StatelessComponent
-        module={maybe_component(Bonfire.OpenScience.Orcid.AboutLive)}
-        user={@user}
-        aliases={@aliases || []}
-      />
-    </div>
+    <div :if={@character_type == :user} class="border-t-hair border-base-content mb-3" />
+
+    <Bonfire.UI.Me.ProfileStatsLive
+      :if={@character_type == :user && Settings.get([:ui, :show_activity_counts], false, @__context__)}
+      user={@user}
+      post_count={@post_count}
+      followers_count={@followers_count}
+      following_count={@following_count}
+    />
+
+    <Bonfire.UI.Me.ProfileLinksLive
+      :if={not is_nil(e(@user, :profile, :website, nil)) || (@aliases && @aliases != [])}
+      user={@user}
+      aliases={@aliases || []}
+    />
   </div>
+
+  <#slot {@header} />
 
   <div :if={@character_type == :user} class="flex items-center w-full space-x-4">
     {#case Settings.get(:experimental_features_enabled, false, @__context__) &&

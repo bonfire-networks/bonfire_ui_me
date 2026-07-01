@@ -50,7 +50,7 @@
         </a>
       </div>
 
-      <p class="text-xs text-base-content/60 mt-3 text-center">
+      <p class="text-xs text-muted mt-3 text-center">
         {l("We'll email you a one-time link to sign in. No password needed.")}
       </p>
     </.simple_form>

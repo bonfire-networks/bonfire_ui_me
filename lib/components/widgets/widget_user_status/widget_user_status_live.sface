@@ -88,7 +88,7 @@
           {!-- Privacy indicators — compact inline row --}
           <LinkLive
             to={~p"/settings/user/safety"}
-            class="flex items-center gap-3 text-xs text-base-content/40 hover:text-base-content/60 transition-colors"
+            class="flex items-center gap-3 text-xs text-base-content/40 hover:text-muted transition-colors"
           >
             {#if undiscoverable?}
               <span class="flex items-center gap-1" title={l("Profile is hidden")}>

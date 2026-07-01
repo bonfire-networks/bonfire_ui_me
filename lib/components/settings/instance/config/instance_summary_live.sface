@@ -4,23 +4,23 @@
     <span>{l("Digital Space Defaults")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-hair divide-secondary">
     <div x-data="{open: false}" class="p-4">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("General")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+          <div class="text-sm font-light text-muted">{l("Customise the look and feel")}</div>
         </div>
 
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-down-bold" class="w-4 h-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-muted" />
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse>
-        <div class="divide-y divide-base-content/10">
+        <div class="divide-hair divide-secondary">
           <div class="py-4">
             <div class="flex items-center justify-between flex-1 items-center gap-4">
               <div class="flex gap-2">
@@ -121,7 +121,7 @@
             <div class="flex items-center justify-between gap-2">
               <div class="flex flex-col gap-1">
                 <div class="text-sm font-medium">{l("What activities to include in home feeds by default")}</div>
-                {!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> --}
+                {!-- <div class="text-sm font-light text-muted">The details used to identify your publication around the web</div> --}
               </div>
             </div>
             <div class="flex flex-wrap gap-3 mt-4 flex-items">
@@ -296,18 +296,18 @@
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Privacy")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+          <div class="text-sm font-light text-muted">{l("Customise the look and feel")}</div>
         </div>
 
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-down-bold" class="w-4 h-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-muted" />
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse>
-        <div class="divide-y divide-base-content/10">
+        <div class="divide-hair divide-secondary">
           <div class="py-4">
             <div class="flex items-center justify-between gap-2">
               <div class="flex gap-1 justify-between flex-1 items-center">
@@ -339,18 +339,18 @@
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Configuration")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+          <div class="text-sm font-light text-muted">{l("Customise the look and feel")}</div>
         </div>
 
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-down-bold" class="w-4 h-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-muted" />
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse>
-        <div class="divide-y divide-base-content/10">
+        <div class="divide-hair divide-secondary">
           <div class="py-4">
             <div class="flex items-center justify-between flex-1 items-center gap-4">
               <div class="flex gap-2">
@@ -365,7 +365,7 @@
             <div class="flex items-center justify-between items-center gap-4">
               <div class="flex flex-col gap-0">
                 <div class="text-sm font-medium">{l("Default avatars")}</div>
-                <div class="text-sm font-light text-base-content/70">{l("What to show for users without a profile picture")}</div>
+                <div class="text-sm font-light text-muted">{l("What to show for users without a profile picture")}</div>
               </div>
               <Bonfire.UI.Common.AvatarLive
                 class="w-14 h-14 border-base-content/30 border rounded-full"

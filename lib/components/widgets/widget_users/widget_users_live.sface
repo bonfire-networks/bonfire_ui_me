@@ -9,7 +9,7 @@
           my_follow={:skip}
           hide_text
           container_class=""
-          class="btn btn-circle btn-xs btn-ghost opacity-90"
+          class="btn btn-circle btn-sm btn-ghost opacity-90"
         />
       {/if}
       <#slot {@action} />

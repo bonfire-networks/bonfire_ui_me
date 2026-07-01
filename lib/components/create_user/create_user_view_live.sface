@@ -18,7 +18,7 @@
     for={@form}
     action={path(:create_user, :create)}
     opts={[
-      class: "rounded-box p-4 mb-12 border bg-base-100 shadow-sm border-base-content/10",
+      class: "rounded-box p-4 mb-12 border border-hair border-secondary bg-base-100",
       id: "create-user-form"
     ]}
   >
@@ -58,7 +58,7 @@
           </fieldset>
 
           {!-- <Label class="label">
-            <span class="text-sm label-text text-base-content/70">
+            <span class="text-sm label-text text-muted">
               {l("Choose a username")}
             </span>
           </Label>

@@ -9,7 +9,7 @@
         <div class="flex items-center gap-3 min-w-0 flex-1">
           {!-- Globe Icon --}
           <div class="w-10 h-10 rounded-lg bg-base-200 flex items-center justify-center shrink-0">
-            <#Icon iconify="ph:globe-duotone" class="w-6 h-6 text-base-content/60" />
+            <#Icon iconify="ph:globe-duotone" class="w-6 h-6 text-muted" />
           </div>
 
           {!-- Instance Info --}
@@ -27,7 +27,7 @@
             </div>
 
             {!-- Stats row --}
-            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-base-content/60">
+            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-muted">
               {!-- User count --}
               <span class="flex items-center gap-1">
                 <#Icon iconify="ph:users-duotone" class="w-4 h-4" />

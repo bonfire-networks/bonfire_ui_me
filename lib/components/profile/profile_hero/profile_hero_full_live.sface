@@ -2,9 +2,21 @@
   <section
     data-id="profile_hero"
     aria-label={l("Profile")}
-    class="relative lg:mb-4 bonfire-wrapper mb-[1px]"
+    class="relative bg-base-100 mb-1 border-y border-y-secondary border-y-hair"
   >
     <!-- Sticky Header -->
+    {#if @character_type == :group}
+      {!-- TODO: make this config based, maybe a slot? --}
+      <StatelessComponent
+        module={maybe_component(
+          Bonfire.UI.Groups.GroupTopicsNavLive,
+          @__context__
+        )}
+        group={@user}
+        topics={@subcategories}
+        selected_id={@selected_category_id || id(@user)}
+      />
+    {/if}
     <div>
       {!-- TODO: put this logic in `update` fn instead? --}
       {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
@@ -17,7 +29,7 @@
                 data-id="hero_background"
                 role="img"
                 aria-label={l("Profile banner")}
-                class="w-full relative aspect-[3/1] bg-base-100 border-b border-base-content/10 lg:rounded-t-2xl bg-center mt-0 bg-cover bg-no-repeat mb-2"
+                class="w-full relative aspect-[3/1] bg-primary bg-center mt-0 bg-cover bg-no-repeat mb-2"
                 style={cond do
                   is_binary(color) -> "background-color: #{color}"
                   is_binary(banner_url) -> Bonfire.UI.Common.NextGenImageLive.background_image_set(banner_url)
@@ -63,7 +75,7 @@
                           {#if @character_type == :group && avatar_url == "/images/avatar.png"}
                             <div
                               data-role="group_preset_icon"
-                              class="inline-flex items-center justify-center w-24 h-24 md:mx-0 relative -mt-14 border-4 border-base-100 shadow-md rounded-xl bg-base-200"
+                              class="inline-flex items-center justify-center w-[100px] h-[100px] md:mx-0 relative -mt-14 border-primary border-hair rounded-xl bg-base-200"
                             >
                               <Iconify.iconify
                                 icon={Bonfire.Boundaries.Presets.group_icon(@user)}
@@ -75,12 +87,12 @@
                               parent_id="profile-hero"
                               title={e(@user, :profile, :name, "Anon")}
                               class={
-                                "inline-block object-cover w-24 h-24 md:mx-0 -mt-14 border-4 border-base-100 shadow-md",
+                                "inline-block object-cover w-24 h-24 md:mx-0 -mt-14 border-primary border-hair",
                                 "rounded-xl": @character_type == :group,
                                 "rounded-full": @character_type != :group
                               }
                               user_id={id(@user)}
-                              fallback_class="w-24 h-24"
+                              fallback_class="w-[100px] h-[100px]"
                               src={avatar_url}
                               is_remote={!@is_local?}
                             />
@@ -88,9 +100,9 @@
                         {/if}
                       </div>
 
-                      <div class="flex items-center gap-2" data-id="profile_main_actions">
+                      <div class="flex items-center gap-1" data-id="profile_main_actions">
                         {#if current_user_id(@__context__) == id(@user)}
-                          <LinkLive to={~p"/settings/user/profile"} class="btn btn-soft btn-primary btn-sm">
+                          <LinkLive to={~p"/settings/user/profile"} class="btn btn-primary btn-sm">
                             <#Icon iconify="ph:pencil-simple-duotone" class="w-4 h-4" />
                             <span class="hidden sm:inline">{l("Edit profile")}</span>
                           </LinkLive>
@@ -122,7 +134,7 @@
                                 follows_me={@follows_me}
                                 path={path(@user)}
                                 hide_icon
-                                class="btn btn-primary btn-soft btn-sm"
+                                class="btn btn-primary btn-sm"
                               />
                             </div>
                           {/if}
@@ -139,12 +151,12 @@
                             to={"#{path(@user)}/members"}
                             class="flex flex-col items-center min-w-[3rem] cursor-pointer"
                           >
-                            <span class="tabular-nums text-base font-bold leading-tight">{@member_count}</span>
-                            <span class="text-xs text-base-content/60 leading-tight">{l("members")}</span>
+                            <span class="tabular-nums text-heading font-bold leading-tight">{@member_count}</span>
+                            <span class="text-body leading-tight">{l("members")}</span>
                           </LinkLive>
                           <div
                             :if={@member_count && @member_count > 0 && @topic_count && @topic_count > 0}
-                            class="w-px bg-base-content/10"
+                            class="w-px bg-secondary"
                             aria-hidden="true"
                           />
                           <LinkLive
@@ -152,8 +164,8 @@
                             to={"#{path(@user)}/topics"}
                             class="flex flex-col items-center min-w-[3rem] cursor-pointer"
                           >
-                            <span class="tabular-nums text-base font-bold leading-tight">{@topic_count}</span>
-                            <span class="text-xs text-base-content/60 leading-tight">{l("topics")}</span>
+                            <span class="tabular-nums text-heading font-bold leading-tight">{@topic_count}</span>
+                            <span class="text-body leading-tight">{l("topics")}</span>
                           </LinkLive>
                         </div>
 
@@ -173,55 +185,79 @@
 
                     <div class="flex flex-col flex-1 w-full">
                       <div class="flex justify-between">
-                        <div class="flex flex-col flex-1">
-                          <div id="profile_name_section" class="flex items-center text-xl font-bold text-base-content">
-                            <LinkPatchLive to={~p"/@#{e(@user, :character, :username, nil)}"}>
+                        <div class="flex flex-col flex-1 gap-1">
+                          <div id="profile_name_section" class="text-[28px] leading-[28px] font-medium text-base-content">
+                            <LinkPatchLive class="text-[28px]" to={~p"/@#{e(@user, :character, :username, nil)}"}>
                               {e(@user, :profile, :name, "Anonymous")}
                             </LinkPatchLive>
                             <span
+                              :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
+                              data-role="admin"
+                              title={l("This user is an instance administrator")}
+                              class="ml-0.5 badge badge-xs uppercase font-normal text-sm badge-primary badge-outline"
+                            >
+                              {l("Admin")}
+                            </span>
+                            <span
                               :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
-                              class="ml-3 badge badge-sm badge-info badge-outline"
+                              class="ml-3 badge badge-sm badge-primary uppercase badge-outline"
                             >
                               {e(@user, :shared_user, :label, nil)}
                             </span>
                           </div>
+                          {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider], "none", :instance))}
+                            {#match "line"}
+                              <div
+                                class="w-[260px]"
+                                style="border-top: 1px solid color-mix(in oklch, var(--color-base-content) 10%, transparent)"
+                                aria-hidden="true"
+                              />
+                            {#match "custom"}
+                              {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider_image], "", :instance))}
+                                {#match src when src != ""}
+                                  <div class="w-[260px]" aria-hidden="true">
+                                    <img src={src} class="h-6 w-full object-contain" alt="">
+                                  </div>
+                                {#match _}
+                              {/case}
+                            {#match _}
+                          {/case}
                           <div class="flex lg:items-center flex-col lg:flex-row gap-2">
-                            <div class="flex items-center gap-0">
+                            <div class="flex flex-col gap-0">
                               <span
                                 data-role="label"
                                 phx-hook="Copy"
                                 id={Bonfire.Me.Characters.display_username(@user, true)}
                                 data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
                                 title={l("Click to copy username")}
-                                class="font-normal cursor-copy hover:underline underline-offset-4 decoration-dotted text-sm text-base-content/60 tooltip tooltip-right"
+                                class="font-normal cursor-copy text-body text-base-content tooltip tooltip-right"
                               >{Bonfire.Me.Characters.display_username(@user, true)}</span>
+                              {!-- TODO: add widgets from config instead of hardcoded --}
+                              <StatelessComponent
+                                module={maybe_component(Bonfire.OpenScience.Orcid.AboutLive)}
+                                user={@user}
+                                aliases={@aliases || []}
+                              />
                             </div>
-                            <span
-                              :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
-                              data-role="admin"
-                              title={l("This user is an instance administrator")}
-                              class="badge badge-sm text-xs badge-outline badge-info"
-                            >
-                              {l("Admin")}
-                            </span>
-                            {#case @character_type == :group && preset_meta(@preset_slug)}
+
+                            <!-- {#case @character_type == :group && preset_meta(@preset_slug)}
                               {#match %{} = meta}
                                 <span
                                   data-role="group_preset"
                                   title={e(meta, :description, e(meta, :label, @preset_slug))}
-                                  class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-base-content/5 text-xs text-base-content/70"
+                                  class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-base-content/5 text-xs text-muted"
                                 >
                                   <Iconify.iconify icon={e(meta, :icon, "ph:users-three-duotone")} class="w-3 h-3" />
                                   {e(meta, :label, @preset_slug)}
                                 </span>
                               {#match _}
-                            {/case}
+                            {/case} -->
                           </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <div class="mt-2 flex flex-col pb-2">
+                  <div class="flex flex-col">
                     <Bonfire.UI.Me.ProfileInfoLive
                       ghosted_instance_wide?={@ghosted_instance_wide?}
                       silenced_instance_wide?={@silenced_instance_wide?}
@@ -245,13 +281,9 @@
                     {#if @character_type == :group && current_user_id(@__context__) != id(@user) &&
                         not ((@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
                                (@ghosted? == true && @silenced? == true))}
-                      <div class="flex flex-col lg:flex-row gap-2 mt-3">
+                      <div class="flex flex-col lg:flex-row gap-1 pb-3">
                         {#if current_user_moderator?(current_user_id(@__context__), @moderators)}
-                          <LinkLive
-                            to={"#{path(@user)}/settings"}
-                            class="btn btn-primary w-full flex-1"
-                            label={l("Manage")}
-                          >
+                          <LinkLive to={"#{path(@user)}/settings"} class="btn btn-primary btn-sm" label={l("Manage")}>
                             <#Icon iconify="ph:gear-six-duotone" class="w-4 h-4" />
                             <span>{l("Manage")}</span>
                           </LinkLive>
@@ -265,10 +297,10 @@
                             membership={@membership_slug}
                             path={path(@user)}
                             showing_within={:list}
-                            class="btn btn-primary w-full flex-1"
+                            class="btn btn-primary btn-sm"
                           />
                         {/if}
-                        <div class="flex-1">
+                        <div class="">
                           <StatefulComponent
                             module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
                             id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
@@ -280,41 +312,28 @@
                             verb_undo={l("Unfollow")}
                             verb_already={l("Following")}
                             hide_icon
-                            class="btn btn-soft btn-block flex-1"
+                            class="btn btn-outline btn-block btn-sm"
                           />
                         </div>
                       </div>
                     {/if}
 
-                    <div
+                    <!-- <div
                       :if={@character_type == :group && @date}
                       class="text-xs text-base-content/50 mt-3 flex items-center gap-2"
                     >
                       <#Icon iconify="ph:calendar-blank-duotone" class="w-4 h-4" />
                       <span>{l("Created")} {@date}</span>
-                    </div>
+                    </div> -->
                   </div>
 
                   {!-- {#if @follows_me}
-                  <p class="text-base-content/60 mt-3 text-sm">{"Follows you"}</p>
+                  <p class="text-muted mt-3 text-sm">{"Follows you"}</p>
                 {/if} --}
                 </div>
               </div>
           {/case}
       {/case}
     </div>
-
-    {#if @character_type == :group}
-      {!-- TODO: make this config based, maybe a slot? --}
-      <StatelessComponent
-        module={maybe_component(
-          Bonfire.UI.Groups.GroupTopicsNavLive,
-          @__context__
-        )}
-        group={@user}
-        topics={@subcategories}
-        selected_id={@selected_category_id || id(@user)}
-      />
-    {/if}
   </section>
 </div>

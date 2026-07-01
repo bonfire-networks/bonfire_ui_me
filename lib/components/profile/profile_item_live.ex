@@ -15,6 +15,7 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
   prop show_summary, :boolean, default: false
   prop with_popover, :boolean, default: false
   prop avatar_class, :css_class, default: nil
+  prop fallback_class, :css_class, default: nil
   prop only_img, :boolean, default: false
 
   prop parent_id, :any, default: nil

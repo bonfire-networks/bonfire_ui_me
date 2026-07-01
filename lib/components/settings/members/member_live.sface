@@ -33,7 +33,7 @@
   <td class="flex-1">
     {#case {e(@user, :ghosted_instance_wide?, nil), e(@user, :silenced_instance_wide?, nil)}}
       {#match {nil, nil}}
-        <span class="btn btn-xs  normal-case loading btn-disabled">{l("loading")}</span>
+        <span class="btn btn-sm  normal-case loading btn-disabled">{l("loading")}</span>
       {#match {true, true}}
         <span class="badge badge-sm badge-error">{l("Blocked")}</span>
       {#match {true, _}}
@@ -50,71 +50,56 @@
 
   <td class="">
     <div class="flex justify-end">
-      <div
+      <Dropdown
         :if={current_user(@__context__) && current_user_id(@__context__) != id(@user)}
-        data-position="top-end"
-        phx-hook="Tooltip"
         id={"members_menu_links_#{id(@user)}"}
-        class="relative w-full"
+        position="top-end"
+        wrapper_class="w-full"
+        trigger_class="btn btn-sm btn-ghost btn-circle"
+        label={l("User menu")}
       >
-        <label
-          class="tooltip-button btn btn-sm btn-ghost btn-circle"
-          tabindex="0"
-          role="button"
-          aria-haspopup="true"
-          aria-expanded="true"
-          aria-label={l("User menu")}
-        >
+        <:trigger>
           <#Icon iconify="material-symbols:more-horiz" class="w-5 h-5" />
-        </label>
-        <ul
-          tabindex="0"
-          class="tooltip z-tooltip menu shadow bg-base-100 w-60 absolute rounded-box top-0 right-0 hidden"
-          role="menu"
-          id={"members_menu_links_#{id(@user)}_content"}
-          phx-update="ignore"
-          aria-orientation="vertical"
-          aria-labelledby="member-menu-item"
-        >
-          <li><LinkLive to={"/@#{e(@user, :character, :username, nil)}"}>{l("View profile")}</LinkLive></li>
-          <li>
-            <StatelessComponent
-              module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
-              object={@user}
-              is_local_user={@is_local_user}
-              parent_id="members"
-              type={:block}
-              hide_icon
-              open_btn_wrapper_class="w-full text-left"
-              label={e(@user, :profile, :name, l("this user"))}
-              open_btn_label={if e(@user, :ghosted_instance_wide?, nil) && e(@user, :silenced_instance_wide?, nil) do
-                if @is_local_user, do: l("Re-enable"), else: l("Unblock")
-              else
-                if @is_local_user, do: l("Block or disable"), else: l("Block")
-              end}
-              class="text-error"
-            />
-          </li>
-          <li :if={!@is_local_user}>
-            <StatelessComponent
-              module={maybe_component(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
-              form_opts={%{"phx-submit" => "Bonfire.Me.Users:delete_user"}}
-              skip_permission_check
-              object={@user}
-              object_type_readable={l("user & data")}
-              creator_id={id(@user)}
-              parent_id={deterministic_dom_id(__MODULE__, id(@user), "delete-user", nil)}
-              open_btn_class="text-error"
-              hide_icon
-              explanation={l(
-                "WARNING: Deleting a user profile means that this user (%{username}) and all related data and activities will be deleted.",
-                username: Bonfire.Me.Characters.display_username(@user, true, true)
-              )}
-            />
-          </li>
-          {!-- <li><LinkLive class="text-error" to="#">{l("Deactivate user")}</LinkLive></li> --}
-        </ul>
-      </div>
+        </:trigger>
+
+        <li><LinkLive to={"/@#{e(@user, :character, :username, nil)}"}>{l("View profile")}</LinkLive></li>
+        <li>
+          <StatelessComponent
+            module={maybe_component(Bonfire.UI.Boundaries.BlockButtonLive, @__context__)}
+            object={@user}
+            is_local_user={@is_local_user}
+            parent_id="members"
+            type={:block}
+            hide_icon
+            open_btn_wrapper_class="w-full text-left"
+            label={e(@user, :profile, :name, l("this user"))}
+            open_btn_label={if e(@user, :ghosted_instance_wide?, nil) && e(@user, :silenced_instance_wide?, nil) do
+              if @is_local_user, do: l("Re-enable"), else: l("Unblock")
+            else
+              if @is_local_user, do: l("Block or disable"), else: l("Block")
+            end}
+            class="text-error"
+          />
+        </li>
+        <li :if={!@is_local_user}>
+          <StatelessComponent
+            module={maybe_component(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
+            form_opts={%{"phx-submit" => "Bonfire.Me.Users:delete_user"}}
+            skip_permission_check
+            object={@user}
+            object_type_readable={l("user & data")}
+            creator_id={id(@user)}
+            parent_id={deterministic_dom_id(__MODULE__, id(@user), "delete-user", nil)}
+            open_btn_class="text-error"
+            hide_icon
+            explanation={l(
+              "WARNING: Deleting a user profile means that this user (%{username}) and all related data and activities will be deleted.",
+              username: Bonfire.Me.Characters.display_username(@user, true, true)
+            )}
+          />
+        </li>
+        {!-- <li><LinkLive class="text-error" to="#">{l("Deactivate user")}</LinkLive></li> --}
+      </Dropdown>
     </div>
   </td>
 </tr>

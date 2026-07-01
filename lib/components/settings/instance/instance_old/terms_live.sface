@@ -1,4 +1,4 @@
-<div class="pb-1 m-3">
+<div class="">
   {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
     <form name="settings" phx-submit="Bonfire.Common.Settings:save">
       <input name="scope" value={:instance} type="hidden">
@@ -10,12 +10,12 @@
           )}</span>
       </div>
 
-      <div class="mt-6 divide-y rounded-lg bg-base-content/5 divide-base-300">
-        <div x-data="{open: false}" class="p-4 rounded-t">
+      <div class="mt-6 -mx-card divide-hair divide-secondary">
+        <div x-data="{open: false}" class="p-4">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Terms of Use / Code of Conduct")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("The terms of use that will be in place in your instance")}</div>
+              <div class="text-sm font-light text-muted">{l("The terms of use that will be in place in your instance")}</div>
             </div>
             <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
@@ -39,7 +39,7 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Privacy Policy")}</div>
-              <div class="text-sm font-light text-base-content/70">{l("The terms of use that will be in place in your instance")}</div>
+              <div class="text-sm font-light text-muted">{l("The terms of use that will be in place in your instance")}</div>
             </div>
             <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
@@ -63,7 +63,7 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Impressum")}</div>
-              <div class="text-sm font-light text-base-content/70">{l(
+              <div class="text-sm font-light text-muted">{l(
                   "Legal notice / site identification details for your instance (when left empty, no impressum link is shown)"
                 )}</div>
             </div>

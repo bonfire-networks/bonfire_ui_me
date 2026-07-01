@@ -5,13 +5,13 @@
   <div class="w-full max-w-3xl">
     <div class="text-center mb-10">
       {#if @active_user}
-        <p class="text-sm text-base-content/60">{l("You're currently signed in as")}</p>
+        <p class="text-sm text-muted">{l("You're currently signed in as")}</p>
         <h1 class="text-2xl font-bold text-base-content mt-1">
           {e(@active_user, :profile, :name, nil) || "@" <> e(@active_user, :character, :username, "")}
         </h1>
       {#else}
         <h1 class="text-2xl font-bold text-base-content">{l("Choose a profile")}</h1>
-        <p class="text-sm text-base-content/60 mt-1">{l("Pick the identity you'd like to use.")}</p>
+        <p class="text-sm text-muted mt-1">{l("Pick the identity you'd like to use.")}</p>
       {/if}
     </div>
 

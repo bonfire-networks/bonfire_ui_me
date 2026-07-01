@@ -1,4 +1,4 @@
-<div class="flex flex-col p-4 gap-6 w-full">
+<div class="flex flex-col gap-6 w-full">
   <form phx-submit="Bonfire.Common.Settings:save">
     <Bonfire.UI.Common.SettingsInputLive
       scope={:instance}

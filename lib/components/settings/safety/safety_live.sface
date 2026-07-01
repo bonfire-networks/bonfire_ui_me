@@ -3,7 +3,7 @@
   <span>{l("Privacy & Safety")}</span>
 </div>
 
-<div class="divide-y divide-base-content/10">
+<div class="divide-hair divide-secondary">
   <div
     class="p-4 cursor-pointer"
     :if={@scope != :instance and ActivityPub.Config.federating?() != false}
@@ -107,7 +107,7 @@
     scope={@scope}
     module={maybe_component(Bonfire.UI.Boundaries.DefaultBoundaryLive, @__context__)}
   /> --}
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-hair divide-secondary">
     <form class="p-4" data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
 
@@ -153,14 +153,14 @@
             class="badge mb-2 !border !border-warning/30 badge-outline badge-warning"
           >{l("Dark Pattern")}</div>
           <div class="text-sm font-medium">{l("Infinite scrolling")}</div>
-          <!-- <div class="text-sm font-light text-base-content/70">{l("Infinite scrolling")}</div> -->
+          <!-- <div class="text-sm font-light text-muted">{l("Infinite scrolling")}</div> -->
         </div>
         {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-down-bold" class="w-4 h-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-muted" />
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse class="pt-2">

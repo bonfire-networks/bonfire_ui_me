@@ -371,9 +371,9 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
              [type: Surface.LiveComponent, id: "osn-publication-types", user: user]},
           # weather_widget_enabled &&
           #   {Bonfire.Geolocate.WidgetForecastLive, [location: Settings.get([Bonfire.Geolocate, :location], nil, current_user: user)]},
-          {Bonfire.Tag.Web.WidgetTagsLive, []},
+          {Bonfire.Tag.Web.WidgetTagsLive, []}
           # {Bonfire.UI.Social.WidgetTrendingLinksLive, []},
-          {Bonfire.UI.Me.WidgetAdminsLive, []}
+          # {Bonfire.UI.Me.WidgetAdminsLive, []}
         ]
       ]
     ]

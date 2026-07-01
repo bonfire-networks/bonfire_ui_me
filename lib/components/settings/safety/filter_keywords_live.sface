@@ -1,7 +1,7 @@
 <div class="form-control">
   <fieldset class="fieldset">
-    <legend class="text-sm font-medium text-base-content/90">{l("Filter keywords")}</legend>
-    <p class="text-base-content/70 text-sm text-pretty">{l(
+    <legend class="text-sm font-medium text-base-content">{l("Filter keywords")}</legend>
+    <p class="text-muted text-sm text-pretty">{l(
         "Posts containing these keywords will be hidden from your feeds. You can enter multiple keywords separated by commas."
       )}</p>
   </fieldset>
@@ -36,7 +36,7 @@
               phx-click="remove_keyword"
               phx-value-index={idx}
               phx-target={@myself}
-              class="btn btn-xs btn-ghost btn-circle text-error/70 hover:text-error"
+              class="btn btn-sm btn-ghost btn-circle text-error/70 hover:text-error"
               aria-label={l("Remove keyword: %{keyword}", keyword: keyword)}
             >
               <#Icon iconify="ph:x-duotone" class="size-4" />

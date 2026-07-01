@@ -25,7 +25,7 @@
     ) == :two_panels}
     class="flex flex-col gap-2"
   >
-    <div class="text-sm font-medium text-base-content/90">{l("Left panel background image")}</div>
+    <div class="text-sm font-medium text-base-content">{l("Left panel background image")}</div>
     <div class="text-sm text-base-content/50">{l("Upload a custom image for the left panel of the login and signup pages.")}</div>
     <StatefulComponent
       module={maybe_component(Bonfire.UI.Me.UploadAuthBackgroundLive, @__context__)}
@@ -41,7 +41,7 @@
       set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
     />
 
-    <div class="text-sm font-medium text-base-content/90 mt-2">{l("Auth page logo")}</div>
+    <div class="text-sm font-medium text-base-content mt-2">{l("Auth page logo")}</div>
     <div class="text-sm text-base-content/50">{l(
         "Upload a custom logo for the login and signup pages. Defaults to the instance icon if not set."
       )}</div>

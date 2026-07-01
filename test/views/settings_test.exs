@@ -463,14 +463,16 @@ defmodule Bonfire.UI.Me.SettingsTest do
       conn = conn(user: alice, account: account)
       {:ok, view, _html} = live(conn, "/settings/user/bonfire_ui_boundaries")
 
-      # Each preset button is wrapped in a div carrying `bg-primary` when
-      # selected. Default is "public", so the public button should be the
-      # selected one.
+      # The picker is a select-style dropdown: the currently-selected audience
+      # is shown in the dropdown trigger (not as a highlighted grid tile).
+      # Default is "public", so the trigger should read "Public".
       assert view
              |> has_element?(
-               "[data-scope=safety_boundary_default] .bg-primary button[data-scope=public_boundary]"
+               "[data-scope=safety_boundary_default] #boundaries_general_access_list_trigger",
+               "Public"
              )
 
+      # The options live in the (DOM-rendered) dropdown panel; pick "Local".
       view
       |> element("[data-scope=safety_boundary_default] button[data-scope=local_boundary]")
       |> render_click()
@@ -478,9 +480,11 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # open_browser(view)
       {:ok, refreshed_view, _html} = live(conn, "/settings/user/bonfire_ui_boundaries")
 
+      # After selecting, the trigger reflects the new default audience.
       assert refreshed_view
              |> has_element?(
-               "[data-scope=safety_boundary_default] .bg-primary button[data-scope=local_boundary]"
+               "[data-scope=safety_boundary_default] #boundaries_general_access_list_trigger",
+               "Local"
              )
     end
   end

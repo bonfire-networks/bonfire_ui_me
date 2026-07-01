@@ -1,14 +1,13 @@
-<div class="grid mb-2 grid-cols-1 gap-4 max-w-[640px] mx-auto w-full divide-y divide-base-content/10 bonfire-wrapper">
-  <div :for={user <- @users} class="p-4">
+<div class="grid mb-2 grid-cols-1 gap-4 max-w-[640px] mx-auto w-full divide-hair divide-secondary bonfire-wrapper -mx-card">
+  <div :for={user <- @users} class="pb-card">
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
       character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
       profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
       is_remote?={@is_remote?}
       show_summary
-      wrapper_class="flex items-start gap-3 profile-item group justify-between"
-      avatar_class="w-16 h-16"
-      show_controls={[:follows_me, :follow, :add_to_circles]}
+      wrapper_class=""
+      show_controls={[:follows_me, :follow]}
     />
     <!-- <Bonfire.UI.Me.UserPreviewLive user={user} /> -->
   </div>

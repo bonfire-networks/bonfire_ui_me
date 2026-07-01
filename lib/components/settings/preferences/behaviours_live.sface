@@ -4,19 +4,19 @@
     <span>{l("Appearance")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-hair divide-secondary">
     <div x-data="{open: false}" class="p-4">
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4 cursor-pointer">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Theme")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+          <div class="text-sm font-light text-muted">{l("Customise the look and feel")}</div>
         </div>
 
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-down-bold" class="w-4 h-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-muted" />
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse>
@@ -67,7 +67,7 @@
         <label class="flex items-center justify-between gap-4">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Preferred language")}</div>
-            <div class="text-sm font-light text-base-content/70 max-w-xs">{l("Used for the interface and as default when creating or displaying content.")}</div>
+            <div class="text-sm font-light text-muted max-w-xs">{l("Used for the interface and as default when creating or displaying content.")}</div>
           </div>
 
           <input name="scope" value={@scope} type="hidden">
@@ -190,12 +190,12 @@
     <span>{l("Discussions")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-hair divide-secondary">
     {!-- <div class="p-4 cursor-pointer">
       <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Feed activities")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("What activities to include in home feeds by default")}</div>
+          <div class="text-sm font-light text-muted">{l("What activities to include in home feeds by default")}</div>
         </div>
       </div>
       <div class="pt-2">
@@ -234,7 +234,7 @@
       <div class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Feed default sort")}</div>
-          <div class="text-sm font-light text-base-content/70">{l(
+          <div class="text-sm font-light text-muted">{l(
               "Select the default sorting options for your feeds (can always change in the feed controls options)"
             )}</div>
         </div>
@@ -259,14 +259,14 @@
       <div x-on:click="open = !open" class="flex items-center justify-between gap-4">
         <div class="flex flex-col gap-1">
           <div class="text-sm font-medium">{l("Discussions default layout")}</div>
-          <div class="text-sm font-light text-base-content/70">{l("Select the default way to view discussions (can always change in the feed controls options)")}</div>
+          <div class="text-sm font-light text-muted">{l("Select the default way to view discussions (can always change in the feed controls options)")}</div>
         </div>
         <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-down-bold" class="w-4 h-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
+          <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-muted" />
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse class="pt-2">
@@ -375,10 +375,10 @@
     <span>{l("Curated & Trending topics")}</span>
   </div>
 
-  <div class="divide-y divide-base-content/10">
+  <div class="divide-hair divide-secondary">
     <!-- if curated tab is enabled, then show the settings for disabling on the user side -->
 
-    <form class="divide-y divide-base-content/10" phx-change="Bonfire.Common.Settings:set">
+    <form class="divide-hair divide-secondary" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
       {!-- <Bonfire.UI.Common.SettingsToggleLive
         :if={module_enabled?(Bonfire.Social.Pins, @__context__) and

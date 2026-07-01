@@ -9,7 +9,7 @@
   {#case current_federation_mode(@__context__)}
     {#match current_mode}
       <div :if={@scope == :instance} class="flex flex-col gap-1 mb-4">
-        <span class="text-sm font-medium text-base-content/90">{l("Federation")}</span>
+        <span class="text-sm font-medium text-base-content">{l("Federation")}</span>
         <p class="text-sm text-base-content/50">
           {l("Choose if and how this instance federates with the wider fediverse.")}
         </p>
@@ -35,16 +35,16 @@
                 checked={current_mode == card.value}
                 class="peer sr-only"
               />
-              <span class="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full transition-colors bg-base-content/10 text-base-content/70 peer-checked:bg-primary peer-checked:text-primary-content">
+              <span class="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full transition-colors bg-base-content/10 text-muted peer-checked:bg-primary peer-checked:text-primary-content">
                 <Iconify.iconify icon={card.icon} class="w-4 h-4" />
               </span>
 
               <div class="flex flex-col gap-0.5 min-w-0 flex-1">
                 <div class="flex items-center gap-2 flex-wrap">
                   <span class="text-sm font-semibold text-base-content">{card.name}</span>
-                  <span :if={card.tag} class="badge badge-sm badge-ghost font-normal text-base-content/60">{card.tag}</span>
+                  <span :if={card.tag} class="badge badge-sm badge-ghost font-normal text-muted">{card.tag}</span>
                 </div>
-                <span class="text-sm text-base-content/60 leading-snug">{card.description}</span>
+                <span class="text-sm text-muted leading-snug">{card.description}</span>
               </div>
 
               <#Icon

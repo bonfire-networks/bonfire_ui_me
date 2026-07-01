@@ -1,18 +1,18 @@
-<div class="flex flex-col gap-2">
+<div class="flex border-t-hair bg-base-200 border-secondary p-card -mx-4 flex-col gap-4">
   {#case e(@user, :profile, :website, nil)}
     {#match nil}
     {#match href}
       <div class="flex items-center gap-2 text-sm">
-        <#Icon iconify="ph:globe-duotone" class="w-4 h-4 text-base-content/50 flex-shrink-0" />
+        <!-- <#Icon iconify="ph:globe-duotone" class="w-4 h-4 text-base-content/50 flex-shrink-0" /> -->
         <Bonfire.UI.Me.ProfileLinkLive href={href} text={href} class={@class} />
       </div>
   {/case}
 
-  <div :if={@aliases != []} class="flex flex-col gap-1.5">
-    <span class="text-xs text-base-content/50 font-medium">{l("Also on")}</span>
-    <div class="flex flex-wrap gap-2">
+  <div :if={@aliases != []} class="flex border-t-hair border-secondary -mx-4 px-4 flex-col gap-1.5">
+    <div class="text-xs text-base-content uppercase my-[18px] mb-3">{l("Also on")}</div>
+    <div class="flex flex-nowrap gap-4 overflow-x-auto">
       <div
-        class="flex items-center gap-1.5"
+        class="flex items-center gap-3 flex-shrink-0"
         :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <-
           @aliases || []}
       >
@@ -22,7 +22,7 @@
           character={character}
           wrapper_class="flex items-center"
           profile={profile}
-          class="btn btn-circle btn-ghost btn-xs"
+          class="btn btn-circle btn-outline btn-sm border-primary"
           avatar_class="w-6 h-6 rounded-full"
         />
         {#if Utils.maybe_apply(

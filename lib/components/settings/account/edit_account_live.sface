@@ -1,9 +1,9 @@
-<div class="divide-y divide-base-content/10">
+<div class="divide-hair divide-secondary">
   <div class="p-4">
     <div class="flex items-center justify-between">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Change password")}</div>
-        {!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> --}
+        {!-- <div class="text-sm font-light text-muted">The details used to identify your publication around the web</div> --}
       </div>
       <LinkLive to={path(:change_password)} class="btn-soft btn-secondary btn btn-sm">{l("Change")}</LinkLive>
     </div>
@@ -12,7 +12,7 @@
     <div class="flex items-center justify-between">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Change my email address")}</div>
-        {!-- <div class="text-sm font-light text-base-content/70">The details used to identify your publication around the web</div> --}
+        {!-- <div class="text-sm font-light text-muted">The details used to identify your publication around the web</div> --}
       </div>
       <LinkLive to={path(:change_email)} class="btn-soft btn-secondary btn btn-sm">{l("Change")}</LinkLive>
     </div>
@@ -21,13 +21,13 @@
     <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Theme")}</div>
-        <div class="text-sm font-light text-base-content/70">{l("Customise the look and feel")}</div>
+        <div class="text-sm font-light text-muted">{l("Customise the look and feel")}</div>
       </div>
       <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
-        <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
+        <#Icon iconify="ph:caret-down-bold" class="w-4 h-4 text-muted" />
       </button>
       <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
-        <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
+        <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-muted" />
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
@@ -45,13 +45,13 @@
     <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-sm text-error font-bold">{l("Delete Account, All Users & Data")}</div>
-        <div class="text-sm font-light text-base-content/70">{l("Delete all the data associated with your account")}</div>
+        <div class="text-sm font-light text-muted">{l("Delete all the data associated with your account")}</div>
       </div>
       <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
-        <#Icon iconify="ph:caret-down" class="w-4 h-4 text-base-content/70" />
+        <#Icon iconify="ph:caret-down-bold" class="w-4 h-4 text-muted" />
       </button>
       <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
-        <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-base-content/70" />
+        <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-muted" />
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>

@@ -22,7 +22,7 @@
           <span class="font-semibold">
             {l("What kind of team or organisation is it?")}
           </span>
-          <span class="mb-2 text-xs text-base-content/70">
+          <span class="mb-2 text-xs text-muted">
             {l("Eg. Team, Cooperative, Non-profit Organisation, or Moderation Team, ...")}
           </span>
         </label>
@@ -44,7 +44,7 @@
               username: e(current_user(@__context__), :character, :username, "")
             )}
           </span>
-          <span class="mb-2 text-xs text-base-content/70">
+          <span class="mb-2 text-xs text-muted">
             {l("Please note they need to already be signed up on this instance.")}
           </span>
         </label>
