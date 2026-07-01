@@ -1,7 +1,7 @@
-{#if @showing_within == :search}
+{#if @showing_within in [:search, :notifications, :feed]}
   {!-- Search result layout: avatar + name/handle + follow on one row, bio full-width below --}
   <div class={@wrapper_class || "p-card"}>
-    <div class="flex items-start gap-3">
+    <div class="flex items-center gap-4">
       <LinkLive
         parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
         to={if String.starts_with?(e(@character, :username, ""), "http"),
@@ -12,7 +12,7 @@
         <Bonfire.UI.Common.AvatarLive
           parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
           comment={false}
-          fallback_class="w-12 h-12 rounded-full"
+          fallback_class="w-10 h-10 rounded-full"
           user_id={id(@profile)}
           ring
           src={Media.avatar_url(@profile)}

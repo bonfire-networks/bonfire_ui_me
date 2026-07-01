@@ -5,4 +5,5 @@ defmodule Bonfire.UI.Me.ProfileStatsLive do
   prop post_count, :any, default: nil
   prop followers_count, :any, default: nil
   prop following_count, :any, default: nil
+  prop character_type, :atom, default: nil
 end

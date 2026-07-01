@@ -1,3 +1,5 @@
+<div>
+<div :if={@character_type == :user} class="border-t-hair border-base-content mb-3" />
 <div class="justify-between flex items-center pb-3 gap-y-2">
   <div class="flex flex-wrap items-center gap-x-4 text-body text-base-content">
     {!-- Patch (not navigate) so we stay in the same ProfileLive and keep the already-loaded
@@ -42,4 +44,5 @@
         <span>{l("Joined")} {Calendar.strftime(joined_date, "%b %Y")}</span>
       </span>
   {/case}
+</div>
 </div>

@@ -7,6 +7,7 @@ defmodule Bonfire.UI.Me.Preview.CharacterLive do
   prop activity, :any, default: nil
   prop verb_display, :string, default: nil
   prop permalink, :string, default: nil
+  prop wrapper_class, :string, default: nil
   prop date_ago, :string, default: nil
   prop showing_within, :atom, default: nil
   prop activity_component_id, :string, default: nil

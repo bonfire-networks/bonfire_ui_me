@@ -205,23 +205,7 @@
                               {e(@user, :shared_user, :label, nil)}
                             </span>
                           </div>
-                          {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider], "none", :instance))}
-                            {#match "line"}
-                              <div
-                                class="w-[260px]"
-                                style="border-top: 1px solid color-mix(in oklch, var(--color-base-content) 10%, transparent)"
-                                aria-hidden="true"
-                              />
-                            {#match "custom"}
-                              {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider_image], "", :instance))}
-                                {#match src when src != ""}
-                                  <div class="w-[260px]" aria-hidden="true">
-                                    <img src={src} class="h-6 w-full object-contain" alt="">
-                                  </div>
-                                {#match _}
-                              {/case}
-                            {#match _}
-                          {/case}
+                          
                           <div class="flex lg:items-center flex-col lg:flex-row gap-2">
                             <div class="flex flex-col gap-0">
                               <span
@@ -239,6 +223,24 @@
                                 aliases={@aliases || []}
                               />
                             </div>
+
+                            {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider], "none", :instance))}
+                            {#match "line"}
+                              <div
+                                class="w-[260px]"
+                                style="border-top: 1px solid color-mix(in oklch, var(--color-base-content) 10%, transparent)"
+                                aria-hidden="true"
+                              />
+                            {#match "custom"}
+                              {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider_image], "", :instance))}
+                                {#match src when src != ""}
+                                  <div class="w-[260px]" aria-hidden="true">
+                                    <img src={src} class="h-6 w-full object-contain" alt="">
+                                  </div>
+                                {#match _}
+                              {/case}
+                            {#match _}
+                          {/case}
 
                             <!-- {#case @character_type == :group && preset_meta(@preset_slug)}
                               {#match %{} = meta}

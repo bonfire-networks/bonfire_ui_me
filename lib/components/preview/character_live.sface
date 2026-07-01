@@ -37,9 +37,10 @@
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive, @__context__)}
       show_controls={[:follow]}
       showing_within={@showing_within}
+      wrapper_class={@wrapper_class || ""}
       parent_id={@activity_component_id}
       lg
-      avatar_class={"w-12 h-12 rounded-full ", "!w-7 !h-7": @__context__[:ui_compact]}
+      avatar_class={"w-10 h-10 rounded-full ", "!w-7 !h-7": @__context__[:ui_compact]}
       profile={e(@the_character, :profile, nil)}
       character={e(@the_character, :character, nil)}
     />

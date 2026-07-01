@@ -1,6 +1,6 @@
 {#case Settings.get([:ui, :auth, :layout], :minimal, @__context__)}
   {#match :two_panels}
-    <div class="flex min-h-screen w-full" id="login">
+    <div class="flex bg-base-200 min-h-screen w-full" id="login">
       <div class="hidden lg:block lg:w-1/2 relative bg-primary sticky top-0 h-screen overflow-hidden">
         <img
           :if={Settings.get([:ui, :auth, :background_image], nil, @__context__)}
@@ -19,7 +19,7 @@
           <div class="max-w-md mx-auto w-full flex flex-col gap-8">
             <div
               :if={Config.get([:ui, :theme, :instance_tagline], nil)}
-              class="text-3xl lg:text-4xl font-semibold text-base-content leading-tight"
+              class="text-feature font-medium text-base-content leading-tight"
             >
               {rich(
                 Config.get(
@@ -34,12 +34,12 @@
                 <img
                   src={Settings.get([:ui, :auth, :logo], nil, @__context__)}
                   alt=""
-                  class="w-24 h-24 object-contain"
+                  class="w-[154px] h-[154px] object-contain"
                 />
               </a>
             {#else}
               <Bonfire.UI.Common.LogoLinkLive
-                image_class="w-24 h-24 bg-center bg-no-repeat bg-contain"
+                image_class="w-[154px] h-[154px] bg-center bg-no-repeat bg-contain"
                 container_class="flex items-center gap-4"
                 href="/"
               />

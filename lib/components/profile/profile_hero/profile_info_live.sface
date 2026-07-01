@@ -61,11 +61,10 @@
       </span>
     </div>
 
-    <div :if={@character_type == :user} class="border-t-hair border-base-content mb-3" />
-
     <Bonfire.UI.Me.ProfileStatsLive
       :if={@character_type == :user && Settings.get([:ui, :show_activity_counts], false, @__context__)}
       user={@user}
+      character_type={@character_type}
       post_count={@post_count}
       followers_count={@followers_count}
       following_count={@following_count}
