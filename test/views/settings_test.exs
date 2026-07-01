@@ -472,6 +472,17 @@ defmodule Bonfire.UI.Me.SettingsTest do
                "Public"
              )
 
+      # ...and the selected option in the panel carries a check marker.
+      assert view
+             |> has_element?(
+               "[data-scope=safety_boundary_default] button[data-scope=public_boundary] [iconify='ph:check-bold']"
+             )
+
+      refute view
+             |> has_element?(
+               "[data-scope=safety_boundary_default] button[data-scope=local_boundary] [iconify='ph:check-bold']"
+             )
+
       # The options live in the (DOM-rendered) dropdown panel; pick "Local".
       view
       |> element("[data-scope=safety_boundary_default] button[data-scope=local_boundary]")
@@ -480,11 +491,17 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # open_browser(view)
       {:ok, refreshed_view, _html} = live(conn, "/settings/user/bonfire_ui_boundaries")
 
-      # After selecting, the trigger reflects the new default audience.
+      # After selecting, the trigger reflects the new default audience...
       assert refreshed_view
              |> has_element?(
                "[data-scope=safety_boundary_default] #boundaries_general_access_list_trigger",
                "Local"
+             )
+
+      # ...and the check marker moves to the newly-selected option.
+      assert refreshed_view
+             |> has_element?(
+               "[data-scope=safety_boundary_default] button[data-scope=local_boundary] [iconify='ph:check-bold']"
              )
     end
   end
