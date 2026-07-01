@@ -100,7 +100,7 @@
               parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
               comment={if @lg, do: false, else: true}
               fallback_class={@fallback_class || "w-12 h-12"}
-              class={@avatar_class || "w-12 h-12"}
+              class={@avatar_class || "w-12 h-12 rounded-full"}
               user_id={id(@profile)}
               ring
               src={Media.avatar_url(@profile)}
