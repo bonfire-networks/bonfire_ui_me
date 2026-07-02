@@ -1,10 +1,10 @@
-{#case Settings.get([:ui, :auth, :layout], :minimal, @__context__)}
+{#case @auth_config[:layout] || :minimal}
   {#match :two_panels}
     <div class="flex min-h-screen w-full" id="signup">
       <div class="hidden lg:block lg:w-1/2 relative bg-primary sticky top-0 h-screen overflow-hidden">
         <img
-          :if={Settings.get([:ui, :auth, :background_image], nil, @__context__)}
-          src={Settings.get([:ui, :auth, :background_image], nil, @__context__)}
+          :if={@auth_config[:background_image]}
+          src={@auth_config[:background_image]}
           alt=""
           class="absolute inset-0 w-full h-full object-cover"
         />
@@ -12,28 +12,22 @@
           class="absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-primary/20 pointer-events-none"
           aria-hidden="true"
         />
-        <!-- <div class="relative z-10 w-full max-h-screen overflow-y-auto p-8">
-          <StatelessComponent
-            module={maybe_component(Bonfire.CommunityRules.Web.InstanceRulesDisplayLive, @__context__)}
-            show_header
-          />
-        </div> -->
       </div>
 
       <div class="w-full lg:w-1/2 flex flex-col p-8 lg:px-16 lg:py-12 bg-base-100 min-h-screen">
         <div class="flex-1 flex items-center">
           <div class="max-w-md mx-auto w-full flex flex-col gap-8">
             <div
-              :if={Config.get([:ui, :theme, :instance_welcome, :title], nil)}
+              :if={@instance_welcome[:title]}
               class="text-2xl lg:text-3xl font-bold text-base-content leading-tight"
             >
-              {rich(Config.get([:ui, :theme, :instance_welcome, :title]))}
+              {rich(@instance_welcome[:title])}
             </div>
 
-            {#if Settings.get([:ui, :auth, :logo], nil, @__context__)}
+            {#if @auth_config[:logo]}
               <a href="/" class="inline-block">
                 <img
-                  src={Settings.get([:ui, :auth, :logo], nil, @__context__)}
+                  src={@auth_config[:logo]}
                   alt=""
                   class="w-16 h-16 aspect-square rounded-full bg-center bg-no-repeat bg-contain object-contain"
                 />
@@ -65,7 +59,7 @@
                     </div>
                     <LinkLive
                       class="mt-6 btn btn-outline border-primary//2o btn-primary normal-case"
-                      to={path(Config.get(:home_page, :home))}
+                      to={path(@home_page)}
                     >
                       {l("Back to home page")}
                     </LinkLive>
@@ -73,6 +67,20 @@
                 </div>
               </div>
             {#else}
+              {#if @instance_welcome[:description]}
+                <div class="text-sm text-muted mb-3">
+                  {rich(@instance_welcome[:description])}
+                </div>
+              {/if}
+
+              <div :if={@instance_rules} class="relative z-10 w-full max-h-screen overflow-y-auto p-8">
+                <StatelessComponent
+                  module={maybe_component(Bonfire.CommunityRules.Web.InstanceRulesDisplayLive, @__context__)}
+                  sections={@instance_rules}
+                  show_header
+                />
+              </div>
+
               <Bonfire.UI.Me.SignupFormLive
                 form={@form}
                 error={@error}
@@ -85,12 +93,6 @@
         </div>
 
         <div class="max-w-md mx-auto w-full pt-8">
-          <div
-            :if={Config.get([:ui, :theme, :instance_welcome, :description], nil)}
-            class="text-sm text-muted mb-3"
-          >
-            {rich(Config.get([:ui, :theme, :instance_welcome, :description]))}
-          </div>
           <div class="text-xs text-base-content/50 flex flex-wrap items-center gap-x-2 gap-y-1">
             <LinkLive to="/about" class="link link-hover">{l("About")}</LinkLive>
             <span aria-hidden="true">·</span>
@@ -132,7 +134,7 @@
                   </div>
                   <LinkLive
                     class="mt-6 btn btn-outline border-primary//2o btn-primary normal-case"
-                    to={path(Config.get(:home_page, :home))}
+                    to={path(@home_page)}
                   >
                     {l("Back to home page")}
                   </LinkLive>
@@ -142,6 +144,20 @@
           </div>
         </div>
       {#else}
+        {#if @instance_welcome[:description]}
+          <div class="text-sm text-muted mb-3 max-w-[680px] mx-auto text-center">
+            {rich(@instance_welcome[:description])}
+          </div>
+        {/if}
+
+        <div :if={@instance_rules} class="max-w-[680px] mx-auto mt-8">
+          <StatelessComponent
+            module={maybe_component(Bonfire.CommunityRules.Web.InstanceRulesDisplayLive, @__context__)}
+            sections={@instance_rules}
+            show_header
+          />
+        </div>
+
         <div class="mx-auto flex justify-center items-center">
           <Bonfire.UI.Me.SignupFormLive
             form={@form}
@@ -149,12 +165,6 @@
             invite={@invite}
             auth_second_factor_secret={@auth_second_factor_secret}
             open_id_provider={@open_id_provider}
-          />
-        </div>
-        <div class="max-w-[680px] mx-auto mt-8">
-          <StatelessComponent
-            module={maybe_component(Bonfire.CommunityRules.Web.InstanceRulesDisplayLive, @__context__)}
-            show_header
           />
         </div>
       {/if}
