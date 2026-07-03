@@ -32,8 +32,22 @@ defmodule Bonfire.UI.Me.CreateUserController do
         |> redirect(to: path(:login, :login))
 
       changeset ->
-        create_from_changeset(conn, params, changeset)
+        if acknowledgements_accepted?(params) or !changeset.valid? do
+          create_from_changeset(conn, params, changeset)
+        else
+          conn
+          |> assign_flash(
+            :error,
+            l("Please confirm the required acknowledgements before creating your profile.")
+          )
+          |> paint(changeset)
+        end
     end
+  end
+
+  defp acknowledgements_accepted?(params) do
+    not empty?(Map.get(params, "political_consent")) and
+      not empty?(Map.get(params, "code_of_conduct_consent"))
   end
 
   defp create_from_changeset(conn, params, changeset) do

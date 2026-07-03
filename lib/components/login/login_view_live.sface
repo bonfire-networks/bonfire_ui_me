@@ -31,7 +31,8 @@
         <.button
           id="login_submit_btn"
           type="submit"
-          variant="primary"
+          variant="outline"
+          size="sm"
           full_width={!@external_signup_url}
           class={"sm:flex-1": @external_signup_url}
           loading_text={l("Sending...")}
@@ -44,13 +45,13 @@
           href={@external_signup_url}
           target="_blank"
           rel="noopener"
-          class="btn btn-ghost btn-outline sm:flex-1"
+          class="btn btn-ds-outline btn-sm sm:flex-1"
         >
           {l("Sign up")}
         </a>
       </div>
 
-      <p class="text-xs text-muted mt-3 text-center">
+      <p class="text-caption text-muted mt-4">
         {l("We'll email you a one-time link to sign in. No password needed.")}
       </p>
     </.simple_form>

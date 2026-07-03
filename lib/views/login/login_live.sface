@@ -14,12 +14,12 @@
         />
       </div>
 
-      <div class="w-full lg:w-1/2 flex flex-col p-8 lg:px-16 lg:py-12 bg-base-100 min-h-screen">
+      <div class="w-full lg:w-1/2 p-8 lg:px-16 lg:py-12 lg:pt-[80px] bg-base-200 min-h-screen">
         <div class="flex-1 flex items-center">
-          <div class="max-w-md mx-auto w-full flex flex-col gap-8">
+          <div class="max-w-md mx-auto w-full flex flex-col gap-6">
             <div
               :if={Config.get([:ui, :theme, :instance_tagline], nil)}
-              class="text-feature font-medium text-base-content leading-tight"
+              class="type-feature"
             >
               {rich(
                 Config.get(
@@ -28,6 +28,13 @@
                 )
               )}
             </div>
+
+            <div
+            :if={Config.get([:ui, :theme, :instance_welcome, :description], nil)}
+            class="text-heading"
+          >
+            {rich(Config.get([:ui, :theme, :instance_welcome, :description]))}
+          </div>
 
             {#if Settings.get([:ui, :auth, :logo], nil, @__context__)}
               <a href="/" class="inline-block">
@@ -56,12 +63,6 @@
         </div>
 
         <div class="max-w-md mx-auto w-full pt-8">
-          <div
-            :if={Config.get([:ui, :theme, :instance_welcome, :description], nil)}
-            class="text-sm text-muted mb-3"
-          >
-            {rich(Config.get([:ui, :theme, :instance_welcome, :description]))}
-          </div>
           <div class="text-xs text-base-content/50 flex flex-wrap items-center gap-x-2 gap-y-1">
             <LinkLive to="/about" class="link link-hover">{l("About")}</LinkLive>
             <span aria-hidden="true">·</span>

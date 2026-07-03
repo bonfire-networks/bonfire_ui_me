@@ -41,6 +41,26 @@
       set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
     />
 
+    <div class="text-sm font-medium text-base-content mt-2">{l("Project branding image")}</div>
+    <div class="text-sm text-base-content/50">{l(
+        "Upload a custom PNG wordmark or project name image for the login and signup pages."
+      )}</div>
+    <StatefulComponent
+      module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
+      id={:upload_auth_project_branding_image}
+      object={:instance}
+      boundary_verb={:describe}
+      accept={~w(.png)}
+      container_class="relative rounded-lg flex justify-center px-6 py-8 bg-center bg-contain bg-no-repeat h-32 bg-base-200"
+      src={Bonfire.Common.Settings.get(
+        [:ui, :auth, :project_branding_image],
+        "",
+        @__context__[:instance_settings] || :instance
+      )}
+      set_field={[:ui, :auth, :project_branding_image]}
+      set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
+    />
+
     <div class="text-sm font-medium text-base-content mt-2">{l("Auth page logo")}</div>
     <div class="text-sm text-base-content/50">{l(
         "Upload a custom logo for the login and signup pages. Defaults to the instance icon if not set."

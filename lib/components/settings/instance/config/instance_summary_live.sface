@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-2">
-  <div class="px-card border-b-hair border-secondary -mx-card pb-card  text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
+  <div class="px-card border-b-hair border-secondary pb-card  text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
     <div iconify="ph:acorn-fill" class="w-5 h-5 text-primary" aria-hidden="true" />
     <span>{l("Community Defaults")}</span>
   </div>

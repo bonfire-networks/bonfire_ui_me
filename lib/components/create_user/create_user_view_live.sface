@@ -1,12 +1,12 @@
-<div class="max-w-[420px] bg-base-200 mx-3 mt-3 md:mx-auto">
+<div class="max-w-[480px] h-[100vh] bg-base-200 mx-3 mt-3 md:mx-auto">
   <div class="my-2">
-    <div class="alert alert-info alert-soft">
+    <div class="alert alert-info alert-soft bg-base-300 border-hair border-secondary mr-0 bg-base-300 border-hair border-secondary">
       <div class="flex">
         <div class="flex-shrink-0">
-          <#Icon iconify="ph:user-circle-plus-duotone" class="w-6 h-6" />
+          <#Icon iconify="ph:user-circle-plus-fill" class="w-6 h-6 text-primary" />
         </div>
         <div class="flex-1 ml-3 md:flex md:justify-between">
-          <p class="text-sm">
+          <p class="text-body text-primary">
             {l("This information will be displayed publicly so be careful what you share.")}</p>
         </div>
       </div>
@@ -26,7 +26,10 @@
       {!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> --}
       <span>{l("Create a new user profile")}</span>
     </div>
-    <div x-data="{username:'', userModifiedUsername: false}" class="flex flex-col gap-2">
+    <div
+      x-data="{username:'', userModifiedUsername: false, politicalConsent: false, codeOfConductConsent: false}"
+      class="flex flex-col gap-2"
+    >
       <Inputs for={:profile}>
         <Field name={:name}>
           <fieldset class="fieldset">
@@ -82,16 +85,16 @@
         </Inputs>
       </div>
 
-      <div class="alert alert-info alert-soft">
+      <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
         <div class="flex items-center justify-between gap-6">
           <p class="text-sm">
             {l("People need to make a request before they can follow me")}
           </p>
-          <input name="request_before_follow" value="true" type="checkbox" class="toggle toggle-info">
+          <input name="request_before_follow" value="true" type="checkbox" class="toggle toggle-primary toggle-xl">
         </div>
       </div>
 
-      <div class="alert alert-info alert-soft mt-2">
+      <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
         <div class="flex items-center justify-between gap-6">
           <p class="text-sm">
             {l("Make my profile publicly discoverable (in Bonfire, the fediverse, and search engines)")}
@@ -101,23 +104,62 @@
             name="undiscoverable"
             value=""
             type="checkbox"
-            class="toggle toggle-info"
+            class="toggle toggle-primary toggle-xl"
             checked="checked"
           />
         </div>
       </div>
 
-      <div class="alert alert-info alert-soft mt-2">
+      <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
         <div class="flex items-center justify-between gap-6">
           <p class="text-sm">
             {l("Make my content searchable (in Bonfire, the fediverse, and search engines)")}
           </p>
           <input name="unindexable" value="true" type="hidden">
-          <input name="unindexable" value="" type="checkbox" class="toggle toggle-info" checked="checked">
+          <input name="unindexable" value="" type="checkbox" class="toggle toggle-primary toggle-xl" checked="checked">
         </div>
       </div>
 
-      <button type="submit" class="w-full mt-4 normal-case  btn btn-primary">
+      <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
+        <div class="flex items-center justify-between gap-6">
+          <p class="text-sm">
+            {l("I am aware that political opinions may be revealed through my participation and contributions; I expressly consent to this processing.")}
+          </p>
+          <input
+            id="create-user-political-consent"
+            name="political_consent"
+            value="true"
+            type="checkbox"
+            required
+            class="toggle toggle-primary toggle-xl"
+            x-model="politicalConsent"
+          />
+        </div>
+      </div>
+
+      <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
+        <div class="flex items-center justify-between gap-6">
+          <p class="text-sm">
+            {l("I have read the ")}<a href="/conduct" class="link link-primary">{l("Code of Conduct")}</a>{l(".")}
+          </p>
+        </div>
+          <input
+            id="create-user-code-of-conduct-consent"
+            name="code_of_conduct_consent"
+            value="true"
+            type="checkbox"
+            required
+            class="toggle toggle-primary toggle-xl"
+            x-model="codeOfConductConsent"
+          />
+      </div>
+
+      <button
+        type="submit"
+        class="aligns-end mt-6 normal-case btn btn-ds-outline"
+        disabled
+        x-bind:disabled="!(politicalConsent && codeOfConductConsent)"
+      >
         {l("Create")}
       </button>
     </div>

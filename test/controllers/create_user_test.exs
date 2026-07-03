@@ -17,7 +17,9 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert [form] = Floki.find(doc, "#create-user-form")
     assert [_] = Floki.find(form, "#create-user-form_profile_0_name")
     assert [_] = Floki.find(form, "#create-user-form_character_0_username")
-    assert [_] = Floki.find(form, "button[type='submit']")
+    assert [_] = Floki.find(form, "#create-user-political-consent[required]")
+    assert [_] = Floki.find(form, "#create-user-code-of-conduct-consent[required]")
+    assert [_] = Floki.find(form, "button[type='submit'][disabled]")
   end
 
   test "form renders when a user is already logged in" do
@@ -169,6 +171,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
         "character" => %{"username" => user.character.username}
       }
     }
+    |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
     doc = floki_response(conn)
@@ -197,6 +200,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
         "character" => %{"username" => username}
       }
     }
+    |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
     # assert_raise RuntimeError, debug(floki_response(conn))
@@ -220,6 +224,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
         "character" => %{"username" => username}
       }
     }
+    |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
 
@@ -247,6 +252,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       "undiscoverable" => "true",
       "unindexable" => "true"
     }
+    |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
     # assert_raise RuntimeError, debug(floki_response(conn))
@@ -263,5 +269,35 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
            ) == true
 
     assert Bonfire.Common.Extend.module_enabled?(Bonfire.Search.Indexer, user) == false
+  end
+
+  test "requires acknowledgements before creating a user" do
+    alice = fake_account!()
+    conn = conn(account: alice)
+    username = username()
+
+    params = %{
+      "user" => %{
+        "profile" => %{"summary" => summary(), "name" => name()},
+        "character" => %{"username" => username}
+      }
+    }
+
+    conn = post(conn, "/create-user", params)
+    doc = floki_response(conn)
+
+    assert [view] = Floki.find(doc, "#create_user")
+
+    assert Floki.text(view) =~
+             "Please confirm the required acknowledgements before creating your profile."
+
+    assert {:error, _} = Bonfire.Me.Users.by_username(username)
+  end
+
+  defp with_acknowledgements(params) do
+    Map.merge(params, %{
+      "political_consent" => "true",
+      "code_of_conduct_consent" => "true"
+    })
   end
 end

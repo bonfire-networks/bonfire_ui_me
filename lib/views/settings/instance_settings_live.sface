@@ -170,7 +170,7 @@
       />
     {#match "terms"}
       <Bonfire.UI.Me.SettingsViewsLive.TermsLive selected_tab={@selected_tab} />
-    {#match "auth"}
+    {#match "branding"}
       <Bonfire.UI.Me.SettingsViewsLive.InstanceAuthLive selected_tab={@selected_tab} />
     {#match "invites"}
       <StatefulComponent
