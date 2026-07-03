@@ -185,7 +185,7 @@
 
                     <div class="flex flex-col flex-1 w-full">
                       <div class="flex justify-between">
-                        <div class="flex flex-col flex-1 gap-1">
+                        <div class="flex flex-col flex-1 gap-2">
                           <div id="profile_name_section" class="type-result">
                             <LinkPatchLive class="text-result" to={~p"/@#{e(@user, :character, :username, nil)}"}>
                               {e(@user, :profile, :name, "Anonymous")}
@@ -224,23 +224,25 @@
                               />
                             </div>
                           </div>
-                          {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider], "none", :instance))}
-                            {#match "line"}
-                              <div
-                                class="w-[260px]"
-                                style="border-top: 1px solid color-mix(in oklch, var(--color-base-content) 10%, transparent)"
-                                aria-hidden="true"
-                              />
-                            {#match "custom"}
-                              {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider_image], "", :instance))}
-                                {#match src when src != ""}
-                                  <div class="w-[260px]" aria-hidden="true">
-                                    <img src={src} class="h-6 w-full object-contain" alt="">
-                                  </div>
-                                {#match _}
-                              {/case}
-                            {#match _}
-                          {/case}
+                          {#if @character_type == :user}
+                            {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider], "none", :instance))}
+                              {#match "line"}
+                                <div
+                                  class="w-[260px]"
+                                  style="border-top: 1px solid color-mix(in oklch, var(--color-base-content) 10%, transparent)"
+                                  aria-hidden="true"
+                                />
+                              {#match "custom"}
+                                {#case to_string(Bonfire.Common.Settings.get([:ui, :sidebar, :section_divider_image], "", :instance))}
+                                  {#match src when src != ""}
+                                    <div class="w-[260px]" aria-hidden="true">
+                                      <img src={src} class="h-6 w-full object-contain" alt="">
+                                    </div>
+                                  {#match _}
+                                {/case}
+                              {#match _}
+                            {/case}
+                          {/if}
                         </div>
                       </div>
                     </div>

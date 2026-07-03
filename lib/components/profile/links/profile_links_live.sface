@@ -1,4 +1,4 @@
-<div class="flex border-t-hair bg-base-200 border-secondary p-card -mx-4 flex-col gap-4">
+<div class="flex border-t-hair bg-base-200 border-secondary p-card -mx-[18px] flex-col gap-4">
   {#case e(@user, :profile, :website, nil)}
     {#match nil}
     {#match href}
