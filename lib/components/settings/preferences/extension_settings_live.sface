@@ -65,7 +65,7 @@
             widgets={Enum.filter(extension_settings, &visible_in_scope?(&1, @scope))}
             container_class="divide-hair divide-secondary"
             extra_data={scope: @scope}
-            wrapper_class="my-card"
+            wrapper_class="my-card pb-card"
             with_title
             with_description
           />
