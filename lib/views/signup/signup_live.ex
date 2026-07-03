@@ -13,6 +13,16 @@ defmodule Bonfire.UI.Me.SignupLive do
   def assign_defaults(socket_or_assigns, params \\ %{}, session \\ %{}, opts \\ []) do
     form_key = Keyword.get(opts, :form_key, :form)
 
+    # compute the instance's rules sections once, so the rules display component can reuse them
+    # instead of re-loading, and it doubles as the "show rules?" guard (nil when none are set)
+    instance_rules =
+      case maybe_apply(Bonfire.CommunityRules, :get_instance_rules_sections, [],
+             fallback_return: []
+           ) do
+        [] -> nil
+        sections -> sections
+      end
+
     socket_or_assigns
     |> assign_global(:current_url, "/signup")
     |> assign(:page, l("signup"))
@@ -34,5 +44,9 @@ defmodule Bonfire.UI.Me.SignupLive do
     |> assign_new(:auth_second_factor_secret, fn ->
       session["auth_second_factor_secret"]
     end)
+    |> assign(:auth_config, Config.get([:ui, :auth], []))
+    |> assign(:instance_welcome, Config.get([:ui, :theme, :instance_welcome], []))
+    |> assign(:home_page, Config.get(:home_page, :home))
+    |> assign(:instance_rules, instance_rules)
   end
 end
