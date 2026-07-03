@@ -11,7 +11,7 @@
 
         {!-- Main Content Selection --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-semibold text-base-content/80">{l("Main Content")}</h3>
+          <h3 class="font-medium text-base-content/80">{l("Main Content")}</h3>
           <div class="flex flex-col rounded-xl border border-base-content/10   divide-hair divide-secondary">
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("My Following Feed")}
@@ -26,7 +26,7 @@
 
         {!-- Sidebar Widgets --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-semibold text-base-content/80">{l("Sidebar Widgets")}</h3>
+          <h3 class="font-medium text-base-content/80">{l("Sidebar Widgets")}</h3>
           <div class="flex flex-col rounded-xl border border-base-content/10   divide-hair divide-secondary">
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("Instance Status")}
@@ -75,7 +75,7 @@
 
         {!-- Main Content Selection --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-semibold text-base-content/80">{l("Main Content")}</h3>
+          <h3 class="font-medium text-base-content/80">{l("Main Content")}</h3>
           <div class="flex flex-col rounded-xl border border-base-content/10   divide-hair divide-secondary">
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("My Following Feed")}
@@ -90,7 +90,7 @@
 
         {!-- Discovery Widgets --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-semibold text-base-content/80">{l("Discovery Widgets")}</h3>
+          <h3 class="font-medium text-base-content/80">{l("Discovery Widgets")}</h3>
           <p class="text-xs text-base-content/50 mb-1">{l("These widgets are shown when the following feed is disabled.")}</p>
           <div class="flex flex-col rounded-xl border border-base-content/10   divide-hair divide-secondary">
             <Bonfire.UI.Common.SettingsToggleLive
@@ -121,7 +121,7 @@
 
         {!-- Sidebar Widgets --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-semibold text-base-content/80">{l("Sidebar Widgets")}</h3>
+          <h3 class="font-medium text-base-content/80">{l("Sidebar Widgets")}</h3>
           <div class="flex flex-col rounded-xl border border-base-content/10   divide-hair divide-secondary">
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("Instance Status")}

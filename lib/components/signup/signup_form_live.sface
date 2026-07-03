@@ -11,12 +11,12 @@
           <div class="flex flex-col gap-4">
             <div class="flex items-center gap-2">
               <#Icon outline="Key" class="w-4 h-4 text-muted" />
-              <span class="text-xs font-semibold uppercase tracking-wider text-muted">
+              <span class="text-xs font-medium uppercase tracking-wider text-muted">
                 {l("Invite only")}
               </span>
             </div>
             <div class="flex flex-col gap-2">
-              <h2 class="text-xl font-semibold text-base-content leading-tight">
+              <h2 class="text-xl font-medium text-base-content leading-tight">
                 {l("This community is invitation-based")}
               </h2>
               <p class="text-sm text-muted leading-relaxed">

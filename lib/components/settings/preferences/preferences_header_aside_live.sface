@@ -13,7 +13,7 @@
       to={"/settings/user/#{@selected_tab}/#{@id}"}
       class={
         "flex gap-2 text-muted",
-        "active !text-base-content/100 font-semibold": @scope == :user
+        "active !text-base-content/100 font-medium": @scope == :user
       }
     >
       {l("User")}
@@ -23,7 +23,7 @@
       to={"/settings/account/#{@selected_tab}/#{@id}"}
       class={
         "flex gap-2 text-muted",
-        "active !text-base-content/100 font-semibold": @scope == :account
+        "active !text-base-content/100 font-medium": @scope == :account
       }
     >
       {l("Account")}
@@ -34,7 +34,7 @@
       to={"/settings/instance/#{@selected_tab}/#{@id}"}
       class={
         "flex gap-2 text-muted",
-        "active !text-base-content/100 font-semibold": @scope == :instance
+        "active !text-base-content/100 font-medium": @scope == :instance
       }
     >
       {l("Instance")}

@@ -15,7 +15,7 @@
         />
       </div>
       <div class="flex items-center justify-between flex-1 ml-8 space-x-1">
-        <p class="text-base font-semibold group-hover:underline text-base-content">
+        <p class="text-base font-medium group-hover:underline text-base-content">
           {e(@the_character, :profile, :name, "Anon")}
         </p>
         <p class="-mt-px text-sm text-base-content text-opacity-70">
@@ -66,7 +66,7 @@
       </div>
       <div>
         <div class="items-baseline justify-between flex-1 ml-3">
-          <p class="text-base font-semibold group-hover:underline text-base-content">
+          <p class="text-base font-medium group-hover:underline text-base-content">
             {e(@the_character, :profile, :name, "")}
           </p>
           <div

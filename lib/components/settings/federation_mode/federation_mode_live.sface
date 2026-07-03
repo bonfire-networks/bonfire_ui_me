@@ -41,7 +41,7 @@
 
               <div class="flex flex-col gap-0.5 min-w-0 flex-1">
                 <div class="flex items-center gap-2 flex-wrap">
-                  <span class="text-sm font-semibold text-base-content">{card.name}</span>
+                  <span class="text-sm font-medium text-base-content">{card.name}</span>
                   <span :if={card.tag} class="badge badge-sm badge-ghost font-normal text-muted">{card.tag}</span>
                 </div>
                 <span class="text-sm text-muted leading-snug">{card.description}</span>

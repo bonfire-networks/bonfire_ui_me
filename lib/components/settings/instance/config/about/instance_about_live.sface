@@ -53,7 +53,7 @@
     description={l("Links shown to visitors on the guest homepage (e.g., forum, chat, documentation).")}
   />
 
-  <div class="font-semibold">Components to include in the about page</div>
+  <div class="font-medium">Components to include in the about page</div>
   <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={:instance} type="hidden">
 

@@ -16,7 +16,7 @@
     </div>
 
     <div class="flex items-baseline justify-between mb-4 px-1">
-      <h2 class="text-lg font-semibold text-base-content">
+      <h2 class="text-lg font-medium text-base-content">
         {if @active_user, do: l("Switch to…"), else: l("Your profiles")}
       </h2>
       <span class="text-xs text-base-content/50">

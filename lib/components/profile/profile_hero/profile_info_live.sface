@@ -31,28 +31,28 @@
           {#match [one]}
             <LinkLive
               to={~p"/@#{e(one, :character, :username, "")}"}
-              class="font-semibold text-base-content link link-hover"
+              class="font-medium text-base-content link link-hover"
             >
               {e(one, :profile, :name, e(one, :character, :username, ""))}
             </LinkLive>
           {#match [one, two]}
             <LinkLive
               to={~p"/@#{e(one, :character, :username, "")}"}
-              class="font-semibold text-base-content link link-hover"
+              class="font-medium text-base-content link link-hover"
             >
               {e(one, :profile, :name, e(one, :character, :username, ""))}
             </LinkLive>
             {l(" and ")}
             <LinkLive
               to={~p"/@#{e(two, :character, :username, "")}"}
-              class="font-semibold text-base-content link link-hover"
+              class="font-medium text-base-content link link-hover"
             >
               {e(two, :profile, :name, e(two, :character, :username, ""))}
             </LinkLive>
           {#match [one | rest]}
             <LinkLive
               to={~p"/@#{e(one, :character, :username, "")}"}
-              class="font-semibold text-base-content link link-hover"
+              class="font-medium text-base-content link link-hover"
             >
               {e(one, :profile, :name, e(one, :character, :username, ""))}
             </LinkLive>

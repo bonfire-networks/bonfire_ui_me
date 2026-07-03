@@ -33,7 +33,7 @@
             />
           {/if}
         </span>
-        <span class="font-semibold text-sm">
+        <span class="font-medium text-sm">
           {rich(e(@user, :profile, :name, "Anonymous"))}
         </span>
       </div>

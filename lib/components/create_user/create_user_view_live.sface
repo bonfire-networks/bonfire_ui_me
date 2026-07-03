@@ -22,7 +22,7 @@
       id: "create-user-form"
     ]}
   >
-    <div class="flex items-center gap-2 mb-3 text-base font-semibold">
+    <div class="flex items-center gap-2 mb-3 text-base font-medium">
       {!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> --}
       <span>{l("Create a new user profile")}</span>
     </div>

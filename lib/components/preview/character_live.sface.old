@@ -31,7 +31,7 @@
       <LinkLive 
         :if={uid(@object) !=current_user_id(@__context__)} 
         to={path(@object)} 
-        class="font-semibold link link-hover">
+        class="font-medium link link-hover">
         {e(@object, :profile, :name, "Anonymous")}
       </LinkLive> 
 
@@ -54,7 +54,7 @@
       </div>
     </div>
     <div class="flex items-center justify-between flex-1 ml-8 space-x-1">
-      <p class="text-base font-semibold group-hover:underline text-base-content">
+      <p class="text-base font-medium group-hover:underline text-base-content">
         {e(the_other(assigns), :profile, :name, "Anon")}
       </p>
       <p class="-mt-px text-sm text-base-content text-opacity-70">
@@ -101,7 +101,7 @@
       <LinkLive 
         :if={uid(@object) !=current_user_id(@__context__)} 
         to={path(@object)} 
-        class="font-semibold link link-hover">
+        class="font-medium link link-hover">
         {e(@object, :profile, :name, "Anonymous")}
       </LinkLive>  --}
     </div>
@@ -117,7 +117,7 @@
     </div>
     <div>
       <div class="items-baseline justify-between flex-1">
-        <p class="text-base font-semibold group-hover:underline text-base-content">
+        <p class="text-base font-medium group-hover:underline text-base-content">
           {e(the_other(assigns), :profile, :name, "")}
         </p>
         <p class="-mt-px text-sm text-base-content text-opacity-70">

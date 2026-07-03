@@ -1,6 +1,6 @@
 <div class="">
   <div class="flex flex-col flex-1">
-    <div class="flex flex-col gap-4 p-6 pb-4">
+    <div class="flex flex-col gap-4">
       <div class="flex items-start justify-between gap-4">
         <div class="flex flex-col gap-1.5">
           <div class="flex items-center gap-3">
@@ -63,9 +63,9 @@
           <!-- <div data-role="extension_settings"> -->
           <Bonfire.UI.Common.WidgetsLive
             widgets={Enum.filter(extension_settings, &visible_in_scope?(&1, @scope))}
-            container_class="divide-hair divide-secondary bg-base-content/5 rounded-xl mx-3 mb-3"
+            container_class="divide-hair divide-secondary"
             extra_data={scope: @scope}
-            wrapper_class="px-6 py-4"
+            wrapper_class="my-card"
             with_title
             with_description
           />

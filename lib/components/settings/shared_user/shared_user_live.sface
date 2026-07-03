@@ -19,7 +19,7 @@
     <div class="p-4 m-6 rounded-box border border-base-content/10">
       <div class="form-control">
         <label for="shared_user_label" class="flex flex-col items-start justify-start mb-2 text-left">
-          <span class="font-semibold">
+          <span class="font-medium">
             {l("What kind of team or organisation is it?")}
           </span>
           <span class="mb-2 text-xs text-muted">
@@ -38,7 +38,7 @@
 
       <div class="mt-6 form-control">
         <label for="add_shared_user" class="flex flex-col items-start justify-start mb-2">
-          <span class="font-semibold">
+          <span class="font-medium">
             {l(
               "Share full access to this user identity (@%{username}) with the following users.",
               username: e(current_user(@__context__), :character, :username, "")

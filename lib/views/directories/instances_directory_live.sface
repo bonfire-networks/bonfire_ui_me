@@ -14,7 +14,7 @@
         <div class="flex items-center gap-2">
           <LinkLive
             to={"/users/instance/#{display_hostname}/#{id}"}
-            class="text-lg font-semibold truncate link link-hover max-w-[360px]"
+            class="text-lg font-medium truncate link link-hover max-w-[360px]"
           >
             {display_hostname}
           </LinkLive>

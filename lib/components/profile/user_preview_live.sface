@@ -41,7 +41,7 @@
                     parent_id={deterministic_dom_id(__MODULE__, nil, "l", @parent_id)}
                     class="flex hover:underline items-center"
                   >
-                    <span class="text-sm font-semibold text-base-content">{e(@user, :profile, :name, nil)}</span>
+                    <span class="text-sm font-medium text-base-content">{e(@user, :profile, :name, nil)}</span>
                   </LinkLive>
 
                   <div class="flex items-center gap-2">
