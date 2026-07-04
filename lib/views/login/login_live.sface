@@ -1,17 +1,18 @@
 {#case Settings.get([:ui, :auth, :layout], :minimal, @__context__)}
   {#match :two_panels}
     <div class="flex bg-base-200 min-h-screen w-full" id="login">
-      <div class="hidden lg:block lg:w-1/2 relative bg-primary sticky top-0 h-screen overflow-hidden">
-        <img
-          :if={Settings.get([:ui, :auth, :background_image], nil, @__context__)}
-          src={Settings.get([:ui, :auth, :background_image], nil, @__context__)}
-          alt=""
-          class="absolute inset-0 w-full h-full object-cover"
-        />
-        <div
-          class="absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-primary/20 pointer-events-none"
-          aria-hidden="true"
-        />
+      <div class="hidden lg:flex lg:w-1/2 relative bg-primary sticky top-0 h-screen overflow-hidden">
+        {#if Settings.get([:ui, :auth, :project_branding_image], nil, @__context__)}
+          <a href="/" class="absolute inset-y-8 right-8 z-10 flex w-[42%] items-center justify-center xl:inset-y-10 xl:right-10">
+            <span class="-rotate-90 flex h-full w-[calc(100vh-4rem)] items-center justify-center xl:w-[calc(100vh-5rem)]">
+              <img
+                src={Settings.get([:ui, :auth, :project_branding_image], nil, @__context__)}
+                alt=""
+                class="max-w-full max-h-full w-full h-full object-contain"
+              />
+            </span>
+          </a>
+        {/if}
       </div>
 
       <div class="w-full lg:w-1/2 p-8 lg:px-16 lg:py-12 lg:pt-[80px] bg-base-200 min-h-screen">
