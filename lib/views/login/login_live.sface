@@ -18,10 +18,7 @@
       <div class="w-full lg:w-1/2 p-8 lg:px-16 lg:py-12 lg:pt-[80px] bg-base-200 min-h-screen">
         <div class="flex-1 flex items-center">
           <div class="max-w-md mx-auto w-full flex flex-col gap-6">
-            <div
-              :if={Config.get([:ui, :theme, :instance_tagline], nil)}
-              class="type-feature"
-            >
+            <div :if={Config.get([:ui, :theme, :instance_tagline], nil)} class="type-feature">
               {rich(
                 Config.get(
                   [:ui, :theme, :instance_tagline],
@@ -30,12 +27,9 @@
               )}
             </div>
 
-            <div
-            :if={Config.get([:ui, :theme, :instance_welcome, :description], nil)}
-            class="text-heading"
-          >
-            {rich(Config.get([:ui, :theme, :instance_welcome, :description]))}
-          </div>
+            <div :if={Config.get([:ui, :theme, :instance_welcome, :description], nil)} class="text-heading">
+              {rich(Config.get([:ui, :theme, :instance_welcome, :description]))}
+            </div>
 
             {#if Settings.get([:ui, :auth, :logo], nil, @__context__)}
               <a href="/" class="inline-block">

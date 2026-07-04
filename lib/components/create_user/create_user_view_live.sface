@@ -90,7 +90,12 @@
           <p class="text-sm">
             {l("People need to make a request before they can follow me")}
           </p>
-          <input name="request_before_follow" value="true" type="checkbox" class="toggle toggle-primary toggle-xl">
+          <input
+            name="request_before_follow"
+            value="true"
+            type="checkbox"
+            class="toggle toggle-primary toggle-xl"
+          />
         </div>
       </div>
 
@@ -116,14 +121,22 @@
             {l("Make my content searchable (in Bonfire, the fediverse, and search engines)")}
           </p>
           <input name="unindexable" value="true" type="hidden">
-          <input name="unindexable" value="" type="checkbox" class="toggle toggle-primary toggle-xl" checked="checked">
+          <input
+            name="unindexable"
+            value=""
+            type="checkbox"
+            class="toggle toggle-primary toggle-xl"
+            checked="checked"
+          />
         </div>
       </div>
 
       <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
         <div class="flex items-center justify-between gap-6">
           <p class="text-sm">
-            {l("I am aware that political opinions may be revealed through my participation and contributions; I expressly consent to this processing.")}
+            {l(
+              "I am aware that political opinions may be revealed through my participation and contributions; I expressly consent to this processing."
+            )}
           </p>
           <input
             id="create-user-political-consent"
@@ -143,15 +156,15 @@
             {l("I have read the ")}<a href="/conduct" class="link link-primary">{l("Code of Conduct")}</a>{l(".")}
           </p>
         </div>
-          <input
-            id="create-user-code-of-conduct-consent"
-            name="code_of_conduct_consent"
-            value="true"
-            type="checkbox"
-            required
-            class="toggle toggle-primary toggle-xl"
-            x-model="codeOfConductConsent"
-          />
+        <input
+          id="create-user-code-of-conduct-consent"
+          name="code_of_conduct_consent"
+          value="true"
+          type="checkbox"
+          required
+          class="toggle toggle-primary toggle-xl"
+          x-model="codeOfConductConsent"
+        />
       </div>
 
       <button

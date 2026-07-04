@@ -1,7 +1,7 @@
 <div class="w-full mt-8" id="create_user">
   <div class="w-[90%] mx-auto">
     {!-- {#if length(@current_account_users || []) < @max_users_per_account} --}
-    <div class="flex items-center place-content-center gap-4 mb-14"> 
+    <div class="flex items-center place-content-center gap-4 mb-14">
       {#if Settings.get([:ui, :auth, :logo], nil, @__context__)}
         <a href="/" class="inline-block">
           <img
