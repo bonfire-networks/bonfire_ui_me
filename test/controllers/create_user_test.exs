@@ -165,13 +165,14 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     conn = conn(account: alice)
     summary = summary()
 
-    params = %{
-      "user" => %{
-        "profile" => %{"summary" => summary, "name" => name()},
-        "character" => %{"username" => user.character.username}
+    params =
+      %{
+        "user" => %{
+          "profile" => %{"summary" => summary, "name" => name()},
+          "character" => %{"username" => user.character.username}
+        }
       }
-    }
-    |> with_acknowledgements()
+      |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
     doc = floki_response(conn)
@@ -194,13 +195,14 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     conn = conn(account: alice)
     username = username()
 
-    params = %{
-      "user" => %{
-        "profile" => %{"summary" => summary(), "name" => name()},
-        "character" => %{"username" => username}
+    params =
+      %{
+        "user" => %{
+          "profile" => %{"summary" => summary(), "name" => name()},
+          "character" => %{"username" => username}
+        }
       }
-    }
-    |> with_acknowledgements()
+      |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
     # assert_raise RuntimeError, debug(floki_response(conn))
@@ -218,13 +220,14 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     conn = conn(account: alice)
     username = username()
 
-    params = %{
-      "user" => %{
-        "profile" => %{"summary" => summary(), "name" => name()},
-        "character" => %{"username" => username}
+    params =
+      %{
+        "user" => %{
+          "profile" => %{"summary" => summary(), "name" => name()},
+          "character" => %{"username" => username}
+        }
       }
-    }
-    |> with_acknowledgements()
+      |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
 
@@ -244,15 +247,16 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     conn = conn(account: alice)
     username = username()
 
-    params = %{
-      "user" => %{
-        "profile" => %{"summary" => summary(), "name" => name()},
-        "character" => %{"username" => username}
-      },
-      "undiscoverable" => "true",
-      "unindexable" => "true"
-    }
-    |> with_acknowledgements()
+    params =
+      %{
+        "user" => %{
+          "profile" => %{"summary" => summary(), "name" => name()},
+          "character" => %{"username" => username}
+        },
+        "undiscoverable" => "true",
+        "unindexable" => "true"
+      }
+      |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
     # assert_raise RuntimeError, debug(floki_response(conn))

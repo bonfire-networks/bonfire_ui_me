@@ -42,9 +42,7 @@
     />
 
     <div class="text-sm font-medium text-base-content mt-2">{l("Project branding image")}</div>
-    <div class="text-sm text-base-content/50">{l(
-        "Upload a custom PNG wordmark or project name image for the login and signup pages."
-      )}</div>
+    <div class="text-sm text-base-content/50">{l("Upload a custom PNG wordmark or project name image for the login and signup pages.")}</div>
     <StatefulComponent
       module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
       id={:upload_auth_project_branding_image}
