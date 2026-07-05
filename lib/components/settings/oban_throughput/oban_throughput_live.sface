@@ -2,132 +2,46 @@
   :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
   data-role="oban_throughput"
 >
-  <form
-    class="p-4 border-b border-base-content/10"
-    data-scope="oban_throughput"
-    name="oban_throughput"
-    phx-change="Bonfire.Common.Settings:set"
-  >
-    <input name="scope" value={@scope} type="hidden">
-    {!-- picking a preset clears any per-queue overrides (so it's a pure preset again) --}
-    <input name={queues_field()} value="" type="hidden">
-
-    <div class="flex flex-col gap-1 mb-4">
-      <span class="text-sm font-medium text-base-content">{l("Background processing throughput")}</span>
-      <p class="text-sm text-base-content/50">
-        {l(
-          "Tune how much federation and other background work runs at once, to keep this server responsive under load."
-        )}
-      </p>
-    </div>
-
-    <fieldset>
-      <legend class="sr-only">{l("Throughput preset")}</legend>
-      {!-- Selected state owned by native radios + `peer-checked`/`has-[:checked]` CSS; `phx-update="ignore"`
-        keeps the post-save re-render from resetting the choice (same pattern as FederationModeLive). --}
-      {#case current_preset()}
-        {#match current}
-          <div id="oban_throughput_options" phx-update="ignore" class="grid sm:grid-cols-2 gap-2">
-            {#for card <- preset_cards()}
-              <label class="relative flex flex-wrap items-start gap-x-3 gap-y-2 rounded-lg border border-base-content/10 p-3 cursor-pointer transition-colors hover:border-base-content/30 hover:bg-base-content/5 has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:ring-1 has-[:checked]:ring-primary has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-1 has-[:focus-visible]:ring-offset-base-100">
-                <input
-                  type="radio"
-                  name={field_name()}
-                  value={card.value}
-                  checked={current == card.value}
-                  class="peer sr-only"
-                />
-                <span class="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-full transition-colors bg-base-content/10 text-muted peer-checked:bg-primary peer-checked:text-primary-content">
-                  <Iconify.iconify icon={card.icon} class="w-4 h-4" />
-                </span>
-
-                <div class="flex flex-col gap-0.5 min-w-0 flex-1">
-                  <span class="text-sm font-medium text-base-content" data-role="oban_preset">{card.name}</span>
-                  <span class="text-sm text-muted leading-snug">{card.description}</span>
-                </div>
-
-                <#Icon
-                  iconify="ph:check-circle-fill"
-                  class="hidden peer-checked:block w-5 h-5 text-primary flex-shrink-0"
-                />
-              </label>
-            {/for}
-          </div>
-      {/case}
-    </fieldset>
-  </form>
+  <Bonfire.UI.Common.Settings.Calm.PresetCardsLive
+    scope={@scope}
+    form_name="oban_throughput"
+    title={l("Background processing throughput")}
+    description={l(
+      "Tune how much federation and other background work runs at once, to keep this server responsive under load."
+    )}
+    legend={l("Throughput preset")}
+    field_name={field_name()}
+    clear_field={queues_field()}
+    current={current_preset()}
+    cards={preset_cards()}
+    options_id="oban_throughput_options"
+    preset_role="oban_preset"
+  />
 
   {!-- Layer 2 — quick "prioritise" toggles. Each runs its group of federation queues at the turbo
     (2×) level, on top of whatever preset is selected above. --}
-  <form
-    class="p-4 border-b border-base-content/10 flex flex-col gap-3"
-    data-scope="oban_throughput_priorities"
-    data-role="oban_priorities"
-    phx-change="Bonfire.Common.Settings:set"
-  >
-    <input name="scope" value={@scope} type="hidden">
-    <div class="flex flex-col gap-0.5 mb-1">
-      <span class="text-sm font-medium text-base-content">{l("Prioritise")}</span>
-      <span class="text-xs text-base-content/50">{l("Run these kinds of activities faster than the rest.")}</span>
-    </div>
+  <Bonfire.UI.Common.Settings.Calm.OverrideTogglesLive
+    scope={@scope}
+    form_name="oban_throughput_priorities"
+    form_role="oban_priorities"
+    title={l("Prioritise")}
+    description={l("Run these kinds of activities faster than the rest.")}
+    rows={group_rows()}
+    field_prefix={priorities_prefix()}
+    row_role="oban_priority_group"
+    toggle_role="oban_priority_toggle"
+  />
 
-    {#for group <- group_rows()}
-      <label
-        class="flex items-center justify-between gap-3 cursor-pointer"
-        data-role="oban_priority_group"
-      >
-        <span class="flex flex-col min-w-0">
-          <span class="text-sm font-medium text-base-content">{group.name}</span>
-          <span class="text-xs text-base-content/50 leading-snug">{group.description}</span>
-        </span>
-        <span class="shrink-0">
-          {!-- hidden false so unchecking submits a value (standard checkbox pattern) --}
-          <input name={priority_field(group.key)} value="false" type="hidden">
-          <input
-            type="checkbox"
-            name={priority_field(group.key)}
-            value="true"
-            checked={group.prioritised}
-            class="toggle toggle-primary toggle-sm"
-            data-role="oban_priority_toggle"
-          />
-        </span>
-      </label>
-    {/for}
-  </form>
-
-  {!-- Layer 3 — advanced per-queue editor (native disclosure). Editing any queue switches to the
-    Custom preset and stores every queue's value as an override. --}
-  <details class="border-b border-base-content/10" data-role="oban_throughput_advanced">
-    <summary class="p-4 cursor-pointer text-sm font-medium text-base-content flex items-center gap-2 list-none">
-      <#Icon iconify="ph:sliders-horizontal-duotone" class="w-4 h-4 text-muted" />
-      {l("Advanced: per-queue concurrency")}
-    </summary>
-
-    <form
-      class="px-4 pb-4"
-      data-scope="oban_throughput_advanced"
-      phx-change="Bonfire.Common.Settings:set"
-    >
-      <input name="scope" value={@scope} type="hidden">
-      {!-- editing a queue means this is now a custom configuration --}
-      <input name={field_name()} value="custom" type="hidden">
-
-      <div class="grid sm:grid-cols-2 gap-x-4 gap-y-2">
-        {#for {queue, limit} <- queue_rows()}
-          <label class="flex items-center justify-between gap-2 text-sm" data-role="oban_queue_row">
-            <span class="font-mono text-xs text-muted truncate">{queue}</span>
-            <input
-              type="number"
-              min="1"
-              inputmode="numeric"
-              name={queue_field(queue)}
-              value={limit}
-              class="input input-xs input-bordered w-20"
-            />
-          </label>
-        {/for}
-      </div>
-    </form>
-  </details>
+  {!-- Layer 3 — advanced per-queue editor. Editing any queue switches to the Custom preset and
+    stores every queue's value as an override. --}
+  <Bonfire.UI.Common.Settings.Calm.AdvancedKnobsLive
+    scope={@scope}
+    summary={l("Advanced: per-queue concurrency")}
+    details_role="oban_throughput_advanced"
+    form_name="oban_throughput_advanced"
+    preset_field={field_name()}
+    rows={queue_rows()}
+    field_prefix={queues_field()}
+    row_role="oban_queue_row"
+  />
 </div>

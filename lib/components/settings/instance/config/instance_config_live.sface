@@ -162,6 +162,8 @@
     </form>
   </div>
 
+  <Bonfire.UI.Me.SettingsViewsLive.InstanceTuningLive scope={:instance} />
+
   <div class="">
     <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
       <#Icon iconify="ph:gear-six-duotone" class="w-6 h-6 text-primary" />
