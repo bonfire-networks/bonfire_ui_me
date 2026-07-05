@@ -39,12 +39,21 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.ObanThroughputLive do
   @doc "Form field prefix for the `:prioritised_groups` toggles."
   def priorities_prefix, do: "#{ObanPresets}[prioritised_groups]"
 
-  @doc "One row per managed queue with its current effective limit (prefill for the advanced editor)."
+  @doc """
+  One row per managed queue with its current effective limit (prefill for the advanced editor),
+  a human label where configured (`:queue_labels`), and the technical queue name in a tooltip.
+  """
   def queue_rows do
     effective = ObanPresets.effective_limits()
+    labels = Bonfire.Common.Config.get([ObanPresets, :queue_labels], [])
 
     Enum.map(ObanPresets.managed_queues(), fn queue ->
-      %{name: queue, value: Map.get(effective, queue, 1)}
+      %{
+        name: queue,
+        label: Keyword.get(labels, queue),
+        tooltip: to_string(queue),
+        value: Map.get(effective, queue, 1)
+      }
     end)
   end
 

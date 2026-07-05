@@ -53,24 +53,119 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceTuningLive do
     end)
   end
 
-  @doc "Level 3 — one row per registry knob with its current EFFECTIVE value (composition made visible)."
+  @doc """
+  Level 3 — one row per registry knob with its current EFFECTIVE value (composition made visible),
+  the human label + unit, and the technical GUC name in a tooltip for techies.
+  """
   def knob_rows do
     effective = InstanceTuning.effective()
+    stored = InstanceTuning.current_knobs()
 
-    Enum.map(InstanceTuning.registry(), fn {knob, spec} ->
+    for {knob, spec} <- InstanceTuning.registry(), !Keyword.get(spec, :read_only) do
       value = Map.get(effective, knob)
 
-      case Keyword.get(spec, :type, :int) do
-        :bool ->
-          %{name: knob, value: value || "off", kind: :bool}
+      base = %{
+        name: knob,
+        label: Keyword.get(spec, :name),
+        tooltip: knob_tooltip(knob, spec),
+        unit: Keyword.get(spec, :unit),
+        # human meaning when the value is a sentinel (e.g. -1 = disabled)
+        note: get_in(spec, [:sentinels, value])
+      }
 
-        :real ->
-          %{name: knob, value: value || 0, step: "any", min: bounds_min(spec)}
+      cond do
+        choices = Keyword.get(spec, :choices) ->
+          # sentinel-capable knob: curated labeled choices instead of magic -1/0 numbers
+          # (the label already carries the meaning + unit, so note/unit would be redundant)
+          Map.merge(base, %{
+            kind: :choices,
+            value: value,
+            choices: with_current_choice(choices, value),
+            note: nil,
+            unit: nil
+          })
+
+        Keyword.get(spec, :relative) ->
+          # stored as % of the tuner's baseline (slider) with a live preview of what
+          # that means in real units right now — recomputes if the machine changes
+          Map.merge(base, %{
+            kind: :percent,
+            value: Map.get(stored, knob, 100),
+            preview: "= #{value || 0} #{Keyword.get(spec, :unit)}"
+          })
+
+        Keyword.get(spec, :type, :int) == :bool ->
+          Map.merge(base, %{value: value || "off", kind: :bool})
+
+        Keyword.get(spec, :type, :int) == :enum ->
+          Map.merge(base, %{value: value, kind: :enum, values: Keyword.get(spec, :values, [])})
+
+        Keyword.get(spec, :type, :int) == :real ->
+          Map.merge(base, %{value: value || 0, step: "any", min: bounds_min(spec)})
+
+        true ->
+          Map.merge(base, %{value: value || 0, min: bounds_min(spec)})
+      end
+    end
+  end
+
+  @doc """
+  The read-only boot/deploy rows (their own section): value from the env var when set, else a
+  LIVE source (e.g. the running Repo's config) or an honest documented default — never a bare
+  "default" placeholder.
+  """
+  def readonly_rows do
+    for {knob, spec} <- InstanceTuning.registry(), Keyword.get(spec, :read_only) do
+      env = Keyword.get(spec, :env)
+
+      value =
+        System.get_env(env) ||
+          repo_config_value(Keyword.get(spec, :repo_key)) ||
+          Keyword.get(spec, :display_default) ||
+          l("auto-detected")
+
+      %{
+        name: knob,
+        label: Keyword.get(spec, :name),
+        kind: :read_only,
+        value: value,
+        unit: Keyword.get(spec, :unit),
+        tooltip:
+          "#{env} " <> l("(read only: set by developers in code or sysadmins in server config)")
+      }
+    end
+  end
+
+  # keep the select honest when the effective value (e.g. from the boot baseline or an old
+  # manual entry) isn't one of the curated choices: show it as an extra selected option
+  defp with_current_choice(choices, value) do
+    if is_nil(value) or Enum.any?(choices, fn {v, _} -> v == value end),
+      do: choices,
+      else: choices ++ [{value, l("current: %{value}", value: value)}]
+  end
+
+  defp repo_config_value(nil), do: nil
+
+  defp repo_config_value(key) do
+    case Keyword.get(Bonfire.Common.Repo.config(), key) do
+      nil -> nil
+      value -> to_string(value)
+    end
+  rescue
+    _ -> nil
+  end
+
+  defp knob_tooltip(knob, spec) do
+    sentinels =
+      case Keyword.get(spec, :sentinels) do
+        %{} = sentinels ->
+          " · " <> Enum.map_join(sentinels, ", ", fn {v, label} -> "#{v} = #{label}" end)
 
         _ ->
-          %{name: knob, value: value || 0, min: bounds_min(spec)}
+          ""
       end
-    end)
+
+    "#{knob} (#{Keyword.get(spec, :context, :live)})#{sentinels}"
   end
 
   defp bounds_min(spec) do

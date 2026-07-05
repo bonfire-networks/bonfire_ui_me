@@ -34,13 +34,26 @@
   {!-- Layer 3 — advanced per-knob editor. Editing any knob switches to the Custom preset. --}
   <Bonfire.UI.Common.Settings.Calm.AdvancedKnobsLive
     scope={@scope}
-    summary={l("Advanced: database settings")}
+    summary={l("Advanced performance tuning")}
     details_role="instance_tuning_advanced"
     form_name="instance_tuning_advanced"
     preset_field={field_name()}
     rows={knob_rows()}
     field_prefix={knobs_field()}
     row_role="tuning_knob_row"
+  />
+
+  {!-- read-only boot/deploy configuration in its own section, so the editable grid stays calm --}
+  <Bonfire.UI.Common.Settings.Calm.AdvancedKnobsLive
+    scope={@scope}
+    summary={l("Boot & deploy configuration (read-only)")}
+    icon="ph:read-cv-logo-duotone"
+    details_role="instance_tuning_boot_config"
+    form_name="instance_tuning_boot_config"
+    preset_field={field_name()}
+    rows={readonly_rows()}
+    field_prefix={knobs_field()}
+    row_role="tuning_boot_row"
   />
 
   {#case pending_restart()}

@@ -35,7 +35,7 @@ defmodule Bonfire.UI.Me.InstanceTuningTest do
     |> assert_has("[data-role=tuning_preset]", text: "Turbo")
     |> assert_has("[data-role=tuning_override_group]", text: "Keep the database lean")
     |> assert_has("[data-role=instance_tuning_advanced]")
-    |> assert_has("[data-role=tuning_knob_row]", text: "work_mem")
+    |> assert_has("[data-role=tuning_knob_row]", text: "Query working memory")
   end
 
   test "picking a preset persists it", %{conn: conn} do
@@ -74,10 +74,11 @@ defmodule Bonfire.UI.Me.InstanceTuningTest do
     |> visit(@path)
     |> wait_async()
     |> within("[data-role=instance_tuning_advanced]", fn session ->
-      fill_in(session, "work_mem", with: "32768")
+      # human label (the row's full label text also carries the unit suffix); value is in MB
+      fill_in(session, "Query working memory", with: "32", exact: false)
     end)
 
     assert InstanceTuning.current_preset() == :custom
-    assert InstanceTuning.current_knobs()[:work_mem] == 32_768
+    assert InstanceTuning.current_knobs()[:work_mem] == 32
   end
 end
