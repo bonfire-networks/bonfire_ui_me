@@ -265,7 +265,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       is_guest?: false,
       without_sidebar: false,
       without_secondary_widgets: false,
-      # no_header: true,
+      no_header: true,
       hide_tabs: false,
       smart_input: true,
       feed: nil,

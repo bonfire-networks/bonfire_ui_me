@@ -36,6 +36,13 @@
                   true -> ""
                 end}
               >
+                <div :if={@back} class="absolute left-3 top-3 z-50">
+                  <Bonfire.UI.Common.BackButtonLive
+                    back={@back}
+                    type={@back_type}
+                    class="btn btn-sm btn-circle z-50 btn-glass"
+                  />
+                </div>
                 {!-- Hidden probe: if banner 404s, push refetch event via LiveView --}
                 {#if is_binary(banner_url) && id(@user)}
                   <img
@@ -75,7 +82,7 @@
                           {#if @character_type == :group && avatar_url == "/images/avatar.png"}
                             <div
                               data-role="group_preset_icon"
-                              class="inline-flex items-center justify-center w-[100px] h-[100px] md:mx-0 relative -mt-14 border-primary border-hair rounded-xl bg-base-200"
+                              class="inline-flex items-center justify-center w-[100px] h-[100px] md:mx-0 relative -mt-14 border-secondary border-hair rounded-xl bg-base-200"
                             >
                               <Iconify.iconify
                                 icon={Bonfire.Boundaries.Presets.group_icon(@user)}
@@ -87,7 +94,7 @@
                               parent_id="profile-hero"
                               title={e(@user, :profile, :name, "Anon")}
                               class={
-                                "inline-block object-cover w-24 h-24 md:mx-0 -mt-14 border-primary border-hair",
+                                "inline-block object-cover w-24 h-24 md:mx-0 -mt-14 border-secondary border-hair",
                                 "rounded-xl": @character_type == :group,
                                 "rounded-full": @character_type != :group
                               }

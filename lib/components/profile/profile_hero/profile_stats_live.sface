@@ -1,5 +1,5 @@
 <div>
-  <div :if={@character_type == :user} class="border-t-hair border-base-content mb-3" />
+  <div :if={@character_type == :user} class="border-t-hair border-base-content/40 mb-3" />
   <div class="justify-between flex items-center pb-3 gap-y-2">
     <div class="flex flex-wrap items-center gap-x-4 text-body text-base-content">
       <LinkLive
@@ -8,7 +8,7 @@
         to={~p"/@#{e(@user, :character, :username, nil)}"}
         class="hover:underline py-2 -my-2"
       >
-        <span class="font-medium text-base-content text-[18px]">{@post_count}</span>
+        <span class="font-medium text-base-content">{@post_count}</span>
         <span class="ml-1">{l("posts")}</span>
       </LinkLive>
 
@@ -18,7 +18,7 @@
         to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
         class="hover:underline py-2 -my-2"
       >
-        <span class="font-medium text-base-content text-[18px]">{@followers_count}</span>
+        <span class="font-medium text-base-content">{@followers_count}</span>
         <span class="ml-1">{l("followers")}</span>
       </LinkLive>
 
@@ -28,7 +28,7 @@
         to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
         class="hover:underline py-2 -my-2"
       >
-        <span class="font-medium text-base-content text-[18px]">{@following_count}</span>
+        <span class="font-medium text-base-content">{@following_count}</span>
         <span class="ml-1">{l("following")}</span>
       </LinkLive>
     </div>

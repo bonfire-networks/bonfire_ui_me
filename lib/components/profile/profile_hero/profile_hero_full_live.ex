@@ -22,6 +22,8 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop follows_me, :atom, default: false
   prop selected_tab, :any, default: nil
   prop block_status, :any, default: nil
+  prop back, :any, default: nil
+  prop back_type, :any, default: nil
   prop showing_within, :atom, default: :profile
   prop path, :string, default: "@"
 
