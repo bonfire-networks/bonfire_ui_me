@@ -1,0 +1,67 @@
+<div
+  :if={Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
+  data-role="instance_tuning"
+>
+  <Bonfire.UI.Common.Settings.Calm.PresetCardsLive
+    scope={@scope}
+    form_name="instance_tuning"
+    title={l("Instance performance")}
+    description={l(
+      "How much of this machine's resources Bonfire should claim, and what to favor. Applied to the database live, on top of the boot configuration."
+    )}
+    legend={l("Performance preset")}
+    field_name={field_name()}
+    clear_field={knobs_field()}
+    current={current_preset()}
+    cards={preset_cards()}
+    options_id="instance_tuning_options"
+    preset_role="tuning_preset"
+  />
+
+  {!-- Layer 2 — outcome-named override toggles, composing on top of the preset --}
+  <Bonfire.UI.Common.Settings.Calm.OverrideTogglesLive
+    scope={@scope}
+    form_name="instance_tuning_overrides"
+    form_role="tuning_overrides"
+    title={l("Fine-tune for your situation")}
+    description={l("Each of these adjusts a few settings towards a specific outcome.")}
+    rows={group_rows()}
+    field_prefix={overrides_prefix()}
+    row_role="tuning_override_group"
+    toggle_role="tuning_override_toggle"
+  />
+
+  {!-- Layer 3 — advanced per-knob editor. Editing any knob switches to the Custom preset. --}
+  <Bonfire.UI.Common.Settings.Calm.AdvancedKnobsLive
+    scope={@scope}
+    summary={l("Advanced performance tuning")}
+    details_role="instance_tuning_advanced"
+    form_name="instance_tuning_advanced"
+    preset_field={field_name()}
+    rows={knob_rows()}
+    field_prefix={knobs_field()}
+    row_role="tuning_knob_row"
+  />
+
+  {!-- read-only boot/deploy configuration in its own section, so the editable grid stays calm --}
+  <Bonfire.UI.Common.Settings.Calm.AdvancedKnobsLive
+    scope={@scope}
+    summary={l("Boot & deploy configuration (read-only)")}
+    icon="ph:read-cv-logo-duotone"
+    details_role="instance_tuning_boot_config"
+    form_name="instance_tuning_boot_config"
+    preset_field={field_name()}
+    rows={readonly_rows()}
+    field_prefix={knobs_field()}
+    row_role="tuning_boot_row"
+  />
+
+  {#case pending_restart()}
+    {#match []}
+    {#match pending}
+      <div class="p-4 text-sm text-warning flex items-center gap-2" data-role="tuning_pending_restart">
+        <Iconify.iconify icon="ph:warning-duotone" class="w-4 h-4" />
+        {l("Waiting for a database restart to apply: %{settings}", settings: Enum.join(pending, ", "))}
+      </div>
+  {/case}
+</div>

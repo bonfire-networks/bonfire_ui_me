@@ -38,7 +38,10 @@ defmodule Bonfire.UI.Me.ObanThroughputTest do
     conn
     |> visit(@path)
     |> wait_async()
-    |> choose("Eco", exact: false)
+    # scoped: the InstanceTuning card on the same page also has an "Eco" radio
+    |> within("[data-role=oban_throughput]", fn session ->
+      choose(session, "Eco", exact: false)
+    end)
 
     assert ObanPresets.current_preset() == :eco
   end
@@ -48,7 +51,8 @@ defmodule Bonfire.UI.Me.ObanThroughputTest do
     |> visit(@path)
     |> wait_async()
     |> within("[data-role=oban_throughput_advanced]", fn session ->
-      fill_in(session, "federator_outgoing", with: "1")
+      # human label (queue_labels config); technical queue name lives in the row tooltip
+      fill_in(session, "Outgoing deliveries", with: "1")
     end)
 
     assert ObanPresets.current_preset() == :custom
