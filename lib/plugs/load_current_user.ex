@@ -16,9 +16,9 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
   end
 
   def call(conn, opts) do
-    case conn
-         |> Plug.Conn.fetch_session()
-         |> Plug.Conn.get_session(:current_user_id) do
+    conn = Plug.Conn.fetch_session(conn)
+
+    case Plug.Conn.get_session(conn, :current_user_id) do
       nil ->
         # debug(get_session(conn), "no current_user_id in session")
         Bonfire.UI.Me.Plugs.LoadCurrentAccount.call(conn, opts)

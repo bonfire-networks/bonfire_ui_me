@@ -6,7 +6,7 @@
           role="status"
           id="invite_only_notice"
           data-role="invite_only_notice"
-          class="my-4 rounded-2xl border border-base-content/10 bg-base-200/60 p-6"
+          class=""
         >
           <div class="flex flex-col gap-4">
             <div class="flex items-center gap-2">

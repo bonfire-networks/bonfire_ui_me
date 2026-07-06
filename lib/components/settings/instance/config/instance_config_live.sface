@@ -294,6 +294,65 @@
 
   <div class="">
     <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
+      <#Icon iconify="ph:lock-key-duotone" class="w-6 h-6 text-primary" />
+      <span>{l("Restricted content screen")}</span>
+    </div>
+    <form phx-change="Bonfire.Common.Settings:set" class="divide-hair divide-secondary">
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsToggleLive
+          name={l("Show a custom screen instead of a permission error")}
+          description={l(
+            "When someone opens a post or discussion they don't have permission to see, show a customisable message (e.g. inviting them to become a member) instead of the standard error."
+          )}
+          keys={[Bonfire.UI.Social.RestrictedContentLive, :modularity]}
+          enabled_value={true}
+          disabled_value={:disabled}
+          scope={:instance}
+        />
+      </div>
+    </form>
+    <form phx-submit="Bonfire.Common.Settings:save" class="divide-hair divide-secondary">
+      <input name="scope" value={:instance} type="hidden">
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          name={l("Title")}
+          keys={[Bonfire.UI.Social.RestrictedContentLive, :title]}
+          placeholder={l("This post isn't visible to you")}
+          scope={:instance}
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsTextareaLive
+          name={l("Message")}
+          description={l("Text shown below the title.")}
+          keys={[Bonfire.UI.Social.RestrictedContentLive, :message]}
+          placeholder={l("It was shared with a limited audience.")}
+          scope={:instance}
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          name={l("Button label")}
+          keys={[Bonfire.UI.Social.RestrictedContentLive, :cta_label]}
+          placeholder={l("Find out more")}
+          scope={:instance}
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsInputLive
+          name={l("Button URL")}
+          description={l(
+            "Where the button leads, e.g. your membership or subscription page. Leave empty to hide the button."
+          )}
+          keys={[Bonfire.UI.Social.RestrictedContentLive, :cta_url]}
+          scope={:instance}
+        />
+      </div>
+    </form>
+  </div>
+
+  <div class="">
+    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-base-content/10 text-primary">
       <#Icon iconify="lucide:server" class="w-6 h-6 text-primary" />
       <span>{l("Resource Usage")}</span>
     </div>
