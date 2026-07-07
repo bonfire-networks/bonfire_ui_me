@@ -13,7 +13,7 @@
           style={cond do
             is_binary(color) -> "--tw-gradient-stops: transparent, #{color} 3%, #{color} 94%, transparent"
             is_binary(banner_url) -> "background-image: url('#{URI.encode(banner_url)}')"
-            true -> nil
+            true -> ""
           end}
         />
 
