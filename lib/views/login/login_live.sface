@@ -7,7 +7,7 @@
             href="/"
             class="absolute inset-y-8 right-8 z-10 flex w-[42%] items-center justify-center xl:inset-y-10 xl:right-10"
           >
-            <span class="-rotate-90 flex h-full w-[calc(100vh-4rem)] items-center justify-center xl:w-[calc(100vh-5rem)]">
+            <span class="-rotate-90 flex shrink-0 h-full w-[calc(100vh-4rem)] items-center justify-center xl:w-[calc(100vh-5rem)]">
               <img
                 src={Settings.get([:ui, :auth, :project_branding_image], nil, @__context__)}
                 alt=""

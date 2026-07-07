@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.UploadAuthBackgroundLive do
-  @moduledoc "Upload component for the auth page background image. Uses a no-resize uploader to preserve full resolution."
+  @moduledoc "Upload component for auth page images (background, branding wordmark). Uses a no-resize uploader to preserve full resolution and transparency (unlike `UploadBannerLive` which crops to 3:1)."
   use Bonfire.UI.Common.Web, :stateful_component
 
   prop src, :string, default: nil
@@ -7,6 +7,12 @@ defmodule Bonfire.UI.Me.UploadAuthBackgroundLive do
   prop boundary_verb, :atom, default: :describe
   prop set_field, :any, default: nil
   prop set_fn, :any, default: nil
+  prop accept, :any, default: nil
+  prop label, :string, default: nil
+  prop hint, :string, default: nil
+
+  prop container_class, :css_class,
+    default: "relative rounded-xl flex justify-center px-6 py-10 bg-center bg-cover h-[200px]"
 
   def update(assigns, socket) do
     {:ok,
@@ -14,7 +20,7 @@ defmodule Bonfire.UI.Me.UploadAuthBackgroundLive do
      |> assign(trigger_submit: false, uploaded_files: [])
      |> assign(assigns)
      |> allow_upload(:auth_background,
-       accept: ~w(.jpg .jpeg .png .gif .webp),
+       accept: e(assigns, :accept, nil) || ~w(.jpg .jpeg .png .gif .webp),
        max_file_size: Bonfire.UI.Me.AuthBackgroundUploader.max_file_size(),
        max_entries: 1,
        auto_upload: true,

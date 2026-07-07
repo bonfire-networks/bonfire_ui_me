@@ -36,7 +36,7 @@
                   true -> ""
                 end}
               >
-                <div :if={@back} class="absolute left-3 top-3 z-50">
+                <div :if={@back} class="absolute pt-safe left-3 top-3 z-50">
                   <Bonfire.UI.Common.BackButtonLive
                     back={@back}
                     type={@back_type}

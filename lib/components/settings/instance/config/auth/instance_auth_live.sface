@@ -44,11 +44,15 @@
     <div class="text-sm font-medium text-base-content mt-2">{l("Project branding image")}</div>
     <div class="text-sm text-base-content/50">{l("Upload a custom PNG wordmark or project name image for the login and signup pages.")}</div>
     <StatefulComponent
-      module={maybe_component(Bonfire.Files.Web.UploadBannerLive, @__context__)}
+      module={maybe_component(Bonfire.UI.Me.UploadAuthBackgroundLive, @__context__)}
       id={:upload_auth_project_branding_image}
       object={:instance}
       boundary_verb={:describe}
       accept={~w(.png)}
+      label={l("Upload a branding image")}
+      hint={l("PNG up to %{size} MB",
+        size: Bonfire.Common.Config.get([:bonfire_files, :max_user_images_file_size], 5)
+      )}
       container_class="relative rounded-lg flex justify-center px-6 py-8 bg-center bg-contain bg-no-repeat h-32 bg-base-200"
       src={Bonfire.Common.Settings.get(
         [:ui, :auth, :project_branding_image],
