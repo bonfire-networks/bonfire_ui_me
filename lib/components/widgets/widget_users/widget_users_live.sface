@@ -1,4 +1,4 @@
-<Bonfire.UI.Common.WidgetBlockLive widget_title={e(@widget_title, "Users")} class="">
+<Bonfire.UI.Common.WidgetBlockLive title_class="text-caption pt-card px-card uppercase tracking-wider text-base-content pb-card border-b-hair border-secondary" widget_title={e(@widget_title, "Users")} class="">
   <:action>
     <div class="flex items-center ml-auto gap-2">
       {#if @with_batch_follow && current_user_id(@__context__)}
@@ -9,7 +9,7 @@
           my_follow={:skip}
           hide_text
           container_class=""
-          class="btn btn-circle btn-sm btn-outline"
+          class="group btn btn-circle btn-xs btn-outline border-secondary text-primary"
         />
       {/if}
       <#slot {@action} />
