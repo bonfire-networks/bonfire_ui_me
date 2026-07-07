@@ -1,7 +1,4 @@
-<main
-  id="switch-user"
-  class="min-h-[100vh] flex items-center justify-center py-10 px-4"
->
+<main id="switch-user" class="min-h-[100vh] flex items-center justify-center py-10 px-4">
   <div class="w-full max-w-3xl">
     <div class="text-center mb-10">
       {#if @active_user}

@@ -27,7 +27,7 @@
       <span>{l("Create a new user profile")}</span>
     </div>
     <div
-      x-data="{username:'', userModifiedUsername: false, politicalConsent: false, codeOfConductConsent: false}"
+      x-data={"{username: #{Jason.encode!(@suggested_name || "")}, userModifiedUsername: false, politicalConsent: false, codeOfConductConsent: false}"}
       class="flex flex-col gap-2"
     >
       <Inputs for={:profile}>

@@ -2,12 +2,7 @@
   <div class="mx-auto">
     {#case prepare_error(@error || e(@form, :errors, :form, nil))}
       {#match "invite_only"}
-        <div
-          role="status"
-          id="invite_only_notice"
-          data-role="invite_only_notice"
-          class=""
-        >
+        <div role="status" id="invite_only_notice" data-role="invite_only_notice" class="">
           <div class="flex flex-col gap-4">
             <div class="flex items-center gap-2">
               <#Icon outline="Key" class="w-4 h-4 text-muted" />

@@ -305,7 +305,7 @@
             "When someone opens a post or discussion they don't have permission to see, show a customisable message (e.g. inviting them to become a member) instead of the standard error."
           )}
           keys={[Bonfire.UI.Social.RestrictedContentLive, :modularity]}
-          enabled_value={true}
+          enabled_value
           disabled_value={:disabled}
           scope={:instance}
         />

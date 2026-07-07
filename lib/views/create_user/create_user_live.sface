@@ -27,7 +27,7 @@
         </a>
       {/if}
     </div>
-    <Bonfire.UI.Me.CreateUserViewLive form={@form} />
+    <Bonfire.UI.Me.CreateUserViewLive form={@form} suggested_name={@suggested_name} />
 
     {!-- {#else}
  {l(
