@@ -1,17 +1,19 @@
 <div class={@class}>
   <div class="">
     {!-- <LinkLive to={"#{@path_prefix}#{e(@user, :character, :username, "")}#{@go}"}> --}
-    {#case {Media.avatar_url(@user), @with_banner && Media.banner_url(@user)}}
+    {#case {Media.avatar_url(@user), @with_banner && Media.banner_url(@user, fallback: false)}}
       {#match {avatar_url, banner_url}}
         {#case @with_banner && Media.maybe_dominant_color(@user, avatar_url, banner_url)}
           {#match color}
             <div
               :if={@with_banner}
               aria-hidden="true"
-              class="h-24 bg-center bg-cover rounded-t-xl"
-              style={if is_binary(banner_url),
-                do: "background-image: url('#{URI.encode(banner_url)}')",
-                else: "background-color: #{color}"}
+              class="h-24 bg-primary bg-center bg-cover rounded-t-xl"
+              style={cond do
+                is_binary(banner_url) -> "background-image: url('#{URI.encode(banner_url)}')"
+                is_binary(color) -> "background-color: #{color}"
+                true -> nil
+              end}
             />
             <div class={[
               "p-3",

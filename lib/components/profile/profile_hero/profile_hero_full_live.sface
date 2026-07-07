@@ -19,7 +19,7 @@
     {/if}
     <div>
       {!-- TODO: put this logic in `update` fn instead? --}
-      {#case {Media.avatar_url(@user), Media.banner_url(@user)}}
+      {#case {Media.avatar_url(@user), Media.banner_url(@user, fallback: false)}}
         {#match {avatar_url, banner_url}}
           {#case Media.maybe_dominant_color(@user, avatar_url, banner_url)}
             {#match color}
