@@ -84,6 +84,26 @@ defmodule Bonfire.Me.Users.LiveHandler do
   end
 
   def handle_event(
+        "remove_team_account",
+        %{"id" => id},
+        socket
+      ) do
+    # the roster already holds the user, so we pass its id (no username round-trip; also works when character isn't loaded)
+    user = current_user_required!(socket)
+
+    with {:ok, _shared_user} <-
+           Bonfire.Common.Utils.maybe_apply(
+             Bonfire.Me.SharedUsers,
+             :remove_account,
+             [user, id, [current_user: user]]
+           ) do
+      {:noreply,
+       socket
+       |> assign_flash(:info, l("Removed that team member's access."))}
+    end
+  end
+
+  def handle_event(
         "make_admin",
         params,
         socket

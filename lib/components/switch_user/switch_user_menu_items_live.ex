@@ -6,7 +6,7 @@ defmodule Bonfire.UI.Me.SwitchUserMenuItemsLive do
   def render(assigns) do
     assigns
     |> assign_new(:max_users_per_account, fn ->
-      Config.get([Bonfire.Me.Users, :max_per_account], 4, :bonfire_me)
+      Config.get([Bonfire.Me.Users, :max_per_account], 6, :bonfire_me)
     end)
     |> assign_new(:show_inline_users, fn ->
       Settings.get([Bonfire.Me.Users, :show_switch_users_inline], false,

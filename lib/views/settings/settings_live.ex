@@ -73,7 +73,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
      assign(
        socket,
        back: true,
-       page_title: l("Team profiles"),
+       page_title: l("Team profile"),
        selected_tab: tab
      )}
   end

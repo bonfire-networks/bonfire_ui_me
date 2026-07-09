@@ -1,23 +1,8 @@
 <div class="">
   <form phx-submit="Bonfire.Me.Users:share_user" method="POST">
-    <div class="p-4 bg-base-content/5 rounded-t-box flex flex-col items-center">
-      <h2 class="text-base font-bold pt-4 text-center">{l("Give access to the @%{username} user to your team",
-          username: e(current_user(@__context__), :character, :username, "")
-        )}</h2>
-      <div class="my-3 prose-sm prose text-center">
-        {raw(
-          l(
-            "Anyone you add will have admin-level access over this user identity, meaning they can post as @%{username}, read private messages, etc. You might want to %{a} first create a new user %{b} for this purpose?",
-            username: e(current_user(@__context__), :character, :username, ""),
-            a:
-              "<a class='link link-hover link-primary' data-phx-link='redirect' data-phx-link-state='push' href='/create-user'>",
-            b: "</a>"
-          )
-        )}
-      </div>
-    </div>
     <div class="p-4 m-6 rounded-box border border-base-content/10">
-      <div class="form-control">
+      {!-- the org label is set at creation (step 1), so it's only shown here when managing later --}
+      <div :if={@with_label} class="form-control">
         <label for="shared_user_label" class="flex flex-col items-start justify-start mb-2 text-left">
           <span class="font-medium">
             {l("What kind of team or organisation is it?")}
@@ -37,30 +22,62 @@
       </div>
 
       <div class="mt-6 form-control">
-        <label for="add_shared_user" class="flex flex-col items-start justify-start mb-2">
-          <span class="font-medium">
-            {l(
-              "Share full access to this user identity (@%{username}) with the following users.",
-              username: e(current_user(@__context__), :character, :username, "")
-            )}
-          </span>
-          <span class="mb-2 text-xs text-muted">
-            {l("Please note they need to already be signed up on this instance.")}
-          </span>
+        {!-- keep the label text to just the field name (helper text is a sibling, not inside the label, for a11y and so it can be targeted by label) --}
+        <label for="add_shared_user" class="font-medium flex items-start justify-start mb-2">
+          {l("Add team members")}
         </label>
+        <p class="mb-2 text-xs text-muted">
+          {l(
+            "Team members can fully act as this profile: post as it, read its private messages, and manage its settings and other members. They need an existing account on this instance."
+          )}
+        </p>
 
         <input
           type="text"
           id="add_shared_user"
           name="add_shared_user"
           class="input w-full"
-          placeholder={l("Enter their emails or usernames, comma seperated")}
+          placeholder={l("Enter their usernames, comma separated")}
         />
       </div>
 
       <button type="submit" class="w-full mt-4 btn-soft btn btn-primary">
-        {l("Share access")}
+        {l("Submit")}
       </button>
     </div>
   </form>
+
+  {#case caretaker_users(current_user(@__context__))}
+    {#match []}
+    {#match users}
+      <div data-role="team_members" class="p-4 m-6 rounded-box border border-base-content/10">
+        <h2 class="text-base font-bold mb-3">{l("Team members")}</h2>
+        <ul class="flex flex-col gap-3">
+          {#for user <- users}
+            <li class="flex items-center justify-between gap-2 py-1">
+              <StatelessComponent
+                module={maybe_component(Bonfire.UI.Me.ProfileItemLive, @__context__)}
+                show_controls={[]}
+                with_popover
+                parent_id="shared_user_roster"
+                character={e(user, :character, nil)}
+                profile={e(user, :profile, nil)}
+                class="btn btn-ghost btn-sm"
+                avatar_class="w-7 h-7 rounded-full"
+              />
+              <button
+                :if={e(user, :accounted, :account_id, nil)}
+                type="button"
+                phx-click="Bonfire.Me.Users:remove_team_account"
+                phx-value-id={e(user, :accounted, :account_id, nil)}
+                data-confirm={l("Remove this team member's access to the profile?")}
+                class="btn btn-xs btn-error btn-outline"
+              >
+                {l("Remove")}
+              </button>
+            </li>
+          {/for}
+        </ul>
+      </div>
+  {/case}
 </div>

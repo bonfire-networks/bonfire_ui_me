@@ -45,6 +45,14 @@ defmodule Bonfire.UI.Me.CreateUserController do
     end
   end
 
+  # Resolve the chosen creator persona to one of the account's OWN users (so you can't link someone else's profile). Nil when none chosen or the account has no users yet.
+  defp resolve_creator_user(user_id, account) when is_binary(user_id) and user_id != "" do
+    Users.by_account(account)
+    |> Enum.find(&(id(&1) == user_id))
+  end
+
+  defp resolve_creator_user(_user_id, _account), do: nil
+
   defp acknowledgements_accepted?(params) do
     not empty?(Map.get(params, "political_consent")) and
       not empty?(Map.get(params, "code_of_conduct_consent"))
@@ -56,7 +64,19 @@ defmodule Bonfire.UI.Me.CreateUserController do
            open_id_provider: Plug.Conn.get_session(conn, :open_id_provider),
            undiscoverable: not empty?(Map.get(params, "undiscoverable")),
            unindexable: not empty?(Map.get(params, "unindexable")),
-           request_before_follow: not is_nil(Map.get(params, "request_before_follow"))
+           request_before_follow: not is_nil(Map.get(params, "request_before_follow")),
+           # nil for a personal profile; a (possibly empty, defaulted downstream) label string makes it an organisation shared user
+           shared_user_label:
+             if(Map.get(params, "type") == "organisation", do: Map.get(params, "label", "")),
+           # for an organisation, the account persona chosen (or auto-picked) to be its first co-manager
+           shared_user_creator:
+             if(Map.get(params, "type") == "organisation",
+               do:
+                 resolve_creator_user(
+                   Map.get(params, "creator_user_id"),
+                   current_account(conn.assigns)
+                 )
+             )
          ) do
       {:ok, %{id: id, profile: %{name: name}} = user} ->
         conn
@@ -100,13 +120,26 @@ defmodule Bonfire.UI.Me.CreateUserController do
     |> Bonfire.Me.Users.LiveHandler.disconnect_user_session()
     |> put_session(:current_user_id, id)
     |> assign_flash(:info, build_greet_message(name, is_admin))
-    |> redirect_to_previous_go(params, "/", "/create-user")
+    |> redirect_after_create(params)
   end
 
+  # Step 2 for organisations: land on a dedicated invite view (which reuses the Team Profiles invite + roster component) so the creator can optionally add co-managers or click Done to skip.
+  defp redirect_after_create(conn, %{"type" => "organisation"}),
+    do: redirect(conn, to: "/create-user/team")
+
+  defp redirect_after_create(conn, params),
+    do: redirect_to_previous_go(conn, params, "/", "/create-user")
+
   defp paint(conn, changeset) do
+    # Pass the profile kind through the LiveView session, not conn assigns: a controller-rendered LiveView re-mounts over the websocket where conn assigns are gone, so an assign-based value would be lost on the connected mount (the form would flip back to personal in the browser). The session survives both the disconnected and connected mounts. `conn.params` merges the GET query (?type=organisation) and the POST body (hidden `type`/`label`), so the initial render and a validation re-render both keep it.
     conn
     |> assign(:form, changeset)
-    |> live_render(CreateUserLive)
+    |> live_render(CreateUserLive,
+      session: %{
+        "profile_type" => conn.params["type"],
+        "profile_label" => conn.params["label"]
+      }
+    )
   end
 
   # Walks traversed changeset errors and produces a comma-separated, user-facing
