@@ -8,6 +8,37 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     :ok
   end
 
+  test "personal form does not show the organisation label field" do
+    alice = fake_account!()
+    conn = conn(account: alice)
+    conn = get(conn, "/create-user")
+    doc = floki_response(conn)
+    assert [_] = Floki.find(doc, "#create-user-form")
+    assert [] = Floki.find(doc, "#create-user-label")
+  end
+
+  test "?type=organisation renders the organisation profile form (with the label field)" do
+    alice = fake_account!()
+    conn = conn(account: alice)
+    conn = get(conn, "/create-user?type=organisation")
+    doc = floki_response(conn)
+    assert [form] = Floki.find(doc, "#create-user-form")
+    # the org-only label field is shown
+    assert [_] = Floki.find(form, "#create-user-label")
+    # and the profile kind is carried through on submit
+    assert ["organisation"] = Floki.attribute(form, "input[name=type]", "value")
+  end
+
+  test "?type=organisation keeps the organisation form through the connected LiveView mount" do
+    alice = fake_account!()
+    conn = conn(account: alice)
+
+    # `visit` does a connected mount (unlike `get`), so it catches the profile kind being lost on reconnect
+    conn
+    |> visit("/create-user?type=organisation")
+    |> assert_has("#create-user-label")
+  end
+
   test "form renders" do
     alice = fake_account!()
     conn = conn(account: alice)
@@ -237,6 +268,60 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     # assert redirected_to(conn) == "/dashboard"
   end
 
+  test "creating an organisation profile makes it a shared user (with the given label) and links the creating account" do
+    alice = fake_account!()
+    conn = conn(account: alice)
+    username = username()
+
+    params =
+      %{
+        "user" => %{
+          "profile" => %{"summary" => summary(), "name" => name()},
+          "character" => %{"username" => username}
+        },
+        "type" => "organisation",
+        "label" => "Rebel Alliance"
+      }
+      |> with_acknowledgements()
+
+    conn = post(conn, "/create-user", params)
+    # step 2: an organisation lands on the invite-your-team view (not straight to the home feed)
+    assert redirected_to(conn) == "/create-user/team"
+
+    {:ok, user} = Bonfire.Me.Users.by_username(username)
+
+    # it federates as an Organization because it carries the shared_user mixin
+    assert Bonfire.Common.URIs.shared_user?(user, preload_if_needed: true)
+
+    user = repo().maybe_preload(user, :shared_user)
+    assert e(user, :shared_user, :label, nil) == "Rebel Alliance"
+
+    # the creating account is linked as the sole caretaker, so it can manage the org
+    assert [caretaker] = Bonfire.Me.SharedUsers.list_accounts(user)
+    assert caretaker.id == alice.id
+  end
+
+  test "creating a personal profile does not make it a shared user" do
+    alice = fake_account!()
+    conn = conn(account: alice)
+    username = username()
+
+    params =
+      %{
+        "user" => %{
+          "profile" => %{"summary" => summary(), "name" => name()},
+          "character" => %{"username" => username}
+        }
+      }
+      |> with_acknowledgements()
+
+    conn = post(conn, "/create-user", params)
+    assert redirected_to(conn) == "/"
+
+    {:ok, user} = Bonfire.Me.Users.by_username(username)
+    refute Bonfire.Common.URIs.shared_user?(user, preload_if_needed: true)
+  end
+
   test "first user is autopromoted" do
     # Mock the HTTP call to avoid Tesla client issues
     Repatch.patch(Bonfire.Common.HTTP, :get_cached_body, fn _url -> "1.0.0-rc.2.13" end)
@@ -314,6 +399,9 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
 
     conn = post(conn, "/create-user", params)
     doc = floki_response(conn)
+
+    IO.puts("=== FULL DOC TEXT ===\n" <> Floki.text(doc) <> "\n=== END ===")
+    IO.puts("=== FLASH? " <> inspect(Phoenix.Flash.get(conn.assigns.flash, :error)) <> " ===")
 
     assert [view] = Floki.find(doc, "#create_user")
 

@@ -1,0 +1,18 @@
+<div class="w-full mt-8" id="create_user_team">
+  <div class="w-[90%] max-w-[480px] mx-auto">
+    <div class="flex items-center place-content-center gap-4 mb-8">
+      <Bonfire.UI.Common.LogoLinkLive
+        image_class="w-full h-[64px] bg-center bg-no-repeat bg-contain"
+        container_class="flex items-center gap-4"
+        href="/"
+      />
+    </div>
+
+    {!-- the same invite + roster component the Team Profile settings tab uses; the label was already set at step 1 so it's hidden here --}
+    <Bonfire.UI.Me.SettingsViewsLive.SharedUserLive selected_tab="shared_user" with_label={false} />
+
+    <a href="/" data-role="finish_org_setup" class="btn btn-primary w-full mt-4">
+      {l("Done")}
+    </a>
+  </div>
+</div>

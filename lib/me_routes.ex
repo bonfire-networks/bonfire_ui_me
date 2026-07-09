@@ -211,6 +211,9 @@ defmodule Bonfire.UI.Me.Routes do
         pipe_through(:browser)
         pipe_through(:user_required)
 
+        # step 2 of organisation-profile creation: invite co-managers (reuses the Team Profiles component)
+        live("/create-user/team", CreateUserTeamLive, as: :create_user_team)
+
         live("/user", ProfileLive, as: Bonfire.Data.Identity.User)
         live("/profile", ProfileLive, as: Bonfire.Data.Identity.User)
         live("/blocked", BlockedLive)

@@ -50,7 +50,9 @@
             <span class="font-normal text-base">{l("Feeds")}</span>
           </LinkPatchLive>
         </li>
-        <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__)}>
+        {!-- only shown for organisation profiles (a user carrying the shared_user mixin); managing co-managers, not converting a personal profile --}
+        <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) and
+          Bonfire.Common.URIs.shared_user?(current_user(@__context__), preload_if_needed: true)}>
           <LinkLive
             to={~p"/settings/user/shared_user"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "shared_user"]}
@@ -58,7 +60,7 @@
             <div class="w-8 h-8 flex items-center place-content-center">
               <#Icon iconify="ph:users-duotone" class="w-5 h-5 text-muted" />
             </div>
-            <span class="font-normal text-base">{l("Team Profiles")}</span>
+            <span class="font-normal text-base">{l("Team Profile")}</span>
           </LinkLive>
         </li>
       </details>

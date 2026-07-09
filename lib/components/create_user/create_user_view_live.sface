@@ -24,8 +24,12 @@
   >
     <div class="flex items-center gap-2 mb-3 text-base font-medium">
       {!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> --}
-      <span>{l("Create a new user profile")}</span>
+      <span>{if @type == "organisation",
+          do: l("Create new organisation profile"),
+          else: l("Create new personal profile")}</span>
     </div>
+    {!-- carries the profile kind through submit (and survives a validation re-render) --}
+    <input :if={@type} type="hidden" name="type" value={@type}>
     <div
       x-data={"{username: #{Jason.encode!(@suggested_name || "")}, userModifiedUsername: false, politicalConsent: false, codeOfConductConsent: false}"}
       class="flex flex-col gap-2"
@@ -73,17 +77,6 @@
           <ErrorTag />
         </Field>
       </Inputs>
-      <div class="">
-        <Inputs for={:profile}>
-          <Field name={:summary}>
-            <fieldset class="fieldset">
-              <legend class="fieldset-legend">{l("Tell people a bit about yourself")}</legend>
-              <TextArea class="w-full h-24 mt-1 textarea-bordered textarea" placeholder={l("Type your bio")} />
-            </fieldset>
-            <ErrorTag />
-          </Field>
-        </Inputs>
-      </div>
 
       <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
         <div class="flex items-center justify-between gap-6">
@@ -129,6 +122,58 @@
             checked="checked"
           />
         </div>
+      </div>
+
+      <div :if={@type == "organisation"} class="form-control">
+        <label for="create-user-label" class="flex flex-col items-start justify-start mb-2 text-left">
+          <span class="font-medium">
+            {l("What kind of team or organisation is it?")}
+          </span>
+          <span class="mb-2 text-xs text-muted">
+            {l("Eg. Team, Cooperative, Non-profit Organisation, or Moderation Team, ...")}
+          </span>
+        </label>
+        <input
+          type="text"
+          id="create-user-label"
+          name="label"
+          value={@label || ""}
+          class="input w-full"
+          placeholder={l("Type here")}
+        />
+      </div>
+
+      {!-- choose which of your existing profiles is the org's first team member; with exactly one we auto-link it, with none it's account-only --}
+      {#if @type == "organisation" and @account_users != []}
+        {#if length(@account_users) > 1}
+          <div class="form-control">
+            <label for="create-user-creator" class="flex flex-col items-start justify-start mb-2 text-left">
+              <span class="font-medium">{l("Which of your profiles should be its first team member?")}</span>
+              <span class="mb-2 text-xs text-muted">{l(
+                  "This profile will be visible to other team members, and may be shown publicly. You can add more team members later."
+                )}</span>
+            </label>
+            <select id="create-user-creator" name="creator_user_id" class="select w-full">
+              {#for user <- @account_users}
+                <option value={id(user)}>{e(user, :profile, :name, e(user, :character, :username, "?"))}</option>
+              {/for}
+            </select>
+          </div>
+        {#else}
+          <input type="hidden" name="creator_user_id" value={id(List.first(@account_users))}>
+        {/if}
+      {/if}
+
+      <div class="">
+        <Inputs for={:profile}>
+          <Field name={:summary}>
+            <fieldset class="fieldset">
+              <legend class="fieldset-legend">{l("Tell people a bit about yourself")}</legend>
+              <TextArea class="w-full h-24 mt-1 textarea-bordered textarea" placeholder={l("Type your bio")} />
+            </fieldset>
+            <ErrorTag />
+          </Field>
+        </Inputs>
       </div>
 
       <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
