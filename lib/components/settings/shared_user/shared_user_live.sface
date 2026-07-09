@@ -24,7 +24,7 @@
       <div class="mt-6 form-control">
         {!-- keep the label text to just the field name (helper text is a sibling, not inside the label, for a11y and so it can be targeted by label) --}
         <label for="add_shared_user" class="font-medium flex items-start justify-start mb-2">
-          {l("Invite team members")}
+          {l("Add team members")}
         </label>
         <p class="mb-2 text-xs text-muted">
           {l(

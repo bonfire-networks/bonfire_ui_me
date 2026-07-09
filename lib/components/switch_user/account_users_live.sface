@@ -43,31 +43,33 @@
       </div>
     {/for}
 
-    <a
-      :if={length(@current_account_users || []) < @max_users_per_account}
-      href={path(:create_user)}
-      aria-label={l("Create new personal profile")}
-      class="flex flex-col items-center justify-center min-h-[180px] rounded-xl border-2 border-dashed border-base-content/20 text-muted transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group"
-    >
-      <#Icon
-        solid="PlusCircle"
-        class="w-10 h-10 mb-2 transition-transform duration-200 group-hover:scale-110"
-      />
-      <span class="text-sm font-medium">{l("New personal profile")}</span>
-    </a>
+    {#if length(@current_account_users || []) < @max_users_per_account}
+      <a
+        href={path(:create_user)}
+        aria-label={l("Create new personal profile")}
+        class="flex flex-col items-center justify-center min-h-[180px] rounded-xl border-2 border-dashed border-base-content/20 text-muted transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group"
+      >
+        <#Icon
+          solid="PlusCircle"
+          class="w-10 h-10 mb-2 transition-transform duration-200 group-hover:scale-110"
+        />
+        <span class="text-sm font-medium">{l("New personal profile")}</span>
+      </a>
 
-    <a
-      :if={length(@current_account_users || []) < @max_users_per_account}
-      href={"#{path(:create_user)}?type=organisation"}
-      aria-label={l("Create a new organisation profile")}
-      class="flex flex-col items-center justify-center min-h-[180px] rounded-xl border-2 border-dashed border-base-content/20 text-muted transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group"
-    >
-      <#Icon
-        iconify="ph:users-three-fill"
-        class="w-10 h-10 mb-2 transition-transform duration-200 group-hover:scale-110"
-      />
-      <span class="text-sm font-medium">{l("New organisation profile")}</span>
-    </a>
+      {!-- organisation profiles need the shared-users feature --}
+      <a
+        :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__)}
+        href={"#{path(:create_user)}?type=organisation"}
+        aria-label={l("Create a new organisation profile")}
+        class="flex flex-col items-center justify-center min-h-[180px] rounded-xl border-2 border-dashed border-base-content/20 text-muted transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group"
+      >
+        <#Icon
+          iconify="ph:users-three-fill"
+          class="w-10 h-10 mb-2 transition-transform duration-200 group-hover:scale-110"
+        />
+        <span class="text-sm font-medium">{l("New organisation profile")}</span>
+      </a>
+    {/if}
   </div>
 {#else}
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -84,6 +86,7 @@
     </a>
 
     <a
+      :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__)}
       href={"#{path(:create_user)}?type=organisation"}
       class="flex flex-col items-center justify-center min-h-[240px] rounded-xl border-2 border-dashed border-base-content/20 text-muted transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group p-8"
     >
