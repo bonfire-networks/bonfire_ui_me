@@ -30,6 +30,7 @@ defmodule Bonfire.UI.Me.LoginLive do
     |> assign_new(:conn, fn -> session["conn"] end)
     |> assign_new(:passwordless_only?, fn -> passwordless_only?() end)
     |> assign_new(:external_signup_url, fn -> external_signup_url() end)
+    |> assign_new(:gated_login_message, fn -> gated_login_message() end)
   end
 
   # Instance-scoped flag populated by extensions (e.g. bonfire_ghost writes it
@@ -48,6 +49,16 @@ defmodule Bonfire.UI.Me.LoginLive do
            nil
          ) do
       url when is_binary(url) and url != "" -> url
+      _ -> nil
+    end
+  end
+
+  def gated_login_message do
+    case Bonfire.Common.Settings.get(
+           [:bonfire_ui_me, :login, :gated_login_message],
+           nil
+         ) do
+      text when is_binary(text) and text != "" -> text
       _ -> nil
     end
   end

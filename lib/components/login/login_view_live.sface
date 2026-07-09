@@ -12,7 +12,24 @@
         value={@go || e(@form, :params, :go, nil) || e(@form, :source, :changes, :go, nil)}
       />
 
-      <div class="fieldset mb-2">
+      <div class="my-panel ">
+      <div :if={@gated_login_message} class="text-heading">
+        {rich(@gated_login_message)}
+      </div>
+      <a
+          :if={@external_signup_url}
+          href={@external_signup_url}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-ds-outline btn-sm mt-3"
+        >
+          {l("Sign up")}
+        </a>
+      </div>
+
+      <div class="fieldset mb-2 mt-section">
+
+         <div class="text-heading mb-1">{l("Already registered? Log in now")}</div>
         <.input
           field={to_form(%{}, as: :forgot_password_fields)[:email]}
           type="email"
@@ -39,16 +56,6 @@
         >
           {l("Send login link")}
         </.button>
-
-        <a
-          :if={@external_signup_url}
-          href={@external_signup_url}
-          target="_blank"
-          rel="noopener"
-          class="btn btn-ds-outline btn-sm sm:flex-1"
-        >
-          {l("Sign up")}
-        </a>
       </div>
 
       <p class="text-caption text-muted mt-4">
