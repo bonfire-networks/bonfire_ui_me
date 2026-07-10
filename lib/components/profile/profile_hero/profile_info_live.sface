@@ -1,5 +1,5 @@
 <section>
-  <div class="flex mt-[32px] flex-col">
+  <div class="flex mt-card flex-col">
     <div
       :if={@character_type in [:user, :group] && e(@user, :profile, :summary, nil)}
       class="w-full mb-[18px] prose !text-body max-w-none"
