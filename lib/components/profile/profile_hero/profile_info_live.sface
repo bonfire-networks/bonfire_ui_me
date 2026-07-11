@@ -2,7 +2,7 @@
   <div class="flex mt-card flex-col">
     <div
       :if={@character_type in [:user, :group] && e(@user, :profile, :summary, nil)}
-      class="w-full mb-[18px] prose !text-body max-w-none"
+      class="w-full mb-[16px] prose !text-body max-w-none"
     >
       {rich(e(@user, :profile, :summary, nil))}
     </div>
