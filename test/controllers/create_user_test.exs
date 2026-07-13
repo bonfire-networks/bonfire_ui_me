@@ -400,13 +400,12 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     conn = post(conn, "/create-user", params)
     doc = floki_response(conn)
 
-    IO.puts("=== FULL DOC TEXT ===\n" <> Floki.text(doc) <> "\n=== END ===")
-    IO.puts("=== FLASH? " <> inspect(Phoenix.Flash.get(conn.assigns.flash, :error)) <> " ===")
-
-    assert [view] = Floki.find(doc, "#create_user")
-
-    assert Floki.text(view) =~
+    # the error is surfaced via the flash (rendered by the layout, outside #create_user)
+    assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
              "Please confirm the required acknowledgements before creating your profile."
+
+    # the form is re-rendered so the user can try again
+    assert [_view] = Floki.find(doc, "#create_user")
 
     assert {:error, _} = Bonfire.Me.Users.by_username(username)
   end

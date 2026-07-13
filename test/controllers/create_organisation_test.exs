@@ -226,7 +226,7 @@ defmodule Bonfire.UI.Me.CreateOrganisationTest do
         conn
         |> visit("/create-user/team")
         |> wait_async()
-        |> fill_in("Invite team members", with: "@" <> member.character.username)
+        |> fill_in("Add team members", with: "@" <> member.character.username)
         |> click_button("Submit")
         |> wait_async()
         # the newly invited member now appears in the roster
