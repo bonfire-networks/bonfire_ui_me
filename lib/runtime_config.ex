@@ -21,7 +21,10 @@ defmodule Bonfire.UI.Me.RuntimeConfig do
         sections: [
           # nil: Bonfire.UI.Me.ProfileInfoLive,
           # about: Bonfire.UI.Me.ProfileInfoLive,
-          follow: Bonfire.UI.Me.RemoteInteractionFormLive
+          follow: Bonfire.UI.Me.RemoteInteractionFormLive,
+          # `/@username/interact/:type` deeplinks (block/flag/…) render the same remote-interaction
+          # form as `follow`; the type comes from the `:extra` path segment (see ProfileLive)
+          interact: Bonfire.UI.Me.RemoteInteractionFormLive
         ],
         widgets: []
       ],

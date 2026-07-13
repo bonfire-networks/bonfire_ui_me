@@ -4,8 +4,9 @@
   <div class="flex max-w-[680px] relative mx-auto">
     <div class="w-full mx-auto">
       <Form for={%{}} as={:outgoing} action="/pub/remote_interaction">
-        <HiddenInput name={:type} value={@interaction_type} />
-        <HiddenInput name={:object} value={@canonical_url} />
+        {!-- explicit ids: both HiddenInputs otherwise auto-generate the same `outgoing_` id (dupe) --}
+        <HiddenInput id="outgoing_type" name={:type} value={@interaction_type} />
+        <HiddenInput id="outgoing_object" name={:object} value={@canonical_url} />
 
         <div class="w-full mx-auto">
           <div class="alert mb-6 items-start text-sm rounded alert-info alert-soft" role="alert">
@@ -18,7 +19,7 @@
                   verb: @interaction_type
                 )}
               </p>
-              <p class="mt-4"><strong>{l("Are you a user of this instance?")}</strong> {l("You can sign in instead.")}</p>
+              <p class="mt-4"><strong>{l("Are you a user of this instance?")}</strong> <LinkLive to={~p"/login"}>{l("Sign in instead.")}</LinkLive></p>
             </div>
           </div>
 

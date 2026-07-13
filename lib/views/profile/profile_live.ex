@@ -167,6 +167,15 @@ defmodule Bonfire.UI.Me.ProfileLive do
      )}
   end
 
+  # `/@username/interact/:type` deeplink (block/flag/…), mirroring `/@username/follow`: renders the
+  # `interact` profile section (the same `RemoteInteractionFormLive` as `follow` — see runtime
+  # config), with the interaction type from `:extra`. `canonical_url` is computed server-side by the
+  # profile handler where the user is loaded, so no `canonical_url` is needed in the linking
+  # templates (they pass only the username-based `path/1`).
+  def prepare_feed_assigns(%{"tab" => "interact", "extra" => type} = params, _url, socket, user) do
+    do_prepare_feed_assigns(params, assign(socket, interaction_type: type), user, "interact")
+  end
+
   def prepare_feed_assigns(%{"tab" => tab} = params, _url, socket, user) do
     do_prepare_feed_assigns(params, socket, user, tab)
   end
