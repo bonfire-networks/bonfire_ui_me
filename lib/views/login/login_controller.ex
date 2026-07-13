@@ -122,21 +122,12 @@ defmodule Bonfire.UI.Me.LoginController do
     )
   end
 
-  defp embed_allowed_origin?(url) do
-    allowed = System.get_env("IFRAME_ALLOWED_ORIGINS", "")
-    return_host = URI.parse(url).host
-
-    result =
-      allowed
-      |> String.split()
-      |> Enum.any?(fn origin ->
-        parsed_host = URI.parse(origin).host
-        # handle bare hostnames like "example.com" (no scheme) where URI.parse gives nil host
-        origin_host = parsed_host || origin
-        origin_host == return_host
-      end)
-
-    info({return_host, allowed, result}, "embed_allowed_origin? check")
+  @doc """
+  Whether `url` is an origin we may mint a cross-origin embed token for: a strict full-origin (scheme + host + port) match against `IFRAME_ALLOWED_ORIGINS`, since a host-only match would also authorise `http://` and any other port on that host. See `Bonfire.UI.Common.EmbedOrigins`.
+  """
+  def embed_allowed_origin?(url) do
+    result = Bonfire.UI.Common.EmbedOrigins.allowed?(url)
+    info({url, result}, "embed_allowed_origin? check")
     result
   end
 
