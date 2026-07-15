@@ -43,6 +43,43 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
     # end
 
+    test "As a user I can revert my theme override to follow the instance theme" do
+      account = fake_account!()
+      alice = fake_user!(account)
+
+      # alice overrode the instance theme with her own mode + light theme name
+      assert {:ok, _} =
+               Bonfire.Common.Settings.put([:ui, :theme, :preferred], :dark,
+                 current_user: alice,
+                 scope: :user
+               )
+
+      conn = conn(user: alice, account: account)
+      next = "/settings/user/preferences/appearance"
+
+      conn
+      |> visit(next)
+      |> assert_has("#theme-settings-user-dark-button .badge", text: "Active")
+      |> click_button("#theme-settings-user-follow-button", "Follow instance theme")
+
+      # re-visit for fresh server state: her override is gone, following is the default
+      conn
+      |> visit(next)
+      |> assert_has("#theme-settings-user-follow-button .badge", text: "Active")
+      |> refute_has("#theme-settings-user-dark-button .badge")
+    end
+
+    test "As a new user I follow the instance theme by default" do
+      account = fake_account!()
+      alice = fake_user!(account)
+      conn = conn(user: alice, account: account)
+
+      conn
+      |> visit("/settings/user/preferences/appearance")
+      |> assert_has("#theme-settings-user-follow-button .badge", text: "Active")
+      |> refute_has("#theme-settings-user-system-button .badge")
+    end
+
     test "As a user I want to select a different font" do
       account = fake_account!()
       alice = fake_user!(account)
