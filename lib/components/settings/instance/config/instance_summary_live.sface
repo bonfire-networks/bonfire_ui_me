@@ -1,5 +1,5 @@
 <div class="flex flex-col gap-2">
-  <div class="px-card border-b-hair border-secondary pb-card  text-xl font-bold flex items-center gap-4 border-b border-base-content/10">
+  <div class="px-card border-b-hair border-secondary pb-card  text-xl font-bold flex items-center gap-4 border-b border-secondary">
     <div iconify="ph:acorn-fill" class="w-5 h-5 text-primary" aria-hidden="true" />
     <span>{l("Community Defaults")}</span>
   </div>
@@ -108,7 +108,7 @@
                 <div class="text-sm font-medium">{l("Maximum length of posts")}</div>
               </div>
 
-              <span class="flex-none badge h-[1.75rem] font-medium badge-outline border-base-content/30 rounded">{Config.get(
+              <span class="flex-none badge h-[1.75rem] font-medium badge-outline border-secondary rounded">{Config.get(
                   [Bonfire.UI.Common.SmartInputLive, :max_length],
                   0,
                   name: l("Max Post Length"),
@@ -368,7 +368,7 @@
                 <div class="text-sm font-light text-muted">{l("What to show for users without a profile picture")}</div>
               </div>
               <Bonfire.UI.Common.AvatarLive
-                class="w-14 h-14 border-base-content/30 border rounded-full"
+                class="w-14 h-14 border-secondary border rounded-full"
                 parent_id="about"
               />
             </div>

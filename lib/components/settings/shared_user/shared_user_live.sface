@@ -1,6 +1,6 @@
 <div class="">
   <form phx-submit="Bonfire.Me.Users:share_user" method="POST">
-    <div class="p-4 m-6 rounded-box border border-base-content/10">
+    <div class="p-4 m-6 rounded-box border border-secondary">
       {!-- the org label is set at creation (step 1), so it's only shown here when managing later --}
       <div :if={@with_label} class="form-control">
         <label for="shared_user_label" class="flex flex-col items-start justify-start mb-2 text-left">
@@ -50,7 +50,7 @@
   {#case caretaker_users(current_user(@__context__))}
     {#match []}
     {#match users}
-      <div data-role="team_members" class="p-4 m-6 rounded-box border border-base-content/10">
+      <div data-role="team_members" class="p-4 m-6 rounded-box border border-secondary">
         <h2 class="text-base font-bold mb-3">{l("Team members")}</h2>
         <ul class="flex flex-col gap-3">
           {#for user <- users}

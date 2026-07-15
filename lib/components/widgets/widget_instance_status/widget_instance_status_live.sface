@@ -43,7 +43,7 @@
               <span>{l("Federated")}</span>
             {#else}
               <span class="inline-block w-1.5 h-1.5 rounded-full bg-base-content/20" />
-              <span class="text-base-content/50">{l("Local")}</span>
+              <span class="text-muted">{l("Local")}</span>
             {/if}
           </div>
 
@@ -143,7 +143,7 @@
               <div class="px-4 py-3">
                 <LinkLive
                   to={~p"/settings/user/safety"}
-                  class="flex items-center gap-3 text-xs text-base-content/50 hover:text-muted transition-colors"
+                  class="flex items-center gap-3 text-xs text-muted hover:text-muted transition-colors"
                 >
                   {#if undiscoverable?}
                     <span class="flex items-center gap-1" title={l("Profile is hidden")}>
@@ -252,6 +252,6 @@
     </Bonfire.UI.Common.WidgetBlockLive>
   {#match _}
     <Bonfire.UI.Common.WidgetBlockLive widget_title={l("Your Instance")}>
-      <p class="text-sm text-base-content/50">{l("Loading instance info...")}</p>
+      <p class="text-sm text-muted">{l("Loading instance info...")}</p>
     </Bonfire.UI.Common.WidgetBlockLive>
 {/case}

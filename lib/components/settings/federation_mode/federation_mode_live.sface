@@ -1,5 +1,5 @@
 <form
-  class={"p-4", "border-b border-base-content/10": @scope == :instance}
+  class={"p-4", "border-b border-secondary": @scope == :instance}
   data-scope={form_data_scope(@scope)}
   name="settings"
   phx-change="Bonfire.Common.Settings:set"
@@ -10,7 +10,7 @@
     {#match current_mode}
       <div :if={@scope == :instance} class="flex flex-col gap-1 mb-4">
         <span class="text-sm font-medium text-base-content">{l("Federation")}</span>
-        <p class="text-sm text-base-content/50">
+        <p class="text-sm text-muted">
           {l("Choose if and how this instance federates with the wider fediverse.")}
         </p>
       </div>
@@ -27,7 +27,7 @@
           class="grid sm:grid-cols-2 gap-2"
         >
           {#for card <- federation_modes(@scope)}
-            <label class="relative flex flex-wrap items-start gap-x-3 gap-y-2 rounded-lg border border-base-content/10 p-3 cursor-pointer transition-colors hover:border-base-content/30 hover:bg-base-content/5 has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:ring-1 has-[:checked]:ring-primary has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-1 has-[:focus-visible]:ring-offset-base-100">
+            <label class="relative flex flex-wrap items-start gap-x-3 gap-y-2 rounded-lg border border-secondary p-3 cursor-pointer transition-colors hover:border-secondary hover:bg-base-content/5 has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:ring-1 has-[:checked]:ring-primary has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-1 has-[:focus-visible]:ring-offset-base-100">
               <input
                 type="radio"
                 name={field_name(@scope)}

@@ -1,5 +1,5 @@
 <div>
-  <div :if={@character_type == :user} class="border-t-hair border-base-content/40 mb-3" />
+  <div :if={@character_type == :user} class="border-t-hair border-secondary mb-3" />
   <div class="justify-between flex items-center pb-3 gap-y-2">
     <div class="flex flex-wrap items-center gap-x-4 text-body text-base-content">
       <LinkLive

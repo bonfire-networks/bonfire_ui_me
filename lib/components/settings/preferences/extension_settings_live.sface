@@ -5,7 +5,7 @@
         <div class="flex flex-col gap-1.5">
           <div class="flex items-center gap-3">
             <h2 class="text-xl font-bold tracking-tight">{e(@dep, :extra, :name, nil) || e(@dep, :app, "Unknown")}</h2>
-            <span class="text-xs text-base-content/50 font-medium">{get_version(@dep)}</span>
+            <span class="text-xs text-muted font-medium">{get_version(@dep)}</span>
           </div>
           <p :if={e(@dep, :extra, :description, nil)} class="text-sm text-muted max-w-prose">{e(@dep, :extra, :description, nil)}</p>
         </div>
@@ -13,7 +13,7 @@
         <div class="flex items-center gap-3 shrink-0">
           <!-- {#if to_string(@extension) not in Bonfire.Application.required_deps()}
             <div class="flex items-center gap-2">
-              <span class="text-xs text-base-content/50">{l("Enabled")}</span>
+              <span class="text-xs text-muted">{l("Enabled")}</span>
               <Bonfire.UI.Common.ExtensionToggleLive
                 id={@extension}
                 scope={@scope}

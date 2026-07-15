@@ -2,7 +2,7 @@
   <ul class="menu relative p-0 w-full mt-2">
     <li class="w-full">
       <details open class="w-full overflow-hidden">
-        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-muted">
           <span>{l("General")}</span>
         </summary>
 
@@ -68,7 +68,7 @@
 
     <li class="w-full">
       <details open class="w-full overflow-hidden">
-        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-muted">
           <span>{l("Safety")}</span>
         </summary>
 
@@ -155,7 +155,7 @@
 
     <li class="w-full">
       <details open class="w-full overflow-hidden">
-        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-muted">
           <span>{l("Extensions")}</span>
         </summary>
 
@@ -180,7 +180,7 @@
 
     <li class="w-full">
       <details open class="w-full overflow-hidden">
-        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-muted">
           <span>{l("Boundaries")}</span>
         </summary>
 
@@ -233,7 +233,7 @@
 
     <li class="w-full">
       <details open class="w-full overflow-hidden">
-        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-muted">
           <span>{l("Migration")}</span>
         </summary>
 
@@ -275,7 +275,7 @@
 
     <li class="w-full">
       <details open class="w-full overflow-hidden">
-        <summary class="relative font-medium uppercase text-xs pl-5 text-base-content/50">
+        <summary class="relative font-medium uppercase text-xs pl-5 text-muted">
           <span>{l("Advanced")}</span>
         </summary>
 

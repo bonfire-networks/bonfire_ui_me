@@ -56,7 +56,7 @@
             {/if}
 
             {#if @registered}
-              <div class="w-full p-3 rounded-xl border border-base-content/10 bg-base-100 shadow-sm">
+              <div class="w-full p-3 rounded-xl border border-secondary bg-base-100 shadow-sm">
                 <div class="flex flex-col place-content-center">
                   <div class="flex-shrink-0 text-3xl place-content-center items-center text-center">
                     🎉🎉🎉
@@ -108,7 +108,7 @@
         </div>
 
         <div class="max-w-md mx-auto w-full pt-8">
-          <div class="text-xs text-base-content/50 flex flex-wrap items-center gap-x-2 gap-y-1">
+          <div class="text-xs text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
             <LinkLive to="/about" class="link link-hover">{l("About")}</LinkLive>
             <span aria-hidden="true">·</span>
             <LinkLive to="/conduct" class="link link-hover">{l("Code of conduct")}</LinkLive>
@@ -131,7 +131,7 @@
       {#if @registered}
         <div class="max-w-[680px] mx-auto">
           <div class="">
-            <div class="w-[90%] md:w-[360px] mx-auto p-3 rounded-xl border border-base-content/10 bg-base-100 shadow-sm">
+            <div class="w-[90%] md:w-[360px] mx-auto p-3 rounded-xl border border-secondary bg-base-100 shadow-sm">
               <div class="flex flex-col place-content-center">
                 <div class="flex-shrink-0 text-3xl place-content-center items-center text-center">
                   🎉🎉🎉

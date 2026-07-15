@@ -26,7 +26,7 @@
     class="flex flex-col gap-2"
   >
     <div class="text-sm font-medium text-base-content">{l("Left panel background image")}</div>
-    <div class="text-sm text-base-content/50">{l("Upload a custom image for the left panel of the login and signup pages.")}</div>
+    <div class="text-sm text-muted">{l("Upload a custom image for the left panel of the login and signup pages.")}</div>
     <StatefulComponent
       module={maybe_component(Bonfire.UI.Me.UploadAuthBackgroundLive, @__context__)}
       id={:upload_auth_background}
@@ -42,7 +42,7 @@
     />
 
     <div class="text-sm font-medium text-base-content mt-2">{l("Project branding image")}</div>
-    <div class="text-sm text-base-content/50">{l("Upload a custom PNG wordmark or project name image for the login and signup pages.")}</div>
+    <div class="text-sm text-muted">{l("Upload a custom PNG wordmark or project name image for the login and signup pages.")}</div>
     <StatefulComponent
       module={maybe_component(Bonfire.UI.Me.UploadAuthBackgroundLive, @__context__)}
       id={:upload_auth_project_branding_image}
@@ -64,7 +64,7 @@
     />
 
     <div class="text-sm font-medium text-base-content mt-2">{l("Auth page logo")}</div>
-    <div class="text-sm text-base-content/50">{l(
+    <div class="text-sm text-muted">{l(
         "Upload a custom logo for the login and signup pages. Defaults to the instance icon if not set."
       )}</div>
     <StatefulComponent

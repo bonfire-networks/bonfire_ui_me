@@ -118,7 +118,7 @@
       </Bonfire.UI.Common.WidgetBlockLive>
     {#match _}
       <Bonfire.UI.Common.WidgetBlockLive widget_title={l("Your Account")}>
-        <p class="text-sm text-base-content/50">{l("Loading your stats...")}</p>
+        <p class="text-sm text-muted">{l("Loading your stats...")}</p>
       </Bonfire.UI.Common.WidgetBlockLive>
   {/case}
 {/if}

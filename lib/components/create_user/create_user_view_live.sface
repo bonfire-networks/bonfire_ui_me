@@ -69,10 +69,10 @@
               {l("Choose a username")}
             </span>
           </Label>
-          <label class="flex w-full border border-base-content/10 items-center rounded-md">
-            <span class="h-[48px] flex items-center place-content-center border-r px-2 border-base-content/10 text-sm">@</span>
+          <label class="flex w-full border border-secondary items-center rounded-md">
+            <span class="h-[48px] flex items-center place-content-center border-r px-2 border-secondary text-sm">@</span>
             <TextInput class="input flex-1" required opts={"x-bind:value": "suggest_username(username)"} />
-            <span class="hidden flex items-center place-content-center h-[48px] px-2 text-sm md:flex border-l border-base-content/10">@{base_domain()}</span>
+            <span class="hidden flex items-center place-content-center h-[48px] px-2 text-sm md:flex border-l border-secondary">@{base_domain()}</span>
           </label> --}
           <ErrorTag />
         </Field>

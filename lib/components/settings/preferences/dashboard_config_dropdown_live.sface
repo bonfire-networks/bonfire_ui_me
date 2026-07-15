@@ -11,7 +11,7 @@
 
   <div
     tabindex="0"
-    class="tooltip z-dropdown bg-base-100 shadow-lg border border-base-content/10 rounded-xl w-96 absolute top-0 right-0 hidden"
+    class="tooltip z-dropdown bg-base-100 shadow-lg border border-secondary rounded-xl w-96 absolute top-0 right-0 hidden"
   >
     <form phx-change="Bonfire.Common.Settings:set" class="flex flex-col">
       <input name="scope" value={@scope} type="hidden">
@@ -23,10 +23,10 @@
           <p class="text-[11px] text-base-content/40">{l("Choose what appears in each area")}</p>
         </div>
         <div class="ml-auto flex gap-1 mt-0.5 shrink-0" aria-hidden="true">
-          <div class="w-10 h-7 rounded border border-base-content/15 bg-primary/10 flex items-center justify-center">
+          <div class="w-10 h-7 rounded border border-secondary bg-primary/10 flex items-center justify-center">
             <span class="text-[7px] font-bold text-primary/60 uppercase">{l("Main")}</span>
           </div>
-          <div class="w-6 h-7 rounded border border-base-content/15 bg-secondary/10 flex items-center justify-center">
+          <div class="w-6 h-7 rounded border border-secondary bg-secondary/10 flex items-center justify-center">
             <span class="text-[7px] font-bold text-secondary/60 uppercase rotate-90">{l("Side")}</span>
           </div>
         </div>
@@ -121,7 +121,7 @@
       </div>
 
       {!-- Separator --}
-      <div class="mx-4 my-2 border-t border-base-content/10" />
+      <div class="mx-4 my-2 border-t border-secondary" />
 
       {!-- Feed mode toggle --}
       <div class="mx-4 mb-3 rounded-lg bg-base-200/50 py-2">

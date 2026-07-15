@@ -16,7 +16,7 @@
       <h2 class="text-lg font-medium text-base-content">
         {if @active_user, do: l("Switch to…"), else: l("Your profiles")}
       </h2>
-      <span class="text-xs text-base-content/50">
+      <span class="text-xs text-muted">
         {l("%{count} of %{max} profiles",
           count: length(@current_account_users || []),
           max: @max_users_per_account
@@ -31,7 +31,7 @@
       active_user_id={@active_user_id}
     />
 
-    <p class="mt-8 text-center text-xs text-base-content/50 max-w-lg mx-auto">
+    <p class="mt-8 text-center text-xs text-muted max-w-lg mx-auto">
       <#Icon solid="InformationCircle" class="inline w-4 h-4 -mt-0.5 mr-1 align-middle" />
       {l(
         "You can keep up to %{max_users} profiles for different identities for yourself, your organizations, or your projects.",
