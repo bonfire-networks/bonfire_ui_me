@@ -28,7 +28,7 @@
       </div>
 
       <div class="fieldset mb-2 mt-section">
-        <div class="text-heading mb-1">{l("Already registered? Log in now")}</div>
+        <div class="text-heading mb-1">{l("Already have an account? Log in now.")}</div>
         <.input
           field={to_form(%{}, as: :forgot_password_fields)[:email]}
           type="email"
