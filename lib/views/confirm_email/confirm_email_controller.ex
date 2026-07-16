@@ -8,6 +8,12 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
   def show(conn, %{"id" => token} = params) do
     redirect_uri = params["redirect_uri"]
 
+    # Stash `go` (carried from the confirmation email) in the session as soon as we
+    # consume the link, so the whole post-confirm chain — switch-user, then
+    # create-profile, both ending in `redirect_to_previous_go` — recovers it.
+    go = params["go"]
+    conn = if is_binary(go) and go != "", do: set_go_after(conn, go), else: conn
+
     case Accounts.confirm_email(token) do
       {:ok, account} ->
         confirmed(conn, account, redirect_uri)

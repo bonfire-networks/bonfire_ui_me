@@ -73,7 +73,9 @@ defmodule Bonfire.UI.Me.SignupController do
       |> Keyword.merge(
         invite: form["invite"] || account_attrs["invite"] || Plug.Conn.get_session(conn, :invite),
         auth_second_factor_secret: Plug.Conn.get_session(conn, :auth_second_factor_secret),
-        open_id_provider: Plug.Conn.get_session(conn, :open_id_provider)
+        open_id_provider: Plug.Conn.get_session(conn, :open_id_provider),
+        # so the confirmation email's link can send the user back where they came from
+        go: form["go"] || account_attrs["go"]
       )
     )
     |> info("attempted signup")

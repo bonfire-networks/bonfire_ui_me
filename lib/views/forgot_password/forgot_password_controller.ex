@@ -8,6 +8,14 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
   alias Bonfire.Me.Users
 
   def index(conn, %{"login_token" => login_token}) do
+    conn = fetch_query_params(conn)
+    go = conn.query_params["go"]
+
+    # Stash `go` in the session as soon as we consume the emailed link, so it
+    # survives the whole post-login flow — including the switch-user page, where
+    # `redirect_to_previous_go` reads it back regardless of which profile is picked.
+    conn = if is_binary(go) and go != "", do: set_go_after(conn, go), else: conn
+
     passwordless? = LoginLive.passwordless_only?()
     action = if passwordless?, do: :login, else: :change_password
 
@@ -30,12 +38,17 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
   def create(conn, params) do
     data = Map.get(params, "forgot_password_fields", %{})
     email = Map.get(data, "email")
+    # `go` rides as a top-level hidden field on the passwordless login form, so the
+    # emailed link can send the user back to where they came from after signing in.
+    go = Map.get(params, "go")
 
     maybe_run_login_email_providers(data)
 
-    case request_email(data) do
+    case request_email(data, go) do
       {:ok, _, _} ->
-        live_render(conn, ForgotPasswordLive, session: %{"requested" => true, "email" => email})
+        live_render(conn, ForgotPasswordLive,
+          session: %{"requested" => true, "email" => email, "go" => go}
+        )
 
       {:error, %Ecto.Changeset{} = changeset} ->
         # `request_confirm_email` adds `:form` errors like "not_found" /
@@ -44,17 +57,21 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
         # or not — show the same neutral success state as the {:ok,_,_} branch
         # whenever the form itself is otherwise valid.
         if neutral_form_error?(changeset) do
-          live_render(conn, ForgotPasswordLive, session: %{"requested" => true, "email" => email})
+          live_render(conn, ForgotPasswordLive,
+            session: %{"requested" => true, "email" => email, "go" => go}
+          )
         else
-          live_render(conn, ForgotPasswordLive, session: %{"form" => changeset})
+          live_render(conn, ForgotPasswordLive, session: %{"form" => changeset, "go" => go})
         end
 
       {:error, :not_found} ->
-        live_render(conn, ForgotPasswordLive, session: %{"requested" => true, "email" => email})
+        live_render(conn, ForgotPasswordLive,
+          session: %{"requested" => true, "email" => email, "go" => go}
+        )
 
       other ->
         error(other, "Unexpected result from forgot password flow")
-        live_render(conn, ForgotPasswordLive, session: %{"error" => true})
+        live_render(conn, ForgotPasswordLive, session: %{"error" => true, "go" => go})
     end
   end
 
@@ -73,9 +90,9 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
   # In passwordless mode the same form requests a magic sign-in link; otherwise
   # it's the classic forgot-password flow. The pipeline is shared — only the
   # confirm_action (and thus the mail template) differs.
-  defp request_email(data) do
+  defp request_email(data, go \\ nil) do
     if LoginLive.passwordless_only?() do
-      Accounts.request_confirm_email(form(data), confirm_action: :login)
+      Accounts.request_confirm_email(form(data), confirm_action: :login, go: go)
     else
       Accounts.request_forgot_password(form(data))
     end
@@ -98,6 +115,9 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
         _ -> nil
       end
 
+    # `go` was stashed in the session in `index/2`, so `logged_in/4` (and the
+    # switch-user / create-profile tails) all recover it via `redirect_to_previous_go`
+    # — no need to thread it through the form here.
     LoginController.logged_in(account, user, conn, %{})
   end
 

@@ -21,6 +21,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordLive do
      |> assign(:error, session["error"])
      |> assign(:requested, session["requested"])
      |> assign(:email, session["email"])
+     |> assign(:go, session["go"])
      |> assign(:passwordless_only?, passwordless_only?)}
   end
 end

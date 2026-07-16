@@ -268,7 +268,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       refute redirected_to(conn, 303) =~ "bonfire_embed_token="
     end
 
-    test "redirect goes to external go URL without token when origin is not allowed", %{
+    test "redirect drops external go and falls back to default when origin is not allowed", %{
       account: account,
       user: user
     } do
@@ -282,8 +282,27 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       conn = post(conn, "/login", login_params(user, account))
 
       redirect = redirected_to(conn, 303)
-      assert redirect =~ @external_url
+      assert redirect == "/"
+      refute redirect =~ @external_host
       refute redirect =~ "bonfire_embed_token="
+    end
+
+    test "redirect drops a malicious external go when no origins are allowed", %{
+      account: account,
+      user: user
+    } do
+      System.delete_env("IFRAME_ALLOWED_ORIGINS")
+
+      conn =
+        conn()
+        |> Plug.Conn.fetch_session()
+        |> Plug.Conn.put_session(:go, "https://evil.example/steal")
+
+      conn = post(conn, "/login", login_params(user, account))
+
+      redirect = redirected_to(conn, 303)
+      assert redirect == "/"
+      refute redirect =~ "evil.example"
     end
   end
 end

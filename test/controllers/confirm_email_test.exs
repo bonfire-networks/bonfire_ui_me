@@ -126,6 +126,22 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
       assert redirected_to(conn) == "/switch-user"
     end
 
+    test "stashes go so the post-confirm flow (create profile) can reach it" do
+      conn = conn()
+      {:ok, account} = Bonfire.Me.Accounts.signup(signup_form(), must_confirm?: true)
+
+      conn =
+        get(
+          conn,
+          "/signup/email/confirm/#{account.email.confirm_token}?go=#{URI.encode_www_form("/some-article")}"
+        )
+
+      # New account (no profile yet) → switch-user/create-profile, with go stashed in
+      # the session so redirect_to_previous_go can send them there once set up.
+      assert redirected_to(conn) =~ "/switch-user"
+      assert Plug.Conn.get_session(conn, :go) == "/some-article"
+    end
+
     test "success with custom scheme redirect_uri for mobile deep-linking" do
       conn = conn()
       {:ok, account} = Bonfire.Me.Accounts.signup(signup_form(), must_confirm?: true)
