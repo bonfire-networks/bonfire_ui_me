@@ -49,10 +49,11 @@
                   >
                     {l("Request an invite")}
                   </a>
-                {#match _}
+                {#match _ when is_nil(@external_signup_url)}
                   <p class="text-sm text-muted">
                     {l("Contact an administrator of this instance to request access.")}
                   </p>
+                {#match _}
               {/case}
 
               <LinkLive to="/about" class="text-sm link link-primary" data-role="instance_about_link">
