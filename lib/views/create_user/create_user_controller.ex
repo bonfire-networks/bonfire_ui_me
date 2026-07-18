@@ -54,7 +54,12 @@ defmodule Bonfire.UI.Me.CreateUserController do
   defp resolve_creator_user(_user_id, _account), do: nil
 
   defp acknowledgements_accepted?(params) do
-    not empty?(Map.get(params, "political_consent")) and
+    # the extra consent checkbox is only required when the instance has enabled it (see `[:terms, :extra_consent]`)
+    extra_consent_ok? =
+      not Bonfire.UI.Me.CreateUserViewLive.extra_consent_enabled?() or
+        not empty?(Map.get(params, "extra_consent"))
+
+    extra_consent_ok? and
       not empty?(Map.get(params, "code_of_conduct_consent"))
   end
 

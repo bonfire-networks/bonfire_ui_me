@@ -59,6 +59,42 @@
           </div>
         </div>
 
+        <div
+          x-data={"{enabled: #{Bonfire.UI.Me.CreateUserViewLive.extra_consent_enabled?()}, text: #{Jason.encode!(Bonfire.UI.Me.CreateUserViewLive.extra_consent_custom_text())}}"}
+          class="p-4"
+        >
+          <div class="flex items-center justify-between">
+            <div class="flex flex-col gap-1">
+              <div class="text-sm font-medium">{l("Consent checkbox")}</div>
+              <div class="text-sm font-light text-muted">{l(
+                  "Show a required consent checkbox during signup (besides the one asking for agreement to the code of conduct and/or privacy policy). Just enable it and use the default text, or enter custom text below."
+                )}</div>
+            </div>
+            {!-- server-rendered `checked` keeps the toggle in sync across LiveView re-renders (morphdom would otherwise clear the Alpine-set state) --}
+            <input
+              type="checkbox"
+              x-model="enabled"
+              checked={Bonfire.UI.Me.CreateUserViewLive.extra_consent_enabled?() && "checked"}
+              class="toggle toggle-primary"
+            />
+          </div>
+          {!-- one hidden field carries the single `[:terms, :extra_consent]` value: `false` when off, `true` when on with no custom text, or the custom text --}
+          <input
+            type="hidden"
+            name="terms[extra_consent]"
+            x-bind:value="enabled ? (text.trim() === '' ? 'true' : text) : 'nil'"
+          />
+          <div x-show="enabled" x-cloak x-collapse class="w-full mt-4 form-control">
+            <textarea
+              id="extra_consent"
+              x-model="text"
+              rows="4"
+              placeholder={Bonfire.UI.Me.CreateUserViewLive.default_extra_consent_text()}
+              class="w-full h-50 textarea textarea-bordered"
+            />
+          </div>
+        </div>
+
         <div x-data="{open: false}" class="p-4 rounded-b">
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">

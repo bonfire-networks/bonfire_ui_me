@@ -48,9 +48,24 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert [form] = Floki.find(doc, "#create-user-form")
     assert [_] = Floki.find(form, "#create-user-form_profile_0_name")
     assert [_] = Floki.find(form, "#create-user-form_character_0_username")
-    assert [_] = Floki.find(form, "#create-user-political-consent[required]")
+
+    # the extra-consent checkbox is disabled by default (no `[:terms, :extra_consent]` set), so it is not rendered
+    assert [] = Floki.find(form, "#create-user-extra-consent")
     assert [_] = Floki.find(form, "#create-user-code-of-conduct-consent[required]")
     assert [_] = Floki.find(form, "button[type='submit'][disabled]")
+  end
+
+  test "renders the extra-consent checkbox with the configured text when [:terms, :extra_consent] is enabled" do
+    # Config.get([:terms, :extra_consent]) reads the process tree first in test env;
+    # the process key is prefixed with the resolved OTP app (`:bonfire` here, since `:terms` isn't an app)
+    Process.put([:bonfire, :terms, :extra_consent], "I consent to the extra processing.")
+    alice = fake_account!()
+    conn = conn(account: alice)
+    conn = get(conn, "/create-user")
+    doc = floki_response(conn)
+    assert [form] = Floki.find(doc, "#create-user-form")
+    assert [_] = Floki.find(form, "#create-user-extra-consent[required]")
+    assert Floki.text(form) =~ "I consent to the extra processing."
   end
 
   # TODO: the prefill wiring is in place (CreateUserLive reads
@@ -412,7 +427,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
 
   defp with_acknowledgements(params) do
     Map.merge(params, %{
-      "political_consent" => "true",
+      "extra_consent" => "true",
       "code_of_conduct_consent" => "true"
     })
   end
