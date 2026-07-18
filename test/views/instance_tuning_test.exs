@@ -10,16 +10,31 @@ defmodule Bonfire.UI.Me.InstanceTuningTest do
     account = fake_account!()
     admin = fake_admin!(account)
 
+    # The tuning surface persists through the instance-scope Settings funnel, which mirrors
+    # into GLOBAL Application env — and that is NOT rolled back by the Ecto sandbox. So clear
+    # the leaf keys both before and after each test, making these async:false tests immune to
+    # ordering leaks (e.g. a preset pick's `clear_field` leaves `knobs: ""`, and the next
+    # write deep-merges its map into that stale scalar → an empty `current_knobs()`).
+    #
+    # NB: these settings live under InstanceTuning's OWN otp_app (resolved via `keys_tree`),
+    # not the top-level app that `Config.delete/1` assumes — so pass the app explicitly, or
+    # the delete silently no-ops against the wrong app and the leak survives.
+    [otp_app | _] = Config.keys_tree(InstanceTuning)
+
+    clear_tuning_settings = fn ->
+      Config.delete([InstanceTuning, :preset], otp_app)
+      Config.delete([InstanceTuning, :knobs], otp_app)
+      Config.delete([InstanceTuning, :overrides], otp_app)
+      InstanceTuning.reset_baseline()
+    end
+
+    clear_tuning_settings.()
+
     # a known baseline so preset/toggle transforms have something to work over
     # (the test env uses the DisabledApplier — no ALTER SYSTEM ever reaches the test DB)
     InstanceTuning.put_baseline(%{work_mem: 65_536, jit: "on", autovacuum_vacuum_cost_limit: 200})
 
-    on_exit(fn ->
-      Config.delete([InstanceTuning, :preset])
-      Config.delete([InstanceTuning, :knobs])
-      Config.delete([InstanceTuning, :overrides])
-      InstanceTuning.reset_baseline()
-    end)
+    on_exit(clear_tuning_settings)
 
     {:ok, conn: conn(user: admin, account: account)}
   end
