@@ -7,6 +7,8 @@ defmodule Bonfire.UI.Me.SignupFormLive do
   prop auth_second_factor_secret, :any, default: nil
   prop open_id_provider, :any, default: nil
   prop go, :any, default: nil
+  prop external_signup_url, :string, default: nil
+  prop gated_login_message, :string, default: nil
 
   defp prepare_error(e) when is_binary(e) do
     e

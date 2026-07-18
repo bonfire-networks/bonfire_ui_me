@@ -4,22 +4,41 @@
       {#match "invite_only"}
         <div role="status" id="invite_only_notice" data-role="invite_only_notice" class="">
           <div class="flex flex-col gap-4">
-            <div class="flex items-center gap-2">
-              <#Icon outline="Key" class="w-4 h-4 text-muted" />
-              <span class="text-xs font-medium uppercase tracking-wider text-muted">
-                {l("Invite only")}
-              </span>
-            </div>
-            <div class="flex flex-col gap-2">
-              <h2 class="text-xl font-medium text-base-content leading-tight">
-                {l("This community is invitation-based")}
-              </h2>
-              <p class="text-sm text-muted leading-relaxed">
-                {l(
-                  "New members join by invitation from an existing member or admin. If you'd like to take part, you can ask for an invite."
-                )}
-              </p>
-            </div>
+            {#if @gated_login_message || @external_signup_url}
+              <div class="my-panel mb-4">
+                <div class="text-heading">
+                  {rich(@gated_login_message) ||
+                    if @external_signup_url, do: l("Please click the button below to sign up.")}
+                </div>
+                <a
+                  :if={@external_signup_url}
+                  href={@external_signup_url}
+                  target="_blank"
+                  rel="noopener"
+                  class="btn btn-ds-outline btn-sm mt-3"
+                >
+                  {l("Sign up")}
+                </a>
+              </div>
+            {#else}
+              <div class="flex items-center gap-2">
+                <#Icon outline="Key" class="w-4 h-4 text-muted" />
+                <span class="text-xs font-medium uppercase tracking-wider text-muted">
+                  {l("Invite only")}
+                </span>
+              </div>
+              <div class="flex flex-col gap-2">
+                <h2 class="text-xl font-medium text-base-content leading-tight">
+                  {l("This community is invitation-based")}
+                </h2>
+                <p class="text-sm text-muted leading-relaxed">
+                  {l(
+                    "New members join by invitation from an existing member or admin. If you'd like to take part, you can ask for an invite."
+                  )}
+                </p>
+              </div>
+            {/if}
+
             <div class="flex flex-wrap items-center gap-x-4 gap-y-2 mt-1">
               {#case Config.get([:ui, :theme, :instance_welcome, :invite_contact_email], nil)}
                 {#match invite_email when is_binary(invite_email) and invite_email != ""}
@@ -35,6 +54,7 @@
                     {l("Contact an administrator of this instance to request access.")}
                   </p>
               {/case}
+
               <LinkLive to="/about" class="text-sm link link-primary" data-role="instance_about_link">
                 {l("Learn more about this instance")}
               </LinkLive>

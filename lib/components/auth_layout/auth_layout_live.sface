@@ -1,0 +1,81 @@
+{#case Config.get([:ui, :auth, :layout], :minimal)}
+  {#match :two_panels}
+    <div class="flex bg-base-200 min-h-screen w-full" id={@id}>
+      <div class="hidden lg:flex lg:w-1/2 relative bg-primary sticky top-0 h-screen overflow-hidden">
+        {#case Config.get([:ui, :auth, :project_branding_image], nil)}
+          {#match nil}
+          {#match branding_image}
+            <a
+              href="/"
+              class="absolute inset-y-8 right-8 z-10 flex w-[42%] items-center justify-center xl:inset-y-10 xl:right-10"
+            >
+              <span class="-rotate-90 flex shrink-0 h-full w-[calc(100vh-4rem)] items-center justify-center xl:w-[calc(100vh-5rem)]">
+                <img src={branding_image} alt="" class="max-w-full max-h-full w-full h-full object-contain">
+              </span>
+            </a>
+        {/case}
+      </div>
+
+      <div class="w-full lg:w-1/2 p-8 lg:px-16 lg:py-12 lg:pt-[80px] bg-base-200 min-h-screen">
+        <div class="flex-1 flex items-center">
+          <div class={"mx-auto w-full flex flex-col gap-6", @content_class}>
+            {#case Config.get([:ui, :theme, :instance_tagline], nil)}
+              {#match nil}
+              {#match tagline}
+                <div class="type-feature">{rich(tagline)}</div>
+            {/case}
+
+            {#case Config.get([:ui, :theme, :instance_welcome], [])}
+              {#match welcome}
+                <div :if={welcome[:title]} class="text-2xl lg:text-3xl font-bold text-base-content leading-tight">
+                  {rich(welcome[:title])}
+                </div>
+
+                <div :if={welcome[:description]} class="text-heading">
+                  {rich(welcome[:description])}
+                </div>
+            {/case}
+
+            {#case Config.get([:ui, :auth, :logo], nil)}
+              {#match nil}
+                <Bonfire.UI.Common.LogoLinkLive
+                  image_class="w-[154px] h-[154px] bg-center bg-no-repeat bg-contain"
+                  container_class="flex items-center gap-4"
+                  href="/"
+                />
+              {#match logo}
+                <a href="/" class="inline-block">
+                  <img src={logo} alt="" class="w-[154px] h-[154px] object-contain">
+                </a>
+            {/case}
+
+            <#slot />
+          </div>
+        </div>
+
+        <div class={"mx-auto w-full pt-8", @content_class}>
+          <div class="text-xs text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
+            <LinkLive to="/about" class="link link-hover">{l("About")}</LinkLive>
+            <span aria-hidden="true">·</span>
+            <LinkLive to="/conduct" class="link link-hover">{l("Code of conduct")}</LinkLive>
+            <span aria-hidden="true">·</span>
+            <LinkLive to="/privacy" class="link link-hover">{l("Privacy")}</LinkLive>
+            <span aria-hidden="true">·</span>
+            <LinkLive to="/users" class="link link-hover">{l("Users")}</LinkLive>
+          </div>
+        </div>
+      </div>
+    </div>
+  {#match _minimal}
+    <div class="w-full px-4 lg:px-0 mt-12 h-[100vh]" id={@id}>
+      <Bonfire.UI.Common.LogoLinkLive
+        with_name
+        image_class="w-12 h-12 aspect-square bg-center bg-no-repeat bg-contain"
+        container_class="flex items-center mb-8 justify-center gap-4"
+        href="/"
+      />
+      <div class={"w-full mx-auto", @content_class}>
+        <#slot />
+      </div>
+    </div>
+{/case}

@@ -1,189 +1,46 @@
-{#case @auth_config[:layout] || :minimal}
-  {#match :two_panels}
-    <div class="flex min-h-screen w-full" id="signup">
-      <div class="hidden lg:flex lg:w-1/2 relative bg-primary sticky top-0 h-screen overflow-hidden">
-        <img
-          :if={@auth_config[:background_image]}
-          src={@auth_config[:background_image]}
-          alt=""
-          class="absolute inset-0 w-full h-full object-cover object-center"
-        />
-        <div
-          class="absolute inset-0 bg-gradient-to-tr from-primary/40 via-transparent to-primary/20 pointer-events-none"
-          aria-hidden="true"
-        />
-
-        {#if @auth_config[:project_branding_image]}
-          <a
-            href="/"
-            class="absolute inset-y-8 right-8 z-10 flex w-[42%] items-center justify-center xl:inset-y-10 xl:right-10"
+<Bonfire.UI.Me.AuthLayoutLive id="signup">
+  {#if @registered}
+    <div class="w-full p-3 rounded-xl border border-secondary bg-base-100 shadow-sm">
+      <div class="flex flex-col place-content-center">
+        <div class="shrink-0 text-3xl place-content-center items-center text-center">
+          🎉🎉🎉
+        </div>
+        <div class="flex-col flex-1 md:flex md:justify-between text-center">
+          <h3 class="text-xl font-bold text-base-content mt-4">{l("Hooray! You are registered")}</h3>
+          <div class="mt-2 text-base text-muted" id="signup_success">
+            {#if @registered == :check_email}
+              {l(
+                "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."
+              )}
+            {#else}
+              {l("You can now log in.")}
+            {/if}
+          </div>
+          <LinkLive
+            class="mt-6 btn btn-outline border-primary//2o btn-primary normal-case"
+            to={path(@home_page)}
           >
-            <span class="-rotate-90 flex shrink-0 h-full w-[calc(100vh-4rem)] items-center justify-center xl:w-[calc(100vh-5rem)]">
-              <img
-                src={@auth_config[:project_branding_image]}
-                alt=""
-                class="max-w-full max-h-full w-full h-full object-contain"
-              />
-            </span>
-          </a>
-        {/if}
-      </div>
-
-      <div class="w-full lg:w-1/2 flex flex-col p-8 lg:px-16 lg:py-12 bg-base-100 min-h-screen">
-        <div class="flex-1 flex items-center">
-          <div class="max-w-md mx-auto w-full flex flex-col gap-8">
-            <div
-              :if={@instance_welcome[:title]}
-              class="text-2xl lg:text-3xl font-bold text-base-content leading-tight"
-            >
-              {rich(@instance_welcome[:title])}
-            </div>
-
-            {#if @auth_config[:logo]}
-              <a href="/" class="inline-block">
-                <img
-                  src={@auth_config[:logo]}
-                  alt=""
-                  class="w-16 h-16 aspect-square rounded-full bg-center bg-no-repeat bg-contain object-contain"
-                />
-              </a>
-            {#else}
-              <Bonfire.UI.Common.LogoLinkLive
-                image_class="w-16 h-16 aspect-square rounded-full bg-center bg-no-repeat bg-contain"
-                container_class="flex items-center gap-4"
-                href="/"
-              />
-            {/if}
-
-            {#if @registered}
-              <div class="w-full p-3 rounded-xl border border-secondary bg-base-100 shadow-sm">
-                <div class="flex flex-col place-content-center">
-                  <div class="flex-shrink-0 text-3xl place-content-center items-center text-center">
-                    🎉🎉🎉
-                  </div>
-                  <div class="flex-col flex-1 md:flex md:justify-between text-center">
-                    <h3 class="text-xl font-bold text-base-content mt-4">{l("Hooray! You are registered")}</h3>
-                    <div class="mt-2 text-base text-muted" id="signup_success">
-                      {#if @registered == :check_email}
-                        {l(
-                          "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."
-                        )}
-                      {#else}
-                        {l("You can now log in.")}
-                      {/if}
-                    </div>
-                    <LinkLive
-                      class="mt-6 btn btn-outline border-primary//2o btn-primary normal-case"
-                      to={path(@home_page)}
-                    >
-                      {l("Back to home page")}
-                    </LinkLive>
-                  </div>
-                </div>
-              </div>
-            {#else}
-              {#if @instance_welcome[:description]}
-                <div class="text-sm text-muted mb-3">
-                  {rich(@instance_welcome[:description])}
-                </div>
-              {/if}
-
-              <div :if={@instance_rules} class="relative z-10 w-full max-h-screen overflow-y-auto p-8">
-                <StatelessComponent
-                  module={maybe_component(Bonfire.CommunityRules.Web.InstanceRulesDisplayLive, @__context__)}
-                  sections={@instance_rules}
-                  show_header
-                />
-              </div>
-
-              <Bonfire.UI.Me.SignupFormLive
-                form={@form}
-                error={@error}
-                invite={@invite}
-                go={@go}
-                auth_second_factor_secret={@auth_second_factor_secret}
-                open_id_provider={@open_id_provider}
-              />
-            {/if}
-          </div>
-        </div>
-
-        <div class="max-w-md mx-auto w-full pt-8">
-          <div class="text-xs text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
-            <LinkLive to="/about" class="link link-hover">{l("About")}</LinkLive>
-            <span aria-hidden="true">·</span>
-            <LinkLive to="/conduct" class="link link-hover">{l("Code of conduct")}</LinkLive>
-            <span aria-hidden="true">·</span>
-            <LinkLive to="/privacy" class="link link-hover">{l("Privacy")}</LinkLive>
-            <span aria-hidden="true">·</span>
-            <LinkLive to="/users" class="link link-hover">{l("Users")}</LinkLive>
-          </div>
+            {l("Back to home page")}
+          </LinkLive>
         </div>
       </div>
     </div>
-  {#match _}
-    <div class="w-full px-4 lg:px-0 mt-8 mx-auto md:mt-24" id="signup">
-      <Bonfire.UI.Common.LogoLinkLive
-        image_class="w-12 h-12 aspect-square bg-center bg-no-repeat bg-contain"
-        container_class="flex items-center mb-8 justify-center gap-4"
-        href="/"
+  {#else}
+    <div :if={@instance_rules} class="relative z-10 w-full max-h-screen overflow-y-auto">
+      <StatelessComponent
+        module={maybe_component(Bonfire.CommunityRules.Web.InstanceRulesDisplayLive, @__context__)}
+        sections={@instance_rules}
+        show_header
       />
-
-      {#if @registered}
-        <div class="max-w-[680px] mx-auto">
-          <div class="">
-            <div class="w-[90%] md:w-[360px] mx-auto p-3 rounded-xl border border-secondary bg-base-100 shadow-sm">
-              <div class="flex flex-col place-content-center">
-                <div class="flex-shrink-0 text-3xl place-content-center items-center text-center">
-                  🎉🎉🎉
-                </div>
-                <div class="flex-col flex-1 md:flex md:justify-between text-center">
-                  <h3 class="text-xl font-bold text-base-content mt-4">{l("Hooray! You are registered")}</h3>
-                  <div class="mt-2 text-base text-muted" id="signup_success">
-                    {#if @registered == :check_email}
-                      {l(
-                        "Now we need you to confirm your email address. We've emailed you a link (check your spam folder!). Please click on it to continue."
-                      )}
-                    {#else}
-                      {l("You can now log in.")}
-                    {/if}
-                  </div>
-                  <LinkLive
-                    class="mt-6 btn btn-outline border-primary//2o btn-primary normal-case"
-                    to={path(@home_page)}
-                  >
-                    {l("Back to home page")}
-                  </LinkLive>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      {#else}
-        {#if @instance_welcome[:description]}
-          <div class="text-sm text-muted mb-3 max-w-[680px] mx-auto text-center">
-            {rich(@instance_welcome[:description])}
-          </div>
-        {/if}
-
-        <div :if={@instance_rules} class="max-w-[680px] mx-auto mt-8">
-          <StatelessComponent
-            module={maybe_component(Bonfire.CommunityRules.Web.InstanceRulesDisplayLive, @__context__)}
-            sections={@instance_rules}
-            show_header
-          />
-        </div>
-
-        <div class="mx-auto flex justify-center items-center">
-          <Bonfire.UI.Me.SignupFormLive
-            form={@form}
-            error={@error}
-            invite={@invite}
-            go={@go}
-            auth_second_factor_secret={@auth_second_factor_secret}
-            open_id_provider={@open_id_provider}
-          />
-        </div>
-      {/if}
     </div>
-{/case}
+
+    <Bonfire.UI.Me.SignupFormLive
+      form={@form}
+      error={@error}
+      invite={@invite}
+      go={@go}
+      auth_second_factor_secret={@auth_second_factor_secret}
+      open_id_provider={@open_id_provider}
+    />
+  {/if}
+</Bonfire.UI.Me.AuthLayoutLive>
