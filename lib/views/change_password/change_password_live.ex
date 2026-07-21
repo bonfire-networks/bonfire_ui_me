@@ -15,7 +15,10 @@ defmodule Bonfire.UI.Me.ChangePasswordLive do
      |> assign(:without_secondary_widgets, true)
      |> assign(:form, session["form"])
      |> assign(:error, session["error"])
-     |> assign(:resetting_password, session["resetting_password"])
+     |> assign_new(:resetting_password, fn ->
+       session["resetting_password"] ||
+         not Bonfire.Me.Accounts.account_has_password?(current_account(socket))
+     end)
      |> assign_new(:current_user, fn -> nil end)
      |> assign_new(:current_user_id, fn -> nil end)
      |> assign_new(:current_account, fn -> nil end)
