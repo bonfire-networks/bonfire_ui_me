@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.SwitchUserController do
 
   defp index([], _, conn, params) do
     conn
-    |> assign_flash(:info, l("Hey there! Let's fill out your profile!"))
+    # |> assign_flash(:info, l("Hey there! Let's fill out your profile!"))
     |> redirect_to("#{path(:create_user)}#{copy_go(params)}")
   end
 
