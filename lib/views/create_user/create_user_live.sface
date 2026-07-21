@@ -17,7 +17,7 @@
           href="/"
         />
       {/if}
-      {#if Settings.get([:ui, :auth, :project_branding_image], nil, @__context__)}
+      <!-- {#if Settings.get([:ui, :auth, :project_branding_image], nil, @__context__)}
         <a href="/" class="inline-block">
           <img
             src={Settings.get([:ui, :auth, :project_branding_image], nil, @__context__)}
@@ -25,7 +25,7 @@
             class="w-full h-[94px] object-contain"
           />
         </a>
-      {/if}
+      {/if} -->
     </div>
     <Bonfire.UI.Me.CreateUserViewLive
       form={@form}
