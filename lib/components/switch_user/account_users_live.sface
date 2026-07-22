@@ -37,7 +37,7 @@
             with_banner
             with_summary={false}
             is_local
-            class="transition rounded-xl duration-300 ease-out component_user_preview ring-0 ring-primary ring-opacity-90 hover:ring-4"
+            class="bg-base-100 transition rounded-xl duration-300 ease-out component_user_preview ring-0 ring-primary ring-opacity-90 hover:ring-4"
           />
         </LinkLive>
       </div>
