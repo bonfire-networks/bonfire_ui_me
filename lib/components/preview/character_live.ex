@@ -10,6 +10,7 @@ defmodule Bonfire.UI.Me.Preview.CharacterLive do
   prop wrapper_class, :string, default: nil
   prop date_ago, :string, default: nil
   prop showing_within, :atom, default: nil
+  prop viewing_main_object, :boolean, default: false
   prop activity_component_id, :string, default: nil
 
   def render(assigns) do
