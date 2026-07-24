@@ -43,6 +43,7 @@ defmodule Bonfire.UI.Me.ChangePasswordController.Test do
     # ...that is actually the one we set (i.e. it can be used to log in) — the real proof
     assert Accounts.login_valid?(account.id, @new_password)
     refute Accounts.login_valid?(account.id, "not-the-password")
+    refute get_session(conn, :resetting_password)
   end
 
   test "an account with a password still requires the current password" do
@@ -57,5 +58,18 @@ defmodule Bonfire.UI.Me.ChangePasswordController.Test do
     # must NOT succeed: the page is re-rendered with an error rather than redirecting home
     refute conn.status in [301, 302, 303]
     assert Accounts.account_has_password?(fresh(account.id))
+  end
+
+  test "a successful reset consumes the one-time resetting-password session flag" do
+    account = fake_account!()
+
+    conn =
+      conn(account: account)
+      |> put_session(:resetting_password, true)
+      |> post("/account/password/change", change_password_params())
+
+    assert conn.status in [301, 302, 303]
+    refute get_session(conn, :resetting_password)
+    assert Accounts.login_valid?(account.id, @new_password)
   end
 end

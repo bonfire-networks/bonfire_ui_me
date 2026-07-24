@@ -1,7 +1,6 @@
 defmodule Bonfire.UI.Me.LoginController.Test do
   use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
   alias Bonfire.Me.Accounts
-  alias Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken
 
   @external_host "https://blog.example.com"
   @external_url "#{@external_host}/my-article/"
@@ -18,8 +17,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
 
   describe "passwordless_only? mode" do
     setup do
-      Application.put_env(:bonfire_ui_me, :login, passwordless_only: true)
-      on_exit(fn -> Application.delete_env(:bonfire_ui_me, :login) end)
+      Process.put([:bonfire_ui_me, :login, :passwordless_only], true)
       :ok
     end
 

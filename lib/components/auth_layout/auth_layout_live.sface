@@ -53,7 +53,7 @@
           </div>
         </div>
 
-        <!-- <div class={"mx-auto w-full pt-8", @content_class}>
+        {!-- <div class={"mx-auto w-full pt-8", @content_class}>
           <div class="text-xs text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
             <LinkLive to="/about" class="link link-hover">{l("About")}</LinkLive>
             <span aria-hidden="true">·</span>
@@ -63,7 +63,7 @@
             <span aria-hidden="true">·</span>
             <LinkLive to="/users" class="link link-hover">{l("Users")}</LinkLive>
           </div>
-        </div> -->
+        </div> --}
       </div>
     </div>
   {#match _minimal}

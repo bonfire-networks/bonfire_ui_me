@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.ChangePasswordLive do
      |> assign(:without_sidebar, true)
      |> assign(:no_header, true)
      |> assign(:without_secondary_widgets, true)
-     |> assign(:form, session["form"])
+     |> assign(:form, session["form"] || ChangePasswordController.form_cs())
      |> assign(:error, session["error"])
      |> assign_new(:resetting_password, fn ->
        session["resetting_password"] ||
@@ -22,7 +22,6 @@ defmodule Bonfire.UI.Me.ChangePasswordLive do
      |> assign_new(:current_user, fn -> nil end)
      |> assign_new(:current_user_id, fn -> nil end)
      |> assign_new(:current_account, fn -> nil end)
-     |> assign_new(:current_account_id, fn -> nil end)
-     |> assign_new(:form, &ChangePasswordController.form_cs/0)}
+     |> assign_new(:current_account_id, fn -> nil end)}
   end
 end

@@ -1,6 +1,5 @@
 defmodule Bonfire.UI.Me.SwitchUserController.Test do
   use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
-  alias Bonfire.Me.Fake
 
   describe "index" do
     test "not logged in" do
@@ -54,10 +53,6 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       conn = conn(account: alice)
       conn = get(conn, "/switch-user/#{bob_user.character.username}")
       assert redirected_to(conn) == "/switch-user"
-      conn = get(recycle(conn), "/switch-user")
-      # doc = floki_response(conn)
-      # assert [err] = find_flash(doc)
-      # assert_flash_kind(err, :error)
     end
 
     test "success" do
@@ -74,10 +69,7 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       conn = get(conn, "/dashboard")
       assert get_session(conn, :current_user_id) == user.id
       doc = floki_response(conn)
-      # debug(doc)
-      [a] = Floki.find(doc, "[data-id='user_dashboard']")
-      # assert [info] = find_flash(doc)
-      # assert_flash(info, :info, "Welcome back, tester!")
+      assert [_] = Floki.find(doc, "[data-id='user_dashboard']")
     end
   end
 end

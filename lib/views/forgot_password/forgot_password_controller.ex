@@ -90,7 +90,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
   # In passwordless mode the same form requests a magic sign-in link; otherwise
   # it's the classic forgot-password flow. The pipeline is shared — only the
   # confirm_action (and thus the mail template) differs.
-  defp request_email(data, go \\ nil) do
+  defp request_email(data, go) do
     if LoginLive.passwordless_only?() do
       Accounts.request_confirm_email(form(data), confirm_action: :login, go: go)
     else
@@ -98,13 +98,19 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
     end
   end
 
-  # Gives extensions (e.g. bonfire_ghost) a chance to bootstrap a local
-  # account+user for an unknown email before the magic link is requested.
-  # Neutral response either way — we never reveal whether the email exists.
+  # Gives extensions a chance to bootstrap an unknown email or repair a profileless externally linked account before requesting its magic link. Accounts with profiles never consult external providers.
   defp maybe_run_login_email_providers(data) do
-    with email when is_binary(email) and email != "" <- Map.get(data, "email"),
-         nil <- Accounts.get_by_email(email) do
-      Bonfire.UI.Me.LoginEmailProvider.ensure(email)
+    with email when is_binary(email) and email != "" <- Map.get(data, "email") do
+      case Accounts.get_by_email(email) do
+        nil ->
+          Bonfire.UI.Me.LoginEmailProvider.ensure(email)
+
+        account ->
+          case Users.by_account(account) do
+            [] -> Bonfire.UI.Me.LoginEmailProvider.reconcile(email, account)
+            [_ | _] -> :ok
+          end
+      end
     end
   end
 

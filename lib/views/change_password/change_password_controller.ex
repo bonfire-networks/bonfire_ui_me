@@ -50,6 +50,7 @@ defmodule Bonfire.UI.Me.ChangePasswordController do
 
   defp changed(conn, _account) do
     conn
+    |> delete_session(:resetting_password)
     |> assign_flash(
       :info,
       l("You have now changed your password. We recommend saving it in a password manager app!")

@@ -44,7 +44,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     conn = conn(account: alice)
     conn = get(conn, "/create-user")
     doc = floki_response(conn)
-    view = Floki.find(doc, "#create_user")
+    assert [_] = Floki.find(doc, "#create_user")
     assert [form] = Floki.find(doc, "#create-user-form")
     assert [_] = Floki.find(form, "#create-user-form_profile_0_name")
     assert [_] = Floki.find(form, "#create-user-form_character_0_username")
@@ -276,11 +276,8 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
-    # assert_raise RuntimeError, debug(floki_response(conn))
     assert redirected_to(conn) == "/"
-    conn = get(recycle(conn), "/dashboard")
-    doc = floki_response(conn)
-    # assert redirected_to(conn) == "/dashboard"
+    assert {:ok, _user} = Bonfire.Me.Users.by_username(username)
   end
 
   test "creating an organisation profile makes it a shared user (with the given label) and links the creating account" do
@@ -384,10 +381,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
       |> with_acknowledgements()
 
     conn = post(conn, "/create-user", params)
-    # assert_raise RuntimeError, debug(floki_response(conn))
     assert redirected_to(conn) == "/"
-    conn = get(recycle(conn), "/dashboard")
-    doc = floki_response(conn)
 
     {:ok, user} =
       Bonfire.Me.Users.by_username(username)

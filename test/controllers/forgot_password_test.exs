@@ -21,6 +21,15 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
     assert resp.resp_body =~ "Check your inbox"
   end
 
+  test "a blocked account still gets the neutral response without crashing" do
+    account = fake_account!()
+    user = fake_user!(account)
+    {:ok, _} = Bonfire.Boundaries.Blocks.block(user, :ghost, :instance_wide)
+
+    resp = submit_forgot(account.email.email_address)
+    assert resp.resp_body =~ "Check your inbox"
+  end
+
   test "blank email does not show the success state" do
     resp = submit_forgot("")
     refute resp.resp_body =~ "forgot-password-sent"
@@ -28,8 +37,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
 
   describe "passwordless magic-link carries `go`" do
     setup do
-      Application.put_env(:bonfire_ui_me, :login, passwordless_only: true)
-      on_exit(fn -> Application.delete_env(:bonfire_ui_me, :login) end)
+      Process.put([:bonfire_ui_me, :login, :passwordless_only], true)
       :ok
     end
 
