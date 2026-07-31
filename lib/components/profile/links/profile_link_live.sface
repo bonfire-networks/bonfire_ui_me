@@ -4,7 +4,7 @@
   target="_blank"
   rel={if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil),
     do: "me",
-    else: "nofollow"}
+    else: "me nofollow"}
 >
   <div class="flex items-center gap-1">
     <#Icon iconify="ph:link" class="w-4 h-4 text-primary" />

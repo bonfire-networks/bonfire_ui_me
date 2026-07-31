@@ -16,27 +16,38 @@
         :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <-
           @aliases || []}
       >
-        <StatelessComponent
-          module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
-          show_controls={[]}
-          character={character}
-          wrapper_class="flex items-center"
-          profile={profile}
-          class="btn btn-circle btn-outline btn-sm border-primary"
-          avatar_class="w-6 h-6 rounded-full"
-        />
-        {#if Utils.maybe_apply(
+        {#case Utils.maybe_apply(
             Bonfire.Federate.ActivityPub.AdapterUtils,
             :also_known_as?,
             [@user, character],
             fallback_return: nil
           )}
-          <#Icon
-            iconify="garden:check-badge-fill-16"
-            class="w-4 h-4 text-success"
-            title={l("Verified alias")}
-          />
-        {/if}
+          {#match verified?}
+            <StatelessComponent
+              module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
+              show_controls={[]}
+              character={character}
+              is_remote={case Bonfire.Me.Integration.is_local?(character) do
+                nil -> true
+                bool -> !bool
+              end}
+              wrapper_class="flex items-center"
+              profile={profile}
+              class="btn btn-circle btn-outline btn-sm border-primary"
+              avatar_class="w-6 h-6 rounded-full"
+              link_opts={if(verified?,
+                do: [rel: "me"],
+                else: [rel: "me nofollow"]
+              )}
+            />
+
+            <#Icon
+              :if={verified?}
+              iconify="garden:check-badge-fill-16"
+              class="w-4 h-4 text-success"
+              title={l("Verified alias")}
+            />
+        {/case}
       </div>
     </div>
   </div>

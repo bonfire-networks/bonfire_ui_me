@@ -8,6 +8,7 @@
           do: e(@character, :username, nil),
           else: "/character/#{e(@character, :username, "")}"}
         class="shrink-0"
+        opts={@link_opts}
       >
         <Bonfire.UI.Common.AvatarLive
           parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
@@ -18,7 +19,7 @@
           src={Media.avatar_url(@profile)}
           title={e(@profile, :name, "")}
           showing_within={@showing_within}
-          is_remote={@is_remote?}
+          is_remote={@is_remote}
         />
       </LinkLive>
 
@@ -72,7 +73,7 @@
     <div
       :if={e(@profile, :summary, nil)}
       class="!text-base-content/100 prose prose-sm text-sm mt-2 line-clamp-4"
-    >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote?)}</div>
+    >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote)}</div>
 
     <#slot />
   </div>
@@ -95,6 +96,7 @@
               do: e(@character, :username, nil),
               else: "/character/#{e(@character, :username, "")}"}
             class=""
+            opts={@link_opts}
           >
             <Bonfire.UI.Common.AvatarLive
               parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
@@ -106,7 +108,7 @@
               src={Media.avatar_url(@profile)}
               title={e(@profile, :name, "")}
               showing_within={@showing_within}
-              is_remote={@is_remote?}
+              is_remote={@is_remote}
             />
             <!-- class={@avatar_class || "w-12 h-12"} -->
           </LinkLive>
@@ -117,6 +119,7 @@
                 do: e(@character, :username, nil),
                 else: "/character/#{e(@character, :username, "")}"}
               class={"text-body flex-1", "flex gap-1 items-baseline": @inline}
+              opts={@link_opts}
             >
               <div data-id="profile_name" class="font-medium text-body">
                 {rich(e(@profile, :name, nil))}
@@ -137,6 +140,12 @@
                 {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}
               </div>
             </LinkLive>
+
+            <Bonfire.UI.Common.Icons.InstanceIconLive
+              :if={@is_remote}
+              object={@character}
+              link_opts={@link_opts}
+            />
           </div>
 
           {!-- </div>
@@ -147,7 +156,7 @@
         else: "/character/#{e(@character, :username, "")}"}
       user={%{
         id: id(@profile),
-        is_local: !@is_remote?,
+        is_local: !@is_remote,
         profile: @profile,
         character: @character
       }}
@@ -185,7 +194,7 @@
         <div
           :if={@show_summary && {e(@profile, :summary, nil)}}
           class="!text-base-content/100 prose prose-sm text-sm my-2 line-clamp-4"
-        >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote?)}</div>
+        >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote)}</div>
       </div>
       <div class="flex gap-2 items-center">
         <button
@@ -238,7 +247,7 @@
       :if={:blocks in @show_controls}
       module={maybe_component(Bonfire.UI.Boundaries.ProfileBlockedIndicatorLive, @__context__)}
       user={@character || @profile}
-      is_local_user={@is_remote? == false}
+      is_local_user={@is_remote == false}
     />
   </div>
 {/if}
