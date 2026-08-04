@@ -28,6 +28,7 @@ defmodule Bonfire.UI.Me.SignupLive do
     |> assign(:page, l("signup"))
     |> assign(:page_title, l("Sign up"))
     |> assign_new(:no_header, fn -> true end)
+    |> assign_new(:hide_login_action, fn -> true end)
     |> assign_new(:without_sidebar, fn -> true end)
     |> assign_new(:without_secondary_widgets, fn -> true end)
     |> assign_new(:current_account, fn -> nil end)

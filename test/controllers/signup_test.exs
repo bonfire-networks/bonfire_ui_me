@@ -10,6 +10,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     assert [_] = Floki.find(form, "input[type='email']")
     assert [_, _] = Floki.find(form, "input[type='password']")
     assert [_] = Floki.find(form, "button[type='submit']")
+    assert [] = Floki.find(doc, "#dock-login-action")
   end
 
   describe "required fields" do

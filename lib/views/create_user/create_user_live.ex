@@ -40,6 +40,7 @@ defmodule Bonfire.UI.Me.CreateUserLive do
      |> assign(
        without_sidebar: true,
        no_header: true,
+       hide_login_action: true,
        without_secondary_widgets: true,
        smart_input_opts: %{hide_buttons: true}
        #  max_users_per_account:

@@ -53,6 +53,7 @@ defmodule Bonfire.UI.Me.CreateUserController.Test do
     assert [] = Floki.find(form, "#create-user-extra-consent")
     assert [_] = Floki.find(form, "#create-user-code-of-conduct-consent[required]")
     assert [_] = Floki.find(form, "button[type='submit'][disabled]")
+    assert [] = Floki.find(doc, "#dock-login-action")
   end
 
   test "renders the extra-consent checkbox with the configured text when [:terms, :extra_consent] is enabled" do

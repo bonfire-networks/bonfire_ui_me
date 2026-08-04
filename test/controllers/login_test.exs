@@ -13,6 +13,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     refute [] == Floki.find(form, "input[type='text']")
     assert [_] = Floki.find(form, "input[type='password']")
     assert [_] = Floki.find(form, "button[type='submit']")
+    assert [] = Floki.find(doc, "#dock-login-action")
   end
 
   describe "passwordless_only? mode" do
