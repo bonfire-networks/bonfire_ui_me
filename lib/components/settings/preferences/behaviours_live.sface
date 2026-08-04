@@ -27,6 +27,27 @@
       </div>
     </div>
 
+    <form
+      class="p-4"
+      data-scope="set_ui_preset"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
+      <label for="set_ui_preset" class="sr-only">{l("Set interface preset")}</label>
+      <Bonfire.UI.Common.SettingsSelectLive
+        id="set_ui_preset"
+        name={l("Interface preset")}
+        description={l("Choose the overall interface style")}
+        keys={[:ui, :theme, :ui_preset]}
+        default_value="typographic"
+        options={[
+          {"typographic", l("Typographic (default)")},
+          {"stream", l("Stream")}
+        ]}
+        scope={@scope}
+      />
+    </form>
+
     <form class="p-4" data-scope="set_font" name="settings" phx-change="Bonfire.Common.Settings:set">
       <label for="set_font" class="sr-only">{l("Set font")}</label>
       <Bonfire.UI.Common.SettingsSelectLive
@@ -39,6 +60,28 @@
           name: l("Font Families"),
           description: l("Available fonts for the user interface.")
         )}
+        scope={@scope}
+      />
+    </form>
+
+    <form
+      class="p-4"
+      data-scope="set_icon_weight"
+      name="settings"
+      phx-change="Bonfire.Common.Settings:set"
+    >
+      <label for="set_icon_weight" class="sr-only">{l("Set icon style")}</label>
+      <Bonfire.UI.Common.SettingsSelectLive
+        id="set_icon_weight"
+        name={l("Icon style")}
+        description={l("Choose the style of interface icons")}
+        keys={[:ui, :theme, :icon_weight]}
+        default_value="fill"
+        options={[
+          {"fill", l("Solid")},
+          {"duotone", l("Duotone")},
+          {"light", l("Light")}
+        ]}
         scope={@scope}
       />
     </form>
