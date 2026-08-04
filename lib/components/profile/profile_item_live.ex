@@ -3,7 +3,7 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
 
   prop profile, :any
   prop lg, :boolean, default: false
-  prop is_remote?, :boolean, default: nil
+  prop is_remote, :boolean, default: nil
 
   prop wrapper_class, :css_class, default: nil
 
@@ -17,6 +17,8 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
   prop avatar_class, :css_class, default: nil
   prop fallback_class, :css_class, default: nil
   prop only_img, :boolean, default: false
+
+  prop link_opts, :keyword, default: []
 
   prop parent_id, :any, default: nil
   prop showing_within, :any, default: nil

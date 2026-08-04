@@ -46,7 +46,7 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
            instance: instance,
            back: true,
            instance_id: instance_id,
-           is_remote?: not is_nil(instance_id),
+           is_remote: not is_nil(instance_id),
            selected_tab: :users,
            is_guest?: is_guest?,
            search_placeholder: "Search users",

@@ -81,6 +81,47 @@
             class="text-error"
           />
         </li>
+        <li :if={@is_local_user}>
+          <Bonfire.UI.Common.OpenModalLive
+            id={deterministic_dom_id(__MODULE__, id(@user), "transfer-user", nil)}
+            title_text={l("Transfer profile to another account")}
+            form_opts={%{"phx-submit" => "Bonfire.Me.Users:transfer_user"}}
+          >
+            <input type="hidden" name="object_id" value={id(@user)}>
+            <p class="text-sm mb-3">
+              {l(
+                "SUPER POWERS: Move this profile (%{name}) to a different account on this instance. WARNING: The destination account will take full control over it and the current account will lose access.",
+                name: Bonfire.Me.Characters.display_username(@user, true, true)
+              )}
+            </p>
+            <label for={"transfer_target_#{id(@user)}"} class="label">
+              <span class="label-text text-sm">{l("Email or @username of the destination account")}</span>
+            </label>
+            <input
+              id={"transfer_target_#{id(@user)}"}
+              name="transfer_target"
+              type="text"
+              required
+              placeholder="alice@email.com or @alice"
+              class="input input-bordered w-full"
+            />
+
+            <label class="label cursor-pointer justify-start gap-2 mt-3">
+              <input type="checkbox" name="transfer_admin" value="true" class="checkbox checkbox-sm">
+              <span class="label-text text-sm">{l(
+                  "If this profile is an admin, also transfer admin powers (and remove them from the source account)"
+                )}</span>
+            </label>
+
+            <:open_btn>
+              <div class="w-full text-left">{l("Transfer to another account…")}</div>
+            </:open_btn>
+
+            <:action_btns>
+              <button class="btn btn-primary btn-sm">{l("Transfer profile")}</button>
+            </:action_btns>
+          </Bonfire.UI.Common.OpenModalLive>
+        </li>
         <li :if={!@is_local_user}>
           <StatelessComponent
             module={maybe_component(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}

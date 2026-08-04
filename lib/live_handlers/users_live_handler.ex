@@ -38,6 +38,51 @@ defmodule Bonfire.Me.Users.LiveHandler do
     end
   end
 
+  # admin facility: transfer a user profile to another account, identified by that account's email OR a local @username.
+  # `skip_max_per_account: true` lets an admin transfer even into an account that's at its cap.
+  def handle_event(
+        "transfer_user",
+        %{"object_id" => user_id, "transfer_target" => target} = params,
+        socket
+      ) do
+    if Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]) do
+      target = String.trim(to_string(target))
+
+      transfer_opts = [
+        skip_max_per_account: true,
+        # if this profile is an admin, hand admin to the destination account too (else it's revoked)
+        transfer_admin: not empty?(params["transfer_admin"])
+      ]
+
+      with {%{id: _} = target_account, _target_user} <-
+             Bonfire.Me.Accounts.by_id_email_or_username(target),
+           {:ok, user} <- Users.by_id(user_id),
+           {:ok, _user} <-
+             Users.transfer_to_account(user, target_account, transfer_opts) do
+        {:noreply,
+         assign_flash(socket, :info, l("Profile transferred to %{target}.", target: target))}
+      else
+        nil ->
+          {:noreply,
+           assign_flash(
+             socket,
+             :error,
+             l("No account found for that email or username on this instance.")
+           )}
+
+        e ->
+          {:noreply,
+           assign_flash(
+             socket,
+             :error,
+             l("Could not transfer the profile: %{error}", error: inspect(e))
+           )}
+      end
+    else
+      error("Not allowed")
+    end
+  end
+
   def handle_event("delete_account", %{"password" => password}, socket) do
     delete = current_account_auth!(socket, password)
 
