@@ -121,7 +121,7 @@
               class={"text-body flex-1", "flex gap-1 items-baseline": @inline}
               opts={@link_opts}
             >
-              <div data-id="profile_name" class="font-medium text-body">
+              <div data-id="profile_name" class="font-medium text-body flex items-center gap-1">
                 {rich(e(@profile, :name, nil))}
                 {#if :follows_me in @show_controls}
                   <StatefulComponent
