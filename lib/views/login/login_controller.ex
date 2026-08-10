@@ -61,7 +61,7 @@ defmodule Bonfire.UI.Me.LoginController do
     |> assign(:current_account, current_account)
     |> put_session(:current_user_id, nil)
     |> put_session(:live_socket_id, "socket_account:#{account_id}")
-    |> assign_flash(:info, l("Welcome back!"))
+    # |> assign_flash(:info, l("Welcome back!"))
     # to support redirect after a POST
     |> Plug.Conn.put_status(303)
     |> redirect_to("#{path(:switch_user) || "/switch-user/"}#{copy_go(form)}")
