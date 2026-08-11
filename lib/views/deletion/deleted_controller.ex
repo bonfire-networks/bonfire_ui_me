@@ -4,7 +4,7 @@ defmodule Bonfire.UI.Me.DeletedController do
   def user(conn, _) do
     conn
     |> Bonfire.Me.Users.LiveHandler.disconnect_user_session()
-    |> render_view(type: l("user"))
+    |> render_view(type: lc("object", "user", [], :bonfire_me))
   end
 
   def account(conn, _) do

@@ -25,7 +25,9 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
      |> assign(:name, Text.text_only(e(params, "name", nil) || e(session, "name", nil)))
      |> assign(
        :interaction_type,
-       Text.text_only(e(params, "type", nil) || e(session, "type", nil)) || l("follow")
+       # a slug, not a localised verb: it arrives in a query param, so localising it upstream made
+       # the URL differ per locale and rendered whatever text happened to arrive
+       interaction_type(e(params, "type", nil) || e(session, "type", nil))
      )
      |> assign(
        :federating?,
@@ -35,6 +37,15 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
      |> Bonfire.UI.Me.LoginLive.assign_defaults(params, session)
      |> Bonfire.UI.Me.SignupLive.assign_defaults(params, session, form_key: :signup_form)}
   end
+
+  # any slug naming a real verb is accepted, rather than a fixed list that would silently rewrite
+  # a new interaction to "follow"; unresolvable input is not echoed back, since it arrives from a
+  # query param
+  defp interaction_type(type) when is_binary(type) do
+    if Bonfire.Boundaries.Verbs.verb_name(Types.maybe_to_atom!(type)), do: type, else: "follow"
+  end
+
+  defp interaction_type(_), do: "follow"
 
   def generate_url(type, name, url, opts) do
     assigns = assigns(opts)

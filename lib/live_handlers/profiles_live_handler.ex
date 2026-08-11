@@ -280,7 +280,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       canonical_url: nil,
       character_type: nil,
       path: "@",
-      interaction_type: l("follow"),
+      interaction_type: "follow",
       follows_me: false,
       no_index: false,
       boundary_preset: nil,

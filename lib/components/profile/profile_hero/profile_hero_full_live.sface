@@ -305,7 +305,7 @@
                             object={@user}
                             follows_me={@follows_me}
                             path={path(@user)}
-                            verb={l("Follow")}
+                            verb={lc("verb: action", "Follow", [], :bonfire_social_graph)}
                             verb_undo={l("Unfollow")}
                             verb_already={l("Following")}
                             hide_icon

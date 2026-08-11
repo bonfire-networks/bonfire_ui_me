@@ -16,7 +16,7 @@
                 <strong>{l("Are you a fediverse user?")}</strong> {l(
                   "Enter your username and you will be forwarded to your home instance, where you'll be able to proceed to %{verb} %{thing_or_name} there.",
                   thing_or_name: @name,
-                  verb: @interaction_type
+                  verb: verb_name(@interaction_type)
                 )}
               </p>
               <p class="mt-4"><strong>{l("Are you a user of this instance?")}</strong> <LinkLive to={~p"/login"}>{l("Sign in instead.")}</LinkLive></p>
@@ -27,7 +27,7 @@
             <Label class="block p-0 mb-4 text-center label">
               <span class="text-base font-medium">{l("Enter your fediverse nick to %{verb} %{thing_or_name} remotely",
                   thing_or_name: @name,
-                  verb: @interaction_type
+                  verb: verb_name(@interaction_type)
                 )}</span>
             </Label>
             <EmailInput
@@ -43,7 +43,7 @@
             phx-disable-with={l("Redirecting...")}
             type="submit"
           >
-            {l("Proceed to %{verb}", verb: @interaction_type)}
+            {submit_label(@interaction_type)}
           </button>
         </div>
       </Form>
