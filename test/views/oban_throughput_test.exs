@@ -81,4 +81,22 @@ defmodule Bonfire.UI.Me.ObanThroughputTest do
 
     assert ObanPresets.current_priorities()[:interactions] == true
   end
+
+  # regression: an unchecked checkbox submits nothing on its own, so the off state only
+  # reaches Settings through the toggle's hidden value="false" input — without it the
+  # setting silently stays true forever
+  test "un-prioritising a group persists the off state", %{conn: conn} do
+    session =
+      conn
+      |> visit(@path)
+      |> wait_async()
+      |> check("Mentions & follows", exact: false)
+
+    assert ObanPresets.current_priorities()[:interactions] == true
+
+    session
+    |> uncheck("Mentions & follows", exact: false)
+
+    assert ObanPresets.current_priorities()[:interactions] == false
+  end
 end

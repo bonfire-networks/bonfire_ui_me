@@ -5,6 +5,7 @@
   <Bonfire.UI.Common.Settings.Calm.PresetCardsLive
     scope={@scope}
     form_name="oban_throughput"
+    form_id="oban_throughput_presets"
     title={l("Background processing throughput")}
     description={l(
       "Tune how much federation and other background work runs at once, to keep this server responsive under load."
@@ -23,6 +24,7 @@
   <Bonfire.UI.Common.Settings.Calm.OverrideTogglesLive
     scope={@scope}
     form_name="oban_throughput_priorities"
+    form_id="oban_throughput_priorities"
     form_role="oban_priorities"
     title={l("Prioritise")}
     description={l("Run these kinds of activities faster than the rest.")}

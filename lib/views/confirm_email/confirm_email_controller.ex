@@ -63,10 +63,10 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
     conn = put_session(conn, :current_account_id, id)
 
     conn
-    |> assign_flash(
-      :info,
-      l("Thanks for confirming your email address. Please create a user profile.")
-    )
+    # |> assign_flash(
+    #   :info,
+    #   l("Thanks for confirming your email address. Please create a user profile.")
+    # )
     |> redirect_to(validate_redirect_uri(redirect_uri, path(:switch_user) || "/switch-user/"),
       type: :maybe_external
     )

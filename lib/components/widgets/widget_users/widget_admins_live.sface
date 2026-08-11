@@ -14,9 +14,10 @@
           <button
             :on-click="Bonfire.UI.Me.WidgetAdminsLive:reset"
             type="button"
-            class="group btn btn-circle btn-xs btn-outline border-secondary"
+            class="group btn btn-circle btn-xs touch-target-expanded btn-outline border-secondary"
             title={l("Refresh")}
           >
+            <span class="touch-target-hit-area" aria-hidden="true" />
             <span class="sr-only">{l("Refresh")}</span>
             <#Icon iconify="ph:arrow-counter-clockwise-duotone" class="w-4 h-4 text-primary" />
           </button>
