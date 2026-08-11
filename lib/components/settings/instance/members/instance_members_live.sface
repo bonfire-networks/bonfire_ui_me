@@ -19,7 +19,7 @@
     <div class="mb-2" id="members-list">
       {#if @users && length(@users) > 0}
         <div class="text-sm text-gray-600 m-4 mb-2">
-          {l("Showing %{count} users", count: length(@users))}
+          {lp("Showing %{count} user", "Showing %{count} users", length(@users), count: length(@users))}
         </div>
         <Bonfire.UI.Me.MembersLive
           users={@users}

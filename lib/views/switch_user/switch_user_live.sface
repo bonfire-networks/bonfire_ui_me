@@ -17,7 +17,10 @@
         {if @active_user, do: l("Switch to…"), else: l("Your profiles")}
       </h2>
       <span class="text-xs text-muted">
-        {l("%{count} of %{max} profiles",
+        {lp(
+          "%{count} of %{max} profile",
+          "%{count} of %{max} profiles",
+          @max_users_per_account,
           count: length(@current_account_users || []),
           max: @max_users_per_account
         )}

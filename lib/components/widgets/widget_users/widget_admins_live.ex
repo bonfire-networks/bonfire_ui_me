@@ -16,7 +16,7 @@ defmodule Bonfire.UI.Me.WidgetAdminsLive do
      #  TODO: how to update them without reloading or making this a stateful component
      |> assign_flash(
        :info,
-       l("Admins have been refreshed.") <> l(" You need to reload to see updates, if any.")
+       l("Admins have been refreshed.") <> " " <> l("You need to reload to see updates, if any.")
      )}
   end
 end

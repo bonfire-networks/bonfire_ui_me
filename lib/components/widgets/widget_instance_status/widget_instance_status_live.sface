@@ -58,7 +58,7 @@
               <div class="text-base font-bold leading-tight">{l("Welcome to %{name}", name: instance_name)}</div>
             {/if}
             <div class="text-xs text-white/70 mt-0.5">
-              {instance_name} · {l("%{count} people", count: user_count)}
+              {instance_name} · {lp("%{count} person", "%{count} people", user_count, count: user_count)}
               {#if online_count > 0}
                 <span>
                   · {l("%{online} online", online: online_count)}</span>
@@ -180,7 +180,10 @@
                     to={~p"/known_instances"}
                     class="font-medium text-base-content/80 hover:text-base-content hover:underline transition-colors"
                   >
-                    {l("%{count} known federated instances", count: known_instances_count)}</LinkLive>
+                    {lp(
+                      "%{count} known federated instance",
+                      "%{count} known federated instances",
+                      known_instances_count, count: known_instances_count)}</LinkLive>
                   {#if federation_details}
                     <span class="text-base-content/40">
                       · {federation_details}</span>
@@ -220,7 +223,10 @@
                 to={~p"/known_instances"}
                 class="font-medium text-base-content/80 hover:text-base-content hover:underline transition-colors"
               >
-                {l("%{count} known federated instances", count: known_instances_count)}</LinkLive>
+                {lp(
+                  "%{count} known federated instance",
+                  "%{count} known federated instances",
+                  known_instances_count, count: known_instances_count)}</LinkLive>
               {#if federation_details}
                 <span class="text-base-content/40">
                   · {federation_details}</span>
