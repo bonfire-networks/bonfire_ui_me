@@ -56,7 +56,9 @@
             >
               {e(one, :profile, :name, e(one, :character, :username, ""))}
             </LinkLive>
-            {l(" and %{count} others you follow", count: length(rest))}
+            {lp(" and %{count} other you follow", " and %{count} others you follow", length(rest),
+              count: length(rest)
+            )}
         {/case}
       </span>
     </div>

@@ -68,12 +68,23 @@ defmodule Bonfire.UI.Me.WidgetInstanceStatusLive do
     federation_details =
       [
         if(outgoing_instances_count > 0,
-          do: l("we follow %{count}", count: outgoing_instances_count)
+          do:
+            lp("we follow %{count}", "we follow %{count}", outgoing_instances_count,
+              count: outgoing_instances_count
+            )
         ),
         if(incoming_instances_count > 0,
-          do: l("%{count} follow us", count: incoming_instances_count)
+          do:
+            lp("%{count} follows us", "%{count} follow us", incoming_instances_count,
+              count: incoming_instances_count
+            )
         ),
-        if(blocked_instances_count > 0, do: l("%{count} blocked", count: blocked_instances_count))
+        if(blocked_instances_count > 0,
+          do:
+            lp("%{count} blocked", "%{count} blocked", blocked_instances_count,
+              count: blocked_instances_count
+            )
+        )
       ]
       |> Enum.reject(&is_nil/1)
       |> join_with_and()
@@ -98,6 +109,7 @@ defmodule Bonfire.UI.Me.WidgetInstanceStatusLive do
 
   defp join_with_and(parts) do
     {last, rest} = List.pop_at(parts, -1)
-    Enum.join(rest, ", ") <> ", " <> l("and %{last}", last: last)
+    # one msgid so the list separator and the "and" placement follow the locale's conventions
+    l("%{items}, and %{last}", items: Enum.join(rest, ", "), last: last)
   end
 end

@@ -99,7 +99,9 @@ defmodule Bonfire.UI.Me.CreateUserController do
         conn
         |> assign_flash(
           :error,
-          l("Please double check your inputs: ") <> flat_changeset_errors(changeset)
+          l("Please double check your inputs: %{errors}",
+            errors: flat_changeset_errors(changeset)
+          )
         )
         |> paint(changeset)
 

@@ -46,7 +46,7 @@ defmodule Bonfire.UI.Me.SettingsLive do
        socket,
        back: true,
        id: id,
-       page_title: String.capitalize(to_string(scope)) <> " " <> l("Preferences"),
+       page_title: l("%{scope} Preferences", scope: String.capitalize(to_string(scope))),
        selected_tab: tab,
        page_header_aside: [
          {Bonfire.UI.Me.SettingsLive.PreferencesHeaderAsideLive,
