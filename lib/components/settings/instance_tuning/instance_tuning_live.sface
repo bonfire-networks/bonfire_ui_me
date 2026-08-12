@@ -5,7 +5,6 @@
   <Bonfire.UI.Common.Settings.Calm.PresetCardsLive
     scope={@scope}
     form_name="instance_tuning"
-    form_id="instance_tuning_presets"
     title={l("Instance performance")}
     description={l(
       "How much of this machine's resources Bonfire should claim, and what to favor. Applied to the database live, on top of the boot configuration."
@@ -23,7 +22,6 @@
   <Bonfire.UI.Common.Settings.Calm.OverrideTogglesLive
     scope={@scope}
     form_name="instance_tuning_overrides"
-    form_id="instance_tuning_overrides"
     form_role="tuning_overrides"
     title={l("Fine-tune for your situation")}
     description={l("Each of these adjusts a few settings towards a specific outcome.")}

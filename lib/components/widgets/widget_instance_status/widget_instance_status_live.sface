@@ -183,7 +183,9 @@
                     {lp(
                       "%{count} known federated instance",
                       "%{count} known federated instances",
-                      known_instances_count, count: known_instances_count)}</LinkLive>
+                      known_instances_count,
+                      count: known_instances_count
+                    )}</LinkLive>
                   {#if federation_details}
                     <span class="text-base-content/40">
                       · {federation_details}</span>
@@ -226,7 +228,9 @@
                 {lp(
                   "%{count} known federated instance",
                   "%{count} known federated instances",
-                  known_instances_count, count: known_instances_count)}</LinkLive>
+                  known_instances_count,
+                  count: known_instances_count
+                )}</LinkLive>
               {#if federation_details}
                 <span class="text-base-content/40">
                   · {federation_details}</span>
