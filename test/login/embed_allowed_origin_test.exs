@@ -10,6 +10,9 @@ defmodule Bonfire.UI.Me.EmbedAllowedOriginTest do
   # `async: false` — mutates a system env var.
   use ExUnit.Case, async: false
 
+  # bucket this into the ui CI leg: bare `ExUnit.Case` skips the tag the extension case templates apply, so without it this also runs in the federation job catch-all
+  @moduletag :ui
+
   alias Bonfire.UI.Me.LoginController
 
   defp with_allowed(value, fun) do
