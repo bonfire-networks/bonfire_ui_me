@@ -193,6 +193,62 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     end
   end
 
+  describe "already signed in, visiting the embed Sign in link (/remote_interaction?...&url=)" do
+    setup do
+      account = fake_account!()
+      user = fake_user!(account)
+      {:ok, account} = Accounts.confirm_email(account)
+      System.put_env("IFRAME_ALLOWED_ORIGINS", @external_host)
+      on_exit(fn -> System.delete_env("IFRAME_ALLOWED_ORIGINS") end)
+      {:ok, account: account, user: user}
+    end
+
+    test "honors the `url` return-to (local path) instead of dumping to the dashboard", %{
+      account: account,
+      user: user
+    } do
+      conn = conn(user: user, account: account)
+
+      conn =
+        get(conn, "/remote_interaction?" <> URI.encode_query(type: "reply", url: "/thread/abc"))
+
+      assert redirected_to(conn) == "/thread/abc"
+    end
+
+    test "returns to an allowed embed origin with a bonfire_embed_token (so they can comment)", %{
+      account: account,
+      user: user
+    } do
+      conn = conn(user: user, account: account)
+
+      conn =
+        get(conn, "/remote_interaction?" <> URI.encode_query(type: "reply", url: @external_url))
+
+      redirect = redirected_to(conn)
+      assert redirect =~ @external_url
+      assert redirect =~ "bonfire_embed_token="
+    end
+
+    test "drops a malicious external `url` (not an allowed origin) instead of open-redirecting",
+         %{
+           account: account,
+           user: user
+         } do
+      conn = conn(user: user, account: account)
+
+      conn =
+        get(
+          conn,
+          "/remote_interaction?" <>
+            URI.encode_query(type: "reply", url: "https://evil.example/steal")
+        )
+
+      redirect = redirected_to(conn)
+      refute redirect =~ "evil.example"
+      assert redirect == "/"
+    end
+  end
+
   describe "embed token on redirect" do
     # see also Bonfire.UI.Social.CommentsEmbedTokenTest
 
