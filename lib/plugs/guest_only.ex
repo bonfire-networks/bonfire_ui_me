@@ -15,9 +15,27 @@ defmodule Bonfire.UI.Me.Plugs.GuestOnly do
     conn = fetch_query_params(conn)
     user_id = current_user_id(conn)
 
+    # The embed "Sign in" link points at `/remote_interaction?...&url=<article>`, carrying the return-to
+    # as `url` (mirrors `RemoteInteractionLive.mount`'s `go || url`). Honor it as `go` here too, so an
+    # already-signed-in user is returned to the article (with an embed token, for allowed origins)
+    # instead of being dumped on the dashboard — otherwise they can't get back to comment.
+    # Only when the `url` is safe (a local path or an allowed embed origin) so `?url=` can't become an
+    # open redirect for an authed user.
+    params =
+      case conn.query_params do
+        %{"url" => url} = params when is_binary(url) and url != "" ->
+          if String.starts_with?(url, "/") or
+               Bonfire.UI.Me.LoginController.embed_allowed_origin?(url),
+             do: Map.put_new(params, "go", url),
+             else: params
+
+        params ->
+          params
+      end
+
     conn
     |> maybe_error()
-    |> Bonfire.UI.Me.LoginController.redirect_after_auth(user_id, conn.query_params)
+    |> Bonfire.UI.Me.LoginController.redirect_after_auth(user_id, params)
     |> halt()
   end
 
