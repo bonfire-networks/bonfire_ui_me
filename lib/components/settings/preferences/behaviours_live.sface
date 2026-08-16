@@ -39,9 +39,9 @@
         name={l("Interface preset")}
         description={l("Choose the overall interface style")}
         keys={[:ui, :theme, :ui_preset]}
-        default_value="typographic"
+        default_value={Bonfire.UI.Common.ThemeHelper.default_ui_preset()}
         options={[
-          {"typographic", l("Typographic (default)")},
+          {"typographic", l("Typographic")},
           {"stream", l("Stream")}
         ]}
         scope={@scope}
