@@ -30,6 +30,7 @@ defmodule Bonfire.UI.Me.SwitchUserLive do
        active_user_id: id(active_user) || active_user_id,
        without_sidebar: true,
        no_header: true,
+       hide_mobile_dock: true,
        without_secondary_widgets: true,
        go: Map.get(a, :go, ""),
        page_title: l("Switch user profile"),
