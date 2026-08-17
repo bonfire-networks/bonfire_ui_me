@@ -5,6 +5,7 @@
     trigger_class="btn btn-sm btn-circle btn-outline btn-primary"
     panel_class="dropdown_actions menu-lg"
     label={l("More actions")}
+    expanded_touch_target
   >
     <:trigger>
       <#Icon iconify="ph:dots-three-outline-vertical-fill" class="w-4 h-4" />

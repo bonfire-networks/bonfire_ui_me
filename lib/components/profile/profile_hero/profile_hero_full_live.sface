@@ -142,6 +142,7 @@
                                 path={path(@user)}
                                 hide_icon
                                 class="btn btn-primary btn-sm"
+                                class_already="btn btn-primary btn-soft btn-sm"
                               />
                             </div>
                           {/if}
