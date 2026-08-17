@@ -12,6 +12,7 @@ defmodule Bonfire.UI.Me.ChangePasswordLive do
      |> assign(:page_title, l("Change my password"))
      |> assign(:without_sidebar, true)
      |> assign(:no_header, true)
+     |> assign(:hide_mobile_dock, true)
      |> assign(:without_secondary_widgets, true)
      |> assign(:form, session["form"] || ChangePasswordController.form_cs())
      |> assign(:error, session["error"])

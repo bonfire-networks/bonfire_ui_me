@@ -10,6 +10,7 @@ defmodule Bonfire.UI.Me.CreateUserTeamLive do
        selected_tab: "shared_user",
        no_header: true,
        without_sidebar: true,
+       hide_mobile_dock: true,
        without_secondary_widgets: true,
        page: l("Invite your team"),
        page_title: l("Invite your team"),
