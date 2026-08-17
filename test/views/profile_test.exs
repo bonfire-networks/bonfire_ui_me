@@ -123,15 +123,15 @@ defmodule Bonfire.UI.Me.ProfileTest do
       conn
       |> visit("/@#{alice.character.username}")
       |> wait_async()
-      |> assert_has("[data-role=profile_post_count]", text: "posts")
-      |> assert_has("[data-role=profile_followers_count]", text: "followers")
+      |> assert_has("[data-role=profile_post_count]", text: "Posts")
+      |> assert_has("[data-role=profile_followers_count]", text: "Followers")
 
       # the bug (#1862): the stat links must still be shown on the followers view
       conn
       |> visit("/@#{alice.character.username}/followers")
       |> wait_async()
-      |> assert_has("[data-role=profile_post_count]", text: "posts")
-      |> assert_has("[data-role=profile_followers_count]", text: "followers")
+      |> assert_has("[data-role=profile_post_count]", text: "Posts")
+      |> assert_has("[data-role=profile_followers_count]", text: "Followers")
     end
   end
 

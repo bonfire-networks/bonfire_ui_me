@@ -1,45 +1,46 @@
 <div>
   <div :if={@character_type == :user} class="border-t-hair border-secondary mb-3" />
-  <div class="justify-between flex flex-col lg:flex-row lg:items-center pb-3 gap-y-2">
-    <div class="flex flex-wrap items-center gap-x-4 text-body text-base-content">
-      <LinkLive
-        :if={@post_count}
-        opts={["data-role": "profile_post_count"]}
-        to={~p"/@#{e(@user, :character, :username, nil)}"}
-        class="hover:underline py-2 -my-2"
-      >
-        <span class="font-medium text-base-content">{@post_count}</span>
-        <span class="ml-1">{l("posts")}</span>
-      </LinkLive>
+  <div class="flex flex-wrap items-start gap-x-6 gap-y-3 pb-3">
+    <LinkLive
+      :if={@followers_count}
+      opts={["data-role": "profile_followers_count"]}
+      to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
+      class="group flex flex-col"
+    >
+      <span class="text-sm text-muted group-hover:underline">{l("Followers")}</span>
+      <span class="text-body font-bold text-base-content">{@followers_count}</span>
+    </LinkLive>
 
-      <LinkLive
-        :if={@followers_count}
-        opts={["data-role": "profile_followers_count"]}
-        to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
-        class="hover:underline py-2 -my-2"
-      >
-        <span class="font-medium text-base-content">{@followers_count}</span>
-        <span class="ml-1">{l("followers")}</span>
-      </LinkLive>
+    <LinkLive
+      :if={@following_count}
+      opts={["data-role": "profile_following_count"]}
+      to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
+      class="group flex flex-col"
+    >
+      <span class="text-sm text-muted group-hover:underline">{l("Following")}</span>
+      <span class="text-body font-bold text-base-content">{@following_count}</span>
+    </LinkLive>
 
-      <LinkLive
-        :if={@following_count}
-        opts={["data-role": "profile_following_count"]}
-        to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
-        class="hover:underline py-2 -my-2"
-      >
-        <span class="font-medium text-base-content">{@following_count}</span>
-        <span class="ml-1">{l("following")}</span>
-      </LinkLive>
-    </div>
+    <LinkLive
+      :if={@post_count}
+      opts={["data-role": "profile_post_count"]}
+      to={~p"/@#{e(@user, :character, :username, nil)}"}
+      class="group flex flex-col"
+    >
+      <span class="text-sm text-muted group-hover:underline">{l("Posts")}</span>
+      <span class="text-body font-bold text-base-content">{@post_count}</span>
+    </LinkLive>
 
     {#case Bonfire.Common.DatesTimes.date_from_pointer(@user)}
       {#match nil}
       {#match joined_date}
-        <span class="flex items-center text-right text-caption text-muted gap-1">
-          <#Icon iconify="ph:calendar-duotone" class="w-4 h-4" />
-          <span>{l("Joined")} {Calendar.strftime(joined_date, "%b %Y")}</span>
-        </span>
+        <div class="flex flex-col" data-role="profile_joined_date">
+          <span class="text-sm text-muted">{l("Joined")}</span>
+          <span
+            class="text-body font-bold text-base-content"
+            title={Calendar.strftime(joined_date, "%b %Y")}
+          >{Calendar.strftime(joined_date, "%Y")}</span>
+        </div>
     {/case}
   </div>
 </div>
