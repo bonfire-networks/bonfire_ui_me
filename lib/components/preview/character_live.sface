@@ -43,6 +43,7 @@
       avatar_class={"w-10 h-10 rounded-full ", "!w-7 !h-7": @__context__[:ui_compact]}
       profile={e(@the_character, :profile, nil)}
       character={e(@the_character, :character, nil)}
+      is_remote={!check_is_local?(@the_character, preload_if_needed: false)}
     />
   </div>
   <button
