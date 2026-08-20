@@ -135,6 +135,38 @@ defmodule Bonfire.UI.Me.ProfileTest do
     end
   end
 
+  test "a user boost of a group post keeps its boost attribution on their profile" do
+    account = fake_account!()
+    author = fake_user!(account)
+    booster = fake_user!(account)
+
+    group =
+      Bonfire.Classify.Simulate.fake_group!(author, %{
+        name: "Boost Attribution Group",
+        membership: "open"
+      })
+
+    {:ok, post} =
+      Posts.publish(
+        current_user: author,
+        boundary: "public",
+        context_id: group.id,
+        post_attrs: %{post_content: %{html_body: "A manually boosted group post"}}
+      )
+
+    {:ok, _boost} = Boosts.boost(booster, post)
+
+    conn(user: booster, account: account)
+    |> visit("/@#{booster.character.username}")
+    |> wait_async()
+    |> assert_has_or_open_browser("article", text: "A manually boosted group post")
+    |> assert_has_or_open_browser(
+      "[data-role=boosted_by] [data-role=published_in]",
+      text: "Boost Attribution Group"
+    )
+    |> assert_has_or_open_browser("[data-role=boosted_by]", text: booster.profile.name)
+  end
+
   @tag :skip
   # FIXME: ap_instance table missing service_actor_uri column (needs migration)
   test "When a remote user boosts my (local) post, when i navigate to their profile, I want to see my post in their profile as a local object, not a remote one" do
