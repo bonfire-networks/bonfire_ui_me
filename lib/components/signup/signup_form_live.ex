@@ -22,6 +22,10 @@ defmodule Bonfire.UI.Me.SignupFormLive do
     e
   end
 
+  defp prepare_error(e) when is_atom(e) do
+    e
+  end
+
   defp prepare_error(nil) do
     nil
   end

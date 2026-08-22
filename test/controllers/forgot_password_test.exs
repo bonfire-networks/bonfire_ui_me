@@ -2,11 +2,30 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
   # Tests the controller's neutral-response guarantee: it never reveals whether
   # an email exists or whether a magic link was sent.
   use Bonfire.UI.Me.ConnCase, async: true
+  use Repatch.ExUnit
   import Swoosh.TestAssertions
   alias Bonfire.Me.Accounts
 
   defp submit_forgot(email) do
     post(conn(), "/login/forgot-password", %{"forgot_password_fields" => %{"email" => email}})
+  end
+
+  # When mail can't be sent, `resend_confirm_email/2` falls out of its `with` and
+  # returns the raw mailer error, which the controller can only render as the
+  # generic "Something went wrong" box — so a broken mailer takes out the one
+  # recovery path available to someone whose email address is already claimed.
+  test "a mailer failure breaks the reset-link request instead of the neutral response" do
+    account = fake_account!()
+    fake_user!(account)
+
+    Repatch.patch(Bonfire.Mailer, :send_now, fn _mail, _to ->
+      {:error, {:partial_failure, [:no_credentials]}}
+    end)
+
+    resp = submit_forgot(account.email.email_address)
+
+    refute resp.resp_body =~ "Check your inbox"
+    assert resp.resp_body =~ "Something went wrong"
   end
 
   test "unknown email shows a neutral success message" do

@@ -30,6 +30,16 @@ defmodule Bonfire.UI.Me.SignupController do
         |> assign(:error, :taken)
         |> render_view(form)
 
+      {:error, :email_confirmation_required} ->
+        conn
+        |> assign(:error, :email_confirmation_required)
+        |> render_view(form)
+
+      {:error, :confirmation_email_failed} ->
+        conn
+        |> assign(:error, :confirmation_email_failed)
+        |> render_view(form)
+
       {:error, changeset} ->
         conn
         |> assign(

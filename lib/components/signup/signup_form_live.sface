@@ -77,6 +77,56 @@
                 </div>
               </div>
             </div>
+          {#match :email_confirmation_required}
+            <div
+              role="status"
+              data-role="email_confirmation_required"
+              class="mb-4 alert alert-info"
+            >
+              <div class="flex">
+                <#Icon class="shrink-0 w-5 h-5" solid="Envelope" />
+                <div class="ml-3">
+                  <h3 class="text-sm font-medium">
+                    {l("An account with this email is waiting for confirmation.")}
+                    <LinkLive
+                      opts={[
+                        id: "request-confirmation-after-signup",
+                        "data-role": "request_confirmation_link"
+                      ]}
+                      class="link"
+                      to={~p"/signup/email/confirm"}
+                    >
+                      {l("Request a new confirmation email")}
+                    </LinkLive>
+                  </h3>
+                </div>
+              </div>
+            </div>
+          {#match :confirmation_email_failed}
+            <div
+              role="status"
+              data-role="confirmation_email_failed"
+              class="mb-4 alert alert-error"
+            >
+              <div class="flex">
+                <#Icon class="shrink-0 w-5 h-5" solid="Exclamation" />
+                <div class="ml-3">
+                  <h3 class="text-sm font-medium">
+                    {l("Your account was created, but we couldn't send the confirmation email.")}
+                    <LinkLive
+                      opts={[
+                        id: "request-confirmation-after-email-failure",
+                        "data-role": "request_confirmation_link"
+                      ]}
+                      class="link"
+                      to={~p"/signup/email/confirm"}
+                    >
+                      {l("Request a new confirmation email")}
+                    </LinkLive>
+                  </h3>
+                </div>
+              </div>
+            </div>
           {#match error}
             <div role="status" class="mb-4 alert alert-error">
               <div class="flex">

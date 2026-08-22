@@ -193,6 +193,99 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       assert Repatch.called?(Bonfire.Me.Accounts, :instance_is_invite_only?, 0)
     end
 
+    # Reported by a client: participants invited to a workshop were told
+    # "the e-mail address has already been taken" on every attempt, even though
+    # (as far as the admin could see) no such account existed.
+    test "a second signup with an unconfirmed email directs to confirmation recovery", %{
+      invite: invite
+    } do
+      email = email()
+      password = password()
+
+      account_attrs = %{
+        "account" => %{
+          "email" => %{"email_address" => email},
+          "credential" => %{"password" => password}
+        }
+      }
+
+      # first attempt via the invite link succeeds
+      conn =
+        conn()
+        |> get("/signup?invite=#{invite.id}")
+        |> post("/signup", account_attrs)
+
+      assert [_success] = Floki.find(floki_response(conn), "#signup_success")
+
+      # second attempt (fresh browser, same invite link, same email)
+      conn =
+        conn()
+        |> get("/signup?invite=#{invite.id}")
+        |> post("/signup", account_attrs)
+
+      doc = floki_response(conn)
+
+      assert [_notice] = Floki.find(doc, "[data-role='email_confirmation_required']")
+      assert [link] = Floki.find(doc, "[data-role='request_confirmation_link']")
+      assert Floki.attribute(link, "href") == ["/signup/email/confirm"]
+      refute Floki.text(doc) =~ "has already been taken"
+    end
+
+    # The likeliest way the invisible account gets there in the first place:
+    # the account is inserted and committed *before* the confirmation email is
+    # sent, so any mailer failure reports an error to the person signing up
+    # while leaving their email address permanently claimed.
+    test "a failed confirmation email keeps the account and offers confirmation recovery", %{
+      invite: invite
+    } do
+      email = email()
+      password = password()
+
+      account_attrs = %{
+        "account" => %{
+          "email" => %{"email_address" => email},
+          "credential" => %{"password" => password}
+        }
+      }
+
+      Repatch.patch(Bonfire.Mailer, :send_now, [mode: :shared], fn _mail, _to ->
+        {:error, {:partial_failure, [:no_credentials]}}
+      end)
+
+      conn =
+        conn()
+        |> get("/signup?invite=#{invite.id}")
+        |> post("/signup", account_attrs)
+
+      doc = floki_response(conn)
+
+      # The account exists, but the person is accurately told that delivery failed.
+      assert [] = Floki.find(doc, "#signup_success")
+      assert [_notice] = Floki.find(doc, "[data-role='confirmation_email_failed']")
+      assert [link] = Floki.find(doc, "[data-role='request_confirmation_link']")
+      assert Floki.attribute(link, "href") == ["/signup/email/confirm"]
+
+      # ...but the account was committed anyway, with no user/profile attached,
+      # which is why an admin looking at the instance's people sees nothing
+      assert %{id: account_id} = Bonfire.Me.Accounts.get_by_email(email)
+      assert [] = Bonfire.Me.Users.by_account(account_id)
+
+      # A later attempt recovers through confirmation rather than claiming the
+      # email is merely taken.
+      Repatch.restore(Bonfire.Mailer, :send_now, 2)
+
+      conn =
+        conn()
+        |> get("/signup?invite=#{invite.id}")
+        |> post("/signup", account_attrs)
+
+      doc = floki_response(conn)
+      assert [_notice] = Floki.find(doc, "[data-role='email_confirmation_required']")
+      assert [link] = Floki.find(doc, "[data-role='request_confirmation_link']")
+      assert Floki.attribute(link, "href") == ["/signup/email/confirm"]
+      refute Floki.text(doc) =~ "has already been taken"
+    end
+
     test "can simulate SSO signup with invite", %{invite: invite} do
       invite_id = invite.id
       email = email()
