@@ -42,18 +42,9 @@ defmodule Bonfire.UI.Me.ProfileTest do
       # global HTTP mock so creating the remote actor (+ any LiveView-side fetch) works
       Tesla.Mock.mock_global(fn env -> ActivityPub.Test.HttpRequestMock.request(env) end)
 
-      # ensure OPEN federation while we create the remote actor (a prior test's async on_exit
-      # reset may not have landed yet; creating a remote actor under a restricted mode fails)
-      Bonfire.Federate.ActivityPub.set_federating(:instance, true)
-
-      on_exit(fn ->
-        parent = self()
-
-        Task.start(fn ->
-          Ecto.Adapters.SQL.Sandbox.allow(Bonfire.Common.Repo, parent, self())
-          Bonfire.Federate.ActivityPub.set_federating(:instance, true)
-        end)
-      end)
+      # Scope the federation mode to this test process. ProcessTree propagates it to the LiveView
+      # processes without changing the instance setting for other tests.
+      Process.put(:federating, true)
 
       account = fake_account!()
       me = fake_user!(account)
@@ -73,7 +64,7 @@ defmodule Bonfire.UI.Me.ProfileTest do
 
     test "follow button is DISABLED for a remote user when federation is disabled",
          %{conn: conn, remote: remote} do
-      Bonfire.Federate.ActivityPub.set_federating(:instance, false)
+      Process.put(:federating, false)
 
       conn
       |> visit("/@#{remote.character.username}")
@@ -83,7 +74,7 @@ defmodule Bonfire.UI.Me.ProfileTest do
 
     test "follow button is DISABLED for a remote user in archipelago (allowlist-only) mode",
          %{conn: conn, remote: remote} do
-      Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, true)
+      Process.put(:federating, :allowlist_only)
 
       conn
       |> visit("/@#{remote.character.username}")
