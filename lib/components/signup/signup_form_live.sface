@@ -78,11 +78,7 @@
               </div>
             </div>
           {#match :email_confirmation_required}
-            <div
-              role="status"
-              data-role="email_confirmation_required"
-              class="mb-4 alert alert-info"
-            >
+            <div role="status" data-role="email_confirmation_required" class="mb-4 alert alert-info">
               <div class="flex">
                 <#Icon class="shrink-0 w-5 h-5" solid="Envelope" />
                 <div class="ml-3">
@@ -103,11 +99,7 @@
               </div>
             </div>
           {#match :confirmation_email_failed}
-            <div
-              role="status"
-              data-role="confirmation_email_failed"
-              class="mb-4 alert alert-error"
-            >
+            <div role="status" data-role="confirmation_email_failed" class="mb-4 alert alert-error">
               <div class="flex">
                 <#Icon class="shrink-0 w-5 h-5" solid="Exclamation" />
                 <div class="ml-3">
