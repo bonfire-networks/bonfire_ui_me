@@ -50,14 +50,19 @@
                 <div class="text-sm font-medium">{l("Federation")}</div>
               </div>
 
-              {#case Bonfire.Federate.ActivityPub.federating?()}
+              {#case federation_mode()}
                 {#match true}
                   <div class="text-success flex items-center gap-2 text-sm font-medium">
                     <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-success" />
-                    {l("Enabled")}
+                    {l("Open")}
+                  </div>
+                {#match :allowlist_only}
+                  <div class="text-info flex items-center gap-2 text-sm font-medium">
+                    <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-info" />
+                    {l("Archipelago")}
                   </div>
                 {#match nil}
-                  <div class="text-success flex items-center gap-2 text-sm font-medium">
+                  <div class="text-info flex items-center gap-2 text-sm font-medium">
                     <#Icon iconify="mdi:check-circle-outline" class="flex-shrink-0 w-4 h-4 text-info" />
                     {l("Manual")}
                   </div>
@@ -69,6 +74,46 @@
               {/case}
             </div>
           </div>
+
+          {#if federation_mode() == :allowlist_only}
+            <div class="py-4">
+              <div class="flex flex-col gap-1">
+                <div class="text-sm font-medium">{l("Instances and people this community federates with")}</div>
+                <div class="text-sm font-light text-muted">{l("In archipelago mode, only those listed here can federate with this instance.")}</div>
+              </div>
+              {#case instance_allowlist()}
+                {#match {[], _}}
+                  <div class="mt-4 text-sm font-light text-muted">{l("The allow-list is empty, so no federation is currently taking place.")}</div>
+                {#match {members, total}}
+                  <div class="flex flex-wrap gap-3 mt-4 flex-items">
+                    {#for member <- members}
+                      {#case allowlist_entry(member)}
+                        {#match entry}
+                          <div class="badge h-[1.75rem] gap-2 font-medium badge-outline border-secondary rounded">
+                            <Bonfire.UI.Common.Icons.FaviconLive
+                              link={entry.favicon_for}
+                              icon={entry.icon}
+                              class="shrink-0 w-4 h-4 text-muted"
+                            />
+                            <a
+                              :if={entry.url}
+                              href={entry.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="link link-hover"
+                            >{entry.label}</a>
+                            <span :if={!entry.url}>{entry.label}</span>
+                          </div>
+                      {/case}
+                    {/for}
+                    <div
+                      :if={total > length(members)}
+                      class="badge h-[1.75rem] font-medium badge-outline border-secondary rounded"
+                    >{l("+%{count} more", count: total - length(members))}</div>
+                  </div>
+              {/case}
+            </div>
+          {/if}
 
           <div class="py-4">
             <div class="flex items-center justify-between flex-1 items-center gap-4">
