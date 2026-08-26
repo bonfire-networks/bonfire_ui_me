@@ -71,5 +71,22 @@ defmodule Bonfire.UI.Me.SwitchUserController.Test do
       doc = floki_response(conn)
       assert [_] = Floki.find(doc, "[data-id='user_dashboard']")
     end
+
+    # Logging straight into a profile records a per-profile last-seen (see `Accounts.login/2`), so reaching one by switching has to record it too. Otherwise a profile someone uses daily, but
+    # always arrives at by switching, looks like it has never been used.
+    test "records last-seen for the profile switched to" do
+      account = fake_account!()
+      user = fake_user!(account) |> repo().preload([:character])
+
+      refute Bonfire.Social.Seen.last_date(account, user),
+             "nothing should be recorded before the switch"
+
+      conn = conn(account: account)
+      conn = get(conn, "/switch-user/#{user.character.username}")
+      assert redirected_to(conn) == "/"
+
+      assert %DateTime{} = seen_at = Bonfire.Social.Seen.last_date(account, user)
+      assert DateTime.to_date(seen_at) == Date.utc_today()
+    end
   end
 end

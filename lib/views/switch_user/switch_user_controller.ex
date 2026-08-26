@@ -53,6 +53,15 @@ defmodule Bonfire.UI.Me.SwitchUserController do
 
     debug(user_id, "user to switch to")
 
+    # Record per-profile last-seen, exactly as logging straight into this profile would (see `Accounts.validate_and_record_login_if_not_blocked/2`). Without it, a profile reached by switching never gets a last-seen at all, so a profile someone uses daily can look unused. 
+    # TODO: put in context so reused by other profile switchers
+    maybe_apply(Bonfire.Social.Seen, :mark_seen, [
+      current_account(conn),
+      user,
+      [upsert: true]
+    ])
+    |> debug("recorded last-seen for the switched-to user")
+
     conn
     |> Bonfire.Me.Users.LiveHandler.disconnect_user_session()
     |> put_session(:current_user_id, user_id)
