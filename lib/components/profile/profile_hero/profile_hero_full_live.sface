@@ -208,7 +208,7 @@
                             </span>
                             <span
                               :if={module_enabled?(Bonfire.Data.SharedUser, @__context__) && e(@user, :shared_user, :label, nil)}
-                              class="ml-3 badge badge-sm badge-primary uppercase badge-outline"
+                              class="badge badge-sm badge-primary uppercase badge-outline"
                             >
                               {e(@user, :shared_user, :label, nil)}
                             </span>
