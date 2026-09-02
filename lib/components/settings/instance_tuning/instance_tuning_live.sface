@@ -7,7 +7,7 @@
     form_name="instance_tuning"
     title={l("Instance performance")}
     description={l(
-      "How much of this machine's resources Bonfire should claim, and what to favor. Applied to the database live, on top of the boot configuration."
+      "How much of this machine's resources Bonfire should claim, and what to favor. Applied to the database live, on top of the boot configuration. These are written to the database, so they persist across restarts and redeploys until you change or reset them."
     )}
     legend={l("Performance preset")}
     field_name={field_name()}
@@ -16,6 +16,10 @@
     cards={preset_cards()}
     options_id="instance_tuning_options"
     preset_role="tuning_preset"
+    reset_module="Bonfire.Common.Settings.Calm.InstanceTuning"
+    reset_confirm={l(
+      "Put every performance setting back to what this deployment configures by default, without tuning? This takes effect immediately, for the whole instance."
+    )}
   />
 
   {!-- Layer 2 — outcome-named override toggles, composing on top of the preset --}

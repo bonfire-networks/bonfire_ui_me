@@ -16,7 +16,25 @@
     cards={preset_cards()}
     options_id="oban_throughput_options"
     preset_role="oban_preset"
+    reset_module="Bonfire.Common.ObanPresets"
+    reset_confirm={l(
+      "Put every queue back to the default limits? This takes effect immediately, for the whole instance."
+    )}
   />
+
+  {!-- more concurrency than the DB pool can serve can only queue for connections and time out --}
+  <div
+    :if={oversubscribed = Bonfire.Common.ObanPresets.oversubscribed()}
+    class="mx-4 mb-4 alert alert-warning"
+    data-role="oban_oversubscribed"
+  >
+    <#Icon iconify="ph:warning-duotone" class="w-5 h-5 shrink-0" />
+    <span>{l(
+        "These queues add up to %{total} jobs at once, but the database pool only has %{pool} connections. The extra jobs will wait for a connection and time out rather than getting more done.",
+        total: elem(oversubscribed, 0),
+        pool: elem(oversubscribed, 1)
+      )}</span>
+  </div>
 
   {!-- Layer 2 — quick "prioritise" toggles. Each runs its group of federation queues at the turbo
     (2×) level, on top of whatever preset is selected above. --}
