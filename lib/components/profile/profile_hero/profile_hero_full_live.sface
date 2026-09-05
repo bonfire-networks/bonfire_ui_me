@@ -2,7 +2,7 @@
   <section
     data-id="profile_hero"
     aria-label={l("Profile")}
-    class="relative bg-base-100  border-y border-y-secondary border-y-hair"
+    class="relative bg-base-100 border-0 border-b-(length:--divider-width) border-(color:--divider-color) rounded-none shadow-none"
   >
     <!-- Sticky Header -->
     {#if @character_type == :group}
@@ -29,7 +29,7 @@
                 data-id="hero_background"
                 role="img"
                 aria-label={l("Profile banner")}
-                class="w-full relative aspect-[3/1] bg-primary bg-center mt-0 bg-cover bg-no-repeat mb-2"
+                class="w-full relative h-[160px] sm:h-[clamp(180px,22vw,220px)] aspect-auto bg-primary bg-center mt-0 mb-0 bg-cover bg-no-repeat"
                 style={cond do
                   is_binary(color) -> "background-color: #{color}"
                   is_binary(banner_url) -> Bonfire.UI.Common.NextGenImageLive.background_image_set(banner_url)

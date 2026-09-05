@@ -1,5 +1,5 @@
 <div>
-  <div :if={@character_type == :user} class="border-t-hair border-secondary mb-3" />
+  <div :if={@character_type == :user} data-role="profile-stats-divider" />
   <div class="flex flex-wrap items-start gap-x-6 gap-y-3 pb-3">
     <LinkLive
       :if={@followers_count}

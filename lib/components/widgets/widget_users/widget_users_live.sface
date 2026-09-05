@@ -1,5 +1,5 @@
 <Bonfire.UI.Common.WidgetBlockLive
-  title_class="text-caption pt-card px-card uppercase tracking-wider text-base-content pb-card border-b-hair border-secondary"
+  title_class="text-caption pt-card px-card uppercase tracking-wider text-base-content pb-card border-b-hair border-secondary [.sidebar-widgets_&]:pt-0 [.sidebar-widgets_&]:px-0 [.sidebar-widgets_&]:border-b-0"
   widget_title={e(@widget_title, "Users")}
   class="widget-users"
 >
@@ -22,7 +22,7 @@
 
   <div class="flex flex-col divide-hair divide-secondary">
     {#for user <- @users}
-      <div class="p-1" data-role="widget-user-row">
+      <div class="p-1 [.sidebar-widgets_&]:py-[4px] [.sidebar-widgets_&]:px-0" data-role="widget-user-row">
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
           show_controls={[]}
@@ -31,7 +31,7 @@
           character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
           profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
           class="btn btn-square btn-ghost btn-sm"
-          wrapper_class="widget-user-profile flex items-center bg-base-100 p-1 justify-between gap-1 rounded-field border-hair border-secondary"
+          wrapper_class="widget-user-profile flex items-center justify-between gap-1 p-0 border-0 rounded-none bg-transparent"
           avatar_class="w-9 h-9 rounded-full"
           fallback_class="w-9 h-9 rounded-full"
         />
