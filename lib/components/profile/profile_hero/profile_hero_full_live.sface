@@ -75,7 +75,7 @@
 
               <div data-id="hero_data" class="px-4">
                 <div class="w-full gap-2">
-                  <div class="flex flex-col lg:items-start gap-2">
+                  <div class="flex flex-col lg:items-start gap-4">
                     <div class="flex justify-between items-center w-full">
                       <div>
                         {#if !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
