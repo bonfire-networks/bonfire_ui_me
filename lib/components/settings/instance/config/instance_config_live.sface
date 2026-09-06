@@ -22,6 +22,7 @@
           class="inline-block w-32 h-32"
           object={:instance}
           boundary_verb={:describe}
+          uploader={Bonfire.Files.InstanceIconUploader}
           src={Bonfire.Common.Settings.get(
             [:bonfire, :ui, :theme, :instance_icon],
             "",
@@ -31,6 +32,11 @@
           set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
         />
       </div>
+      <p id="instance-icon-upload-help" class="mx-4 mt-2 text-xs text-muted">
+        {l(
+          "For a sharp result, upload a square image at least 512×512 pixels. SVG is preferred when available."
+        )}
+      </p>
       <form name="settings" phx-submit="Bonfire.Common.Settings:save">
         <input name="scope" value={:instance} type="hidden">
 

@@ -513,7 +513,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
   end
 
   def set_image_setting(:icon, scope, uploaded_media, settings_key, socket) do
-    url = Bonfire.Files.IconUploader.permanent_url(uploaded_media)
+    url = Bonfire.Files.permanent_url(nil, uploaded_media)
     # |> debug("icon url")
 
     with {:ok, settings} <-

@@ -297,6 +297,48 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
   end
 
+  describe "Instance icon" do
+    test "uses the high-resolution instance icon uploader", %{account: account} do
+      original_icon = Config.get([:ui, :theme, :instance_icon])
+
+      on_exit(fn ->
+        Config.put([:ui, :theme, :instance_icon], original_icon)
+      end)
+
+      admin = fake_admin!(account)
+      conn = conn(user: admin, account: account)
+      {:ok, view, _html} = live(conn, "/settings/instance/configuration")
+
+      file =
+        Path.expand(
+          "../../../bonfire_files/test/fixtures/600x800.png",
+          __DIR__
+        )
+
+      icon =
+        file_input(view, "[data-id=upload_icon]", :icon, [
+          %{
+            last_modified: 1_594_171_879_000,
+            name: "instance-icon.png",
+            content: File.read!(file),
+            type: "image/png"
+          }
+        ])
+
+      html = render_upload(icon, "instance-icon.png")
+      assert html =~ "/instance_icons/"
+
+      icon_url =
+        Bonfire.Common.Settings.get(
+          [:bonfire, :ui, :theme, :instance_icon],
+          nil,
+          :instance
+        )
+
+      assert icon_url =~ "/instance_icons/"
+    end
+  end
+
   describe "Instance federation-mode selector (#2056)" do
     setup do
       on_exit(fn ->
