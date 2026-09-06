@@ -1,29 +1,29 @@
 <a
   href={@href}
-  class={@class || "flex flex-col gap-1 cursor-pointer"}
+  class={@class || "group flex min-w-0 items-center gap-2 py-1 text-sm rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"}
   target="_blank"
   rel={if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil),
     do: "me",
     else: "me nofollow"}
 >
-  <div class="flex items-center gap-1">
-    <#Icon iconify="ph:link" class="w-4 h-4 text-primary" />
-    {#case @metadata}
-      {#match %{"orcid" => %{"orcid" => orcid}} when is_binary(orcid) and orcid != ""}
-        <div class="flex items-center gap-3">
-          <span class="text-sm link link-primary">{orcid}</span>
-          {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
-            <#Icon iconify="ph:seal-check-bold" class="w-4 h-4" />
-          {/if}
-        </div>
-      {#match _}
-        <div class="flex items-center gap-3">
-          <span class="text-sm">{URIs.display_url(@text || @href)}</span>
-          {#if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
-            <#Icon iconify="ph:seal-check-bold" class="w-4 h-4" />
-          {/if}
-        </div>
-    {/case}
-  </div>
-  {!-- <div class="link link-hover text-base-content/80 text-sm">{@href}</div> --}
+  <#Icon iconify="ph:link" class="w-4 h-4 shrink-0 text-primary" />
+  <span class="flex min-w-0 flex-col gap-0.5">
+    <span :if={@show_destination} class="text-xs text-muted break-words">{@text}</span>
+    <span class="text-primary break-all group-hover:underline">
+      {#case @metadata}
+        {#match %{"orcid" => %{"orcid" => orcid}} when is_binary(orcid) and orcid != ""}
+          {orcid}
+        {#match _}
+          {URIs.display_url(if @show_destination, do: @href, else: @text || @href)}
+      {/case}
+    </span>
+  </span>
+  <span
+    :if={e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil)}
+    class="shrink-0"
+    title={l("Verified link")}
+  >
+    <#Icon iconify="ph:seal-check-bold" class="w-4 h-4 text-success" />
+    <span class="sr-only">{l("Verified link")}</span>
+  </span>
 </a>

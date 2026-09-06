@@ -1,70 +1,63 @@
-<div class="flex border-t-hair bg-base-200 border-secondary p-card -mx-[16px] flex-col gap-4">
-  {#case e(@user, :profile, :website, nil)}
-    {#match nil}
-    {#match href}
-      <div class="flex items-center gap-2 text-sm">
-        <!-- <#Icon iconify="ph:globe-duotone" class="w-4 h-4 text-muted flex-shrink-0" /> -->
-        <Bonfire.UI.Me.ProfileLinkLive href={href} text={href} class={@class} />
-      </div>
-  {/case}
+<div :if={@links != [] or @accounts != []} data-role="profile-links" class="flex min-w-0 flex-col gap-4 mb-4">
+  <div
+    :if={@links != []}
+    data-role="profile-websites"
+    class={"grid min-w-0 gap-2", "sm:grid-cols-2": length(@links) > 1}
+  >
+    <div
+      :for={link <- @links}
+      class={"min-w-0", "rounded-lg bg-base-200 px-3 py-2": length(@links) > 1}
+    >
+      <Bonfire.UI.Me.ProfileLinkLive
+        href={link.href}
+        text={link.label || link.href}
+        show_destination={is_binary(link.label) and link.label != ""}
+        class={@class}
+        metadata={link.metadata}
+      />
+    </div>
+  </div>
 
-  <div :if={@aliases != []} class="flex border-t-hair border-secondary -mx-4 px-4 flex-col gap-1.5">
-    <div class="text-xs text-base-content uppercase my-[18px] mb-3">{l("Also on")}</div>
-    <div class="flex flex-nowrap gap-4 overflow-x-auto">
+  <div :if={@accounts != []} data-role="profile-also-on" class="flex min-w-0 flex-col gap-2">
+    <div class="text-sm text-muted">{l("Also on")}</div>
+    <div class="flex flex-wrap gap-x-6 gap-y-3">
       <div
-        class="flex items-center gap-3 flex-shrink-0"
-        :for={%{edge: %{object: %{id: _id, profile: profile, character: %{id: _} = character}}} <-
-          @aliases || []}
+        :for={account <- @accounts}
+        class="flex min-w-0 max-w-full items-center gap-2"
       >
         {#case Utils.maybe_apply(
             Bonfire.Federate.ActivityPub.AdapterUtils,
             :also_known_as?,
-            [@user, character],
+            [@user, account.character],
             fallback_return: nil
           )}
           {#match verified?}
-            <StatelessComponent
-              module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
-              show_controls={[]}
-              character={character}
-              is_remote={case Bonfire.Me.Integration.is_local?(character) do
-                nil -> true
-                bool -> !bool
-              end}
-              wrapper_class="flex items-center"
-              profile={profile}
-              class="btn btn-circle btn-outline btn-sm border-primary"
-              avatar_class="w-6 h-6 rounded-full"
-              link_opts={if(verified?,
-                do: [rel: "me"],
-                else: [rel: "me nofollow"]
-              )}
-            />
-
-            <#Icon
-              :if={verified?}
-              iconify="garden:check-badge-fill-16"
-              class="w-4 h-4 text-success"
-              title={l("Verified alias")}
-            />
+            <LinkLive
+              to={if String.starts_with?(e(account.character, :username, ""), "http"),
+                do: e(account.character, :username, ""),
+                else: "/character/#{e(account.character, :username, "")}"}
+              class="group flex min-w-0 items-center gap-2 py-1 text-sm rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+              opts={if verified?, do: [rel: "me"], else: [rel: "me nofollow"]}
+            >
+              <Bonfire.UI.Common.AvatarLive
+                parent_id={"profile-alias-#{id(@user)}"}
+                user_id={id(account)}
+                src={Media.avatar_url(account.profile)}
+                title={e(account.profile, :name, "")}
+                class="w-6 h-6 rounded-full"
+                wrapper_class="shrink-0"
+                is_remote={!Bonfire.Me.Integration.is_local?(account.character)}
+              />
+              <span class="min-w-0 break-all group-hover:underline">
+                {Bonfire.Me.Characters.display_username(e(account.character, :username, ""), true)}
+              </span>
+              <span :if={verified?} class="shrink-0" title={l("Verified alias")}>
+                <#Icon iconify="garden:check-badge-fill-16" class="w-4 h-4 text-success" />
+                <span class="sr-only">{l("Verified alias")}</span>
+              </span>
+            </LinkLive>
         {/case}
       </div>
     </div>
-  </div>
-
-  <div
-    class="flex items-center gap-2 text-sm"
-    :for={%{edge: %{object: %{id: _id, media_type: type, path: path, metadata: metadata}}} <- @aliases || []}
-  >
-    {#case path || e(metadata, "url", nil)}
-      {#match nil}
-      {#match href}
-        <Bonfire.UI.Me.ProfileLinkLive
-          href={href}
-          text={e(metadata, "name", nil) || Text.upcase_first(type)}
-          class={@class}
-          metadata={metadata}
-        />
-    {/case}
   </div>
 </div>

@@ -8,6 +8,7 @@ defmodule Bonfire.UI.Me.ProfileLinkLive do
   prop text, :string, default: nil
 
   prop metadata, :any, default: nil
+  prop show_destination, :boolean, default: false
 
   def render(%{icon: nil, href: href} = assigns) do
     assigns
