@@ -1,0 +1,70 @@
+<Bonfire.UI.Common.LogoLinkLive with_name href="/" container_class="mt-12 flex justify-center items-center gap-4" />
+<section id="account-verification" class="mx-auto w-full max-w-lg px-6 py-10" aria-labelledby="verification-title">
+  <div class="mb-7 flex size-12 items-center justify-center rounded-xl border border-secondary" aria-hidden="true">
+    <#Icon iconify="ph:lock-simple" class="size-6" />
+  </div>
+  <p class="text-xs font-medium text-base-content/70">{l("Account verification")}</p>
+  <h1 id="verification-title" class="mt-4 mb-3 text-2xl font-bold tracking-tight">
+    {#case @state}
+      {#match :sent}{l("Check your email")}
+      {#match :confirm}{@description.title}
+      {#match :done}{@description.title}
+      {#match :expired}{@description.title}
+      {#match :cancelled}{@description.title}
+      {#match :mismatch}{l("You’re signed in to a different account")}
+      {#match _}{l("Verify it’s you")}
+    {/case}
+  </h1>
+  <p :if={@error} id="verification-error" role="alert" class="my-4 text-sm text-error">{@error}</p>
+  {#if @state in [:start, :verify, :password, :sent, :link, :confirm]}
+    <div class="my-6 border-y border-secondary py-4 text-sm">
+      <p class="mb-1 text-xs text-base-content/70">{l("You’re continuing to")}</p>
+      <p class="font-medium">{@description.title}</p>
+      <p class="mt-3 leading-relaxed text-base-content/70">{@description.description}</p>
+    </div>
+  {/if}
+  {#case @state}
+    {#match :start}
+      <.form for={@form} id="verification-start" action={"/account/verify/start/" <> @action} method="post">
+        <button id="verification-start-button" class="btn btn-primary min-h-12 w-full" type="submit">{l("Continue")}</button>
+      </.form>
+    {#match state when state in [:verify, :password, :sent]}
+      <p :if={@state == :sent} role="status" class="mb-5 text-sm">{l("We sent a link to %{email}. Open it in any browser to verify and review your action there. The link expires in 10 minutes.", email: @email)}</p>
+      <.form for={@form} id="verification-email-form" action={"/account/verify/" <> @pending_id <> "/email"} method="post">
+        <button id="verification-email" class="btn btn-primary min-h-12 w-full" type="submit">{if @state == :sent, do: l("Send another link"), else: l("Email me a verification link")}</button>
+      </.form>
+      <p class="mt-3 text-xs text-base-content/70">{l("Email: %{email}", email: @email)}</p>
+      {#if @has_password}
+        <details class="mt-6" open={@state == :password}>
+          <summary class="cursor-pointer py-3 text-sm font-medium">{l("Use my password")}</summary>
+          <.form for={@form} id="verification-password-form" action={"/account/verify/" <> @pending_id <> "/password"} method="post">
+            <label for="verification-password" class="mb-2 block text-sm">{l("Current password")}</label>
+            <input id="verification-password" name={@form[:password].name} type="password" autocomplete="current-password" required class="input min-h-12 w-full text-base" aria-invalid={to_string(@state == :password and not is_nil(@error))} aria-describedby={if @error, do: "verification-error"} />
+            <button id="verification-password-submit" class="btn btn-outline mt-4 min-h-12 w-full" type="submit">{l("Verify and continue")}</button>
+          </.form>
+        </details>
+      {/if}
+      <p class="mt-6 text-xs text-base-content/70">{l("Verification lasts for 5 minutes. You’ll review your action before confirming it.")}</p>
+    {#match :link}
+      <p class="mb-5 text-sm leading-relaxed">{l("Continue to verify this account in this browser. You’ll review the action before confirming it. This does not verify another browser or sign you in for general account access.")}</p>
+      <.form for={@form} id="verification-redeem-form" action={"/account/verify/" <> @pending_id <> "/redeem"} method="post">
+        <button id="verification-redeem" class="btn btn-primary min-h-12 w-full" type="submit">{l("Verify and continue")}</button>
+      </.form>
+    {#match :confirm}
+      <p role="status" class="mb-5 text-sm">{l("Your identity is verified. Confirm below to continue.")}</p>
+      <.form for={@form} id="verification-confirm-form" action={"/account/verify/" <> @pending_id <> "/confirm"} method="post">
+        <button id="verification-confirm" class="btn btn-error min-h-12 w-full" type="submit">{l("Confirm: %{action}", action: @description.title)}</button>
+      </.form>
+    {#match :mismatch}
+      <p class="text-sm leading-relaxed">{l("This link belongs to another account. Open it in a private browser window, or sign out before opening the email link again.")}</p>
+    {#match _}
+      <p role="status" class="text-sm leading-relaxed">{@description.description}</p>
+  {/case}
+  {#if @state in [:verify, :password, :sent, :confirm]}
+    <.form for={@form} id="verification-cancel-form" action={"/account/verify/" <> @pending_id <> "/cancel"} method="post">
+      <button id="verification-cancel" class="btn btn-ghost mt-4 min-h-12 w-full" type="submit">{l("Cancel")}</button>
+    </.form>
+  {#else}
+    <a id="verification-back" href="/" class="btn btn-ghost mt-4 min-h-12 w-full">{l("Go to homepage")}</a>
+  {/if}
+</section>

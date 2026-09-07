@@ -7,6 +7,19 @@ defmodule Bonfire.UI.Me.Routes do
         plug PlugEarlyHints, paths: Bonfire.UI.Common.Routes.early_hints_authed()
       end
 
+      pipeline :account_verification do
+        plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
+      end
+
+      scope "/account/verify", Bonfire.UI.Me do
+        pipe_through([:throttle_forms, :browser, :account_verification])
+        get "/new/:action", AccountVerificationController, :new
+        post "/start/:action", AccountVerificationController, :start
+        get "/:id/email", AccountVerificationController, :email_link
+        get "/:id", AccountVerificationController, :show
+        post "/:id/:step", AccountVerificationController, :update
+      end
+
       pipeline :guest_only do
         plug(Bonfire.UI.Me.Plugs.GuestOnly)
       end

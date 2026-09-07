@@ -41,20 +41,12 @@
     </div>
   </div> --}
 
-  <div x-data="{open: false}" class="p-4">
-    <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
-      <div class="flex flex-col gap-1">
-        <div class="text-sm text-error font-bold">{l("Delete Account, All Users & Data")}</div>
-        <div class="text-sm font-light text-muted">{l("Delete all the data associated with your account")}</div>
-      </div>
-      <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
-        <#Icon iconify="ph:caret-down-bold" class="w-4 h-4 text-muted" />
-      </button>
-      <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
-        <#Icon iconify="ph:caret-up-duotone" class="w-4 h-4 text-muted" />
-      </button>
-    </div>
-    <div x-show="open" x-cloak x-collapse>
+  <details id="delete-account-details" class="p-4">
+    <summary class="min-h-11 cursor-pointer py-3">
+      <span class="text-sm text-error font-bold">{l("Delete Account, All Users & Data")}</span>
+      <span class="mt-1 block text-sm font-light text-muted">{l("Delete all the data associated with your account")}</span>
+    </summary>
+    <div>
       <div class="p-4 mt-4 mb-0 rounded-md bg-info/10">
         <div class="flex">
           <div class="flex-shrink-0">
@@ -72,26 +64,16 @@
                   )
                 )}</p>
               <p>{l("This action cannot be undone.")}</p>
-              <p>{l("If you are sure you want to delete your account, please enter your password below to confirm.")}</p>
+              <p>{l("If you are sure you want to delete your account, please continue to verify your identity and review the final confirmation.")}</p>
             </div>
           </div>
         </div>
       </div>
       <div class="mt-3">
-        <StatelessComponent
-          module={maybe_component(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
-          with_password_prompt
-          skip_permission_check
-          form_opts={%{"phx-submit" => "Bonfire.Me.Users:delete_account"}}
-          object={current_account(@__context__)}
-          object_type_readable={l("account, along with user profiles & data")}
-          parent_id="delete-account"
-          open_btn_class="btn-error btn mt-3  w-full"
-          explanation={l(
-            "Deleting your account means that ALL your user profiles and all related data and activities will be deleted."
-          )}
-        />
+        <a id="verify-delete-account" href="/account/verify/new/delete_account" class="btn btn-error mt-3 w-full">
+          {l("Continue to delete account")}
+        </a>
       </div>
     </div>
-  </div>
+  </details>
 </div>

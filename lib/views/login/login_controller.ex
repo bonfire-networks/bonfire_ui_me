@@ -58,6 +58,7 @@ defmodule Bonfire.UI.Me.LoginController do
 
     conn
     |> put_session(:current_account_id, account_id)
+    |> put_authentication_proof(account_id)
     |> assign(:current_account, current_account)
     |> put_session(:current_user_id, nil)
     |> put_session(:live_socket_id, "socket_account:#{account_id}")
@@ -79,6 +80,7 @@ defmodule Bonfire.UI.Me.LoginController do
     conn =
       conn
       |> put_session(:current_account_id, account_id)
+      |> put_authentication_proof(account_id)
       |> assign(:current_account, current_account)
       |> put_session(:current_user_id, user_id)
       # needed if we run oAuth logic instead of redirecting
@@ -89,6 +91,12 @@ defmodule Bonfire.UI.Me.LoginController do
     conn
     |> Plug.Conn.put_status(303)
     |> redirect_after_auth(user_id, form)
+  end
+
+  defp put_authentication_proof(conn, account_id) do
+    conn
+    |> configure_session(renew: true)
+    |> put_session(:sudo_proof, %{"account_id" => account_id, "at" => System.system_time(:second)})
   end
 
   def redirect_after_auth(conn, user_id, form) do

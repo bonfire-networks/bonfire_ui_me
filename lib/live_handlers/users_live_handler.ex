@@ -83,14 +83,9 @@ defmodule Bonfire.Me.Users.LiveHandler do
     end
   end
 
-  def handle_event("delete_account", %{"password" => password}, socket) do
-    delete = current_account_auth!(socket, password)
-
-    after_delete(
-      Bonfire.Me.DeleteWorker.enqueue_delete(delete),
-      "/settings/deleted/account/#{id(delete)}",
-      socket
-    )
+  def handle_event("delete_account", _params, socket) do
+    current_account(socket) || Bonfire.Common.Utils.fail_auth(:needs_login)
+    {:noreply, redirect_to(socket, "/account/verify/new/delete_account")}
   end
 
   def handle_event("fetch_outbox", _, socket) do
