@@ -1,246 +1,290 @@
 defmodule Bonfire.UI.Me.AccountVerificationControllerTest do
+  @moduledoc """
+  The sudo gate: /account/confirm renders an action's description and executes it only behind fresh factor proof; /account/verify challenges for the strongest required factor, stamping the session on success and following `go`.
+  """
   use Bonfire.UI.Me.ConnCase, async: false
   use Repatch.ExUnit
-  alias Bonfire.Me.SensitiveActions, as: Actions
 
-  test "starting without a login explains that sign-in is required" do
-    for response <- [get(conn(), "/account/verify/new/delete_account"), post(conn(), "/account/verify/start/delete_account")] do
-      assert html_response(response, 200) =~ "Sign in to continue"
-      refute html_response(response, 200) =~ "This request is no longer available"
-    end
-  end
+  alias Bonfire.Data.Identity.Email
 
-  test "request creation and email redemption preserve rate-limit feedback" do
-    Repatch.patch(Bonfire.UI.Common.RateLimit, :check, fn _, _, _, _ ->
-      {:error, :rate_limited}
-    end)
+  @delete_mod "Bonfire.Me.SensitiveActions.DeleteAccount"
+  @confirm_path "/account/confirm?action=#{@delete_mod}"
+
+  defp fresh_proof, do: %{password: System.system_time(:millisecond)}
+  defp stale_proof, do: %{password: System.system_time(:millisecond) - to_timeout(hour: 1)}
+
+  defp passwordless_account! do
     account = fake_account!()
-    response = conn(account: account) |> post("/account/verify/start/delete_account")
-    assert html_response(response, 200) =~ "Too many attempts"
-    refute html_response(response, 200) =~ "This request is no longer available"
 
-    {:ok, pending} = Actions.create(account, "delete_account")
-    {:ok, {_, _, token}} = Actions.issue_email(pending.id, account.id)
-    path = "/account/verify/#{pending.id}"
-    browser = conn() |> get(path <> "/email", %{"token" => token})
-    browser = browser |> post(path <> "/redeem")
-    assert html_response(browser, 200) =~ "Too many attempts"
-    refute get_session(browser, :sudo_proof)
-    assert {:ok, _} = Actions.redeem(pending.id, token, nil)
+    Bonfire.Common.Repo.delete_all(
+      import(Ecto.Query) &&
+        Ecto.Query.from(c in Bonfire.Data.Identity.Credential, where: c.id == ^account.id)
+    )
+
+    Bonfire.Common.Repo.get!(Bonfire.Data.Identity.Account, account.id)
   end
 
-  test "the introduction supplies an explicit absent pending request to the action" do
-    Repatch.patch(Bonfire.Me.SensitiveActions.DeleteAccount, :describe, fn %{account: account, pending: nil} ->
-      assert account.id
-      %{title: "Introduction", description: "No pending request yet", success: %{title: "Done", description: "Queued"}}
-    end)
-
-    conn(account: fake_account!())
-    |> visit("/account/verify/new/delete_account")
-    |> assert_has("p", text: "No pending request yet")
-  end
-
-  test "expired anonymous proof explains recovery without executing the request" do
-    account = fake_account!()
-    {:ok, pending} = Actions.create(account, "delete_account")
-    {:ok, {_, _, token}} = Actions.issue_email(pending.id, account.id)
-    path = "/account/verify/#{pending.id}"
-    browser = conn() |> get(path <> "/email", %{"token" => token})
-    browser = browser |> post(path <> "/redeem")
-    expired_proof = Map.put(get_session(browser, :sudo_proof), "at", System.system_time(:second) - 301)
-    browser = conn() |> init_test_session(%{sudo_proof: expired_proof})
-
-    for response <- [get(browser, path), post(browser, path <> "/confirm")] do
-      document = html_response(response, 200) |> Floki.parse_document!()
-      assert Floki.find(document, "h1") |> Floki.text() =~ "Verification required"
-      assert Floki.text(document) =~ "Return to the browser where you started and request another email"
-      assert Floki.attribute(document, "#verification-back", "href") == ["/"]
-      assert Floki.find(document, "#verification-confirm-form") == []
-      refute get_session(response, :current_account_id)
-    end
-
-    assert {:ok, _} = Actions.fetch(pending.id)
-    assert {:error, :invalid_link} = Actions.redeem(pending.id, token, nil)
-    assert {:ok, _} = Actions.issue_email(pending.id, account.id)
-  end
-
-  test "cancelling offers the homepage to both the owner and an anonymous recipient" do
-    account = fake_account!()
-    {:ok, pending} = Actions.create(account, "delete_account")
-    response = conn(account: account) |> post("/account/verify/#{pending.id}/cancel")
-    document = html_response(response, 200) |> Floki.parse_document!()
-    assert Floki.find(document, "h1") |> Floki.text() =~ "Request cancelled"
-    assert Floki.attribute(document, "#verification-back", "href") == ["/"]
-    assert get_session(response, :current_account_id) == account.id
-    assert {:error, :expired} = Actions.fetch(pending.id)
-
-    {:ok, pending} = Actions.create(account, "delete_account")
-    {:ok, {_, _, token}} = Actions.issue_email(pending.id, account.id)
-    path = "/account/verify/#{pending.id}"
-    browser = conn() |> get(path <> "/email", %{"token" => token})
-    browser = browser |> post(path <> "/redeem")
-    browser = browser |> post(path <> "/cancel")
-    document = html_response(browser, 200) |> Floki.parse_document!()
-    assert Floki.find(document, "h1") |> Floki.text() =~ "Request cancelled"
-    assert Floki.attribute(document, "#verification-back", "href") == ["/"]
-    refute get_session(browser, :sudo_proof)
-    refute get_session(browser, :current_account_id)
-    assert {:error, :expired} = Actions.fetch(pending.id)
-  end
-
-  test "unavailable requests offer the homepage regardless of browser session" do
-    conn()
-    |> visit("/account/verify/invalid")
-    |> assert_has("a#verification-back[href='/']", text: "Go to homepage")
-
-    conn(account: fake_account!())
-    |> visit("/account/verify/invalid")
-    |> assert_has("a#verification-back[href='/']", text: "Go to homepage")
-  end
-
-  test "email landing redirects prevent caching and referrer leakage" do
-    account = fake_account!()
-    {:ok, pending} = Actions.create(account, "delete_account")
-    response = conn() |> get("/account/verify/#{pending.id}/email", %{"token" => "test-token"})
-    assert response.status == 302
-    assert get_resp_header(response, "cache-control") == ["no-store"]
-    assert get_resp_header(response, "referrer-policy") == ["no-referrer"]
-    assert Phoenix.Logger.filter_values(%{"token" => "test-token"}) == %{"token" => "[FILTERED]"}
-  end
-
-  test "email delivery uses a separate token and limits repeated sends" do
-    account = fake_account!()
-    {:ok, pending} = Actions.create(account, "delete_account")
+  defp capture_mail do
     test_pid = self()
-    Repatch.patch(Bonfire.Mailer, :send_now, fn mail, to ->
-      send(test_pid, {:verification_mail, mail, to})
+
+    Repatch.patch(Bonfire.Mailer, :send_now, [mode: :shared], fn mail, to ->
+      send(test_pid, {:sudo_mail, mail, to})
       {:ok, mail}
     end)
-    path = "/account/verify/#{pending.id}/email"
-    response = conn(account: account) |> post(path)
-    assert html_response(response, 200) =~ "Check your email"
-    assert_receive {:verification_mail, mail, address}
-    assert address == account.email.email_address
-    assert mail.text_body =~ "Delete your account"
-    assert mail.text_body =~ "/account/verify/#{pending.id}/email?token="
-    assert mail.html_body =~ "Review verification request"
-    fresh_email = repo().get!(Bonfire.Data.Identity.Email, account.id)
-    assert fresh_email.confirmed_at == account.email.confirmed_at
-
-    response = conn(account: account) |> post(path)
-    assert html_response(response, 200) =~ "Too many attempts"
-    refute_receive {:verification_mail, _, _}
   end
 
-  test "password verification reaches confirmation and rejects an incorrect password" do
-    account = fake_account!()
-    {:ok, _} = Bonfire.Me.Accounts.change_password(account,
-      %{"password" => "a-long-test-password", "password_confirmation" => "a-long-test-password"},
-      resetting_password: true)
-    {:ok, pending} = Actions.create(account, "delete_account")
-    path = "/account/verify/#{pending.id}/password"
-    browser = conn(account: account) |> post(path, %{"verification" => %{"password" => "incorrect"}})
-    refute get_session(browser, :sudo_proof)
-    assert html_response(browser, 200) =~ "That password"
-    document = html_response(browser, 200) |> Floki.parse_document!()
-    assert Floki.attribute(document, "#verification-password", "aria-describedby") == ["verification-error"]
-    browser = browser |> post(path, %{"verification" => %{"password" => "a-long-test-password"}})
-    assert get_session(browser, :sudo_proof)["account_id"] == account.id
-    browser = browser |> get(redirected_to(browser))
-    assert html_response(browser, 200) =~ "verification-confirm-form"
+  describe "the confirm gate" do
+    test "anonymous requests get the standard login redirect with go stashed including the action" do
+      response = get(conn(), @confirm_path)
+      assert redirected_to(response) =~ "/login"
+      go = get_session(response, :go)
+      assert go =~ "/account/confirm"
+      assert go =~ "action="
+    end
+
+    test "logged in without fresh proof redirects to verify with go back to confirm" do
+      response = conn(account: fake_account!()) |> get(@confirm_path)
+      location = redirected_to(response)
+      assert location =~ "/account/verify"
+      assert location =~ "for="
+      assert location =~ URI.encode_www_form("/account/confirm")
+    end
+
+    test "fresh proof renders the action description and confirm button" do
+      response =
+        conn(account: fake_account!())
+        |> init_test_session(%{sudo_proof: fresh_proof()})
+        |> get(@confirm_path)
+
+      html = html_response(response, 200)
+      assert html =~ "Delete your account"
+      assert html =~ "sudo-confirm-form"
+    end
+
+    test "unknown and non-adopter action params error without rendering a confirm form" do
+      for bad <- ["delete_account", "Elixir.Bonfire.Me.Accounts", "Nope.Nope"] do
+        response =
+          conn(account: fake_account!())
+          |> init_test_session(%{sudo_proof: fresh_proof()})
+          |> get("/account/confirm?action=#{bad}")
+
+        html = html_response(response, 200)
+        assert html =~ "not available"
+        refute html =~ "sudo-confirm-form"
+      end
+    end
   end
 
-  test "a signed-in account can reach the real verification form" do
-    account = fake_account!()
-    conn(account: account)
-    |> visit("/account/verify/new/delete_account")
-    |> click_button("Continue")
-    |> assert_has("h1", text: "Verify it’s you")
-    |> assert_has("button", text: "Email me a verification link")
-  end
+  describe "the verify page" do
+    test "challenges a password account with the password form" do
+      response =
+        conn(account: fake_account!())
+        |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
 
-  test "an email link verifies only the receiving browser and confirmation is separate" do
-    Oban.Testing.with_testing_mode(:manual, fn ->
+      html = html_response(response, 200)
+      assert html =~ ~s(type="password")
+      assert html =~ "sudo-password-form"
+    end
+
+    test "a correct password stamps the factor and follows go" do
       account = fake_account!()
-      {:ok, pending} = Actions.create(account, "delete_account")
-      {:ok, {_, _, token}} = Actions.issue_email(pending.id, account.id)
-      path = "/account/verify/#{pending.id}"
 
-      browser = conn() |> get(path <> "/email", %{"token" => token})
-      assert redirected_to(browser) == path
-      refute get_session(browser, :sudo_proof)
-      assert {:ok, _} = Actions.fetch(pending.id)
+      response =
+        conn(account: account)
+        |> post("/account/verify/password", %{
+          "password" => account.credential.password,
+          "for" => @delete_mod,
+          "go" => "/somewhere"
+        })
 
-      browser = browser |> get(path)
-      assert html_response(browser, 200) =~ "verification-redeem"
-      browser = browser |> post(path <> "/redeem")
-      assert get_session(browser, :sudo_proof)["account_id"] == account.id
-      refute get_session(browser, :current_account_id)
-      assert {:ok, _} = Actions.fetch(pending.id)
+      assert redirected_to(response) == "/somewhere"
+      assert is_integer(get_session(response, :sudo_proof)[:password])
+    end
 
-      original = conn(account: account) |> get(path)
-      assert html_response(original, 200) =~ "verification-email-form"
-      refute html_response(original, 200) =~ "id=\"verification-confirm-form\""
+    test "a wrong password re-renders the challenge with an error" do
+      response =
+        conn(account: fake_account!())
+        |> post("/account/verify/password", %{
+          "password" => "not-the-password",
+          "for" => @delete_mod,
+          "go" => "/somewhere"
+        })
 
-      browser = browser |> get(path)
-      assert html_response(browser, 200) =~ "verification-confirm-form"
-      browser = browser |> post(path <> "/confirm")
-      assert html_response(browser, 200) =~ "Account deletion requested"
-      document = html_response(browser, 200) |> Floki.parse_document!()
-      assert Floki.attribute(document, "#verification-back", "href") == ["/"]
-      assert Floki.find(document, "#verification-back") |> Floki.text() == "Go to homepage"
-      assert {:error, :expired} = Actions.fetch(pending.id)
-      browser = browser |> post(path <> "/confirm")
-      assert html_response(browser, 200) =~ "This request is no longer available"
-    end)
+      html = html_response(response, 200)
+      assert html =~ "match"
+      assert html =~ "sudo-password-form"
+      refute get_session(response, :sudo_proof)[:password]
+    end
+
+    test "rate-limited password attempts keep actionable feedback" do
+      Repatch.patch(Bonfire.UI.Common.RateLimit, :check, fn _, _, _, _ ->
+        {:error, :rate_limited}
+      end)
+
+      response =
+        conn(account: fake_account!())
+        |> post("/account/verify/password", %{
+          "password" => "whatever",
+          "for" => @delete_mod,
+          "go" => "/somewhere"
+        })
+
+      assert html_response(response, 200) =~ "Too many attempts"
+    end
+
+    test "an email challenge auto-sends once and not again while the token is outstanding" do
+      capture_mail()
+      account = passwordless_account!()
+
+      conn(account: account) |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+      assert_receive {:sudo_mail, _, _}, 1000
+
+      conn(account: account) |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+      refute_receive {:sudo_mail, _, _}, 200
+    end
+
+    test "resend re-mails the outstanding valid token unchanged (single-outstanding-token semantics)" do
+      capture_mail()
+      account = passwordless_account!()
+
+      conn(account: account) |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+      assert_receive {:sudo_mail, _, _}, 1000
+      token_before = Bonfire.Common.Repo.get!(Email, account.id).confirm_token
+      assert is_binary(token_before)
+
+      conn(account: account)
+      |> post("/account/verify/send_email", %{"for" => @delete_mod, "go" => "/somewhere"})
+
+      assert_receive {:sudo_mail, _, _}, 1000
+      assert Bonfire.Common.Repo.get!(Email, account.id).confirm_token == token_before
+    end
+
+    test "the emailed challenge links to the forgot-password route, never the guest-only signup confirmation" do
+      capture_mail()
+      account = passwordless_account!()
+
+      conn(account: account) |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+      assert_receive {:sudo_mail, mail, _}, 1000
+
+      body = mail.html_body || mail.text_body
+      assert body =~ "/login/forgot-password/"
+      refute body =~ "/signup/email/confirm/"
+
+      # verification mails say what they are and what they authorize, with the intent in the body only
+      assert mail.subject =~ "Confirm it's you"
+      refute mail.subject =~ "Reset your password"
+      refute mail.subject =~ "Delete"
+      assert body =~ "Delete your account"
+    end
+
+    test "the emailed link carries the initiating profile so redemption can restore it" do
+      capture_mail()
+      account = passwordless_account!()
+      me = fake_user!(account)
+
+      conn(user: me, account: account) |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+      assert_receive {:sudo_mail, mail, _}, 1000
+
+      body = mail.html_body || mail.text_body
+      assert body =~ "as_user=#{me.id}"
+    end
+
+    test "the password challenge's reset escape emails the reset link, not the signup confirmation" do
+      capture_mail()
+      account = fake_account!()
+
+      conn(account: account)
+      |> post("/account/verify/send_email", %{"for" => @delete_mod, "go" => "/somewhere"})
+
+      assert_receive {:sudo_mail, mail, _}, 1000
+      body = mail.html_body || mail.text_body
+      assert body =~ "/login/forgot-password/"
+      refute body =~ "/signup/email/confirm/"
+      assert mail.subject =~ "Confirm it's you"
+      refute mail.subject =~ "Reset your password"
+      assert body =~ "Delete your account"
+    end
+
+    test "a two-factor requirement challenges factors in strength order across requests" do
+      Process.put(
+        [:bonfire_me, Bonfire.Me.SensitiveActions.DeleteAccount, :sudo_factors],
+        {:any, 2}
+      )
+
+      capture_mail()
+      account = fake_account!()
+
+      # strongest factor first: the password challenge
+      response = conn(account: account) |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+      assert html_response(response, 200) =~ "sudo-password-form"
+      refute_receive {:sudo_mail, _, _}, 100
+
+      # with :password fresh but :email not, the challenge moves to email (and auto-sends)
+      response =
+        conn(account: account)
+        |> init_test_session(%{sudo_proof: %{password: System.system_time(:millisecond)}})
+        |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+
+      assert html_response(response, 200) =~ "sudo-resend-form"
+      assert_receive {:sudo_mail, _, _}, 1000
+
+      # with both fresh, the gate is met
+      response =
+        conn(account: account)
+        |> init_test_session(%{
+          sudo_proof: %{
+            password: System.system_time(:millisecond),
+            email: System.system_time(:millisecond)
+          }
+        })
+        |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+
+      assert redirected_to(response) == "/somewhere"
+    end
+
+    test "a met requirement redirects straight through go" do
+      response =
+        conn(account: fake_account!())
+        |> init_test_session(%{sudo_proof: fresh_proof()})
+        |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+
+      assert redirected_to(response) == "/somewhere"
+    end
+
+    test "a non-local go is not followed" do
+      response =
+        conn(account: fake_account!())
+        |> init_test_session(%{sudo_proof: fresh_proof()})
+        |> get("/account/verify?for=#{@delete_mod}&go=https://evil.example/phish")
+
+      location = redirected_to(response)
+      refute location =~ "evil.example"
+    end
   end
 
-  test "another signed-in account cannot redeem or confirm the request" do
-    account = fake_account!()
-    other = fake_account!()
-    {:ok, pending} = Actions.create(account, "delete_account")
-    {:ok, {_, _, token}} = Actions.issue_email(pending.id, account.id)
-    path = "/account/verify/#{pending.id}"
-    browser = conn(account: other) |> get(path <> "/email", %{"token" => token})
-    browser = browser |> get(path)
-    assert html_response(browser, 200) =~ "different account"
-    browser = browser |> post(path <> "/redeem")
-    refute get_session(browser, :sudo_proof)
-    assert {:ok, _} = Actions.redeem(pending.id, token, nil)
-    assert {:error, :needs_reauth} = Actions.confirm(pending.id, nil, other.id)
-  end
+  describe "the confirm POST" do
+    test "fresh proof executes exactly once and shows the done message" do
+      response =
+        conn(account: fake_account!())
+        |> init_test_session(%{sudo_proof: fresh_proof()})
+        |> post(@confirm_path)
 
-  test "unverified direct confirmation cannot enqueue deletion" do
-    account = fake_account!()
-    {:ok, pending} = Actions.create(account, "delete_account")
-    response = conn(account: account) |> post("/account/verify/#{pending.id}/confirm")
-    assert html_response(response, 200) =~ "verification-email-form"
-    assert {:ok, _} = Actions.fetch(pending.id)
-  end
+      assert html_response(response, 200) =~ "Account deletion requested"
 
-  test "login starts freshness and switching profiles does not extend it" do
-    account = fake_account!()
-    user = fake_user!(account)
-    browser = Bonfire.UI.Me.LoginController.logged_in(account, nil, conn(account: account))
-    proof = get_session(browser, :sudo_proof)
-    assert proof["account_id"] == account.id
-    assert abs(System.system_time(:second) - proof["at"]) < 5
+      assert length(Oban.Testing.all_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)) == 1
+    end
 
-    old_proof = %{proof | "at" => System.system_time(:second) - 600}
-    browser = conn(account: account)
-      |> init_test_session(%{sudo_proof: old_proof})
-      |> get("/switch-user/#{user.character.username}")
-    assert get_session(browser, :current_user_id) == user.id
-    assert get_session(browser, :sudo_proof) == old_proof
-  end
+    test "lapsed proof bounces to verify with the same go and executes nothing" do
+      response =
+        conn(account: fake_account!())
+        |> init_test_session(%{sudo_proof: stale_proof()})
+        |> post(@confirm_path)
 
-  test "fresh login proof skips the gate but still requires final confirmation" do
-    account = fake_account!()
-    {:ok, pending} = Actions.create(account, "delete_account")
-    response = conn(account: account)
-      |> init_test_session(%{sudo_proof: %{"account_id" => account.id, "at" => System.system_time(:second)}})
-      |> get("/account/verify/#{pending.id}")
-    assert html_response(response, 200) =~ "verification-confirm-form"
-    assert {:ok, _} = Actions.fetch(pending.id)
+      location = redirected_to(response)
+      assert location =~ "/account/verify"
+      assert location =~ URI.encode_www_form("/account/confirm")
+
+      Oban.Testing.refute_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)
+    end
   end
 end

@@ -34,18 +34,11 @@ defmodule Bonfire.UI.Me.LoginLive do
     |> assign_new(:gated_login_message, fn -> gated_login_message() end)
   end
 
-  # Instance-scoped flag populated by extensions (e.g. bonfire_ghost writes it
-  # from GHOST_GATED_MODE). `bonfire_ui_me` never references those extensions
-  # directly — it just reads its own setting.
-  def passwordless_only? do
-    Bonfire.Common.Settings.get(
-      [:bonfire_ui_me, :login, :passwordless_only],
-      false
-    ) in [true, "true", "1", "yes"]
-  end
+  # Instance-scoped flag populated by extensions (e.g. bonfire_ghost writes it from GHOST_GATED_MODE). `bonfire_ui_me` never references those extensions directly, it just reads its own setting.
+  defdelegate passwordless_only?, to: Bonfire.Me.Accounts
 
   def external_signup_url do
-    case Bonfire.Common.Settings.get(
+    case Config.get(
            [:bonfire_ui_me, :login, :external_signup_url],
            nil
          ) do
@@ -55,7 +48,7 @@ defmodule Bonfire.UI.Me.LoginLive do
   end
 
   def gated_login_message do
-    case Bonfire.Common.Settings.get(
+    case Config.get(
            [:bonfire_ui_me, :login, :gated_login_message],
            nil
          ) do

@@ -61,7 +61,21 @@ defmodule Bonfire.UI.Me.SignupController do
 
     case attempt_signup(conn, account_attrs, form, opts) do
       {:ok, %{email: %{confirmed_at: confirmed_at}} = account} when not is_nil(confirmed_at) ->
-        {:ok, Bonfire.UI.Me.LoginController.logged_in(account, nil, conn, form)}
+        {:ok,
+         Bonfire.UI.Me.LoginController.logged_in(
+           account,
+           nil,
+           conn,
+           form,
+           # signing up with a password means the user just typed it
+           if(
+             is_binary(
+               e(account_attrs, "credential", "password", nil) ||
+                 e(account_attrs, :credential, :password, nil)
+             ),
+             do: :password
+           )
+         )}
 
       {:ok, _account} ->
         {:ok,

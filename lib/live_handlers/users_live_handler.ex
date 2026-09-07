@@ -85,7 +85,9 @@ defmodule Bonfire.Me.Users.LiveHandler do
 
   def handle_event("delete_account", _params, socket) do
     current_account(socket) || Bonfire.Common.Utils.fail_auth(:needs_login)
-    {:noreply, redirect_to(socket, "/account/verify/new/delete_account")}
+
+    {:noreply,
+     redirect_to(socket, "/account/confirm?action=Bonfire.Me.SensitiveActions.DeleteAccount")}
   end
 
   def handle_event("fetch_outbox", _, socket) do

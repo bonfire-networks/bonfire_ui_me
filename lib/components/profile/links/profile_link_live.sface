@@ -1,6 +1,7 @@
 <a
   href={@href}
-  class={@class || "group flex min-w-0 items-center gap-2 py-1 text-sm rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"}
+  class={@class ||
+    "group flex min-w-0 items-center gap-2 py-1 text-sm rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"}
   target="_blank"
   rel={if e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil),
     do: "me",

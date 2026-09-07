@@ -51,6 +51,8 @@ defmodule Bonfire.UI.Me.ChangePasswordController do
   defp changed(conn, _account) do
     conn
     |> delete_session(:resetting_password)
+    # the user just set this password, so it counts as a live password factor (also how a reset self-recovers a sudo password challenge)
+    |> Bonfire.UI.Me.Sudo.stamp(:password)
     |> assign_flash(
       :info,
       l("You have now changed your password. We recommend saving it in a password manager app!")

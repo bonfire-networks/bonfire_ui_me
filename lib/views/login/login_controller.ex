@@ -40,7 +40,7 @@ defmodule Bonfire.UI.Me.LoginController do
     # cs = Accounts.changeset(:login, params)
     case Accounts.login(params) do
       {:ok, account, user} ->
-        {:ok, logged_in(account, user, conn, form)}
+        {:ok, logged_in(account, user, conn, form, attempted_factor(params))}
 
       other ->
         warn(other, "Login validation error")
@@ -49,38 +49,55 @@ defmodule Bonfire.UI.Me.LoginController do
     end
   end
 
-  def logged_in(account, user, conn, form \\ %{})
+  def logged_in(account, user, conn, form \\ %{}, factor \\ nil)
 
   # the user logged in via email and have more than one user in the
   # account, so we must show them the user switcher.
-  def logged_in(%{id: account_id} = current_account, nil, conn, form) do
+  def logged_in(%{id: account_id} = current_account, nil, conn, form, factor) do
     info(account_id, "Account logged in")
 
-    conn
-    |> put_session(:current_account_id, account_id)
-    |> put_authentication_proof(account_id)
-    |> assign(:current_account, current_account)
-    |> put_session(:current_user_id, nil)
-    |> put_session(:live_socket_id, "socket_account:#{account_id}")
-    # |> assign_flash(:info, l("Welcome back!"))
-    # to support redirect after a POST
-    |> Plug.Conn.put_status(303)
-    |> redirect_to("#{path(:switch_user) || "/switch-user/"}#{copy_go(form)}")
+    conn =
+      conn
+      |> renew_session_for(account_id)
+      |> Bonfire.UI.Me.Sudo.stamp(factor)
+      |> put_session(:current_account_id, account_id)
+      |> assign(:current_account, current_account)
+      |> put_session(:current_user_id, nil)
+      |> put_session(:live_socket_id, "socket_account:#{account_id}")
+      # |> assign_flash(:info, l("Welcome back!"))
+      # to support redirect after a POST
+      |> Plug.Conn.put_status(303)
+
+    go = get_session(conn, :go) || e(form, "go", nil) || e(form, :go, nil)
+
+    # account-scoped destinations (/account/*) don't need a selected profile, so skip the switcher (e.g. sudo verification for account-level actions)
+    if is_binary(go) and String.starts_with?(go, "/account/") do
+      redirect_to(conn, go)
+    else
+      redirect_to(conn, "#{path(:switch_user) || "/switch-user/"}#{copy_go(form)}")
+    end
   end
 
   # the user logged in via username, or they logged in via email and
   # we found there was only one user in the account, so we're going to
   # just send them straight to the homepage and avoid the user
   # switcher.
-  def logged_in(%{id: account_id} = current_account, %{id: user_id} = current_user, conn, form) do
+  def logged_in(
+        %{id: account_id} = current_account,
+        %{id: user_id} = current_user,
+        conn,
+        form,
+        factor
+      ) do
     info(account_id, "Account logged in")
     info(user_id, "Logged in as user")
     # maybe_apply(Bonfire.Boundaries.Scaffold.Users, :create_missing_boundaries, user)
 
     conn =
       conn
+      |> renew_session_for(account_id)
+      |> Bonfire.UI.Me.Sudo.stamp(factor)
       |> put_session(:current_account_id, account_id)
-      |> put_authentication_proof(account_id)
       |> assign(:current_account, current_account)
       |> put_session(:current_user_id, user_id)
       # needed if we run oAuth logic instead of redirecting
@@ -93,11 +110,14 @@ defmodule Bonfire.UI.Me.LoginController do
     |> redirect_after_auth(user_id, form)
   end
 
-  defp put_authentication_proof(conn, account_id) do
-    conn
-    |> configure_session(renew: true)
-    |> put_session(:sudo_proof, %{"account_id" => account_id, "at" => System.system_time(:second)})
+  # which sudo factor this login attempt earns: a typed password, or nothing (e.g. OpenID via attempt/3)
+  defp attempted_factor(params) do
+    if is_binary(params["password"] || params[:password]) and
+         (params["password"] || params[:password]) != "",
+       do: :password
   end
+
+  defdelegate renew_session_for(conn, account_id), to: Bonfire.UI.Me.Sudo
 
   def redirect_after_auth(conn, user_id, form) do
     # Ensure external `go` URLs are written to the session so go_where? allows the redirect.

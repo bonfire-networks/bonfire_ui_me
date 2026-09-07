@@ -19,9 +19,14 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
     passwordless? = LoginLive.passwordless_only?()
     action = if passwordless?, do: :login, else: :change_password
 
+    # the initiating profile, restored after redemption when this account owns it
+    as_user = conn.query_params["as_user"]
+
     case Accounts.confirm_email(login_token, confirm_action: action) do
       {:ok, account} ->
-        if passwordless?, do: magic_link_login(conn, account), else: change_pw(conn, account)
+        if passwordless?,
+          do: magic_link_login(conn, account, as_user),
+          else: change_pw(conn, account, as_user)
 
       {:error, _changeset} ->
         conn
@@ -114,22 +119,30 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
     end
   end
 
-  defp magic_link_login(conn, account) do
+  defp magic_link_login(conn, account, as_user \\ nil) do
+    # prefer the link's initiating profile (validated as accessible to this account), else the account's only profile
     user =
-      case Users.get_only_in_account(account) do
-        {:ok, user} -> user
-        _ -> nil
-      end
+      Users.get_in_account(as_user, account.id) ||
+        case Users.get_only_in_account(account) do
+          {:ok, user} -> user
+          _ -> nil
+        end
 
     # `go` was stashed in the session in `index/2`, so `logged_in/4` (and the
     # switch-user / create-profile tails) all recover it via `redirect_to_previous_go`
     # — no need to thread it through the form here.
-    LoginController.logged_in(account, user, conn, %{})
+    LoginController.logged_in(account, user, conn, %{}, :email)
   end
 
-  defp change_pw(conn, account) do
+  defp change_pw(conn, account, as_user \\ nil) do
+    user = Users.get_in_account(as_user, account.id)
+
     conn
+    # same lifecycle as logged_in/5: switching accounts clears the session (so no proof migrates), and redeeming the emailed token proves inbox control
+    |> Bonfire.UI.Me.Sudo.renew_session_for(account.id)
+    |> Bonfire.UI.Me.Sudo.stamp(:email)
     |> put_session(:current_account_id, account.id)
+    |> then(&if(user, do: put_session(&1, :current_user_id, user.id), else: &1))
     # tell the change password form not to ask for the old password
     |> put_session(:resetting_password, true)
     |> assign_flash(

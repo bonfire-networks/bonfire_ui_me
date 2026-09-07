@@ -8,7 +8,12 @@ defmodule Bonfire.UI.Me.ProfileLinksTest do
 
   test "missing and blank websites render no section" do
     for website <- [nil, "", " \n "] do
-      html = render_component(&ProfileLinksLive.render/1, user: %{profile: %{website: website}}, aliases: [])
+      html =
+        render_component(&ProfileLinksLive.render/1,
+          user: %{profile: %{website: website}},
+          aliases: []
+        )
+
       refute html =~ "profile-links"
       refute html =~ "Also on"
     end
@@ -16,7 +21,10 @@ defmodule Bonfire.UI.Me.ProfileLinksTest do
 
   test "website-only profiles show the destination without an account heading" do
     url = Faker.Internet.url()
-    html = render_component(&ProfileLinksLive.render/1, user: %{profile: %{website: url}}, aliases: [])
+
+    html =
+      render_component(&ProfileLinksLive.render/1, user: %{profile: %{website: url}}, aliases: [])
+
     assert html =~ "profile-websites"
     assert html =~ url
     refute html =~ "profile-also-on"
@@ -25,8 +33,25 @@ defmodule Bonfire.UI.Me.ProfileLinksTest do
 
   test "external aliases show their label and URL without an empty account section" do
     url = "https://example.org/research"
-    aliases = [%{edge: %{object: %{media_type: "website", path: url, metadata: %{"name" => "Research", "verified" => true}}}}]
-    html = render_component(&ProfileLinksLive.render/1, user: %{profile: %{website: nil}}, aliases: aliases)
+
+    aliases = [
+      %{
+        edge: %{
+          object: %{
+            media_type: "website",
+            path: url,
+            metadata: %{"name" => "Research", "verified" => true}
+          }
+        }
+      }
+    ]
+
+    html =
+      render_component(&ProfileLinksLive.render/1,
+        user: %{profile: %{website: nil}},
+        aliases: aliases
+      )
+
     assert html =~ "Research"
     assert html =~ "example.org/research"
     assert html =~ "Verified link"
@@ -41,12 +66,28 @@ defmodule Bonfire.UI.Me.ProfileLinksTest do
   end
 
   test "accounts and websites are separated while preserving their order" do
-    account = %{id: "account", profile: %{name: "Name"}, character: %{id: "character", username: "name@example.org"}}
+    account = %{
+      id: "account",
+      profile: %{name: "Name"},
+      character: %{id: "character", username: "name@example.org"}
+    }
+
     aliases = [
       %{edge: %{object: account}},
-      %{edge: %{object: %{media_type: "website", path: " ", metadata: %{"url" => "https://example.org", "name" => "Website"}}}}
+      %{
+        edge: %{
+          object: %{
+            media_type: "website",
+            path: " ",
+            metadata: %{"url" => "https://example.org", "name" => "Website"}
+          }
+        }
+      }
     ]
-    assert {[%{href: "https://example.org", label: "Website"}], [^account]} = ProfileLinksLive.group_links(nil, aliases)
+
+    assert {[%{href: "https://example.org", label: "Website"}], [^account]} =
+             ProfileLinksLive.group_links(nil, aliases)
+
     assert {[], [^account]} = ProfileLinksLive.group_links(nil, Enum.take(aliases, 1))
   end
 end
