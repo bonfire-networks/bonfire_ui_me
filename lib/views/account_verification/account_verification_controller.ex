@@ -1,101 +1,251 @@
 defmodule Bonfire.UI.Me.AccountVerificationController do
-  @moduledoc "HTTP verification and explicit confirmation, including browsers without a signed-in account."
+  @moduledoc "The sudo gate over HTTP: /account/verify challenges for the strongest required factor and stamps the session; /account/confirm renders an action's description and executes it behind fresh proof."
   use Bonfire.UI.Common.Web, :controller
-  alias Bonfire.Me.SensitiveActions, as: Actions
+
+  alias Bonfire.Me.Accounts
+  alias Bonfire.Me.SensitiveActions
   alias Bonfire.UI.Me.AccountVerificationViewLive
+  alias Bonfire.UI.Me.Sudo
 
   plug :protect_verification_response
 
-  @doc "Shows an entry point without creating an intent on GET."
-  def new(conn, %{"action" => action}) do
-    with account when not is_nil(account) <- current_account(conn),
-         {:ok, module} <- Actions.resolve(action) do
-      render_page(conn, :start, module.describe(%{account: account, pending: nil}), action: action)
-    else
-      nil -> failure(conn, :needs_reauth)
-      {:error, reason} -> failure(conn, reason)
-    end
-  end
+  @doc "Renders the current challenge for the requested action, or redirects through go when the requirement is already met."
+  def verify(conn, %{"for" => action} = params) do
+    go = local_go(params["go"])
 
-  @doc "Creates an intent using the authenticated account, never an account supplied in the form."
-  def start(conn, %{"action" => action}) do
-    with account when not is_nil(account) <- current_account(conn),
-         :ok <- limit(conn, :verification_start, account.id, 60_000, 5),
-         {:ok, pending} <- Actions.create(account, action) do
-      redirect(conn, to: page_path(pending.id))
-    else
-      nil -> failure(conn, :needs_reauth)
-      {:error, reason} -> failure(conn, reason)
-    end
-  end
+    with {:ok, account} <- logged_in_account(conn),
+         {:ok, module} <- SensitiveActions.resolve(action) do
+      required = SensitiveActions.required(module, account)
+      description = describe(module, account, params)
 
-  @doc "Stores an unconsumed email link in this browser and removes it from the address bar."
-  def email_link(conn, %{"id" => id, "token" => token}) do
-    with {:ok, _} <- Actions.fetch(id), true <- is_binary(token) and byte_size(token) <= 128 do
-      conn
-      |> put_session(:verification_link, %{"id" => id, "token" => token})
-      |> redirect(to: page_path(id))
+      case SensitiveActions.next_challenge(Sudo.factors(conn), required) do
+        :met ->
+          redirect_to(conn, go)
+
+        :password ->
+          render_page(conn, :password, description, action: action, go: go)
+
+        :email ->
+          {conn, sent} = maybe_auto_send(conn, account, go, e(description, :title, nil))
+          render_page(conn, :email, description, action: action, go: go, sent: sent)
+
+        # a factor with no challenge UI yet (which should kept out of factor_strength until one exists)
+        _ ->
+          failure(conn)
+      end
     else
+      {:error, :needs_login} -> require_login(conn)
       _ -> failure(conn)
     end
   end
-  def email_link(conn, _), do: failure(conn)
 
-  @doc "Displays the gate or final confirmation from trusted session state."
-  def show(conn, %{"id" => id}), do: show_page(conn, id)
+  def verify(conn, _), do: failure(conn)
 
-  @doc "Handles a CSRF-protected form submission; email redemption never executes the action."
-  def update(conn, %{"id" => id, "step" => step} = params) do
-    account_id = current_account_id(conn)
-    proof = get_session(conn, :sudo_proof)
+  @doc "Checks the submitted password, stamps the :password factor and follows go."
+  def password(conn, %{"for" => action} = params) do
+    go = local_go(params["go"])
 
-    result =
-      case step do
-        "email" -> send_email(conn, id, account_id)
-        "password" ->
-          with :ok <- limit(conn, :verification_password, account_id, 60_000, 5) do
-            Actions.verify_password(id, account_id, get_in(params, ["verification", "password"]))
-          end
-        "redeem" ->
-          with %{"id" => ^id, "token" => token} <- get_session(conn, :verification_link),
-               :ok <- limit(conn, :verification_token, id, 60_000, 10) do
-            Actions.redeem(id, token, account_id)
-          else
-            {:error, reason} -> {:error, reason}
-            _ -> {:error, :invalid_link}
-          end
-        "confirm" -> confirm_action(id, proof, account_id)
-        "cancel" -> Actions.cancel(id, proof, account_id)
-        _ -> {:error, :not_allowed}
+    with {:ok, account} <- logged_in_account(conn),
+         {:ok, module} <- SensitiveActions.resolve(action) do
+      cond do
+        limit(conn, :sudo_password, account.id) != :ok ->
+          failure(conn, :rate_limited)
+
+        Accounts.login_valid?(account.id, params["password"] || "") ->
+          conn
+          |> Sudo.stamp(:password)
+          |> redirect_to(go)
+
+        true ->
+          render_page(conn, :password, describe(module, account, params),
+            action: action,
+            go: go,
+            error: l("That password didn't match. Please try again.")
+          )
+      end
+    else
+      {:error, :needs_login} -> require_login(conn)
+      _ -> failure(conn)
+    end
+  end
+
+  def password(conn, _), do: failure(conn)
+
+  @doc "Sends (or re-mails) the login link for the :email challenge, or the reset escape from the password challenge."
+  def send_email(conn, %{"for" => action} = params) do
+    go = local_go(params["go"])
+
+    with {:ok, account} <- logged_in_account(conn),
+         {:ok, module} <- SensitiveActions.resolve(action),
+         description = describe(module, account, params),
+         :ok <- limit(conn, :sudo_email, account.id),
+         {:ok, _, _} <-
+           send_login_email(account, go, e(description, :title, nil), current_user_id(conn)) do
+      render_page(conn, :email, description, action: action, go: go, sent: true)
+    else
+      {:error, :needs_login} -> require_login(conn)
+      {:error, :rate_limited} -> failure(conn, :rate_limited)
+      _ -> failure(conn)
+    end
+  end
+
+  def send_email(conn, _), do: failure(conn)
+
+  @doc "Renders the action's description and confirm button behind the sudo gate."
+  def confirm(conn, %{"action" => action} = params) do
+    with {:ok, account} <- logged_in_account(conn),
+         {:ok, module} <- SensitiveActions.resolve(action) do
+      if Sudo.met?(conn, module, account) do
+        render_page(conn, :confirm, describe(module, account, params),
+          action: action,
+          target: params["target"],
+          go: local_go(params["go"])
+        )
+      else
+        redirect_to(conn, verify_path(action, confirm_url(action, params["target"])))
+      end
+    else
+      {:error, :needs_login} -> require_login(conn)
+      _ -> failure(conn)
+    end
+  end
+
+  def confirm(conn, _), do: failure(conn)
+
+  @doc "Executes the action behind CSRF and a POST-time freshness recheck."
+  def execute(conn, %{"action" => action} = params) do
+    with {:ok, account} <- logged_in_account(conn),
+         {:ok, module} <- SensitiveActions.resolve(action),
+         true <- Sudo.met?(conn, module, account),
+         {:ok, _} <- module.execute(%{account: account, target_id: params["target"]}) do
+      render_page(conn, :done, e(describe(module, account, params), :success, nil))
+    else
+      {:error, :needs_login} -> require_login(conn)
+      false -> redirect_to(conn, verify_path(action, confirm_url(action, params["target"])))
+      _ -> failure(conn)
+    end
+  end
+
+  def execute(conn, _), do: failure(conn)
+
+  defp logged_in_account(conn) do
+    case current_account(conn) do
+      nil -> {:error, :needs_login}
+      account -> {:ok, account}
+    end
+  end
+
+  defp describe(module, account, params),
+    do: module.describe(%{account: account, target_id: params["target"]})
+
+  defp verify_path(action, go),
+    do: path(:sudo_verify) <> "?" <> URI.encode_query([{"for", action}, {"go", go}])
+
+  defp confirm_url(action, target) do
+    path(:sudo_confirm) <>
+      "?" <>
+      URI.encode_query(if target, do: [action: action, target: target], else: [action: action])
+  end
+
+  # go must be a local path; anything else falls back to home
+  defp local_go("/" <> _ = go), do: if(String.starts_with?(go, "//"), do: "/", else: go)
+  defp local_go(_), do: "/"
+
+  defp require_login(conn) do
+    conn
+    |> clear_session()
+    # opt in to keeping the query string, since the action rides in it
+    |> set_go_after(current_path_with_query(conn))
+    |> assign_flash(:error, l("You need to log in first."))
+    |> redirect_to(path(:login))
+  end
+
+  defp current_path_with_query(%{query_string: ""} = conn), do: conn.request_path
+  defp current_path_with_query(conn), do: conn.request_path <> "?" <> conn.query_string
+
+  # skip the auto-send while an unexpired token is outstanding, so reloads never invalidate a link in flight
+  defp maybe_auto_send(conn, account, go, intent) do
+    account = repo().preload(account, :email)
+    until = e(account, :email, :confirm_until, nil)
+
+    if is_struct(until, DateTime) and Bonfire.Common.DatesTimes.future?(until) do
+      {conn, false}
+    else
+      case send_login_email(account, go, intent, current_user_id(conn)) do
+        {:ok, _, _} -> {conn, true}
+        _ -> {conn, false}
+      end
+    end
+  end
+
+  defp send_login_email(account, go, intent, as_user) do
+    account = repo().preload(account, :email)
+    address = e(account, :email, :email_address, nil)
+
+    # :forgot_password on password instances: anything else falls through to the signup-confirmation mail, whose URL is guest-only
+    confirm_action = if Accounts.passwordless_only?(), do: :login, else: :forgot_password
+
+    Accounts.request_confirm_email(%{email: address},
+      confirm_action: confirm_action,
+      go: go,
+      # names the action in the mail body (the subject stays generic)
+      sudo_intent: intent,
+      # the initiating profile, so redemption on any device restores it (ownership-validated there)
+      as_user: as_user,
+      must_confirm?: true
+    )
+  end
+
+  defp limit(conn, prefix, account_id) do
+    ip = conn.remote_ip |> :inet.ntoa() |> to_string()
+
+    with :ok <-
+           Bonfire.UI.Common.RateLimit.check(
+             prefix,
+             "account:#{account_id}",
+             to_timeout(minute: 1),
+             5
+           ),
+         :ok <- Bonfire.UI.Common.RateLimit.check(prefix, "ip:#{ip}", to_timeout(minute: 1), 25) do
+      :ok
+    else
+      _ -> {:error, :rate_limited}
+    end
+  end
+
+  defp failure(conn, reason \\ :not_available) do
+    description =
+      case reason do
+        :rate_limited ->
+          %{
+            title: l("Too many attempts"),
+            description: l("Please wait a minute before trying again.")
+          }
+
+        _ ->
+          %{
+            title: l("This action is not available"),
+            description: l("The link may be incorrect, or this action may not be enabled here.")
+          }
       end
 
-    case {step, result} do
-      {step, {:ok, proof}} when step in ["password", "redeem"] ->
-        conn
-        |> configure_session(renew: true)
-        |> delete_session(:verification_link)
-        |> put_session(:sudo_proof, proof)
-        |> redirect(to: page_path(id))
+    render_page(conn, :error, description)
+  end
 
-      {"email", {:ok, _}} -> show_page(conn, id, :sent)
-      {"confirm", {:ok, success}} ->
-        conn
-        |> delete_session(:sudo_proof)
-        |> delete_session(:verification_link)
-        |> render_page(:done, success)
-
-      {"cancel", {:ok, _}} ->
-        conn
-        |> delete_session(:verification_link)
-        |> delete_session(:sudo_proof)
-        |> render_page(:cancelled, %{title: l("Request cancelled"), description: l("This request has been cancelled. No action was taken.")})
-
-      {_, {:error, :rate_limited}} -> failure(conn, :rate_limited)
-      {"password", {:error, _}} -> show_page(conn, id, :password, l("That password didn’t match. Try again, or verify by email."))
-      {"email", {:error, _}} -> show_page(conn, id, :verify, l("We couldn’t send the email. Please try again later."))
-      {"confirm", {:error, :needs_reauth}} -> show_page(conn, id, :verify, l("Your verification has expired. Please verify again."))
-      _ -> failure(conn)
-    end
+  defp render_page(conn, state, description, opts \\ []) do
+    conn
+    |> assign(:force_static, true)
+    |> live_render(AccountVerificationViewLive,
+      session: %{
+        "state" => state,
+        "description" => description,
+        "action" => opts[:action],
+        "target" => opts[:target],
+        "go" => opts[:go],
+        "error" => opts[:error],
+        "sent" => opts[:sent]
+      }
+    )
   end
 
   defp protect_verification_response(conn, _opts) do
@@ -103,102 +253,4 @@ defmodule Bonfire.UI.Me.AccountVerificationController do
     |> put_resp_header("cache-control", "no-store")
     |> put_resp_header("referrer-policy", "no-referrer")
   end
-
-  defp confirm_action(id, proof, account_id) do
-    with {:ok, pending} <- Actions.fetch(id),
-         {:ok, module, context} <- Actions.context(pending),
-         description = module.describe(context),
-         {:ok, _} <- Actions.confirm(id, proof, account_id) do
-      {:ok, description.success}
-    end
-  end
-
-  defp send_email(conn, id, account_id) do
-    with true <- is_binary(account_id),
-         :ok <- limit(conn, :verification_email, account_id, 60_000, 1),
-         :ok <- limit(conn, :verification_email_hour, account_id, 3_600_000, 10),
-         {:ok, {pending, account, token}} <- Actions.issue_email(id, account_id),
-         {:ok, module, context} <- Actions.context(pending) do
-      url = Bonfire.Common.URIs.base_url() <> page_path(id) <> "/email?token=" <> token
-      mail = Bonfire.Me.Mails.verification_link(account, url, module.describe(context).title)
-      Bonfire.Me.Mails.mailer().send_now(mail, account.email.email_address)
-    else
-      {:error, _} = error -> error
-      _ -> {:error, :not_allowed}
-    end
-  end
-
-  defp show_page(conn, id, requested_state \\ nil, error \\ nil) do
-    account_id = current_account_id(conn)
-    proof = get_session(conn, :sudo_proof)
-    link = get_session(conn, :verification_link)
-
-    with {:ok, pending} <- Actions.fetch(id),
-         {:ok, module, context} <- Actions.context(pending) do
-      fresh = Actions.fresh?(proof, pending, account_id)
-      has_link = is_map(link) and link["id"] == id
-      owner = account_id == pending.account_id
-      state = cond do
-        not is_nil(account_id) and not owner -> :mismatch
-        fresh -> :confirm
-        has_link -> :link
-        owner -> requested_state || :verify
-        true -> :expired
-      end
-
-      if state == :expired do
-        render_page(conn, :expired, %{
-          title: l("Verification required"),
-          description: l("Your verification has expired or is unavailable in this browser. No action was taken. Return to the browser where you started and request another email, or sign in to start again.")
-        })
-      else
-        account = repo().preload(context.account, [:email, :credential])
-        render_page(conn, state, module.describe(context),
-          id: id, error: error,
-          email: if(owner, do: e(account, :email, :email_address, ""), else: ""),
-          has_password: owner and Bonfire.Me.Accounts.account_has_password?(account))
-      end
-    else
-      _ -> failure(conn)
-    end
-  end
-
-  defp limit(conn, prefix, account_id, duration, count) do
-    ip = conn.remote_ip |> :inet.ntoa() |> to_string()
-    with :ok <- Bonfire.UI.Common.RateLimit.check(prefix, "account:#{account_id}", duration, count),
-         :ok <- Bonfire.UI.Common.RateLimit.check(prefix, "ip:#{ip}", duration, count * 5) do
-      :ok
-    else
-      _ -> {:error, :rate_limited}
-    end
-  end
-
-  defp failure(conn, reason \\ :expired) do
-    description =
-      case reason do
-        :rate_limited ->
-          %{title: l("Too many attempts"), description: l("Please wait before trying again.")}
-
-        :needs_reauth ->
-          %{title: l("Sign in to continue"), description: l("Sign in to start a new verification request.")}
-
-        _ ->
-          %{title: l("This request is no longer available"), description: l("The link may be invalid, expired or already used.")}
-      end
-
-    render_page(conn, :expired, description)
-  end
-
-  defp render_page(conn, state, description, opts \\ []) do
-    conn
-    |> assign(:force_static, true)
-    |> live_render(AccountVerificationViewLive, session: %{
-      "state" => state, "description" => description,
-      "id" => opts[:id], "action" => opts[:action],
-      "email" => opts[:email], "has_password" => opts[:has_password] || false,
-      "error" => opts[:error]
-    })
-  end
-
-  defp page_path(id), do: "/account/verify/" <> id
 end

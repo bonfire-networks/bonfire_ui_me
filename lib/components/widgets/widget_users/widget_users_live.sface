@@ -22,7 +22,10 @@
 
   <div class="flex flex-col divide-hair divide-secondary">
     {#for user <- @users}
-      <div class="p-1 [.sidebar-widgets_&]:py-[4px] [.sidebar-widgets_&]:px-0" data-role="widget-user-row">
+      <div
+        class="p-1 [.sidebar-widgets_&]:py-[4px] [.sidebar-widgets_&]:px-0"
+        data-role="widget-user-row"
+      >
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
           show_controls={[]}

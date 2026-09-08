@@ -11,13 +11,18 @@ defmodule Bonfire.UI.Me.Routes do
         plug(Bonfire.UI.Me.Plugs.LoadCurrentUser)
       end
 
-      scope "/account/verify", Bonfire.UI.Me do
+      scope "/account", Bonfire.UI.Me do
         pipe_through([:throttle_forms, :browser, :account_verification])
-        get "/new/:action", AccountVerificationController, :new
-        post "/start/:action", AccountVerificationController, :start
-        get "/:id/email", AccountVerificationController, :email_link
-        get "/:id", AccountVerificationController, :show
-        post "/:id/:step", AccountVerificationController, :update
+        get "/verify", AccountVerificationController, :verify, as: :sudo_verify
+
+        post "/verify/password", AccountVerificationController, :password,
+          as: :sudo_verify_password
+
+        post "/verify/send_email", AccountVerificationController, :send_email,
+          as: :sudo_verify_send_email
+
+        get "/confirm", AccountVerificationController, :confirm, as: :sudo_confirm
+        post "/confirm", AccountVerificationController, :execute, as: :sudo_confirm_execute
       end
 
       pipeline :guest_only do

@@ -64,13 +64,19 @@
                   )
                 )}</p>
               <p>{l("This action cannot be undone.")}</p>
-              <p>{l("If you are sure you want to delete your account, please continue to verify your identity and review the final confirmation.")}</p>
+              <p>{l(
+                  "If you are sure you want to delete your account, please continue to verify your identity and review the final confirmation."
+                )}</p>
             </div>
           </div>
         </div>
       </div>
       <div class="mt-3">
-        <a id="verify-delete-account" href="/account/verify/new/delete_account" class="btn btn-error mt-3 w-full">
+        <a
+          id="verify-delete-account"
+          href="/account/confirm?action=Bonfire.Me.SensitiveActions.DeleteAccount"
+          class="btn btn-error mt-3 w-full"
+        >
           {l("Continue to delete account")}
         </a>
       </div>

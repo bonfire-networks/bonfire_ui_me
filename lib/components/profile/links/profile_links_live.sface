@@ -1,4 +1,8 @@
-<div :if={@links != [] or @accounts != []} data-role="profile-links" class="flex min-w-0 flex-col gap-4 mb-4">
+<div
+  :if={@links != [] or @accounts != []}
+  data-role="profile-links"
+  class="flex min-w-0 flex-col gap-4 mb-4"
+>
   <div
     :if={@links != []}
     data-role="profile-websites"
@@ -21,10 +25,7 @@
   <div :if={@accounts != []} data-role="profile-also-on" class="flex min-w-0 flex-col gap-2">
     <div class="text-sm text-muted">{l("Also on")}</div>
     <div class="flex flex-wrap gap-x-6 gap-y-3">
-      <div
-        :for={account <- @accounts}
-        class="flex min-w-0 max-w-full items-center gap-2"
-      >
+      <div :for={account <- @accounts} class="flex min-w-0 max-w-full items-center gap-2">
         {#case Utils.maybe_apply(
             Bonfire.Federate.ActivityPub.AdapterUtils,
             :also_known_as?,

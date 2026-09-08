@@ -39,12 +39,17 @@ defmodule Bonfire.UI.Me.ProfileLinksLive do
     {links, accounts} =
       Enum.reduce(aliases || [], {links, []}, fn
         %{edge: %{object: %{id: _, profile: profile, character: %{id: _}} = account}},
-        {links, accounts} when not is_nil(profile) ->
+        {links, accounts}
+        when not is_nil(profile) ->
           {links, accounts ++ [account]}
 
         %{edge: %{object: %{media_type: type, path: path, metadata: metadata}}},
         {links, accounts} ->
-          href = if is_binary(path) and String.trim(path) != "", do: path, else: e(metadata, "url", nil)
+          href =
+            if is_binary(path) and String.trim(path) != "",
+              do: path,
+              else: e(metadata, "url", nil)
+
           label = e(metadata, "name", nil) || if(is_binary(type), do: Text.upcase_first(type))
           {links ++ [%{href: href, label: label, metadata: metadata}], accounts}
 
