@@ -26,28 +26,20 @@
                 )
               )}</p>
             <p>{l("This action cannot be undone.")}</p>
-            <p>{l("If you are sure you want to delete your user, please enter your password below to confirm.")}</p>
+            <p>{l("You will verify your identity and confirm which profile to delete.")}</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="mt-3">
-      <StatelessComponent
-        module={maybe_component(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
-        form_opts={%{"phx-submit" => "Bonfire.Me.Users:delete_user"}}
-        with_password_prompt
-        skip_permission_check
-        object={current_user(@__context__)}
-        object_type_readable={l("user & data")}
-        creator_id={current_user(@__context__)}
-        parent_id={deterministic_dom_id(__MODULE__, current_user_id(@__context__), "delete-user", nil)}
-        open_btn_class="btn-error btn mt-3  w-full"
-        explanation={l(
-          "Deleting your user profile means that this user (%{username}) and all related data and activities (but not any other user profiles under this account) will be deleted.",
-          username: Bonfire.Me.Characters.display_username(current_user(@__context__), true, true)
-        )}
-      />
+      <a
+        id="verify-delete-profile"
+        href={path(:sudo_confirm) <> "?" <> URI.encode_query(action: "Bonfire.Me.SensitiveActions.DeleteUser", target: current_user_id(@__context__))}
+        class="btn-error btn mt-3 w-full"
+      >
+        {l("Continue to delete profile")}
+      </a>
     </div>
   </div>
 </div>

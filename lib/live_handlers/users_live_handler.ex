@@ -16,16 +16,6 @@ defmodule Bonfire.Me.Users.LiveHandler do
     {:noreply, assign_global(socket, users_autocomplete: options)}
   end
 
-  def handle_event("delete_user", %{"password" => password}, socket) do
-    delete = current_user_auth!(socket, password)
-
-    after_delete(
-      Bonfire.Me.DeleteWorker.enqueue_delete(delete),
-      "/settings/deleted/user/#{id(delete)}",
-      socket
-    )
-  end
-
   def handle_event("delete_user", %{"object_id" => delete}, socket) do
     if Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]) do
       after_delete(
