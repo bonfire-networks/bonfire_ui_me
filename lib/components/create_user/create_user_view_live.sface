@@ -1,4 +1,4 @@
-<div class="max-w-[480px] min-h-screen bg-base-200 mx-3 mt-3 md:mx-auto">
+<div class="max-w-[480px] min-h-screen mx-3 mt-3 md:mx-auto">
   <div class="my-2">
     <div class="alert alert-info alert-soft bg-base-300 border-hair border-secondary mr-0 bg-base-300 border-hair border-secondary">
       <div class="flex">
