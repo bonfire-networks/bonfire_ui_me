@@ -18,6 +18,43 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadingScreenTest do
   alias Bonfire.UI.Me.LivePlugs.AccountRequired
   alias Bonfire.UI.Me.LivePlugs.AdminRequired
 
+  describe "loading layout selection" do
+    test "the shared pipeline selects the loading layout when a guard inherits the flag" do
+      socket = %{loading_screen_socket() | view: Bonfire.UI.Me.SettingsLive}
+
+      assert {:cont, socket, layout: {Bonfire.UI.Common.LayoutView, :loading}} =
+               Bonfire.UI.Common.LivePlugs.Helpers.on_mount(
+                 [Bonfire.UI.Me.LivePlugs.UserRequired],
+                 :not_mounted_at_router,
+                 %{},
+                 socket
+               )
+
+      html =
+        Bonfire.UI.Common.LayoutView
+        |> Phoenix.Template.render("loading", "html", Map.put(socket.assigns, :inner_content, ""))
+        |> Phoenix.HTML.Safe.to_iodata()
+        |> IO.iodata_to_binary()
+
+      assert html =~ ~s(role="status")
+      refute html =~ ~s(data-id="bonfire_live")
+      refute html =~ ~s(id="main-content")
+    end
+
+    test "the shared pipeline keeps the normal layout when there is no loading flag" do
+      socket = %{loading_screen_socket() | view: Bonfire.UI.Me.SettingsLive}
+      socket = Phoenix.Component.assign(socket, :__loading_screen__, false)
+
+      assert {:cont, _socket} =
+               Bonfire.UI.Common.LivePlugs.Helpers.on_mount(
+                 [Bonfire.UI.Me.LivePlugs.UserRequired],
+                 :not_mounted_at_router,
+                 %{},
+                 socket
+               )
+    end
+  end
+
   defp loading_screen_socket do
     %Phoenix.LiveView.Socket{
       assigns: %{

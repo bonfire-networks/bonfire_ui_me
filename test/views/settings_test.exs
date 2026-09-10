@@ -34,15 +34,6 @@ defmodule Bonfire.UI.Me.SettingsTest do
   end
 
   describe "Appearance" do
-    # test "As a user I want to select a different theme", %{conn: conn} do
-    #   conn
-    #   |> visit("/settings/user/preferences/appearance")
-    #   |> assert_has("[data-theme=dracula]")
-    #   |> click_button("[data-set-theme=dracula]", "Enable")
-    #   |> assert_has("[data-theme=dracula]")
-
-    # end
-
     test "As a user I can revert my theme override to follow the instance theme" do
       account = fake_account!()
       alice = fake_user!(account)
@@ -78,6 +69,111 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> visit("/settings/user/preferences/appearance")
       |> assert_has("#theme-settings-user-follow-button .badge", text: "Active")
       |> refute_has("#theme-settings-user-system-button .badge")
+    end
+
+    test "the custom editor renders every supported colour as inherited", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/appearance")
+
+      view
+      |> element("#theme-settings-user-custom-button")
+      |> render_click()
+
+      swatches =
+        view
+        |> render()
+        |> Floki.parse_fragment!()
+        |> Floki.find("#theme-settings-user-custom-themes [data-color]")
+
+      assert length(swatches) == 20
+
+      inherited_labels =
+        view
+        |> render()
+        |> Floki.parse_fragment!()
+        |> Floki.find("#theme-settings-user-custom-themes span.font-mono.uppercase")
+
+      assert length(inherited_labels) == 20
+      assert Enum.all?(inherited_labels, &(Floki.text(&1) |> String.trim() == "Inherited"))
+
+      view
+      |> element("#theme-settings-user-key-primary button[data-role=open_modal]")
+      |> render_click()
+
+      document =
+        view
+        |> render()
+        |> Floki.parse_fragment!()
+
+      [editor] = Floki.find(document, "[data-color-key=color-primary]")
+      [base_theme] = Floki.attribute(document, "#theme-settings-user-custom-themes", "data-theme")
+
+      assert Floki.attribute(editor, "phx-hook") ==
+               ["Bonfire.UI.Common.CustomThemeColourLive#ColourPicker"]
+
+      assert Floki.attribute(editor, "data-saved-color") in [[], [""]]
+      assert Floki.attribute(editor, "data-theme") == [base_theme]
+      assert Floki.attribute(editor, "label", "for") == ["theme-settings-user-input-primary"]
+
+      assert Floki.attribute(editor, "hex-input input", "id") == [
+               "theme-settings-user-input-primary"
+             ]
+
+      assert Floki.text(editor) =~ "Inherited from #{base_theme}"
+      refute view |> has_element?("[data-color-key=color-primary] button[id$='-reset-primary']")
+    end
+
+    test "a stored custom colour exposes its individual reset control", %{
+      conn: conn,
+      alice: alice
+    } do
+      assert {:ok, %{__context__: %{current_user: alice}}} =
+               Bonfire.Common.Settings.put([:ui, :theme, :preferred], :custom,
+                 current_user: alice,
+                 scope: :user
+               )
+
+      assert {:ok, %{__context__: %{current_user: _alice}}} =
+               Bonfire.Common.Settings.put_raw(
+                 [:ui, :theme, :custom, "color-primary"],
+                 "#123456",
+                 current_user: alice,
+                 scope: :user
+               )
+
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/appearance")
+
+      view
+      |> element("#theme-settings-user-key-primary button[data-role=open_modal]")
+      |> render_click()
+
+      assert view
+             |> has_element?(
+               "[data-color-key=color-primary][data-saved-color='#123456'] #theme-settings-user-reset-primary"
+             )
+    end
+
+    test "custom radius changes apply immediately and can return to the base theme", %{conn: conn} do
+      {:ok, view, _html} = live(conn, "/settings/user/preferences/appearance")
+
+      view
+      |> element("#theme-settings-user-custom-button")
+      |> render_click()
+
+      assert_push_event(view, "set_custom_theme", %{style: ""})
+
+      view
+      |> element("#theme-settings-user-radius-box-0_5rem")
+      |> render_click()
+
+      assert_push_event(view, "set_custom_theme", %{style: "--radius-box: 0.5rem;"})
+      assert has_element?(view, "#theme-settings-user-radius-box-0_5rem[checked]")
+
+      view
+      |> element("#theme-settings-user-radius-box-inherited")
+      |> render_click()
+
+      assert_push_event(view, "set_custom_theme", %{style: ""})
+      assert has_element?(view, "#theme-settings-user-radius-box-inherited[checked]")
     end
 
     test "As a user I want to select a different font" do
