@@ -4,37 +4,10 @@ defmodule Bonfire.UI.Me.ProfileLinkLive do
   prop class, :any, default: nil
 
   prop href, :string, default: nil
-  prop icon, :any, default: nil
   prop text, :string, default: nil
 
   prop metadata, :any, default: nil
+  prop show_icon, :boolean, default: true
   prop show_destination, :boolean, default: false
 
-  def render(%{icon: nil, href: href} = assigns) do
-    assigns
-    |> assign(
-      :icon,
-      (URI.parse(href || "").host || "")
-      |> String.replace("www.", "")
-      # |> debug("hooost")
-      |> maybe_icon()
-    )
-    |> render_sface()
-  end
-
-  def render(assigns), do: assigns |> render_sface()
-
-  def maybe_icon("git" <> _), do: "bi:git"
-  def maybe_icon("orcid" <> _), do: "academicons:orcid"
-  def maybe_icon("zenodo" <> _), do: "academicons:zenodo-square"
-  def maybe_icon("liberapay" <> _), do: "streamline:blood-donate-drop-solid"
-  def maybe_icon("tumblr" <> _), do: "icon-park-solid:tumblr"
-  def maybe_icon("reddit" <> _), do: "teenyicons:reddit-solid"
-  def maybe_icon("stackoverflow" <> _), do: "tabler:brand-stackoverflow"
-  def maybe_icon("youtu" <> _), do: "ri:youtube-fill"
-  def maybe_icon("pinterest" <> _), do: "bxl:pinterest"
-  def maybe_icon("linkedin" <> _), do: "mdi:linkedin"
-  def maybe_icon("twitter" <> _), do: "ph:twitter-logo-thin"
-  def maybe_icon("instagram" <> _), do: "ri:instagram-line"
-  def maybe_icon(_), do: nil
 end

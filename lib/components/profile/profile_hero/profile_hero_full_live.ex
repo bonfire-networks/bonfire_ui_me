@@ -29,21 +29,18 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
 
   prop members, :any, default: nil
   prop moderators, :any, default: nil
+  prop group_return_to, :string, default: "/groups"
   prop subcategories, :list, default: []
-  prop selected_category_id, :any, default: nil
 
   prop post_count, :any, default: nil
   prop followers_count, :any, default: nil
   prop following_count, :any, default: nil
   prop familiar_followers, :list, default: []
 
-  prop preset_slug, :string, default: nil
   prop membership_slug, :string, default: nil
+  prop visibility_slug, :string, default: nil
+  prop participation_slug, :string, default: nil
   prop member_count, :integer, default: 0
-  prop topic_count, :integer, default: 0
-  prop date, :string, default: nil
-
-  defdelegate preset_meta(slug), to: Bonfire.Boundaries.Presets, as: :group_preset_meta
 
   @doc """
   Whether the current user is in `@moderators`. Membership check using already-loaded list ids,

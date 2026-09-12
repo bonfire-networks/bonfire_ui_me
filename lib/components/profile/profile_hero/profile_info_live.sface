@@ -1,8 +1,8 @@
 <section>
-  <div class="flex mt-card flex-col">
+  <div class={"flex flex-col", "mt-2": @character_type == :user, "mt-card": @character_type != :user}>
     <div
       :if={@character_type in [:user, :group] && e(@user, :profile, :summary, nil)}
-      class="w-full mb-[16px] prose !text-body max-w-none"
+      class={"w-full prose !text-body max-w-none", "mb-3 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0": @character_type == :user, "mb-4": @character_type != :user}
     >
       {rich(e(@user, :profile, :summary, nil))}
     </div>
@@ -63,7 +63,7 @@
       </span>
     </div>
 
-    <Bonfire.UI.Me.ProfileLinksLive user={@user} aliases={@aliases || []} />
+    <Bonfire.UI.Me.ProfileLinksLive user={@user} aliases={@aliases || []} joined_date={if @character_type == :user, do: Bonfire.Common.DatesTimes.date_from_pointer(@user)} />
 
     <Bonfire.UI.Me.ProfileStatsLive
       :if={@character_type == :user && Settings.get([:ui, :show_activity_counts], false, @__context__)}

@@ -2,7 +2,9 @@
   <Dropdown
     id={"hero_more_actions_menu_#{@parent_id}"}
     position="bottom-end"
-    trigger_class="btn btn-sm btn-circle btn-outline btn-primary"
+    trigger_class={if @character_type == :group,
+      do: "btn btn-sm btn-square bg-transparent border-secondary text-primary",
+      else: "btn btn-sm btn-circle btn-outline btn-primary"}
     panel_class="dropdown_actions menu-lg"
     label={l("More actions")}
     expanded_touch_target

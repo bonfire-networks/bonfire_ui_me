@@ -5,18 +5,6 @@
     class="relative bg-base-100 border-0 border-b-(length:--divider-width) border-(color:--divider-color) rounded-none shadow-none"
   >
     <!-- Sticky Header -->
-    {#if @character_type == :group}
-      {!-- TODO: make this config based, maybe a slot? --}
-      <StatelessComponent
-        module={maybe_component(
-          Bonfire.UI.Groups.GroupTopicsNavLive,
-          @__context__
-        )}
-        group={@user}
-        topics={@subcategories}
-        selected_id={@selected_category_id || id(@user)}
-      />
-    {/if}
     <div>
       {!-- TODO: put this logic in `update` fn instead? --}
       {#case {Media.avatar_url(@user), Media.banner_url(@user, fallback: false)}}
@@ -107,7 +95,7 @@
                         {/if}
                       </div>
 
-                      <div class="flex items-center gap-1" data-id="profile_main_actions">
+                      <div class={"flex items-center gap-1", "flex-wrap justify-end pt-2": @character_type == :group} data-id="profile_main_actions">
                         {#if current_user_id(@__context__) == id(@user)}
                           <LinkLive to={~p"/settings/user/profile"} class="btn btn-primary btn-sm">
                             <#Icon iconify="ph:pencil-simple-duotone" class="w-4 h-4" />
@@ -131,7 +119,7 @@
                             </button>
                           {#elseif @character_type != :group}
                             {!-- For users, the follow button stays in the top-right.
-                                 Groups get a full-width action row below the summary. --}
+                                 Groups use their membership controls alongside the avatar. --}
                             <div data-role="follow_wrapper">
                               <StatefulComponent
                                 module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
@@ -148,34 +136,53 @@
                           {/if}
                         {/if}
 
-                        {!-- Stats block (groups only): Pandora-style labeled tabular numbers. --}
-                        <div
-                          :if={@character_type == :group &&
-                            ((@member_count && @member_count > 0) || (@topic_count && @topic_count > 0))}
-                          class="flex items-stretch gap-4 mr-2"
-                        >
-                          <LinkLive
-                            :if={@member_count && @member_count > 0}
-                            to={"#{path(@user)}/members"}
-                            class="flex flex-col items-center min-w-[3rem] cursor-pointer"
-                          >
-                            <span class="tabular-nums text-heading font-bold leading-tight">{@member_count}</span>
-                            <span class="text-body leading-tight">{l("members")}</span>
-                          </LinkLive>
-                          <div
-                            :if={@member_count && @member_count > 0 && @topic_count && @topic_count > 0}
-                            class="w-px bg-secondary"
-                            aria-hidden="true"
-                          />
-                          <LinkLive
-                            :if={@topic_count && @topic_count > 0}
-                            to={"#{path(@user)}/topics"}
-                            class="flex flex-col items-center min-w-[3rem] cursor-pointer"
-                          >
-                            <span class="tabular-nums text-heading font-bold leading-tight">{@topic_count}</span>
-                            <span class="text-body leading-tight">{l("topics")}</span>
-                          </LinkLive>
-                        </div>
+                        {#if @character_type == :group && current_user_id(@__context__) != id(@user) &&
+                            not ((@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
+                                   (@ghosted? == true && @silenced? == true))}
+                          <div class="flex items-center gap-1">
+                            {#if current_user_moderator?(current_user_id(@__context__), @moderators)}
+                              <LinkLive to={Bonfire.Classify.Web.GroupNavigation.link("#{path(@user)}/settings", @group_return_to)} class="btn btn-primary btn-sm" label={l("Manage")}>
+                                <#Icon iconify="ph:gear-six-duotone" class="w-4 h-4" />
+                                <span>{l("Manage")}</span>
+                              </LinkLive>
+                            {#else}
+                              <StatefulComponent
+                                id={"join_btn_#{id(@user)}"}
+                                module={maybe_component(Bonfire.Classify.Web.JoinButtonLive, @__context__)}
+                                object_id={id(@user)}
+                                object_name={ed(@user, :profile, :name, nil) || ed(@user, :character, :username, l("Group"))}
+                                moderators={@moderators}
+                                membership={@membership_slug}
+                                path={path(@user)}
+                                showing_within={:list}
+                                combined
+                                class="btn btn-primary btn-sm"
+                              />
+                            {/if}
+                            <div :if={current_user_moderator?(current_user_id(@__context__), @moderators)}>
+                              <StatefulComponent
+                                module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+                                id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
+                                object_id={id(@user)}
+                                object={@user}
+                                follows_me={@follows_me}
+                                path={path(@user)}
+                                verb={l("Follow group")}
+                                verb_undo={l("Unfollow group")}
+                                verb_already={l("Following")}
+                                title={l("Follow group")}
+                                title_already={l("Unfollow group")}
+                                icon="ph:rss"
+                                icon_already="ph:rss"
+                                icon_class="size-4"
+                                container_class="inline-flex items-center"
+                                class="btn btn-sm btn-square bg-transparent border-secondary text-muted"
+                                class_already="btn btn-sm btn-square bg-transparent border-secondary text-primary"
+                                hide_text
+                              />
+                            </div>
+                          </div>
+                        {/if}
 
                         <Bonfire.UI.Me.HeroMoreActionsLive
                           character_type={@character_type}
@@ -222,7 +229,7 @@
                                 id={Bonfire.Me.Characters.display_username(@user, true)}
                                 data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
                                 title={l("Click to copy username")}
-                                class="font-normal cursor-copy text-body text-base-content tooltip tooltip-right"
+                                class={"font-normal cursor-copy tooltip tooltip-right", "text-sm text-muted": @character_type == :group, "text-body text-base-content": @character_type != :group}
                               >{Bonfire.Me.Characters.display_username(@user, true)}</span>
                               {!-- TODO: add widgets from config instead of hardcoded --}
                               <StatelessComponent
@@ -276,54 +283,50 @@
                       familiar_followers={e(assigns, :familiar_followers, [])}
                     />
 
-                    {#if @character_type == :group && current_user_id(@__context__) != id(@user) &&
-                        not ((@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
-                               (@ghosted? == true && @silenced? == true))}
-                      <div class="flex flex-col lg:flex-row gap-1 pb-3">
-                        {#if current_user_moderator?(current_user_id(@__context__), @moderators)}
-                          <LinkLive to={"#{path(@user)}/settings"} class="btn btn-primary btn-sm" label={l("Manage")}>
-                            <#Icon iconify="ph:gear-six-duotone" class="w-4 h-4" />
-                            <span>{l("Manage")}</span>
-                          </LinkLive>
-                        {#else}
-                          <StatefulComponent
-                            id={"join_btn_#{id(@user)}"}
-                            module={maybe_component(Bonfire.Classify.Web.JoinButtonLive, @__context__)}
-                            object_id={id(@user)}
-                            object_name={ed(@user, :profile, :name, nil) || ed(@user, :character, :username, l("Group"))}
-                            moderators={@moderators}
-                            membership={@membership_slug}
-                            path={path(@user)}
-                            showing_within={:list}
-                            combined
-                            class="btn btn-primary btn-sm"
-                          />
-                        {/if}
-                        <div :if={current_user_moderator?(current_user_id(@__context__), @moderators)}>
-                          <StatefulComponent
-                            module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
-                            id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
-                            object_id={id(@user)}
-                            object={@user}
-                            follows_me={@follows_me}
-                            path={path(@user)}
-                            verb={lc("verb: action", "Follow", [], :bonfire_social_graph)}
-                            verb_undo={l("Unfollow")}
-                            verb_already={l("Following")}
-                            hide_icon
-                            class="btn btn-outline btn-block btn-sm"
-                          />
-                        </div>
-                      </div>
-                    {/if}
 
-                    <!-- <div
-                      :if={@character_type == :group && @date}
-                      class="text-xs text-muted mt-3 flex items-center gap-2"
-                    >
-                      <#Icon iconify="ph:calendar-blank-duotone" class="w-4 h-4" />
-                      <span>{l("Created")} {@date}</span>
-                    </div> -->
+
+                    <div :if={@character_type == :group} data-role="group-hero-info" class="relative pt-3 pb-4 text-sm text-muted">
+                      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 pr-12 min-h-8">
+                        <LinkLive to={Bonfire.Classify.Web.GroupNavigation.link("#{path(@user)}/members", @group_return_to)} class="inline-flex items-center gap-2 hover:underline" opts={["data-role": "group-hero-members"]}>
+                          <#Icon iconify="ph:users" class="size-4" />
+                          <span class="tabular-nums">{lp("%{count} member", "%{count} members", @member_count || 0, count: @member_count || 0)}</span>
+                        </LinkLive>
+                        {#for {dimension, slug} <- [visibility: @visibility_slug, membership: @membership_slug]}
+                          {#case Bonfire.Boundaries.Presets.dimension_meta(dimension, slug)}
+                            {#match %{} = meta}
+                              <span class="inline-flex items-center gap-2" title={e(meta, :description, nil)} data-role={"group-hero-#{dimension}"}>
+                                <Iconify.iconify icon={e(meta, :icon, "ph:info")} class="size-4" />
+                                {e(meta, :label, nil)}
+                              </span>
+                            {#match _}
+                          {/case}
+                        {/for}
+                      </div>
+                      <details id={"group-access-details-#{id(@user)}"}>
+                        <summary class="absolute right-0 top-3 cursor-pointer list-none btn btn-ghost btn-square btn-sm [&::-webkit-details-marker]:hidden" aria-label={l("Group access details")} title={l("Group access details")}>
+                          <#Icon iconify="ph:info" class="size-5 text-primary" />
+                        </summary>
+                        <dl class="flex flex-col gap-5 pt-5 text-sm" data-role="group-access-details-content">
+                          {#for {dimension, slug, label} <- [{:membership, @membership_slug, l("Joining")}, {:visibility, @visibility_slug, l("Visibility")}, {:participation, @participation_slug, l("Posting")}]}
+                            {#case Bonfire.Boundaries.Presets.dimension_meta(dimension, slug)}
+                              {#match %{} = meta}
+                                <div>
+                                  <dt class="mb-1 font-medium text-base-content">
+                                    {l("%{action} · %{audience}",
+                                      action: label,
+                                      audience: if({dimension, slug} in [{:membership, "local:members"}, {:participation, "local:contributors"}], do: l("Anyone on this instance"), else: e(meta, :label, nil))
+                                    )}
+                                  </dt>
+                                  <dd :if={e(meta, :description, nil)} class="leading-relaxed">{e(meta, :description, nil)}</dd>
+                                </div>
+                              {#match _}
+                            {/case}
+                          {/for}
+                        </dl>
+                      </details>
+                    </div>
+
+
                   </div>
 
                   {!-- {#if @follows_me}
@@ -335,4 +338,14 @@
       {/case}
     </div>
   </section>
+    <div :if={@character_type == :group and @subcategories != []} class="xl:hidden">
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Groups.GroupTopicsNavLive, @__context__)}
+        group={@user}
+        topics={@subcategories}
+        group_return_to={@group_return_to}
+        inline={true}
+      />
+    </div>
+
 </div>

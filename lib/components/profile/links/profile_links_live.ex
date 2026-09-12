@@ -3,6 +3,7 @@ defmodule Bonfire.UI.Me.ProfileLinksLive do
 
   prop class, :any, default: nil
   prop user, :any, default: nil
+  prop joined_date, :any, default: nil
   prop aliases, :any, default: []
 
   data links, :list, default: []
