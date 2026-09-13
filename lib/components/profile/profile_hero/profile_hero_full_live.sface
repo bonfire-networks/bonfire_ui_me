@@ -141,7 +141,7 @@
                         {#if @character_type == :group && current_user_id(@__context__) != id(@user) &&
                             not ((@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
                                    (@ghosted? == true && @silenced? == true))}
-                          <div class="flex items-center gap-1">
+                          <div class="flex items-center gap-3">
                             {#if current_user_moderator?(current_user_id(@__context__), @moderators)}
                               <LinkLive to={Bonfire.Classify.Web.GroupNavigation.link("#{path(@user)}/settings", @group_return_to)} class="btn btn-primary btn-sm" label={l("Manage")}>
                                 <#Icon iconify="ph:gear-six-duotone" class="w-4 h-4" />
