@@ -1,4 +1,8 @@
-<div data-id={"hero_more_actions-#{@parent_id}"} class="flex items-center gap-3">
+<div
+  :if={current_user_id(@__context__)}
+  data-id={"hero_more_actions-#{@parent_id}"}
+  class="flex items-center gap-3"
+>
   <Dropdown
     id={"hero_more_actions_menu_#{@parent_id}"}
     position="bottom-end"

@@ -7,6 +7,9 @@ defmodule Bonfire.UI.Me.RemoteInteractionFormLive do
   @doc "Untranslated slug naming the interaction: `follow`, `like`, `boost` or `flag`. It travels through a URL query param, so it must not be localised."
   prop interaction_type, :string, default: "follow"
 
+  @doc "Padding for the form itself (not the `header` slot, which carries the full-bleed profile hero). Defaults to the gutter needed when the form is rendered as a profile section (directly under the profile hero, flush against the column borders); the standalone `/pub/remote_interaction` page passes `\"\"` since its tab panel already provides one."
+  prop class, :css_class, default: "px-4 py-6"
+
   slot header
 
   @doc """

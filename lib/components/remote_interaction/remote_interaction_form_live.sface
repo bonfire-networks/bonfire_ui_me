@@ -1,7 +1,7 @@
 <div>
   <#slot {@header} />
 
-  <div class="flex max-w-[680px] relative mx-auto">
+  <div class={"flex max-w-[680px] relative mx-auto", @class}>
     <div class="w-full mx-auto">
       <Form for={%{}} as={:outgoing} action="/pub/remote_interaction">
         {!-- explicit ids: both HiddenInputs otherwise auto-generate the same `outgoing_` id (dupe) --}

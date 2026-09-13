@@ -95,7 +95,7 @@
                         {/if}
                       </div>
 
-                      <div class={"flex items-center gap-1", "flex-wrap justify-end pt-2": @character_type == :group} data-id="profile_main_actions">
+                      <div class={"flex items-center gap-3", "flex-wrap justify-end pt-2": @character_type == :group} data-id="profile_main_actions">
                         {#if current_user_id(@__context__) == id(@user)}
                           <LinkLive to={~p"/settings/user/profile"} class="btn btn-primary btn-sm">
                             <#Icon iconify="ph:pencil-simple-duotone" class="w-4 h-4" />
@@ -104,13 +104,7 @@
                         {/if}
 
                         {#if current_user_id(@__context__) != id(@user)}
-                          <StatelessComponent
-                            :if={@character_type == :user and current_user_id(@__context__)}
-                            module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
-                            user_id={id(@user)}
-                            parent_id="profile_hero"
-                            as_icon
-                          />
+                          
 
                           {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
                               (@ghosted? == true && @silenced? == true)}
@@ -134,6 +128,14 @@
                               />
                             </div>
                           {/if}
+
+                          <StatelessComponent
+                            :if={@character_type == :user and current_user_id(@__context__)}
+                            module={maybe_component(Bonfire.UI.Boundaries.AddToCircleLive, @__context__)}
+                            user_id={id(@user)}
+                            parent_id="profile_hero"
+                            as_icon
+                          />
                         {/if}
 
                         {#if @character_type == :group && current_user_id(@__context__) != id(@user) &&

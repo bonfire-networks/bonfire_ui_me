@@ -19,6 +19,15 @@ defmodule Bonfire.UI.Me.ProfileTest do
     user
   end
 
+  test "guests do not see the profile more actions menu" do
+    account = fake_account!()
+    user = fake_user!(account)
+
+    conn()
+    |> visit("/@#{user.character.username}")
+    |> refute_has("[data-id='hero_more_actions-profile_hero']")
+  end
+
   test "If a user follows me, I want to have a visual feedback in their profile" do
     account = fake_account!()
     alice = fake_user!(account)

@@ -10,6 +10,7 @@
       />
       <div class="tab-content bg-base-100 border-base-300 p-6">
         <Bonfire.UI.Me.RemoteInteractionFormLive
+          class=""
           canonical_url={@canonical_url}
           name={@name}
           interaction_type={@interaction_type}
