@@ -18,7 +18,11 @@
   <#Icon :if={@show_icon} iconify="ph:link" class="w-4 h-4 shrink-0 text-primary" />
   <span class="flex min-w-0 flex-col gap-0.5">
     <span :if={@show_destination} class="text-xs text-muted break-words">{@text}</span>
-    <span class={"break-all group-hover:underline", "text-success": e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil), "text-primary": !(e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil))}>
+    <span class={
+      "break-all group-hover:underline",
+      "text-success": e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil),
+      "text-primary": !(e(@metadata, "verified", nil) || e(@metadata, "rel_me", "verified", nil))
+    }>
       {#case @metadata}
         {#match %{"orcid" => %{"orcid" => orcid}} when is_binary(orcid) and orcid != ""}
           {orcid}
@@ -27,5 +31,4 @@
       {/case}
     </span>
   </span>
-
 </a>

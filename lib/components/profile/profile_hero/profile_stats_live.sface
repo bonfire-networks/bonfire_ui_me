@@ -30,7 +30,5 @@
       <span class="text-body font-bold text-base-content">{@followers_count}</span>
       <span class="text-sm text-muted group-hover:underline">{l("Followers")}</span>
     </LinkLive>
-
-
   </div>
 </div>

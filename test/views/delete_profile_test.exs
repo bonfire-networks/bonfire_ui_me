@@ -13,7 +13,10 @@ defmodule Bonfire.UI.Me.DeleteProfileTest do
     {:ok, account: account, alice: alice}
   end
 
-  test "settings goes through verification and queues only the selected profile", %{account: account, alice: alice} do
+  test "settings goes through verification and queues only the selected profile", %{
+    account: account,
+    alice: alice
+  } do
     sibling = fake_user!(account)
 
     conn(user: alice, account: account)
@@ -27,7 +30,9 @@ defmodule Bonfire.UI.Me.DeleteProfileTest do
     |> click_button("#sudo-confirm-btn", "Confirm")
     |> assert_has("#sudo-title", text: "Profile deletion requested")
 
-    assert [%{args: %{"ids" => [id]}}] = Oban.Testing.all_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)
+    assert [%{args: %{"ids" => [id]}}] =
+             Oban.Testing.all_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)
+
     assert id == alice.id
     assert {:ok, _} = Users.by_username(sibling.character.username)
     assert {:ok, _} = Bonfire.Me.Accounts.fetch_current(account.id)
@@ -43,24 +48,36 @@ defmodule Bonfire.UI.Me.DeleteProfileTest do
     Oban.Testing.refute_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)
   end
 
-  test "a fresh owner can delete its profile without relying on the selected profile", %{account: account, alice: alice} do
-    response = verified_conn(account) |> post("/account/confirm", %{action: @action, target: alice.id})
+  test "a fresh owner can delete its profile without relying on the selected profile", %{
+    account: account,
+    alice: alice
+  } do
+    response =
+      verified_conn(account) |> post("/account/confirm", %{action: @action, target: alice.id})
+
     assert html_response(response, 200) =~ "Profile deletion requested"
-    assert [%{args: %{"ids" => [id]}}] = Oban.Testing.all_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)
+
+    assert [%{args: %{"ids" => [id]}}] =
+             Oban.Testing.all_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)
+
     assert id == alice.id
   end
 
   test "missing proof cannot execute even an owned target", %{account: account, alice: alice} do
-    response = conn(account: account) |> post("/account/confirm", %{action: @action, target: alice.id})
+    response =
+      conn(account: account) |> post("/account/confirm", %{action: @action, target: alice.id})
+
     assert redirected_to(response) =~ "/account/verify"
     Oban.Testing.refute_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)
   end
 
   test "foreign, missing and malformed targets cannot be executed", %{account: account} do
     foreign = fake_user!(fake_account!())
+
     for target <- [foreign.id, nil, "not-an-id", Needle.ULID.generate()] do
       assert {:error, _} = DeleteUser.execute(%{account: account, target_id: target})
     end
+
     Oban.Testing.refute_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)
   end
 
@@ -73,7 +90,10 @@ defmodule Bonfire.UI.Me.DeleteProfileTest do
     Oban.Testing.refute_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)
   end
 
-  test "caretaker access does not permit deleting a shared profile", %{account: owner, alice: alice} do
+  test "caretaker access does not permit deleting a shared profile", %{
+    account: owner,
+    alice: alice
+  } do
     caretaker = fake_account!()
     caretaker_user = fake_user!(caretaker)
     {:ok, _} = Bonfire.Me.SharedUsers.add_account(alice, "@" <> caretaker_user.character.username)
@@ -84,7 +104,10 @@ defmodule Bonfire.UI.Me.DeleteProfileTest do
     assert {:ok, _} = DeleteUser.execute(%{account: owner, target_id: alice.id})
   end
 
-  test "confirmation names the owned profile without exposing a foreign profile", %{account: account, alice: alice} do
+  test "confirmation names the owned profile without exposing a foreign profile", %{
+    account: account,
+    alice: alice
+  } do
     response = verified_conn(account) |> get(confirm_url(alice.id))
     document = html_response(response, 200) |> Floki.parse_document!()
     assert Floki.find(document, "p.prose") |> Floki.text() =~ alice.character.username
@@ -94,10 +117,14 @@ defmodule Bonfire.UI.Me.DeleteProfileTest do
     refute description.description =~ foreign.character.username
   end
 
-  test "ownership is checked again after the confirmation page is rendered", %{account: account, alice: alice} do
+  test "ownership is checked again after the confirmation page is rendered", %{
+    account: account,
+    alice: alice
+  } do
     browser = verified_conn(account) |> get(confirm_url(alice.id))
     assert html_response(browser, 200) =~ "sudo-confirm-form"
     new_owner = fake_account!()
+
     repo().get!(Bonfire.Data.Identity.Accounted, alice.id)
     |> Ecto.Changeset.change(account_id: new_owner.id)
     |> repo().update!()
@@ -113,5 +140,6 @@ defmodule Bonfire.UI.Me.DeleteProfileTest do
     |> init_test_session(%{sudo_proof: %{password: System.system_time(:millisecond)}})
   end
 
-  defp confirm_url(target), do: "/account/confirm?" <> URI.encode_query(action: @action, target: target)
+  defp confirm_url(target),
+    do: "/account/confirm?" <> URI.encode_query(action: @action, target: target)
 end

@@ -1,50 +1,71 @@
-<dl :if={not is_nil(@joined_date) or @links != [] or @accounts != []} data-role="profile-links" class="min-w-0 mb-4 border-y-(length:--divider-width) border-(color:--divider-color)">
-  <div :if={@joined_date} data-role="profile_joined_date" class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-(color:--divider-color)">
+<dl
+  :if={not is_nil(@joined_date) or @links != [] or @accounts != []}
+  data-role="profile-links"
+  class="min-w-0 mb-4 border-y-(length:--divider-width) border-(color:--divider-color)"
+>
+  <div
+    :if={@joined_date}
+    data-role="profile_joined_date"
+    class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-(color:--divider-color)"
+  >
     <dt class="pt-1 text-sm font-medium text-base-content">{l("Joined")}</dt>
     <dd class="py-1 text-sm text-base-content"><time datetime={Calendar.strftime(@joined_date, "%Y-%m-%d")}>{Calendar.strftime(@joined_date, "%d %b %Y")}</time></dd>
   </div>
-    <div :for={link <- @links} data-role="profile-websites" class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-(color:--divider-color)">
-      <dt class="pt-1 text-sm font-medium text-base-content break-words">{link.label || l("Website")}</dt>
-      <dd class="min-w-0">
-        <Bonfire.UI.Me.ProfileLinkLive href={link.href} text={link.href} class={@class} metadata={link.metadata} show_icon={false} />
-      </dd>
-    </div>
-    <div :for={account <- @accounts} data-role="profile-also-on" class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-(color:--divider-color)">
-      <dt class="pt-1 text-sm font-medium text-base-content">{l("Also on")}</dt>
-      <dd class="min-w-0">
-        {#case Utils.maybe_apply(
-            Bonfire.Federate.ActivityPub.AdapterUtils,
-            :also_known_as?,
-            [@user, account.character],
-            fallback_return: nil
-          )}
-          {#match verified?}
-            <LinkLive
-              to={if String.starts_with?(e(account.character, :username, ""), "http"),
-                do: e(account.character, :username, ""),
-                else: "/character/#{e(account.character, :username, "")}"}
-              class="group flex min-w-0 items-center gap-2 py-1 text-sm rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
-              opts={if verified?, do: [rel: "me"], else: [rel: "me nofollow"]}
-            >
-              <span :if={verified?} class="shrink-0" title={l("Verified alias")}>
-                <#Icon iconify="garden:check-badge-fill-16" class="w-4 h-4 text-success" />
-                <span class="sr-only">{l("Verified alias")}</span>
-              </span>
-              <Bonfire.UI.Common.AvatarLive
-                parent_id={"profile-alias-#{id(@user)}-#{id(account)}"}
-                user_id={id(account)}
-                src={Media.avatar_url(account.profile)}
-                title={e(account.profile, :name, "")}
-                class="w-6 h-6 rounded-full"
-                wrapper_class="shrink-0"
-                is_remote={!Bonfire.Me.Integration.is_local?(account.character)}
-              />
-              <span class="min-w-0 break-all group-hover:underline">
-                {Bonfire.Me.Characters.display_username(e(account.character, :username, ""), true)}
-              </span>
-
-            </LinkLive>
-        {/case}
-      </dd>
-    </div>
+  <div
+    :for={link <- @links}
+    data-role="profile-websites"
+    class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-(color:--divider-color)"
+  >
+    <dt class="pt-1 text-sm font-medium text-base-content break-words">{link.label || l("Website")}</dt>
+    <dd class="min-w-0">
+      <Bonfire.UI.Me.ProfileLinkLive
+        href={link.href}
+        text={link.href}
+        class={@class}
+        metadata={link.metadata}
+        show_icon={false}
+      />
+    </dd>
+  </div>
+  <div
+    :for={account <- @accounts}
+    data-role="profile-also-on"
+    class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-(color:--divider-color)"
+  >
+    <dt class="pt-1 text-sm font-medium text-base-content">{l("Also on")}</dt>
+    <dd class="min-w-0">
+      {#case Utils.maybe_apply(
+          Bonfire.Federate.ActivityPub.AdapterUtils,
+          :also_known_as?,
+          [@user, account.character],
+          fallback_return: nil
+        )}
+        {#match verified?}
+          <LinkLive
+            to={if String.starts_with?(e(account.character, :username, ""), "http"),
+              do: e(account.character, :username, ""),
+              else: "/character/#{e(account.character, :username, "")}"}
+            class="group flex min-w-0 items-center gap-2 py-1 text-sm rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            opts={if verified?, do: [rel: "me"], else: [rel: "me nofollow"]}
+          >
+            <span :if={verified?} class="shrink-0" title={l("Verified alias")}>
+              <#Icon iconify="garden:check-badge-fill-16" class="w-4 h-4 text-success" />
+              <span class="sr-only">{l("Verified alias")}</span>
+            </span>
+            <Bonfire.UI.Common.AvatarLive
+              parent_id={"profile-alias-#{id(@user)}-#{id(account)}"}
+              user_id={id(account)}
+              src={Media.avatar_url(account.profile)}
+              title={e(account.profile, :name, "")}
+              class="w-6 h-6 rounded-full"
+              wrapper_class="shrink-0"
+              is_remote={!Bonfire.Me.Integration.is_local?(account.character)}
+            />
+            <span class="min-w-0 break-all group-hover:underline">
+              {Bonfire.Me.Characters.display_username(e(account.character, :username, ""), true)}
+            </span>
+          </LinkLive>
+      {/case}
+    </dd>
+  </div>
 </dl>

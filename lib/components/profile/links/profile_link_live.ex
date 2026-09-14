@@ -9,5 +9,4 @@ defmodule Bonfire.UI.Me.ProfileLinkLive do
   prop metadata, :any, default: nil
   prop show_icon, :boolean, default: true
   prop show_destination, :boolean, default: false
-
 end

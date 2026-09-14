@@ -64,9 +64,25 @@ defmodule Bonfire.UI.Me.ProfileLinksTest do
   test "website and additional links share an always-visible list and retain verification" do
     website = Faker.Internet.url()
     url = "https://example.org/research"
-    aliases = [%{edge: %{object: %{media_type: "website", path: url, metadata: %{"name" => "Research", "verified" => true}}}}]
 
-    html = render_component(&ProfileLinksLive.render/1, user: %{id: "profile", profile: %{website: website}}, aliases: aliases)
+    aliases = [
+      %{
+        edge: %{
+          object: %{
+            media_type: "website",
+            path: url,
+            metadata: %{"name" => "Research", "verified" => true}
+          }
+        }
+      }
+    ]
+
+    html =
+      render_component(&ProfileLinksLive.render/1,
+        user: %{id: "profile", profile: %{website: website}},
+        aliases: aliases
+      )
+
     document = Floki.parse_document!(html)
 
     assert [] == Floki.find(document, "details, summary")
@@ -77,10 +93,19 @@ defmodule Bonfire.UI.Me.ProfileLinksTest do
   end
 
   test "joined date is the first information row even without links" do
-    html = render_component(&ProfileLinksLive.render/1, user: nil, aliases: [], joined_date: ~D[2020-03-30])
+    html =
+      render_component(&ProfileLinksLive.render/1,
+        user: nil,
+        aliases: [],
+        joined_date: ~D[2020-03-30]
+      )
+
     document = Floki.parse_document!(html)
     assert Floki.find(document, "dl > div:first-child dt") |> Floki.text() == "Joined"
-    assert [_] = Floki.find(document, "[data-role=profile_joined_date] time[datetime='2020-03-30']")
+
+    assert [_] =
+             Floki.find(document, "[data-role=profile_joined_date] time[datetime='2020-03-30']")
+
     refute html =~ "<details"
   end
 

@@ -35,7 +35,12 @@
     <div class="mt-3">
       <a
         id="verify-delete-profile"
-        href={path(:sudo_confirm) <> "?" <> URI.encode_query(action: "Bonfire.Me.SensitiveActions.DeleteUser", target: current_user_id(@__context__))}
+        href={path(:sudo_confirm) <>
+          "?" <>
+          URI.encode_query(
+            action: "Bonfire.Me.SensitiveActions.DeleteUser",
+            target: current_user_id(@__context__)
+          )}
         class="btn-error btn mt-3 w-full"
       >
         {l("Continue to delete profile")}
