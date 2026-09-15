@@ -348,7 +348,10 @@
                                           {dimension, slug} in [
                                             {:membership, "local:members"},
                                             {:participation, "local:contributors"}
-                                          ], do: l("Anyone on this instance"), else: e(meta, :label, nil))
+                                          ],
+                                          do: l("Anyone on this instance"),
+                                          else: e(meta, :label, nil)
+                                        )
                                     )}
                                   </dt>
                                   <dd :if={e(meta, :description, nil)} class="leading-relaxed">{e(meta, :description, nil)}</dd>
