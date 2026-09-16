@@ -335,7 +335,8 @@
                           {#for {dimension, slug, label} <- [
                               {:membership, @membership_slug, l("Joining")},
                               {:visibility, @visibility_slug, l("Visibility")},
-                              {:participation, @participation_slug, l("Posting")}
+                              {:participation, @participation_slug, l("Posting")},
+                              {:default_content_visibility, @content_visibility_slug, l("Posts")}
                             ]}
                             {#case Bonfire.Boundaries.Presets.dimension_meta(dimension, slug)}
                               {#match %{} = meta}

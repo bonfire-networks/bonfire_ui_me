@@ -40,6 +40,9 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop membership_slug, :string, default: nil
   prop visibility_slug, :string, default: nil
   prop participation_slug, :string, default: nil
+
+  # the group's stored `default_content_visibility`: who can read what members post. Read by the group page from `Bonfire.Classify.Boundaries.read_default_content_visibility/2`; `nil` hides the row.
+  prop content_visibility_slug, :string, default: nil
   prop member_count, :integer, default: 0
 
   @doc """
