@@ -22,10 +22,9 @@
         />
       </div>
     {#match "feeds"}
-      <div class="bonfire-wrapper page-panel">
+      <div class="page-panel">
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Social.FeedsSettingsLive, @__context__)}
-          selected_tab={@selected_tab}
           id={@id}
           scope={@scope}
         />

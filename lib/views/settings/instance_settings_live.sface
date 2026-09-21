@@ -49,7 +49,6 @@
     {#match "feeds"}
       <StatelessComponent
         module={maybe_component(Bonfire.UI.Social.FeedsSettingsLive, @__context__)}
-        selected_tab={@selected_tab}
         id={@id}
         scope={@scope}
       />
