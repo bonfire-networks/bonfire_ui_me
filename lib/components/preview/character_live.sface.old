@@ -22,7 +22,7 @@
         </span>
       </span>
 
-      {raw @verb_display}
+      {raw @experienced_as}
 
       {!-- then summarise the object --}
       <span :if={uid(@object) == current_user_id(@__context__)}>
@@ -92,7 +92,7 @@
         </span>
       </span>
 
-      {raw @verb_display} --}
+      {raw @experienced_as} --}
 
       {!-- then summarise the object --}
       {!-- <span :if={uid(@object) == current_user_id(@__context__)}>

@@ -168,6 +168,46 @@
     </form>
   </div>
 
+  <div class="divide-hair divide-secondary border-t border-secondary">
+    <div class="p-4">
+      <StatefulComponent
+        id="allowed_email_domains"
+        module={maybe_component(Bonfire.UI.Common.SettingsListLive, @__context__)}
+        keys={[Bonfire.Me.Accounts, :allowed_email_domains]}
+        scope={:instance}
+        name={l("Restrict signups to email domains")}
+        description={l(
+          "Only people whose email address is on one of these domains can create an account. Leave empty to allow any email."
+        )}
+        placeholder={l("example.com")}
+        normalize={&Bonfire.Common.Text.normalize_domain/1}
+        allow_bulk_paste
+      />
+    </div>
+    <div class="p-4">
+      {#if Bonfire.Me.Accounts.signup_domain_gate_active?()}
+        <label class="flex items-center justify-between opacity-70 cursor-not-allowed">
+          <div class="flex flex-col gap-0.5 mr-2">
+            <div class="text-sm font-medium text-base-content">{l("Passwordless signup (magic link)")}</div>
+            <div class="text-sm text-muted">{l(
+                "Required while signups are restricted by email domain, so new members verify their address by email link."
+              )}</div>
+          </div>
+          <input type="checkbox" checked disabled class="toggle toggle-sm toggle-primary">
+        </label>
+      {#else}
+        <form phx-change="Bonfire.Common.Settings:set">
+          <Bonfire.UI.Common.SettingsToggleLive
+            name={l("Passwordless signup (magic link)")}
+            description={l("New members sign in with an email link instead of a password (they can set a password later).")}
+            keys={[:bonfire_ui_me, :login, :passwordless_only]}
+            scope={:instance}
+          />
+        </form>
+      {/if}
+    </div>
+  </div>
+
   <Bonfire.UI.Me.SettingsViewsLive.InstanceTuningLive scope={:instance} />
 
   <div class="">

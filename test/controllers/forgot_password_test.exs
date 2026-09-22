@@ -126,4 +126,73 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
       assert redirected_to(get(recycle(conn), href)) == @go
     end
   end
+
+  # Setting the allowed domains enables passwordless (via the coupling in `passwordless_only?`), so
+  # this drives the real create -> provider -> magic-link path, not a hand-built call.
+  describe "signup by allowed email domain (magic link)" do
+    setup do
+      Process.put([:bonfire_me, Bonfire.Me.Accounts, :allowed_email_domains], ["example.com"])
+      :ok
+    end
+
+    test "an unknown allowed-domain email is provisioned and gets a magic link" do
+      email = "newbie-#{System.unique_integer([:positive])}@example.com"
+      refute Accounts.get_by_email(email)
+
+      resp = submit_forgot(email)
+      assert resp.resp_body =~ "Check your inbox"
+
+      assert Accounts.get_by_email(email)
+      assert_email_sent()
+    end
+
+    test "an unknown off-list email provisions nothing and stays neutral" do
+      email = "newbie-#{System.unique_integer([:positive])}@other.test"
+
+      resp = submit_forgot(email)
+      assert resp.resp_body =~ "Check your inbox"
+      refute Accounts.get_by_email(email)
+    end
+
+    test "clicking the provisioned link logs in" do
+      email = "newbie-#{System.unique_integer([:positive])}@example.com"
+      submit_forgot(email)
+
+      token =
+        Accounts.get_by_email(email)
+        |> repo().preload(:email)
+        |> Map.fetch!(:email)
+        |> Map.fetch!(:confirm_token)
+
+      assert is_binary(token)
+      conn = get(conn(), "/login/forgot-password/#{token}")
+      assert conn.status in [302, 303]
+    end
+  end
+
+  describe "domain-restriction hint on the sign-in entry" do
+    @hint "limited to certain email domains"
+
+    test "shows when signups are domain-restricted and the visitor has no invite" do
+      Process.put([:bonfire_me, Accounts, :allowed_email_domains], ["example.com"])
+      resp = get(conn(), "/login/forgot-password")
+      assert resp.resp_body =~ @hint
+    end
+
+    test "is hidden when there is no domain restriction" do
+      resp = get(conn(), "/login/forgot-password")
+      refute resp.resp_body =~ @hint
+    end
+
+    test "is hidden for a visitor arriving with an invite (an invite bypasses the restriction)" do
+      Process.put([:bonfire_me, Accounts, :allowed_email_domains], ["example.com"])
+
+      resp =
+        conn()
+        |> Plug.Test.init_test_session(%{"invite" => "some-token"})
+        |> get("/login/forgot-password")
+
+      refute resp.resp_body =~ @hint
+    end
+  end
 end

@@ -680,4 +680,123 @@ defmodule Bonfire.UI.Me.SettingsTest do
              )
     end
   end
+
+  describe "Safety - keyword filter (SettingsListLive)" do
+    # the ported keyword filter reads/writes this setting as a list of strings
+    @keyword_keys [:activity_pub, :mrf_keyword, :reject]
+    @safety_path "/settings/user/safety"
+
+    test "adding a keyword shows it as a chip and persists across a reload", %{conn: conn} do
+      conn
+      |> visit(@safety_path)
+      |> within("#filter_keywords", fn session ->
+        session
+        |> fill_in("Filter keywords", with: "spammy")
+        |> click_button("Add")
+      end)
+      |> assert_has("#filter_keywords", text: "spammy")
+
+      # a fresh visit reads it back through the component's real Settings path, proving it persisted
+      # (not just the in-memory assign)
+      conn
+      |> visit(@safety_path)
+      |> assert_has("#filter_keywords", text: "spammy")
+    end
+
+    test "a bulk paste splits comma/newline-separated keywords into separate chips", %{conn: conn} do
+      conn
+      |> visit(@safety_path)
+      |> within("#filter_keywords", fn session ->
+        session
+        |> fill_in("Filter keywords", with: "alpha, beta\ngamma")
+        |> click_button("Add")
+      end)
+      |> assert_has("#filter_keywords li", text: "alpha")
+      |> assert_has("#filter_keywords li", text: "beta")
+      |> assert_has("#filter_keywords li", text: "gamma")
+    end
+
+    test "removing a keyword drops the chip and stops persisting it", %{conn: conn, alice: alice} do
+      {:ok, _} =
+        Bonfire.Common.Settings.put(@keyword_keys, ["removeme"],
+          current_user: alice,
+          scope: :user
+        )
+
+      conn
+      |> visit(@safety_path)
+      |> assert_has("#filter_keywords", text: "removeme")
+      |> within("#filter_keywords", fn session ->
+        click_button(session, "Remove: removeme")
+      end)
+      |> refute_has("#filter_keywords li", text: "removeme")
+
+      # the removal persists: a fresh visit no longer shows it
+      conn
+      |> visit(@safety_path)
+      |> refute_has("#filter_keywords li", text: "removeme")
+    end
+  end
+
+  describe "Instance signup email-domain allowlist" do
+    @instance_config_path "/settings/instance/configuration"
+    @domains_keys [Bonfire.Me.Accounts, :allowed_email_domains]
+
+    setup %{account: account} do
+      orig = Config.get(@domains_keys)
+      on_exit(fn -> Config.put(@domains_keys, orig) end)
+      %{conn: conn(user: fake_admin!(account), account: account)}
+    end
+
+    test "an admin adds a domain: it normalizes, persists, and turns the gate on", %{conn: conn} do
+      refute Bonfire.Me.Accounts.signup_domain_gate_active?()
+
+      conn
+      |> visit(@instance_config_path)
+      |> within("#allowed_email_domains", fn session ->
+        session
+        |> fill_in("Restrict signups to email domains", with: "MyOrg.com")
+        |> click_button("Add")
+      end)
+      |> assert_has("#allowed_email_domains", text: "myorg.com")
+
+      assert Bonfire.Me.Accounts.signup_domain_gate_active?()
+      assert Bonfire.Me.Accounts.email_on_allowed_domain?("someone@myorg.com")
+
+      # persists across a reload
+      conn
+      |> visit(@instance_config_path)
+      |> assert_has("#allowed_email_domains", text: "myorg.com")
+    end
+
+    test "removing the last domain turns the gate back off", %{conn: conn} do
+      conn
+      |> visit(@instance_config_path)
+      |> within("#allowed_email_domains", fn session ->
+        session
+        |> fill_in("Restrict signups to email domains", with: "myorg.com")
+        |> click_button("Add")
+      end)
+      |> assert_has("#allowed_email_domains", text: "myorg.com")
+      |> within("#allowed_email_domains", fn session ->
+        click_button(session, "Remove: myorg.com")
+      end)
+      |> refute_has("#allowed_email_domains li", text: "myorg.com")
+
+      refute Bonfire.Me.Accounts.signup_domain_gate_active?()
+    end
+
+    test "while a domain is set, a fresh load shows passwordless as required (not editable)", %{
+      conn: conn
+    } do
+      Bonfire.Common.Settings.put(@domains_keys, ["myorg.com"],
+        scope: :instance,
+        skip_boundary_check: true
+      )
+
+      conn
+      |> visit(@instance_config_path)
+      |> assert_has("div", text: "Required while signups are restricted by email domain")
+    end
+  end
 end

@@ -11,7 +11,7 @@
         </div>
 
         <div class="flex items-center gap-3 shrink-0">
-          <!-- {#if to_string(@extension) not in Bonfire.Application.required_deps()}
+          <!-- {#if to_string(@extension) not in Bonfire.Application.project()[:required_deps]()}
             <div class="flex items-center gap-2">
               <span class="text-xs text-muted">{l("Enabled")}</span>
               <Bonfire.UI.Common.ExtensionToggleLive

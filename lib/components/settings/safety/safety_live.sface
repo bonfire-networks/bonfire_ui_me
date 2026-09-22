@@ -235,11 +235,15 @@
     <div class="p-4">
       <StatefulComponent
         id="filter_keywords"
-        module={maybe_component(Bonfire.UI.Me.SettingsViewsLive.FilterKeywordsLive, @__context__)}
-        filter_keywords={Bonfire.Boundaries.BlockKeywords.block_keywords_settings(context: @scoped, one_scope_only: true)
-        |> List.wrap()
-        |> Enum.filter(&is_binary/1)}
+        module={maybe_component(Bonfire.UI.Common.SettingsListLive, @__context__)}
+        keys={[:activity_pub, :mrf_keyword, :reject]}
         scope={@scope}
+        name={l("Filter keywords")}
+        description={l(
+          "Posts containing these keywords will be hidden from your feeds. You can enter multiple keywords separated by commas."
+        )}
+        placeholder={l("Enter keyword...")}
+        allow_bulk_paste
       />
     </div>
   </div>

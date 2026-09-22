@@ -108,11 +108,11 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
     with email when is_binary(email) and email != "" <- Map.get(data, "email") do
       case Accounts.get_by_email(email) do
         nil ->
-          Bonfire.UI.Me.LoginEmailProvider.ensure(email)
+          Bonfire.Me.LoginEmailProvider.ensure(email)
 
         account ->
           case Users.by_account(account) do
-            [] -> Bonfire.UI.Me.LoginEmailProvider.reconcile(email, account)
+            [] -> Bonfire.Me.LoginEmailProvider.reconcile(email, account)
             [_ | _] -> :ok
           end
       end

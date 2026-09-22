@@ -5,7 +5,7 @@ defmodule Bonfire.UI.Me.Preview.CharacterLive do
   prop object_type, :any, default: nil
   prop verb, :any, default: nil
   prop activity, :any, default: nil
-  prop verb_display, :string, default: nil
+  prop experienced_as, :atom, default: nil
   prop permalink, :string, default: nil
   prop wrapper_class, :string, default: nil
   prop date_ago, :string, default: nil
@@ -24,7 +24,8 @@ defmodule Bonfire.UI.Me.Preview.CharacterLive do
     |> assign(
       :the_character,
       cond do
-        e(assigns, :verb, nil) in ["Follow", "Request to Follow"] and object_id == current_user_id ->
+        e(assigns, :experienced_as, nil) in [:follow, :follow_request] and
+            object_id == current_user_id ->
           debug(
             "special case for showing the follower instead of the object when I am the one being followed"
           )

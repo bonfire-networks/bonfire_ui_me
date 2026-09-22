@@ -23,6 +23,12 @@ defmodule Bonfire.UI.Me.ForgotPasswordLive do
      |> assign(:requested, session["requested"])
      |> assign(:email, session["email"])
      |> assign(:go, session["go"])
-     |> assign(:passwordless_only?, passwordless_only?)}
+     |> assign(:passwordless_only?, passwordless_only?)
+     # show the domain-restriction hint only when signups are limited AND the visitor has no invite
+     # (an invite bypasses the restriction, so the hint would be wrong for them)
+     |> assign(
+       :show_domain_hint,
+       Bonfire.Me.Accounts.signup_domain_gate_active?() and is_nil(session["invite"])
+     )}
   end
 end
