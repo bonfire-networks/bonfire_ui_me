@@ -1,7 +1,8 @@
 {!-- One form. "Send sign-in link" requests an email link; "I have a password" reveals a password field and its own "Sign in" button, and the controller logs in instead (see `login_with`). The person picks, never the server, so the page is the same for every email and doesn't reveal who has an account or a password. --}
+{!-- the login page's field names and a non-"forgot" action, so password managers see a login form --}
 <.simple_form
-  for={to_form(%{}, as: :forgot_password_fields)}
-  action={path(Bonfire.UI.Me.ForgotPasswordController, :create)}
+  for={to_form(%{}, as: :login_fields)}
+  action="/login/email"
   class="w-full md:ml-0"
   opts={[id: "login-form"]}
 >
@@ -32,12 +33,13 @@
     <div class="text-heading mb-1">{l("Already have an account? Sign in now.")}</div>
     <.input
       field={to_form(
-        %{"email" => Bonfire.UI.Me.LoginViewLive.attempted_email(@form)},
-        as: :forgot_password_fields
-      )[:email]}
-      type="email"
+        %{"email_or_username" => Bonfire.UI.Me.LoginViewLive.attempted_email(@form)},
+        as: :login_fields
+      )[:email_or_username]}
+      type="text"
+      autocomplete="username"
       required
-      label={l("Email address")}
+      label={l("Email or username")}
       placeholder="alice@email.com"
       label_class="fieldset-legend"
       class="w-full input"
@@ -74,7 +76,7 @@
     <div class="mt-3 flex flex-col gap-3">
       <Bonfire.UI.Me.PasswordInputLive
         id="password-login-input"
-        name="forgot_password_fields[password]"
+        name="login_fields[password]"
         label={l("Password")}
         placeholder={l("Type your password")}
         required={false}

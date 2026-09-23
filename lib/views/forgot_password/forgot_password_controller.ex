@@ -40,33 +40,43 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
 
   def index(conn, _), do: live_render(conn, ForgotPasswordLive)
 
-  # the passwordless login form's "I have a password" button: same form, but log in with the password instead of emailing a link
-  def create(conn, %{"login_with" => "password"} = params) do
-    data = Map.get(params, "forgot_password_fields", %{})
-
-    LoginController.create(conn, %{
-      "login_fields" => %{
-        "email_or_username" => Map.get(data, "email"),
-        "password" => Map.get(data, "password")
-      },
-      "go" => Map.get(params, "go")
-    })
-  end
-
   def create(conn, params) do
-    data = Map.get(params, "forgot_password_fields", %{})
-    email = Map.get(data, "email")
+    data = submitted_fields(params)
     # `go` rides as a top-level hidden field on the passwordless login form, so the
     # emailed link can send the user back to where they came from after signing in.
     go = Map.get(params, "go")
 
+    # the passwordless login form's "I have a password" button logs in with the password instead of emailing a link. A filled-in password counts too, because pressing Enter submits with the form's first button ("Send sign-in link").
+    if params["login_with"] == "password" or
+         (is_binary(data["password"]) and data["password"] != "") do
+      LoginController.create(conn, %{
+        "login_fields" => %{"email_or_username" => data["email"], "password" => data["password"]},
+        "go" => go
+      })
+    else
+      # shown back on the "check your inbox" screen: what the person typed, never the address found for a username
+      typed = data["email"]
+
+      case Accounts.email_for_sign_in_link(typed || "") do
+        # an unknown username: the same screen as an unknown email, and nothing is sent
+        nil -> requested(conn, typed, go)
+        email -> request_link(conn, Map.put(data, "email", email), typed, go)
+      end
+    end
+  end
+
+  # The passwordless login form uses the login page's field names, so password managers treat it as a login form; the forgot-password page and the resend button use `forgot_password_fields`.
+  defp submitted_fields(%{"login_fields" => %{} = fields}),
+    do: %{"email" => fields["email_or_username"], "password" => fields["password"]}
+
+  defp submitted_fields(params), do: Map.get(params, "forgot_password_fields", %{})
+
+  defp request_link(conn, data, typed, go) do
     maybe_run_login_email_providers(data)
 
     case request_email(data, go) do
       {:ok, _, _} ->
-        live_render(conn, ForgotPasswordLive,
-          session: %{"requested" => true, "email" => email, "go" => go}
-        )
+        requested(conn, typed, go)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         # `request_confirm_email` adds `:form` errors like "not_found" /
@@ -75,22 +85,24 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
         # or not — show the same neutral success state as the {:ok,_,_} branch
         # whenever the form itself is otherwise valid.
         if neutral_form_error?(changeset) do
-          live_render(conn, ForgotPasswordLive,
-            session: %{"requested" => true, "email" => email, "go" => go}
-          )
+          requested(conn, typed, go)
         else
           live_render(conn, ForgotPasswordLive, session: %{"form" => changeset, "go" => go})
         end
 
       {:error, :not_found} ->
-        live_render(conn, ForgotPasswordLive,
-          session: %{"requested" => true, "email" => email, "go" => go}
-        )
+        requested(conn, typed, go)
 
       other ->
         error(other, "Unexpected result from forgot password flow")
         live_render(conn, ForgotPasswordLive, session: %{"error" => true, "go" => go})
     end
+  end
+
+  defp requested(conn, typed, go) do
+    live_render(conn, ForgotPasswordLive,
+      session: %{"requested" => true, "email" => typed, "go" => go}
+    )
   end
 
   def form(params \\ %{}), do: Accounts.changeset(:forgot_password, params)

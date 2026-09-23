@@ -104,6 +104,9 @@ defmodule Bonfire.UI.Me.Routes do
           as: :forgot_password
         )
 
+        # the passwordless login form posts here: some password managers won't fill a form whose action mentions "forgot"
+        post("/login/email", ForgotPasswordController, :create)
+
         resources(
           "/login/forgot-password/:login_token",
           ForgotPasswordController,

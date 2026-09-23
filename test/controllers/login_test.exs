@@ -1,5 +1,6 @@
 defmodule Bonfire.UI.Me.LoginController.Test do
   use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
+  import Swoosh.TestAssertions
   alias Bonfire.Me.Accounts
 
   @external_host "https://blog.example.com"
@@ -57,7 +58,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       doc = floki_response(conn)
 
       assert [form] = Floki.find(doc, "#login-form")
-      assert [_] = Floki.find(form, "input[type='email']")
+      assert [_] = Floki.find(form, "input[name='login_fields[email_or_username]']")
       assert Floki.text(form) =~ ~r/Send sign-in link/
       # the only password field is inside the collapsed "I have a password" disclosure
       assert [_] = Floki.find(form, "input[type='password']")
@@ -76,9 +77,9 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       assert [_] = Floki.find(disclosure, "button[name=login_with][value=password]")
     end
 
-    defp login_with_password(email, password) do
-      post(conn(), "/login/forgot-password", %{
-        "forgot_password_fields" => %{"email" => email, "password" => password},
+    defp login_with_password(email_or_username, password) do
+      post(conn(), "/login/email", %{
+        "login_fields" => %{"email_or_username" => email_or_username, "password" => password},
         "login_with" => "password"
       })
     end
@@ -105,16 +106,78 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       assert Floki.text(form) =~ "Account not found"
       assert [_] = Floki.find(form, "details[data-role=password_login][open]")
 
-      assert Floki.attribute(form, "input[type='email']", "value") == [
+      assert Floki.attribute(form, "input[name='login_fields[email_or_username]']", "value") == [
                account.email.email_address
              ]
     end
 
-    test "posts to forgot-password endpoint" do
-      conn = get(conn(), "/login")
-      doc = floki_response(conn)
+    test "the sign-in field takes an email or a username (the browser doesn't demand an email)" do
+      doc = get(conn(), "/login") |> floki_response()
+
+      assert [form] = Floki.find(doc, "#login-form")
+      assert [input] = Floki.find(form, "input[name='login_fields[email_or_username]']")
+      assert Floki.attribute(input, "type") == ["text"]
+      assert Floki.text(form) =~ "Email or username"
+    end
+
+    test "pressing Enter in the password field logs in with the password instead of sending a link" do
+      account = fake_account!()
+      _user = fake_user!(account)
+      {:ok, account} = Accounts.confirm_email(account)
+
+      # Enter submits with the form's first button ("Send sign-in link"), so no `login_with` is sent
+      conn =
+        post(conn(), "/login/email", %{
+          "login_fields" => %{
+            "email_or_username" => account.email.email_address,
+            "password" => account.credential.password
+          }
+        })
+
+      assert redirected_to(conn, 303) == "/"
+    end
+
+    test "an account with a password can log in with its username" do
+      account = fake_account!()
+      user = fake_user!(account)
+      {:ok, account} = Accounts.confirm_email(account)
+
+      conn = login_with_password(user.character.username, account.credential.password)
+
+      assert redirected_to(conn, 303) == "/"
+    end
+
+    test "looks like a login form to password managers: no \"forgot\" action, the login page's field names" do
+      doc = get(conn(), "/login") |> floki_response()
+
       [form] = Floki.find(doc, "#login-form")
-      assert Floki.attribute(form, "action") |> List.first() =~ "/login/forgot-password"
+      assert Floki.attribute(form, "action") == ["/login/email"]
+
+      assert Floki.attribute(
+               form,
+               "input[name='login_fields[email_or_username]']",
+               "autocomplete"
+             ) ==
+               ["username"]
+
+      assert Floki.attribute(form, "input[name='login_fields[password]']", "autocomplete") ==
+               ["current-password"]
+    end
+
+    test "\"Send sign-in link\" from the login form emails a link" do
+      account = fake_account!()
+      fake_user!(account)
+
+      resp =
+        post(conn(), "/login/email", %{
+          "login_fields" => %{
+            "email_or_username" => account.email.email_address,
+            "password" => ""
+          }
+        })
+
+      assert resp.resp_body =~ "Check your inbox"
+      assert_email_sent(to: account.email.email_address)
     end
   end
 

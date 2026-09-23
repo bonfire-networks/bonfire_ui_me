@@ -125,6 +125,27 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
       # via the session (stashed from the email link), not via the link itself.
       assert redirected_to(get(recycle(conn), href)) == @go
     end
+
+    test "a link requested by username goes to that account's email, and the screen shows only the username" do
+      account = fake_account!()
+      user = fake_user!(account)
+      address = account.email.email_address
+
+      resp = submit_forgot(user.character.username)
+
+      assert_email_sent(to: address)
+      assert resp.resp_body =~ "Check your inbox"
+      assert resp.resp_body =~ user.character.username
+      # showing the address found for a username would reveal it to whoever typed the username
+      refute resp.resp_body =~ address
+    end
+
+    test "an unknown username gets the same screen, and no email is sent" do
+      resp = submit_forgot("nobody#{System.unique_integer([:positive])}")
+
+      assert resp.resp_body =~ "Check your inbox"
+      assert_no_email_sent()
+    end
   end
 
   # Setting the allowed domains enables passwordless (via the coupling in `passwordless_only?`), so

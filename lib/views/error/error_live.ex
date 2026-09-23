@@ -7,8 +7,9 @@ defmodule Bonfire.UI.Me.ErrorLive do
     code = params["code"]
     flash_reason = Phoenix.Flash.get(socket.assigns[:flash] || %{}, :error)
 
+    # only asked when there IS a code: `get_error_msg(nil)` answers with the `nil` entry's generic 500 message ("There was an error."), which is a string, so it always won and the flash a redirect carried (e.g. "Not found") was never shown
     headline =
-      maybe_apply(Bonfire.Fail, :get_error_msg, code, fn -> nil end) ||
+      (code && maybe_apply(Bonfire.Fail, :get_error_msg, code, fn -> nil end)) ||
         flash_reason ||
         default_msg()
 
