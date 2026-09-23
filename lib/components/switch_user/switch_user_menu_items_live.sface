@@ -1,78 +1,59 @@
-{#if @max_users_per_account > 1}
-  {#if @show_inline_users && is_list(e(@__context__, :current_account_users, nil))}
-    <li class="hover:bg-base-300">
-      <div class="flex items-center gap-2 justify-evenly py-2 w-full">
-        <div
-          :for={{%{id: user_id} = user, i} <-
-            Enum.with_index(
-              [current_user(@__context__)] ++
-                Enum.reject(
-                  e(@__context__, :current_account_users, []) || [],
-                  &(Enums.id(&1) == current_user_id(@__context__))
-                )
-            )}
-          class=""
-        >
-          <LinkLive
-            to={"/switch-user/#{user.character.username}"}
-            class={
-              "relative rounded-full p-0",
-              "ring-primary block ring-offset-base-100  ring-2 ring-offset-2": i == 0
-            }
-            title={l("View profile")}
-          >
-            <Bonfire.UI.Common.AvatarLive
-              src={Media.avatar_url(user)}
-              user_id={user_id}
-              title={e(user, :profile, :name, "Anon")}
-              class="w-6 h-6 !rounded-full flex-shrink-0"
-              parent_id="switch_user_menu"
-              is_remote={false}
-            />
+<li id="switch_user_menu_items" class={"my-1 border-y border-secondary py-1": @show_inline_users}>
+  {#if @max_users_per_account > 1}
+    {!-- a nested menu list (without daisy's submenu indent), so each profile is a regular menu item --}
+    <ul class="m-0 p-0 min-w-0 whitespace-normal before:hidden">
+      {#if @show_inline_users}
+        {#if is_list(@account_users)}
+          <li :for={%{id: user_id} = user <- @account_users}>
+            <LinkLive
+              to={"/switch-user/#{e(user, :character, :username, nil)}"}
+              class="flex min-w-0 items-center gap-2 text-sm text-base-content"
+              opts={["data-role": "switch_user_menu_profile"]}
+            >
+              <div class="shrink-0">
+                <Bonfire.UI.Common.AvatarLive
+                  bg_class="rounded-full"
+                  title={e(user, :profile, :name, nil)}
+                  class="inline-block object-cover rounded-full w-6 h-6"
+                  src={Media.avatar_url(user)}
+                  user_id={user_id}
+                  parent_id="switch_user_menu"
+                  is_remote={false}
+                />
+              </div>
+              <div class="min-w-0 flex-1 truncate">
+                {e(user, :profile, :name, nil) || e(user, :character, :username, nil)}
+              </div>
+              <div
+                :if={user_id in @unseen_user_ids}
+                class="shrink-0 badge badge-primary badge-xs rounded-full p-1 w-3 h-3"
+                title={l("Unread notifications or messages")}
+                data-role="switch_user_menu_unseen"
+              >
+                <span class="sr-only">{l("Has unread notifications or messages")}</span>
+              </div>
+            </LinkLive>
+          </li>
+        {#else}
+          {!-- placeholder until the menu is opened and the profiles are loaded --}
+          <li aria-hidden="true">
+            <div class="flex items-center gap-3">
+              <div class="w-6 h-6 shrink-0 rounded-full bg-base-content/10 animate-pulse" />
+              <div class="h-3 w-28 rounded bg-base-content/10 animate-pulse" />
+            </div>
+          </li>
+        {/if}
+      {/if}
 
-            {#if i != 0}
-              <div class="indicator absolute top-0 left-0" title={l("View notifications")}>
-                <Bonfire.UI.Common.BadgeCounterLive
-                  parent_id="switch_user_menu"
-                  id={"unseen_count_#{e(user, :character, :notifications_id, nil)}"}
-                  feed_id={e(user, :character, :notifications_id, nil)}
-                  for_user={user}
-                  counter_class="indicator-middle indicator-center"
-                />
-              </div>
-              <div class="indicator absolute right-0 top-0" title={l("View messages")}>
-                <Bonfire.UI.Common.BadgeCounterLive
-                  parent_id="switch_user_menu"
-                  id={"unseen_count_#{e(user, :character, :inbox_id, nil)}"}
-                  feed_id={e(user, :character, :inbox_id, nil)}
-                  for_user={user}
-                  counter_class="indicator-middle indicator-center"
-                />
-              </div>
-            {/if}
-          </LinkLive>
-        </div>
-        <div
-          :if={length(e(@__context__, :current_account_users, []) || []) + 1 < @max_users_per_account}
-          class="tooltip tooltip-left"
-          data-tip={l("Create new profile")}
+      <li>
+        <LinkLive
+          to={~p"/switch-user"}
+          class="flex items-center gap-2 text-sm text-base-content justify-between"
         >
-          <LinkLive to={~p"/create-user"} class="w-6 h-6 !rounded-full flex-shrink-0">
-            <#Icon iconify="heroicons:plus-circle" class="w-5 h-5" />
-          </LinkLive>
-        </div>
-      </div>
-    </li>
-    <div class="divider h-0 my-1" />
-  {#else}
-    <li>
-      <LinkLive
-        to={~p"/switch-user"}
-        class="flex items-center gap-2 text-sm text-base-content justify-between"
-      >
-        <div>{l("Switch profile")}</div>
-        <#Icon iconify="ph:user-switch-duotone" class="w-5 h-5 shrink-0" />
-      </LinkLive>
-    </li>
+          <div>{l("Switch profile")}</div>
+          <#Icon iconify="ph:user-switch-fill" class="w-5 h-5 shrink-0 text-muted" />
+        </LinkLive>
+      </li>
+    </ul>
   {/if}
-{/if}
+</li>
