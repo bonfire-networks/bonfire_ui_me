@@ -22,7 +22,7 @@
       rel="noopener"
       class="btn btn-ds-outline btn-sm mt-3"
     >
-      {l("Sign in")}
+      {l("Sign up")}
     </a>
   </div>
 
