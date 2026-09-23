@@ -13,6 +13,29 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     assert [] = Floki.find(doc, "#dock-login-action")
   end
 
+  describe "SSO signup, called the way the OAuth callback calls it" do
+    setup do
+      # an existing account, so the first-account bypass doesn't wave the signup through
+      fake_account!()
+      Process.put([:bonfire_me, Bonfire.Me.Accounts, :trusted_signup_providers], [:github])
+      :ok
+    end
+
+    test "a trusted provider's signup succeeds when the provider is passed in opts, with nothing in the session" do
+      email = "u#{System.unique_integer([:positive])}@anywhere.test"
+
+      assert {:ok, _conn} =
+               conn()
+               |> Plug.Test.init_test_session(%{})
+               |> Bonfire.UI.Me.SignupController.attempt(%{openid_email: email}, %{},
+                 must_confirm?: false,
+                 open_id_provider: {:github, nil}
+               )
+
+      assert Bonfire.Me.Accounts.get_by_email(email)
+    end
+  end
+
   describe "required fields" do
     test "missing both" do
       conn = conn()

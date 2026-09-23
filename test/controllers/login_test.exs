@@ -16,22 +16,98 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     assert [] = Floki.find(doc, "#dock-login-action")
   end
 
+  describe "SSO-first (a trusted sign-in service, no allowed domains)" do
+    setup do
+      Process.put([:bonfire_open_id, :oauth2_providers],
+        github: [display_name: "GitHub", redirect_uri: "/openid/client/github"]
+      )
+
+      Process.put([:bonfire_me, Accounts, :trusted_signup_providers], [:github])
+      :ok
+    end
+
+    test "shows the sign-in service and folds the email login behind \"Use email instead\"" do
+      doc = get(conn(), "/login") |> floki_response()
+
+      assert Floki.text(doc) =~ "Sign in with GitHub"
+      assert [folded] = Floki.find(doc, "details[data-role=email_login]")
+      assert Floki.text(folded) =~ "Use email instead"
+      # still there, just folded: the escape hatch if the sign-in service is down
+      assert [_] = Floki.find(folded, "#login-form")
+    end
+
+    test "with allowed email domains too, the email login stays up front" do
+      Process.put([:bonfire_me, Accounts, :allowed_email_domains], ["example.com"])
+
+      doc = get(conn(), "/login") |> floki_response()
+
+      assert [] = Floki.find(doc, "details[data-role=email_login]")
+      assert [_] = Floki.find(doc, "#login-form")
+    end
+  end
+
   describe "passwordless_only? mode" do
     setup do
       Process.put([:bonfire_ui_me, :login, :passwordless_only], true)
       :ok
     end
 
-    test "renders email-only magic-link form, hides password and signup" do
+    test "renders the magic-link form with the password field folded away, and no signup" do
       conn = get(conn(), "/login")
       doc = floki_response(conn)
 
       assert [form] = Floki.find(doc, "#login-form")
       assert [_] = Floki.find(form, "input[type='email']")
-      assert [] = Floki.find(form, "input[type='password']")
-      assert Floki.text(form) =~ ~r/Send login link/
+      assert Floki.text(form) =~ ~r/Send sign-in link/
+      # the only password field is inside the collapsed "I have a password" disclosure
+      assert [_] = Floki.find(form, "input[type='password']")
+      assert [_] = Floki.find(form, "details[data-role=password_login] input[type='password']")
       # Signup prompt should NOT be visible in passwordless-only mode.
       refute Floki.text(doc) =~ ~r/Don't have an account/
+    end
+
+    test "\"I have a password\" reveals a password field in the same form, with its own button" do
+      doc = get(conn(), "/login") |> floki_response()
+
+      assert [form] = Floki.find(doc, "#login-form")
+      assert [disclosure] = Floki.find(form, "details[data-role=password_login]")
+      assert Floki.text(disclosure) =~ "I have a password"
+      assert [_] = Floki.find(disclosure, "input[type='password']")
+      assert [_] = Floki.find(disclosure, "button[name=login_with][value=password]")
+    end
+
+    defp login_with_password(email, password) do
+      post(conn(), "/login/forgot-password", %{
+        "forgot_password_fields" => %{"email" => email, "password" => password},
+        "login_with" => "password"
+      })
+    end
+
+    test "an account with a password can still log in with it" do
+      account = fake_account!()
+      _user = fake_user!(account)
+      {:ok, account} = Accounts.confirm_email(account)
+
+      conn = login_with_password(account.email.email_address, account.credential.password)
+
+      assert redirected_to(conn, 303) == "/"
+    end
+
+    test "a wrong password shows the error with the password field open and the email kept" do
+      account = fake_account!()
+      {:ok, account} = Accounts.confirm_email(account)
+
+      doc =
+        login_with_password(account.email.email_address, "not-the-password")
+        |> floki_response()
+
+      assert [form] = Floki.find(doc, "#login-form")
+      assert Floki.text(form) =~ "Account not found"
+      assert [_] = Floki.find(form, "details[data-role=password_login][open]")
+
+      assert Floki.attribute(form, "input[type='email']", "value") == [
+               account.email.email_address
+             ]
     end
 
     test "posts to forgot-password endpoint" do

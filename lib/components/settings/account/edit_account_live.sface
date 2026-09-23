@@ -1,12 +1,25 @@
 <div class="divide-hair divide-secondary">
   <div class="p-4">
-    <div class="flex items-center justify-between">
-      <div class="flex flex-col gap-1">
-        <div class="text-sm font-medium">{l("Change password")}</div>
-        {!-- <div class="text-sm font-light text-muted">The details used to identify your publication around the web</div> --}
-      </div>
-      <LinkLive to={path(:change_password)} class="btn-soft btn-secondary btn btn-sm">{l("Change")}</LinkLive>
-    </div>
+    {#case Bonfire.Me.Accounts.account_has_password?(current_account(@__context__))}
+      {#match true}
+        <div class="flex items-center justify-between">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-medium">{l("Change password")}</div>
+            {!-- <div class="text-sm font-light text-muted">The details used to identify your publication around the web</div> --}
+          </div>
+          <LinkLive to={path(:change_password)} class="btn-soft btn-secondary btn btn-sm">{l("Change")}</LinkLive>
+        </div>
+      {#match _}
+        <div class="flex items-center justify-between" data-role="set_password">
+          <div class="flex flex-col gap-1">
+            <div class="text-sm font-medium">{l("Set a password")}</div>
+            <div class="text-sm text-muted">{l(
+                "You sign in with a link sent to your email. Add a password if you'd also like to sign in with one."
+              )}</div>
+          </div>
+          <LinkLive to={path(:change_password)} class="btn-soft btn-secondary btn btn-sm">{l("Set")}</LinkLive>
+        </div>
+    {/case}
   </div>
   <div class="p-4">
     <div class="flex items-center justify-between">

@@ -40,6 +40,19 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
 
   def index(conn, _), do: live_render(conn, ForgotPasswordLive)
 
+  # the passwordless login form's "I have a password" button: same form, but log in with the password instead of emailing a link
+  def create(conn, %{"login_with" => "password"} = params) do
+    data = Map.get(params, "forgot_password_fields", %{})
+
+    LoginController.create(conn, %{
+      "login_fields" => %{
+        "email_or_username" => Map.get(data, "email"),
+        "password" => Map.get(data, "password")
+      },
+      "go" => Map.get(params, "go")
+    })
+  end
+
   def create(conn, params) do
     data = Map.get(params, "forgot_password_fields", %{})
     email = Map.get(data, "email")

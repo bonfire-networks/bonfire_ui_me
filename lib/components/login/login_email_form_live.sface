@@ -1,0 +1,94 @@
+{!-- One form. "Send sign-in link" requests an email link; "I have a password" reveals a password field and its own "Sign in" button, and the controller logs in instead (see `login_with`). The person picks, never the server, so the page is the same for every email and doesn't reveal who has an account or a password. --}
+<.simple_form
+  for={to_form(%{}, as: :forgot_password_fields)}
+  action={path(Bonfire.UI.Me.ForgotPasswordController, :create)}
+  class="w-full md:ml-0"
+  opts={[id: "login-form"]}
+>
+  <input
+    type="hidden"
+    name="go"
+    value={@go || e(@form, :params, :go, nil) || e(@form, :source, :changes, :go, nil)}
+  />
+
+  <div class="my-panel">
+    <div :if={@gated_login_message} class="text-heading">
+      {rich(@gated_login_message)}
+    </div>
+    <a
+      :if={@external_signup_url}
+      href={@external_signup_url}
+      target="_blank"
+      rel="noopener"
+      class="btn btn-ds-outline btn-sm mt-3"
+    >
+      {l("Sign up")}
+    </a>
+  </div>
+
+  <Bonfire.UI.Me.LoginErrorsLive form={@form} error={@error} />
+
+  <div class="fieldset mb-2 mt-section">
+    <div class="text-heading mb-1">{l("Already have an account? Sign in now.")}</div>
+    <.input
+      field={to_form(
+        %{"email" => Bonfire.UI.Me.LoginViewLive.attempted_email(@form)},
+        as: :forgot_password_fields
+      )[:email]}
+      type="email"
+      required
+      label={l("Email address")}
+      placeholder="alice@email.com"
+      label_class="fieldset-legend"
+      class="w-full input"
+    />
+  </div>
+
+  <div class={
+    "flex flex-col gap-2",
+    "sm:flex-row sm:gap-3": @external_signup_url
+  }>
+    <.button
+      id="login_submit_btn"
+      type="submit"
+      variant="outline"
+      size="sm"
+      full_width={!@external_signup_url}
+      class={"sm:flex-1": @external_signup_url}
+      loading_text={l("Sending...")}
+    >
+      {l("Send sign-in link")}
+    </.button>
+  </div>
+
+  <p class="text-caption text-muted mt-4">
+    {l("We'll email you a one-time link to sign in. No password needed.")}
+  </p>
+
+  <details
+    class="mt-4"
+    data-role="password_login"
+    open={Bonfire.UI.Me.LoginViewLive.login_error?(@error, @form)}
+  >
+    <summary class="text-sm link link-primary cursor-pointer">{l("I have a password")}</summary>
+    <div class="mt-3 flex flex-col gap-3">
+      <Bonfire.UI.Me.PasswordInputLive
+        id="password-login-input"
+        name="forgot_password_fields[password]"
+        label={l("Password")}
+        placeholder={l("Type your password")}
+        required={false}
+      />
+      {!-- a plain <button>: the design-system button drops `name`/`value`, which tell the controller to log in with the password --}
+      <button
+        id="password_login_submit_btn"
+        type="submit"
+        name="login_with"
+        value="password"
+        class="btn btn-primary w-full"
+      >
+        {l("Sign in")}
+      </button>
+    </div>
+  </details>
+</.simple_form>

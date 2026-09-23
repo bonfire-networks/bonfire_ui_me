@@ -16,11 +16,7 @@ defmodule Bonfire.UI.Me.ChangePasswordController do
     attrs = Map.get(params, "change_password_fields", params)
 
     case Accounts.change_password(current_account, attrs,
-           # a passwordless / magic-link account has no current password to require, so setting one for
-           # the first time skips the old-password check (same as coming from a reset link)
-           resetting_password:
-             get_session(conn, :resetting_password) ||
-               !Accounts.account_has_password?(current_account)
+           resetting_password: skip_old_password?(get_session(conn), current_account)
          ) do
       {:ok, account} ->
         changed(conn, account)
@@ -47,6 +43,17 @@ defmodule Bonfire.UI.Me.ChangePasswordController do
   end
 
   def form_cs(params \\ %{}), do: Accounts.changeset(:change_password, params)
+
+  @doc """
+  Whether this session may set a new password without typing the current one. `session` is the string-keyed session map (from a conn or a LiveView mount). True when:
+  - a reset link was just redeemed (`resetting_password`), or
+  - the account has no password yet (passwordless / magic-link accounts), or
+  - the person just signed in by email link, which proves inbox control the same way a reset link does. This covers accounts holding a password nobody knows (e.g. provisioned with a random one) on passwordless instances, where "forgot password" sends a sign-in link rather than a reset.
+  """
+  def skip_old_password?(session, account) do
+    !!session["resetting_password"] or !Accounts.account_has_password?(account) or
+      Bonfire.Me.SensitiveActions.fresh?(session["sudo_proof"] || %{}, [:email])
+  end
 
   defp changed(conn, _account) do
     conn

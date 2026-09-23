@@ -17,8 +17,7 @@ defmodule Bonfire.UI.Me.ChangePasswordLive do
      |> assign(:form, session["form"] || ChangePasswordController.form_cs())
      |> assign(:error, session["error"])
      |> assign_new(:resetting_password, fn ->
-       session["resetting_password"] ||
-         not Bonfire.Me.Accounts.account_has_password?(current_account(socket))
+       ChangePasswordController.skip_old_password?(session, current_account(socket))
      end)
      |> assign_new(:current_user, fn -> nil end)
      |> assign_new(:current_user_id, fn -> nil end)

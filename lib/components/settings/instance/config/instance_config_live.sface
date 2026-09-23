@@ -184,13 +184,37 @@
         allow_bulk_paste
       />
     </div>
+    {#case maybe_apply(Bonfire.OpenID.Client, :providers_for, [:signup], fallback_return: [])}
+      {#match providers when is_list(providers) and providers != []}
+        <form
+          id="trusted_signup_providers_form"
+          class="p-4 flex flex-col gap-3"
+          phx-change="Bonfire.Common.Settings:set"
+        >
+          <div class="flex flex-col gap-0.5">
+            <div class="text-sm font-medium text-base-content">{l("Trusted sign-in services for new accounts")}</div>
+            <div class="text-sm text-muted">{l(
+                "People can create an account through the services you check here, even if their email isn't on an allowed domain. If no domains are set, only these services can be used to sign up (invites still work). Every service can still be used to log in to an existing account."
+              )}</div>
+          </div>
+          {#for {provider, provider_config} <- providers}
+            <Bonfire.UI.Common.SettingsToggleLive
+              id={"trusted_signup_provider_#{provider}"}
+              name={provider_config[:display_name] || to_string(provider)}
+              keys={[Bonfire.Me.Accounts, :trusted_signup_providers, provider]}
+              scope={:instance}
+            />
+          {/for}
+        </form>
+      {#match _}
+    {/case}
     <div class="p-4">
-      {#if Bonfire.Me.Accounts.signup_domain_gate_active?()}
+      {#if Bonfire.Me.Accounts.signup_credentials_active?()}
         <label class="flex items-center justify-between opacity-70 cursor-not-allowed">
           <div class="flex flex-col gap-0.5 mr-2">
             <div class="text-sm font-medium text-base-content">{l("Passwordless signup (magic link)")}</div>
             <div class="text-sm text-muted">{l(
-                "Required while signups are restricted by email domain, so new members verify their address by email link."
+                "Always on while signups are limited to certain email domains or sign-in services, so nobody can get around the limit by signing up with a password. People you invite can still join with any email."
               )}</div>
           </div>
           <input type="checkbox" checked disabled class="toggle toggle-sm toggle-primary">
