@@ -60,6 +60,33 @@ defmodule Bonfire.UI.Me.ChangePasswordController.Test do
     assert Accounts.account_has_password?(fresh(account.id))
   end
 
+  test "just signing in by email link lets an account with a password set a new one without the old" do
+    # e.g. a Ghost member whose account came with a random password nobody knows, on a passwordless instance where "forgot password" sends a sign-in link rather than a reset
+    account = fake_account!()
+    assert Accounts.account_has_password?(account)
+
+    conn =
+      conn(account: account)
+      |> put_session(:sudo_proof, %{email: System.system_time(:millisecond)})
+      |> post("/account/password/change", change_password_params())
+
+    assert conn.status in [301, 302, 303]
+    assert Accounts.login_valid?(account.id, @new_password)
+  end
+
+  test "an email sign-in that is no longer fresh still requires the current password" do
+    account = fake_account!()
+    an_hour_ago = System.system_time(:millisecond) - to_timeout(hour: 1)
+
+    conn =
+      conn(account: account)
+      |> put_session(:sudo_proof, %{email: an_hour_ago})
+      |> post("/account/password/change", change_password_params())
+
+    refute conn.status in [301, 302, 303]
+    refute Accounts.login_valid?(account.id, @new_password)
+  end
+
   test "a successful reset consumes the one-time resetting-password session flag" do
     account = fake_account!()
 

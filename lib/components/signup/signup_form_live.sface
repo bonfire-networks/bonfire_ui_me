@@ -62,6 +62,19 @@
             </div>
           </div>
         </div>
+      {#match "signup_not_allowed"}
+        <div role="status" data-role="signup_not_allowed" class="mb-4 alert alert-info">
+          <div class="flex">
+            <#Icon class="shrink-0 w-5 h-5" solid="InformationCircle" />
+            <div class="ml-3">
+              <h3 class="text-sm font-medium">
+                {l(
+                  "New accounts on this instance are limited to certain email domains or sign-in services. If yours isn't eligible, ask an admin for an invite."
+                )}
+              </h3>
+            </div>
+          </div>
+        </div>
       {#match maybe_error}
         {#case maybe_error}
           {#match nil}
@@ -275,7 +288,7 @@
           <div class="flex py-4 pb-2 mt-6 text-xs border-t border-secondary place-content-center w-full">
             <p>
               {l("Do you already have an account?")}
-              <LinkLive class="link link-primary" to={path(:login, :index)}>{l("Log in")}</LinkLive>
+              <LinkLive class="link link-primary" to={path(:login, :index)}>{l("Sign in")}</LinkLive>
             </p>
           </div>
         </Form>

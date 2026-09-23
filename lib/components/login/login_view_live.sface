@@ -1,71 +1,32 @@
 <div class="w-full p-4 lg:p-0 mx-auto">
-  {#if @passwordless_only?}
-    <.simple_form
-      for={to_form(%{}, as: :forgot_password_fields)}
-      action={path(Bonfire.UI.Me.ForgotPasswordController, :create)}
-      class="w-full md:ml-0"
-      opts={[id: "login-form"]}
-    >
-      <input
-        type="hidden"
-        name="go"
-        value={@go || e(@form, :params, :go, nil) || e(@form, :source, :changes, :go, nil)}
-      />
-
-      <div class="my-panel">
-        <div :if={@gated_login_message} class="text-heading">
-          {rich(@gated_login_message)}
-        </div>
-        <a
-          :if={@external_signup_url}
-          href={@external_signup_url}
-          target="_blank"
-          rel="noopener"
-          class="btn btn-ds-outline btn-sm mt-3"
-        >
-          {l("Sign up")}
-        </a>
-      </div>
-
-      <div class="fieldset mb-2 mt-section">
-        <div class="text-heading mb-1">{l("Already have an account? Log in now.")}</div>
-        <.input
-          field={to_form(%{}, as: :forgot_password_fields)[:email]}
-          type="email"
-          required
-          label={l("Email address")}
-          placeholder="alice@email.com"
-          label_class="fieldset-legend"
-          class="w-full input"
+  {!-- SSO providers show in both modes (passwordless and password), so they don't vanish when passwordless is on --}
+  <StatelessComponent
+    module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
+    source={:login}
+  />
+  {#if @passwordless_only? and @sso_first?}
+    {!-- sign-in services lead; the email login stays one click away, the escape hatch if a service is down --}
+    <details class="mt-4" data-role="email_login" open={login_error?(@error, @form)}>
+      <summary class="text-sm link link-primary cursor-pointer">{l("Use email instead")}</summary>
+      <div class="mt-3">
+        <Bonfire.UI.Me.LoginEmailFormLive
+          form={@form}
+          error={@error}
+          go={@go}
+          external_signup_url={@external_signup_url}
+          gated_login_message={@gated_login_message}
         />
       </div>
-
-      <div class={
-        "flex flex-col gap-2",
-        "sm:flex-row sm:gap-3": @external_signup_url
-      }>
-        <.button
-          id="login_submit_btn"
-          type="submit"
-          variant="outline"
-          size="sm"
-          full_width={!@external_signup_url}
-          class={"sm:flex-1": @external_signup_url}
-          loading_text={l("Sending...")}
-        >
-          {l("Send login link")}
-        </.button>
-      </div>
-
-      <p class="text-caption text-muted mt-4">
-        {l("We'll email you a one-time link to sign in. No password needed.")}
-      </p>
-    </.simple_form>
-  {#else}
-    <StatelessComponent
-      module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
-      source={:login}
+    </details>
+  {#elseif @passwordless_only?}
+    <Bonfire.UI.Me.LoginEmailFormLive
+      form={@form}
+      error={@error}
+      go={@go}
+      external_signup_url={@external_signup_url}
+      gated_login_message={@gated_login_message}
     />
+  {#else}
     <.simple_form
       for={@form}
       action={path(:login, :create)}
@@ -81,68 +42,7 @@
 
       {!-- <%= f = form_for @form, path(:login, :create), class: "w-full md:ml-0" %> --}
 
-      {!-- Display form-level errors --}
-      {#case @form && (e(@form, :source, :errors, :form, nil) || e(@form, :errors, :form, nil))}
-        {#match {"not_found", _}}
-          <div role="status" class="text-error">
-            <div class="flex flex-1">
-              <label>
-                {l("Account not found. Either your username or password was incorrect. Did you want to ")} <LinkLive to={path(:signup)} class="font-bold underline text-error">sign up</LinkLive> ?
-              </label>
-            </div>
-          </div>
-        {#match {"email_not_confirmed", _}}
-          {!-- <%= {"email_not_confirmed",_} -> %> --}
-          <div role="status" class="alert alert-warning">
-            <div class="flex flex-1">
-              <label>
-                {l(
-                  "You need to to click the link in the email you should have received to verify your email address.  Need to have it "
-                )} <LinkLive
-                  to={path(Bonfire.UI.Me.ConfirmEmailController)}
-                  class="font-bold underline text-neutral"
-                >resent</LinkLive> ?
-              </label>
-            </div>
-          </div>
-        {#match {error_msg, _}}
-          {!-- Generic error message for other form errors --}
-          <div role="status" class="p-4 mb-4 rounded-md bg-yellow-50">
-            <div class="flex">
-              <div class="flex-shrink-0">
-                {!-- Heroicon name: exclamation --}
-                <svg
-                  class="w-5 h-5 text-yellow-400"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div class="ml-3">
-                <h3 class="text-sm font-medium text-yellow-800">
-                  {l("There was an error:")} ({error_msg}), {l("please try again.")}
-                </h3>
-              </div>
-            </div>
-          </div>
-        {#match _}
-          {#if @error}
-            <div role="status" class="alert alert-warning">
-              <div class="flex flex-1">
-                <label>
-                  {l("Error: ")} {@error}
-                </label>
-              </div>
-            </div>
-          {/if}
-      {/case}
+      <Bonfire.UI.Me.LoginErrorsLive form={@form} error={@error} />
 
       <div class="fieldset">
         <.input
@@ -180,7 +80,7 @@
           <Inputs for={:auth_second_factor}>
             <Field name={:code} class="flex flex-col mt-2">
               <TextInput class="w-full input input-bordered" />
-              
+
             </Field>
           </Inputs>
         </div>
@@ -193,7 +93,7 @@
         full_width
         loading_text={l("Logging in...")}
       >
-        {l("Log in")}
+        {l("Sign in")}
       </.button>
 
       <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-3">

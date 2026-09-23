@@ -52,7 +52,7 @@
       <span>&#x01f44b;
       </span>
       {l("Already confirmed your email?")}
-      <LinkLive class="link" to={path(:login, :index)}>{l("Log in")}</LinkLive>
+      <LinkLive class="link" to={path(:login, :index)}>{l("Sign in")}</LinkLive>
     </p>
     <p>
       <span>&#x01f9d0;

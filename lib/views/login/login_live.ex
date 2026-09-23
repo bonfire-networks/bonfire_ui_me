@@ -13,7 +13,7 @@ defmodule Bonfire.UI.Me.LoginLive do
 
     socket_or_assigns
     |> assign(:page, "login")
-    |> assign(:page_title, l("Log in"))
+    |> assign(:page_title, l("Sign in"))
     |> assign_new(:go, fn -> go end)
     |> assign_new(:without_sidebar, fn -> true end)
     |> assign_new(:no_header, fn -> true end)
@@ -30,6 +30,7 @@ defmodule Bonfire.UI.Me.LoginLive do
     |> assign_new(:form, fn -> login_form(params) end)
     |> assign_new(:conn, fn -> session["conn"] end)
     |> assign_new(:passwordless_only?, fn -> passwordless_only?() end)
+    |> assign_new(:sso_first?, fn -> Accounts.sso_first_login?() end)
     |> assign_new(:external_signup_url, fn -> external_signup_url() end)
     |> assign_new(:gated_login_message, fn -> gated_login_message() end)
   end

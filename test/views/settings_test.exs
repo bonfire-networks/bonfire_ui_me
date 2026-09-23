@@ -741,6 +741,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
   describe "Instance signup email-domain allowlist" do
     @instance_config_path "/settings/instance/configuration"
     @domains_keys [Bonfire.Me.Accounts, :allowed_email_domains]
+    @passwordless_locked_text "Always on while signups are limited to certain email domains or sign-in services"
 
     setup %{account: account} do
       orig = Config.get(@domains_keys)
@@ -786,6 +787,25 @@ defmodule Bonfire.UI.Me.SettingsTest do
       refute Bonfire.Me.Accounts.signup_domain_gate_active?()
     end
 
+    test "checking a sign-in service trusts it for new accounts", %{conn: conn} do
+      trusted_keys = [Bonfire.Me.Accounts, :trusted_signup_providers]
+      orig = Config.get(trusted_keys)
+      on_exit(fn -> Config.put(trusted_keys, orig) end)
+
+      # a configured OAuth provider, so the page lists it
+      Process.put([:bonfire_open_id, :oauth2_providers],
+        github: [display_name: "GitHub", redirect_uri: "/openid/client/github"]
+      )
+
+      refute "github" in Bonfire.Me.Accounts.trusted_signup_providers()
+
+      conn
+      |> visit(@instance_config_path)
+      |> check("GitHub")
+
+      assert "github" in Bonfire.Me.Accounts.trusted_signup_providers()
+    end
+
     test "while a domain is set, a fresh load shows passwordless as required (not editable)", %{
       conn: conn
     } do
@@ -796,7 +816,17 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
       conn
       |> visit(@instance_config_path)
-      |> assert_has("div", text: "Required while signups are restricted by email domain")
+      |> assert_has("div", text: @passwordless_locked_text)
+    end
+
+    test "while only a sign-in service is trusted, a fresh load shows passwordless as required (not editable)",
+         %{conn: conn} do
+      Process.put([:bonfire_me, Bonfire.Me.Accounts, :trusted_signup_providers], [:github])
+      refute Bonfire.Me.Accounts.signup_domain_gate_active?()
+
+      conn
+      |> visit(@instance_config_path)
+      |> assert_has("div", text: @passwordless_locked_text)
     end
   end
 end

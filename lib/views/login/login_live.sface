@@ -4,6 +4,7 @@
     error={@error}
     go={@go}
     passwordless_only?={@passwordless_only?}
+    sso_first?={@sso_first?}
     external_signup_url={@external_signup_url}
     gated_login_message={@gated_login_message}
   />
