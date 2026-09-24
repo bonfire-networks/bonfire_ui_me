@@ -17,7 +17,7 @@
                 data-id="hero_background"
                 role="img"
                 aria-label={l("Profile banner")}
-                class="w-full relative h-[160px] sm:h-[clamp(180px,22vw,220px)] aspect-auto bg-primary bg-center mt-0 mb-0 bg-cover bg-no-repeat"
+                class="w-full relative h-[150px] aspect-auto bg-primary bg-center mt-0 mb-0 bg-cover bg-no-repeat"
                 style={cond do
                   is_binary(color) -> "background-color: #{color}"
                   is_binary(banner_url) -> Bonfire.UI.Common.NextGenImageLive.background_image_set(banner_url)
@@ -28,7 +28,9 @@
                   <Bonfire.UI.Common.BackButtonLive
                     back={@back}
                     type={@back_type}
-                    class="btn btn-sm btn-circle z-50 btn-glass"
+                    icon="carbon:arrow-left"
+                    icon_class="size-6"
+                    class="btn btn-sm btn-circle z-50 border-0 bg-black/50 text-white shadow-none hover:bg-black/65"
                   />
                 </div>
                 {!-- Hidden probe: if banner 404s, push refetch event via LiveView --}
@@ -100,7 +102,10 @@
                         data-id="profile_main_actions"
                       >
                         {#if current_user_id(@__context__) == id(@user)}
-                          <LinkLive to={~p"/settings/user/profile"} class="btn btn-primary btn-sm">
+                          <LinkLive
+                            to={~p"/settings/user/profile"}
+                            class="btn btn-sm border-0 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))]"
+                          >
                             <#Icon iconify="ph:pencil-simple-duotone" class="w-4 h-4" />
                             <span class="hidden sm:inline">{l("Edit profile")}</span>
                           </LinkLive>

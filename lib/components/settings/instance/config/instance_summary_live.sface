@@ -13,7 +13,7 @@
         </div>
 
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="carbon:chevron-down-bold" class="w-4 h-4 text-muted" />
+          <#Icon iconify="carbon:chevron-down" class="w-4 h-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="carbon:chevron-up-duotone" class="w-4 h-4 text-muted" />
@@ -345,7 +345,7 @@
         </div>
 
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="carbon:chevron-down-bold" class="w-4 h-4 text-muted" />
+          <#Icon iconify="carbon:chevron-down" class="w-4 h-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="carbon:chevron-up-duotone" class="w-4 h-4 text-muted" />
@@ -388,7 +388,7 @@
         </div>
 
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="carbon:chevron-down-bold" class="w-4 h-4 text-muted" />
+          <#Icon iconify="carbon:chevron-down" class="w-4 h-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
           <#Icon iconify="carbon:chevron-up-duotone" class="w-4 h-4 text-muted" />
