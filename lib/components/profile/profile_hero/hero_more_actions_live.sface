@@ -8,7 +8,8 @@
     position="bottom-end"
     trigger_class={if @character_type == :group,
       do: "btn btn-sm btn-square bg-transparent border-secondary text-primary",
-      else: "btn btn-sm btn-circle border-0 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))]"}
+      else:
+        "btn btn-sm btn-circle border-0 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))]"}
     panel_class="dropdown_actions menu-lg"
     label={l("More actions")}
     expanded_touch_target
