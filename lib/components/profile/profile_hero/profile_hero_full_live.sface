@@ -129,6 +129,7 @@
                                 follows_me={@follows_me}
                                 path={path(@user)}
                                 hide_icon
+                                with_bell
                                 class="btn btn-primary btn-sm"
                                 class_already="btn btn-primary btn-soft btn-sm"
                               />
