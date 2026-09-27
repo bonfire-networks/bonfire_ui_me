@@ -24,7 +24,12 @@ defmodule Bonfire.UI.Me.Preview.CharacterLive do
     |> assign(
       :the_character,
       cond do
-        e(assigns, :experienced_as, nil) in [:follow, :follow_request] and
+        Bonfire.Common.Utils.maybe_apply(
+          Bonfire.Social.Activities,
+          :show_subject_instead_of_object?,
+          [e(assigns, :experienced_as, nil)],
+          fallback_return: false
+        ) and
             object_id == current_user_id ->
           debug(
             "special case for showing the follower instead of the object when I am the one being followed"

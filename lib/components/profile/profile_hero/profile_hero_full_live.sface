@@ -167,6 +167,7 @@
                                 id={"join_btn_#{id(@user)}"}
                                 module={maybe_component(Bonfire.Classify.Web.JoinButtonLive, @__context__)}
                                 object_id={id(@user)}
+                                object={@user}
                                 object_name={ed(@user, :profile, :name, nil) || ed(@user, :character, :username, l("Group"))}
                                 moderators={@moderators}
                                 membership={@membership_slug}
