@@ -47,6 +47,24 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     end
   end
 
+  test "trusting a sign-in service hides the guest sign-up button" do
+    # an existing account, so the instance isn't waiting for its first signup
+    fake_account!()
+
+    # by href: the guest buttons (sidebar and mobile dock) render without their `id`s
+    conn()
+    |> visit("/about")
+    |> assert_has("a[href='/login']")
+    |> assert_has("a[href='/signup']")
+
+    Process.put([:bonfire_me, Bonfire.Me.Accounts, :trusted_signup_providers], [:github])
+
+    conn()
+    |> visit("/about")
+    |> assert_has("a[href='/login']")
+    |> refute_has("a[href='/signup']")
+  end
+
   describe "passwordless_only? mode" do
     setup do
       Process.put([:bonfire_ui_me, :login, :passwordless_only], true)

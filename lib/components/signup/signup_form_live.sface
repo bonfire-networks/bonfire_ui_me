@@ -75,6 +75,11 @@
             </div>
           </div>
         </div>
+        {!-- all services( not only trusted ones) as the buttons also sign in existing accounts, and with allowed domains an untrusted service can still sign up an on-domain email --}
+        <StatelessComponent
+          module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}
+          source={:signup}
+        />
       {#match maybe_error}
         {#case maybe_error}
           {#match nil}

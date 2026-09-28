@@ -13,6 +13,27 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     assert [] = Floki.find(doc, "#dock-login-action")
   end
 
+  describe "signup page with a trusted sign-in service" do
+    setup do
+      # an existing account, so the first-account bypass doesn't wave the signup through
+      fake_account!()
+
+      Process.put([:bonfire_open_id, :oauth2_providers],
+        github: [display_name: "GitHub", redirect_uri: "/openid/client/github"]
+      )
+
+      Process.put([:bonfire_me, Bonfire.Me.Accounts, :trusted_signup_providers], [:github])
+      :ok
+    end
+
+    test "offers the trusted service's sign-in button" do
+      doc = get(conn(), "/signup") |> floki_response()
+
+      assert [_] = Floki.find(doc, "[data-role=signup_not_allowed]")
+      assert [_] = Floki.find(doc, "a[href='/openid/client/github']")
+    end
+  end
+
   describe "SSO signup, called the way the OAuth callback calls it" do
     setup do
       # an existing account, so the first-account bypass doesn't wave the signup through
