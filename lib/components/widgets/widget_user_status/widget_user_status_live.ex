@@ -108,13 +108,14 @@ defmodule Bonfire.UI.Me.WidgetUserStatusLive do
         _ -> {0, 0, 0}
       end
 
-    dm_privacy =
-      Bonfire.Common.Settings.get(
-        [Bonfire.Messages, :dm_privacy],
-        "everyone",
-        current_user: current_user
-      )
-      |> to_string()
+    # `dm_privacy` was replaced by the audience switches, and the widget never showed it
+    # dm_privacy =
+    #   Bonfire.Common.Settings.get(
+    #     [Bonfire.Messages, :dm_privacy],
+    #     "everyone",
+    #     current_user: current_user
+    #   )
+    #   |> to_string()
 
     undiscoverable? =
       Bonfire.Common.Settings.get(
@@ -142,7 +143,7 @@ defmodule Bonfire.UI.Me.WidgetUserStatusLive do
       blocked_count: blocked_count,
       ghosted_count: ghosted_count,
       silenced_count: silenced_count,
-      dm_privacy: dm_privacy,
+      # dm_privacy: dm_privacy,
       undiscoverable?: undiscoverable?,
       search_indexing_disabled?: search_indexing_disabled?
     }

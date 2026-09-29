@@ -12,7 +12,6 @@
         blocked_count: blocked_count,
         ghosted_count: ghosted_count,
         silenced_count: silenced_count,
-        dm_privacy: dm_privacy,
         undiscoverable?: undiscoverable?,
         search_indexing_disabled?: search_indexing_disabled?
       }}

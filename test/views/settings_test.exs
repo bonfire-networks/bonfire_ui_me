@@ -681,6 +681,17 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
   end
 
+  describe "Safety - hide notifications and messages from" do
+    # the same switches as notification preferences and the messages list, in place of the old "Who can reach me by direct message" select
+    test "shows a switch per audience, and not the old direct message select", %{conn: conn} do
+      conn
+      |> visit("/settings/user/safety")
+      |> assert_has("#notification-audiences", text: "Hide notifications and messages from")
+      |> assert_has("#notification-audience-not_followed")
+      |> refute_has("[data-scope=set_dm_privacy]")
+    end
+  end
+
   describe "Safety - keyword filter (SettingsListLive)" do
     # the ported keyword filter reads/writes this setting as a list of strings
     @keyword_keys [:activity_pub, :mrf_keyword, :reject]
