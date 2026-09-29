@@ -6,12 +6,8 @@ defmodule Bonfire.UI.Me.UsersDirectoryTest do
   describe "guest pagination on the users directory (without JavaScript)" do
     setup do
       # Make the directory visible to guests
-      original_show_to = Config.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to])
-      Config.put([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :guests)
-
-      on_exit(fn ->
-        Config.put([Bonfire.UI.Me.UsersDirectoryLive, :show_to], original_show_to)
-      end)
+      # for this test process (and the LiveViews it starts) only, so async tests running alongside keep the global value
+      Process.put([:bonfire_ui_me, Bonfire.UI.Me.UsersDirectoryLive, :show_to], :guests)
 
       limit = Bonfire.Common.Config.get(:default_pagination_limit, 2)
 

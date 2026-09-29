@@ -14,7 +14,8 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest.RejectingS3 do
 end
 
 defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
-  use Bonfire.UI.Me.ConnCase, async: System.get_env("TEST_UI_ASYNC") != "no"
+  # not async: one test swaps the `:entrepot` S3 config, which belongs to a library and so can only be set globally, not per test process
+  use Bonfire.UI.Me.ConnCase, async: false
   alias Bonfire.Me.Fake
   alias Bonfire.Me.Dashboard.EditProfileImagesTest.RejectingS3
 

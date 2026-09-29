@@ -6,12 +6,8 @@ defmodule Bonfire.UI.Me.InstancesDirectoryTest do
   describe "guest pagination on the fediverse instances directory (without JavaScript)" do
     setup do
       # The instances directory reuses the users directory `show_to` setting
-      original_show_to = Config.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to])
-      Config.put([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :guests)
-
-      on_exit(fn ->
-        Config.put([Bonfire.UI.Me.UsersDirectoryLive, :show_to], original_show_to)
-      end)
+      # for this test process (and the LiveViews it starts) only, so async tests running alongside keep the global value
+      Process.put([:bonfire_ui_me, Bonfire.UI.Me.UsersDirectoryLive, :show_to], :guests)
 
       limit = Bonfire.Common.Config.get(:default_pagination_limit, 2)
 
