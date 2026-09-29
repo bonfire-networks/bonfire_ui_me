@@ -74,7 +74,7 @@
     />
 
     <Bonfire.UI.Me.ProfileStatsLive
-      :if={@character_type == :user && Settings.get([:ui, :show_activity_counts], false, @__context__)}
+      :if={@character_type == :user}
       user={@user}
       character_type={@character_type}
       post_count={@post_count}
