@@ -305,7 +305,7 @@
           Settings.get(:experimental_features_enabled, false,
             context: @__context__,
             name: l("Experimental Features"),
-            description: l("Enable experimental and in-development features.")
+            description: l("Try features that work but are still being tested.")
           )}>
           <LinkPatchLive
             to={~p"/settings/user/config_settings_registry"}
