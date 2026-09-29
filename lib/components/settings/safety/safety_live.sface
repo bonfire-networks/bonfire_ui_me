@@ -71,7 +71,8 @@
     />
   </form>
 
-  <form
+  {!-- replaced by the "Hide notifications and messages from" switches below, which notifications share --}
+  {!-- <form
     class="p-4"
     data-scope="set_dm_privacy"
     name="settings"
@@ -88,7 +89,11 @@
       default_value="everyone"
       scope={@scope}
     />
-  </form>
+  </form> --}
+  {!-- per person, so not at instance scope --}
+  <div :if={@scope != :instance} class="p-4">
+    <StatelessComponent module={maybe_component(Bonfire.UI.Social.HiddenAudiencesLive, @__context__)} />
+  </div>
   <div class="p-4">
     <Bonfire.UI.Me.SettingsViewsLive.DiscoverableLive scope={@scope} />
   </div>
