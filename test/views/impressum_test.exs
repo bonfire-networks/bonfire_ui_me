@@ -5,7 +5,7 @@ defmodule Bonfire.Web.Views.ImpressumTest do
   # exercise the dynamic LiveView render — the same render the static generator
   # caches for guests in production.
   test "guest can load /impressum when impressum is empty" do
-    Process.put([:bonfire, :terms, :impressum],nil)
+    Process.put([:bonfire, :terms, :impressum], nil)
     conn = conn()
 
     {:ok, _view, html} = live(conn, "/impressum?cache=skip")
@@ -13,7 +13,7 @@ defmodule Bonfire.Web.Views.ImpressumTest do
   end
 
   test "guest can load /impressum when impressum has content" do
-    Process.put([:bonfire, :terms, :impressum],"Some legal notice here")
+    Process.put([:bonfire, :terms, :impressum], "Some legal notice here")
     conn = conn()
 
     {:ok, _view, html} = live(conn, "/impressum?cache=skip")
@@ -21,7 +21,7 @@ defmodule Bonfire.Web.Views.ImpressumTest do
   end
 
   test "logged-in user can load /impressum when impressum is empty" do
-    Process.put([:bonfire, :terms, :impressum],nil)
+    Process.put([:bonfire, :terms, :impressum], nil)
     account = fake_account!()
     user = fake_user!(account)
     conn = conn(user: user, account: account)
@@ -31,7 +31,7 @@ defmodule Bonfire.Web.Views.ImpressumTest do
   end
 
   test "logged-in user can load /impressum when impressum has content" do
-    Process.put([:bonfire, :terms, :impressum],"Some legal notice here")
+    Process.put([:bonfire, :terms, :impressum], "Some legal notice here")
     account = fake_account!()
     user = fake_user!(account)
     conn = conn(user: user, account: account)
