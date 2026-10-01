@@ -155,7 +155,9 @@ defmodule Bonfire.UI.Me.ProfileTest do
     group =
       Bonfire.Classify.Simulate.fake_group!(author, %{
         name: "Boost Attribution Group",
-        membership: "open"
+        membership: "open",
+        # a public group post, as `membership: "open"` means: stating only the membership left the visibility at its `local:unlisted` default, whose cap kept the post off the wire
+        visibility: "global"
       })
 
     {:ok, post} =
