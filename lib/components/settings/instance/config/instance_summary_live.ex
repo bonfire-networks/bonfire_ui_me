@@ -5,6 +5,40 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive do
   """
   use Bonfire.UI.Common.Web, :stateless_component
 
+  @doc "Reads community defaults without applying the visiting member's personal preferences."
+  def community_defaults do
+    %{
+      boundaries: Bonfire.Boundaries.Presets.default_boundaries(scope: :instance),
+      directory: Config.get([Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users),
+      post_length: Bonfire.UI.Common.SmartInput.LiveHandler.max_length(),
+      federation: federation_mode(),
+      undiscoverable: Settings.get([Bonfire.Me.Users, :undiscoverable], false, scope: :instance),
+      indexable: Bonfire.Common.Extend.module_enabled?(Bonfire.Search.Indexer, scope: :instance),
+      forward_reports: Settings.get([Bonfire.Social.Flags, :forward_by_default], false, scope: :instance),
+      blur_media: Settings.get([Bonfire.UI.Social.Activity.MediaLive, :hide], false, scope: :instance),
+      language:
+        Config.get([Bonfire.Common.Localise.Cldr, :default_locale], "en")
+        |> Bonfire.Common.Localise.locale_name(),
+      scrolling: Settings.get([:ui, :infinite_scroll], :preload, scope: :instance),
+      counts: Settings.get([:ui, :show_activity_counts], false, scope: :instance)
+    }
+  end
+
+  @doc "Lists the starting home-feed preferences, using the same keys as the preference controls."
+  def feed_defaults do
+    [
+      {:followed_categories, l("Activities from groups I follow")},
+      {:boost, l("Boosts")},
+      {:reply, l("Replies")},
+      {:follow, l("Follows")},
+      {:outbox, l("User's own activities")},
+      {:notifications, l("Notifications")}
+    ]
+    |> Enum.map(fn {key, label} ->
+      {key, label, Settings.get([Bonfire.Social.Feeds, :include, key], true, scope: :instance)}
+    end)
+  end
+
   # how many allowlisted entries to show before summarising the rest as "+N more"
   @allowlist_preview_limit 50
 

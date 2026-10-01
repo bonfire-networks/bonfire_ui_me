@@ -53,6 +53,29 @@
     description={l("Links shown to visitors on the guest homepage (e.g., forum, chat, documentation).")}
   />
 
+  <div class="font-medium">{l("Components to include on the guest homepage")}</div>
+  <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">
+    <input name="scope" value={:instance} type="hidden">
+
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Show Spotlight")}
+      description={l("Show posts pinned to this instance on the guest homepage (hidden when nothing is pinned)")}
+      keys={[Bonfire.Web.Views.HomeLive, :include, :instance_pinned]}
+      default_value
+      scope={:instance}
+      compact
+    />
+
+    <Bonfire.UI.Common.SettingsToggleLive
+      name={l("Show public groups")}
+      description={l("Show a carousel of the groups visitors can see on the guest homepage (hidden when there are none)")}
+      keys={[Bonfire.Web.Views.HomeLive, :include, :groups]}
+      default_value
+      scope={:instance}
+      compact
+    />
+  </form>
+
   <div class="font-medium">Components to include in the about page</div>
   <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={:instance} type="hidden">

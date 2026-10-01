@@ -52,7 +52,8 @@ defmodule Bonfire.UI.Me.UsersDirectoryLive do
            search_placeholder: "Search users",
            users: edges,
            page_info: page_info
-         )}
+         )
+         |> assign(Bonfire.UI.Common.GuestBoardLive.layout_assigns(is_guest?))}
       else
         raise(Bonfire.Fail.Auth, :needs_login)
       end
