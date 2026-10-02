@@ -15,7 +15,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
   describe "guest home" do
     test "renders the public board shell with real navigation" do
-      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn -> false end)
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
+        false
+      end)
 
       conn()
       |> visit("/")

@@ -19,6 +19,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     toggles = Floki.find(doc, "#signup-form [data-role=toggle_password_visibility]")
 
     assert length(inputs) == 2
+
     assert Enum.map(toggles, &Floki.attribute(&1, "aria-controls")) ==
              Enum.map(inputs, &Floki.attribute(&1, "id"))
 
