@@ -15,6 +15,8 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
   describe "guest home" do
     test "renders the public board shell with real navigation" do
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn -> false end)
+
       conn()
       |> visit("/")
       |> assert_has("#guest-board #guest-board-home", text: GuestBoardLive.instance_name())
@@ -22,16 +24,20 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "Explore")
       |> assert_has("#guest-board-nav a[href='/about']", text: "About")
       |> assert_has("#guest-board-nav a[href='/conduct']", text: "Code of conduct")
-      |> assert_has("#guest-board-signin[href='/login']", text: "Sign in")
+      # desktop-only actions (`max-lg:hidden`): on mobile the dock carries them
+      |> assert_has(".max-lg\\:hidden #guest-board-signin[href='/login']", text: "Log in")
+      |> assert_has(".max-lg\\:hidden #guest-board-signup[href='/signup']", text: "Sign up")
       |> assert_has("h1", text: GuestBoardLive.instance_name())
       # the instance identity lives in the header only: no breadcrumb, no intro block
       |> refute_has("#guest-board-home", text: "Public activity")
       |> refute_has("#guest-board a", text: "About this community")
       |> assert_has("#guest-feed-title", text: "Recent activity")
       |> assert_has("#guest-board-footer a[href='/privacy']", text: "Privacy")
-      # the board owns all chrome: no widgets sidebar and no guest mobile dock
+      # the board owns its chrome (no widgets sidebar), but keeps the guest mobile dock: logo only, plus the actions
       |> refute_has("[data-id=right_nav_and_widgets]")
-      |> refute_has("#dock-login-action")
+      |> assert_has("#dock-instance-home img")
+      |> refute_has("#dock-instance-home", text: GuestBoardLive.instance_name())
+      |> assert_has("#dock-login-action[href='/login']", text: "Log in")
     end
 
     test "only links People when the directory is visible to guests" do
@@ -169,6 +175,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> visit("/about")
       |> assert_has("#about-signup", text: "Create an account")
       |> refute_has("#participate [data-role=signup-closed-note]")
+      |> assert_has("#guest-board-signin", text: "Log in")
+      |> assert_has("#guest-board-signup[href='/signup']", text: "Sign up")
+      |> assert_has("#dock-signup-action")
     end
 
     test "does not offer account creation on invite-only instances" do
@@ -178,6 +187,10 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> visit("/about")
       |> refute_has("#about-signup")
       |> assert_has("#participate [data-role=signup-closed-note]", text: "by invitation only")
+      |> assert_has("#guest-board-signin[href='/login']", text: "Sign in")
+      |> refute_has("#guest-board-signup")
+      |> refute_has("#dock-signup-action")
+      |> assert_has("#dock-login-action", text: "Sign in")
     end
 
     test "lists public admins linking to their profiles" do

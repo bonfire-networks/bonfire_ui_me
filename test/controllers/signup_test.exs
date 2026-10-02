@@ -13,6 +13,26 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     assert [] = Floki.find(doc, "#dock-login-action")
   end
 
+  test "each password field has a show/hide button beside it, wired to that input" do
+    doc = conn() |> get("/signup") |> floki_response()
+    inputs = Floki.find(doc, "#signup-form input[type='password']")
+    toggles = Floki.find(doc, "#signup-form [data-role=toggle_password_visibility]")
+
+    assert length(inputs) == 2
+    assert Enum.map(toggles, &Floki.attribute(&1, "aria-controls")) ==
+             Enum.map(inputs, &Floki.attribute(&1, "id"))
+
+    for toggle <- toggles do
+      assert Floki.attribute(toggle, "type") == ["button"]
+      assert Floki.attribute(toggle, "aria-label") == ["Show password"]
+    end
+
+    assert Enum.flat_map(inputs, &Floki.attribute(&1, "name")) ==
+             ["account[credential][password]", "account[credential][password_confirmation]"]
+
+    assert Enum.all?(inputs, &(Floki.attribute(&1, "autocomplete") == ["new-password"]))
+  end
+
   describe "signup page with a trusted sign-in service" do
     setup do
       # an existing account, so the first-account bypass doesn't wave the signup through

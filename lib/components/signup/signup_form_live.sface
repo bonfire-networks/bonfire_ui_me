@@ -180,7 +180,7 @@
               <ErrorTag />
             </Field>
           </Inputs>
-          <Inputs for={:credential}>
+          <Inputs for={:credential} :let={form: f}>
             <div class="mt-3">
               <Field name={:password}>
                 <Label class="label">
@@ -191,10 +191,12 @@
                     {l("Choose a password")} ({l("10 characters minimum")})
                   </span>
                 </Label>
-                <PasswordInput
-                  opts={placeholder: l("Type a strong password")}
+                <Bonfire.UI.Me.PasswordInputLive
+                  id={f[:password].id}
+                  name={f[:password].name}
+                  placeholder={l("Type a strong password")}
+                  autocomplete="new-password"
                   required={!@open_id_provider}
-                  class="w-full h-10 text-sm rounded input input-bordered"
                 />
                 <ErrorTag />
               </Field>
@@ -206,10 +208,12 @@
                     {l("Confirm your password")}
                   </span>
                 </Label>
-                <PasswordInput
-                  opts={placeholder: l("Enter the same password again")}
+                <Bonfire.UI.Me.PasswordInputLive
+                  id={f[:password_confirmation].id}
+                  name={f[:password_confirmation].name}
+                  placeholder={l("Enter the same password again")}
+                  autocomplete="new-password"
                   required={!@open_id_provider}
-                  class="w-full h-10 text-sm rounded input input-bordered"
                 />
                 <ErrorTag />
               </Field>

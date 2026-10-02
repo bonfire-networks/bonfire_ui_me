@@ -1,5 +1,4 @@
 defmodule Bonfire.UI.Me.PasswordInputLive do
-  @moduledoc "The shared password field with show/hide toggle, extracted from LoginViewLive so login, change-password and the sudo verify page render one implementation."
   use Bonfire.UI.Common.Web, :stateless_component
 
   prop id, :string, required: true
