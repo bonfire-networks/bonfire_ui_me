@@ -68,7 +68,9 @@
 
     <Bonfire.UI.Common.SettingsToggleLive
       name={l("Show public groups")}
-      description={l("Show a carousel of the groups visitors can see on the guest homepage (hidden when there are none)")}
+      description={l(
+        "Show a carousel of the groups visitors can see on the guest homepage (hidden when there are none)"
+      )}
       keys={[Bonfire.Web.Views.HomeLive, :include, :groups]}
       default_value
       scope={:instance}

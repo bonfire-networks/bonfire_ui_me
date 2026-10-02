@@ -14,8 +14,10 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive do
       federation: federation_mode(),
       undiscoverable: Settings.get([Bonfire.Me.Users, :undiscoverable], false, scope: :instance),
       indexable: Bonfire.Common.Extend.module_enabled?(Bonfire.Search.Indexer, scope: :instance),
-      forward_reports: Settings.get([Bonfire.Social.Flags, :forward_by_default], false, scope: :instance),
-      blur_media: Settings.get([Bonfire.UI.Social.Activity.MediaLive, :hide], false, scope: :instance),
+      forward_reports:
+        Settings.get([Bonfire.Social.Flags, :forward_by_default], false, scope: :instance),
+      blur_media:
+        Settings.get([Bonfire.UI.Social.Activity.MediaLive, :hide], false, scope: :instance),
       language:
         Config.get([Bonfire.Common.Localise.Cldr, :default_locale], "en")
         |> Bonfire.Common.Localise.locale_name(),

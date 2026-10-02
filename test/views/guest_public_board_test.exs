@@ -70,7 +70,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/")
       |> assert_has("#guest-spotlight [data-role=widget-heading]", text: "Spotlight")
-      |> assert_has("#guest-spotlight [data-role=widget-subtitle]", text: "Pinned by the community")
+      |> assert_has("#guest-spotlight [data-role=widget-subtitle]",
+        text: "Pinned by the community"
+      )
       |> assert_has("#guest-spotlight .spotlight_clamp",
         text: "a public post in the guest spotlight"
       )
@@ -169,7 +171,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     end
 
     test "offers account creation when signups are open" do
-      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn -> false end)
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
+        false
+      end)
 
       conn()
       |> visit("/about")
@@ -181,7 +185,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     end
 
     test "does not offer account creation on invite-only instances" do
-      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn -> true end)
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
+        true
+      end)
 
       conn()
       |> visit("/about")
@@ -199,7 +205,8 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> visit("/about")
-      |> assert_has("#community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
+      |> assert_has(
+        "#community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
         text: "@#{admin.character.username}"
       )
     end
@@ -216,7 +223,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     end
 
     test "hides the rules section when no rules are selected" do
-      Repatch.patch(Bonfire.CommunityRules, :get_instance_rules_sections, [mode: :shared], fn -> [] end)
+      Repatch.patch(Bonfire.CommunityRules, :get_instance_rules_sections, [mode: :shared], fn ->
+        []
+      end)
 
       conn()
       |> visit("/about")

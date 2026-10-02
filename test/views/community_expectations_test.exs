@@ -8,7 +8,9 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     |> assert_has("#community-sharing-title", text: "Sharing a post")
     |> assert_has("#community-connections-title", text: "Connecting with other communities")
     |> assert_has("#community-experience-title", text: "Your home feed")
-    |> assert_has("#community-sharing", text: "Specify your default boundary when publishing a new activity")
+    |> assert_has("#community-sharing",
+      text: "Specify your default boundary when publishing a new activity"
+    )
     |> assert_has("#community-visibility", text: "DO NOT make new users easily discoverable")
     |> assert_has("details#community-all-defaults:not([open])")
     |> refute_has("#community-expectations", text: "Customise the look and feel")
@@ -32,6 +34,7 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     assert {:boost, "Boosts", false} in defaults
     assert {:follow, "Follows", false} in defaults
   end
+
   test "privacy and safety defaults describe opt-outs and remote report forwarding" do
     Process.put([:bonfire_me, Bonfire.Me.Users, :undiscoverable], true)
     Process.put([:bonfire_search, Bonfire.Search.Indexer, :modularity], :disabled)
@@ -45,5 +48,4 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     |> assert_has("#community-report-forwarding", text: "Enabled")
     |> assert_has("#community-media", text: "Enabled")
   end
-
 end
