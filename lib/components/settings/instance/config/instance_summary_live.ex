@@ -26,21 +26,6 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive do
     }
   end
 
-  @doc "Lists the starting home-feed preferences, using the same keys as the preference controls."
-  def feed_defaults do
-    [
-      {:followed_categories, l("Activities from groups I follow")},
-      {:boost, l("Boosts")},
-      {:reply, l("Replies")},
-      {:follow, l("Follows")},
-      {:outbox, l("User's own activities")},
-      {:notifications, l("Notifications")}
-    ]
-    |> Enum.map(fn {key, label} ->
-      {key, label, Settings.get([Bonfire.Social.Feeds, :include, key], true, scope: :instance)}
-    end)
-  end
-
   # how many allowlisted entries to show before summarising the rest as "+N more"
   @allowlist_preview_limit 50
 

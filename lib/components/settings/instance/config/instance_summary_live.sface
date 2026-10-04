@@ -2,57 +2,54 @@
   {#match defaults}
     <div
       id="community-expectations"
-      class="min-w-0 px-5 py-6 text-base-content sm:px-6 sm:py-[26px] [overflow-wrap:anywhere]"
+      class="min-w-0 px-5 py-6 text-base-content sm:px-6 sm:py-6 [overflow-wrap:anywhere]"
     >
       <header class="mb-6"><h2 class="text-2xl font-semibold tracking-tight">{l("How this community works")}</h2></header>
       <section
-        id="community-sharing"
-        aria-labelledby="community-sharing-title"
-        class="border-t border-base-content/15 py-5"
-      >
-        <h3 id="community-sharing-title" class="mb-2 text-lg font-semibold">{l("Sharing a post")}</h3>
-        <dl><div class="py-4">
-            <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Default boundary")}</span><span id="community-post-audience" class="text-sm text-primary">{#case defaults.boundaries}
-                  {#match boundaries when is_list(boundaries)}{Enum.map_join(boundaries, ", ", fn {_id, name} -> name end)}
-                  {#match {_id, name}}{name}
-                  {#match _}—
-                {/case}</span></dt>
-            <dd class="mt-2 max-w-prose text-sm leading-relaxed text-base-content/75">{l("Specify your default boundary when publishing a new activity")}</dd>
-          </div></dl>
-      </section><section
         id="community-connections"
         aria-labelledby="community-connections-title"
-        class="border-t border-base-content/15 py-5"
+        class="py-3"
       >
-        <h3 id="community-connections-title" class="mb-2 text-lg font-semibold">{l("Connecting with other communities")}</h3>
+        <h3 id="community-connections-title" class="mb-4 text-lg font-semibold leading-snug">{l("Connecting with other communities")}</h3>
         {#for mode <- Bonfire.UI.Me.SettingsViewsLive.FederationModeLive.federation_modes(:instance),
             mode.value ==
               if(is_nil(defaults.federation), do: "manual", else: to_string(defaults.federation))}
-          <p id="community-federation" class="mt-4 font-medium text-primary">{mode.name}</p>
-          <p class="mt-2 max-w-prose text-sm leading-relaxed text-base-content/75">{mode.description}</p>
+          <p id="community-federation" class={
+            "mt-4 w-fit font-medium",
+            "rounded-full bg-primary/10 px-3 py-1 text-xs text-primary": defaults.federation == :allowlist_only,
+            "text-primary": defaults.federation != :allowlist_only
+          }>{mode.name}</p>
+          <p class="mt-2 max-w-prose text-sm leading-relaxed text-muted">{if defaults.federation == :allowlist_only,
+              do: l("This community connects only with explicitly allowed communities and people."),
+              else: mode.description}</p>
         {/for}
         {#if defaults.federation == :allowlist_only}
           {#case instance_allowlist()}
             {#match {[], _}}
+              <p class="mt-4 rounded-box bg-(--stream-surface) p-4 text-sm text-muted">{l("No communities or people are listed yet.")}</p>
             {#match {members, total}}
-              <ul class="mt-3 space-y-1">
+              <h4 class="mb-3 mt-5 text-xs font-medium text-muted">{l("Allowed communities and people")}</h4>
+              <ul id="community-allowlist" class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {#for member <- members}
                   {#case allowlist_entry(member)}
                     {#match entry}
-                      <li class="flex min-w-0 items-center gap-2 [overflow-wrap:anywhere]">
-                        <Bonfire.UI.Common.Icons.FaviconLive
-                          link={entry.favicon_for}
-                          icon={entry.icon}
-                          class="size-4 shrink-0"
-                        />
-                        <a
-                          :if={entry.url}
-                          href={entry.url}
+                      <li class="min-w-0">
+                        <LinkLive
+                          to={entry.url}
                           target="_blank"
-                          rel="noopener noreferrer"
-                          class="inline-flex min-h-11 items-center text-primary underline underline-offset-4"
-                        >{entry.label}</a>
-                        <span :if={!entry.url}>{entry.label}</span>
+                          opts={[rel: "noopener noreferrer"]}
+                          class="group flex h-full min-h-16 min-w-0 items-center gap-3 rounded-box bg-(--stream-surface) p-4 text-sm hover:bg-base-content/5 focus-visible:outline-2 focus-visible:outline-offset-2"
+                        >
+                          <span class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-base-100" aria-hidden="true">
+                            <Bonfire.UI.Common.Icons.FaviconLive
+                              link={entry.favicon_for}
+                              icon={entry.icon}
+                              class="size-5 shrink-0"
+                            />
+                          </span>
+                          <span class="min-w-0 font-medium text-primary wrap-anywhere underline-offset-3 group-hover:underline">{entry.label}</span>
+                          <#Icon :if={entry.url} iconify="ph:arrow-up-right" class="ml-auto size-4 shrink-0 text-primary" aria-hidden="true" />
+                        </LinkLive>
                       </li>
                   {/case}
                 {/for}
@@ -60,69 +57,81 @@
               <p :if={total > length(members)} class="mt-2 text-base-content/75">{l("+%{count} more", count: total - length(members))}</p>
           {/case}
         {/if}
-      </section><section
-        id="community-experience"
-        aria-labelledby="community-experience-title"
-        class="border-t border-base-content/15 py-5"
+      </section>
+      <section
+        id="community-sharing"
+        aria-labelledby="community-sharing-title"
+        class="py-3"
       >
-        <h3 id="community-experience-title" class="mb-2 text-lg font-semibold">{l("Your home feed")}</h3>
-        <p class="mb-3 text-sm text-base-content/75">{l("What activities to include in home feeds by default")}</p>
-        <dl class="divide-y divide-base-content/10">
-          <div class="flex flex-wrap justify-between gap-3 py-3"><dt>{l("Activities from people I follow")}</dt><dd class="text-sm text-primary">{l("Enabled")}</dd></div>
-          {#for {key, label, included?} <- feed_defaults()}
-            <div id={"community-feed-#{key}"} class="flex flex-wrap justify-between gap-3 py-3"><dt>{label}</dt><dd class="text-sm text-primary">{if included?, do: l("Enabled"), else: l("Disabled")}</dd></div>
-          {/for}
-        </dl>
-      </section><section
+        <h3 id="community-sharing-title" class="mb-4 text-lg font-semibold leading-snug">{l("Sharing a post")}</h3>
+        <dl class="divide-y divide-base-content/10 rounded-box bg-(--stream-surface) px-4"><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+            <dt class="font-medium">{l("Default boundary")}</dt>
+            <dd id="community-post-audience" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{#case defaults.boundaries}
+                  {#match boundaries when is_list(boundaries)}{Enum.map_join(boundaries, ", ", fn {_id, name} -> name end)}
+                  {#match {_id, name}}{name}
+                  {#match _}—
+                {/case}</dd>
+            <dd class="col-span-2 max-w-prose text-xs leading-relaxed text-muted">{l("Specify your default boundary when publishing a new activity")}</dd>
+          </div></dl>
+      </section>
+      <section
         id="community-visibility"
         aria-labelledby="community-visibility-title"
-        class="border-t border-base-content/15 py-5"
+        class="py-3"
       >
-        <h3 id="community-visibility-title" class="mb-2 text-lg font-semibold">{l("Profile visibility")}</h3>
-        <dl class="divide-y divide-base-content/10"><div class="py-4">
-            <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Who can see the list of local users?")}</span><span id="community-directory" class="text-sm text-primary">{#case defaults.directory}
+        <h3 id="community-visibility-title" class="mb-4 text-lg font-semibold leading-snug">{l("Profile visibility")}</h3>
+        <dl class="divide-y divide-base-content/10 rounded-box bg-(--stream-surface) px-4"><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+            <dt class="font-medium">{l("Who can see the list of local users?")}</dt>
+            <dd id="community-directory" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{#case defaults.directory}
                   {#match :guests}{l("Guests")}
                   {#match value when value in [:users, true]}{l("Users")}
                   {#match :admins}{l("Admins")}
                   {#match _}—
-                {/case}</span></dt>
-          </div><div class="py-4">
-            <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Discoverability")}</span><span id="community-discoverability" class="text-sm text-primary">{if defaults.undiscoverable, do: l("Enabled"), else: l("Disabled")}</span></dt>
-            <dd class="mt-2 max-w-prose text-sm leading-relaxed text-base-content/75">{l(
+                {/case}</dd>
+          </div><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+            <dt class="font-medium">{l("Discoverability")}</dt>
+            <dd id="community-discoverability" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{if defaults.undiscoverable, do: l("Enabled"), else: l("Disabled")}</dd>
+            <dd class="col-span-2 max-w-prose text-xs leading-relaxed text-muted">{l(
                 "DO NOT make new users easily discoverable (in Bonfire, the fediverse, and search engines) by default"
               )}</dd>
-          </div><div class="py-4">
-            <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Search indexing")}</span><span id="community-indexing" class="text-sm text-primary">{if not defaults.indexable, do: l("Enabled"), else: l("Disabled")}</span></dt>
-            <dd class="mt-2 max-w-prose text-sm leading-relaxed text-base-content/75">{l(
+          </div><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+            <dt class="font-medium">{l("Search indexing")}</dt>
+            <dd id="community-indexing" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{if not defaults.indexable, do: l("Enabled"), else: l("Disabled")}</dd>
+            <dd class="col-span-2 max-w-prose text-xs leading-relaxed text-muted">{l(
                 "DO NOT make content appear in search engines (in Bonfire, the fediverse, and the web in general) by default."
               )}</dd>
-          </div><p class="pb-4 text-sm leading-relaxed text-base-content/75">{l(
-              "Please note this will only apply to content you create from the moment you change this setting."
-            )}</p></dl>
-      </section><details id="community-all-defaults" class="group border-t border-base-content/15">
-        <summary class="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 py-5 font-semibold focus-visible:outline-2 focus-visible:outline-primary [&::-webkit-details-marker]:hidden">{l("All community defaults")}<span aria-hidden="true" class="text-primary group-open:rotate-45">＋</span></summary>
-        <dl class="divide-y divide-base-content/10"><div class="py-4">
-            <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Forward flags to remote instances by default")}</span><span id="community-report-forwarding" class="text-sm text-primary">{if defaults.forward_reports, do: l("Enabled"), else: l("Disabled")}</span></dt>
-            <dd class="mt-2 max-w-prose text-sm leading-relaxed text-base-content/75">{l("When flagging remote content, automatically check the 'Forward to remote instance' option.")}</dd>
-          </div><div class="py-4">
-            <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Hide media")}</span><span id="community-media" class="text-sm text-primary">{if defaults.blur_media, do: l("Enabled"), else: l("Disabled")}</span></dt>
-            <dd class="mt-2 max-w-prose text-sm leading-relaxed text-base-content/75">{l("Blur all media in feeds and discussions (and click to reveal)")}</dd>
-          </div><div class="py-4">
-            <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Show metrics (likes, boosts, followers, posts)")}</span><span id="community-reaction-counts" class="text-sm text-primary">{if defaults.counts, do: l("Enabled"), else: l("Disabled")}</span></dt>
-            <dd class="mt-2 max-w-prose text-sm leading-relaxed text-base-content/75">{l(
+          </div></dl>
+      </section>
+      <section id="community-all-defaults" aria-labelledby="community-all-defaults-title" class="py-3 last:pb-0">
+        <h3 id="community-all-defaults-title" class="mb-4 text-lg font-semibold leading-snug">{l("All community defaults")}</h3>
+        <dl class="divide-y divide-base-content/10 rounded-box bg-(--stream-surface) px-4"><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+            <dt class="font-medium">{l("Forward flags to remote instances by default")}</dt>
+            <dd id="community-report-forwarding" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{if defaults.forward_reports, do: l("Enabled"), else: l("Disabled")}</dd>
+            <dd class="col-span-2 max-w-prose text-xs leading-relaxed text-muted">{l("When flagging remote content, automatically check the 'Forward to remote instance' option.")}</dd>
+          </div><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+            <dt class="font-medium">{l("Hide media")}</dt>
+            <dd id="community-media" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{if defaults.blur_media, do: l("Enabled"), else: l("Disabled")}</dd>
+            <dd class="col-span-2 max-w-prose text-xs leading-relaxed text-muted">{l("Blur all media in feeds and discussions (and click to reveal)")}</dd>
+          </div><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+            <dt class="font-medium">{l("Show metrics (likes, boosts, followers, posts)")}</dt>
+            <dd id="community-reaction-counts" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{if defaults.counts, do: l("Enabled"), else: l("Disabled")}</dd>
+            <dd class="col-span-2 max-w-prose text-xs leading-relaxed text-muted">{l(
                 "Display reaction counts, follower counts, and post counts on profiles and activities (may not be accurate for federated content)"
               )}</dd>
-          </div><div class="py-4">
-            <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Infinite scrolling")}</span><span id="community-scrolling" class="text-sm text-primary">{if defaults.scrolling == true, do: l("Enabled"), else: l("Disabled")}</span></dt>
-            <dd class="mt-2 max-w-prose text-sm leading-relaxed text-base-content/75">{l(
+          </div><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+            <dt class="font-medium">{l("Infinite scrolling")}</dt>
+            <dd id="community-scrolling" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{if defaults.scrolling == true, do: l("Enabled"), else: l("Disabled")}</dd>
+            <dd class="col-span-2 max-w-prose text-xs leading-relaxed text-muted">{l(
                 "Enable infinite scrolling (doom scrolling) instead of pre-loading activities that require clicking 'Show more' to see them"
               )}</dd>
-          </div><div class="py-4">
-            <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Preferred language")}</span><span id="community-interface-language" class="text-sm text-primary">{defaults.language}</span></dt>
-            <dd class="mt-2 max-w-prose text-sm leading-relaxed text-base-content/75">{l("Used for the interface and as default when creating or displaying content.")}</dd>
-          </div>{#if is_integer(defaults.post_length) and defaults.post_length > 0}<div class="py-4">
-              <dt class="flex flex-wrap items-baseline justify-between gap-x-5 gap-y-2 font-medium"><span>{l("Maximum length of text inputs (e.g. posts)")}</span><span id="community-post-length" class="text-sm text-primary">{defaults.post_length} {l("words")}</span></dt>
+          </div><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+            <dt class="font-medium">{l("Preferred language")}</dt>
+            <dd id="community-interface-language" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{defaults.language}</dd>
+            <dd class="col-span-2 max-w-prose text-xs leading-relaxed text-muted">{l("Used for the interface and as default when creating or displaying content.")}</dd>
+          </div>{#if is_integer(defaults.post_length) and defaults.post_length > 0}<div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
+              <dt class="font-medium">{l("Maximum length of text inputs (e.g. posts)")}</dt>
+            <dd id="community-post-length" class="max-w-40 rounded-md bg-base-content/5 px-2 py-0.5 text-right text-xs font-medium leading-5">{defaults.post_length} {l("words")}</dd>
             </div>{/if}</dl>
-      </details>
+      </section>
     </div>
 {/case}

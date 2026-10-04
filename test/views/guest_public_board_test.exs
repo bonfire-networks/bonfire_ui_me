@@ -2,6 +2,8 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
   use Bonfire.UI.Me.ConnCase, async: false
 
   alias Bonfire.UI.Common.GuestBoardLive
+  doctest Bonfire.Web.Components.AboutContentLive
+
   alias Bonfire.Social.Pins
   alias Bonfire.Posts
 
@@ -167,20 +169,48 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "About")
       |> assert_has("[data-role=about-eyebrow]", text: "About #{GuestBoardLive.instance_name()}")
       |> assert_has("#about-tagline")
-      |> assert_has("#participate h2", text: "Taking part")
+      |> refute_has("#participate")
+      |> assert_has("#about-guest-info", text: "You can read public conversations without an account.")
       |> refute_has("#guest-board a[href='#participate']")
-      |> assert_has("#participate a[href='/login']", text: "Already a member? Sign in")
+      |> refute_has("#about-guest-info a[href='/login']")
     end
 
-    test "offers account creation when signups are open" do
+    test "shows described resource cards separately from account actions" do
+      Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [
+        {"About Bonfire", "https://bonfirenetworks.org/"},
+        {"Community handbook", "https://example.org/handbook"}
+      ])
+
+      conn()
+      |> visit("/about")
+      |> assert_has("#community-links h2", text: "Useful links")
+      |> assert_has("#community-links a[href='https://bonfirenetworks.org/'][target='_blank'][rel=noopener]",
+        text: "Discover the platform behind this community"
+      )
+      |> assert_has("#community-links a[href='https://example.org/handbook']", text: "Community handbook")
+      |> assert_has("#community-links a[href='https://example.org/handbook']", text: "example.org")
+      |> refute_has("#participate a[href='https://example.org/handbook']")
+      |> refute_has("#participate")
+    end
+
+    test "hides resource cards when no community links are configured" do
+      Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [])
+
+      conn()
+      |> visit("/about")
+      |> refute_has("#community-links")
+      |> refute_has("#participate")
+    end
+
+    test "keeps account creation in navigation when signups are open" do
       Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
         false
       end)
 
       conn()
       |> visit("/about")
-      |> assert_has("#about-signup", text: "Create an account")
-      |> refute_has("#participate [data-role=signup-closed-note]")
+      |> refute_has("#about-signup")
+      |> refute_has("#about-guest-info [data-role=signup-closed-note]")
       |> assert_has("#guest-board-signin", text: "Log in")
       |> assert_has("#guest-board-signup[href='/signup']", text: "Sign up")
       |> assert_has("#dock-signup-action")
@@ -194,11 +224,22 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/about")
       |> refute_has("#about-signup")
-      |> assert_has("#participate [data-role=signup-closed-note]", text: "by invitation only")
+      |> assert_has("#about-guest-info [data-role=signup-closed-note]", text: "by invitation only")
       |> assert_has("#guest-board-signin[href='/login']", text: "Sign in")
       |> refute_has("#guest-board-signup")
       |> refute_has("#dock-signup-action")
       |> assert_has("#dock-login-action", text: "Sign in")
+    end
+
+    test "keeps an invitation action in the introduction when a contact is configured" do
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn -> true end)
+      Process.put([:bonfire, :ui, :theme, :instance_welcome, :invite_contact_email], "invites@example.org")
+
+      conn()
+      |> visit("/about")
+      |> refute_has("#participate")
+      |> assert_has("#about-guest-info [data-role=signup-closed-note]", text: "by invitation only")
+      |> assert_has("#about-guest-info #about-request-invite[href='/signup']", text: "Request an invite")
     end
 
     test "lists public admins linking to their profiles" do
