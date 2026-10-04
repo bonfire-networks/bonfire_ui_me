@@ -229,6 +229,7 @@
           <button
             type="button"
             phx-click="Bonfire.Me.Users:fetch_outbox"
+            phx-value-id={id(@user)}
             phx-value-canonical_uri={@permalink}
             class="flex items-center gap-2 justify-between text-base-content"
           >

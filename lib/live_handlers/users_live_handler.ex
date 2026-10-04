@@ -80,8 +80,9 @@ defmodule Bonfire.Me.Users.LiveHandler do
      redirect_to(socket, "/account/confirm?action=Bonfire.Me.SensitiveActions.DeleteAccount")}
   end
 
-  def handle_event("fetch_outbox", _, socket) do
-    ActivityPub.Federator.Fetcher.fetch_outbox([pointer: assigns(socket)[:user]],
+  def handle_event("fetch_outbox", params, socket) do
+    # the actor the button names (a person, or a group, whose page assigns it as `category` rather than `user`), else the page's own user
+    ActivityPub.Federator.Fetcher.fetch_outbox([pointer: assigns(socket)[:user] || e(params, "id", nil)],
       mode: :async,
       fetch_collection: :async,
       fetch_collection_entries: true,
