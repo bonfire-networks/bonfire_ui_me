@@ -19,7 +19,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
   alias Bonfire.Me.Fake
   alias Bonfire.Me.Dashboard.EditProfileImagesTest.RejectingS3
 
-  @tag :skip_ci
+  @tag Bonfire.Common.RuntimeConfig.skip_in_ci()
   test "upload avatar" do
     account = fake_account!()
     user = fake_user!(account)
@@ -61,7 +61,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
     # File.stat!(file).size |> debug()
   end
 
-  @tag :skip_ci
+  @tag Bonfire.Common.RuntimeConfig.skip_in_ci()
   test "an upload the storage rejects tells the user, instead of silently doing nothing" do
     # Reproduces an instance with S3 configured but the bucket/credentials rejecting the write:
     # the store fails, `Attacher.attach/3` turns it into a changeset error, and `Media.insert`
@@ -107,7 +107,7 @@ defmodule Bonfire.Me.Dashboard.EditProfileImagesTest do
            "expected the rejected upload to surface an error to the user"
   end
 
-  @tag :skip_ci
+  @tag Bonfire.Common.RuntimeConfig.skip_in_ci()
   test "upload bg image" do
     account = fake_account!()
     user = fake_user!(account)
