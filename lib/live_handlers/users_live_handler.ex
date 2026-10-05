@@ -82,7 +82,8 @@ defmodule Bonfire.Me.Users.LiveHandler do
 
   def handle_event("fetch_outbox", params, socket) do
     # the actor the button names (a person, or a group, whose page assigns it as `category` rather than `user`), else the page's own user
-    ActivityPub.Federator.Fetcher.fetch_outbox([pointer: assigns(socket)[:user] || e(params, "id", nil)],
+    ActivityPub.Federator.Fetcher.fetch_outbox(
+      [pointer: assigns(socket)[:user] || e(params, "id", nil)],
       mode: :async,
       fetch_collection: :async,
       fetch_collection_entries: true,

@@ -431,10 +431,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       account: account,
       user: user
     } do
-      conn =
-        conn()
-        |> Plug.Conn.fetch_session()
-        |> Plug.Conn.put_session(:go, @external_url)
+      conn = conn(go: @external_url)
 
       conn = post(conn, "/login", login_params(user, account))
 
@@ -447,10 +444,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
          %{account: account, user: user} do
       System.put_env("IFRAME_ALLOWED_ORIGINS", "blog.example.com")
 
-      conn =
-        conn()
-        |> Plug.Conn.fetch_session()
-        |> Plug.Conn.put_session(:go, @external_url)
+      conn = conn(go: @external_url)
 
       conn = post(conn, "/login", login_params(user, account))
 
@@ -471,10 +465,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       account: account,
       user: user
     } do
-      conn =
-        conn()
-        |> Plug.Conn.fetch_session()
-        |> Plug.Conn.put_session(:go, "/feed")
+      conn = conn(go: "/feed")
 
       conn = post(conn, "/login", login_params(user, account))
       refute redirected_to(conn, 303) =~ "bonfire_embed_token="
@@ -486,10 +477,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     } do
       System.put_env("IFRAME_ALLOWED_ORIGINS", "https://other.example.com")
 
-      conn =
-        conn()
-        |> Plug.Conn.fetch_session()
-        |> Plug.Conn.put_session(:go, @external_url)
+      conn = conn(go: @external_url)
 
       conn = post(conn, "/login", login_params(user, account))
 
@@ -505,10 +493,7 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     } do
       System.delete_env("IFRAME_ALLOWED_ORIGINS")
 
-      conn =
-        conn()
-        |> Plug.Conn.fetch_session()
-        |> Plug.Conn.put_session(:go, "https://evil.example/steal")
+      conn = conn(go: "https://evil.example/steal")
 
       conn = post(conn, "/login", login_params(user, account))
 
@@ -516,5 +501,13 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       assert redirect == "/"
       refute redirect =~ "evil.example"
     end
+  end
+
+  # the form carries the target on, so a sign-in link emailed from it still leads there when opened on another device, which has no cookie
+  test "the sign-in page puts a saved go target in its form" do
+    html = conn(go: "/somewhere/saved") |> get("/login") |> html_response(200)
+
+    assert Floki.attribute(Floki.parse_document!(html), "input[name=go]", "value")
+           |> Enum.member?("/somewhere/saved")
   end
 end

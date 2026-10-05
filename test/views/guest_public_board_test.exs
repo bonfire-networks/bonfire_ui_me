@@ -170,7 +170,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> assert_has("[data-role=about-eyebrow]", text: "About #{GuestBoardLive.instance_name()}")
       |> assert_has("#about-tagline")
       |> refute_has("#participate")
-      |> assert_has("#about-guest-info", text: "You can read public conversations without an account.")
+      |> assert_has("#about-guest-info",
+        text: "You can read public conversations without an account."
+      )
       |> refute_has("#guest-board a[href='#participate']")
       |> refute_has("#about-guest-info a[href='/login']")
     end
@@ -184,11 +186,16 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/about")
       |> assert_has("#community-links h2", text: "Useful links")
-      |> assert_has("#community-links a[href='https://bonfirenetworks.org/'][target='_blank'][rel=noopener]",
+      |> assert_has(
+        "#community-links a[href='https://bonfirenetworks.org/'][target='_blank'][rel=noopener]",
         text: "Discover the platform behind this community"
       )
-      |> assert_has("#community-links a[href='https://example.org/handbook']", text: "Community handbook")
-      |> assert_has("#community-links a[href='https://example.org/handbook']", text: "example.org")
+      |> assert_has("#community-links a[href='https://example.org/handbook']",
+        text: "Community handbook"
+      )
+      |> assert_has("#community-links a[href='https://example.org/handbook']",
+        text: "example.org"
+      )
       |> refute_has("#participate a[href='https://example.org/handbook']")
       |> refute_has("#participate")
     end
@@ -224,7 +231,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/about")
       |> refute_has("#about-signup")
-      |> assert_has("#about-guest-info [data-role=signup-closed-note]", text: "by invitation only")
+      |> assert_has("#about-guest-info [data-role=signup-closed-note]",
+        text: "by invitation only"
+      )
       |> assert_has("#guest-board-signin[href='/login']", text: "Sign in")
       |> refute_has("#guest-board-signup")
       |> refute_has("#dock-signup-action")
@@ -232,14 +241,24 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     end
 
     test "keeps an invitation action in the introduction when a contact is configured" do
-      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn -> true end)
-      Process.put([:bonfire, :ui, :theme, :instance_welcome, :invite_contact_email], "invites@example.org")
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
+        true
+      end)
+
+      Process.put(
+        [:bonfire, :ui, :theme, :instance_welcome, :invite_contact_email],
+        "invites@example.org"
+      )
 
       conn()
       |> visit("/about")
       |> refute_has("#participate")
-      |> assert_has("#about-guest-info [data-role=signup-closed-note]", text: "by invitation only")
-      |> assert_has("#about-guest-info #about-request-invite[href='/signup']", text: "Request an invite")
+      |> assert_has("#about-guest-info [data-role=signup-closed-note]",
+        text: "by invitation only"
+      )
+      |> assert_has("#about-guest-info #about-request-invite[href='/signup']",
+        text: "Request an invite"
+      )
     end
 
     test "lists public admins linking to their profiles" do

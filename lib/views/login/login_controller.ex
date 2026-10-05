@@ -68,7 +68,7 @@ defmodule Bonfire.UI.Me.LoginController do
       # to support redirect after a POST
       |> Plug.Conn.put_status(303)
 
-    go = get_session(conn, :go) || e(form, "go", nil) || e(form, :go, nil)
+    go = go_after(conn) || e(form, "go", nil) || e(form, :go, nil)
 
     # account-scoped destinations (/account/*) don't need a selected profile, so skip the switcher (e.g. sudo verification for account-level actions)
     if is_binary(go) and String.starts_with?(go, "/account/") do
@@ -120,9 +120,9 @@ defmodule Bonfire.UI.Me.LoginController do
   defdelegate renew_session_for(conn, account_id), to: Bonfire.UI.Me.Sudo
 
   def redirect_after_auth(conn, user_id, form) do
-    # Ensure external `go` URLs are written to the session so go_where? allows the redirect.
+    # Ensure external `go` URLs are saved (`set_go_after/2`) so go_where? allows the redirect.
     # For allowed iframe embed origins, also append a signed token for cross-origin auth.
-    go = Plug.Conn.get_session(conn, :go) || e(form, "go", nil) || e(form, :go, nil)
+    go = go_after(conn) || e(form, "go", nil) || e(form, :go, nil)
 
     conn =
       if is_binary(go) and not String.starts_with?(go, "/") do
@@ -137,7 +137,7 @@ defmodule Bonfire.UI.Me.LoginController do
             go
           end
 
-        Plug.Conn.put_session(conn, :go, go)
+        set_go_after(conn, go)
       else
         conn
       end
@@ -165,6 +165,7 @@ defmodule Bonfire.UI.Me.LoginController do
   def paint(conn, changeset \\ form_cs()) do
     conn
     |> assign(:form, to_form(changeset))
-    |> live_render(LoginLive)
+    # the saved target (its own cookie, not the session), so the form carries it on, eg. into an emailed sign-in link opened on another device
+    |> live_render(LoginLive, session: %{"go" => go_after(conn)})
   end
 end

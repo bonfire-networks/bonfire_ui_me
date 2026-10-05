@@ -37,7 +37,7 @@ defmodule Bonfire.UI.Me.AccountVerificationControllerTest do
     test "anonymous requests get the standard login redirect with go stashed including the action" do
       response = get(conn(), @confirm_path)
       assert redirected_to(response) =~ "/login"
-      go = get_session(response, :go)
+      go = go_target(response)
       assert go =~ "/account/confirm"
       assert go =~ "action="
     end

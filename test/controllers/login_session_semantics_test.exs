@@ -1,6 +1,6 @@
 defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
   @moduledoc """
-  Logging into a different account applies logout semantics first (prior session state, including sudo proof, is cleared; the stashed go survives); logging into the same account merges the earned factor into existing fresh ones. The login form is guest-only, so the endpoint where cross-account login actually happens is magic-link redemption.
+  Logging into a different account applies logout semantics first (prior session state, including sudo proof, is cleared; the go target survives, in its own cookie); logging into the same account merges the earned factor into existing fresh ones. The login form is guest-only, so the endpoint where cross-account login actually happens is magic-link redemption.
   """
   use Bonfire.UI.Me.ConnCase, async: false
   use Repatch.ExUnit
@@ -49,7 +49,7 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
     assert is_integer(proof[:email])
     refute proof[:password]
     assert get_session(conn, :current_account_id) == b.id
-    assert get_session(conn, :go) =~ "/keep-me"
+    assert go_target(conn) =~ "/keep-me"
   end
 
   test "cross-account reset-link redemption (password instance) also clears prior proof" do
@@ -76,7 +76,7 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
     assert is_integer(proof[:email])
     refute proof[:password]
     assert get_session(conn, :current_account_id) == b.id
-    assert get_session(conn, :go) =~ "/keep-me"
+    assert go_target(conn) =~ "/keep-me"
   end
 
   test "redeeming a link whose go is account-scoped skips the profile switcher" do

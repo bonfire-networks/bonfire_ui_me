@@ -6,7 +6,9 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     |> visit("/about")
     |> assert_has("#community-expectations h2", text: "How this community works")
     |> assert_has("#community-sharing-title", text: "Sharing a post")
-    |> assert_has("#community-expectations > section:first-of-type#community-connections", text: "Connecting with other communities")
+    |> assert_has("#community-expectations > section:first-of-type#community-connections",
+      text: "Connecting with other communities"
+    )
     |> refute_has("#community-experience")
     |> refute_has("#community-expectations", text: "Your home feed")
     |> assert_has("#community-sharing",
@@ -26,6 +28,7 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
   test "Archipelago shows allowed destinations as linked cards" do
     summary = Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive
     Repatch.patch(summary, :federation_mode, [mode: :shared], fn -> :allowlist_only end)
+
     Repatch.patch(summary, :instance_allowlist, [mode: :shared], fn ->
       {[%{subject: %{named: %{name: "community.example.org"}}}], 1}
     end)
@@ -34,7 +37,9 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     |> visit("/about")
     |> assert_has("#community-federation", text: "Archipelago")
     |> assert_has("#community-connections", text: "explicitly allowed communities and people")
-    |> assert_has("#community-allowlist a[href='https://community.example.org'][target='_blank']", text: "community.example.org")
+    |> assert_has("#community-allowlist a[href='https://community.example.org'][target='_blank']",
+      text: "community.example.org"
+    )
   end
 
   test "Archipelago explains an empty allowlist" do

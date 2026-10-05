@@ -375,4 +375,11 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       assert updated_invite.max_uses == 2
     end
   end
+
+  # the form carries the target on, so the confirmation email's link leads there, opened on whatever device
+  test "the sign-up page puts a saved go target in its form" do
+    doc = conn(go: "/somewhere/saved") |> get("/signup") |> floki_response()
+
+    assert Floki.attribute(doc, "input[name=go]", "value") |> Enum.member?("/somewhere/saved")
+  end
 end

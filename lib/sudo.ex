@@ -20,18 +20,20 @@ defmodule Bonfire.UI.Me.Sudo do
   def next_challenge(conn, module, account),
     do: SensitiveActions.next_challenge(factors(conn), SensitiveActions.required(module, account))
 
-  @doc "Session lifecycle when a login lands: cross-account applies logout semantics (renew_session clears everything, keeping only the stashed go, so proof never migrates between accounts); same-account keeps just the session-ID rotation."
+  @doc "Session lifecycle when a login lands: cross-account applies logout semantics (renew_session clears everything, so proof never migrates between accounts; the go target survives in its own cookie); same-account keeps just the session-ID rotation."
   def renew_session_for(conn, account_id) do
     previous = get_session(conn, :current_account_id)
 
     if is_nil(previous) or previous == account_id do
       configure_session(conn, renew: true)
     else
-      go = get_session(conn, :go)
+      # the go target lives in a cookie of its own now (`set_go_after/2`), which survives the session reset, so there's nothing to carry over
+      # go = get_session(conn, :go)
 
       conn
       |> Bonfire.UI.Common.Web.renew_session()
-      |> then(&if(is_binary(go), do: put_session(&1, :go, go), else: &1))
+
+      # |> then(&if(is_binary(go), do: put_session(&1, :go, go), else: &1))
     end
   end
 end

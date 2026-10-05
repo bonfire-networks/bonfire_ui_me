@@ -111,7 +111,8 @@ defmodule Bonfire.UI.Me.SignupController do
     conn
     |> live_render(
       SignupLive,
-      session: session_params
+      # the saved target (its own cookie, not the session), so the confirmation email's link carries it on, unless the form already has one
+      session: Map.put_new(session_params, "go", go_after(conn))
     )
   end
 

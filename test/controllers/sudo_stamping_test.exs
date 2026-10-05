@@ -53,7 +53,7 @@ defmodule Bonfire.UI.Me.SudoStampingTest do
     assert get_session(conn, :current_account_id) == account.id
     assert is_integer(get_session(conn, :sudo_proof)[:email])
     refute get_session(conn, :sudo_proof)[:password]
-    assert get_session(conn, :go) =~ "/somewhere"
+    assert go_target(conn) =~ "/somewhere"
   end
 
   test "signed-in redemption on a password instance reaches the reset flow (no guest bounce) and stamps :email" do

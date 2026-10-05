@@ -137,9 +137,9 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
         )
 
       # New account (no profile yet) → switch-user/create-profile, with go stashed in
-      # the session so redirect_to_previous_go can send them there once set up.
+      # its cookie so redirect_to_previous_go can send them there once set up.
       assert redirected_to(conn) =~ "/switch-user"
-      assert Plug.Conn.get_session(conn, :go) == "/some-article"
+      assert go_target(conn) == "/some-article"
     end
 
     test "success with custom scheme redirect_uri for mobile deep-linking" do
