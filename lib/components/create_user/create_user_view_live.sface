@@ -55,12 +55,13 @@
                   <TextInput
                     required
                     opts={
-                      "x-bind:value": "userModifiedUsername ? $el.value : suggest_username(username)",
+                      "x-bind:value":
+                        "userModifiedUsername ? $el.value : suggest_username(username, #{Bonfire.Me.Characters.unicode_usernames?()})",
                       "@input": "userModifiedUsername = true"
                     }
                     type="input"
                     placeholder={l("Username")}
-                    minlength="3"
+                    minlength={if Bonfire.Me.Characters.unicode_usernames?(), do: "1", else: "2"}
                     maxlength="30"
                   />
                 </label>
@@ -229,8 +230,12 @@
     {/case}
 
     <script>
-        function suggest_username(string) {
-          return string.replace(' ', '_').replace(/[^a-zA-Z0-9_]/g, '');
+        // `unicode` allows letters from any script (see `Bonfire.Me.Characters.unicode_usernames?/0`), otherwise only a-z, 0-9 and _
+        function suggest_username(string, unicode) {
+          const spaced = string.replace(/ /g, '_');
+          return unicode
+            ? spaced.normalize('NFC').replace(/[^\p{L}\p{M}\p{N}_]/gu, '')
+            : spaced.replace(/[^a-zA-Z0-9_]/g, '');
         }
       </script>
   </Form>

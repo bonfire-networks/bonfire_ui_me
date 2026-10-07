@@ -165,6 +165,23 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       assert redirected_to(conn, 303) == "/"
     end
 
+    for username <- ["josé", "你好", "李"] do
+      test "an account can log in with a non-ASCII username (#{username}), when those are enabled" do
+        Process.put([:bonfire_me, Bonfire.Me.Characters, :unicode_usernames], true)
+        account = fake_account!()
+        # the profile name is set apart, since names have their own minimum length
+        user =
+          fake_user!(account, %{username: unquote(username), name: "Test #{unquote(username)}"})
+
+        assert user.character.username == unquote(username)
+        {:ok, account} = Accounts.confirm_email(account)
+
+        conn = login_with_password(unquote(username), account.credential.password)
+
+        assert redirected_to(conn, 303) == "/"
+      end
+    end
+
     test "looks like a login form to password managers: no \"forgot\" action, the login page's field names" do
       doc = get(conn(), "/login") |> floki_response()
 
