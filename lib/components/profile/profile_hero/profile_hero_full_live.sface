@@ -33,6 +33,18 @@
                     class="btn btn-sm btn-circle z-50 border-0 bg-black/50 text-white shadow-none hover:bg-black/65"
                   />
                 </div>
+                <div
+                  :if={@show_widgets_toggle && current_user_id(@__context__)}
+                  class="absolute top-safe right-3 lg:top-3 z-50 xl:hidden"
+                >
+                  <label
+                    for="widgets-drawer"
+                    aria-label={l("Open widgets sidebar")}
+                    class="btn btn-sm btn-circle border-0 bg-black/50 text-white shadow-none hover:bg-black/65"
+                  >
+                    <#Icon iconify="ph:sidebar-simple-fill" class="size-5" />
+                  </label>
+                </div>
                 {!-- Hidden probe: if banner 404s, push refetch event via LiveView --}
                 {#if is_binary(banner_url) && id(@user)}
                   <img

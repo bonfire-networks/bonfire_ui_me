@@ -24,6 +24,7 @@
               block_status={e(assigns, :block_status, nil)}
               selected_tab={@selected_tab}
               back={@back}
+              show_widgets_toggle
               back_type={e(assigns, :back_type, nil)}
               follows_me={@follows_me || false}
               character_type={@character_type}
@@ -71,6 +72,7 @@
           block_status={e(assigns, :block_status, nil)}
           selected_tab={@selected_tab}
           back={@back}
+          show_widgets_toggle
           back_type={e(assigns, :back_type, nil)}
           follows_me={@follows_me || false}
           character_type={@character_type}

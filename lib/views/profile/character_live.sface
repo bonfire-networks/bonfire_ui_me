@@ -13,6 +13,7 @@
         follows_me={@follows_me || false}
         character_type={@character_type}
         path={@path}
+        show_widgets_toggle
       />
     </:header>
   </StatelessComponent>

@@ -24,6 +24,7 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop block_status, :any, default: nil
   prop back, :any, default: nil
   prop back_type, :any, default: nil
+  prop show_widgets_toggle, :boolean, default: false
   prop showing_within, :atom, default: :profile
   prop path, :string, default: "@"
 
