@@ -1,13 +1,12 @@
-<li id="switch_user_menu_items" class={"my-1 border-y border-secondary py-1": @show_inline_users}>
+<li id="switch_user_menu_items" class={"w-full", "my-1 border-y border-secondary py-1": @show_inline_users}>
   {#if @max_users_per_account > 1}
-    {!-- a nested menu list (without daisy's submenu indent), so each profile is a regular menu item --}
-    <ul class="m-0 p-0 min-w-0 whitespace-normal before:hidden">
+    <ul class="m-0 p-0 w-full min-w-0 whitespace-normal before:hidden">
       {#if @show_inline_users}
         {#if is_list(@account_users)}
           <li :for={%{id: user_id} = user <- @account_users}>
             <LinkLive
               to={"/switch-user/#{e(user, :character, :username, nil)}"}
-              class="flex min-w-0 items-center gap-2 text-sm text-base-content"
+              class="flex w-full min-w-0 items-center gap-2 text-sm text-base-content"
               opts={["data-role": "switch_user_menu_profile"]}
             >
               <div class="shrink-0">
