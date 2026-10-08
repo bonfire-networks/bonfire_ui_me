@@ -12,6 +12,9 @@ defmodule Bonfire.UI.Me.HeroMoreActionsLive do
   prop silenced?, :boolean, default: false
   prop parent_id, :any, default: nil
 
+  @doc "Offer New topic for a group, see `Bonfire.Classify.can_create_topic?/2`."
+  prop can_create_topic, :boolean, default: false
+
   # defp set_clone_context({_, o}) do
   #   [{:clone_context, o}]
   # end

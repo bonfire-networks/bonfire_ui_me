@@ -32,6 +32,9 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop group_return_to, :string, default: "/groups"
   prop subcategories, :list, default: []
 
+  @doc "Offer New topic in a group's More menu, see `Bonfire.Classify.can_create_topic?/2`."
+  prop can_create_topic, :boolean, default: false
+
   prop post_count, :any, default: nil
   prop followers_count, :any, default: nil
   prop following_count, :any, default: nil

@@ -98,10 +98,8 @@
       </li>
     {#else}
       {#if @character_type == :group}
-        <li
-          class="create_new_topic"
-          module={Bonfire.Boundaries.can?(@__context__, :edit, @user) && current_user_id(@__context__)}
-        >
+        {!-- the sidebar topics widget also offers this, but it's hidden on mobile --}
+        <li :if={@can_create_topic} data-role="new_topic">
           <StatelessComponent
             module={maybe_component(Bonfire.UI.Topics.NewTopicLive, @__context__)}
             parent={@user}

@@ -64,9 +64,9 @@
               </div>
 
               <div data-id="hero_data" class="px-4">
-                <div class="w-full gap-2">
-                  <div class="flex flex-col lg:items-start gap-4">
-                    <div class="flex justify-between items-center w-full">
+                <div class="w-full flex flex-col sm:block">
+                  <div class="contents sm:flex sm:flex-col lg:items-start sm:gap-4">
+                    <div class="contents sm:flex sm:justify-between sm:items-center sm:w-full">
                       <div>
                         {#if !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                           {#if @character_type == :group && avatar_url == "/images/avatar.png"}
@@ -98,16 +98,19 @@
                       </div>
 
                       <div
-                        class={"flex items-center gap-3", "flex-wrap justify-end pt-2": @character_type == :group}
+                        class={
+                          "order-last flex items-center gap-3 w-full pb-4 sm:order-none sm:w-auto sm:pb-0",
+                          "flex-wrap sm:justify-end sm:pt-2": @character_type == :group
+                        }
                         data-id="profile_main_actions"
                       >
                         {#if current_user_id(@__context__) == id(@user)}
                           <LinkLive
                             to={~p"/settings/user/profile"}
-                            class="btn btn-sm border-0 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))]"
+                            class="btn btn-sm flex-1 sm:flex-none border-0 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))]"
                           >
                             <#Icon iconify="ph:pencil-simple-duotone" class="w-4 h-4" />
-                            <span class="hidden sm:inline">{l("Edit profile")}</span>
+                            <span>{l("Edit profile")}</span>
                           </LinkLive>
                         {/if}
 
@@ -118,9 +121,10 @@
                               {l("Blocked")}
                             </button>
                           {#elseif @character_type != :group}
-                            {!-- For users, the follow button stays in the top-right.
-                                 Groups use their membership controls alongside the avatar. --}
-                            <div data-role="follow_wrapper">
+                            {!-- For users, the follow button sits beside the avatar (on its own
+                                 full-width row at the end of the hero on mobile).
+                                 Groups use their membership controls instead. --}
+                            <div data-role="follow_wrapper" class="flex-1 sm:flex-none">
                               <StatefulComponent
                                 module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
                                 id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), __MODULE__)}
@@ -130,9 +134,9 @@
                                 path={path(@user)}
                                 hide_icon
                                 with_bell
-                                class="btn btn-primary btn-sm"
-                                class_already="btn btn-primary btn-soft btn-sm"
-                                container_class="flex items-center gap-3"
+                                class="btn btn-primary btn-sm flex-1 sm:flex-none"
+                                class_already="btn btn-primary btn-soft btn-sm w-full sm:w-auto"
+                                container_class="flex items-center gap-3 w-full"
                                 bell_class="btn btn-sm btn-circle border-0 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))] touch-target-expanded"
                                 bell_class_enabled="btn btn-sm btn-circle border-0 bg-[var(--stream-surface,var(--color-base-200))] text-primary shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))] touch-target-expanded"
                               />
@@ -214,11 +218,12 @@
                           silenced?={@silenced?}
                           boundary_preset={@boundary_preset}
                           permalink={canonical_url(@user, preload_if_needed: false)}
+                          can_create_topic={@can_create_topic}
                         />
                       </div>
                     </div>
 
-                    <div class="flex flex-col flex-1 w-full">
+                    <div class="flex flex-col flex-1 w-full mt-4 sm:mt-0">
                       <div class="flex justify-between">
                         <div class="flex flex-col flex-1 gap-1">
                           <div id="profile_name_section" class="type-result">
