@@ -72,7 +72,7 @@
       {!-- WIP: ADD A CONFIG TO ENABLE / DISABLE 2FA --}
       {!-- {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
       {#match true}
-        <div class="mt-4 rounded-md shadow alert bg-base-content/10">
+        <div class="mt-4 rounded-md shadow alert bg-fill-strong">
           <p class="mb-2">{l(
               "If you have two-factor authentication enabled, please enter the code provided by your app (optional)."
             )}</p>
@@ -97,7 +97,7 @@
       </.button>
 
       <div :if={!Bonfire.Me.Accounts.instance_is_invite_only?()} class="mt-3">
-        <div class="flex py-3 pb-2 mt-3 border-t border-secondary place-content-center">
+        <div class="flex py-3 pb-2 mt-3 border-t border-divider place-content-center">
           <LinkLive to={path(:signup)} class="text-sm text-center normal-case">
             {l("Don't have an account?")} <span class="link link-primary">{l("Sign up")}</span></LinkLive>
         </div>

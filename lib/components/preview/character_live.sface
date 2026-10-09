@@ -18,7 +18,7 @@
         <p class="text-base font-medium group-hover:underline text-base-content">
           {e(@the_character, :profile, :name, "Anon")}
         </p>
-        <p class="-mt-px text-sm text-base-content text-opacity-70">
+        <p class="-mt-px text-sm text-muted">
           @{e(@the_character, :character, :username, "anon")}
         </p>
       </div>
@@ -72,7 +72,7 @@
           </p>
           <div
             :if={e(@the_character, :character, :username, nil)}
-            class="-mt-1 text-sm font-normal truncate ellipsis text-base-content text-opacity-60 subject_username"
+            class="-mt-1 text-sm font-normal truncate ellipsis text-muted subject_username"
           >
             @{e(@the_character, :character, :username, "")}
           </div>

@@ -6,7 +6,7 @@
   <Dropdown
     id={"hero_more_actions_menu_#{@parent_id}"}
     position="bottom-end"
-    trigger_class="btn btn-sm btn-circle border border-base-content/10 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))]"
+    trigger_class="btn btn-sm btn-circle border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong"
     panel_class="dropdown_actions menu-lg"
     label={l("More actions")}
     expanded_touch_target
@@ -38,7 +38,7 @@
     </li>
 
     {#if @character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
-      <li class="m-1 border-t border-secondary" />
+      <li class="m-1 border-t border-divider" />
       <li>
         <LinkPatchLive
           class="flex items-center justify-between gap-2 text-base-content"
@@ -68,7 +68,7 @@
         </LinkPatchLive>
       </li>
     {/if}
-    <li class="m-1 border-t border-secondary" />
+    <li class="m-1 border-t border-divider" />
     {#if current_user_id(@__context__) == id(@user)}
       <li>
         <LinkLive to="/settings" class="flex items-center gap-2 justify-between text-base-content">

@@ -1,6 +1,6 @@
 <div class="max-w-[480px] min-h-screen mx-3 mt-3 md:mx-auto">
   <div class="my-2">
-    <div class="alert alert-info alert-soft bg-base-300 border-hair border-secondary mr-0 bg-base-300 border-hair border-secondary">
+    <div class="alert alert-info alert-soft bg-base-300 border-hair border-divider mr-0">
       <div class="flex">
         <div class="flex-shrink-0">
           <#Icon iconify="ph:user-circle-plus-fill" class="w-6 h-6 text-primary" />
@@ -18,7 +18,7 @@
     for={@form}
     action={path(:create_user, :create)}
     opts={[
-      class: "rounded-box p-4 mb-12 border border-hair border-secondary bg-base-100",
+      class: "rounded-box p-4 mb-12 border border-hair border-divider bg-base-100",
       id: "create-user-form"
     ]}
   >
@@ -73,16 +73,16 @@
               {l("Choose a username")}
             </span>
           </Label>
-          <label class="flex w-full border border-secondary items-center rounded-md">
-            <span class="h-[48px] flex items-center place-content-center border-r px-2 border-secondary text-sm">@</span>
+          <label class="flex w-full border border-divider items-center rounded-md">
+            <span class="h-[48px] flex items-center place-content-center border-r px-2 border-divider text-sm">@</span>
             <TextInput class="input flex-1" required opts={"x-bind:value": "suggest_username(username)"} />
-            <span class="hidden flex items-center place-content-center h-[48px] px-2 text-sm md:flex border-l border-secondary">@{base_domain()}</span>
+            <span class="hidden flex items-center place-content-center h-[48px] px-2 text-sm md:flex border-l border-divider">@{base_domain()}</span>
           </label> --}
               <ErrorTag />
             </Field>
           </Inputs>
 
-          <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
+          <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-divider gap-0 justify-between">
             <div class="flex items-center justify-between gap-6">
               <p class="text-sm">
                 {l("People need to make a request before they can follow me")}
@@ -96,7 +96,7 @@
             </div>
           </div>
 
-          <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
+          <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-divider gap-0 justify-between">
             <div class="flex items-center justify-between gap-6">
               <p class="text-sm">
                 {l("Make my profile publicly discoverable (in Bonfire, the fediverse, and search engines)")}
@@ -112,7 +112,7 @@
             </div>
           </div>
 
-          <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
+          <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-divider gap-0 justify-between">
             <div class="flex items-center justify-between gap-6">
               <p class="text-sm">
                 {l("Make my content searchable (in Bonfire, the fediverse, and search engines)")}
@@ -182,7 +182,7 @@
 
           <div
             :if={extra_consent}
-            class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between"
+            class="rounded-box flex items-start p-3 bg-base-300 border-hair border-divider gap-0 justify-between"
           >
             <div class="flex items-center justify-between gap-6">
               <p class="text-sm">
@@ -200,7 +200,7 @@
             </div>
           </div>
 
-          <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-secondary gap-0 justify-between">
+          <div class="rounded-box flex items-start p-3 bg-base-300 border-hair border-divider gap-0 justify-between">
             <div class="flex items-center justify-between gap-6">
               <p class="text-sm">
                 {l("I have read the ")} <a href="/conduct" target="_blank" class="link link-primary">{l("Code of Conduct")}</a>{#if !empty?(Config.get([:terms, :privacy]))}

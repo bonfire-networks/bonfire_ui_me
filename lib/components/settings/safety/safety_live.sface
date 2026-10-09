@@ -3,7 +3,7 @@
   <span>{l("Privacy & Safety")}</span>
 </div>
 
-<div class="divide-hair divide-secondary">
+<div class="divide-hair divide-divider">
   <div
     class="p-4 cursor-pointer"
     :if={@scope != :instance and ActivityPub.Config.federating?() != false}
@@ -112,7 +112,7 @@
     scope={@scope}
     module={maybe_component(Bonfire.UI.Boundaries.DefaultBoundaryLive, @__context__)}
   /> --}
-  <div class="divide-hair divide-secondary">
+  <div class="divide-hair divide-divider">
     <form class="p-4" data-scope="set_hide_avatar" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={@scope} type="hidden">
 
@@ -184,8 +184,8 @@
       </div>
     </div>
 
-    {!-- <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-    <#Icon iconify="carbon:notification" class="w-5 h-5 text-base-content/80" />
+    {!-- <div class="p-4 bg-fill font-bold flex items-center gap-4">
+    <#Icon iconify="carbon:notification" class="w-5 h-5 text-muted" />
     <span>{l("Notifications")}</span>
   </div> --}
 
@@ -215,8 +215,8 @@
       />
     </form>
 
-    {!-- <div class="p-4 bg-base-content/5 font-bold flex items-center gap-4">
-    <#Icon iconify="material-symbols:add-reaction" class="w-5 h-5 text-base-content/80" />
+    {!-- <div class="p-4 bg-fill font-bold flex items-center gap-4">
+    <#Icon iconify="material-symbols:add-reaction" class="w-5 h-5 text-muted" />
     <span>{l("Reactions")}</span>
   </div>  --}
 

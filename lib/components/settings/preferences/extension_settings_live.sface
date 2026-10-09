@@ -45,7 +45,7 @@
                 <div class="flex items-start gap-2.5">
                   <#Icon iconify="ph:seal-check-duotone" class="w-5 h-5 text-info shrink-0 mt-0.5" />
                   <div class="flex flex-col gap-2 min-w-0">
-                    <p class="text-sm text-base-content/80">{l(
+                    <p class="text-sm text-muted">{l(
                         "The following settings are already configured by the instance admin. You can still override them with your own values."
                       )}</p>
                     <div class="flex flex-wrap gap-1.5">
@@ -63,7 +63,7 @@
           <!-- <div data-role="extension_settings"> -->
           <Bonfire.UI.Common.WidgetsLive
             widgets={Enum.filter(extension_settings, &visible_in_scope?(&1, @scope))}
-            container_class="divide-hair divide-secondary"
+            container_class="divide-hair divide-divider"
             extra_data={scope: @scope}
             wrapper_class="my-card pb-card"
             with_title

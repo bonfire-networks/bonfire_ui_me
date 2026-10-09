@@ -6,11 +6,11 @@
         class="text-2xl font-medium leading-tight tracking-tight wrap-anywhere sm:text-3xl theme-light:font-semibold"
       >{@page_title}</h1>
     </header>
-    <div id="guest-people" class="border-t border-base-content/14">
+    <div id="guest-people" class="border-t border-divider">
       <div
         :for={user <- @users}
         data-role="person-row"
-        class="border-b border-base-content/14 py-4 px-5 sm:px-6"
+        class="border-b border-divider py-4 px-5 sm:px-6"
       >
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
@@ -33,7 +33,7 @@
     />
   </Bonfire.UI.Common.GuestBoardLive>
 {#else}
-  <div class="grid mb-2 grid-cols-1 gap-4 max-w-[640px] mx-auto w-full divide-hair divide-secondary bonfire-wrapper -mx-card">
+  <div class="grid mb-2 grid-cols-1 gap-4 max-w-[640px] mx-auto w-full divide-hair divide-divider bonfire-wrapper -mx-card">
     <div :for={user <- @users} class="pb-card">
       <StatelessComponent
         module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}

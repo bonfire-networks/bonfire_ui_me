@@ -72,14 +72,14 @@
 
     <div
       :if={e(@profile, :summary, nil)}
-      class="!text-base-content/100 prose prose-sm text-sm mt-2 line-clamp-4"
+      class="!text-base-content prose prose-sm text-sm mt-2 line-clamp-4"
     >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote)}</div>
 
     <#slot />
   </div>
 {#else}
   <div>
-    <div class={@wrapper_class || "bg-base-100 rounded-box border-hair border-secondary p-card"}>
+    <div class={@wrapper_class || "bg-base-100 rounded-box border-hair border-divider p-card"}>
       <!-- id={if @with_popover, do: "profile_item_tooltip_#{@parent_id}_#{id(@profile)}"} -->
       <!-- phx-hook={if @with_popover, do: "Tooltip"} -->
       <div class="flex-1 min-w-0" data-trigger="hover" data-position="top-start">
@@ -193,7 +193,7 @@
         </div>
         <div
           :if={@show_summary && {e(@profile, :summary, nil)}}
-          class="!text-base-content/100 prose prose-sm text-sm my-2 line-clamp-4"
+          class="!text-base-content prose prose-sm text-sm my-2 line-clamp-4"
         >{rich(e(@profile, :summary, nil), sanitize: true, skip_markdown: @is_remote)}</div>
       </div>
       <div class="flex gap-2 items-center">

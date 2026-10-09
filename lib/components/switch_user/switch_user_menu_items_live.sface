@@ -1,4 +1,4 @@
-<li id="switch_user_menu_items" class={"w-full", "my-1 border-y border-secondary py-1": @show_inline_users}>
+<li id="switch_user_menu_items" class={"w-full", "my-1 border-y border-divider py-1": @show_inline_users}>
   {#if @max_users_per_account > 1}
     <ul class="m-0 p-0 w-full min-w-0 whitespace-normal before:hidden">
       {#if @show_inline_users}
@@ -37,8 +37,8 @@
           {!-- placeholder until the menu is opened and the profiles are loaded --}
           <li aria-hidden="true">
             <div class="flex items-center gap-3">
-              <div class="w-6 h-6 shrink-0 rounded-full bg-base-content/10 animate-pulse" />
-              <div class="h-3 w-28 rounded bg-base-content/10 animate-pulse" />
+              <div class="w-6 h-6 shrink-0 rounded-full bg-fill-strong animate-pulse" />
+              <div class="h-3 w-28 rounded bg-fill-strong animate-pulse" />
             </div>
           </li>
         {/if}

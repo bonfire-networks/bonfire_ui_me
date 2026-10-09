@@ -1,12 +1,12 @@
 <dl
   :if={not is_nil(@joined_date) or @links != [] or @accounts != []}
   data-role="profile-links"
-  class="min-w-0 mb-4 border-y-(length:--divider-width) border-(color:--divider-color)"
+  class="min-w-0 mb-4 border-y-(length:--divider-width) border-divider"
 >
   <div
     :if={@joined_date}
     data-role="profile_joined_date"
-    class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-(color:--divider-color)"
+    class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-divider"
   >
     <dt class="pt-1 text-sm font-medium text-base-content">{l("Joined")}</dt>
     <dd class="py-1 text-sm text-base-content"><time datetime={Calendar.strftime(@joined_date, "%Y-%m-%d")}>{Calendar.strftime(@joined_date, "%d %b %Y")}</time></dd>
@@ -14,7 +14,7 @@
   <div
     :for={link <- @links}
     data-role="profile-websites"
-    class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-(color:--divider-color)"
+    class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-divider"
   >
     <dt class="pt-1 text-sm font-medium text-base-content break-words">{link.label || l("Website")}</dt>
     <dd class="min-w-0">
@@ -30,7 +30,7 @@
   <div
     :for={account <- @accounts}
     data-role="profile-also-on"
-    class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-(color:--divider-color)"
+    class="grid min-w-0 grid-cols-[5rem_minmax(0,1fr)] sm:grid-cols-[6rem_minmax(0,1fr)] items-start gap-3 py-2 border-t-(length:--divider-width) first:border-t-0 border-divider"
   >
     <dt class="pt-1 text-sm font-medium text-base-content">{l("Also on")}</dt>
     <dd class="min-w-0">

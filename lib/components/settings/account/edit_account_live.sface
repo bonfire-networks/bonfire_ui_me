@@ -1,4 +1,4 @@
-<div class="divide-hair divide-secondary">
+<div class="divide-hair divide-divider">
   <div class="p-4">
     {#case Bonfire.Me.Accounts.account_has_password?(current_account(@__context__))}
       {#match true}

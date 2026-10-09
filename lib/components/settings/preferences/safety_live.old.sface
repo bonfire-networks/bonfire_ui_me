@@ -1,5 +1,5 @@
-<div class="divide-hair divide-secondary">
-  <div class="p-4 font-bold bg-base-content/5">{l("Privacy & Safety")}</div>
+<div class="divide-hair divide-divider">
+  <div class="p-4 font-bold bg-fill">{l("Privacy & Safety")}</div>
 
   <div
     x-data="{open: false}"
@@ -21,7 +21,7 @@
     <div x-show="open" x-cloak x-collapse class="pt-2">
       <form phx-change="Bonfire.Common.Settings:set">
         <input name="scope" value={@scope} type="hidden">
-        <div class="divide-hair divide-secondary">
+        <div class="divide-hair divide-divider">
           <Bonfire.UI.Common.SettingsRadiosLive
             keys={[:activity_pub, :user_federating]}
             options={if ActivityPub.Config.federating?() == nil,
@@ -57,7 +57,7 @@
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
-      <div data-scope="safety_boundary_default" class="mt-3 border border-secondary rounded-box">
+      <div data-scope="safety_boundary_default" class="mt-3 border border-divider rounded-box">
         <StatelessComponent
           module={maybe_component(Bonfire.UI.Boundaries.BoundariesGeneralAccessLive, @__context__)}
           hide_custom

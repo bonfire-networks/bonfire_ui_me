@@ -101,7 +101,7 @@
     </form>
   </div>
 </div>
-<!-- <div class="border-t border-secondary">
+<!-- <div class="border-t border-divider">
   <form data-scope="set_background" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Background"
@@ -111,7 +111,7 @@
     />
   </form>
 </div> -->
-<!-- <div class="border-t border-b border-secondary">
+<!-- <div class="border-t border-b border-divider">
   <form data-scope="set-weather" phx-change="Bonfire.Common.Settings:set">
     <Bonfire.UI.Common.SettingsToggleLive
       name="Weather"

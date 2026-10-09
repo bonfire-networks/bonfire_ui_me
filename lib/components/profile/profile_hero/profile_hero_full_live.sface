@@ -2,7 +2,7 @@
   <section
     data-id="profile_hero"
     aria-label={l("Profile")}
-    class="relative bg-base-100 border-0 border-b-(length:--divider-width) border-(color:--divider-color) rounded-none shadow-none"
+    class="relative bg-base-100 border-0 border-b-(length:--divider-width) border-divider rounded-none shadow-none"
   >
     <!-- Sticky Header -->
     <div>
@@ -84,7 +84,7 @@
                           {#if @character_type == :group && avatar_url == "/images/avatar.png"}
                             <div
                               data-role="group_preset_icon"
-                              class="inline-flex items-center justify-center w-[100px] h-[100px] md:mx-0 relative -mt-14 border-secondary border-hair rounded-xl bg-base-200"
+                              class="inline-flex items-center justify-center w-[100px] h-[100px] md:mx-0 relative -mt-14 border-divider border-hair rounded-xl bg-base-200"
                             >
                               <Iconify.iconify
                                 icon={Bonfire.Boundaries.Presets.group_icon(@user)}
@@ -96,7 +96,7 @@
                               parent_id="profile-hero"
                               title={e(@user, :profile, :name, "Anon")}
                               class={
-                                "inline-block object-cover w-24 h-24 md:mx-0 -mt-10 border-secondary border-hair",
+                                "inline-block object-cover w-24 h-24 md:mx-0 -mt-10 border-divider border-hair",
                                 "rounded-xl": @character_type == :group,
                                 "rounded-full": @character_type != :group
                               }
@@ -119,7 +119,7 @@
                         {#if current_user_id(@__context__) == id(@user)}
                           <LinkLive
                             to={~p"/settings/user/profile"}
-                            class="btn btn-sm flex-1 sm:flex-none border border-base-content/10 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))]"
+                            class="btn btn-sm flex-1 sm:flex-none border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong"
                           >
                             <#Icon iconify="ph:pencil-simple-duotone" class="w-4 h-4" />
                             <span>{l("Edit profile")}</span>
@@ -149,8 +149,8 @@
                                 class="btn btn-primary btn-sm flex-1 sm:flex-none"
                                 class_already="btn btn-primary btn-soft btn-sm w-full sm:w-auto"
                                 container_class="flex items-center gap-3 w-full"
-                                bell_class="btn btn-sm btn-circle border border-base-content/10 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))] touch-target-expanded"
-                                bell_class_enabled="btn btn-sm btn-circle border border-base-content/10 bg-[var(--stream-surface,var(--color-base-200))] text-primary shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))] touch-target-expanded"
+                                bell_class="btn btn-sm btn-circle border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong touch-target-expanded"
+                                bell_class_enabled="btn btn-sm btn-circle border border-divider bg-surface text-primary shadow-none hover:bg-fill-strong touch-target-expanded"
                               />
                             </div>
                           {/if}
@@ -161,7 +161,7 @@
                             user_id={id(@user)}
                             parent_id="profile_hero"
                             as_icon
-                            button_class="tooltip btn btn-sm btn-circle border border-base-content/10 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))] touch-target-expanded"
+                            button_class="tooltip btn btn-sm btn-circle border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong touch-target-expanded"
                           />
                         {/if}
 
@@ -210,10 +210,10 @@
                                 icon_already="ph:rss"
                                 icon_class="size-4"
                                 container_class="inline-flex items-center gap-3"
-                                class="btn btn-sm btn-circle border border-base-content/10 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))]"
-                                class_already="btn btn-sm btn-circle border border-base-content/10 bg-[var(--stream-surface,var(--color-base-200))] text-primary shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))]"
-                                bell_class="btn btn-sm btn-circle border border-base-content/10 bg-[var(--stream-surface,var(--color-base-200))] text-muted shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))] touch-target-expanded"
-                                bell_class_enabled="btn btn-sm btn-circle border border-base-content/10 bg-[var(--stream-surface,var(--color-base-200))] text-primary shadow-none hover:bg-[var(--stream-fill-hover,var(--color-base-300))] touch-target-expanded"
+                                class="btn btn-sm btn-circle border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong"
+                                class_already="btn btn-sm btn-circle border border-divider bg-surface text-primary shadow-none hover:bg-fill-strong"
+                                bell_class="btn btn-sm btn-circle border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong touch-target-expanded"
+                                bell_class_enabled="btn btn-sm btn-circle border border-divider bg-surface text-primary shadow-none hover:bg-fill-strong touch-target-expanded"
                                 hide_text
                               />
                             </div>

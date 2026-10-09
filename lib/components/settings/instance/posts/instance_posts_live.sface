@@ -5,10 +5,10 @@
     </div>
     <button class="normal-case btn btn-primary">{l("New post")}</button>
   </div>
-  <div class="flex flex-col border-t   border-secondary divide-hair divide-secondary">
+  <div class="flex flex-col border-t   border-divider divide-hair divide-divider">
     <div
       :for={%{id: page_id} = page <- e(@pages, :edges, [])}
-      class="flex items-center justify-between p-3 hover:bg-base-content/5"
+      class="flex items-center justify-between p-3 hover:bg-fill"
     >
       <div class="flex flex-col">
         <div class="text-lg font-bold">{e(page, :post_content, :name, nil)}</div>

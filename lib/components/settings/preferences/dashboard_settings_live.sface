@@ -11,8 +11,8 @@
 
         {!-- Main Content Selection --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-medium text-base-content/80">{l("Main Content")}</h3>
-          <div class="flex flex-col rounded-xl border border-secondary   divide-hair divide-secondary">
+          <h3 class="font-medium text-muted">{l("Main Content")}</h3>
+          <div class="flex flex-col rounded-xl border border-divider   divide-hair divide-divider">
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("My Following Feed")}
               description={l("Show activities from people you follow instead of discovery widgets.")}
@@ -26,8 +26,8 @@
 
         {!-- Sidebar Widgets --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-medium text-base-content/80">{l("Sidebar Widgets")}</h3>
-          <div class="flex flex-col rounded-xl border border-secondary   divide-hair divide-secondary">
+          <h3 class="font-medium text-muted">{l("Sidebar Widgets")}</h3>
+          <div class="flex flex-col rounded-xl border border-divider   divide-hair divide-divider">
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("Instance Status")}
               description={l("Overview of your instance: community size, federation, and admin contacts.")}
@@ -75,8 +75,8 @@
 
         {!-- Main Content Selection --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-medium text-base-content/80">{l("Main Content")}</h3>
-          <div class="flex flex-col rounded-xl border border-secondary   divide-hair divide-secondary">
+          <h3 class="font-medium text-muted">{l("Main Content")}</h3>
+          <div class="flex flex-col rounded-xl border border-divider   divide-hair divide-divider">
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("My Following Feed")}
               description={l("Show activities from people you follow instead of discovery widgets.")}
@@ -90,9 +90,9 @@
 
         {!-- Discovery Widgets --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-medium text-base-content/80">{l("Discovery Widgets")}</h3>
+          <h3 class="font-medium text-muted">{l("Discovery Widgets")}</h3>
           <p class="text-xs text-muted mb-1">{l("These widgets are shown when the following feed is disabled.")}</p>
-          <div class="flex flex-col rounded-xl border border-secondary   divide-hair divide-secondary">
+          <div class="flex flex-col rounded-xl border border-divider   divide-hair divide-divider">
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("Who to follow Carousel")}
               description={l("Large profile cards for discovery.")}
@@ -121,8 +121,8 @@
 
         {!-- Sidebar Widgets --}
         <div class="flex flex-col gap-2 p-4">
-          <h3 class="font-medium text-base-content/80">{l("Sidebar Widgets")}</h3>
-          <div class="flex flex-col rounded-xl border border-secondary   divide-hair divide-secondary">
+          <h3 class="font-medium text-muted">{l("Sidebar Widgets")}</h3>
+          <div class="flex flex-col rounded-xl border border-divider   divide-hair divide-divider">
             <Bonfire.UI.Common.SettingsToggleLive
               name={l("Instance Status")}
               description={l("Overview of your instance: community size, federation, and admin contacts.")}

@@ -12,7 +12,7 @@
           <button
             :on-click="Bonfire.UI.Me.WidgetAdminsLive:reset"
             type="button"
-            class="group btn btn-circle btn-xs touch-target-expanded btn-outline border-secondary"
+            class="group btn btn-circle btn-xs touch-target-expanded btn-outline border-divider"
             title={l("Refresh")}
           >
             <span class="touch-target-hit-area" aria-hidden="true" />
