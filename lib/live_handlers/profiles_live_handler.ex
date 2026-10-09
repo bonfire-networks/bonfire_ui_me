@@ -79,7 +79,8 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
        socket
        |> assign_flash(:info, flash)
        |> send_self_global(current_user: updated_user)
-       |> redirect_to(current_url(socket))}
+       # TODO: assign the updated profile instead of reloading the page
+       |> redirect_to(current_url(socket), reload: true)}
     end
   end
 

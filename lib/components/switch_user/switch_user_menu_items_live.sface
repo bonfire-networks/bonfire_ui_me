@@ -1,4 +1,7 @@
-<li id="switch_user_menu_items" class={"w-full", "my-1 border-y border-divider py-1": @show_inline_users}>
+<li
+  id="switch_user_menu_items"
+  class={"w-full", "my-1 border-y border-divider py-1": @show_inline_users}
+>
   {#if @max_users_per_account > 1}
     <ul class="m-0 p-0 w-full min-w-0 whitespace-normal before:hidden">
       {#if @show_inline_users}
