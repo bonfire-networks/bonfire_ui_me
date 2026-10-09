@@ -72,7 +72,7 @@
       {!-- WIP: ADD A CONFIG TO ENABLE / DISABLE 2FA --}
       {!-- {#case Bonfire.Me.Accounts.SecondFactors.enabled?()}
       {#match true}
-        <div class="mt-4 rounded-md shadow alert bg-fill-strong">
+        <div class="mt-4 shadow alert bg-fill-strong">
           <p class="mb-2">{l(
               "If you have two-factor authentication enabled, please enter the code provided by your app (optional)."
             )}</p>

@@ -1,7 +1,7 @@
 {#case Config.get([:ui, :auth, :layout], :minimal)}
   {#match :two_panels}
     <div class="flex bg-base-200 min-h-screen w-full" id={@id}>
-      <div class="hidden lg:flex lg:w-1/2 relative bg-primary sticky top-0 h-[100vh-8px] overflow-hidden rounded-xl m-1">
+      <div class="hidden lg:flex lg:w-1/2 relative bg-primary sticky top-0 h-[100vh-8px] overflow-hidden rounded-box m-1">
         {#case Config.get([:ui, :auth, :project_branding_image], nil)}
           {#match nil}
           {#match branding_image}
@@ -31,7 +31,7 @@
                   {rich(welcome[:title])}
                 </div>
 
-                <div :if={welcome[:description]} class="text-heading">
+                <div :if={welcome[:description]} class="text-lg">
                   {rich(welcome[:description])}
                 </div>
             {/case}

@@ -14,7 +14,7 @@
       <div class="flex text-sm text-base-content">
         <label
           for={@uploads.auth_background.ref}
-          class="absolute inset-0 flex flex-col items-center justify-center w-full h-full text-sm font-medium text-white rounded-lg cursor-pointer bg-black/50 hover:bg-black/70"
+          class="absolute inset-0 flex flex-col items-center justify-center w-full h-full text-sm font-medium text-white rounded-box cursor-pointer bg-black/50 hover:bg-black/70"
         >
           <Phoenix.Component.live_file_input upload={@uploads.auth_background} class="sr-only" />
 

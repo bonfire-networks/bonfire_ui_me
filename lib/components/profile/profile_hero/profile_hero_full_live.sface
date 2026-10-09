@@ -84,7 +84,7 @@
                           {#if @character_type == :group && avatar_url == "/images/avatar.png"}
                             <div
                               data-role="group_preset_icon"
-                              class="inline-flex items-center justify-center w-[100px] h-[100px] md:mx-0 relative -mt-14 border-divider border-hair rounded-xl bg-base-200"
+                              class="inline-flex items-center justify-center w-[100px] h-[100px] md:mx-0 relative -mt-14 border-divider border-hair rounded-box bg-base-200"
                             >
                               <Iconify.iconify
                                 icon={Bonfire.Boundaries.Presets.group_icon(@user)}
@@ -97,7 +97,7 @@
                               title={e(@user, :profile, :name, "Anon")}
                               class={
                                 "inline-block object-cover w-24 h-24 md:mx-0 -mt-10 border-divider border-hair",
-                                "rounded-xl": @character_type == :group,
+                                "rounded-box": @character_type == :group,
                                 "rounded-full": @character_type != :group
                               }
                               user_id={id(@user)}
@@ -129,7 +129,7 @@
                         {#if current_user_id(@__context__) != id(@user)}
                           {#if (@ghosted_instance_wide? == true && @silenced_instance_wide? == true) or
                               (@ghosted? == true && @silenced? == true)}
-                            <button disabled class="font-medium flex-1 px-6 normal-case rounded btn btn-disabled">
+                            <button disabled class="font-medium flex-1 px-6 normal-case btn btn-disabled">
                               {l("Blocked")}
                             </button>
                           {#elseif @character_type != :group}
@@ -239,7 +239,7 @@
                       <div class="flex justify-between">
                         <div class="flex flex-col flex-1 gap-1">
                           <div id="profile_name_section" class="type-result">
-                            <LinkPatchLive class="text-result" to={~p"/@#{e(@user, :character, :username, nil)}"}>
+                            <LinkPatchLive class="text-2xl" to={~p"/@#{e(@user, :character, :username, nil)}"}>
                               {e(@user, :profile, :name, "Anonymous")}
                             </LinkPatchLive>
                             <span
@@ -269,7 +269,7 @@
                                 class={
                                   "font-normal cursor-copy tooltip tooltip-right",
                                   "text-sm text-muted": @character_type == :group,
-                                  "text-body text-base-content": @character_type != :group
+                                  "text-base text-base-content": @character_type != :group
                                 }
                               >{Bonfire.Me.Characters.display_username(@user, true)}</span>
                               {!-- TODO: add widgets from config instead of hardcoded --}

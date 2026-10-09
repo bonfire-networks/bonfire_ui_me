@@ -27,7 +27,7 @@
           class="grid sm:grid-cols-2 gap-2"
         >
           {#for card <- federation_modes(@scope)}
-            <label class="relative flex flex-wrap items-start gap-x-3 gap-y-2 rounded-lg border border-divider p-3 cursor-pointer transition-colors hover:border-divider hover:bg-fill has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:ring-1 has-[:checked]:ring-primary has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-1 has-[:focus-visible]:ring-offset-base-100">
+            <label class="relative flex flex-wrap items-start gap-x-3 gap-y-2 rounded-selector border border-divider p-3 cursor-pointer transition-colors hover:border-divider hover:bg-fill has-[:checked]:border-primary has-[:checked]:bg-primary/10 has-[:checked]:ring-1 has-[:checked]:ring-primary has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-1 has-[:focus-visible]:ring-offset-base-100">
               <input
                 type="radio"
                 name={field_name(@scope)}

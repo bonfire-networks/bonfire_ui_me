@@ -15,7 +15,7 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Terms of Use / Code of Conduct")}</div>
-              <div class="text-sm font-light text-muted">{l("The terms of use that will be in place in your instance")}</div>
+              <div class="text-sm font-normal text-muted">{l("The terms of use that will be in place in your instance")}</div>
             </div>
             <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
@@ -39,7 +39,7 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Privacy Policy")}</div>
-              <div class="text-sm font-light text-muted">{l("The terms of use that will be in place in your instance")}</div>
+              <div class="text-sm font-normal text-muted">{l("The terms of use that will be in place in your instance")}</div>
             </div>
             <button type="button" x-on:click="open = !open" class="normal-case btn btn-sm">{l("Expand")}</button>
           </div>
@@ -66,7 +66,7 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Consent checkbox")}</div>
-              <div class="text-sm font-light text-muted">{l(
+              <div class="text-sm font-normal text-muted">{l(
                   "Show a required consent checkbox during signup (besides the one asking for agreement to the code of conduct and/or privacy policy). Just enable it and use the default text, or enter custom text below."
                 )}</div>
             </div>
@@ -99,7 +99,7 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Impressum")}</div>
-              <div class="text-sm font-light text-muted">{l(
+              <div class="text-sm font-normal text-muted">{l(
                   "Legal notice / site identification details for your instance (when left empty, no impressum link is shown)"
                 )}</div>
             </div>
@@ -121,7 +121,7 @@
           </div>
         </div>
       </div>
-      <button type="submit" class="justify-end mt-4 normal-case rounded btn btn-sm btn-primary">{l("Save")}</button>
+      <button type="submit" class="justify-end mt-4 normal-case btn btn-sm btn-primary">{l("Save")}</button>
     </form>
   {#else}
     {l("You don't have permission to configure the instance, sorry!")}

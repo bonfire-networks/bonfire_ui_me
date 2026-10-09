@@ -7,7 +7,7 @@
 
   {#case @state}
     {#match :password}
-      <h1 id="sudo-title" class="text-xl font-bold">{e(@description, :title, l("Confirm it's you"))}</h1>
+      <h1 id="sudo-title" class="type-title">{e(@description, :title, l("Confirm it's you"))}</h1>
       <p class="text-sm text-muted mt-1">{l("Confirm it's you to proceed")}</p>
       <div :if={@error} role="alert" class="alert alert-error mt-4">{@error}</div>
       <.form
@@ -39,7 +39,7 @@
         <button id="sudo-reset-btn" type="submit" class="link link-primary text-sm">{l("Can't remember it? Email me a reset link")}</button>
       </.form>
     {#match :email}
-      <h1 id="sudo-title" class="text-xl font-bold">{l("Check your email")}</h1>
+      <h1 id="sudo-title" class="type-title">{l("Check your email")}</h1>
       <p class="text-sm text-muted mt-2">{if @sent,
           do:
             l("We've emailed you a link. Open it to confirm and open the confirmation link to proceed."),
@@ -56,7 +56,7 @@
         <button id="sudo-resend-btn" type="submit" class="btn btn-outline w-full">{l("Resend the email")}</button>
       </.form>
     {#match :confirm}
-      <h1 id="sudo-title" class="text-xl font-bold">{e(@description, :title, nil)}</h1>
+      <h1 id="sudo-title" class="type-title">{e(@description, :title, nil)}</h1>
       <p class="prose prose-sm mt-3">{e(@description, :description, nil)}</p>
       <.form
         for={@form}
@@ -72,7 +72,7 @@
       </.form>
       <a href="/" class="link text-sm mt-4 inline-block">{l("Go to homepage")}</a>
     {#match _}
-      <h1 id="sudo-title" class="text-xl font-bold">{e(@description, :title, nil)}</h1>
+      <h1 id="sudo-title" class="type-title">{e(@description, :title, nil)}</h1>
       <p class="prose prose-sm mt-3">{e(@description, :description, nil)}</p>
       <a href="/" class="link mt-4 inline-block">{l("Go to homepage")}</a>
   {/case}

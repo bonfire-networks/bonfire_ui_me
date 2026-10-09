@@ -30,7 +30,7 @@
             to={if String.starts_with?(e(@character, :username, ""), "http"),
               do: e(@character, :username, nil),
               else: "/character/#{e(@character, :username, "")}"}
-            class="min-w-0 text-body group"
+            class="min-w-0 text-base group"
           >
             <div
               data-id="profile_name"
@@ -118,10 +118,10 @@
               to={if String.starts_with?(e(@character, :username, ""), "http"),
                 do: e(@character, :username, nil),
                 else: "/character/#{e(@character, :username, "")}"}
-              class={"text-body flex-1", "flex gap-1 items-baseline": @inline}
+              class={"text-base flex-1", "flex gap-1 items-baseline": @inline}
               opts={@link_opts}
             >
-              <div data-id="profile_name" class="font-medium text-body flex items-center gap-1">
+              <div data-id="profile_name" class="font-medium text-base flex items-center gap-1">
                 {rich(e(@profile, :name, nil))}
                 {#if :follows_me in @show_controls}
                   <StatefulComponent

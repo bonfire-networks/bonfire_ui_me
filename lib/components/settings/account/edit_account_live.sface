@@ -5,7 +5,7 @@
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Change password")}</div>
-            {!-- <div class="text-sm font-light text-muted">The details used to identify your publication around the web</div> --}
+            {!-- <div class="text-sm font-normal text-muted">The details used to identify your publication around the web</div> --}
           </div>
           <LinkLive to={path(:change_password)} class="btn-soft btn-secondary btn btn-sm">{l("Change")}</LinkLive>
         </div>
@@ -25,7 +25,7 @@
     <div class="flex items-center justify-between">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Change my email address")}</div>
-        {!-- <div class="text-sm font-light text-muted">The details used to identify your publication around the web</div> --}
+        {!-- <div class="text-sm font-normal text-muted">The details used to identify your publication around the web</div> --}
       </div>
       <LinkLive to={path(:change_email)} class="btn-soft btn-secondary btn btn-sm">{l("Change")}</LinkLive>
     </div>
@@ -34,12 +34,12 @@
     <div x-on:click="open = !open" class="flex items-center justify-between cursor-pointer">
       <div class="flex flex-col gap-1">
         <div class="text-sm font-medium">{l("Theme")}</div>
-        <div class="text-sm font-light text-muted">{l("Customise the look and feel")}</div>
+        <div class="text-sm font-normal text-muted">{l("Customise the look and feel")}</div>
       </div>
-      <button type="button" x-cloak class="rounded btn btn-square btn-sm btn-ghost" x-show="open">
+      <button type="button" x-cloak class="btn btn-square btn-sm btn-ghost" x-show="open">
         <#Icon iconify="carbon:chevron-down" class="w-4 h-4 text-muted" />
       </button>
-      <button type="button" class="rounded btn btn-square btn-sm btn-ghost" x-show="!open">
+      <button type="button" class="btn btn-square btn-sm btn-ghost" x-show="!open">
         <#Icon iconify="carbon:chevron-up-duotone" class="w-4 h-4 text-muted" />
       </button>
     </div>
@@ -57,7 +57,7 @@
   <details id="delete-account-details" class="p-4">
     <summary class="min-h-11 cursor-pointer py-3">
       <span class="text-sm text-error font-bold">{l("Delete Account, All Users & Data")}</span>
-      <span class="mt-1 block text-sm font-light text-muted">{l("Delete all the data associated with your account")}</span>
+      <span class="mt-1 block text-sm font-normal text-muted">{l("Delete all the data associated with your account")}</span>
     </summary>
     <div>
       <div class="p-4 mt-4 mb-0 rounded-md bg-info/10">

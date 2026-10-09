@@ -4,9 +4,9 @@
       id="community-expectations"
       class="min-w-0 px-5 py-6 text-base-content sm:px-6 sm:py-6 [overflow-wrap:anywhere]"
     >
-      <header class="mb-6"><h2 class="text-2xl font-semibold tracking-tight">{l("How this community works")}</h2></header>
+      <header class="mb-6"><h2 class="type-title">{l("How this community works")}</h2></header>
       <section id="community-connections" aria-labelledby="community-connections-title" class="py-3">
-        <h3 id="community-connections-title" class="mb-4 text-lg font-semibold leading-snug">{l("Connecting with other communities")}</h3>
+        <h3 id="community-connections-title" class="mb-4 type-heading leading-snug">{l("Connecting with other communities")}</h3>
         {#for mode <- Bonfire.UI.Me.SettingsViewsLive.FederationModeLive.federation_modes(:instance),
             mode.value ==
               if(is_nil(defaults.federation), do: "manual", else: to_string(defaults.federation))}
@@ -41,7 +41,7 @@
                           class="group flex h-full min-h-16 min-w-0 items-center gap-3 rounded-box bg-surface p-4 text-sm hover:bg-fill focus-visible:outline-2 focus-visible:outline-offset-2"
                         >
                           <span
-                            class="flex size-9 shrink-0 items-center justify-center rounded-lg bg-base-100"
+                            class="flex size-9 shrink-0 items-center justify-center rounded-box bg-base-100"
                             aria-hidden="true"
                           >
                             <Bonfire.UI.Common.Icons.FaviconLive
@@ -67,7 +67,7 @@
         {/if}
       </section>
       <section id="community-sharing" aria-labelledby="community-sharing-title" class="py-3">
-        <h3 id="community-sharing-title" class="mb-4 text-lg font-semibold leading-snug">{l("Sharing a post")}</h3>
+        <h3 id="community-sharing-title" class="mb-4 type-heading leading-snug">{l("Sharing a post")}</h3>
         <dl class="divide-y divide-divider rounded-box bg-surface px-4"><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
             <dt class="font-medium">{l("Default boundary")}</dt>
             <dd
@@ -82,7 +82,7 @@
           </div></dl>
       </section>
       <section id="community-visibility" aria-labelledby="community-visibility-title" class="py-3">
-        <h3 id="community-visibility-title" class="mb-4 text-lg font-semibold leading-snug">{l("Profile visibility")}</h3>
+        <h3 id="community-visibility-title" class="mb-4 type-heading leading-snug">{l("Profile visibility")}</h3>
         <dl class="divide-y divide-divider rounded-box bg-surface px-4"><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
             <dt class="font-medium">{l("Who can see the list of local users?")}</dt>
             <dd
@@ -119,7 +119,7 @@
         aria-labelledby="community-all-defaults-title"
         class="py-3 last:pb-0"
       >
-        <h3 id="community-all-defaults-title" class="mb-4 text-lg font-semibold leading-snug">{l("All community defaults")}</h3>
+        <h3 id="community-all-defaults-title" class="mb-4 type-heading leading-snug">{l("All community defaults")}</h3>
         <dl class="divide-y divide-divider rounded-box bg-surface px-4"><div class="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-x-4 gap-y-2 py-4 text-sm">
             <dt class="font-medium">{l("Forward flags to remote instances by default")}</dt>
             <dd

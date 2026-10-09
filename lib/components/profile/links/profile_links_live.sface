@@ -45,7 +45,7 @@
             to={if String.starts_with?(e(account.character, :username, ""), "http"),
               do: e(account.character, :username, ""),
               else: "/character/#{e(account.character, :username, "")}"}
-            class="group flex min-w-0 items-center gap-2 py-1 text-sm rounded-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            class="group flex min-w-0 items-center gap-2 py-1 text-sm rounded-selector focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
             opts={if verified?, do: [rel: "me"], else: [rel: "me nofollow"]}
           >
             <span :if={verified?} class="shrink-0" title={l("Verified alias")}>

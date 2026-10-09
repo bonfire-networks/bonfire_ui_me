@@ -13,7 +13,7 @@
   />
 
   <div class="my-panel">
-    <div :if={@gated_login_message} class="text-heading">
+    <div :if={@gated_login_message} class="text-lg">
       {rich(@gated_login_message)}
     </div>
     <a
@@ -30,7 +30,7 @@
   <Bonfire.UI.Me.LoginErrorsLive form={@form} error={@error} />
 
   <div class="fieldset mb-2 mt-section">
-    <div class="text-heading mb-1">{l("Already have an account? Sign in now.")}</div>
+    <div class="text-lg mb-1">{l("Already have an account? Sign in now.")}</div>
     <.input
       field={to_form(
         %{"email_or_username" => Bonfire.UI.Me.LoginViewLive.attempted_email(@form)},
@@ -63,7 +63,7 @@
     </.button>
   </div>
 
-  <p class="text-caption text-muted mt-4">
+  <p class="text-xs text-muted mt-4">
     {l("We'll email you a one-time link to sign in. No password needed.")}
   </p>
 

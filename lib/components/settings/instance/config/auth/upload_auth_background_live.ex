@@ -12,7 +12,7 @@ defmodule Bonfire.UI.Me.UploadAuthBackgroundLive do
   prop hint, :string, default: nil
 
   prop container_class, :css_class,
-    default: "relative rounded-xl flex justify-center px-6 py-10 bg-center bg-cover h-[200px]"
+    default: "relative rounded-box flex justify-center px-6 py-10 bg-center bg-cover h-[200px]"
 
   def update(assigns, socket) do
     {:ok,

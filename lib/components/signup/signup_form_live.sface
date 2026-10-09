@@ -6,7 +6,7 @@
           <div class="flex flex-col gap-4">
             {#if @gated_login_message || @external_signup_url}
               <div class="my-panel mb-4">
-                <div class="text-heading">
+                <div class="text-lg">
                   {rich(@gated_login_message) ||
                     if @external_signup_url, do: l("Please click the button below to sign up.")}
                 </div>
@@ -28,7 +28,7 @@
                 </span>
               </div>
               <div class="flex flex-col gap-2">
-                <h2 class="text-xl font-medium text-base-content leading-tight">
+                <h2 class="type-title text-base-content leading-tight">
                   {l("This community is invitation-based")}
                 </h2>
                 <p class="text-sm text-muted leading-relaxed">
@@ -175,7 +175,7 @@
               <EmailInput
                 opts={placeholder: "alice@email.com"}
                 required
-                class="w-full h-10 text-sm rounded input input-bordered"
+                class="w-full h-10 text-sm input input-bordered"
               />
               <ErrorTag />
             </Field>
@@ -235,7 +235,7 @@
             },
           }"
               role="region"
-              class="border rounded-lg border-info/80 bg-info/10"
+              class="border rounded-box border-info/80 bg-info/10"
             >
               <button
                 type="button"

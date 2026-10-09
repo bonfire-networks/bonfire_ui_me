@@ -3,7 +3,7 @@
     <div
       :if={@character_type in [:user, :group] && e(@user, :profile, :summary, nil)}
       class={
-        "w-full prose !text-body max-w-none",
+        "w-full prose !text-base max-w-none",
         "mb-3 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0": @character_type == :user,
         "mb-4": @character_type != :user
       }

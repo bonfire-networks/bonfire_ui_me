@@ -80,7 +80,7 @@
 </div>
 {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-divider text-primary">
+    <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
       <#Icon iconify="eos-icons:network" class="w-6 h-6 text-primary" />
       <span>{l("Federation & Privacy")}</span>
     </div>
@@ -147,7 +147,7 @@
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-1">
               <div class="text-sm font-medium">{l("Hide the number of total users on this instance")}</div>
-              <div class="text-sm font-light text-muted">{l("Hide the number of total users on this instance")}</div>
+              <div class="text-sm font-normal text-muted">{l("Hide the number of total users on this instance")}</div>
             </div>
             <input name="Bonfire.Me.Users[public_count]" value="true" type="hidden">
             <input
@@ -235,7 +235,7 @@
   <Bonfire.UI.Me.SettingsViewsLive.InstanceTuningLive scope={:instance} />
 
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-divider text-primary">
+    <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
       <#Icon iconify="ph:gear-six-duotone" class="w-6 h-6 text-primary" />
       <span>{l("General Settings")}</span>
     </div>
@@ -342,7 +342,7 @@
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
             <div class="text-sm font-medium">{l("Show list of admins on public homepage")}</div>
-            <div class="text-sm font-light text-muted">{l("Show list of admins on public homepage")}</div>
+            <div class="text-sm font-normal text-muted">{l("Show list of admins on public homepage")}</div>
           </div>
           <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
           <input
@@ -363,7 +363,7 @@
   </div>
 
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-divider text-primary">
+    <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
       <#Icon iconify="ph:lock-key-duotone" class="w-6 h-6 text-primary" />
       <span>{l("Restricted content screen")}</span>
     </div>
@@ -422,7 +422,7 @@
   </div>
 
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-divider text-primary">
+    <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
       <#Icon iconify="lucide:server" class="w-6 h-6 text-primary" />
       <span>{l("Resource Usage")}</span>
     </div>
@@ -487,7 +487,7 @@
   {!-- <div class="!mt-8 m-3 text-xs tracking-wide uppercase text-muted font-medium">{l("Advanced settings")}</div> --}
 
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-divider text-primary">
+    <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
       <#Icon iconify="ri:mail-send-line" class="w-6 h-6 text-primary" />
       <span>{l("Email Configuration")}</span>
     </div>
@@ -553,7 +553,7 @@
   </div>
 
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-divider text-primary">
+    <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
       <#Icon iconify="mdi:cloud-search" class="w-6 h-6 text-primary" />
       <span>{l("Search Configuration")}</span>
     </div>
@@ -580,7 +580,7 @@
   </div>
 
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-divider text-primary">
+    <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
       <#Icon iconify="carbon:cloud-upload" class="w-6 h-6 text-primary" />
       <span>{l("File Storage (S3)")}</span>
     </div>
@@ -619,7 +619,7 @@
   </div>
 
   <div class="">
-    <div class="p-4 text-xl font-bold flex items-center gap-4 border-b border-divider text-primary">
+    <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
       <#Icon iconify="ph:heartbeat-duotone" class="w-6 h-6 text-primary" />
       <span>{l("Telemetry & Monitoring")}</span>
     </div>

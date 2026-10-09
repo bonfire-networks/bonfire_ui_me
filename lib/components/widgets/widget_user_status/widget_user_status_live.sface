@@ -44,43 +44,43 @@
           <div class="flex items-center justify-between gap-1">
             <LinkLive
               to={~p"/@#{username}"}
-              class="flex-1 flex flex-col items-center rounded-lg py-1.5 hover:bg-fill transition-colors"
+              class="flex-1 flex flex-col items-center rounded-selector py-1.5 hover:bg-fill transition-colors"
             >
               <span
                 class="text-sm font-bold text-base-content tabular-nums"
                 style="font-variant-numeric: tabular-nums"
               >{post_count}</span>
-              <span class="text-[11px] text-subtle">{l("posts")}</span>
+              <span class="text-xs text-subtle">{l("posts")}</span>
             </LinkLive>
             <LinkLive
               to={~p"/bookmarks"}
-              class="flex-1 flex flex-col items-center rounded-lg py-1.5 hover:bg-fill transition-colors"
+              class="flex-1 flex flex-col items-center rounded-selector py-1.5 hover:bg-fill transition-colors"
             >
               <span
                 class="text-sm font-bold text-base-content tabular-nums"
                 style="font-variant-numeric: tabular-nums"
               >{bookmark_count}</span>
-              <span class="text-[11px] text-subtle">{l("bookmarks")}</span>
+              <span class="text-xs text-subtle">{l("bookmarks")}</span>
             </LinkLive>
             <LinkLive
               to={~p"/@#{username}/followers"}
-              class="flex-1 flex flex-col items-center rounded-lg py-1.5 hover:bg-fill transition-colors"
+              class="flex-1 flex flex-col items-center rounded-selector py-1.5 hover:bg-fill transition-colors"
             >
               <span
                 class="text-sm font-bold text-base-content tabular-nums"
                 style="font-variant-numeric: tabular-nums"
               >{followers_count}</span>
-              <span class="text-[11px] text-subtle">{l("followers")}</span>
+              <span class="text-xs text-subtle">{l("followers")}</span>
             </LinkLive>
             <LinkLive
               to={~p"/@#{username}/followed"}
-              class="flex-1 flex flex-col items-center rounded-lg py-1.5 hover:bg-fill transition-colors"
+              class="flex-1 flex flex-col items-center rounded-selector py-1.5 hover:bg-fill transition-colors"
             >
               <span
                 class="text-sm font-bold text-base-content tabular-nums"
                 style="font-variant-numeric: tabular-nums"
               >{following_count}</span>
-              <span class="text-[11px] text-subtle">{l("following")}</span>
+              <span class="text-xs text-subtle">{l("following")}</span>
             </LinkLive>
           </div>
 

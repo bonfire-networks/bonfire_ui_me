@@ -8,7 +8,7 @@
             <div
               :if={@with_banner}
               aria-hidden="true"
-              class="h-24 bg-primary bg-center bg-cover rounded-t-xl"
+              class="h-24 bg-primary bg-center bg-cover rounded-t-box"
               style={cond do
                 is_binary(banner_url) -> "background-image: url('#{URI.encode(banner_url)}')"
                 is_binary(color) -> "background-color: #{color}"

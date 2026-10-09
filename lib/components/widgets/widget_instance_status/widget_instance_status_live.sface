@@ -95,7 +95,7 @@
                   <LinkLive
                     to={~p"/@#{username}"}
                     title={l("Posts")}
-                    class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 hover:bg-fill transition-colors"
+                    class="flex items-center gap-1.5 rounded-selector px-2 py-1.5 hover:bg-fill transition-colors"
                   >
                     <#Icon iconify="ph:note-pencil-duotone" class="size-4 text-subtle" aria-hidden="true" />
                     <span
@@ -106,7 +106,7 @@
                   <LinkLive
                     to={~p"/bookmarks"}
                     title={l("Bookmarks")}
-                    class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 hover:bg-fill transition-colors"
+                    class="flex items-center gap-1.5 rounded-selector px-2 py-1.5 hover:bg-fill transition-colors"
                   >
                     <#Icon iconify="ph:bookmark-duotone" class="size-4 text-subtle" aria-hidden="true" />
                     <span
@@ -117,7 +117,7 @@
                   <LinkLive
                     to={~p"/@#{username}/followers"}
                     title={l("Followers")}
-                    class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 hover:bg-fill transition-colors"
+                    class="flex items-center gap-1.5 rounded-selector px-2 py-1.5 hover:bg-fill transition-colors"
                   >
                     <#Icon iconify="ph:users-duotone" class="size-4 text-subtle" aria-hidden="true" />
                     <span
@@ -128,7 +128,7 @@
                   <LinkLive
                     to={~p"/@#{username}/followed"}
                     title={l("Following")}
-                    class="flex items-center gap-1.5 rounded-lg px-2 py-1.5 hover:bg-fill transition-colors"
+                    class="flex items-center gap-1.5 rounded-selector px-2 py-1.5 hover:bg-fill transition-colors"
                   >
                     <#Icon iconify="ph:user-plus-duotone" class="size-4 text-subtle" aria-hidden="true" />
                     <span
@@ -196,7 +196,7 @@
               {!-- Admins --}
               {#if admins != []}
                 <div>
-                  <div class="text-[11px] font-medium uppercase tracking-wider text-subtle mb-1.5">{l("Admins")}</div>
+                  <div class="type-overline text-subtle mb-1.5">{l("Admins")}</div>
                   <div class="flex flex-col gap-1.5">
                     {#for admin <- admins}
                       <StatelessComponent
@@ -240,7 +240,7 @@
 
           {#if admins != []}
             <div>
-              <div class="text-[11px] font-medium uppercase tracking-wider text-subtle mb-1.5">{l("Admins")}</div>
+              <div class="type-overline text-subtle mb-1.5">{l("Admins")}</div>
               <div class="flex flex-col gap-1.5">
                 {#for admin <- admins}
                   <StatelessComponent

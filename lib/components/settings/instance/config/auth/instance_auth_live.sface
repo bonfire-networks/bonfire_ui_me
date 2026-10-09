@@ -53,7 +53,7 @@
       hint={l("PNG up to %{size} MB",
         size: Bonfire.Common.Config.get([:bonfire_files, :max_user_images_file_size], 5)
       )}
-      container_class="relative rounded-lg flex justify-center px-6 py-8 bg-center bg-contain bg-no-repeat h-32 bg-base-200"
+      container_class="relative rounded-box flex justify-center px-6 py-8 bg-center bg-contain bg-no-repeat h-32 bg-base-200"
       src={Bonfire.Common.Settings.get(
         [:ui, :auth, :project_branding_image],
         "",

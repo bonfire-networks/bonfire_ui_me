@@ -1,4 +1,4 @@
-<div class="p-4 text-xl text-primary font-bold flex items-center gap-4">
+<div class="p-4 type-title text-primary flex items-center gap-4">
   <#Icon iconify="ph:lock-simple-duotone" class="w-6 h-6" />
   <span>{l("Privacy & Safety")}</span>
 </div>
@@ -103,7 +103,7 @@
 </div>
 
 <div class="">
-  <div class="p-4 font-bold text-xl flex items-center gap-4 text-primary">
+  <div class="p-4 type-title flex items-center gap-4 text-primary">
     <#Icon iconify="ph:hand-heart-duotone" class="w-6 h-6" />
     <span>{l("Wellbeing")}</span>
   </div>
@@ -158,7 +158,7 @@
             class="badge mb-2 !border !border-warning/30 badge-outline badge-warning"
           >{l("Dark Pattern")}</div>
           <div class="text-sm font-medium">{l("Infinite scrolling")}</div>
-          <!-- <div class="text-sm font-light text-muted">{l("Infinite scrolling")}</div> -->
+          <!-- <div class="text-sm font-normal text-muted">{l("Infinite scrolling")}</div> -->
         </div>
         {!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" --}
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
