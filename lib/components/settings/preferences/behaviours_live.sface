@@ -1,6 +1,6 @@
 <div class="">
   <div class="p-4 type-title flex items-center gap-4 text-primary">
-    <#Icon iconify="ph:paint-brush-duotone" class="w-6 h-6" />
+    <#Icon iconify="ph:paint-brush-duotone" class="size-6" />
     <span>{l("Appearance")}</span>
   </div>
 
@@ -13,10 +13,10 @@
         </div>
 
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="carbon:chevron-down" class="w-4 h-4 text-muted" />
+          <#Icon iconify="carbon:chevron-down" class="size-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="carbon:chevron-up-duotone" class="w-4 h-4 text-muted" />
+          <#Icon iconify="carbon:chevron-up-duotone" class="size-4 text-muted" />
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse>
@@ -229,7 +229,7 @@
   </div>
 
   <div class="p-4 type-title flex items-center gap-4 text-primary">
-    <#Icon iconify="ph:chats-circle-duotone" class="w-6 h-6" />
+    <#Icon iconify="ph:chats-circle-duotone" class="size-6" />
     <span>{l("Discussions")}</span>
   </div>
 
@@ -306,10 +306,10 @@
         </div>
         <!-- Alpinejs: If open is true, set x-text to "Expand", otherwise set to "Collapse" -->
         <button type="button" x-cloak class="btn btn-circle btn-sm btn-ghost" x-show="open">
-          <#Icon iconify="carbon:chevron-down" class="w-4 h-4 text-muted" />
+          <#Icon iconify="carbon:chevron-down" class="size-4 text-muted" />
         </button>
         <button type="button" class="btn btn-circle btn-sm btn-ghost" x-show="!open">
-          <#Icon iconify="carbon:chevron-up-duotone" class="w-4 h-4 text-muted" />
+          <#Icon iconify="carbon:chevron-up-duotone" class="size-4 text-muted" />
         </button>
       </div>
       <div x-show="open" x-cloak x-collapse class="pt-2">
@@ -414,7 +414,7 @@
   </div>
 
   <div class="p-4 type-title text-primary flex items-center gap-4">
-    <#Icon iconify="ph:trend-up-duotone" class="w-6 h-6" />
+    <#Icon iconify="ph:trend-up-duotone" class="size-6" />
     <span>{l("Curated & Trending topics")}</span>
   </div>
 

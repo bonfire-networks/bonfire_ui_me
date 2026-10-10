@@ -5,7 +5,7 @@
   label={l("Settings scope")}
 >
   <:trigger>
-    <#Icon iconify="fa-solid:theater-masks" class="w-5 h-5 text-muted" />
+    <#Icon iconify="fa-solid:theater-masks" class="size-5 text-muted" />
     {String.capitalize(to_string(@scope))}
   </:trigger>
   <li>

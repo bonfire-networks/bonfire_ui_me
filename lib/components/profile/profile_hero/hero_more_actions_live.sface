@@ -12,7 +12,7 @@
     expanded_touch_target
   >
     <:trigger>
-      <#Icon iconify="ph:dots-three-outline-vertical-fill" class="w-4 h-4" />
+      <#Icon iconify="ph:dots-three-outline-vertical-fill" class="size-4" />
     </:trigger>
 
     <li :if={@permalink}>
@@ -24,7 +24,7 @@
         class="flex items-center justify-between"
       >
         <span class="flex-1 text-sm" data-role="label">{l("Copy link")}</span>
-        <#Icon iconify="ph:copy-duotone" class="w-5 h-5 shrink-0" />
+        <#Icon iconify="ph:copy-duotone" class="size-5 shrink-0" />
       </a>
     </li>
     <li>
@@ -50,7 +50,7 @@
               {e(@user, :following_count, 0)}
             </span>
           </span>
-          <#Icon iconify="ph:users-duotone" class="w-5 h-5 shrink-0" />
+          <#Icon iconify="ph:users-duotone" class="size-5 shrink-0" />
         </LinkPatchLive>
       </li>
       <li>
@@ -64,7 +64,7 @@
               {e(@user, :followers_count, 0)}
             </span>
           </span>
-          <#Icon iconify="ph:users-duotone" class="w-5 h-5 shrink-0" />
+          <#Icon iconify="ph:users-duotone" class="size-5 shrink-0" />
         </LinkPatchLive>
       </li>
     {/if}
@@ -73,27 +73,27 @@
       <li>
         <LinkLive to="/settings" class="flex items-center gap-2 justify-between text-base-content">
           <span class="text-sm">{l("Settings")}</span>
-          <#Icon iconify="ph:gear-six-duotone" class="w-5 h-5 shrink-0" />
+          <#Icon iconify="ph:gear-six-duotone" class="size-5 shrink-0" />
         </LinkLive>
       </li>
 
       <li>
         <LinkLive to="/notifications" class="flex items-center gap-2 justify-between text-base-content">
           <span class="text-sm">{l("Notifications")}</span>
-          <#Icon iconify="ph:bell-duotone" class="w-5 h-5 shrink-0" />
+          <#Icon iconify="ph:bell-duotone" class="size-5 shrink-0" />
         </LinkLive>
       </li>
 
       <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
         <LinkLive to="/messages" class="flex items-center gap-2 justify-between text-base-content">
           <span class="text-sm">{l("Messages")}</span>
-          <#Icon iconify="ph:tray-duotone" class="w-5 h-5 shrink-0" />
+          <#Icon iconify="ph:tray-duotone" class="size-5 shrink-0" />
         </LinkLive>
       </li>
       <li>
         <LinkLive to={~p"/logout"} class="flex items-center gap-2 justify-between">
           <span class="text-sm">{l("Logout")}</span>
-          <#Icon iconify="ph:sign-out-duotone" class="w-5 h-5 shrink-0" />
+          <#Icon iconify="ph:sign-out-duotone" class="size-5 shrink-0" />
         </LinkLive>
       </li>
     {#else}
@@ -112,7 +112,7 @@
             class="flex items-center gap-2 justify-between text-base-content"
           >
             <span class="text-sm">{l("Settings")}</span>
-            <#Icon iconify="ph:gear-duotone" class="w-5 h-5 shrink-0" />
+            <#Icon iconify="ph:gear-duotone" class="size-5 shrink-0" />
           </LinkLive>
         </li>
         <li :if={current_user_id(@__context__)}>
@@ -123,7 +123,7 @@
               title={l("This group is pinned to everyone's sidebar by the admins")}
             >
               <span class="text-sm">{l("Pinned by admins")}</span>
-              <#Icon iconify="ph:push-pin-duotone" class="w-5 h-5 shrink-0" />
+              <#Icon iconify="ph:push-pin-duotone" class="size-5 shrink-0" />
             </div>
           {#else}
             <StatelessComponent
@@ -206,7 +206,7 @@
                 class="flex items-center w-full gap-2 justify-between text-base-content"
               >
                 <span class="text-sm">{l("Make admin")}</span>
-                <#Icon iconify="ph:key-duotone" class="w-5 h-5 shrink-0" />
+                <#Icon iconify="ph:key-duotone" class="size-5 shrink-0" />
               </button>
             </li>
           {#else}
@@ -217,7 +217,7 @@
                 class="flex items-center w-full gap-2 justify-between text-base-content"
               >
                 <span class="text-sm text-error">{l("Revoke admin")}</span>
-                <#Icon iconify="ph:key-duotone" class="w-5 h-5 shrink-0" />
+                <#Icon iconify="ph:key-duotone" class="size-5 shrink-0" />
               </button>
             </li>
           {/if}
@@ -232,7 +232,7 @@
             class="flex items-center gap-2 justify-between text-base-content"
           >
             <span class="text-sm">{l("Get latest activities")}</span>
-            <#Icon iconify="ph:sort-ascending-duotone" class="w-5 h-5 shrink-0" />
+            <#Icon iconify="ph:sort-ascending-duotone" class="size-5 shrink-0" />
           </button>
         </li>
         <li>
@@ -243,7 +243,7 @@
             class="flex items-center gap-2 justify-between text-base-content"
           >
             <span class="text-sm">{l("View remotely")}</span>
-            <#Icon iconify="ph:arrow-square-out-duotone" class="w-5 h-5 shrink-0" />
+            <#Icon iconify="ph:arrow-square-out-duotone" class="size-5 shrink-0" />
           </a>
         </li>
       {/if}

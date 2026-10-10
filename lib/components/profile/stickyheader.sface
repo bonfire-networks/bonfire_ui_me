@@ -15,7 +15,7 @@
         class="btn btn-circle btn-sm"
         onclick="history.length > 1 ? history.back() : window.location.href = '/'"
       >
-        <#Icon iconify="ph:arrow-left" class="w-4 h-4" />
+        <#Icon iconify="ph:arrow-left" class="size-4" />
       </button>
 
       <!-- Avatar and name -->
@@ -25,7 +25,7 @@
               !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
             <Bonfire.UI.Common.AvatarLive
               parent_id="profile-hero-sticky"
-              class="w-8 h-8 rounded-full"
+              class="size-8 rounded-full"
               user_id={id(@user)}
               title={e(@user, :profile, :name, "Anon")}
               src={Media.avatar_url(@user)}

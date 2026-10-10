@@ -47,11 +47,11 @@
       <a
         href={path(:create_user)}
         aria-label={l("Create new personal profile")}
-        class="flex flex-col items-center justify-center min-h-[180px] rounded-box border-2 border-dashed border-divider text-muted transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group"
+        class="flex flex-col items-center justify-center min-h-45 rounded-box border-2 border-dashed border-divider text-muted transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group"
       >
         <#Icon
           iconify="ph:plus-circle-fill"
-          class="w-10 h-10 mb-2 transition-transform duration-200 group-hover:scale-110"
+          class="size-10 mb-2 transition-transform duration-200 group-hover:scale-110"
         />
         <span class="text-sm font-medium">{l("New personal profile")}</span>
       </a>
@@ -61,11 +61,11 @@
         :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__)}
         href={"#{path(:create_user)}?type=organisation"}
         aria-label={l("Create a new organisation profile")}
-        class="flex flex-col items-center justify-center min-h-[180px] rounded-box border-2 border-dashed border-divider text-muted transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group"
+        class="flex flex-col items-center justify-center min-h-45 rounded-box border-2 border-dashed border-divider text-muted transition-colors duration-200 ease-out hover:border-primary hover:text-primary hover:bg-base-200/40 group"
       >
         <#Icon
           iconify="ph:users-three-fill"
-          class="w-10 h-10 mb-2 transition-transform duration-200 group-hover:scale-110"
+          class="size-10 mb-2 transition-transform duration-200 group-hover:scale-110"
         />
         <span class="text-sm font-medium">{l("New organisation profile")}</span>
       </a>
@@ -79,7 +79,7 @@
     >
       <#Icon
         iconify="ph:plus-circle-fill"
-        class="w-16 h-16 mb-3 transition-transform duration-200 group-hover:scale-110"
+        class="size-16 mb-3 transition-transform duration-200 group-hover:scale-110"
       />
       <h3 class="type-heading">{l("New personal profile")}</h3>
       <p class="mt-1 text-sm text-muted">{l("An identity for yourself.")}</p>
@@ -92,7 +92,7 @@
     >
       <#Icon
         iconify="ph:users-three-fill"
-        class="w-16 h-16 mb-3 transition-transform duration-200 group-hover:scale-110"
+        class="size-16 mb-3 transition-transform duration-200 group-hover:scale-110"
       />
       <h3 class="type-heading">{l("New organisation profile")}</h3>
       <p class="mt-1 text-sm text-muted">{l("A collective identity for your team or project.")}</p>

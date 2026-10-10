@@ -18,8 +18,8 @@
         <StatefulComponent
           module={maybe_component(Bonfire.Files.Web.UploadIconLive, @__context__)}
           id={:upload_icon}
-          container_class="relative bg-base-100 flex-shrink-0 block w-32 h-32 -mt-16 overflow-hidden ring-4 ring-base-300"
-          class="inline-block w-32 h-32"
+          container_class="relative bg-base-100 flex-shrink-0 block size-32 -mt-16 overflow-hidden ring-4 ring-base-300"
+          class="inline-block size-32"
           object={:instance}
           boundary_verb={:describe}
           uploader={Bonfire.Files.InstanceIconUploader}
@@ -81,7 +81,7 @@
 {#if Bonfire.Boundaries.can?(@__context__, :configure, :instance)}
   <div class="">
     <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
-      <#Icon iconify="eos-icons:network" class="w-6 h-6 text-primary" />
+      <#Icon iconify="eos-icons:network" class="size-6 text-primary" />
       <span>{l("Federation & Privacy")}</span>
     </div>
 
@@ -236,7 +236,7 @@
 
   <div class="">
     <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
-      <#Icon iconify="ph:gear-six-duotone" class="w-6 h-6 text-primary" />
+      <#Icon iconify="ph:gear-six-duotone" class="size-6 text-primary" />
       <span>{l("General Settings")}</span>
     </div>
     <form phx-change="Bonfire.Common.Settings:set" class="divide-hair divide-divider">
@@ -364,7 +364,7 @@
 
   <div class="">
     <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
-      <#Icon iconify="ph:lock-key-duotone" class="w-6 h-6 text-primary" />
+      <#Icon iconify="ph:lock-key-duotone" class="size-6 text-primary" />
       <span>{l("Restricted content screen")}</span>
     </div>
     <form phx-change="Bonfire.Common.Settings:set" class="divide-hair divide-divider">
@@ -423,7 +423,7 @@
 
   <div class="">
     <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
-      <#Icon iconify="lucide:server" class="w-6 h-6 text-primary" />
+      <#Icon iconify="lucide:server" class="size-6 text-primary" />
       <span>{l("Resource Usage")}</span>
     </div>
     <form phx-change="Bonfire.Common.Settings:set" class="divide-hair divide-divider">
@@ -488,7 +488,7 @@
 
   <div class="">
     <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
-      <#Icon iconify="ri:mail-send-line" class="w-6 h-6 text-primary" />
+      <#Icon iconify="ri:mail-send-line" class="size-6 text-primary" />
       <span>{l("Email Configuration")}</span>
     </div>
 
@@ -554,7 +554,7 @@
 
   <div class="">
     <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
-      <#Icon iconify="mdi:cloud-search" class="w-6 h-6 text-primary" />
+      <#Icon iconify="mdi:cloud-search" class="size-6 text-primary" />
       <span>{l("Search Configuration")}</span>
     </div>
     <div class="divide-hair divide-divider">
@@ -581,7 +581,7 @@
 
   <div class="">
     <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
-      <#Icon iconify="carbon:cloud-upload" class="w-6 h-6 text-primary" />
+      <#Icon iconify="carbon:cloud-upload" class="size-6 text-primary" />
       <span>{l("File Storage (S3)")}</span>
     </div>
     <div class="divide-hair divide-divider">
@@ -620,7 +620,7 @@
 
   <div class="">
     <div class="p-4 type-title flex items-center gap-4 border-b border-divider text-primary">
-      <#Icon iconify="ph:heartbeat-duotone" class="w-6 h-6 text-primary" />
+      <#Icon iconify="ph:heartbeat-duotone" class="size-6 text-primary" />
       <span>{l("Telemetry & Monitoring")}</span>
     </div>
 

@@ -5,7 +5,7 @@
       <div class="absolute left-0">
         <Bonfire.UI.Common.AvatarLive
           parent_id={deterministic_dom_id(__MODULE__, id(@object), "character", @activity_component_id)}
-          class="w-6 h-6 rounded-full"
+          class="size-6 rounded-full"
           bg_class="rounded-btn"
           titke={e(@the_character, :profile, :name, "Anon")}
           src={Media.avatar_url(@the_character)}
@@ -40,7 +40,7 @@
       wrapper_class={@wrapper_class || ""}
       parent_id={@activity_component_id}
       lg
-      avatar_class={"w-10 h-10 rounded-full ", "!w-7 !h-7": @__context__[:ui_compact]}
+      avatar_class={"size-10 rounded-full ", "!w-7 !h-7": @__context__[:ui_compact]}
       profile={e(@the_character, :profile, nil)}
       character={e(@the_character, :character, nil)}
       is_remote={!check_is_local?(@the_character, preload_if_needed: false)}

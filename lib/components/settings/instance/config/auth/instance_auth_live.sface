@@ -72,8 +72,8 @@
       id={:upload_auth_logo}
       object={:instance}
       boundary_verb={:describe}
-      container_class="relative flex-shrink-0 block w-32 h-32 overflow-hidden rounded-full ring-4 ring-base-content/10 bg-base-200"
-      class="inline-block w-32 h-32"
+      container_class="relative flex-shrink-0 block size-32 overflow-hidden rounded-full ring-4 ring-base-content/10 bg-base-200"
+      class="inline-block size-32"
       src={Bonfire.Common.Settings.get(
         [:ui, :auth, :logo],
         "",

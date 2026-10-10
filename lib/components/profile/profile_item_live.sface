@@ -13,7 +13,7 @@
         <Bonfire.UI.Common.AvatarLive
           parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
           comment={false}
-          fallback_class="w-10 h-10 rounded-full"
+          fallback_class="size-10 rounded-full"
           user_id={id(@profile)}
           ring
           src={Media.avatar_url(@profile)}
@@ -50,7 +50,7 @@
                 />
               {/if}
             </div>
-            <div class="text-muted line-clamp-1 -mt-[4px]">
+            <div class="text-muted line-clamp-1 -mt-1">
               {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}
             </div>
           </LinkLive>
@@ -63,6 +63,7 @@
               id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile || @character), @parent_id)}
               object_id={id(@profile || @character)}
               path={path(@character || @profile)}
+              with_bell={false}
               container_class="flex items-center gap-2 shrink-0"
             />
           {/if}
@@ -101,8 +102,8 @@
             <Bonfire.UI.Common.AvatarLive
               parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
               comment={if @lg, do: false, else: true}
-              fallback_class={@fallback_class || "w-12 h-12"}
-              class={@avatar_class || "w-12 h-12 rounded-full"}
+              fallback_class={@fallback_class || "size-12"}
+              class={@avatar_class || "size-12 rounded-full"}
               user_id={id(@profile)}
               ring
               src={Media.avatar_url(@profile)}
@@ -110,7 +111,7 @@
               showing_within={@showing_within}
               is_remote={@is_remote}
             />
-            <!-- class={@avatar_class || "w-12 h-12"} -->
+            <!-- class={@avatar_class || "size-12"} -->
           </LinkLive>
           <div :if={!@only_img} class="min-w-0">
             <LinkLive
@@ -136,7 +137,7 @@
                   />
                 {/if}</div>
 
-              <div :if={!@inline} class="text-muted line-clamp-1 -mt-[4px]">
+              <div :if={!@inline} class="text-muted line-clamp-1 -mt-1">
                 {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}
               </div>
             </LinkLive>
@@ -175,6 +176,7 @@
             id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@profile), @parent_id)}
             object_id={id(@profile)}
             hide_icon
+            with_bell={false}
           /> 
 
           <StatelessComponent
@@ -216,6 +218,7 @@
               object_id={id(@profile || @character)}
               path={path(@character || @profile)}
               hide_icon
+              with_bell={false}
               container_class="flex items-center gap-2 w-full"
             />
           {/if}

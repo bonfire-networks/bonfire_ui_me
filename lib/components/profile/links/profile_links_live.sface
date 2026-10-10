@@ -49,7 +49,7 @@
             opts={if verified?, do: [rel: "me"], else: [rel: "me nofollow"]}
           >
             <span :if={verified?} class="shrink-0" title={l("Verified alias")}>
-              <#Icon iconify="garden:check-badge-fill-16" class="w-4 h-4 text-success" />
+              <#Icon iconify="garden:check-badge-fill-16" class="size-4 text-success" />
               <span class="sr-only">{l("Verified alias")}</span>
             </span>
             <Bonfire.UI.Common.AvatarLive
@@ -57,7 +57,7 @@
               user_id={id(account)}
               src={Media.avatar_url(account.profile)}
               title={e(account.profile, :name, "")}
-              class="w-6 h-6 rounded-full"
+              class="size-6 rounded-full"
               wrapper_class="shrink-0"
               is_remote={!Bonfire.Me.Integration.is_local?(account.character)}
             />

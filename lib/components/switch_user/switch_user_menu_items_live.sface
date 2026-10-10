@@ -16,7 +16,7 @@
                 <Bonfire.UI.Common.AvatarLive
                   bg_class="rounded-full"
                   title={e(user, :profile, :name, nil)}
-                  class="inline-block object-cover rounded-full w-6 h-6"
+                  class="inline-block object-cover rounded-full size-6"
                   src={Media.avatar_url(user)}
                   user_id={user_id}
                   parent_id="switch_user_menu"
@@ -28,7 +28,7 @@
               </div>
               <div
                 :if={user_id in @unseen_user_ids}
-                class="shrink-0 badge badge-primary badge-xs rounded-full p-1 w-3 h-3"
+                class="shrink-0 badge badge-primary badge-xs rounded-full p-1 size-3"
                 title={l("Unread notifications or messages")}
                 data-role="switch_user_menu_unseen"
               >
@@ -40,7 +40,7 @@
           {!-- placeholder until the menu is opened and the profiles are loaded --}
           <li aria-hidden="true">
             <div class="flex items-center gap-3">
-              <div class="w-6 h-6 shrink-0 rounded-full bg-fill-strong animate-pulse" />
+              <div class="size-6 shrink-0 rounded-full bg-fill-strong animate-pulse" />
               <div class="h-3 w-28 rounded bg-fill-strong animate-pulse" />
             </div>
           </li>
@@ -53,7 +53,7 @@
           class="flex items-center gap-2 text-sm text-base-content justify-between"
         >
           <div>{l("Switch profile")}</div>
-          <#Icon iconify="ph:user-switch-fill" class="w-5 h-5 shrink-0 text-muted" />
+          <#Icon iconify="ph:user-switch-fill" class="size-5 shrink-0 text-muted" />
         </LinkLive>
       </li>
     </ul>

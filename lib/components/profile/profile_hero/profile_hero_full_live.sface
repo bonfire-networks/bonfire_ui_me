@@ -17,7 +17,7 @@
                 data-id="hero_background"
                 role="img"
                 aria-label={l("Profile banner")}
-                class="w-full relative h-[150px] aspect-auto bg-primary bg-center mt-0 mb-0 bg-cover bg-no-repeat"
+                class="w-full relative h-37.5 aspect-auto bg-primary bg-center mt-0 mb-0 bg-cover bg-no-repeat"
                 style={cond do
                   is_binary(color) -> "background-color: #{color}"
                   is_binary(banner_url) -> Bonfire.UI.Common.NextGenImageLive.background_image_set(banner_url)
@@ -84,11 +84,11 @@
                           {#if @character_type == :group && avatar_url == "/images/avatar.png"}
                             <div
                               data-role="group_preset_icon"
-                              class="inline-flex items-center justify-center w-[100px] h-[100px] md:mx-0 relative -mt-14 border-divider border-hair rounded-box bg-base-200"
+                              class="inline-flex items-center justify-center size-25 md:mx-0 relative -mt-14 border-divider border-hair rounded-box bg-base-200"
                             >
                               <Iconify.iconify
                                 icon={Bonfire.Boundaries.Presets.group_icon(@user)}
-                                class="w-12 h-12 text-primary"
+                                class="size-12 text-primary"
                               />
                             </div>
                           {#else}
@@ -96,12 +96,12 @@
                               parent_id="profile-hero"
                               title={e(@user, :profile, :name, "Anon")}
                               class={
-                                "inline-block object-cover w-24 h-24 md:mx-0 -mt-10 border-divider border-hair",
+                                "inline-block object-cover size-24 md:mx-0 -mt-10 border-divider border-hair",
                                 "rounded-box": @character_type == :group,
                                 "rounded-full": @character_type != :group
                               }
                               user_id={id(@user)}
-                              fallback_class="w-[100px] h-[100px]"
+                              fallback_class="size-25"
                               src={avatar_url}
                               is_remote={!@is_local?}
                             />
@@ -121,7 +121,7 @@
                             to={~p"/settings/user/profile"}
                             class="btn btn-sm flex-1 sm:flex-none border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong"
                           >
-                            <#Icon iconify="ph:pencil-simple-duotone" class="w-4 h-4" />
+                            <#Icon iconify="ph:pencil-simple-duotone" class="size-4" />
                             <span>{l("Edit profile")}</span>
                           </LinkLive>
                         {/if}
@@ -175,7 +175,7 @@
                                 class="btn btn-primary btn-sm"
                                 label={l("Manage")}
                               >
-                                <#Icon iconify="ph:gear-six-duotone" class="w-4 h-4" />
+                                <#Icon iconify="ph:gear-six-duotone" class="size-4" />
                                 <span>{l("Manage")}</span>
                               </LinkLive>
                             {#else}

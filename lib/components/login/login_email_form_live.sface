@@ -12,7 +12,7 @@
     value={@go || e(@form, :params, :go, nil) || e(@form, :source, :changes, :go, nil)}
   />
 
-  <div class="my-panel">
+  <div class="my-6">
     <div :if={@gated_login_message} class="text-lg">
       {rich(@gated_login_message)}
     </div>

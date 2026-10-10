@@ -28,12 +28,12 @@
             {#if module_enabled?(Bonfire.Federate.ActivityPub, @__context__)}
               {#if user_federating?}
                 <span class="badge badge-sm gap-1">
-                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+                  <span class="inline-block size-1.5 rounded-full bg-success animate-pulse" />
                   {l("Federated")}
                 </span>
               {#else}
                 <span class="badge badge-sm badge-ghost gap-1">
-                  <span class="inline-block w-1.5 h-1.5 rounded-full bg-base-content/20" />
+                  <span class="inline-block size-1.5 rounded-full bg-base-content/20" />
                   {l("Local only")}
                 </span>
               {/if}
@@ -91,24 +91,24 @@
           >
             {#if undiscoverable?}
               <span class="flex items-center gap-1" title={l("Profile is hidden")}>
-                <#Icon iconify="ph:eye-slash-duotone" class="w-3.5 h-3.5 shrink-0" />
+                <#Icon iconify="ph:eye-slash-duotone" class="size-3.5 shrink-0" />
                 <span>{l("Hidden")}</span>
               </span>
             {#else}
               <span class="flex items-center gap-1" title={l("Profile is discoverable")}>
-                <#Icon iconify="ph:eye-duotone" class="w-3.5 h-3.5 shrink-0" />
+                <#Icon iconify="ph:eye-duotone" class="size-3.5 shrink-0" />
                 <span>{l("Discoverable")}</span>
               </span>
             {/if}
             <span class="text-base-content/10">·</span>
             {#if search_indexing_disabled?}
               <span class="flex items-center gap-1" title={l("Search indexing is off")}>
-                <#Icon iconify="ph:magnifying-glass-minus-duotone" class="w-3.5 h-3.5 shrink-0" />
+                <#Icon iconify="ph:magnifying-glass-minus-duotone" class="size-3.5 shrink-0" />
                 <span>{l("Not indexed")}</span>
               </span>
             {#else}
               <span class="flex items-center gap-1" title={l("Content is search-indexed")}>
-                <#Icon iconify="ph:magnifying-glass-duotone" class="w-3.5 h-3.5 shrink-0" />
+                <#Icon iconify="ph:magnifying-glass-duotone" class="size-3.5 shrink-0" />
                 <span>{l("Indexed")}</span>
               </span>
             {/if}

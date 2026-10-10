@@ -63,7 +63,7 @@
                 character={e(user, :character, nil)}
                 profile={e(user, :profile, nil)}
                 class="btn btn-ghost btn-sm"
-                avatar_class="w-7 h-7 rounded-full"
+                avatar_class="size-7 rounded-full"
               />
               <button
                 :if={e(user, :accounted, :account_id, nil)}

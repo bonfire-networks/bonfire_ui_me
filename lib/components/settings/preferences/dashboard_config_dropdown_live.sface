@@ -5,7 +5,7 @@
   class="relative"
 >
   <label tabindex="0" role="button" class="tooltip-button btn btn-sm btn-ghost btn-circle">
-    <#Icon iconify="ph:gear-six-duotone" class="w-5 h-5 text-muted" />
+    <#Icon iconify="ph:gear-six-duotone" class="size-5 text-muted" />
     <span class="sr-only">{l("Configure dashboard")}</span>
   </label>
 
@@ -32,7 +32,7 @@
       {!-- Main Widgets section --}
       <div class="px-4 pb-1">
         <div class="flex items-center gap-1.5 pb-1.5">
-          <div class="w-2 h-2 rounded-sm bg-primary/40" />
+          <div class="size-2 rounded-sm bg-primary/40" />
           <span class="type-overline text-subtle">{l("Main area")}</span>
         </div>
         <div class="flex flex-col divide-hair divide-divider rounded-box bg-base-200/30">
@@ -81,7 +81,7 @@
       {!-- Sidebar Widgets section --}
       <div class="px-4 pt-2 pb-1">
         <div class="flex items-center gap-1.5 pb-1.5">
-          <div class="w-2 h-2 rounded-sm bg-secondary/40" />
+          <div class="size-2 rounded-sm bg-secondary/40" />
           <span class="type-overline text-subtle">{l("Sidebar")}</span>
         </div>
         <div class="flex flex-col divide-hair divide-divider rounded-box bg-base-200/30">
@@ -123,7 +123,7 @@
       {!-- Feed mode toggle --}
       <div class="mx-4 mb-3 rounded-box bg-base-200/50 py-2">
         <div class="flex items-center gap-1.5 pb-1.5">
-          <#Icon iconify="ph:rss-duotone" class="w-3 h-3 text-subtle" />
+          <#Icon iconify="ph:rss-duotone" class="size-3 text-subtle" />
           <span class="type-overline text-subtle">{l("Feed mode")}</span>
         </div>
         <Bonfire.UI.Common.SettingsToggleLive

@@ -27,7 +27,7 @@
                 >
                   <Bonfire.UI.Common.AvatarLive
                     parent_id={deterministic_dom_id(__MODULE__, id(@user), "user_preview", @parent_id)}
-                    class="inline-block object-cover rounded-full w-16 h-16"
+                    class="inline-block object-cover rounded-full size-16"
                     bg_class="h-full"
                     title={e(@user, :profile, :name, "Anon")}
                     src={avatar_url}
@@ -78,7 +78,7 @@
                   Settings.get([:ui, :show_activity_counts])}
                 class="flex items-center mt-2 mb-4 space-x-2 text-muted"
               >
-                <#Icon solid="Users" class="w-5 h-5" />
+                <#Icon solid="Users" class="size-5" />
                 <div class="text-sm">
                   <b>{e(@user, :character, :follow_count, :follower_count, 0)}</b>
                   {l("Followers")}

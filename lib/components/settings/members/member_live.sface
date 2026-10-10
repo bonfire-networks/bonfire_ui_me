@@ -4,7 +4,7 @@
     <div class="flex items-center space-x-3">
       <Bonfire.UI.Common.AvatarLive
         parent_id={deterministic_dom_id(__MODULE__, id(@user), "member_avatar", nil)}
-        class="inline-block  object-cover rounded-full w-8 h-8"
+        class="inline-block  object-cover rounded-full size-8"
         bg_class="rounded-full"
         title={e(@user, :profile, :name, "Anon")}
         wrapper_class="border-0 avatar !flex"
@@ -59,7 +59,7 @@
         label={l("User menu")}
       >
         <:trigger>
-          <#Icon iconify="material-symbols:more-horiz" class="w-5 h-5" />
+          <#Icon iconify="material-symbols:more-horiz" class="size-5" />
         </:trigger>
 
         <li><LinkLive to={"/@#{e(@user, :character, :username, nil)}"}>{l("View profile")}</LinkLive></li>

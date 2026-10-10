@@ -16,7 +16,7 @@
         {/case}
       </div>
 
-      <div class="w-full lg:w-1/2 p-8 lg:px-16 lg:py-12 lg:pt-[80px] bg-base-200 min-h-screen">
+      <div class="w-full lg:w-1/2 p-8 lg:px-16 lg:py-12 lg:pt-20 bg-base-200 min-h-screen">
         <div class="flex-1 flex items-center">
           <div class={"mx-auto w-full flex flex-col gap-6", @content_class}>
             {#case Config.get([:ui, :theme, :instance_tagline], nil)}
@@ -39,13 +39,13 @@
             {#case Config.get([:ui, :auth, :logo], nil)}
               {#match nil}
                 <Bonfire.UI.Common.LogoLinkLive
-                  image_class="w-[154px] h-[154px] bg-center bg-no-repeat bg-contain"
+                  image_class="size-38.5 bg-center bg-no-repeat bg-contain"
                   container_class="flex items-center gap-4"
                   href="/"
                 />
               {#match logo}
                 <a href="/" class="inline-block">
-                  <img src={logo} alt="" class="w-[154px] h-[154px] object-contain">
+                  <img src={logo} alt="" class="size-38.5 object-contain">
                 </a>
             {/case}
 
@@ -70,7 +70,7 @@
     <div class="w-full px-4 lg:px-0 mt-12 h-[100vh]" id={@id}>
       <Bonfire.UI.Common.LogoLinkLive
         with_name
-        image_class="w-12 h-12 aspect-square bg-center bg-no-repeat bg-contain"
+        image_class="size-12 aspect-square bg-center bg-no-repeat bg-contain"
         container_class="flex items-center mb-8 justify-center gap-4"
         href="/"
       />

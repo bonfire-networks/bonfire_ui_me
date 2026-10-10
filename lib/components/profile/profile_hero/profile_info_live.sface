@@ -19,7 +19,7 @@
         {#for user <- Enum.take(@familiar_followers, 3)}
           <Bonfire.UI.Common.AvatarLive
             parent_id="familiar-followers"
-            class="w-6 h-6 rounded-full"
+            class="size-6 rounded-full"
             wrapper_class="inline-flex"
             user_id={id(user)}
             src={Media.avatar_url(user)}

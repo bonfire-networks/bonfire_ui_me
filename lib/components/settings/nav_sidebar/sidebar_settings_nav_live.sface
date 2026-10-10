@@ -11,8 +11,8 @@
             to={~p"/settings/user/profile"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "profile" or @selected_tab in [nil, "settings"]]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:user-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:user-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Profile")}</span>
           </LinkLive>
@@ -22,8 +22,8 @@
             to={~p"/settings/account"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "account"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:key-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:key-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Account")}</span>
           </LinkLive>
@@ -33,8 +33,8 @@
             to={~p"/settings/user/preferences/behaviours"}
             class={["gap-3 py-1", "bg-primary/10": @id == "behaviours"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:sliders-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:sliders-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Preferences")}</span>
           </LinkLive>
@@ -44,8 +44,8 @@
             to={~p"/settings/user/feeds"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "feeds"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:rss-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:rss-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Feeds")}</span>
           </LinkPatchLive>
@@ -57,8 +57,8 @@
             to={~p"/settings/user/shared_user"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "shared_user"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:users-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:users-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Team Profile")}</span>
           </LinkLive>
@@ -77,8 +77,8 @@
             to={~p"/settings/user/safety"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "safety"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:shield-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:shield-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("My Safety Settings")}</span>
           </LinkLive>
@@ -88,8 +88,8 @@
             to={~p"/settings/user/flags"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "flags"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:flag-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:flag-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("My Flags")}</span>
           </LinkLive>
@@ -99,8 +99,8 @@
             to={~p"/settings/boundaries/blocked"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "blocked"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:prohibit-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:prohibit-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Blocked")}</span>
           </LinkLive>
@@ -110,8 +110,8 @@
             to={~p"/settings/boundaries/ghosted"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "ghosted"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:ghost-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:ghost-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Ghosted")}</span>
           </LinkLive>
@@ -121,8 +121,8 @@
             to={~p"/settings/boundaries/silenced"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "silenced"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:speaker-simple-slash-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:speaker-simple-slash-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Silenced")}</span>
           </LinkLive>
@@ -133,8 +133,8 @@
             to={~p"/allowlisted"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "allowlisted"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:list-checks-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:list-checks-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Federation Allowlist")}</span>
           </LinkLive>
@@ -144,8 +144,8 @@
             to={~p"/settings/user/blocks_import"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "blocks_import"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:tray-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:tray-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Import block lists")}</span>
           </LinkLive>
@@ -164,8 +164,8 @@
             to={~p"/settings/user/extensions"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "extensions"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:toggle-right-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:toggle-right-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Configure Extensions")}</span>
           </LinkLive>
@@ -189,8 +189,8 @@
             to={~p"/settings/boundaries/circles"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "circles"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:circle-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:circle-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Circles")}</span>
           </LinkLive>
@@ -200,8 +200,8 @@
             to={~p"/settings/boundaries/acls"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "acls"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:lock-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:lock-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Boundary presets")}</span>
           </LinkLive>
@@ -211,8 +211,8 @@
             to={~p"/settings/boundaries/roles"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "roles"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:users-three-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:users-three-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Roles")}</span>
           </LinkLive>
@@ -222,8 +222,8 @@
             to={~p"/settings/boundaries/default_roles"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "default_roles"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:shield-check-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:shield-check-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Instance-wide roles")}</span>
           </LinkLive>
@@ -242,8 +242,8 @@
             to={~p"/settings/user/export"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "export"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:arrow-square-out-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:arrow-square-out-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Export")}</span>
           </LinkLive>
@@ -253,8 +253,8 @@
             to={~p"/settings/user/import"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "import"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:download-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:download-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Import")}</span>
           </LinkLive>
@@ -264,8 +264,8 @@
             to={~p"/settings/user/import_status"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "import_status"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:clock-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:clock-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Import status")}</span>
           </LinkPatchLive>
@@ -284,8 +284,8 @@
             to={~p"/settings/user/federation_status"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "federation_status"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:globe-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:globe-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Federation status")}</span>
           </LinkPatchLive>
@@ -295,8 +295,8 @@
             to={~p"/settings/user/emojis"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "emojis"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:smiley-wink-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:smiley-wink-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Custom emoji")}</span>
           </LinkPatchLive>
@@ -311,8 +311,8 @@
             to={~p"/settings/user/config_settings_registry"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "config_settings_registry"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:gear-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:gear-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Extra settings")}</span>
           </LinkPatchLive>
@@ -322,8 +322,8 @@
             to={~p"/settings/user/code"}
             class={["gap-3 py-1", "bg-primary/10": @selected_tab == "code"]}
           >
-            <div class="w-8 h-8 flex items-center place-content-center">
-              <#Icon iconify="ph:book-duotone" class="w-5 h-5 text-muted" />
+            <div class="size-8 flex items-center place-content-center">
+              <#Icon iconify="ph:book-duotone" class="size-5 text-muted" />
             </div>
             <span class="font-normal text-base">{l("Libraries & Licences")}</span>
           </LinkPatchLive>

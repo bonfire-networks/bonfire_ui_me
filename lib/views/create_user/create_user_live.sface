@@ -7,12 +7,12 @@
           <img
             src={Settings.get([:ui, :auth, :logo], nil, @__context__)}
             alt=""
-            class="w-[94px] h-[94px] object-contain"
+            class="size-23.5 object-contain"
           />
         </a>
       {#else}
         <Bonfire.UI.Common.LogoLinkLive
-          image_class="w-full h-[94px] bg-center bg-no-repeat bg-contain"
+          image_class="w-full h-23.5 bg-center bg-no-repeat bg-contain"
           container_class="flex items-center gap-4"
           href="/"
         />
@@ -22,7 +22,7 @@
           <img
             src={Settings.get([:ui, :auth, :project_branding_image], nil, @__context__)}
             alt=""
-            class="w-full h-[94px] object-contain"
+            class="w-full h-23.5 object-contain"
           />
         </a>
       {/if} --}

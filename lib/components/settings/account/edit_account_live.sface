@@ -37,10 +37,10 @@
         <div class="text-sm font-normal text-muted">{l("Customise the look and feel")}</div>
       </div>
       <button type="button" x-cloak class="btn btn-square btn-sm btn-ghost" x-show="open">
-        <#Icon iconify="carbon:chevron-down" class="w-4 h-4 text-muted" />
+        <#Icon iconify="carbon:chevron-down" class="size-4 text-muted" />
       </button>
       <button type="button" class="btn btn-square btn-sm btn-ghost" x-show="!open">
-        <#Icon iconify="carbon:chevron-up-duotone" class="w-4 h-4 text-muted" />
+        <#Icon iconify="carbon:chevron-up-duotone" class="size-4 text-muted" />
       </button>
     </div>
     <div x-show="open" x-cloak x-collapse>
@@ -63,7 +63,7 @@
       <div class="p-4 mt-4 mb-0 rounded-md bg-info/10">
         <div class="flex">
           <div class="flex-shrink-0">
-            <#Icon solid="InformationCircle" class="w-5 h-5 text-info" />
+            <#Icon solid="InformationCircle" class="size-5 text-info" />
           </div>
           <div class="flex-1 ml-3 md:flex md:justify-between">
             <div class="prose prose-sm text-info">

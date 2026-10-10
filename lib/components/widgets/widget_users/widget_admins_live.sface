@@ -17,7 +17,7 @@
           >
             <span class="touch-target-hit-area" aria-hidden="true" />
             <span class="sr-only">{l("Refresh")}</span>
-            <#Icon iconify="ph:arrow-counter-clockwise-duotone" class="w-4 h-4 text-primary" />
+            <#Icon iconify="ph:arrow-counter-clockwise-duotone" class="size-4 text-primary" />
           </button>
         {/if}
       </:action>

@@ -2,7 +2,7 @@
   <div class="w-[90%] max-w-[480px] mx-auto">
     <div class="flex items-center place-content-center gap-4 mb-8">
       <Bonfire.UI.Common.LogoLinkLive
-        image_class="w-full h-[64px] bg-center bg-no-repeat bg-contain"
+        image_class="w-full h-16 bg-center bg-no-repeat bg-contain"
         container_class="flex items-center gap-4"
         href="/"
       />

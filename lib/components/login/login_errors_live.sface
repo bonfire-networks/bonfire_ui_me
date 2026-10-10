@@ -28,7 +28,7 @@
         <div class="flex-shrink-0">
           {!-- Heroicon name: exclamation --}
           <svg
-            class="w-5 h-5 text-yellow-400"
+            class="size-5 text-yellow-400"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"

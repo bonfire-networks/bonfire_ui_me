@@ -26,12 +26,12 @@
           {!-- Badges --}
           <div class="absolute top-2.5 left-3 z-10 badge badge-sm flex items-center gap-1.5">
             {#if invite_only?}
-              <#Icon iconify="ph:lock-duotone" class="w-3.5 h-3.5" aria-hidden="true" />
+              <#Icon iconify="ph:lock-duotone" class="size-3.5" aria-hidden="true" />
               <span>{l("Invite-only")}</span>
             {#else}
               <#Icon
                 iconify="ph:lock-simple-open-duotone"
-                class="w-3.5 h-3.5 inline text-success"
+                class="size-3.5 inline text-success"
                 aria-hidden="true"
               />
               <span>{l("Open Registration")}</span>
@@ -39,10 +39,10 @@
           </div>
           <div class="absolute top-2.5 right-3 z-10 badge badge-sm flex items-center gap-1.5">
             {#if federation_enabled?}
-              <span class="inline-block w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+              <span class="inline-block size-1.5 rounded-full bg-success animate-pulse" />
               <span>{l("Federated")}</span>
             {#else}
-              <span class="inline-block w-1.5 h-1.5 rounded-full bg-base-content/20" />
+              <span class="inline-block size-1.5 rounded-full bg-base-content/20" />
               <span class="text-muted">{l("Local")}</span>
             {/if}
           </div>
@@ -147,24 +147,24 @@
                 >
                   {#if undiscoverable?}
                     <span class="flex items-center gap-1" title={l("Profile is hidden")}>
-                      <#Icon iconify="ph:eye-slash-duotone" class="w-3.5 h-3.5 shrink-0" />
+                      <#Icon iconify="ph:eye-slash-duotone" class="size-3.5 shrink-0" />
                       <span>{l("Hidden")}</span>
                     </span>
                   {#else}
                     <span class="flex items-center gap-1" title={l("Profile is discoverable")}>
-                      <#Icon iconify="ph:eye-duotone" class="w-3.5 h-3.5 shrink-0" />
+                      <#Icon iconify="ph:eye-duotone" class="size-3.5 shrink-0" />
                       <span>{l("Discoverable")}</span>
                     </span>
                   {/if}
                   <span class="text-base-content/15">·</span>
                   {#if search_indexing_disabled?}
                     <span class="flex items-center gap-1" title={l("Search indexing is off")}>
-                      <#Icon iconify="ph:magnifying-glass-minus-duotone" class="w-3.5 h-3.5 shrink-0" />
+                      <#Icon iconify="ph:magnifying-glass-minus-duotone" class="size-3.5 shrink-0" />
                       <span>{l("Not indexed")}</span>
                     </span>
                   {#else}
                     <span class="flex items-center gap-1" title={l("Content is search-indexed")}>
-                      <#Icon iconify="ph:magnifying-glass-duotone" class="w-3.5 h-3.5 shrink-0" />
+                      <#Icon iconify="ph:magnifying-glass-duotone" class="size-3.5 shrink-0" />
                       <span>{l("Indexed")}</span>
                     </span>
                   {/if}
@@ -207,7 +207,7 @@
                         character={e(admin, :character, nil)}
                         profile={e(admin, :profile, nil)}
                         class="btn btn-ghost btn-sm"
-                        avatar_class="w-7 h-7 rounded-full"
+                        avatar_class="size-7 rounded-full"
                       />
                     {/for}
                   </div>
@@ -251,7 +251,7 @@
                     character={e(admin, :character, nil)}
                     profile={e(admin, :profile, nil)}
                     class="btn btn-ghost btn-sm"
-                    avatar_class="w-7 h-7 rounded-full"
+                    avatar_class="size-7 rounded-full"
                   />
                 {/for}
               </div>

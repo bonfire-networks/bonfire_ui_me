@@ -5,8 +5,8 @@
   >
     <div class="flex items-start gap-3">
       {!-- Globe Icon --}
-      <div class="w-10 h-10 rounded-box bg-base-200 flex items-center justify-center shrink-0">
-        <#Icon iconify="ph:globe-duotone" class="w-6 h-6 text-muted" />
+      <div class="size-10 rounded-box bg-base-200 flex items-center justify-center shrink-0">
+        <#Icon iconify="ph:globe-duotone" class="size-6 text-muted" />
       </div>
 
       {!-- Instance Info --}
@@ -21,7 +21,7 @@
           <a href={ap_base_uri} target="_blank" title={l("Visit instance")}>
             <#Icon
               iconify="heroicons-solid:external-link"
-              class="w-3.5 h-3.5 text-subtle hover:text-primary transition-colors"
+              class="size-3.5 text-subtle hover:text-primary transition-colors"
             />
           </a>
         </div>
@@ -30,14 +30,14 @@
         <div class="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1 text-sm text-muted">
           {!-- User count --}
           <span class="flex items-center gap-1">
-            <#Icon iconify="ph:users-duotone" class="w-4 h-4" />
+            <#Icon iconify="ph:users-duotone" class="size-4" />
             {e(@instances_metadata, id, :user_count, 0)} {l("known users")}
           </span>
 
           {!-- First seen --}
           {#if e(@instances_metadata, id, :first_seen, nil)}
             <span class="flex items-center gap-1" title={l("First seen")}>
-              <#Icon iconify="ph:calendar-duotone" class="w-4 h-4" />
+              <#Icon iconify="ph:calendar-duotone" class="size-4" />
               {DatesTimes.date_from_now(e(@instances_metadata, id, :first_seen, nil))}
             </span>
           {/if}
@@ -45,7 +45,7 @@
           {!-- Last activity --}
           {#if e(@instances_metadata, id, :last_activity, nil)}
             <span class="flex items-center gap-1" title={l("Last activity")}>
-              <#Icon iconify="ph:clock-duotone" class="w-4 h-4" />
+              <#Icon iconify="ph:clock-duotone" class="size-4" />
               {DatesTimes.date_from_now(e(@instances_metadata, id, :last_activity, nil))}
             </span>
           {/if}

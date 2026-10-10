@@ -28,7 +28,7 @@
     class="mx-4 mb-4 alert alert-warning"
     data-role="oban_oversubscribed"
   >
-    <#Icon iconify="ph:warning-duotone" class="w-5 h-5 shrink-0" />
+    <#Icon iconify="ph:warning-duotone" class="size-5 shrink-0" />
     <span>{l(
         "These queues add up to %{total} jobs at once, but the database pool only has %{pool} connections. The extra jobs will wait for a connection and time out rather than getting more done.",
         total: elem(oversubscribed, 0),

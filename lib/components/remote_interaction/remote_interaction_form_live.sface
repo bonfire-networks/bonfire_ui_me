@@ -10,7 +10,7 @@
 
         <div class="w-full mx-auto">
           <div class="alert mb-6 items-start text-sm alert-info alert-soft" role="alert">
-            <#Icon solid="InformationCircle" class="w-5 h-5 shrink-0" />
+            <#Icon solid="InformationCircle" class="size-5 shrink-0" />
             <div class="text-sm">
               <p>
                 <strong>{l("Are you a fediverse user?")}</strong> {l(

@@ -1,5 +1,5 @@
 {!-- <div class="grid gap-8 grid-cols-[280px_1fr]">
-  <div class="sticky top-[56px] -ml-4 overflow-y-auto border-r bg-base-200 widget border-divider">
+  <div class="sticky top-14 -ml-4 overflow-y-auto border-r bg-base-200 widget border-divider">
     <nav class="" role="navigation" aria-label={l("Instance  navigation")}>
       <Bonfire.UI.Me.InstanceSidebarSettingsNavLive selected_tab={@selected_tab} />
     </nav>
@@ -11,7 +11,7 @@
       aria-label={l("Open navigation sidebar")}
       class="btn btn-soft mt-3 w-full"
     >
-      <#Icon iconify="ph:list-duotone" class="w-5 h-5 text-muted" />
+      <#Icon iconify="ph:list-duotone" class="size-5 text-muted" />
       <span class="ml-2">{l("Open Settings Menu")}</span>
     </label>
   </div>

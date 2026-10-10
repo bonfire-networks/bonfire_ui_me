@@ -35,7 +35,7 @@
     />
 
     <p class="mt-8 text-center text-xs text-muted max-w-lg mx-auto">
-      <#Icon solid="InformationCircle" class="inline w-4 h-4 -mt-0.5 mr-1 align-middle" />
+      <#Icon solid="InformationCircle" class="inline size-4 -mt-0.5 mr-1 align-middle" />
       {l(
         "You can keep up to %{max_users} profiles for different identities for yourself, your organizations, or your projects.",
         max_users: @max_users_per_account

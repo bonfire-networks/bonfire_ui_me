@@ -3,7 +3,7 @@
     <div class="alert alert-info alert-soft bg-base-300 border-hair border-divider mr-0">
       <div class="flex">
         <div class="flex-shrink-0">
-          <#Icon iconify="ph:user-circle-plus-fill" class="w-6 h-6 text-primary" />
+          <#Icon iconify="ph:user-circle-plus-fill" class="size-6 text-primary" />
         </div>
         <div class="flex-1 ml-3 md:flex md:justify-between">
           <p class="text-base text-primary">
@@ -23,7 +23,7 @@
     ]}
   >
     <div class="flex items-center gap-2 mb-3 text-base font-medium">
-      {!-- <#Icon iconify="noto:fire" class="w-7 h-7" /> --}
+      {!-- <#Icon iconify="noto:fire" class="size-7" /> --}
       <span>{if @type == "organisation",
           do: l("Create new organisation profile"),
           else: l("Create new personal profile")}</span>
@@ -74,9 +74,9 @@
             </span>
           </Label>
           <label class="flex w-full border border-divider items-center rounded-md">
-            <span class="h-[48px] flex items-center place-content-center border-r px-2 border-divider text-sm">@</span>
+            <span class="h-12 flex items-center place-content-center border-r px-2 border-divider text-sm">@</span>
             <TextInput class="input flex-1" required opts={"x-bind:value": "suggest_username(username)"} />
-            <span class="hidden flex items-center place-content-center h-[48px] px-2 text-sm md:flex border-l border-divider">@{base_domain()}</span>
+            <span class="hidden flex items-center place-content-center h-12 px-2 text-sm md:flex border-l border-divider">@{base_domain()}</span>
           </label> --}
               <ErrorTag />
             </Field>

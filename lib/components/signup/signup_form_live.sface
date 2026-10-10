@@ -5,7 +5,7 @@
         <div role="status" id="invite_only_notice" data-role="invite_only_notice" class="">
           <div class="flex flex-col gap-4">
             {#if @gated_login_message || @external_signup_url}
-              <div class="my-panel mb-4">
+              <div class="my-6 mb-4">
                 <div class="text-lg">
                   {rich(@gated_login_message) ||
                     if @external_signup_url, do: l("Please click the button below to sign up.")}
@@ -22,7 +22,7 @@
               </div>
             {#else}
               <div class="flex items-center gap-2">
-                <#Icon outline="Key" class="w-4 h-4 text-muted" />
+                <#Icon outline="Key" class="size-4 text-muted" />
                 <span class="text-xs font-medium uppercase tracking-wider text-muted">
                   {l("Invite only")}
                 </span>
@@ -65,7 +65,7 @@
       {#match "signup_not_allowed"}
         <div role="status" data-role="signup_not_allowed" class="mb-4 alert alert-info">
           <div class="flex">
-            <#Icon class="shrink-0 w-5 h-5" solid="InformationCircle" />
+            <#Icon class="shrink-0 size-5" solid="InformationCircle" />
             <div class="ml-3">
               <h3 class="text-sm font-medium">
                 {l(
@@ -87,7 +87,7 @@
           {#match :taken}
             <div role="status" class="mb-4 alert alert-error">
               <div class="flex">
-                <#Icon class="shrink-0 w-5 h-5" solid="Exclamation" />
+                <#Icon class="shrink-0 size-5" solid="Exclamation" />
                 <div class="ml-3">
                   <h3 class="text-sm font-medium">
                     {l("This email is taken.")} Did you mean to <LinkLive to={~p"/login"}>log in</LinkLive>?
@@ -98,7 +98,7 @@
           {#match :email_confirmation_required}
             <div role="status" data-role="email_confirmation_required" class="mb-4 alert alert-info">
               <div class="flex">
-                <#Icon class="shrink-0 w-5 h-5" solid="Envelope" />
+                <#Icon class="shrink-0 size-5" solid="Envelope" />
                 <div class="ml-3">
                   <h3 class="text-sm font-medium">
                     {l("An account with this email is waiting for confirmation.")}
@@ -119,7 +119,7 @@
           {#match :confirmation_email_failed}
             <div role="status" data-role="confirmation_email_failed" class="mb-4 alert alert-error">
               <div class="flex">
-                <#Icon class="shrink-0 w-5 h-5" solid="Exclamation" />
+                <#Icon class="shrink-0 size-5" solid="Exclamation" />
                 <div class="ml-3">
                   <h3 class="text-sm font-medium">
                     {l("Your account was created, but we couldn't send the confirmation email.")}
@@ -140,7 +140,7 @@
           {#match error}
             <div role="status" class="mb-4 alert alert-error">
               <div class="flex">
-                <#Icon class="shrink-0 w-5 h-5" solid="Exclamation" />
+                <#Icon class="shrink-0 size-5" solid="Exclamation" />
                 <div class="ml-3">
                   <h3 class="text-sm font-medium">
                     {l("An error occurred:")} {error}
@@ -244,7 +244,7 @@
                 class="flex items-center justify-between w-full px-6 py-2 font-medium text-info"
               >
                 <span class="flex items-center space-x-2">
-                  <#Icon outline="Key" class="w-5 h-5 text-info/40" />
+                  <#Icon outline="Key" class="size-5 text-info/40" />
                   <span>{l("Enable two-factor authentication (recommended)")}</span>
                 </span>
                 <span x-show="expanded" aria-hidden="true" class="ml-4">&minus;</span>

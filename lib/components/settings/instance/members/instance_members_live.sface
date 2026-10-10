@@ -4,7 +4,7 @@
     <div class="m-4">
       <form phx-change="search" phx-target={@myself} phx-debounce="300" class="form-control">
         <label class="input w-full">
-          <#Icon iconify="ph:magnifying-glass-duotone" class="w-4 h-4 opacity-50" />
+          <#Icon iconify="ph:magnifying-glass-duotone" class="size-4 opacity-50" />
           <input
             type="text"
             name="search_term"
@@ -31,20 +31,20 @@
           {#if @search_term && String.trim(@search_term) != ""}
             {#if String.length(String.trim(@search_term)) < 3}
               <div class="text-gray-500">
-                <#Icon iconify="heroicons-outline:pencil" class="w-12 h-12 mx-auto mb-2 opacity-50" />
+                <#Icon iconify="heroicons-outline:pencil" class="size-12 mx-auto mb-2 opacity-50" />
                 <p class="type-heading mb-1">{l("Keep typing...")}</p>
                 <p class="text-sm">{l("Enter at least 3 characters to search")}</p>
               </div>
             {#else}
               <div class="text-gray-500">
-                <#Icon iconify="heroicons-outline:search" class="w-12 h-12 mx-auto mb-2 opacity-50" />
+                <#Icon iconify="heroicons-outline:search" class="size-12 mx-auto mb-2 opacity-50" />
                 <p class="type-heading mb-1">{l("No users found")}</p>
                 <p class="text-sm">{l("Try adjusting your search terms")}</p>
               </div>
             {/if}
           {#else}
             <div class="text-gray-500">
-              <#Icon iconify="heroicons-outline:users" class="w-12 h-12 mx-auto mb-2 opacity-50" />
+              <#Icon iconify="heroicons-outline:users" class="size-12 mx-auto mb-2 opacity-50" />
               <p class="type-heading">{l("No users to display")}</p>
             </div>
           {/if}
