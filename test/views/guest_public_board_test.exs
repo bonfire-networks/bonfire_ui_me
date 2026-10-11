@@ -24,15 +24,17 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/")
       |> assert_has("#guest-board #guest-board-home", text: GuestBoardLive.instance_name())
-      |> assert_has("#guest-board-home [aria-hidden=true] img")
+      |> assert_has("#guest-board-icon[aria-hidden=true] img")
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "Explore")
       |> assert_has("#guest-board-nav a[href='/about']", text: "About")
       |> assert_has("#guest-board-nav a[href='/conduct']", text: "Code of conduct")
       # desktop-only actions (`max-lg:hidden`): on mobile the dock carries them
       |> assert_has(".max-lg\\:hidden #guest-board-signin[href='/login']", text: "Log in")
       |> assert_has(".max-lg\\:hidden #guest-board-signup[href='/signup']", text: "Sign up")
-      |> assert_has("h1", text: GuestBoardLive.instance_name())
-      # the instance identity lives in the header only: no breadcrumb, no intro block
+      # the community intro (shared with About) sits under the banner, its tagline is the page heading
+      |> assert_has("#guest-board-hero h1#about-tagline")
+      |> assert_has("#guest-board-hero #about-guest-info", text: "You can read public conversations")
+      # no breadcrumb
       |> refute_has("#guest-board-home", text: "Public activity")
       |> refute_has("#guest-board a", text: "About this community")
       |> assert_has("#guest-feed-title", text: "Recent activity")
