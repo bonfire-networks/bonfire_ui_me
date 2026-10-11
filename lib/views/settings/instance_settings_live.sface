@@ -5,16 +5,14 @@
     </nav>
   </div> --}
 <section class="bonfire-wrapper">
-  <div class="px-4 lg:hidden">
-    <label
-      for="sidebar-drawer"
-      aria-label={l("Open navigation sidebar")}
-      class="btn btn-soft mt-3 w-full"
-    >
-      <#Icon iconify="ph:list-duotone" class="size-5 text-muted" />
-      <span class="ml-2">{l("Open Settings Menu")}</span>
-    </label>
-  </div>
+  <label
+    for="sidebar-drawer"
+    class="lg:hidden flex items-center gap-3 px-4 py-3 border-b border-divider cursor-pointer select-none transition-colors duration-150 hover:bg-fill active:bg-fill"
+  >
+    <#Icon iconify="ph:list" class="shrink-0 size-5 text-muted" />
+    <span class="flex-1 text-sm font-medium text-base-content">{l("All settings")}</span>
+    <#Icon iconify="ph:caret-right" class="shrink-0 size-4 text-subtle" />
+  </label>
   {#case @selected_tab}
     {#match "dashboard"}
       <Bonfire.UI.Me.SettingsViewsLive.DashboardSettingsLive selected_tab={@selected_tab} />
