@@ -1,0 +1,43 @@
+<div data-id="dashboard_main">
+  {#case List.wrap(@widgets)}
+    {#match widgets}
+      <Bonfire.UI.Common.WidgetsLive
+        :if={widgets != []}
+        widgets={widgets}
+        page={@page}
+        selected_tab={@selected_tab}
+        showing_within={:main}
+        container_class="flex flex-col"
+        id="dashboard_main_widgets"
+        reorderable={false}
+        with_title
+      />
+
+      <section
+        :if={@feed}
+        data-id="dashboard_feed"
+        aria-labelledby="dashboard_feed_heading"
+      >
+        <div data-role="widget-header" class="flex items-center">
+          <h2 id="dashboard_feed_heading" data-role="widget-heading">{l("Latest activity")}</h2>
+        </div>
+        <StatefulComponent
+          module={maybe_component(Bonfire.UI.Social.FeedLive, @__context__)}
+          id={@feed_id}
+          {...@feed}
+          hide_filters
+        />
+      </section>
+
+      <div
+        :if={widgets == [] and !@feed}
+        class="border border-secondary border-dashed rounded-xl p-4 flex flex-col gap-4 m-4 text-center text-base-content/80 flex items-center place-content-center flex-col"
+      >
+        <div>{l("You can customise your dashboard by adding widgets here.")}</div>
+        <LinkLive class="link link-primary flex items-center gap-2" to={~p"/settings/user/dashboard"}>
+          <#Icon iconify="ph:gear-fill" class="w-5 h-5" />
+          {l("Configure")}
+        </LinkLive>
+      </div>
+  {/case}
+</div>

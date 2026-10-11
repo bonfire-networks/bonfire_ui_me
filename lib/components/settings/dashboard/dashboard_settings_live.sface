@@ -1,0 +1,79 @@
+<div id="dashboard-settings" class="flex flex-col gap-4 py-4">
+  <p class="text-sm px-4 leading-relaxed text-muted">{l("Choose which widgets appear in the main area of your dashboard, and in what order.")}</p>
+
+  <p :if={@widgets == []} class="px-4 text-sm text-muted">{l("There are no widgets to choose from on this instance.")}</p>
+
+  <form
+    id="dashboard-settings-form"
+    phx-change="Bonfire.Common.Settings:set"
+    class="mx-4 flex flex-col gap-4"
+  >
+    <ul
+      :if={@widgets != []}
+      id="dashboard-widgets"
+      class="rounded-box border border-divider divide-y divide-divider overflow-hidden"
+    >
+      {#for {widget, index} <- Enum.with_index(@widgets)}
+        <li
+          id={"dashboard-widget-#{widget.key}"}
+          data-item={widget.key}
+          data-role="dashboard_widget"
+          class="flex items-center gap-2 px-3 py-2"
+        >
+          <div class="flex-1 min-w-0">
+            <Bonfire.UI.Common.SettingsToggleLive
+              id={"dashboard_widget_toggle_#{widget.key}"}
+              name={widget.name}
+              keys={[Bonfire.Web.Views.DashboardLive, :include, widget.key]}
+              default_value
+              scope={@scope}
+            />
+          </div>
+          <button
+            type="button"
+            class="btn btn-ghost btn-sm btn-square"
+            data-role="move_up"
+            phx-click="move"
+            phx-value-key={widget.key}
+            phx-value-direction="up"
+            phx-target={@myself}
+            disabled={index == 0}
+            aria-label={l("Move %{name} up", name: widget.name)}
+          >
+            <#Icon iconify="ph:caret-up" class="size-4" />
+          </button>
+          <button
+            type="button"
+            class="btn btn-ghost btn-sm btn-square"
+            data-role="move_down"
+            phx-click="move"
+            phx-value-key={widget.key}
+            phx-value-direction="down"
+            phx-target={@myself}
+            disabled={index == length(@widgets) - 1}
+            aria-label={l("Move %{name} down", name: widget.name)}
+          >
+            <#Icon iconify="ph:caret-down" class="size-4" />
+          </button>
+        </li>
+      {/for}
+    </ul>
+
+    <div
+      :if={@feed_available}
+      class="rounded-box border border-divider px-4 py-3"
+      data-role="dashboard_feed_setting"
+    >
+      <Bonfire.UI.Common.SettingsToggleLive
+        id="dashboard_widget_toggle_feed"
+        name={l("Latest activity")}
+        description={l(
+          "Your default feed, always shown at the end of the dashboard so you can keep scrolling into it."
+        )}
+        keys={[Bonfire.Web.Views.DashboardLive, :include, :feed]}
+        default_value={@feed_default}
+        scope={@scope}
+      />
+    </div>
+  </form>
+</div>

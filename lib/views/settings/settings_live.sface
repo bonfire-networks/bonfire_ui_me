@@ -1,10 +1,12 @@
 <section class="">
-  <div class="px-4 lg:hidden">
-    <label for="sidebar-drawer" aria-label={l("Open navigation sidebar")} class="btn w-full">
-      <#Icon iconify="ph:list-duotone" class="size-5 text-muted" />
-      <span class="ml-2">{l("Open Settings Menu")}</span>
-    </label>
-  </div>
+  <label
+    for="sidebar-drawer"
+    class="lg:hidden flex items-center gap-3 px-4 py-3 border-b border-divider cursor-pointer select-none transition-colors duration-150 hover:bg-fill active:bg-fill"
+  >
+    <#Icon iconify="ph:list" class="shrink-0 size-5 text-muted" />
+    <span class="flex-1 text-sm font-medium text-base-content">{l("All settings")}</span>
+    <#Icon iconify="ph:caret-right" class="shrink-0 size-4 text-subtle" />
+  </label>
   {#case @selected_tab}
     {#match "profile"}
       <div class="bonfire-wrapper page-panel">
@@ -20,6 +22,10 @@
           id={@id}
           scope={@scope}
         />
+      </div>
+    {#match "dashboard"}
+      <div class="page-panel">
+        <Bonfire.UI.Me.DashboardSettingsLive id="dashboard_settings" scope={@scope} />
       </div>
     {#match "feeds"}
       <div class="page-panel">
