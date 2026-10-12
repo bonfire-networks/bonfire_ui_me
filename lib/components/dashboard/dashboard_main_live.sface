@@ -13,11 +13,7 @@
         with_title
       />
 
-      <section
-        :if={@feed}
-        data-id="dashboard_feed"
-        aria-labelledby="dashboard_feed_heading"
-      >
+      <section :if={@feed} data-id="dashboard_feed" aria-labelledby="dashboard_feed_heading">
         <div data-role="widget-header" class="flex items-center">
           <h2 id="dashboard_feed_heading" data-role="widget-heading">{l("Latest activity")}</h2>
         </div>

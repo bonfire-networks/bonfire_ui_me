@@ -84,7 +84,8 @@ defmodule Bonfire.UI.Me.Dashboard do
 
   @doc "`options/2` in the user's saved order."
   def ordered_options(choices, context) do
-    order = Settings.get([:ui, :widget_order, @order_key], %{}, current_user: current_user(context))
+    order =
+      Settings.get([:ui, :widget_order, @order_key], %{}, current_user: current_user(context))
 
     choices
     |> options(context)

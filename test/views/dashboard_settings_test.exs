@@ -29,7 +29,11 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
   test "settings has a Dashboard page, above Feeds", %{conn: conn} do
     {:ok, _view, html} = live(conn, @settings)
 
-    nav = Floki.parse_document!(html) |> Floki.find("a[href]") |> Enum.flat_map(&Floki.attribute(&1, "href"))
+    nav =
+      Floki.parse_document!(html)
+      |> Floki.find("a[href]")
+      |> Enum.flat_map(&Floki.attribute(&1, "href"))
+
     dashboard_at = Enum.find_index(nav, &(&1 == @settings))
     feeds_at = Enum.find_index(nav, &(&1 == "/settings/user/feeds"))
 
@@ -113,7 +117,8 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       html
     end
 
-    defp has_feed?(html), do: Floki.find(Floki.parse_document!(html), "[data-id=dashboard_feed]") != []
+    defp has_feed?(html),
+      do: Floki.find(Floki.parse_document!(html), "[data-id=dashboard_feed]") != []
 
     defp position(html, selector) do
       # where an element starts in the page, to compare which comes first
@@ -202,7 +207,9 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
         |> Floki.find("[data-role=dashboard_widget]")
         |> Enum.flat_map(&Floki.attribute(&1, "data-item"))
         |> Enum.map(fn key ->
-          Enum.find(options(me), &(to_string(&1.key) == key)).widget |> Map.fetch!(:module) |> to_string()
+          Enum.find(options(me), &(to_string(&1.key) == key)).widget
+          |> Map.fetch!(:module)
+          |> to_string()
         end)
 
       assert settings_modules == dashboard_order(conn)
@@ -216,7 +223,10 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     end
 
     test "widgets for signed-in people are not offered to guests" do
-      refute Enum.any?(Dashboard.options(Dashboard.default_choices(), nil), &(&1.key == :trending_discussions))
+      refute Enum.any?(
+               Dashboard.options(Dashboard.default_choices(), nil),
+               &(&1.key == :trending_discussions)
+             )
     end
   end
 end

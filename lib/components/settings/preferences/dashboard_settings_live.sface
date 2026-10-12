@@ -19,7 +19,9 @@
           scope={@scope}
         />
       </div>
-      <p class="text-xs text-muted mt-1 px-1">{l("The default for everyone here. Each person can still turn it on or off in their own dashboard settings.")}</p>
+      <p class="text-xs text-muted mt-1 px-1">{l(
+          "The default for everyone here. Each person can still turn it on or off in their own dashboard settings."
+        )}</p>
     </div>
 
     {!-- Discovery Widgets --}

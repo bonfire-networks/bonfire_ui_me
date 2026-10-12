@@ -47,10 +47,7 @@
                   </LinkLive>
 
                   <div class="flex items-center gap-2">
-                    <div
-                      :if={e(@user, :profile, :summary, nil)}
-                      class="text-sm font-normal text-muted line-clamp-2"
-                    >
+                    <div :if={e(@user, :profile, :summary, nil)} class="text-sm font-normal text-muted line-clamp-2">
                       {Text.text_only(e(@user, :profile, :summary, nil))}
                     </div>
 

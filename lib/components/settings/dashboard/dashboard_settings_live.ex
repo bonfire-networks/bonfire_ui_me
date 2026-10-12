@@ -42,7 +42,9 @@ defmodule Bonfire.UI.Me.DashboardSettingsLive do
     else
       {:error, _} = failed ->
         error(failed, "Could not save the dashboard widget order")
-        {:noreply, assign_flash(socket, :error, l("Could not save the new order. Please try again."))}
+
+        {:noreply,
+         assign_flash(socket, :error, l("Could not save the new order. Please try again."))}
 
       _ ->
         {:noreply, socket}
