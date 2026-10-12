@@ -7,7 +7,7 @@
     id={"hero_more_actions_menu_#{@parent_id}"}
     position="bottom-end"
     trigger_class="btn btn-sm btn-circle border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong"
-    panel_class="dropdown_actions menu-lg"
+    panel_class="dropdown_actions"
     label={l("More actions")}
     expanded_touch_target
   >
@@ -21,10 +21,10 @@
         id={deterministic_dom_id(__MODULE__, id(@user), "hero_action_copy_url", @parent_id)}
         href={@permalink}
         target="_top"
-        class="flex items-center justify-between"
+        class="flex items-center gap-3 text-sm text-base-content"
       >
-        <span class="flex-1 text-sm" data-role="label">{l("Copy link")}</span>
-        <#Icon iconify="ph:copy-duotone" class="size-5 shrink-0" />
+        <#Icon iconify="ph:copy-duotone" class="size-4 shrink-0 text-muted" />
+        <span class="flex-1 truncate" data-role="label">{l("Copy link")}</span>
       </a>
     </li>
     <li>
@@ -38,62 +38,58 @@
     </li>
 
     {#if @character_type == :user and extension_enabled?(:bonfire_ui_social_graph, @__context__)}
-      <li class="m-1 border-t border-divider" />
+      <li role="separator" class="-mx-2 my-1 border-t border-divider" />
       <li>
         <LinkPatchLive
-          class="flex items-center justify-between gap-2 text-base-content"
+          class="flex items-center gap-3 text-sm text-base-content"
           to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
         >
-          <span class="text-sm">
-            {l("Following")}
-            <span :if={e(@user, :following_count, nil)} class="text-sm">
-              {e(@user, :following_count, 0)}
-            </span>
+          <#Icon iconify="ph:users-duotone" class="size-4 shrink-0 text-muted" />
+          <span class="flex-1 truncate">{l("Following")}</span>
+          <span :if={e(@user, :following_count, nil)} class="text-muted tabular-nums">
+            {e(@user, :following_count, 0)}
           </span>
-          <#Icon iconify="ph:users-duotone" class="size-5 shrink-0" />
         </LinkPatchLive>
       </li>
       <li>
         <LinkPatchLive
-          class="flex items-center justify-between gap-2 text-base-content"
+          class="flex items-center gap-3 text-sm text-base-content"
           to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
         >
-          <span class="text-sm">
-            {l("Followers")}
-            <span :if={e(@user, :followers_count, nil)} class="text-sm">
-              {e(@user, :followers_count, 0)}
-            </span>
+          <#Icon iconify="ph:users-duotone" class="size-4 shrink-0 text-muted" />
+          <span class="flex-1 truncate">{l("Followers")}</span>
+          <span :if={e(@user, :followers_count, nil)} class="text-muted tabular-nums">
+            {e(@user, :followers_count, 0)}
           </span>
-          <#Icon iconify="ph:users-duotone" class="size-5 shrink-0" />
         </LinkPatchLive>
       </li>
     {/if}
-    <li class="m-1 border-t border-divider" />
+    <li role="separator" class="-mx-2 my-1 border-t border-divider" />
     {#if current_user_id(@__context__) == id(@user)}
       <li>
-        <LinkLive to="/settings" class="flex items-center gap-2 justify-between text-base-content">
-          <span class="text-sm">{l("Settings")}</span>
-          <#Icon iconify="ph:gear-six-duotone" class="size-5 shrink-0" />
+        <LinkLive to="/settings" class="flex items-center gap-3 w-full text-sm text-base-content">
+          <#Icon iconify="ph:gear-six-duotone" class="size-4 shrink-0 text-muted" />
+          <span class="flex-1 truncate">{l("Settings")}</span>
         </LinkLive>
       </li>
 
       <li>
-        <LinkLive to="/notifications" class="flex items-center gap-2 justify-between text-base-content">
-          <span class="text-sm">{l("Notifications")}</span>
-          <#Icon iconify="ph:bell-duotone" class="size-5 shrink-0" />
+        <LinkLive to="/notifications" class="flex items-center gap-3 w-full text-sm text-base-content">
+          <#Icon iconify="ph:bell-duotone" class="size-4 shrink-0 text-muted" />
+          <span class="flex-1 truncate">{l("Notifications")}</span>
         </LinkLive>
       </li>
 
       <li :if={extension_enabled?(:bonfire_ui_messages, @__context__)}>
-        <LinkLive to="/messages" class="flex items-center gap-2 justify-between text-base-content">
-          <span class="text-sm">{l("Messages")}</span>
-          <#Icon iconify="ph:tray-duotone" class="size-5 shrink-0" />
+        <LinkLive to="/messages" class="flex items-center gap-3 w-full text-sm text-base-content">
+          <#Icon iconify="ph:tray-duotone" class="size-4 shrink-0 text-muted" />
+          <span class="flex-1 truncate">{l("Messages")}</span>
         </LinkLive>
       </li>
       <li>
-        <LinkLive to={~p"/logout"} class="flex items-center gap-2 justify-between">
-          <span class="text-sm">{l("Logout")}</span>
-          <#Icon iconify="ph:sign-out-duotone" class="size-5 shrink-0" />
+        <LinkLive to={~p"/logout"} class="flex items-center gap-3 w-full text-sm text-base-content">
+          <#Icon iconify="ph:sign-out-duotone" class="size-4 shrink-0 text-muted" />
+          <span class="flex-1 truncate">{l("Logout")}</span>
         </LinkLive>
       </li>
     {#else}
@@ -109,21 +105,21 @@
         <li :if={current_user_id(@__context__)}>
           <LinkLive
             to={~p"/group/#{e(@user, :character, :username, nil)}/settings"}
-            class="flex items-center gap-2 justify-between text-base-content"
+            class="flex items-center gap-3 w-full text-sm text-base-content"
           >
-            <span class="text-sm">{l("Settings")}</span>
-            <#Icon iconify="ph:gear-duotone" class="size-5 shrink-0" />
+            <#Icon iconify="ph:gear-duotone" class="size-4 shrink-0 text-muted" />
+            <span class="flex-1 truncate">{l("Settings")}</span>
           </LinkLive>
         </li>
         <li :if={current_user_id(@__context__)}>
           {#if Bonfire.Social.Pins.pinned?(:instance, @user)}
             {!-- instance-pinned groups stay in everyone's sidebar; personal pin/unpin can't remove them --}
             <div
-              class="flex items-center gap-2 justify-between text-muted"
+              class="flex items-center gap-3 w-full text-sm text-muted"
               title={l("This group is pinned to everyone's sidebar by the admins")}
             >
-              <span class="text-sm">{l("Pinned by admins")}</span>
-              <#Icon iconify="ph:push-pin-duotone" class="size-5 shrink-0" />
+              <#Icon iconify="ph:push-pin-duotone" class="size-4 shrink-0 text-muted" />
+              <span class="flex-1 truncate">{l("Pinned by admins")}</span>
             </div>
           {#else}
             <StatelessComponent
@@ -141,7 +137,7 @@
           <StatelessComponent
             module={maybe_component(Bonfire.UI.Groups.InstanceSidebarPinLive, @__context__)}
             group={@user}
-            class="flex items-center gap-2 justify-between w-full text-base-content"
+            class="flex items-center gap-3 w-full text-base-content"
           />
         </li>
       {/if}
@@ -157,7 +153,7 @@
           <Bonfire.UI.Common.SmartInputButtonLive
             create_object_type={:message}
             prompt={l("Send a message")}
-            icon_class="!w-5 !h-5"
+            icon_class="!size-4 text-muted"
             smart_input_opts={%{
               create_object_type: :message,
               recipients_editable: true,
@@ -165,7 +161,7 @@
                 {id(@user), e(@user, :profile, :name, nil) || e(@user, :character, :username, l("someone"))}
               ]
             }}
-            class="flex items-center justify-between text-base-content"
+            class="flex flex-row-reverse justify-end items-center gap-3 text-base-content"
           />
         {#else}
           <a
@@ -176,9 +172,10 @@
               @__context__
             )}
             target="_top"
-            class="flex items-center justify-between text-base-content"
+            class="flex items-center gap-3 text-sm text-base-content"
           >
-            <span class="truncate ellipsis">{l("Send a message")}</span>
+            <#Icon iconify="ph:note-pencil-fill" class="size-4 shrink-0 text-muted" />
+            <span class="flex-1 truncate">{l("Send a message")}</span>
           </a>
         {/if}
       </li>
@@ -203,10 +200,10 @@
               <button
                 phx-click="Bonfire.Me.Users:make_admin"
                 phx-value-username_or_id={id(@user)}
-                class="flex items-center w-full gap-2 justify-between text-base-content"
+                class="flex items-center gap-3 w-full text-sm text-base-content"
               >
-                <span class="text-sm">{l("Make admin")}</span>
-                <#Icon iconify="ph:key-duotone" class="size-5 shrink-0" />
+                <#Icon iconify="ph:key-duotone" class="size-4 shrink-0 text-muted" />
+                <span class="flex-1 truncate">{l("Make admin")}</span>
               </button>
             </li>
           {#else}
@@ -214,10 +211,10 @@
               <button
                 phx-click="Bonfire.Me.Users:revoke_admin"
                 phx-value-username_or_id={id(@user)}
-                class="flex items-center w-full gap-2 justify-between text-base-content"
+                class="flex items-center gap-3 w-full text-sm text-base-content"
               >
-                <span class="text-sm text-error">{l("Revoke admin")}</span>
-                <#Icon iconify="ph:key-duotone" class="size-5 shrink-0" />
+                <#Icon iconify="ph:key-duotone" class="size-4 shrink-0 text-muted" />
+                <span class="flex-1 truncate text-error">{l("Revoke admin")}</span>
               </button>
             </li>
           {/if}
@@ -229,10 +226,10 @@
             phx-click="Bonfire.Me.Users:fetch_outbox"
             phx-value-id={id(@user)}
             phx-value-canonical_uri={@permalink}
-            class="flex items-center gap-2 justify-between text-base-content"
+            class="flex items-center gap-3 w-full text-sm text-base-content"
           >
-            <span class="text-sm">{l("Get latest activities")}</span>
-            <#Icon iconify="ph:sort-ascending-duotone" class="size-5 shrink-0" />
+            <#Icon iconify="ph:sort-ascending-duotone" class="size-4 shrink-0 text-muted" />
+            <span class="flex-1 truncate">{l("Get latest activities")}</span>
           </button>
         </li>
         <li>
@@ -240,10 +237,10 @@
             href={@permalink}
             target="_blank"
             rel="noopener noreferrer"
-            class="flex items-center gap-2 justify-between text-base-content"
+            class="flex items-center gap-3 w-full text-sm text-base-content"
           >
-            <span class="text-sm">{l("View remotely")}</span>
-            <#Icon iconify="ph:arrow-square-out-duotone" class="size-5 shrink-0" />
+            <#Icon iconify="ph:arrow-square-out-duotone" class="size-4 shrink-0 text-muted" />
+            <span class="flex-1 truncate">{l("View remotely")}</span>
           </a>
         </li>
       {/if}

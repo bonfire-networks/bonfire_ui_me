@@ -2,7 +2,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
   use Bonfire.UI.Me.ConnCase, async: false
 
   alias Bonfire.UI.Common.GuestBoardLive
-  doctest Bonfire.Web.Components.AboutContentLive
+  doctest Bonfire.Web.Components.HomeHeroLive
 
   alias Bonfire.Social.Pins
   alias Bonfire.Posts
@@ -31,8 +31,11 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       # desktop-only actions (`max-lg:hidden`): on mobile the dock carries them
       |> assert_has(".max-lg\\:hidden #guest-board-signin[href='/login']", text: "Log in")
       |> assert_has(".max-lg\\:hidden #guest-board-signup[href='/signup']", text: "Sign up")
-      # the community intro (shared with About) sits under the banner, its tagline is the page heading
-      |> assert_has("#guest-board-hero h1#about-tagline")
+      # profile-style intro under the banner: the instance name is the page heading, then the tagline and the primary action
+      |> assert_has("#guest-board-hero h1#guest-hero-name", text: GuestBoardLive.instance_name())
+      |> assert_has("#guest-board-hero #about-tagline")
+      |> assert_has("#guest-board-hero #hero-signup[href='/signup']", text: "Join the community")
+      |> assert_has("#guest-board-hero #hero-login[href='/login']", text: "Log in")
       |> assert_has("#guest-board-hero #about-guest-info", text: "You can read public conversations")
       # no breadcrumb
       |> refute_has("#guest-board-home", text: "Public activity")
@@ -76,9 +79,8 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/")
       |> assert_has("#guest-spotlight [data-role=widget-heading]", text: "Spotlight")
-      |> assert_has("#guest-spotlight [data-role=widget-subtitle]",
-        text: "Pinned by the community"
-      )
+      # the title says it all: no subtitle under it
+      |> refute_has("#guest-spotlight [data-role=widget-subtitle]")
       |> assert_has("#guest-spotlight .spotlight_clamp",
         text: "a public post in the guest spotlight"
       )
@@ -122,7 +124,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
   end
 
   describe "guest home groups" do
-    test "shows groups guests can see, but not private ones" do
+    test "shows local groups guests can see, but not private or federated ones" do
       creator = fake_user!(fake_account!())
 
       Bonfire.Classify.Simulate.fake_group!(creator, %{
@@ -135,6 +137,19 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
         visibility: "members:private"
       })
 
+      # a public group mirrored from another instance: its `Peered` row is what makes it remote
+      federated =
+        Bonfire.Classify.Simulate.fake_group!(creator, %{
+          name: "Federated group",
+          visibility: "global"
+        })
+
+      assert {:ok, _} =
+               Bonfire.Federate.ActivityPub.Peered.save_canonical_uri(
+                 federated,
+                 "https://elsewhere.example/groups/federated"
+               )
+
       Bonfire.UI.Groups.WidgetGroupsCarouselLive.list_guest_groups(cache: :reset)
 
       conn()
@@ -144,6 +159,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       # compact card: no cover image block
       |> refute_has("#guest-groups [data-role=group-card-cover]")
       |> refute_has("#guest-groups", text: "Members only group")
+      |> refute_has("#guest-groups", text: "Federated group")
       |> assert_has("#guest-groups a[href='/groups']", text: "Browse all groups")
     end
 
@@ -163,22 +179,8 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     end
   end
 
-  describe "guest about" do
-    test "renders the board with the tagline, current nav and participation" do
-      conn()
-      |> visit("/about")
-      |> assert_has("#guest-board")
-      |> assert_has("#guest-board-nav a[aria-current=page]", text: "About")
-      |> assert_has("[data-role=about-eyebrow]", text: "About #{GuestBoardLive.instance_name()}")
-      |> assert_has("#about-tagline")
-      |> refute_has("#participate")
-      |> assert_has("#about-guest-info",
-        text: "You can read public conversations without an account."
-      )
-      |> refute_has("#guest-board a[href='#participate']")
-      |> refute_has("#about-guest-info a[href='/login']")
-    end
-
+  describe "guest home community sections" do
+    # part of the hero introduction; moved here from About, which no longer lists them for guests
     test "shows described resource cards separately from account actions" do
       Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [
         {"About Bonfire", "https://bonfirenetworks.org/"},
@@ -186,29 +188,98 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       ])
 
       conn()
-      |> visit("/about")
-      |> assert_has("#community-links h2", text: "Useful links")
+      |> visit("/")
+      # full-width buttons labelled as configured, the host only as a tooltip (no guessed descriptions)
       |> assert_has(
-        "#community-links a[href='https://bonfirenetworks.org/'][target='_blank'][rel=noopener]",
-        text: "Discover the platform behind this community"
+        "#guest-board-hero #community-links a[href='https://bonfirenetworks.org/'][target='_blank'][rel=noopener]",
+        text: "About Bonfire"
       )
-      |> assert_has("#community-links a[href='https://example.org/handbook']",
+      |> assert_has(
+        "#community-links a[href='https://example.org/handbook'][title='example.org']",
         text: "Community handbook"
       )
-      |> assert_has("#community-links a[href='https://example.org/handbook']",
-        text: "example.org"
-      )
-      |> refute_has("#participate a[href='https://example.org/handbook']")
-      |> refute_has("#participate")
+      |> refute_has("#community-links", text: "Discover the platform behind this community")
     end
 
     test "hides resource cards when no community links are configured" do
       Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [])
 
       conn()
+      |> visit("/")
+      |> refute_has("#community-links")
+    end
+
+    test "lists public admins linking to their profiles" do
+      admin = fake_admin!(fake_account!())
+      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+
+      conn()
+      |> visit("/")
+      |> assert_has(
+        "#guest-board-hero #community-admins a[data-role=admin-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
+        text: admin.profile.name
+      )
+    end
+
+    test "names up to two admins and collapses the rest when there are more than three" do
+      admins = for _ <- 1..4, do: fake_admin!(fake_account!())
+      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+      count = length(Bonfire.UI.Me.WidgetUsersLive.list_admins())
+      assert count >= 4
+
+      session =
+        conn()
+        |> visit("/")
+        # 2 named + the rest expandable in place, so every admin is still one click away
+        |> assert_has("#community-admins a[data-role=admin-link]", count: count)
+        |> assert_has("#community-admins-more summary", text: "and #{count - 2} others")
+        |> assert_has("#community-admins-more a[data-role=admin-link]", count: count - 2)
+
+      for admin <- admins do
+        assert_has(session, "#community-admins a[href='/@#{admin.character.username}']")
+      end
+    end
+
+    test "hides the admins section when admins are hidden from guests" do
+      _admin = fake_admin!(fake_account!())
+      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+
+      Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetAdminsLive, :show_guests], false)
+
+      conn()
+      |> visit("/")
+      |> refute_has("#community-admins")
+    end
+
+    test "are no longer on the guest About page" do
+      Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [
+        {"Community handbook", "https://example.org/handbook"}
+      ])
+
+      _admin = fake_admin!(fake_account!())
+      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+
+      conn()
       |> visit("/about")
       |> refute_has("#community-links")
+      |> refute_has("#community-admins")
+    end
+  end
+
+  describe "guest about" do
+    test "renders the board with the tagline, current nav and participation" do
+      conn()
+      |> visit("/about")
+      |> assert_has("#guest-board")
+      |> assert_has("#guest-board-nav a[aria-current=page]", text: "About")
+      # the tagline is the page heading (no "About <name>" eyebrow above it since the guests UI rework)
+      |> assert_has("#guest-board h1#about-tagline")
       |> refute_has("#participate")
+      |> assert_has("#about-guest-info",
+        text: "You can read public conversations without an account."
+      )
+      |> refute_has("#guest-board a[href='#participate']")
+      |> refute_has("#about-guest-info a[href='/login']")
     end
 
     test "keeps account creation in navigation when signups are open" do
@@ -263,29 +334,6 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       )
     end
 
-    test "lists public admins linking to their profiles" do
-      admin = fake_admin!(fake_account!())
-      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
-
-      conn()
-      |> visit("/about")
-      |> assert_has(
-        "#community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
-        text: "@#{admin.character.username}"
-      )
-    end
-
-    test "hides the admins section when admins are hidden from guests" do
-      _admin = fake_admin!(fake_account!())
-      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
-
-      Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetAdminsLive, :show_guests], false)
-
-      conn()
-      |> visit("/about")
-      |> refute_has("#community-admins")
-    end
-
     test "hides the rules section when no rules are selected" do
       Repatch.patch(Bonfire.CommunityRules, :get_instance_rules_sections, [mode: :shared], fn ->
         []
@@ -338,13 +386,23 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> assert_path("/dashboard")
     end
 
+    test "still find the admins on About, since they never see the guest home", %{conn: conn} do
+      admin = fake_admin!(fake_account!())
+      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+
+      conn
+      |> visit("/about")
+      |> assert_has("#member-about #community-admins a[data-role=admin-link]",
+        text: "@#{admin.character.username}"
+      )
+    end
+
     test "share the guest About content inside the signed-in layout", %{conn: conn} do
       conn
       |> visit("/about")
       |> refute_has("#guest-board")
       |> assert_has("#member-about [data-role=about-banner]")
-      |> assert_has("#member-about [data-role=about-eyebrow]")
-      |> assert_has("#member-about #about-tagline")
+      |> assert_has("#member-about h1#about-tagline")
       |> assert_has("#member-about #community-expectations")
       |> refute_has("#participate")
       |> refute_has("#about-signup")

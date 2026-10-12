@@ -132,6 +132,8 @@ defmodule Bonfire.UI.Me.Dashboard do
              [:default, socket],
              fallback_return: nil
            ) do
+      # always start from the newest activities, not the preset's saved reading position
+      feed_assigns = Keyword.put(feed_assigns, :disable_marker, true)
       {Keyword.delete(feed_assigns, :feed_component_id), feed_assigns[:feed_component_id]}
     else
       _ -> {nil, nil}

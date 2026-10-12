@@ -1,22 +1,20 @@
-<li
-  id="switch_user_menu_items"
-  class={"w-full", "my-1 border-y border-divider py-1": @show_inline_users}
->
+<li id="switch_user_menu_items" class="w-full">
   {#if @max_users_per_account > 1}
     <ul class="m-0 p-0 w-full min-w-0 whitespace-normal before:hidden">
+      <li role="separator" class="-mx-2 my-1 border-t border-divider" />
       {#if @show_inline_users}
         {#if is_list(@account_users)}
           <li :for={%{id: user_id} = user <- @account_users}>
             <LinkLive
               to={"/switch-user/#{e(user, :character, :username, nil)}"}
-              class="flex w-full min-w-0 items-center gap-2 text-sm text-base-content"
+              class="flex w-full min-w-0 items-center gap-3 text-sm text-base-content"
               opts={["data-role": "switch_user_menu_profile"]}
             >
               <div class="shrink-0">
                 <Bonfire.UI.Common.AvatarLive
                   bg_class="rounded-full"
                   title={e(user, :profile, :name, nil)}
-                  class="inline-block object-cover rounded-full size-6"
+                  class="inline-block object-cover rounded-full size-4"
                   src={Media.avatar_url(user)}
                   user_id={user_id}
                   parent_id="switch_user_menu"
@@ -40,7 +38,7 @@
           {!-- placeholder until the menu is opened and the profiles are loaded --}
           <li aria-hidden="true">
             <div class="flex items-center gap-3">
-              <div class="size-6 shrink-0 rounded-full bg-fill-strong animate-pulse" />
+              <div class="size-4 shrink-0 rounded-full bg-fill-strong animate-pulse" />
               <div class="h-3 w-28 rounded bg-fill-strong animate-pulse" />
             </div>
           </li>
@@ -50,10 +48,10 @@
       <li>
         <LinkLive
           to={~p"/switch-user"}
-          class="flex items-center gap-2 text-sm text-base-content justify-between"
+          class="flex items-center gap-3 text-sm text-base-content"
         >
-          <div>{l("Switch profile")}</div>
-          <#Icon iconify="ph:user-switch-fill" class="size-5 shrink-0 text-muted" />
+          <#Icon iconify="ph:user-switch-fill" class="size-4 shrink-0 text-muted" />
+          <span class="flex-1 truncate">{l("Switch profile")}</span>
         </LinkLive>
       </li>
     </ul>
