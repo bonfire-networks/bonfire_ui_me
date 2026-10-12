@@ -36,7 +36,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> assert_has("#guest-board-hero #about-tagline")
       |> assert_has("#guest-board-hero #hero-signup[href='/signup']", text: "Join the community")
       |> assert_has("#guest-board-hero #hero-login[href='/login']", text: "Log in")
-      |> assert_has("#guest-board-hero #about-guest-info", text: "You can read public conversations")
+      |> assert_has("#guest-board-hero #about-guest-info",
+        text: "You can read public conversations"
+      )
       # no breadcrumb
       |> refute_has("#guest-board-home", text: "Public activity")
       |> refute_has("#guest-board a", text: "About this community")

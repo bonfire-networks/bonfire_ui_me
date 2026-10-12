@@ -46,10 +46,7 @@
       {/if}
 
       <li>
-        <LinkLive
-          to={~p"/switch-user"}
-          class="flex items-center gap-3 text-sm text-base-content"
-        >
+        <LinkLive to={~p"/switch-user"} class="flex items-center gap-3 text-sm text-base-content">
           <#Icon iconify="ph:user-switch-fill" class="size-4 shrink-0 text-muted" />
           <span class="flex-1 truncate">{l("Switch profile")}</span>
         </LinkLive>
