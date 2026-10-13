@@ -393,6 +393,40 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
   end
 
+  describe "Instance extensions" do
+    test "an admin can re-enable an extension that is disabled instance-wide" do
+      account = fake_account!()
+      admin = fake_admin!(account)
+
+      {:ok, _} =
+        Bonfire.Common.Settings.put([:ui, :enable_extensions_configuration], true,
+          current_user: admin,
+          scope: :user
+        )
+
+      Process.put([:bonfire_ui_groups, :modularity], :disabled)
+
+      conn = conn(user: admin, account: account)
+
+      # disconnected render, before the socket connects
+      dead_html = conn |> get("/settings/instance/extensions") |> html_response(200)
+
+      assert dead_html =~
+               ~r/phx-value-extension="bonfire_ui_groups"[^>]*phx-value-scope="instance"|phx-value-scope="instance"[^>]*phx-value-extension="bonfire_ui_groups"/
+
+      refute dead_html =~ "Contact the admins to enable this extension"
+
+      {:ok, view, _html} = live(conn, "/settings/instance/extensions")
+
+      assert view
+             |> has_element?(
+               "input[phx-value-extension=bonfire_ui_groups][phx-value-scope=instance]"
+             )
+
+      refute render(view) =~ "Contact the admins to enable this extension"
+    end
+  end
+
   describe "Instance icon" do
     test "uses the high-resolution instance icon uploader", %{account: account} do
       original_icon = Config.get([:ui, :theme, :instance_icon])
