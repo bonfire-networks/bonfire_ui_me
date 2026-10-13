@@ -261,6 +261,19 @@
       </div>
       <div class="p-4">
         <Bonfire.UI.Common.SettingsSelectLive
+          name={l("Sidebar logo")}
+          description={l("Show the instance logo large at the top of the sidebar, or small next to the instance name.")}
+          keys={[:ui, :sidebar, :logo_style]}
+          options={[
+            large: l("Large logo"),
+            compact: l("Small logo and instance name")
+          ]}
+          default_value={:large}
+          scope={:instance}
+        />
+      </div>
+      <div class="p-4">
+        <Bonfire.UI.Common.SettingsSelectLive
           name={l("Sidebar section divider")}
           description={l("Add a visual separator between sidebar navigation sections (Feeds, Circles, Groups).")}
           keys={[:ui, :sidebar, :section_divider]}
