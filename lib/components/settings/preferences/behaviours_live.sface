@@ -395,7 +395,6 @@
         id="reply_context_mode"
         options={[
           reply_to: l("Show post being replied to"),
-          thread_start: l("Show original thread post"),
           minimal: l("Show only 'Replied in thread' label")
         ]}
         scope={@scope}
