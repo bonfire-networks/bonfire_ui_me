@@ -27,11 +27,7 @@
 {#else}
   <div
     data-role="character"
-    class={
-      "flex-1 mb-4",
-      "": @showing_within in [:search],
-      "!-ml-[2.5rem]": @__context__[:ui_compact] && !@viewing_main_object
-    }
+    class="flex-1 mb-4"
   >
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive, @__context__)}
@@ -40,7 +36,7 @@
       wrapper_class={@wrapper_class || ""}
       parent_id={@activity_component_id}
       lg
-      avatar_class={"size-10 rounded-full ", "!w-7 !h-7": @__context__[:ui_compact]}
+      avatar_class="size-10 rounded-full"
       profile={e(@the_character, :profile, nil)}
       character={e(@the_character, :character, nil)}
       is_remote={!check_is_local?(@the_character, preload_if_needed: false)}

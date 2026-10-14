@@ -111,7 +111,7 @@
 
                       <div
                         class={
-                          "order-last flex items-center gap-3 w-full pb-4 sm:order-none sm:w-auto sm:pb-0",
+                          "order-last mt-1 flex items-center gap-3 w-full pb-4 sm:order-none sm:w-auto sm:pb-0",
                           "flex-wrap sm:justify-end sm:pt-2": @character_type == :group
                         }
                         data-id="profile_main_actions"
