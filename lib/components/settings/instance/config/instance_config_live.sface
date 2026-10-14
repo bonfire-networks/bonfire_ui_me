@@ -245,7 +245,7 @@
         <Bonfire.UI.Common.SettingsToggleLive
           name={l("Disable collapsible sidebar navigation")}
           description={l(
-            "When enabled, sidebar navigation sections (Feeds, Circles, Groups) are always expanded and cannot be collapsed."
+            "When enabled, sidebar navigation sections (Feeds, Circles) are always expanded and cannot be collapsed."
           )}
           keys={[:ui, :sidebar, :disable_collapsible]}
           scope={:instance}
@@ -256,19 +256,6 @@
           name={l("Disable user feed customization")}
           description={l("When enabled, users cannot customize which feed presets appear in their sidebar.")}
           keys={[:ui, :sidebar, :disable_feeds_customization]}
-          scope={:instance}
-        />
-      </div>
-      <div class="p-4">
-        <Bonfire.UI.Common.SettingsSelectLive
-          name={l("Sidebar logo")}
-          description={l("Show the instance logo large at the top of the sidebar, or small next to the instance name.")}
-          keys={[:ui, :sidebar, :logo_style]}
-          options={[
-            large: l("Large logo"),
-            compact: l("Small logo and instance name")
-          ]}
-          default_value={:large}
           scope={:instance}
         />
       </div>

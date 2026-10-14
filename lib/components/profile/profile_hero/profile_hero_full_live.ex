@@ -49,6 +49,10 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop content_visibility_slug, :string, default: nil
   prop member_count, :integer, default: 0
 
+  def hero_dimension_label(:membership, "open", _meta), do: l("Open to join")
+  def hero_dimension_label(:membership, "local:members", _meta), do: l("Local users can join")
+  def hero_dimension_label(_dimension, _slug, meta), do: e(meta, :label, nil)
+
   @doc """
   Whether the current user is in `@moderators`. Membership check using already-loaded list ids,
   not a Boundaries query — safe to call per render.

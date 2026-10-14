@@ -78,13 +78,17 @@
               <div data-id="hero_data" class="px-4">
                 <div class="w-full flex flex-col sm:block">
                   <div class="contents sm:flex sm:flex-col lg:items-start sm:gap-4">
-                    <div class="contents sm:flex sm:justify-between sm:items-center sm:w-full">
+                    <div class={
+                      "sm:flex sm:justify-between sm:items-center sm:w-full",
+                      "contents": @character_type != :group,
+                      "flex justify-between items-end gap-3 w-full": @character_type == :group
+                    }>
                       <div>
                         {#if !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
                           {#if @character_type == :group && avatar_url == "/images/avatar.png"}
                             <div
                               data-role="group_preset_icon"
-                              class="inline-flex items-center justify-center size-25 md:mx-0 relative -mt-14 border-divider border-hair rounded-box bg-base-200"
+                              class="inline-flex items-center justify-center size-24 md:mx-0 relative -mt-10 border-divider border-hair rounded-box bg-base-200"
                             >
                               <Iconify.iconify
                                 icon={Bonfire.Boundaries.Presets.group_icon(@user)}
@@ -101,7 +105,7 @@
                                 "rounded-full": @character_type != :group
                               }
                               user_id={id(@user)}
-                              fallback_class="size-25"
+                              fallback_class="size-24"
                               src={avatar_url}
                               is_remote={!@is_local?}
                             />
@@ -111,8 +115,9 @@
 
                       <div
                         class={
-                          "order-last mt-1 flex items-center gap-3 w-full pb-4 sm:order-none sm:w-auto sm:pb-0",
-                          "flex-wrap sm:justify-end sm:pt-2": @character_type == :group
+                          "flex items-center gap-3",
+                          "order-last mt-1 w-full pb-4 sm:order-none sm:w-auto sm:pb-0": @character_type != :group,
+                          "flex-wrap justify-end sm:pt-2": @character_type == :group
                         }
                         data-id="profile_main_actions"
                       >
@@ -191,6 +196,7 @@
                                 showing_within={:list}
                                 combined
                                 class="btn btn-primary btn-sm"
+                                class_joined="btn btn-primary btn-soft btn-sm"
                               />
                             {/if}
                             <div :if={current_user_moderator?(current_user_id(@__context__), @moderators)}>
@@ -237,7 +243,7 @@
 
                     <div class="flex flex-col flex-1 w-full mt-4 sm:mt-0">
                       <div class="flex justify-between">
-                        <div class="flex flex-col flex-1 gap-1">
+                        <div class="flex flex-col flex-1 min-w-0 gap-1">
                           <div id="profile_name_section" class="type-result">
                             <LinkPatchLive class="text-2xl" to={~p"/@#{e(@user, :character, :username, nil)}"}>
                               {e(@user, :profile, :name, "Anonymous")}
@@ -258,8 +264,8 @@
                             </span>
                           </div>
 
-                          <div class="flex lg:items-center flex-col lg:flex-row gap-2">
-                            <div class="flex flex-col gap-0">
+                          <div class="flex lg:items-center flex-col lg:flex-row gap-2 min-w-0">
+                            <div class="flex flex-col gap-0 min-w-0">
                               <span
                                 data-role="label"
                                 phx-hook="Copy"
@@ -267,7 +273,7 @@
                                 data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
                                 title={l("Click to copy username")}
                                 class={
-                                  "font-normal cursor-copy tooltip tooltip-right",
+                                  "font-normal cursor-copy tooltip tooltip-right truncate",
                                   "text-sm text-muted": @character_type == :group,
                                   "text-base text-base-content": @character_type != :group
                                 }
@@ -327,71 +333,69 @@
                     <div
                       :if={@character_type == :group}
                       data-role="group-hero-info"
-                      class="relative pt-3 pb-4 text-sm text-muted"
+                      class="group/info pt-3 pb-4 text-sm text-muted"
                     >
-                      <div class="flex flex-wrap items-center gap-x-4 gap-y-2 pr-12 min-h-8">
+                      {!-- One line: count · who can see · who can join. The full preset wording lives in the expandable details below, so labels here stay short and truncate rather than wrap. --}
+                      <div class="flex items-center gap-1.5 min-h-8 min-w-0 whitespace-nowrap">
                         <LinkLive
                           to={Bonfire.Classify.Web.GroupNavigation.link("#{path(@user)}/members", @group_return_to)}
-                          class="inline-flex items-center gap-2 hover:underline"
+                          class="shrink-0 tabular-nums hover:underline"
                           opts={["data-role": "group-hero-members"]}
-                        >
-                          <#Icon iconify="ph:users" class="size-4" />
-                          <span class="tabular-nums">{lp("%{count} member", "%{count} members", @member_count || 0, count: @member_count || 0)}</span>
-                        </LinkLive>
-                        {#for {dimension, slug} <- [visibility: @visibility_slug, membership: @membership_slug]}
+                        >{lp("%{count} member", "%{count} members", @member_count || 0, count: @member_count || 0)}</LinkLive>
+                        <details id={"group-access-details-#{id(@user)}"} class="min-w-0">
+                          <summary
+                            class="flex items-center gap-1.5 min-w-0 cursor-pointer list-none rounded-sm hover:text-base-content focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary [&::-webkit-details-marker]:hidden"
+                            title={l("Group access details")}
+                          >
+                            {#for {dimension, slug} <- [visibility: @visibility_slug, membership: @membership_slug]}
+                              {#case Bonfire.Boundaries.Presets.dimension_meta(dimension, slug)}
+                                {#match %{} = meta}
+                                  <span aria-hidden="true">·</span>
+                                  <span
+                                    class={"min-w-0", "truncate": dimension == :visibility, "shrink-0": dimension == :membership}
+                                    data-role={"group-hero-#{dimension}"}
+                                  >{hero_dimension_label(dimension, slug, meta)}</span>
+                                {#match _}
+                              {/case}
+                            {/for}
+                            <span class="sr-only">{l("Group access details")}</span>
+                            <#Icon iconify="ph:info" class="size-4 shrink-0" />
+                          </summary>
+                        </details>
+                      </div>
+                      <dl
+                        class="hidden group-has-[details[open]]/info:flex flex-col gap-5 pt-4 text-sm"
+                        data-role="group-access-details-content"
+                      >
+                        {#for {dimension, slug, label} <- [
+                            {:membership, @membership_slug, l("Joining")},
+                            {:visibility, @visibility_slug, l("Visibility")},
+                            {:participation, @participation_slug, l("Posting")},
+                            {:default_content_visibility, @content_visibility_slug, l("Default post visibility")}
+                          ]}
                           {#case Bonfire.Boundaries.Presets.dimension_meta(dimension, slug)}
                             {#match %{} = meta}
-                              <span
-                                class="inline-flex items-center gap-2"
-                                title={e(meta, :description, nil)}
-                                data-role={"group-hero-#{dimension}"}
-                              >
-                                <Iconify.iconify icon={e(meta, :icon, "ph:info")} class="size-4" />
-                                {e(meta, :label, nil)}
-                              </span>
+                              <div>
+                                <dt class="mb-1 font-medium text-base-content">
+                                  {l("%{action} · %{audience}",
+                                    action: label,
+                                    audience:
+                                      if(
+                                        {dimension, slug} in [
+                                          {:membership, "local:members"},
+                                          {:participation, "local:contributors"}
+                                        ],
+                                        do: l("Anyone on this instance"),
+                                        else: e(meta, :label, nil)
+                                      )
+                                  )}
+                                </dt>
+                                <dd :if={e(meta, :description, nil)} class="leading-relaxed">{e(meta, :description, nil)}</dd>
+                              </div>
                             {#match _}
                           {/case}
                         {/for}
-                      </div>
-                      <details id={"group-access-details-#{id(@user)}"}>
-                        <summary
-                          class="absolute right-0 top-3 cursor-pointer list-none btn btn-ghost btn-square btn-sm [&::-webkit-details-marker]:hidden"
-                          aria-label={l("Group access details")}
-                          title={l("Group access details")}
-                        >
-                          <#Icon iconify="ph:info" class="size-5 text-primary" />
-                        </summary>
-                        <dl class="flex flex-col gap-5 pt-5 text-sm" data-role="group-access-details-content">
-                          {#for {dimension, slug, label} <- [
-                              {:membership, @membership_slug, l("Joining")},
-                              {:visibility, @visibility_slug, l("Visibility")},
-                              {:participation, @participation_slug, l("Posting")},
-                              {:default_content_visibility, @content_visibility_slug, l("Default post visibility")}
-                            ]}
-                            {#case Bonfire.Boundaries.Presets.dimension_meta(dimension, slug)}
-                              {#match %{} = meta}
-                                <div>
-                                  <dt class="mb-1 font-medium text-base-content">
-                                    {l("%{action} · %{audience}",
-                                      action: label,
-                                      audience:
-                                        if(
-                                          {dimension, slug} in [
-                                            {:membership, "local:members"},
-                                            {:participation, "local:contributors"}
-                                          ],
-                                          do: l("Anyone on this instance"),
-                                          else: e(meta, :label, nil)
-                                        )
-                                    )}
-                                  </dt>
-                                  <dd :if={e(meta, :description, nil)} class="leading-relaxed">{e(meta, :description, nil)}</dd>
-                                </div>
-                              {#match _}
-                            {/case}
-                          {/for}
-                        </dl>
-                      </details>
+                      </dl>
                     </div>
                   </div>
 

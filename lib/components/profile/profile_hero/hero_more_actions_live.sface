@@ -6,7 +6,7 @@
   <Dropdown
     id={"hero_more_actions_menu_#{@parent_id}"}
     position="bottom-end"
-    trigger_class="btn btn-sm btn-circle border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong"
+    trigger_class="btn btn-sm btn-circle border border-divider bg-surface text-muted shadow-none hover:bg-fill-strong touch-target-expanded"
     panel_class="dropdown_actions"
     label={l("More actions")}
     expanded_touch_target
