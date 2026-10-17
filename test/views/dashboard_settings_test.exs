@@ -2,7 +2,6 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
   @moduledoc "Dashboard settings: what's changed there is what the dashboard renders."
   use Bonfire.UI.Me.ConnCase, async: false
 
-  alias Bonfire.Web.Views.DashboardLive
   alias Bonfire.UI.Me.Dashboard
 
   @settings "/settings/user/dashboard"
@@ -14,7 +13,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     {:ok, conn: conn(user: me, account: account), me: me}
   end
 
-  defp options(me), do: Dashboard.options(DashboardLive.main_widget_choices(), me)
+  defp options(me), do: Dashboard.options(maybe_apply(Bonfire.Web.Views.DashboardLive, :main_widget_choices, []), me)
 
   # positions of the main-area widgets as the dashboard renders them
   defp dashboard_order(conn) do
@@ -152,10 +151,10 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
 
     test "with every widget hidden, the dashboard is just the feed", %{conn: conn, me: me} do
       for %{key: key} <- options(me) do
-        Bonfire.Common.Settings.put([DashboardLive, :include, key], false, current_user: me)
+        Bonfire.Common.Settings.put([Bonfire.Web.Views.DashboardLive, :include, key], false, current_user: me)
       end
 
-      Bonfire.Common.Settings.put([DashboardLive, :include, :feed], true, current_user: me)
+      Bonfire.Common.Settings.put([Bonfire.Web.Views.DashboardLive, :include, :feed], true, current_user: me)
 
       html = dashboard_html(conn)
 
@@ -164,7 +163,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     end
 
     test "whoever chose the old feed-only mode keeps a feed", %{conn: conn, me: me} do
-      Bonfire.Common.Settings.put([DashboardLive, :default_feed], :my, current_user: me)
+      Bonfire.Common.Settings.put([Bonfire.Web.Views.DashboardLive, :default_feed], :my, current_user: me)
 
       assert has_feed?(dashboard_html(conn))
     end

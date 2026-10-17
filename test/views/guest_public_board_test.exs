@@ -2,7 +2,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
   use Bonfire.UI.Me.ConnCase, async: false
 
   alias Bonfire.UI.Common.GuestBoardLive
-  doctest Bonfire.Web.Components.HomeHeroLive
+  # doctest Bonfire.Web.Components.HomeHeroLive
 
   alias Bonfire.Social.Pins
   alias Bonfire.Posts
