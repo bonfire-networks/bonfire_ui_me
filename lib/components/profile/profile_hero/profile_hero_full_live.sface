@@ -80,7 +80,7 @@
                   <div class="contents sm:flex sm:flex-col lg:items-start sm:gap-4">
                     <div class={
                       "sm:flex sm:justify-between sm:items-center sm:w-full",
-                      "contents": @character_type != :group,
+                      contents: @character_type != :group,
                       "flex justify-between items-end gap-3 w-full": @character_type == :group
                     }>
                       <div>
@@ -352,7 +352,7 @@
                                 {#match %{} = meta}
                                   <span aria-hidden="true">·</span>
                                   <span
-                                    class={"min-w-0", "truncate": dimension == :visibility, "shrink-0": dimension == :membership}
+                                    class={"min-w-0", truncate: dimension == :visibility, "shrink-0": dimension == :membership}
                                     data-role={"group-hero-#{dimension}"}
                                   >{hero_dimension_label(dimension, slug, meta)}</span>
                                 {#match _}

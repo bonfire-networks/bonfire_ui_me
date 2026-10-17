@@ -25,10 +25,7 @@
     </LinkLive>
   </div>
 {#else}
-  <div
-    data-role="character"
-    class="flex-1 mb-4"
-  >
+  <div data-role="character" class="flex-1 mb-4">
     <StatelessComponent
       module={maybe_component(Bonfire.UI.Me.ProfileItemLive, @__context__)}
       show_controls={[:follow]}
