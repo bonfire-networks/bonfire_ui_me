@@ -4,7 +4,7 @@ defmodule Bonfire.UI.Me.UploadAuthBackgroundLive do
 
   prop src, :string, default: nil
   prop object, :any, default: nil
-  prop boundary_verb, :atom, default: :describe
+  prop boundary_verb, :atom, default: :edit
   prop set_field, :any, default: nil
   prop set_fn, :any, default: nil
   prop accept, :any, default: nil
@@ -31,7 +31,7 @@ defmodule Bonfire.UI.Me.UploadAuthBackgroundLive do
   def handle_progress(:auth_background, entry, socket) do
     user = current_user_required!(socket)
     object = e(assigns(socket), :object, nil)
-    boundary_verb = e(assigns(socket), :boundary_verb, nil) || :describe
+    boundary_verb = e(assigns(socket), :boundary_verb, nil) || :edit
     set_field = e(assigns(socket), :set_field, nil)
     set_fn = e(assigns(socket), :set_fn, nil)
 

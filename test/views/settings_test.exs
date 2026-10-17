@@ -400,6 +400,33 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
   end
 
+  # The instance's banner and description are `:edit` on the instance, which admins and instance moderators hold, not every local user (who holds `:contribute` there through `instance_care`, once `can?(_, _, :instance)` stopped failing for everyone but admins)
+  describe "Instance configuration" do
+    test "an ordinary local user doesn't get the instance banner upload", %{account: account} do
+      user = fake_user!(account)
+
+      conn(user: user, account: account)
+      |> visit("/settings/instance/configuration")
+      |> refute_has("[data-id=upload_banner]")
+    end
+
+    test "an instance moderator does", %{account: account} do
+      moderator = Bonfire.Me.Fake.instance_moderator!(fake_user!(account))
+
+      conn(user: moderator, account: account)
+      |> visit("/settings/instance/configuration")
+      |> assert_has("[data-id=upload_banner]")
+    end
+
+    test "an admin does", %{account: account} do
+      admin = fake_admin!(account)
+
+      conn(user: admin, account: account)
+      |> visit("/settings/instance/configuration")
+      |> assert_has("[data-id=upload_banner]")
+    end
+  end
+
   describe "Instance icon" do
     test "uses the high-resolution instance icon uploader", %{account: account} do
       original_icon = Config.get([:ui, :theme, :instance_icon])
