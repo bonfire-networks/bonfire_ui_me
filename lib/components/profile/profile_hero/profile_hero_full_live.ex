@@ -28,41 +28,10 @@ defmodule Bonfire.UI.Me.ProfileHeroFullLive do
   prop showing_within, :atom, default: :profile
   prop path, :string, default: "@"
 
-  prop members, :any, default: nil
-  prop moderators, :any, default: nil
-  prop group_return_to, :string, default: "/groups"
-  prop subcategories, :list, default: []
-
-  @doc "Offer New topic in a group's More menu, see `Bonfire.Classify.can_create_topic?/2`."
-  prop can_create_topic, :boolean, default: false
-
   prop post_count, :any, default: nil
   prop followers_count, :any, default: nil
   prop following_count, :any, default: nil
   prop familiar_followers, :list, default: []
-
-  prop membership_slug, :string, default: nil
-  prop visibility_slug, :string, default: nil
-  prop participation_slug, :string, default: nil
-
-  # the group's stored `default_content_visibility`: who can read what members post. Read by the group page from `Bonfire.Classify.Boundaries.read_default_content_visibility/2`; `nil` hides the row.
-  prop content_visibility_slug, :string, default: nil
-  prop member_count, :integer, default: 0
-
-  def hero_dimension_label(:membership, "open", _meta), do: l("Open to join")
-  def hero_dimension_label(:membership, "local:members", _meta), do: l("Local users can join")
-  def hero_dimension_label(_dimension, _slug, meta), do: e(meta, :label, nil)
-
-  @doc """
-  Whether the current user is in `@moderators`. Membership check using already-loaded list ids,
-  not a Boundaries query — safe to call per render.
-  """
-  def current_user_moderator?(current_user_id, moderators)
-      when is_binary(current_user_id) and is_list(moderators) do
-    current_user_id in Enums.ids(moderators)
-  end
-
-  def current_user_moderator?(_, _), do: false
 
   # NOTE: the update functions are not used in user profile page because it is currently used statelessles
   def update(%{skip_preload: true} = assigns, socket) do

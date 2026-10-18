@@ -93,55 +93,6 @@
         </LinkLive>
       </li>
     {#else}
-      {#if @character_type == :group}
-        {!-- the sidebar topics widget also offers this, but it's hidden on mobile --}
-        <li :if={@can_create_topic} data-role="new_topic">
-          <StatelessComponent
-            module={maybe_component(Bonfire.UI.Topics.NewTopicLive, @__context__)}
-            parent={@user}
-            label={l("New topic")}
-          />
-        </li>
-        <li :if={current_user_id(@__context__)}>
-          <LinkLive
-            to={~p"/group/#{e(@user, :character, :username, nil)}/settings"}
-            class="flex items-center gap-3 w-full text-sm text-base-content"
-          >
-            <#Icon iconify="ph:gear-duotone" class="size-4 shrink-0 text-muted" />
-            <span class="flex-1 truncate">{l("Settings")}</span>
-          </LinkLive>
-        </li>
-        <li :if={current_user_id(@__context__)}>
-          {#if Bonfire.Social.Pins.pinned?(:instance, @user)}
-            {!-- instance-pinned groups stay in everyone's sidebar; personal pin/unpin can't remove them --}
-            <div
-              class="flex items-center gap-3 w-full text-sm text-muted"
-              title={l("This group is pinned to everyone's sidebar by the admins")}
-            >
-              <#Icon iconify="ph:push-pin-duotone" class="size-4 shrink-0 text-muted" />
-              <span class="flex-1 truncate">{l("Pinned by admins")}</span>
-            </div>
-          {#else}
-            <StatelessComponent
-              module={maybe_component(Bonfire.UI.Reactions.PinActionLive, @__context__)}
-              object={@user}
-              parent_id={deterministic_dom_id(__MODULE__, id(@user), "sidebar_pin", @parent_id)}
-              class="flex items-center gap-2 justify-between text-base-content"
-              scope={:sidebar}
-              pinned?={Bonfire.Social.Pins.pinned?(current_user(@__context__), @user)}
-            />
-          {/if}
-        </li>
-        {!-- instance admins can pin/unpin the group to EVERYONE's sidebar from here (no need to be a group mod) --}
-        <li :if={Bonfire.Boundaries.can?(@__context__, :mediate, :instance)}>
-          <StatelessComponent
-            module={maybe_component(Bonfire.UI.Groups.InstanceSidebarPinLive, @__context__)}
-            group={@user}
-            class="flex items-center gap-3 w-full text-base-content"
-          />
-        </li>
-      {/if}
-
       <li :if={extension_enabled?(:bonfire_ui_messages, @__context__) and @character_type == :user and
         maybe_apply(
           Bonfire.Federate.ActivityPub,
