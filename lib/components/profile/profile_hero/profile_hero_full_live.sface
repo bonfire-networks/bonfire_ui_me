@@ -81,15 +81,15 @@
                     <div class="contents sm:flex sm:justify-between sm:items-center sm:w-full">
                       <div>
                         {#if !Settings.get([Bonfire.UI.Common.AvatarLive, :hide_avatars], false, @__context__)}
-                            <Bonfire.UI.Common.AvatarLive
-                              parent_id="profile-hero"
-                              title={e(@user, :profile, :name, "Anon")}
-                              class="inline-block object-cover size-24 md:mx-0 -mt-10 border-divider border-hair rounded-full"
-                              user_id={id(@user)}
-                              fallback_class="size-24"
-                              src={avatar_url}
-                              is_remote={!@is_local?}
-                            />
+                          <Bonfire.UI.Common.AvatarLive
+                            parent_id="profile-hero"
+                            title={e(@user, :profile, :name, "Anon")}
+                            class="inline-block object-cover size-24 md:mx-0 -mt-10 border-divider border-hair rounded-full"
+                            user_id={id(@user)}
+                            fallback_class="size-24"
+                            src={avatar_url}
+                            is_remote={!@is_local?}
+                          />
                         {/if}
                       </div>
 
