@@ -3,6 +3,8 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
 
   prop profile, :any
   prop lg, :boolean, default: false
+  # for narrow places like sidebar widgets, where the default text-base name and handle crowd the space
+  prop compact, :boolean, default: false
   prop is_remote, :boolean, default: nil
 
   prop wrapper_class, :css_class, default: nil

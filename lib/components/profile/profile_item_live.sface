@@ -119,10 +119,22 @@
               to={if String.starts_with?(e(@character, :username, ""), "http"),
                 do: e(@character, :username, nil),
                 else: "/character/#{e(@character, :username, "")}"}
-              class={"text-base flex-1", "flex gap-1 items-baseline": @inline}
+              class={
+                "flex-1",
+                "text-base": !@compact,
+                "block min-w-0 text-sm": @compact,
+                "flex gap-1 items-baseline": @inline
+              }
               opts={@link_opts}
             >
-              <div data-id="profile_name" class="font-medium text-base flex items-center gap-1">
+              <div
+                data-id="profile_name"
+                class={
+                  "font-medium flex items-center gap-1",
+                  "text-base": !@compact,
+                  "text-sm": @compact
+                }
+              >
                 {rich(e(@profile, :name, nil))}
                 {#if :follows_me in @show_controls}
                   <StatefulComponent
@@ -137,7 +149,10 @@
                   />
                 {/if}</div>
 
-              <div :if={!@inline} class="text-muted line-clamp-1 -mt-1">
+              <div
+                :if={!@inline}
+                class={"text-muted", "line-clamp-1 -mt-1": !@compact, "truncate text-xs": @compact}
+              >
                 {Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}
               </div>
             </LinkLive>
