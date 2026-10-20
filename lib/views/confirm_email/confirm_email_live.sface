@@ -26,7 +26,9 @@
   {#else}
     {#if @requested}
       <div class="alert alert-success" data-id="confirmation_success">
-        <label>{l("Great! We've emailed you another link. Please click it to continue.")}</label>
+        <label>{l(
+            "If that email address is linked to an account and is awaiting confirmation, then we've emailed you another link. Please click it to continue."
+          )}</label>
       </div>
     {/if}
   {/if}

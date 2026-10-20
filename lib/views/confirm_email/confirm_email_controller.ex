@@ -2,10 +2,34 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
   use Bonfire.UI.Common.Web, :controller
   alias Bonfire.Me.Accounts
   alias Bonfire.UI.Me.ConfirmEmailLive
+  alias Bonfire.UI.Me.EmailLink
 
-  def index(conn, _), do: live_render(conn, ConfirmEmailLive)
+  def index(conn, _), do: render_page(conn)
 
+  # Opening the emailed link only checks the token and shows a Confirm page. Mail scanners open links, so using the token up here would leave nothing for the person.
   def show(conn, %{"id" => token} = params) do
+    case Accounts.check_confirm_token(token) do
+      :ok ->
+        EmailLink.confirm_page(conn, "/signup/email/confirm/" <> URI.encode_www_form(token),
+          title: l("Confirm your email address"),
+          intro: l("Press the button to finish creating your account."),
+          button: l("Confirm my email")
+        )
+
+      {:error, :already_confirmed} ->
+        already_confirmed(conn, params["redirect_uri"])
+
+      {:error, :expired} ->
+        show_error(conn, :expired)
+
+      other ->
+        error(other)
+        show_error(conn, :not_found)
+    end
+  end
+
+  # The Confirm page's button posts here: this uses the token up.
+  def redeem(conn, %{"id" => token} = params) do
     redirect_uri = params["redirect_uri"]
 
     # Stash `go` (carried from the confirmation email) in the session as soon as we
@@ -19,6 +43,9 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
         confirmed(conn, account, redirect_uri)
 
       {:error, :already_confirmed, _} ->
+        already_confirmed(conn, redirect_uri)
+
+      {:error, :already_confirmed} ->
         already_confirmed(conn, redirect_uri)
 
       {:error, :expired, _} ->
@@ -36,25 +63,31 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
   def create(conn, params) do
     form = Map.get(params, "confirm_email_fields", %{})
 
+    # every outcome that depends on whether an account exists answers the same, so nobody can tell who has one
     case Accounts.request_confirm_email(form_cs(form), confirm_action: :confirm_again) do
       {:ok, _, _} ->
-        conn
-        |> put_session(:requested, true)
-        |> live_render(ConfirmEmailLive)
+        render_page(conn, %{"requested" => true})
 
-      {:error, :already_confirmed} ->
-        already_confirmed(conn, nil)
-
-      {:error, :not_found} ->
-        conn
-        |> assign(:error, :not_found)
-        |> live_render(ConfirmEmailLive)
+      {:error, reason} when reason in [:already_confirmed, :not_found] ->
+        render_page(conn, %{"requested" => true})
 
       {:error, changeset} ->
-        conn
-        |> assign(:form, changeset)
-        |> live_render(ConfirmEmailLive)
+        if EmailLink.neutral_form_error?(changeset) do
+          render_page(conn, %{"requested" => true})
+        else
+          conn
+          |> assign(:form, changeset)
+          |> render_page()
+        end
     end
+  end
+
+  # The message travels in the LiveView session of this one response. Saving it in the browser's session would repeat it on every later visit.
+  defp render_page(conn, session \\ %{}) do
+    conn
+    |> delete_session(:error)
+    |> delete_session(:requested)
+    |> live_render(ConfirmEmailLive, session: session)
   end
 
   defp form_cs(params), do: Accounts.changeset(:confirm_email, params)
@@ -86,9 +119,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController do
   defp show_error(conn, text) do
     error(text)
 
-    conn
-    |> put_session(:error, text)
-    |> live_render(ConfirmEmailLive)
+    render_page(conn, %{"error" => text})
   end
 
   # Validate redirect_uri is safe for mobile app deep-linking

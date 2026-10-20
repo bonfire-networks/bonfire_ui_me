@@ -1,0 +1,28 @@
+<Bonfire.UI.Common.LogoLinkLive
+  with_name
+  container_class="flex mt-16  items-center mb-8 justify-center gap-2"
+  name_class="type-title"
+  href="/"
+/>
+{!-- Submits itself on the first real human input (a press, a touch, a scroll, or a mouse that actually moves). A scanner sends none, and without JS the button still works. Key presses are left out on purpose, since keyboard and screen reader users find the button with them. --}
+<div
+  data-role="confirm_link"
+  class="w-[90%] md:w-[360px] mx-auto p-3 rounded-box border border-divider bg-base-100 shadow-sm"
+  x-data="{done: false, go() { if (this.done) return; this.done = true; $el.querySelector('form').requestSubmit() }}"
+  x-on:pointerdown.window="go()"
+  x-on:touchstart.window.passive="go()"
+  x-on:wheel.window.passive="go()"
+  x-on:mousemove.window="($event.movementX || $event.movementY) && go()"
+>
+  <div class="mb-2 text-base font-bold text-center text-base-content">{@title}</div>
+  <p :if={@intro} class="mb-4 text-sm text-center text-muted">{@intro}</p>
+
+  <.simple_form
+    for={to_form(%{}, as: :confirm_link)}
+    action={@action}
+    class="w-full"
+    opts={[id: "confirm-link-form"]}
+  >
+    <button class="w-full btn btn-primary" type="submit">{@button}</button>
+  </.simple_form>
+</div>

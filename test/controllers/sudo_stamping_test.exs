@@ -48,7 +48,7 @@ defmodule Bonfire.UI.Me.SudoStampingTest do
     token = Bonfire.Common.Repo.get!(Email, account.id).confirm_token
 
     # a pristine conn: the cross-device case, the redeeming browser was never logged in
-    conn = get(conn(), "/login/forgot-password/#{token}?go=/somewhere")
+    conn = post(conn(), "/login/email/#{token}?go=/somewhere")
 
     assert get_session(conn, :current_account_id) == account.id
     assert is_integer(get_session(conn, :sudo_proof)[:email])
@@ -75,7 +75,7 @@ defmodule Bonfire.UI.Me.SudoStampingTest do
 
     token = Bonfire.Common.Repo.get!(Email, account.id).confirm_token
 
-    conn = conn(account: account) |> get("/login/forgot-password/#{token}?go=/somewhere")
+    conn = conn(account: account) |> post("/login/forgot-password/#{token}?go=/somewhere")
 
     assert redirected_to(conn) =~ "/account/password/change"
     assert get_session(conn, :resetting_password)

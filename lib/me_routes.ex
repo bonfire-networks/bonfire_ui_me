@@ -113,6 +113,13 @@ defmodule Bonfire.UI.Me.Routes do
           only: [:index]
         )
 
+        # opening a reset link (GET) only shows a page. Its button posts here, which uses the token up. Not guest-only: a signed-in person can be asked to verify by email.
+        post("/login/forgot-password/:login_token", ForgotPasswordController, :redeem)
+
+        # sign-in links have their own page, apart from password reset above
+        get("/login/email/:login_token", LoginLinkController, :show)
+        post("/login/email/:login_token", LoginLinkController, :redeem)
+
         live("/users", UsersDirectoryLive)
         live("/users/instance/:instance", UsersDirectoryLive, as: Bonfire.Data.ActivityPub.Peer)
         live("/users/instance/:display_name/:instance", UsersDirectoryLive)
@@ -145,6 +152,9 @@ defmodule Bonfire.UI.Me.Routes do
         )
 
         resources("/signup/email/confirm", ConfirmEmailController, only: [:index, :create, :show])
+
+        # opening the emailed link (GET) only shows a Confirm page, so a mail scanner opening it can't use up the token. The button posts here.
+        post("/signup/email/confirm/:id", ConfirmEmailController, :redeem)
 
         # tell the browser to preload the LiveView JS when logging in
         pipe_through(:early_hints_authed)
