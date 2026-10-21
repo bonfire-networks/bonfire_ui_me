@@ -143,6 +143,21 @@ defmodule Bonfire.UI.Me.AccountVerificationControllerTest do
       refute_receive {:sudo_mail, _, _}, 200
     end
 
+    test "an email challenge still auto-sends within the grace period of a link that was just used" do
+      capture_mail()
+      account = passwordless_account!()
+
+      # a link was used a moment ago: the email is confirmed but still holds its token for the grace period
+      email = Bonfire.Common.Repo.get!(Email, account.id)
+      {:ok, email} = Bonfire.Common.Repo.update(Email.put_token(email))
+      {:ok, email} = Bonfire.Common.Repo.update(Email.redeem(email))
+      assert email.confirmed_at
+      assert email.confirm_token
+
+      conn(account: account) |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+      assert_receive {:sudo_mail, _, _}, 1000
+    end
+
     test "resend re-mails the outstanding valid token unchanged (single-outstanding-token semantics)" do
       capture_mail()
       account = passwordless_account!()
@@ -159,7 +174,21 @@ defmodule Bonfire.UI.Me.AccountVerificationControllerTest do
       assert Bonfire.Common.Repo.get!(Email, account.id).confirm_token == token_before
     end
 
-    test "the emailed challenge links to the forgot-password route, never the guest-only signup confirmation" do
+    test "the emailed challenge on a passwordless instance links to the sign-in page, not the password reset page or the guest-only signup confirmation" do
+      Process.put([:bonfire_ui_me, :login, :passwordless_only], true)
+      capture_mail()
+      account = passwordless_account!()
+
+      conn(account: account) |> get("/account/verify?for=#{@delete_mod}&go=/somewhere")
+      assert_receive {:sudo_mail, mail, _}, 1000
+
+      body = mail.html_body || mail.text_body
+      assert body =~ "/login/email/"
+      refute body =~ "/login/forgot-password/"
+      refute body =~ "/signup/email/confirm/"
+    end
+
+    test "the emailed challenge on a password instance links to the password reset page, never the guest-only signup confirmation" do
       capture_mail()
       account = passwordless_account!()
 
@@ -168,6 +197,7 @@ defmodule Bonfire.UI.Me.AccountVerificationControllerTest do
 
       body = mail.html_body || mail.text_body
       assert body =~ "/login/forgot-password/"
+      refute body =~ "/login/email/"
       refute body =~ "/signup/email/confirm/"
 
       # verification mails say what they are and what they authorize, with the intent in the body only

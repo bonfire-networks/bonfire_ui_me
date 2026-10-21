@@ -163,12 +163,13 @@ defmodule Bonfire.UI.Me.AccountVerificationController do
   defp current_path_with_query(%{query_string: ""} = conn), do: conn.request_path
   defp current_path_with_query(conn), do: conn.request_path <> "?" <> conn.query_string
 
-  # skip the auto-send while an unexpired token is outstanding, so reloads never invalidate a link in flight
+  # skip the auto-send while an unexpired token is outstanding, so reloads never invalidate a link in flight. A confirmed email's token doesn't count: it only lingers for the grace period after the link was used.
   defp maybe_auto_send(conn, account, go, intent) do
     account = repo().preload(account, :email)
     until = e(account, :email, :confirm_until, nil)
 
-    if is_struct(until, DateTime) and Bonfire.Common.DatesTimes.future?(until) do
+    if is_nil(e(account, :email, :confirmed_at, nil)) and is_struct(until, DateTime) and
+         Bonfire.Common.DatesTimes.future?(until) do
       {conn, false}
     else
       case send_login_email(account, go, intent, current_user_id(conn)) do

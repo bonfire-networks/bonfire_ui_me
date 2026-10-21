@@ -4,41 +4,61 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
   alias Bonfire.UI.Me.ForgotPasswordLive
   alias Bonfire.UI.Me.LoginLive
   alias Bonfire.UI.Me.LoginController
+  alias Bonfire.UI.Me.LoginLinkController
+  alias Bonfire.UI.Me.EmailLink
   alias Bonfire.Me.Accounts
   alias Bonfire.Me.Users
 
-  def index(conn, %{"login_token" => login_token}) do
-    conn = fetch_query_params(conn)
-    go = conn.query_params["go"]
+  # Opening a password reset link only checks the token and shows a page. Its button (`redeem/2`) uses the token up, so a mail scanner opening the link can't. Sign-in links have their own page in `Bonfire.UI.Me.LoginLinkController`.
+  def index(conn, %{"login_token" => login_token} = params) do
+    if sign_in_link_on_old_path?() do
+      LoginLinkController.show(conn, params)
+    else
+      case Accounts.check_confirm_token(login_token, confirm_action: :change_password) do
+        :ok ->
+          EmailLink.confirm_page(
+            conn,
+            "/login/forgot-password/" <> URI.encode_www_form(login_token),
+            title: l("Reset your password"),
+            intro: l("Press the button to choose a new password."),
+            button: l("Choose a new password")
+          )
 
-    # Stash `go` in the session as soon as we consume the emailed link, so it
-    # survives the whole post-login flow — including the switch-user page, where
-    # `redirect_to_previous_go` reads it back regardless of which profile is picked.
-    conn = if is_binary(go) and go != "", do: set_go_after(conn, go), else: conn
-
-    passwordless? = LoginLive.passwordless_only?()
-    action = if passwordless?, do: :login, else: :change_password
-
-    # the initiating profile, restored after redemption when this account owns it
-    as_user = conn.query_params["as_user"]
-
-    case Accounts.confirm_email(login_token, confirm_action: action) do
-      {:ok, account} ->
-        if passwordless?,
-          do: magic_link_login(conn, account, as_user),
-          else: change_pw(conn, account, as_user)
-
-      {:error, _changeset} ->
-        conn
-        |> assign_flash(
-          :error,
-          l("This sign-in link is invalid or has expired. Please request a new one.")
-        )
-        |> live_render(ForgotPasswordLive)
+        _ ->
+          invalid_link(conn)
+      end
     end
   end
 
   def index(conn, _), do: live_render(conn, ForgotPasswordLive)
+
+  def redeem(conn, %{"login_token" => login_token} = params) do
+    if sign_in_link_on_old_path?() do
+      LoginLinkController.redeem(conn, params)
+    else
+      conn = EmailLink.stash_go(conn)
+      # the initiating profile, restored after redemption when this account owns it
+      as_user = conn.query_params["as_user"]
+
+      case Accounts.confirm_email(login_token, confirm_action: :change_password) do
+        {:ok, account} -> change_pw(conn, account, as_user)
+        {:error, _} -> invalid_link(conn)
+      end
+    end
+  end
+
+  @doc "The page a link lands on when its token can't be used: the form to request a new one."
+  def invalid_link(conn) do
+    conn
+    |> assign_flash(
+      :error,
+      l("This sign-in link is invalid or has expired. Please request a new one.")
+    )
+    |> live_render(ForgotPasswordLive)
+  end
+
+  # Sign-in links used to open here, before they got their own page. On a passwordless instance, every link that reaches this path was sent as a sign-in link, so hand it over. TODO: remove once those links have expired, a day after the release that introduced /login/email/:token.
+  defp sign_in_link_on_old_path?, do: LoginLive.passwordless_only?()
 
   def create(conn, params) do
     data = submitted_fields(params)
@@ -84,7 +104,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
         # produce a link. Don't tell snoopers if someone has an account here
         # or not — show the same neutral success state as the {:ok,_,_} branch
         # whenever the form itself is otherwise valid.
-        if neutral_form_error?(changeset) do
+        if Bonfire.UI.Me.EmailLink.neutral_form_error?(changeset) do
           requested(conn, typed, go)
         else
           live_render(conn, ForgotPasswordLive, session: %{"form" => changeset, "go" => go})
@@ -106,16 +126,6 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
   end
 
   def form(params \\ %{}), do: Accounts.changeset(:forgot_password, params)
-
-  # Treat any errors that are only on `:form` (e.g. "not_found",
-  # "confirmation_disabled") as the neutral success case — the user typed a
-  # syntactically valid email, we just won't actually email anyone. Validation
-  # errors on the `:email` field (bad format, etc.) keep showing the form.
-  defp neutral_form_error?(%Ecto.Changeset{errors: errors}) when errors != [] do
-    Enum.all?(errors, fn {field, _} -> field == :form end)
-  end
-
-  defp neutral_form_error?(_), do: false
 
   # In passwordless mode the same form requests a magic sign-in link; otherwise
   # it's the classic forgot-password flow. The pipeline is shared — only the
@@ -142,21 +152,6 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
           end
       end
     end
-  end
-
-  defp magic_link_login(conn, account, as_user \\ nil) do
-    # prefer the link's initiating profile (validated as accessible to this account), else the account's only profile
-    user =
-      Users.get_in_account(as_user, account.id) ||
-        case Users.get_only_in_account(account) do
-          {:ok, user} -> user
-          _ -> nil
-        end
-
-    # `go` was stashed in the session in `index/2`, so `logged_in/4` (and the
-    # switch-user / create-profile tails) all recover it via `redirect_to_previous_go`
-    # — no need to thread it through the form here.
-    LoginController.logged_in(account, user, conn, %{}, :email)
   end
 
   defp change_pw(conn, account, as_user \\ nil) do

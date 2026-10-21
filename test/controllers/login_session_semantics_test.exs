@@ -43,7 +43,7 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
     conn =
       conn(account: a)
       |> init_test_session(%{sudo_proof: %{password: mark}})
-      |> get("/login/forgot-password/#{token}?go=/keep-me")
+      |> post("/login/email/#{token}?go=/keep-me")
 
     proof = get_session(conn, :sudo_proof)
     assert is_integer(proof[:email])
@@ -70,7 +70,7 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
     conn =
       conn(account: a)
       |> init_test_session(%{sudo_proof: %{password: mark}})
-      |> get("/login/forgot-password/#{token}?go=/keep-me")
+      |> post("/login/forgot-password/#{token}?go=/keep-me")
 
     proof = get_session(conn, :sudo_proof)
     assert is_integer(proof[:email])
@@ -85,7 +85,7 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
     token = login_token_for(account, go)
 
     # this account has no user profile at all, the case that otherwise lands on switch-user
-    conn = get(conn(), "/login/forgot-password/#{token}?go=#{URI.encode_www_form(go)}")
+    conn = post(conn(), "/login/email/#{token}?go=#{URI.encode_www_form(go)}")
 
     assert redirected_to(conn, 303) =~ "/account/confirm"
   end
@@ -97,9 +97,9 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
     token = login_token_for(account, go)
 
     conn =
-      get(
+      post(
         conn(),
-        "/login/forgot-password/#{token}?go=#{URI.encode_www_form(go)}&as_user=#{me.id}"
+        "/login/email/#{token}?go=#{URI.encode_www_form(go)}&as_user=#{me.id}"
       )
 
     assert get_session(conn, :current_user_id) == me.id
@@ -113,9 +113,9 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
     token = login_token_for(account, go)
 
     conn =
-      get(
+      post(
         conn(),
-        "/login/forgot-password/#{token}?go=#{URI.encode_www_form(go)}&as_user=#{other.id}"
+        "/login/email/#{token}?go=#{URI.encode_www_form(go)}&as_user=#{other.id}"
       )
 
     refute get_session(conn, :current_user_id) == other.id
@@ -131,7 +131,7 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
     conn =
       conn(account: a)
       |> init_test_session(%{sudo_proof: %{password: mark}})
-      |> get("/login/forgot-password/#{token}")
+      |> post("/login/email/#{token}")
 
     proof = get_session(conn, :sudo_proof)
     assert proof[:password] == mark

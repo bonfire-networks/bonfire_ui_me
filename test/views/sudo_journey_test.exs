@@ -43,6 +43,8 @@ defmodule Bonfire.UI.Me.SudoJourneyTest do
 
     session
     |> visit(emailed_link())
+    # opening the link only shows a page: its button starts the password change
+    |> click_button("Choose a new password")
     |> fill_in("New password", with: "a-brand-new-password")
     |> fill_in("Confirm new password", with: "a-brand-new-password")
     |> click_button("Submit")
@@ -69,6 +71,8 @@ defmodule Bonfire.UI.Me.SudoJourneyTest do
 
     session
     |> visit(emailed_link())
+    # opening the link only shows a page: its button starts the password change
+    |> click_button("Choose a new password")
     |> fill_in("New password", with: "a-brand-new-password")
     |> fill_in("Confirm new password", with: "a-brand-new-password")
     |> click_button("Submit")
@@ -105,6 +109,8 @@ defmodule Bonfire.UI.Me.SudoJourneyTest do
 
     session
     |> visit(emailed_link())
+    # opening the link only shows a page: its button starts the password change
+    |> click_button("Choose a new password")
     |> fill_in("New password", with: "a-brand-new-password")
     |> fill_in("Confirm new password", with: "a-brand-new-password")
     |> click_button("Submit")
