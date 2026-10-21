@@ -53,7 +53,7 @@
             disabled={index == length(@widgets) - 1}
             aria-label={l("Move %{name} down", name: widget.name)}
           >
-            <#Icon iconify="ph:caret-down" class="size-4" />
+            <#Icon iconify="carbon:chevron-down" class="size-4" />
           </button>
         </li>
       {/for}

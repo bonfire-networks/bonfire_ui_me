@@ -5,7 +5,7 @@
   >
     <#Icon iconify="ph:list" class="shrink-0 size-5 text-muted" />
     <span class="flex-1 text-sm font-medium text-base-content">{l("All settings")}</span>
-    <#Icon iconify="ph:caret-right" class="shrink-0 size-4 text-subtle" />
+    <#Icon iconify="carbon:chevron-right" class="shrink-0 size-4 text-subtle" />
   </label>
   {#case @selected_tab}
     {#match "profile"}
