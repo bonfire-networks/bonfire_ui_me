@@ -25,7 +25,7 @@ defmodule Bonfire.UI.Me.Dashboard do
         name: l("Spotlight"),
         guests: true,
         widget: %{
-          module: Bonfire.UI.Reactions.WidgetInstancePinnedCarouselLive,
+          module: Bonfire.UI.Reactions.PinnedCarouselLive,
           data: [title: l("Spotlight")],
           type: Surface.LiveComponent
         }

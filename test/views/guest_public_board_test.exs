@@ -10,7 +10,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
   setup do
     # both loaders are cached for hours: start every test from the current DB state
     Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
-    Bonfire.UI.Reactions.InstancePins.list_activities(cache: :reset)
+    Pins.list_spotlight_activities(cache: :reset)
     Bonfire.UI.Groups.WidgetGroupsCarouselLive.list_guest_groups(cache: :reset)
     :ok
   end
@@ -76,14 +76,12 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       admin = fake_admin!(fake_account!())
       post = publish!(admin, "a public post in the guest spotlight")
       Pins.pin(admin, post, :instance)
-      Bonfire.UI.Reactions.InstancePins.list_activities(cache: :reset)
+      Pins.list_spotlight_activities(cache: :reset)
 
       conn()
       |> visit("/")
       |> assert_has("#guest-spotlight [data-role=widget-heading]", text: "Spotlight")
-      # the title says it all: no subtitle under it
-      |> refute_has("#guest-spotlight [data-role=widget-subtitle]")
-      |> assert_has("#guest-spotlight .spotlight_clamp",
+      |> assert_has("#guest-spotlight [data-role=pinned_card]",
         text: "a public post in the guest spotlight"
       )
       |> refute_has("#guest-spotlight [data-carousel-scroll]")
@@ -96,15 +94,15 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
         Pins.pin(admin, publish!(admin, body), :instance)
       end
 
-      Bonfire.UI.Reactions.InstancePins.list_activities(cache: :reset)
+      Pins.list_spotlight_activities(cache: :reset)
 
       conn()
       |> visit("/")
       |> assert_has(
-        "#guest-spotlight button[data-carousel-scroll=previous][aria-controls=pinned-carousel]"
+        "#guest-spotlight button[data-carousel-scroll=previous][aria-controls=instance_pinned_widget-track]"
       )
       |> assert_has(
-        "#guest-spotlight button[data-carousel-scroll=next][aria-controls=pinned-carousel]"
+        "#guest-spotlight button[data-carousel-scroll=next][aria-controls=instance_pinned_widget-track]"
       )
       # no LiveView-only JS command, which would be mis-routed on the static guest page
       |> refute_has("#guest-spotlight [data-carousel-scroll][phx-click]")
@@ -113,7 +111,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     test "hides Spotlight when the instance turns it off" do
       admin = fake_admin!(fake_account!())
       Pins.pin(admin, publish!(admin, "pinned but spotlight disabled"), :instance)
-      Bonfire.UI.Reactions.InstancePins.list_activities(cache: :reset)
+      Pins.list_spotlight_activities(cache: :reset)
 
       Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :include, :instance_pinned], false)
 
@@ -121,7 +119,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> visit("/")
       |> refute_has("#guest-spotlight")
       # the post itself is public, so it may still appear in Recent activity
-      |> refute_has(".spotlight_clamp")
+      |> refute_has("[data-role=pinned_card]")
     end
   end
 
@@ -163,6 +161,27 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> refute_has("#guest-groups", text: "Members only group")
       |> refute_has("#guest-groups", text: "Federated group")
       |> assert_has("#guest-groups a[href='/groups']", text: "Browse all groups")
+    end
+
+    test "the groups are the shared carousel, with dots" do
+      creator = fake_user!(fake_account!())
+
+      for name <- ["First guest group", "Second guest group"] do
+        Bonfire.Classify.Simulate.fake_group!(creator, %{
+          name: name,
+          membership: "open",
+          visibility: "global"
+        })
+      end
+
+      Bonfire.UI.Groups.WidgetGroupsCarouselLive.list_guest_groups(cache: :reset)
+
+      conn()
+      |> visit("/")
+      |> assert_has("#guest-groups [data-carousel-card] [data-role=group-card-compact]",
+        text: "First guest group"
+      )
+      |> assert_has("#guest-groups [data-role=carousel_dots]")
     end
 
     test "hides the groups section when the instance turns it off" do
