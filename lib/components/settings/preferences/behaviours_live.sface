@@ -86,6 +86,8 @@
       />
     </form>
 
+    <Bonfire.UI.Common.VocabularySettingsLive scope={@scope} scoped={@scoped} />
+
     <form
       class="p-4"
       data-scope="set_autoplay_media"

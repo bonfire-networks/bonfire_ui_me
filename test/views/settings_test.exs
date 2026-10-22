@@ -350,6 +350,204 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
   end
 
+  describe "Wording of blocks" do
+    alias Bonfire.Common.Vocabulary
+
+    @user_behaviours "/settings/user/preferences/behaviours"
+    @instance_behaviours "/settings/instance/preferences/behaviours"
+    @trending_form "form[data-scope=set_wording_trending_tags]"
+    @top_discussions_form "form[data-scope=set_wording_top_discussions]"
+    # the fields for one's own words, shown once "Custom…" is chosen
+    @trending_words_form "form[data-scope=set_wording_words_trending_tags]"
+
+    # what the select posts: the setting's keys, as "Elixir.Module" => nested map
+    defp choose_wording(kind, preset_id),
+      do: %{"Elixir.Bonfire.Common.Vocabulary" => %{to_string(kind) => to_string(preset_id)}}
+
+    # what the form for one's own words posts
+    defp type_wording(kind, phrases),
+      do: %{
+        "Elixir.Bonfire.Common.Vocabulary" => %{
+          "custom" => %{to_string(kind) => Map.new(phrases, fn {k, v} -> {to_string(k), v} end)}
+        }
+      }
+
+    # the title a preset gives its block, whatever the extension that owns it ships
+    defp title_of(kind, preset_id),
+      do: Vocabulary.phrase(Vocabulary.preset_for(kind, preset_id), :title)
+
+    # the titles of the widgets on the dashboard, as the viewer sees them
+    defp dashboard_titles(conn) do
+      {:ok, view, _html} = live(conn, "/dashboard")
+
+      view
+      |> render_async()
+      |> Floki.parse_document!()
+      |> Floki.find("aside[data-role=widget] [data-role=widget-heading]")
+      |> Enum.map(&(&1 |> Floki.text() |> String.trim()))
+    end
+
+    # an instance-level setting is also written to the app's config, which outlives the test and the rolled back database
+    setup do
+      originals =
+        for kind <- Vocabulary.kinds(), key <- [[Vocabulary, kind], [Vocabulary, :custom, kind]],
+            do: {key, Config.get(key)}
+
+      on_exit(fn -> for {key, original} <- originals, do: Config.put(key, original) end)
+    end
+
+    test "As a user I can pick another wording for the Trending block", %{
+      conn: conn,
+      account: account,
+      alice: alice
+    } do
+      [default, other | _] = Vocabulary.preset_ids(:trending_tags)
+
+      {:ok, view, _html} = live(conn, @user_behaviours)
+
+      assert has_element?(view, "#{@trending_form} option[value=#{other}]")
+
+      view
+      |> element(@trending_form)
+      |> render_change(choose_wording(:trending_tags, other))
+
+      titles = dashboard_titles(conn(user: alice, account: account))
+
+      assert title_of(:trending_tags, other) in titles
+      refute title_of(:trending_tags, default) in titles
+    end
+
+    test "every block with several wordings has its own choice, listing all of them", %{
+      conn: conn
+    } do
+      {:ok, view, _html} = live(conn, @user_behaviours)
+
+      assert :trending_tags in Vocabulary.kinds()
+      assert :top_discussions in Vocabulary.kinds()
+
+      for kind <- Vocabulary.kinds(), id <- Vocabulary.preset_ids(kind) ++ [:custom] do
+        assert has_element?(view, "form[data-scope=set_wording_#{kind}] option[value=#{id}]"),
+               "#{kind} offers #{id}"
+      end
+    end
+
+    test "a block with a single wording can still be worded in one's own words", %{conn: conn} do
+      Process.put(
+        [:bonfire_common, Vocabulary, :kinds],
+        solo: [module: Bonfire.UI.Me.RuntimeConfig, presets: %{solo: %{title: "Solo"}}]
+      )
+
+      {:ok, view, _html} = live(conn, @user_behaviours)
+
+      assert has_element?(view, "form[data-scope=set_wording_solo] option[value=solo]")
+      assert has_element?(view, "form[data-scope=set_wording_solo] option[value=custom]")
+    end
+
+    test "there are no fields for one's own words until Custom is chosen", %{conn: conn} do
+      {:ok, view, _html} = live(conn, @user_behaviours)
+
+      assert has_element?(view, @trending_form), "control: the choice is there"
+      refute has_element?(view, @trending_words_form)
+
+      view
+      |> element(@trending_form)
+      |> render_change(choose_wording(:trending_tags, :custom))
+
+      # one field for each phrase of the block, whatever it has
+      for key <- Vocabulary.phrase_keys(:trending_tags) do
+        assert has_element?(view, "#{@trending_words_form} input[type=text][name*='[#{key}]']"),
+               "a field for #{key}"
+      end
+    end
+
+    test "As a user I can word the Trending block in my own words", %{
+      conn: conn,
+      account: account,
+      alice: alice
+    } do
+      {:ok, view, _html} = live(conn, @user_behaviours)
+
+      view
+      |> element(@trending_form)
+      |> render_change(choose_wording(:trending_tags, :custom))
+
+      view
+      |> element(@trending_words_form)
+      |> render_submit(
+        type_wording(:trending_tags, %{title: "What are the kids saying?", empty: ""})
+      )
+
+      titles = dashboard_titles(conn(user: alice, account: account))
+
+      assert "What are the kids saying?" in titles
+      refute title_of(:trending_tags, :trending_tags) in titles
+    end
+
+    test "As an admin I word a block for the instance in my own words" do
+      account = fake_account!()
+      admin = fake_admin!(account)
+
+      {:ok, view, _html} = live(conn(user: admin, account: account), @instance_behaviours)
+
+      view
+      |> element(@trending_form)
+      |> render_change(choose_wording(:trending_tags, :custom))
+
+      view
+      |> element(@trending_words_form)
+      |> render_submit(type_wording(:trending_tags, %{title: "What is the school yard saying?"}))
+
+      bob = fake_user!(account)
+
+      assert "What is the school yard saying?" in dashboard_titles(conn(user: bob, account: account))
+    end
+
+    test "an instance's own wording for a block is one to choose", %{conn: conn} do
+      Process.put(
+        [:bonfire_common, Vocabulary, :custom_presets],
+        top_discussions: %{
+          school_yard: %{base: :top_discussions, title: "What do you hear in the school yard?"}
+        }
+      )
+
+      {:ok, view, _html} = live(conn, @user_behaviours)
+
+      assert has_element?(
+               view,
+               "#{@top_discussions_form} option",
+               "What do you hear in the school yard?"
+             )
+    end
+
+    test "As an admin I set the wording for the instance, and a user's own choice beats it" do
+      [default, other | _] = Vocabulary.preset_ids(:trending_tags)
+
+      account = fake_account!()
+      admin = fake_admin!(account)
+
+      {:ok, view, _html} = live(conn(user: admin, account: account), @instance_behaviours)
+
+      view
+      |> element(@trending_form)
+      |> render_change(choose_wording(:trending_tags, other))
+
+      bob = fake_user!(account)
+      assert title_of(:trending_tags, other) in dashboard_titles(conn(user: bob, account: account))
+
+      carol = fake_user!(account)
+
+      assert {:ok, %{__context__: %{current_user: carol}}} =
+               Bonfire.Common.Settings.put([Vocabulary, :trending_tags], to_string(default),
+                 current_user: carol,
+                 scope: :user
+               )
+
+      carol_titles = dashboard_titles(conn(user: carol, account: account))
+      assert title_of(:trending_tags, default) in carol_titles
+      refute title_of(:trending_tags, other) in carol_titles
+    end
+  end
+
   describe "Instance blocks scope switcher (#2018)" do
     test "the user/account/instance scope switcher is NOT shown on the instance blocks page" do
       account = fake_account!()

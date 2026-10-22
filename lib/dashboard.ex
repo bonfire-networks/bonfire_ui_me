@@ -45,7 +45,8 @@ defmodule Bonfire.UI.Me.Dashboard do
         name: l("Top discussions"),
         widget: %{
           module: Bonfire.UI.Social.WidgetTrendingDiscussionsLive,
-          data: [limit: 5, widget_title: l("Top discussions")],
+          # no `widget_title` here: a title passed in beats the widget's own, which follows the vocabulary preset the instance or the user chose
+          data: [limit: 5],
           type: Surface.Component
         }
       },
