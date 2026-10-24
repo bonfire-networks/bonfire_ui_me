@@ -27,6 +27,7 @@ defmodule Bonfire.UI.Me.UserPreviewLiveTest do
 
     assert [avatar_link] = Floki.find(doc, "a[data-role=user_preview_avatar_link]")
     assert Floki.attribute(avatar_link, "href") == ["/@#{user.character.username}"]
+
     # the name link already announces the profile, so the avatar link stays out of the tab order and the a11y tree
     assert Floki.attribute(avatar_link, "tabindex") == ["-1"]
     assert Floki.attribute(avatar_link, "aria-hidden") == ["true"]
@@ -37,7 +38,10 @@ defmodule Bonfire.UI.Me.UserPreviewLiveTest do
     doc = render_preview(user, stretch_link: false)
 
     assert Floki.attribute(doc, "a[data-role=user_preview_name]", "data-phx-link") == ["redirect"]
-    assert Floki.attribute(doc, "a[data-role=user_preview_avatar_link]", "data-phx-link") == ["redirect"]
+
+    assert Floki.attribute(doc, "a[data-role=user_preview_avatar_link]", "data-phx-link") == [
+             "redirect"
+           ]
   end
 
   test "with target _blank (the circle embed), the name link stays a plain link opening a new tab" do

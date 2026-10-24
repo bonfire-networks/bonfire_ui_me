@@ -105,7 +105,13 @@ defmodule Bonfire.UI.Me.ProfileHoverCardLiveTest do
 
       # creating the remote actor goes through ActivityPub's fetcher, which reads Application env rather than the process
       instance_config = Application.get_env(:activity_pub, :instance)
-      Application.put_env(:activity_pub, :instance, Keyword.put(instance_config, :federating, true))
+
+      Application.put_env(
+        :activity_pub,
+        :instance,
+        Keyword.put(instance_config, :federating, true)
+      )
+
       on_exit(fn -> Application.put_env(:activity_pub, :instance, instance_config) end)
 
       {:ok, remote} = Bonfire.Federate.ActivityPub.Simulate.fake_remote_user()

@@ -60,7 +60,9 @@ defmodule Bonfire.UI.Me.ProfileHoverCardPageTest do
     assert [_] = Floki.find(doc, "[data-role=user_preview_website]")
 
     assert [_] = Floki.find(doc, "[data-role=familiar_follower_avatar]")
-    assert Floki.find(doc, "[data-role=familiar_followers_text]") |> Floki.text() =~ ana.profile.name
+
+    assert Floki.find(doc, "[data-role=familiar_followers_text]") |> Floki.text() =~
+             ana.profile.name
 
     assert [_] = Floki.find(doc, "[data-id=follow]")
 

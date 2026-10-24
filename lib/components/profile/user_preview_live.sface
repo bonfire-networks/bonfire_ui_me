@@ -99,7 +99,11 @@
             >{@name}</LinkLive>
             <span :if={!@href}>{@name}</span>
           </h3>
-          <p data-role="user_preview_handle" class="mt-0.5 truncate text-[0.8125rem] text-muted" title={@handle}>{@handle}</p>
+          <p
+            data-role="user_preview_handle"
+            class="mt-0.5 truncate text-[0.8125rem] text-muted"
+            title={@handle}
+          >{@handle}</p>
         </div>
       </div>
 

@@ -20,5 +20,6 @@
     </span>
   </div>
   {!-- kept on one line: whitespace between the parts would show up in the sentence --}
-  <p data-role="familiar_followers_text">{#for part <- parts(@users, @total)}{#case part}{#match {:text, text}}{text}{#match {:user, user}}{#if @size == :hero}<LinkLive to={"/@#{e(user, :character, :username, "")}"} class="font-medium text-base-content link link-hover">{display_name(user)}</LinkLive>{#else}<span class="text-base-content">{display_name(user)}</span>{/if}{/case}{/for}</p>
+  <p data-role="familiar_followers_text">{#for part <- parts(@users, @total)}{#case part}
+      {#match {:text, text}}{text}{#match {:user, user}}    {/case}{/for}</p>
 </div>
