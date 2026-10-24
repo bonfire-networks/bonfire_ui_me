@@ -394,7 +394,8 @@ defmodule Bonfire.UI.Me.SettingsTest do
     # an instance-level setting is also written to the app's config, which outlives the test and the rolled back database
     setup do
       originals =
-        for kind <- Vocabulary.kinds(), key <- [[Vocabulary, kind], [Vocabulary, :custom, kind]],
+        for kind <- Vocabulary.kinds(),
+            key <- [[Vocabulary, kind], [Vocabulary, :custom, kind]],
             do: {key, Config.get(key)}
 
       on_exit(fn -> for {key, original} <- originals, do: Config.put(key, original) end)
@@ -536,6 +537,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> render_change(choose_wording(:trending_tags, other))
 
       bob = fake_user!(account)
+
       assert title_of(:trending_tags, other) in trending_titles(bob, account)
 
       carol = fake_user!(account)
