@@ -1,0 +1,24 @@
+<div
+  :if={@users != []}
+  data-role="familiar_followers"
+  class={"flex items-center gap-2 text-muted", "text-xs": @size == :card, "text-sm": @size == :hero}
+>
+  <div class={"flex shrink-0", "-space-x-1.5": @size == :card, "-space-x-2": @size == :hero}>
+    <span
+      :for={user <- @users}
+      data-role="familiar_follower_avatar"
+      class="inline-flex rounded-full ring-2 ring-base-100"
+    >
+      <Bonfire.UI.Common.AvatarLive
+        parent_id={deterministic_dom_id(__MODULE__, id(user), "familiar_follower", @parent_id)}
+        user_id={id(user)}
+        src={Media.avatar_url(user)}
+        title={display_name(user)}
+        class={"rounded-full object-cover", "size-5": @size == :card, "size-6": @size == :hero}
+        is_remote={!check_is_local?(user, preload_if_needed: false)}
+      />
+    </span>
+  </div>
+  {!-- kept on one line: whitespace between the parts would show up in the sentence --}
+  <p data-role="familiar_followers_text">{#for part <- parts(@users, @total)}{#case part}{#match {:text, text}}{text}{#match {:user, user}}{#if @size == :hero}<LinkLive to={"/@#{e(user, :character, :username, "")}"} class="font-medium text-base-content link link-hover">{display_name(user)}</LinkLive>{#else}<span class="text-base-content">{display_name(user)}</span>{/if}{/case}{/for}</p>
+</div>

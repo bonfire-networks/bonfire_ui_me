@@ -6,4 +6,7 @@ defmodule Bonfire.UI.Me.ProfileStatsLive do
   prop followers_count, :any, default: nil
   prop following_count, :any, default: nil
   prop character_type, :atom, default: nil
+
+  @doc "Smaller numbers and tighter spacing, for the profile hover card"
+  prop compact, :boolean, default: false
 end

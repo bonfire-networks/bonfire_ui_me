@@ -1,95 +1,144 @@
-<div class={@class}>
-  <div class="">
-    {!-- <LinkLive to={"#{@path_prefix}#{e(@user, :character, :username, "")}#{@go}"}> --}
-    {#case {Media.avatar_url(@user), @with_banner && Media.banner_url(@user, fallback: false)}}
-      {#match {avatar_url, banner_url}}
-        {#case @with_banner && Media.maybe_dominant_color(@user, avatar_url, banner_url)}
-          {#match color}
-            <div
-              :if={@with_banner}
-              aria-hidden="true"
-              class="h-24 bg-primary bg-center bg-cover rounded-t-box"
-              style={cond do
-                is_binary(banner_url) -> "background-image: url('#{URI.encode(banner_url)}')"
-                is_binary(color) -> "background-color: #{color}"
-                true -> ""
-              end}
-            />
-            <div class={[
-              "p-3",
-              "-mt-12": @with_banner
-            ]}>
-              <div class={["flex gap-3": !@with_banner]}>
-                <LinkLive
-                  to={@href}
-                  parent_id={deterministic_dom_id(__MODULE__, nil, "av", @parent_id)}
-                  class="flex items-center justify-between"
-                >
-                  <Bonfire.UI.Common.AvatarLive
-                    parent_id={deterministic_dom_id(__MODULE__, id(@user), "user_preview", @parent_id)}
-                    class="inline-block object-cover rounded-full size-16"
-                    bg_class="h-full"
-                    title={e(@user, :profile, :name, "Anon")}
-                    src={avatar_url}
-                    user_id={id(@user)}
-                    is_remote={!check_is_local?(@user, preload_if_needed: false)}
-                  />
-                  {!-- rounded-full bg-base-300 --}
-                </LinkLive>
+{#if @variant == :portrait}
+  <article class={["group relative rounded-box", @class]}>
+    <div class="aspect-square overflow-hidden rounded-box bg-base-100 ring-1 ring-inset ring-base-content/10 group-has-[a.card-link:focus-visible]:outline-2 group-has-[a.card-link:focus-visible]:-outline-offset-2 group-has-[a.card-link:focus-visible]:outline-primary">
+      <Bonfire.UI.Common.AvatarLive
+        parent_id={deterministic_dom_id(__MODULE__, id(@user), "tile", @parent_id)}
+        src={@avatar_url}
+        user_id={id(@user)}
+        title={@name}
+        is_remote={!check_is_local?(@user, preload_if_needed: false)}
+        wrapper_class="size-full"
+        class="size-full [&_img]:size-full [&_img]:object-cover [&_img]:transition-transform [&_img]:duration-300 [&_img]:ease-out motion-reduce:[&_img]:transition-none [@media(hover:hover)]:group-hover:[&_img]:scale-[1.03]"
+        bg_class="size-full"
+      />
+    </div>
+    <h3 class="mt-3.5 truncate text-[0.9375rem] font-medium leading-snug" title={@name}>
+      <LinkLive
+        :if={@href}
+        to={@href}
+        target={@target}
+        class="card-link after:absolute after:inset-0 after:rounded-box focus:outline-none"
+      >{@name}</LinkLive>
+      <span :if={!@href}>{@name}</span>
+    </h3>
+    <p class="mt-0.5 truncate text-[0.8125rem] text-muted" title={@handle}>{@handle}</p>
+    <p
+      :if={@with_summary && e(@user, :profile, :summary, nil)}
+      class="mt-2 line-clamp-2 text-[0.8125rem] leading-normal text-base-content/80"
+    >
+      {Text.text_only(e(@user, :profile, :summary, nil))}
+    </p>
+  </article>
+{#else}
+  {!-- border and inset outline, not ring: an outside box-shadow gets clipped by the auto-sized embed iframe --}
+  <article class={[
+    "relative flex flex-col rounded-box bg-base-100 border border-base-content/10 transition-colors duration-150 ease-out motion-reduce:transition-none hover:border-base-content/20",
+    "has-[a.card-link:focus-visible]:outline-2 has-[a.card-link:focus-visible]:-outline-offset-2 has-[a.card-link:focus-visible]:outline-primary",
+    @class
+  ]}>
+    <div
+      :if={@with_banner}
+      aria-hidden="true"
+      class={
+        "aspect-[3/1] rounded-t-[calc(var(--radius-box)-1px)] bg-cover bg-center",
+        "bg-linear-to-b from-base-content/4 to-transparent": !is_binary(@banner_url)
+      }
+      style={if is_binary(@banner_url), do: "background-image: url('#{URI.encode(@banner_url)}')", else: ""}
+    />
+    <div class={["flex flex-1 flex-col", "px-5 pb-5": @with_banner, "p-4": !@with_banner]}>
+      <div class={["flex min-w-0", "flex-col": @with_banner, "items-center gap-3": !@with_banner]}>
+        {!-- the name link already announces the profile, so this one stays out of the tab order and the a11y tree --}
+        <LinkLive
+          :if={@href && !@stretch_link}
+          to={@href}
+          target={@target}
+          opts={[tabindex: "-1", "aria-hidden": "true", "data-role": "user_preview_avatar_link"]}
+          class="shrink-0"
+        >
+          <Bonfire.UI.Common.AvatarLive
+            parent_id={deterministic_dom_id(__MODULE__, id(@user), "card", @parent_id)}
+            src={@avatar_url}
+            user_id={id(@user)}
+            title={@name}
+            is_remote={!check_is_local?(@user, preload_if_needed: false)}
+            wrapper_class={["shrink-0", "-mt-8 size-16": @with_banner, "size-12": !@with_banner]}
+            class={[
+              "rounded-full bg-base-300 overflow-hidden [&_img]:size-full [&_img]:object-cover",
+              "size-16 ring-4 ring-base-100": @with_banner,
+              "size-12": !@with_banner
+            ]}
+            bg_class="size-full"
+          />
+        </LinkLive>
+        <Bonfire.UI.Common.AvatarLive
+          :if={!@href || @stretch_link}
+          parent_id={deterministic_dom_id(__MODULE__, id(@user), "card", @parent_id)}
+          src={@avatar_url}
+          user_id={id(@user)}
+          title={@name}
+          is_remote={!check_is_local?(@user, preload_if_needed: false)}
+          wrapper_class={["shrink-0", "-mt-8 size-16": @with_banner, "size-12": !@with_banner]}
+          class={[
+            "rounded-full bg-base-300 overflow-hidden [&_img]:size-full [&_img]:object-cover",
+            "size-16 ring-4 ring-base-100": @with_banner,
+            "size-12": !@with_banner
+          ]}
+          bg_class="size-full"
+        />
+        <div class={["min-w-0", "mt-3.5": @with_banner]}>
+          <h3 class="truncate text-base font-medium leading-snug" title={@name}>
+            <LinkLive
+              :if={@href}
+              to={@href}
+              target={@target}
+              opts={["data-role": "user_preview_name"]}
+              class={[
+                "card-link focus:outline-none",
+                "after:absolute after:inset-0 after:z-1 after:rounded-box": @stretch_link
+              ]}
+            >{@name}</LinkLive>
+            <span :if={!@href}>{@name}</span>
+          </h3>
+          <p data-role="user_preview_handle" class="mt-0.5 truncate text-[0.8125rem] text-muted" title={@handle}>{@handle}</p>
+        </div>
+      </div>
 
-                <div class="mt-2 truncate ellipsis">
-                  <LinkLive
-                    to={@href}
-                    parent_id={deterministic_dom_id(__MODULE__, nil, "l", @parent_id)}
-                    class="flex hover:underline items-center"
-                  >
-                    <span class="text-sm font-medium text-base-content">{e(@user, :profile, :name, nil)}</span>
-                  </LinkLive>
+      <div :if={@show_badges} class="flex flex-wrap gap-1.5 empty:hidden mt-3">
+        <span
+          :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) && e(@user, :shared_user, :label, nil)}
+          class="badge badge-sm badge-secondary badge-outline"
+        >
+          {e(@user, :shared_user, :label, nil)}
+        </span>
+        <span
+          :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
+          class="badge badge-sm badge-info badge-outline"
+        >
+          {l("Admin")}
+        </span>
+      </div>
 
-                  <div class="flex items-center gap-2">
-                    <div :if={e(@user, :profile, :summary, nil)} class="text-sm font-normal text-muted line-clamp-2">
-                      {Text.text_only(e(@user, :profile, :summary, nil))}
-                    </div>
+      <p
+        :if={@with_summary && e(@user, :profile, :summary, nil)}
+        data-role="user_preview_bio"
+        class="mt-3 line-clamp-3 text-sm leading-[1.55] text-base-content/85"
+      >
+        {Text.text_only(e(@user, :profile, :summary, nil))}
+      </p>
+      <div :if={@with_summary && e(@user, :profile, :website, nil)} class="mt-auto pt-4">
+        <a
+          href={e(@user, :profile, :website, nil)}
+          target={@target}
+          rel="me noopener"
+          data-role="user_preview_website"
+          class="relative z-2 inline-flex max-w-full items-center gap-1.5 rounded text-[0.8125rem] text-muted transition-colors duration-150 hover:text-base-content focus-ring"
+        >
+          <#Icon iconify="ph:link" class="size-3.5 shrink-0" />
+          <span class="truncate">{Bonfire.Common.URIs.display_url(e(@user, :profile, :website, nil))}</span>
+        </a>
+      </div>
 
-                    <span
-                      :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) && e(@user, :shared_user, :label, nil)}
-                      class="badge badge-secondary badge-outline"
-                    >
-                      {e(@user, :shared_user, :label, nil)}
-                    </span>
-                    <span
-                      :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
-                      class="badge-sm badge badge-info badge-outline"
-                    >
-                      {l("Admin")}
-                    </span>
-                  </div>
-
-                  <div :if={@with_summary} class="text-left prose prose-sm text-sm line-clamp-2">
-                    {rich(e(@user, :profile, :summary, nil), sanitize: true, skip_markdown: true)}
-                  </div>
-                </div>
-              </div>
-              <div
-                :if={not is_nil(e(@user, :character, :follow_count, :follower_count, nil)) and
-                  Settings.get([:ui, :show_activity_counts])}
-                class="flex items-center mt-2 mb-4 space-x-2 text-muted"
-              >
-                <#Icon solid="Users" class="size-5" />
-                <div class="text-sm">
-                  <b>{e(@user, :character, :follow_count, :follower_count, 0)}</b>
-                  {l("Followers")}
-                </div>
-
-                <div class="text-sm">
-                  <b>{e(@user, :character, :follow_count, :follow_count, 0)}</b>
-                  {l("Following")}
-                </div>
-              </div>
-            </div>
-        {/case}
-    {/case}
-    <!-- </LinkLive> -->
-    <#slot {@actions} />
-  </div>
-</div>
+      <#slot {@actions} />
+    </div>
+  </article>
+{/if}

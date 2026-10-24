@@ -13,58 +13,14 @@
 
     <div
       :if={@familiar_followers != [] and current_user_id(@__context__) != id(@user)}
-      class="flex items-center gap-2 text-sm text-muted mb-3"
+      class="mb-3"
     >
-      <div class="flex -space-x-2">
-        {#for user <- Enum.take(@familiar_followers, 3)}
-          <Bonfire.UI.Common.AvatarLive
-            parent_id="familiar-followers"
-            class="size-6 rounded-full"
-            wrapper_class="inline-flex"
-            user_id={id(user)}
-            src={Media.avatar_url(user)}
-            title={e(user, :profile, :name, "")}
-            is_remote={!check_is_local?(user, preload_if_needed: false)}
-          />
-        {/for}
-      </div>
-      <span class="text-sm">
-        {l("Followed by")}
-        {#case @familiar_followers}
-          {#match []}
-          {#match [one]}
-            <LinkLive
-              to={~p"/@#{e(one, :character, :username, "")}"}
-              class="font-medium text-base-content link link-hover"
-            >
-              {e(one, :profile, :name, e(one, :character, :username, ""))}
-            </LinkLive>
-          {#match [one, two]}
-            <LinkLive
-              to={~p"/@#{e(one, :character, :username, "")}"}
-              class="font-medium text-base-content link link-hover"
-            >
-              {e(one, :profile, :name, e(one, :character, :username, ""))}
-            </LinkLive>
-            {l(" and ")}
-            <LinkLive
-              to={~p"/@#{e(two, :character, :username, "")}"}
-              class="font-medium text-base-content link link-hover"
-            >
-              {e(two, :profile, :name, e(two, :character, :username, ""))}
-            </LinkLive>
-          {#match [one | rest]}
-            <LinkLive
-              to={~p"/@#{e(one, :character, :username, "")}"}
-              class="font-medium text-base-content link link-hover"
-            >
-              {e(one, :profile, :name, e(one, :character, :username, ""))}
-            </LinkLive>
-            {lp(" and %{count} other you follow", " and %{count} others you follow", length(rest),
-              count: length(rest)
-            )}
-        {/case}
-      </span>
+      <Bonfire.UI.Me.FamiliarFollowersLive
+        users={Enum.take(@familiar_followers, 3)}
+        total={length(@familiar_followers)}
+        size={:hero}
+        parent_id="familiar-followers"
+      />
     </div>
 
     <Bonfire.UI.Me.ProfileLinksLive
@@ -74,7 +30,7 @@
     />
 
     <Bonfire.UI.Me.ProfileStatsLive
-      :if={@character_type == :user}
+      :if={@character_type == :user and Enum.any?([@post_count, @following_count, @followers_count])}
       user={@user}
       character_type={@character_type}
       post_count={@post_count}

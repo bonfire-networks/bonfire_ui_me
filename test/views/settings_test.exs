@@ -376,14 +376,18 @@ defmodule Bonfire.UI.Me.SettingsTest do
     defp title_of(kind, preset_id),
       do: Vocabulary.phrase(Vocabulary.preset_for(kind, preset_id), :title)
 
-    # the titles of the widgets on the dashboard, as the viewer sees them
-    defp dashboard_titles(conn) do
-      {:ok, view, _html} = live(conn, "/dashboard")
+    # the Trending block's title as the viewer sees it, rendered directly rather than read from the dashboard, since not every flavour's dashboard has the block (jacobin leaves it out). The viewer is loaded as the session loads them, so their saved settings apply
+    defp trending_titles(user, account) do
+      current_user = Bonfire.Me.Users.get_current(id(user), id(account))
 
-      view
-      |> render_async()
-      |> Floki.parse_document!()
-      |> Floki.find("aside[data-role=widget] [data-role=widget-heading]")
+      render_component(&Bonfire.Tag.Web.WidgetTagsLive.render/1, %{
+        widget_title: nil,
+        wrapper_class: nil,
+        always_show_reset_btn: false,
+        __context__: %{current_user: current_user, current_account: account}
+      })
+      |> Floki.parse_fragment!()
+      |> Floki.find("[data-role=widget-heading]")
       |> Enum.map(&(&1 |> Floki.text() |> String.trim()))
     end
 
@@ -411,7 +415,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> element(@trending_form)
       |> render_change(choose_wording(:trending_tags, other))
 
-      titles = dashboard_titles(conn(user: alice, account: account))
+      titles = trending_titles(alice, account)
 
       assert title_of(:trending_tags, other) in titles
       refute title_of(:trending_tags, default) in titles
@@ -477,7 +481,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
         type_wording(:trending_tags, %{title: "What are the kids saying?", empty: ""})
       )
 
-      titles = dashboard_titles(conn(user: alice, account: account))
+      titles = trending_titles(alice, account)
 
       assert "What are the kids saying?" in titles
       refute title_of(:trending_tags, :trending_tags) in titles
@@ -499,7 +503,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
       bob = fake_user!(account)
 
-      assert "What is the school yard saying?" in dashboard_titles(conn(user: bob, account: account))
+      assert "What is the school yard saying?" in trending_titles(bob, account)
     end
 
     test "an instance's own wording for a block is one to choose", %{conn: conn} do
@@ -532,7 +536,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> render_change(choose_wording(:trending_tags, other))
 
       bob = fake_user!(account)
-      assert title_of(:trending_tags, other) in dashboard_titles(conn(user: bob, account: account))
+      assert title_of(:trending_tags, other) in trending_titles(bob, account)
 
       carol = fake_user!(account)
 
@@ -542,7 +546,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
                  scope: :user
                )
 
-      carol_titles = dashboard_titles(conn(user: carol, account: account))
+      carol_titles = trending_titles(carol, account)
       assert title_of(:trending_tags, default) in carol_titles
       refute title_of(:trending_tags, other) in carol_titles
     end

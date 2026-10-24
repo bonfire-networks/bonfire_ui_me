@@ -1,0 +1,39 @@
+<Bonfire.UI.Me.UserPreviewLive
+  user={@card.user}
+  href={path(@card.user)}
+  with_summary
+  show_badges={false}
+  stretch_link={false}
+  parent_id={@parent_id}
+>
+  <:actions>
+    <div class="mt-3 flex flex-col gap-2 empty:hidden">
+      <Bonfire.UI.Me.ProfileStatsLive
+        :if={@card.followers_count || @card.following_count}
+        user={@card.user}
+        followers_count={@card.followers_count}
+        following_count={@card.following_count}
+        compact
+      />
+      <Bonfire.UI.Me.FamiliarFollowersLive
+        users={@card.familiar_followers}
+        total={@card.familiar_followers_total}
+        size={:card}
+        parent_id={@parent_id}
+      />
+    </div>
+    <StatefulComponent
+      module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+      id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@card.user), @parent_id)}
+      object_id={id(@card.user)}
+      object={@card.user}
+      follows_me={@card.follows_me}
+      path={path(@card.user)}
+      with_bell={false}
+      container_class="relative z-2 mt-4 flex w-full"
+      hide_icon
+      class="btn btn-primary btn-sm w-full"
+      class_already="btn btn-primary btn-soft btn-sm w-full"
+    />
+  </:actions>
+</Bonfire.UI.Me.UserPreviewLive>

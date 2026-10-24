@@ -1,7 +1,7 @@
 <dl
   :if={not is_nil(@joined_date) or @links != [] or @accounts != []}
   data-role="profile-links"
-  class="min-w-0 mb-4 border-y-(length:--divider-width) border-divider"
+  class="min-w-0 mb-4 border-t-(length:--divider-width) border-divider"
 >
   <div
     :if={@joined_date}

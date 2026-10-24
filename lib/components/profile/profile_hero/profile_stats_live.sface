@@ -1,13 +1,19 @@
 <div>
-  <div :if={@character_type == :user} data-role="profile-stats-divider" />
-  <div data-role="profile-stats" class="flex flex-wrap items-start gap-x-6 gap-y-3 pb-3">
+  <div
+    data-role="profile-stats"
+    class={
+      "flex flex-wrap items-start",
+      "gap-x-6 gap-y-3 pb-3": !@compact,
+      "gap-x-3 gap-y-1": @compact
+    }
+  >
     <LinkLive
       :if={@post_count}
       opts={["data-role": "profile_post_count"]}
       to={~p"/@#{e(@user, :character, :username, nil)}"}
       class="group flex items-baseline gap-1"
     >
-      <span class="text-base font-bold text-base-content">{@post_count}</span>
+      <span class={"font-bold text-base-content", "text-base": !@compact, "text-sm": @compact}>{@post_count}</span>
       <span class="text-sm text-muted group-hover:underline">{l("Posts")}</span>
     </LinkLive>
 
@@ -17,7 +23,7 @@
       to={~p"/@#{e(@user, :character, :username, nil)}/followed"}
       class="group flex items-baseline gap-1"
     >
-      <span class="text-base font-bold text-base-content">{@following_count}</span>
+      <span class={"font-bold text-base-content", "text-base": !@compact, "text-sm": @compact}>{@following_count}</span>
       <span class="text-sm text-muted group-hover:underline">{l("Following")}</span>
     </LinkLive>
 
@@ -27,7 +33,7 @@
       to={~p"/@#{e(@user, :character, :username, nil)}/followers"}
       class="group flex items-baseline gap-1"
     >
-      <span class="text-base font-bold text-base-content">{@followers_count}</span>
+      <span class={"font-bold text-base-content", "text-base": !@compact, "text-sm": @compact}>{@followers_count}</span>
       <span class="text-sm text-muted group-hover:underline">{l("Followers")}</span>
     </LinkLive>
   </div>

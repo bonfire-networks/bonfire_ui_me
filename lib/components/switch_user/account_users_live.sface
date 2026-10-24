@@ -32,12 +32,8 @@
         <LinkLive to={"/switch-user/#{e(user, :character, :username, "")}#{@go}"} class="w-full block">
           <Bonfire.UI.Me.UserPreviewLive
             user={user}
-            path_prefix="/switch-user/"
-            go={@go}
             with_banner
-            with_summary={false}
-            is_local
-            class="bg-base-100 transition rounded-box duration-300 ease-out component_user_preview ring-0 ring-primary/90 hover:ring-4"
+            class="component_user_preview ring-0 ring-primary/90 hover:ring-4 transition-shadow"
           />
         </LinkLive>
       </div>

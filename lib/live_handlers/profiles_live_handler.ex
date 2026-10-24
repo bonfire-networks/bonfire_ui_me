@@ -381,21 +381,14 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
 
     # Only load counts if the setting is enabled (avoids unnecessary DB queries)
     {followers_count, following_count, post_count} =
-      if Settings.get([:ui, :show_activity_counts], false, current_user: current_user) do
-        # Count followers (users who follow this user)
-        followers =
-          Bonfire.Social.Edges.count(
-            Bonfire.Data.Social.Follow,
-            [objects: user],
-            skip_boundary_check: true
-          )
-
-        # Count following (users this user follows)
-        following =
-          Bonfire.Social.Edges.count(
-            Bonfire.Data.Social.Follow,
-            [subjects: user],
-            skip_boundary_check: true
+      if Bonfire.UI.Common.show_activity_counts?(nil, current_user: current_user) do
+        # accepted follows both ways in one query, the same numbers the profile hover card shows
+        {followers, following} =
+          Utils.maybe_apply(
+            Bonfire.Social.Graph.Follows,
+            :follow_counts,
+            [user],
+            fallback_return: {nil, nil}
           )
 
         # Count posts by this user
