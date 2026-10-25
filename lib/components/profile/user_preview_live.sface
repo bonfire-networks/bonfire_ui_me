@@ -22,12 +22,15 @@
       <span :if={!@href}>{@name}</span>
     </h3>
     <p class="mt-0.5 truncate text-[0.8125rem] text-muted" title={@handle}>{@handle}</p>
-    <p
+    <div
       :if={@with_summary && e(@user, :profile, :summary, nil)}
-      class="mt-2 line-clamp-2 text-[0.8125rem] leading-normal text-base-content/80"
+      class="mt-2 line-clamp-2 text-[0.8125rem] leading-normal text-base-content/80 [&_a]:relative [&_a]:z-2 [&_a]:underline"
     >
-      {Text.text_only(e(@user, :profile, :summary, nil))}
-    </p>
+      {rich(e(@user, :profile, :summary, nil),
+        sanitize: true,
+        skip_markdown: !check_is_local?(@user, preload_if_needed: false)
+      )}
+    </div>
   </article>
 {#else}
   {!-- border and inset outline, not ring: an outside box-shadow gets clipped by the auto-sized embed iframe --}
@@ -118,13 +121,17 @@
         </span>
       </div>
 
-      <p
+      {!-- bio links sit above the stretched name link, so mentions stay clickable --}
+      <div
         :if={@with_summary && e(@user, :profile, :summary, nil)}
         data-role="user_preview_bio"
-        class="mt-3 line-clamp-3 text-sm leading-[1.55] text-base-content/85"
+        class="mt-3 line-clamp-3 text-sm leading-[1.55] text-base-content/85 [&_a]:relative [&_a]:z-2 [&_a]:underline"
       >
-        {Text.text_only(e(@user, :profile, :summary, nil))}
-      </p>
+        {rich(e(@user, :profile, :summary, nil),
+          sanitize: true,
+          skip_markdown: !check_is_local?(@user, preload_if_needed: false)
+        )}
+      </div>
       <div :if={@with_summary && e(@user, :profile, :website, nil)} class="mt-auto pt-4">
         <a
           href={e(@user, :profile, :website, nil)}
