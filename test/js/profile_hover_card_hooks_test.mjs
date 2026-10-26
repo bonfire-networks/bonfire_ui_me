@@ -1,4 +1,4 @@
-// The profile hover card hook's decisions, as pure functions: the desktop state table (plans/profile-hover-card.md, section 3, team-docs). Run with: node --test extensions/bonfire_ui_me/test/js/
+// The hook's reducer (plans/profile-hover-card.md in team-docs). Run with: node --test extensions/bonfire_ui_me/test/js/
 import assert from "node:assert/strict";
 import fs from "node:fs";
 import test from "node:test";
@@ -52,7 +52,7 @@ test("2. leaving before the wait ends cancels it, with no request", () => {
 test("3. the wait ending opens the card and asks the server for it", () => {
 	assert.deepEqual(next(at("waiting", "A"), { type: "timer" }), {
 		state: at("open", "A"),
-		effects: [["show", "A1"], ["push_load", "A"]]
+		effects: [["show", "A1"], ["push_load", "A1", "A", false]]
 	});
 });
 
@@ -112,7 +112,7 @@ test("10. a reply for another link is ignored", () => {
 test("11. a found reply drops the skeleton; LiveView fills the card", () => {
 	assert.deepEqual(next(at("open", "A"), { type: "reply", id: "A", found: true }), {
 		state: at("open", "A"),
-		effects: [["unmark_loading"]]
+		effects: [["loaded", "panel"]]
 	});
 });
 
@@ -127,5 +127,59 @@ test("13. Escape during the wait cancels it, so the card doesn't open after", ()
 	assert.deepEqual(next(at("waiting", "A"), { type: "escape" }), {
 		state: idle,
 		effects: [["clear_timer"]]
+	});
+});
+
+// touch: a pending tap is the "sheet" mode, keyed by the tapped link
+const tap = (id, key = `${id}1`, connected = true) => ({ type: "tap", id, key, connected });
+const pending = (id, key = `${id}1`) => at("sheet", id, key);
+
+test("14. a tap opens the sheet at once and asks for its content", () => {
+	assert.deepEqual(next(idle, tap("A")), {
+		state: pending("A"),
+		effects: [["open_sheet"], ["push_load", "A1", "A", true]]
+	});
+});
+
+test("15. a found reply to a tap drops the sheet's skeleton; LiveView filled it", () => {
+	assert.deepEqual(next(pending("A"), { type: "reply", id: "A", found: true }), {
+		state: idle,
+		effects: [["loaded", "sheet"]]
+	});
+});
+
+test("16. a not-found reply to a tap closes the sheet and follows the link", () => {
+	assert.deepEqual(next(pending("A"), { type: "reply", id: "A", found: false }), {
+		state: idle,
+		effects: [["close_sheet"], ["navigate", "A1"]]
+	});
+});
+
+test("17. a tap while LiveView is disconnected goes through, so the link navigates", () => {
+	assert.deepEqual(next(idle, tap("A", "A1", false)), { state: idle, effects: [] });
+});
+
+test("18. a tap while the desktop card is shown closes it, then opens the sheet", () => {
+	assert.deepEqual(next(at("open", "B"), tap("A")), {
+		state: pending("A"),
+		effects: [["hide"], ["open_sheet"], ["push_load", "A1", "A", true]]
+	});
+});
+
+test("19. closing the sheet before its reply forgets the tap", () => {
+	assert.deepEqual(next(pending("A"), { type: "sheet_closed" }), { state: idle, effects: [] });
+});
+
+test("20. a reply after the sheet was closed changes nothing", () => {
+	assert.deepEqual(next(idle, { type: "reply", id: "A", found: false }), {
+		state: idle,
+		effects: []
+	});
+});
+
+test("21. a reply for someone else while a tap is loading is ignored", () => {
+	assert.deepEqual(next(pending("A"), { type: "reply", id: "B", found: false }), {
+		state: pending("A"),
+		effects: []
 	});
 });

@@ -1,35 +1,66 @@
 <div id={@id} :hook phx-target={@myself} data-role="profile_hover_card">
-  {!-- shown, positioned and marked loading by the hook; ignore_attributes keeps those across LiveView patches. A named group, so `group-hover` inside the card (e.g. the counts) still means hovering that link, not the whole card --}
+  {!-- the hook shows, positions and marks it loading; ignore_attributes keeps that across patches. A named group, so `group-hover` inside still means the hovered link --}
   <div
     id={"#{@id}_panel"}
     data-role="profile_hover_card_panel"
     role="group"
-    aria-label={e(@card, :user, :profile, :name, nil)}
+    aria-label={e(@user, :profile, :name, nil)}
     class="group/hovercard fixed top-0 left-0 z-max w-80 rounded-box shadow-(--elevation-popover)"
     style="display: none"
     phx-mounted={Phoenix.LiveView.JS.ignore_attributes(["style", "data-loading"])}
   >
-    <div
-      data-role="profile_hover_card_skeleton"
-      aria-hidden="true"
-      class="hidden group-data-[loading]/hovercard:flex flex-col gap-3 p-4 rounded-box border border-base-content/10 bg-base-100"
-    >
-      <div class="flex items-center gap-3">
-        <div class="skeleton size-12 shrink-0 rounded-full" />
-        <div class="flex flex-col gap-2">
-          <div class="skeleton h-4 w-32" />
-          <div class="skeleton h-3 w-24" />
-        </div>
-      </div>
-      <div class="flex flex-col gap-2">
-        <div class="skeleton h-3 w-full" />
-        <div class="skeleton h-3 w-2/3" />
-      </div>
-      <div class="skeleton mt-1 h-8 w-full rounded-full" />
-    </div>
+    <.skeleton class="group-data-[loading]/hovercard:flex rounded-box border border-base-content/10 bg-base-100" />
 
-    <div :if={@card} class="group-data-[loading]/hovercard:hidden">
-      <Bonfire.UI.Me.ProfileHoverCardBodyLive card={@card} parent_id="profile_hover_card" />
+    <div
+      :if={@user && @presentation == :panel}
+      class="group-data-[loading]/hovercard:hidden transition-opacity duration-150 ease-out starting:opacity-0"
+    >
+      <Bonfire.UI.Me.ProfileHoverCardBodyLive
+        user={@user}
+        extras={@extras}
+        parent_id="profile_hover_card"
+      />
     </div>
   </div>
+
+  {!-- the tap's bottom sheet: the hook opens it with the skeleton and the same load fills it. Its own container because it's modal and the hover card isn't --}
+  <dialog
+    id={"#{@id}_sheet"}
+    data-role="profile_hover_card_sheet"
+    class="group/hoversheet modal modal-bottom motion-modal motion-sheet"
+    aria-label={e(@user, :profile, :name, nil)}
+    tabindex="-1"
+    phx-mounted={Phoenix.LiveView.JS.ignore_attributes(["open", "data-loading"])}
+  >
+    {!-- no bottom safe area: the sticky Follow bar carries it --}
+    <div class="modal-box !p-0 max-h-[85dvh] overflow-y-auto">
+      <.skeleton class="group-data-[loading]/hoversheet:flex" sheet />
+
+      {!-- `starting:` (@starting-style) fades it in when the loading flag lifts --}
+      <div
+        :if={@user && @presentation == :sheet}
+        class="group-data-[loading]/hoversheet:hidden transition-opacity duration-150 ease-out starting:opacity-0"
+      >
+        <Bonfire.UI.Me.ProfileHoverCardBodyLive
+          user={@user}
+          extras={@extras}
+          sheet
+          parent_id="profile_hover_sheet"
+        />
+      </div>
+
+      {!-- after the body; once filled the hook focuses the dialog, so a screen reader starts on the person --}
+      <form method="dialog">
+        <button
+          class="btn btn-sm btn-circle btn-ghost absolute top-2 right-2 z-3"
+          aria-label={l("Close")}
+        >
+          <#Icon iconify="ph:x" class="size-4" />
+        </button>
+      </form>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+      <button>{l("Close")}</button>
+    </form>
+  </dialog>
 </div>

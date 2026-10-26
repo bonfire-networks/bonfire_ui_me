@@ -34,16 +34,38 @@ defmodule Bonfire.UI.Me.UserPreviewLive do
   data avatar_url, :string, default: nil
   data banner_url, :string, default: nil
 
+  @doc "The `:card` avatar's props, shared by its linked and unlinked forms"
+  data card_avatar, :keyword, default: []
+
   @doc false
   def render(assigns) do
     user = assigns[:user]
 
+    name = e(user, :profile, :name, nil) || e(user, :character, :username, nil)
+    avatar_url = Bonfire.Common.Media.avatar_url(user)
+    with_banner = assigns[:with_banner] == true
+
     assigns
     |> assign(
-      name: e(user, :profile, :name, nil) || e(user, :character, :username, nil),
+      name: name,
       handle: Bonfire.Me.Characters.display_username(user, true),
-      avatar_url: Bonfire.Common.Media.avatar_url(user),
-      banner_url: assigns[:with_banner] && Bonfire.Common.Media.banner_url(user, fallback: false)
+      avatar_url: avatar_url,
+      banner_url: with_banner && Bonfire.Common.Media.banner_url(user, fallback: false),
+      card_avatar: [
+        parent_id: deterministic_dom_id(__MODULE__, id(user), "card", assigns[:parent_id]),
+        src: avatar_url,
+        user_id: id(user),
+        title: name,
+        is_remote: !check_is_local?(user, preload_if_needed: false),
+        wrapper_class: Surface.css_class(["shrink-0", "-mt-8 size-16": with_banner, "size-12": !with_banner]),
+        class:
+          Surface.css_class([
+            "rounded-full bg-base-300 overflow-hidden [&_img]:size-full [&_img]:object-cover",
+            "size-16 ring-4 ring-base-100": with_banner,
+            "size-12": !with_banner
+          ]),
+        bg_class: "size-full"
+      ]
     )
     |> render_sface()
   end

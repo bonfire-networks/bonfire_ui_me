@@ -58,36 +58,9 @@
           opts={[tabindex: "-1", "aria-hidden": "true", "data-role": "user_preview_avatar_link"]}
           class="shrink-0"
         >
-          <Bonfire.UI.Common.AvatarLive
-            parent_id={deterministic_dom_id(__MODULE__, id(@user), "card", @parent_id)}
-            src={@avatar_url}
-            user_id={id(@user)}
-            title={@name}
-            is_remote={!check_is_local?(@user, preload_if_needed: false)}
-            wrapper_class={["shrink-0", "-mt-8 size-16": @with_banner, "size-12": !@with_banner]}
-            class={[
-              "rounded-full bg-base-300 overflow-hidden [&_img]:size-full [&_img]:object-cover",
-              "size-16 ring-4 ring-base-100": @with_banner,
-              "size-12": !@with_banner
-            ]}
-            bg_class="size-full"
-          />
+          <Bonfire.UI.Common.AvatarLive {...@card_avatar} />
         </LinkLive>
-        <Bonfire.UI.Common.AvatarLive
-          :if={!@href || @stretch_link}
-          parent_id={deterministic_dom_id(__MODULE__, id(@user), "card", @parent_id)}
-          src={@avatar_url}
-          user_id={id(@user)}
-          title={@name}
-          is_remote={!check_is_local?(@user, preload_if_needed: false)}
-          wrapper_class={["shrink-0", "-mt-8 size-16": @with_banner, "size-12": !@with_banner]}
-          class={[
-            "rounded-full bg-base-300 overflow-hidden [&_img]:size-full [&_img]:object-cover",
-            "size-16 ring-4 ring-base-100": @with_banner,
-            "size-12": !@with_banner
-          ]}
-          bg_class="size-full"
-        />
+        <Bonfire.UI.Common.AvatarLive :if={!@href || @stretch_link} {...@card_avatar} />
         <div class={["min-w-0", "mt-3.5": @with_banner]}>
           <h3 class="truncate text-base font-medium leading-snug" title={@name}>
             <LinkLive

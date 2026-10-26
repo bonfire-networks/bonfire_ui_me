@@ -1,5 +1,5 @@
 <div
-  :if={@users != []}
+  :if={@sentence}
   data-role="familiar_followers"
   class={"flex items-center gap-2 text-muted", "text-xs": @size == :card, "text-sm": @size == :hero}
 >
@@ -19,7 +19,14 @@
       />
     </span>
   </div>
-  {!-- kept on one line: whitespace between the parts would show up in the sentence --}
-  <p data-role="familiar_followers_text">{#for part <- parts(@users, @total)}{#case part}
-      {#match {:text, text}}{text}{#match {:user, user}}    {/case}{/for}</p>
+  {!-- whitespace between pieces reads as one space (see sentence/2) --}
+  <p data-role="familiar_followers_text">
+    {l("Followed by")}
+    <span :for={name <- @sentence.names}>
+      {name.before}
+      {!-- not LinkLive: its trailing newline puts a space before the comma --}
+      <span class="text-base-content"><.link :if={@size == :hero} navigate={path(name.user)} class="font-medium link link-hover">{display_name(name.user)}</.link><span :if={@size != :hero}>{display_name(name.user)}</span>{name.sep}</span>
+    </span>
+    {@sentence.others}
+  </p>
 </div>

@@ -1,6 +1,6 @@
 defmodule Bonfire.UI.Me.ProfileHoverCardLiveTest do
   @moduledoc """
-  `ProfileHoverCardLive.load_card/2` gathers what the profile hover card shows for one user: who they are, the follow state in both directions, whether following is allowed under the current federation mode, and counts only when the viewer turned on Vanity Metrics. It's the same lookup as the profile page, so it hides nothing the profile wouldn't (see plans/profile-hover-card.md, A-BB1).
+  What the profile hover card shows for one user: `ProfileHoverCardLive.load_identity/2` (who they are, shown at once) and `load_extras/2` (whether they follow me, "Followed by", and counts only when the viewer turned on Vanity Metrics, loaded after). It's the same lookup as the profile page, so it hides nothing the profile wouldn't (see plans/profile-hover-card.md, A-BB1).
   """
   # one describe changes Application env, so this module can't run alongside async ones
   use Bonfire.UI.Me.DataCase, async: false
@@ -16,38 +16,31 @@ defmodule Bonfire.UI.Me.ProfileHoverCardLiveTest do
     {:ok, me: me, them: them}
   end
 
-  test "a local user I don't follow, with no counts by default", %{me: me, them: them} do
-    assert {:ok, card} = ProfileHoverCardLive.load_card(me, them.id)
+  test "a local user I don't follow: no counts by default, not even loaded", %{me: me, them: them} do
+    assert {:ok, user} = ProfileHoverCardLive.load_identity(me, them.id)
+    assert user.id == them.id
 
-    assert card.user.id == them.id
-    assert card.follows_me == false
-    assert card.followers_count == nil
-    assert card.following_count == nil
-  end
-
-  test "someone who follows me", %{me: me, them: them} do
-    {:ok, _} = Follows.follow(them, me)
-
-    assert {:ok, %{follows_me: true}} = ProfileHoverCardLive.load_card(me, them.id)
+    extras = ProfileHoverCardLive.load_extras(me, user)
+    assert extras.follows_me == false
+    assert extras.followers_count == nil
+    assert extras.following_count == nil
+    # with Vanity Metrics off, the counts aren't loaded at all
+    assert %Ecto.Association.NotLoaded{} = user.character.follow_count
   end
 
   test "an id that isn't a user gives no card", %{me: me} do
-    {:ok, post} =
-      Bonfire.Posts.publish(
-        current_user: me,
-        boundary: "public",
-        post_attrs: %{post_content: %{html_body: "not a person"}}
-      )
+    post =
+      Bonfire.Posts.Fake.fake_post!(me, "public", %{post_content: %{html_body: "not a person"}})
 
-    assert {:error, :not_found} = ProfileHoverCardLive.load_card(me, post.id)
+    assert {:error, :not_found} = ProfileHoverCardLive.load_identity(me, post.id)
   end
 
   test "an id that isn't a valid id gives no card, rather than crashing the page", %{me: me} do
-    assert {:error, :not_found} = ProfileHoverCardLive.load_card(me, "not-an-id")
+    assert {:error, :not_found} = ProfileHoverCardLive.load_identity(me, "not-an-id")
   end
 
   test "no card without a current user", %{them: them} do
-    assert {:error, :not_found} = ProfileHoverCardLive.load_card(nil, them.id)
+    assert {:error, :not_found} = ProfileHoverCardLive.load_identity(nil, them.id)
   end
 
   test "counts show when I turned on Vanity Metrics", %{me: me, them: them} do
@@ -58,23 +51,15 @@ defmodule Bonfire.UI.Me.ProfileHoverCardLiveTest do
 
     {:ok, _} = Follows.follow(fake_user!(), them)
 
-    assert {:ok, card} = ProfileHoverCardLive.load_card(me, them.id)
-    assert card.followers_count == 1
-    assert card.following_count == 0
-  end
-
-  test "with Vanity Metrics off, counts are neither shown nor loaded", %{me: me, them: them} do
-    assert {:ok, card} = ProfileHoverCardLive.load_card(me, them.id)
-
-    assert card.followers_count == nil
-    assert card.following_count == nil
-    assert %Ecto.Association.NotLoaded{} = card.user.character.follow_count
+    extras = ProfileHoverCardLive.load_extras(me, them)
+    assert extras.followers_count == 1
+    assert extras.following_count == 0
   end
 
   test "someone I silenced still gets a card, as their profile page does", %{me: me, them: them} do
     {:ok, _} = Bonfire.Boundaries.Blocks.block(them, :silence, current_user: me)
 
-    assert {:ok, %{user: %{id: id}}} = ProfileHoverCardLive.load_card(me, them.id)
+    assert {:ok, %{id: id}} = ProfileHoverCardLive.load_identity(me, them.id)
     assert id == them.id
   end
 
@@ -83,17 +68,17 @@ defmodule Bonfire.UI.Me.ProfileHoverCardLiveTest do
     {:ok, _} = Follows.follow(me, friend)
     {:ok, _} = Follows.follow(friend, them)
 
-    assert {:ok, card} = ProfileHoverCardLive.load_card(me, them.id)
-    assert Enum.map(card.familiar_followers, & &1.id) == [friend.id]
-    assert card.familiar_followers_total == 1
+    extras = ProfileHoverCardLive.load_extras(me, them)
+    assert Enum.map(extras.familiar_followers, & &1.id) == [friend.id]
+    assert extras.familiar_followers_total == 1
   end
 
   test "follow state is read fresh on every load, never cached", %{me: me, them: them} do
-    assert {:ok, %{follows_me: false}} = ProfileHoverCardLive.load_card(me, them.id)
+    assert %{follows_me: false} = ProfileHoverCardLive.load_extras(me, them)
 
     {:ok, _} = Follows.follow(them, me)
 
-    assert {:ok, %{follows_me: true}} = ProfileHoverCardLive.load_card(me, them.id)
+    assert %{follows_me: true} = ProfileHoverCardLive.load_extras(me, them)
   end
 
   describe "remote users" do
@@ -119,7 +104,7 @@ defmodule Bonfire.UI.Me.ProfileHoverCardLiveTest do
     end
 
     # the viewer's own follow state and whether following a remote actor is allowed come from the follow button's own preload (the card doesn't preset my_follow), covered by the #647 tests in profile_test.exs
-    # UNCERTAIN: load_card may never reach Tesla at all, in which case this proves little. Kept to catch a future change that fetches the actor on hover.
+    # may never reach Tesla; kept to catch a future fetch on hover
     test "loading a card makes no federation request", %{me: me, remote: remote} do
       test_pid = self()
 
@@ -128,7 +113,8 @@ defmodule Bonfire.UI.Me.ProfileHoverCardLiveTest do
         %Tesla.Env{status: 404}
       end)
 
-      assert {:ok, _} = ProfileHoverCardLive.load_card(me, remote.id)
+      assert {:ok, user} = ProfileHoverCardLive.load_identity(me, remote.id)
+      assert %{} = ProfileHoverCardLive.load_extras(me, user)
       refute_received {:http_called, _}
     end
   end

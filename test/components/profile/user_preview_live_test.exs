@@ -54,13 +54,16 @@ defmodule Bonfire.UI.Me.UserPreviewLiveTest do
     assert Floki.attribute(link, "rel") == ["noopener"]
   end
 
-  test "the handle is the full @user@domain, and the bio is plain text" do
+  test "the handle is the full @user@domain, and the bio keeps its links, sanitized" do
     user = fake_user!(%{}, %{summary: "<p>I knit <a href=\"https://example.org\">things</a></p>"})
     doc = render_preview(user, with_summary: true)
 
     assert text(doc, "[data-role=user_preview_handle]") =~ ~r/^@#{user.character.username}@.+/
     assert text(doc, "[data-role=user_preview_bio]") =~ "I knit things"
-    assert Floki.find(doc, "[data-role=user_preview_bio] a") == []
+
+    assert [link] = Floki.find(doc, "[data-role=user_preview_bio] a")
+    assert Floki.attribute(link, "href") == ["https://example.org"]
+    assert Floki.attribute(link, "rel") == ["nofollow noopener"]
   end
 
   defp render_preview(user, overrides \\ []) do

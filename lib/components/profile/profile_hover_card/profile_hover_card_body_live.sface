@@ -1,39 +1,56 @@
-<Bonfire.UI.Me.UserPreviewLive
-  user={@card.user}
-  href={path(@card.user)}
-  with_summary
-  show_badges={false}
-  stretch_link={false}
-  parent_id={@parent_id}
+{!-- `$=bio`: Tailwind reads `_` in an arbitrary variant as a space --}
+<div
+  data-role="profile_hover_card_body"
+  class={"[&_[data-role$=bio]]:line-clamp-none [&>article]:border-0": @sheet}
 >
-  <:actions>
-    <div class="mt-3 flex flex-col gap-2 empty:hidden">
-      <Bonfire.UI.Me.ProfileStatsLive
-        :if={@card.followers_count || @card.following_count}
-        user={@card.user}
-        followers_count={@card.followers_count}
-        following_count={@card.following_count}
-        compact
+  <Bonfire.UI.Me.UserPreviewLive
+    user={@user}
+    href={path(@user)}
+    with_summary
+    show_badges={false}
+    stretch_link={false}
+    parent_id={@parent_id}
+  >
+    <:actions>
+      <div
+        :if={!@extras}
+        data-role="profile_hover_card_extras_skeleton"
+        aria-hidden="true"
+        class="skeleton mt-3 h-4 w-40"
       />
-      <Bonfire.UI.Me.FamiliarFollowersLive
-        users={@card.familiar_followers}
-        total={@card.familiar_followers_total}
-        size={:card}
-        parent_id={@parent_id}
+      <div :if={@extras} class="mt-3 flex flex-col gap-2 empty:hidden">
+        <Bonfire.UI.Me.ProfileStatsLive
+          :if={@extras.followers_count || @extras.following_count}
+          user={@user}
+          followers_count={@extras.followers_count}
+          following_count={@extras.following_count}
+          compact
+        />
+        <Bonfire.UI.Me.FamiliarFollowersLive
+          users={@extras.familiar_followers}
+          total={@extras.familiar_followers_total}
+          size={:card}
+          parent_id={@parent_id}
+        />
+      </div>
+      {!-- sheet: sticky at the bottom of the scroll box, edge to edge, above the bio's z-2 links, carrying the safe area --}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
+        id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@user), @parent_id)}
+        object_id={id(@user)}
+        object={@user}
+        follows_me={e(@extras, :follows_me, false)}
+        path={path(@user)}
+        with_bell={false}
+        container_class={[
+          "mt-4 flex",
+          "w-full": !@sheet,
+          "sticky bottom-0 z-3 -mx-4 -mb-4 px-4 pt-3 pb-safe-offset-3 bg-base-100": @sheet
+        ]}
+        hide_icon
+        class="btn btn-primary btn-sm w-full"
+        class_already="btn btn-primary btn-soft btn-sm w-full"
       />
-    </div>
-    <StatefulComponent
-      module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
-      id={ComponentID.new(Bonfire.UI.Social.Graph.FollowButtonLive, id(@card.user), @parent_id)}
-      object_id={id(@card.user)}
-      object={@card.user}
-      follows_me={@card.follows_me}
-      path={path(@card.user)}
-      with_bell={false}
-      container_class="relative z-2 mt-4 flex w-full"
-      hide_icon
-      class="btn btn-primary btn-sm w-full"
-      class_already="btn btn-primary btn-soft btn-sm w-full"
-    />
-  </:actions>
-</Bonfire.UI.Me.UserPreviewLive>
+    </:actions>
+  </Bonfire.UI.Me.UserPreviewLive>
+</div>
