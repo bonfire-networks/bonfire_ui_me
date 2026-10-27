@@ -48,7 +48,9 @@ defmodule Bonfire.UI.Me.ProfileHoverCardPageTest do
     push_load(view, them.id)
     assert_push_event(view, @loaded, %{id: id, found: true})
     assert id == them.id
-    assert text(fragment(view, "#profile_hover_card"), "a[data-role=user_preview_name]") =~ them.profile.name
+
+    assert text(fragment(view, "#profile_hover_card"), "a[data-role=user_preview_name]") =~
+             them.profile.name
 
     push_load(view, post.id)
     assert_push_event(view, @loaded, %{found: false})
@@ -111,7 +113,9 @@ defmodule Bonfire.UI.Me.ProfileHoverCardPageTest do
     push_load(view, b.id)
     render_async(view)
 
-    followed_by = text(fragment(view, "#profile_hover_card"), "[data-role=familiar_followers_text]")
+    followed_by =
+      text(fragment(view, "#profile_hover_card"), "[data-role=familiar_followers_text]")
+
     assert followed_by =~ friend_of_b.profile.name
     refute followed_by =~ friend_of_a.profile.name
   end
@@ -130,7 +134,10 @@ defmodule Bonfire.UI.Me.ProfileHoverCardPageTest do
       assert text(sheet, "a[data-role=user_preview_name]") =~ them.profile.name
       assert [_] = Floki.find(sheet, "[data-id=follow]")
 
-      assert Floki.find(fragment(view, "#profile_hover_card_panel"), "a[data-role=user_preview_name]") == []
+      assert Floki.find(
+               fragment(view, "#profile_hover_card_panel"),
+               "a[data-role=user_preview_name]"
+             ) == []
     end
 
     test "the counts and 'Followed by' reach the sheet once loaded; the bio isn't clamped",
@@ -159,8 +166,13 @@ defmodule Bonfire.UI.Me.ProfileHoverCardPageTest do
       push_load(view, them.id, sheet: true)
       push_load(view, them.id)
 
-      assert text(fragment(view, "#profile_hover_card_panel"), "a[data-role=user_preview_name]") =~ them.profile.name
-      assert Floki.find(fragment(view, "#profile_hover_card_sheet"), "a[data-role=user_preview_name]") == []
+      assert text(fragment(view, "#profile_hover_card_panel"), "a[data-role=user_preview_name]") =~
+               them.profile.name
+
+      assert Floki.find(
+               fragment(view, "#profile_hover_card_sheet"),
+               "a[data-role=user_preview_name]"
+             ) == []
     end
 
     test "a tap on something that isn't a user leaves the sheet empty",
@@ -171,7 +183,10 @@ defmodule Bonfire.UI.Me.ProfileHoverCardPageTest do
       push_load(view, post.id, sheet: true)
       assert_push_event(view, @loaded, %{found: false})
 
-      assert Floki.find(fragment(view, "#profile_hover_card_sheet"), "[data-role=profile_hover_card_body]") == []
+      assert Floki.find(
+               fragment(view, "#profile_hover_card_sheet"),
+               "[data-role=profile_hover_card_body]"
+             ) == []
     end
   end
 

@@ -57,7 +57,8 @@ defmodule Bonfire.UI.Me.UserPreviewLive do
         user_id: id(user),
         title: name,
         is_remote: !check_is_local?(user, preload_if_needed: false),
-        wrapper_class: Surface.css_class(["shrink-0", "-mt-8 size-16": with_banner, "size-12": !with_banner]),
+        wrapper_class:
+          Surface.css_class(["shrink-0", "-mt-8 size-16": with_banner, "size-12": !with_banner]),
         class:
           Surface.css_class([
             "rounded-full bg-base-300 overflow-hidden [&_img]:size-full [&_img]:object-cover",

@@ -29,7 +29,10 @@
           {l("Current")}
         </span>
 
-        <LinkLive to={"/switch-user/#{e(user, :character, :username, "")}#{@go}"} class="tap-feedback w-full block">
+        <LinkLive
+          to={"/switch-user/#{e(user, :character, :username, "")}#{@go}"}
+          class="tap-feedback w-full block"
+        >
           <Bonfire.UI.Me.UserPreviewLive
             user={user}
             with_banner
