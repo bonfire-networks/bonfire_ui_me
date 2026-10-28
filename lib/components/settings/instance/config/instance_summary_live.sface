@@ -60,6 +60,5 @@
             </label>
           </section>
       {/case}
-
     </div>
 {/case}

@@ -404,7 +404,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> visit("/conduct")
-      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]", text: "Code of conduct")
+      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]",
+        text: "Code of conduct"
+      )
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "Code of conduct")
       |> assert_has("#conduct-body strong", text: "kind")
       |> refute_has("[data-id=right_nav_and_widgets]")
@@ -417,7 +419,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> visit("/privacy")
-      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]", text: "Privacy policy")
+      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]",
+        text: "Privacy policy"
+      )
       |> assert_has("#privacy-body strong", text: "as little")
       |> assert_has("#guest-board-footer a[href='/privacy']", text: "Privacy")
       # not a tab, so no tab is marked current
@@ -549,7 +553,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> visit("/users")
-      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]", text: "Users directory")
+      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]",
+        text: "Users directory"
+      )
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "People")
       |> assert_has("#guest-people [data-role=person-row]", text: user.profile.name)
       |> refute_has("[data-id=right_nav_and_widgets]")

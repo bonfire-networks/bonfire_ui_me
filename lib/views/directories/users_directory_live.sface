@@ -1,10 +1,7 @@
 {#if @is_guest?}
   <Bonfire.UI.Common.GuestBoardLive page={:people}>
     <header class="px-4 pb-4 pt-6 sm:px-10">
-      <h1
-        data-role="page-title"
-        class="type-page-title"
-      >{@page_title}</h1>
+      <h1 data-role="page-title" class="type-page-title">{@page_title}</h1>
     </header>
     <div id="guest-people" class="border-t border-base-content/10">
       <div
@@ -26,7 +23,10 @@
       <p :if={@users == []} class="px-4 py-6 text-muted sm:px-10">{l("No one to show here yet.")}</p>
     </div>
 
-    <div :if={Bonfire.UI.Common.LoadMoreLive.end_cursor(@page_info)} class="border-t border-base-content/10 px-4 pb-6 sm:px-10">
+    <div
+      :if={Bonfire.UI.Common.LoadMoreLive.end_cursor(@page_info)}
+      class="border-t border-base-content/10 px-4 pb-6 sm:px-10"
+    >
       <Bonfire.UI.Common.LoadMoreLive live_handler={__MODULE__} page_info={@page_info} />
     </div>
   </Bonfire.UI.Common.GuestBoardLive>

@@ -49,12 +49,7 @@
                 </a>
             {/case}
 
-            <h1
-              :if={@title}
-              id={"#{@id}-title"}
-              data-role="page-title"
-              class="type-page-title"
-            >{@title}</h1>
+            <h1 :if={@title} id={"#{@id}-title"} data-role="page-title" class="type-page-title">{@title}</h1>
             <#slot />
           </div>
         </div>
@@ -71,12 +66,7 @@
       labelledby={if @title, do: "#{@id}-title"}
     >
       <div class={"px-4 pb-8 pt-6", "sm:px-8 sm:pb-10": @size == :form, "sm:px-10 sm:pb-12": @size != :form}>
-        <h1
-          :if={@title}
-          id={"#{@id}-title"}
-          data-role="page-title"
-          class="mb-4 type-page-title"
-        >{@title}</h1>
+        <h1 :if={@title} id={"#{@id}-title"} data-role="page-title" class="mb-4 type-page-title">{@title}</h1>
         <#slot />
       </div>
     </Bonfire.UI.Common.GuestBoardLive>

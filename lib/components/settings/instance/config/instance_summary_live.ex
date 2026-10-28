@@ -118,7 +118,7 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive do
             _ -> l("Members only")
           end
       },
-      is_integer(defaults.post_length) and defaults.post_length > 0 &&
+      (is_integer(defaults.post_length) and defaults.post_length > 0) &&
         %{
           id: "community-post-length",
           label: l("Post length"),
