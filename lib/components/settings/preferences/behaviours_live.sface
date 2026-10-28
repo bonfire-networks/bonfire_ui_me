@@ -76,7 +76,7 @@
         name={l("Icon style")}
         description={l("Choose the style of interface icons")}
         keys={[:ui, :theme, :icon_weight]}
-        default_value="fill"
+        default_value={Bonfire.UI.Common.ThemeHelper.default_icon_weight(@scope, @__context__)}
         options={[
           {"fill", l("Solid")},
           {"duotone", l("Duotone")},
