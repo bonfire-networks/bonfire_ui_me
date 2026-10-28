@@ -7,6 +7,8 @@ defmodule Bonfire.UI.Me.AccountVerificationControllerTest do
 
   alias Bonfire.Data.Identity.Email
 
+  doctest Bonfire.UI.Me.AccountVerificationViewLive
+
   @delete_mod "Bonfire.Me.SensitiveActions.DeleteAccount"
   @confirm_path "/account/confirm?action=#{@delete_mod}"
 

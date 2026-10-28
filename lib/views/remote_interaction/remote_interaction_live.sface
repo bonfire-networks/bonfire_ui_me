@@ -1,4 +1,4 @@
-<Bonfire.UI.Me.AuthLayoutLive id="remote-interaction" content_class="max-w-lg">
+<Bonfire.UI.Me.AuthLayoutLive id="remote-interaction" size={:page} title={@page_title}>
   <div class="tabs tabs-lift">
     {#if @federating?}
       <input

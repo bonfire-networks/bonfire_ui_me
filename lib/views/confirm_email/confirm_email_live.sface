@@ -1,11 +1,4 @@
-<Bonfire.UI.Common.LogoLinkLive
-  with_name
-  container_class="flex mt-16  items-center mb-8 justify-center gap-2"
-  name_class="type-title"
-  href="/"
-/>
-<div class="w-[90%] md:w-[360px] mx-auto p-3 rounded-box border border-divider bg-base-100 shadow-sm">
-  <div class="mb-4 text-base font-bold text-center text-base-content">{l("Request email confirmation link")}</div>
+<Bonfire.UI.Me.AuthLayoutLive id="confirm-email" title={l("Request email confirmation link")}>
   {#if @flash}
     <div class="w-4/5 mx-auto">
       <p>
@@ -63,4 +56,4 @@
       <LinkLive class="link" to={path(:signup)}>{l("Signup")}</LinkLive>
     </p>
   </div>
-</div>
+</Bonfire.UI.Me.AuthLayoutLive>

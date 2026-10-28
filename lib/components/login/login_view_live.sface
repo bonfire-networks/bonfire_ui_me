@@ -1,4 +1,4 @@
-<div class="w-full p-4 lg:p-0 mx-auto">
+<div class="w-full">
   {!-- SSO providers show in both modes (passwordless and password), so they don't vanish when passwordless is on --}
   <StatelessComponent
     module={maybe_component(Bonfire.OpenID.Web.SignInWithExternalProvidersLive)}

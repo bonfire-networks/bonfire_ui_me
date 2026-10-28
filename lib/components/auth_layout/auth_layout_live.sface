@@ -1,7 +1,7 @@
 {#case Config.get([:ui, :auth, :layout], :minimal)}
   {#match :two_panels}
     <div class="flex bg-base-200 min-h-screen w-full" id={@id}>
-      <div class="hidden lg:flex lg:w-1/2 relative bg-primary sticky top-0 h-[100vh-8px] overflow-hidden rounded-box m-1">
+      <div class="hidden lg:flex lg:w-1/2 bg-primary sticky top-1 self-start h-[calc(100vh-0.5rem)] overflow-hidden rounded-box m-1">
         {#case Config.get([:ui, :auth, :project_branding_image], nil)}
           {#match nil}
           {#match branding_image}
@@ -18,7 +18,7 @@
 
       <div class="w-full lg:w-1/2 p-8 lg:px-16 lg:py-12 lg:pt-20 bg-base-200 min-h-screen">
         <div class="flex-1 flex items-center">
-          <div class={"mx-auto w-full flex flex-col gap-6", @content_class}>
+          <div class={"mx-auto w-full flex flex-col gap-6", "max-w-md": @size == :form, "max-w-lg": @size != :form}>
             {#case Config.get([:ui, :theme, :instance_tagline], nil)}
               {#match nil}
               {#match tagline}
@@ -49,33 +49,35 @@
                 </a>
             {/case}
 
+            <h1
+              :if={@title}
+              id={"#{@id}-title"}
+              data-role="page-title"
+              class="type-page-title"
+            >{@title}</h1>
             <#slot />
           </div>
         </div>
-
-        {!-- <div class={"mx-auto w-full pt-8", @content_class}>
-          <div class="text-xs text-muted flex flex-wrap items-center gap-x-2 gap-y-1">
-            <LinkLive to="/about" class="link link-hover">{l("About")}</LinkLive>
-            <span aria-hidden="true">·</span>
-            <LinkLive to="/conduct" class="link link-hover">{l("Code of conduct")}</LinkLive>
-            <span aria-hidden="true">·</span>
-            <LinkLive to="/privacy" class="link link-hover">{l("Privacy")}</LinkLive>
-            <span aria-hidden="true">·</span>
-            <LinkLive to="/users" class="link link-hover">{l("Users")}</LinkLive>
-          </div>
-        </div> --}
       </div>
     </div>
   {#match _minimal}
-    <div class="w-full px-4 lg:px-0 mt-12 h-[100vh]" id={@id}>
-      <Bonfire.UI.Common.LogoLinkLive
-        with_name
-        image_class="size-12 aspect-square bg-center bg-no-repeat bg-contain"
-        container_class="flex items-center mb-8 justify-center gap-4"
-        href="/"
-      />
-      <div class={"w-full mx-auto", @content_class}>
+    {!-- no tabs: an auth page is a step on the way in, not a page to browse from --}
+    <Bonfire.UI.Common.GuestBoardLive
+      page={@page}
+      nav={false}
+      actions={is_nil(current_account_id(@__context__))}
+      size={@size}
+      sheet_id={@id}
+      labelledby={if @title, do: "#{@id}-title"}
+    >
+      <div class={"px-4 pb-8 pt-6", "sm:px-8 sm:pb-10": @size == :form, "sm:px-10 sm:pb-12": @size != :form}>
+        <h1
+          :if={@title}
+          id={"#{@id}-title"}
+          data-role="page-title"
+          class="mb-4 type-page-title"
+        >{@title}</h1>
         <#slot />
       </div>
-    </div>
+    </Bonfire.UI.Common.GuestBoardLive>
 {/case}

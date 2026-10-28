@@ -6,6 +6,8 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
   import Swoosh.TestAssertions
   alias Bonfire.Me.Accounts
 
+  doctest Bonfire.UI.Me.ForgotPasswordLive
+
   defp submit_forgot(email) do
     post(conn(), "/login/forgot-password", %{"forgot_password_fields" => %{"email" => email}})
   end

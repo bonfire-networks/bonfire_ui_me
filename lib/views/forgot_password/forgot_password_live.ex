@@ -31,4 +31,21 @@ defmodule Bonfire.UI.Me.ForgotPasswordLive do
        Bonfire.Me.Accounts.signup_domain_gate_active?() and is_nil(session["invite"])
      )}
   end
+
+  @doc """
+  The heading, which changes once the email is sent.
+
+      iex> Bonfire.UI.Me.ForgotPasswordLive.title(true, false)
+      "Check your inbox"
+
+      iex> Bonfire.UI.Me.ForgotPasswordLive.title(nil, true)
+      "Sign in"
+
+      iex> Bonfire.UI.Me.ForgotPasswordLive.title(nil, false)
+      "Forgot your password?"
+  """
+  def title(requested, passwordless_only?)
+  def title(requested, _) when requested not in [nil, false], do: l("Check your inbox")
+  def title(_, true), do: l("Sign in")
+  def title(_, _), do: l("Forgot your password?")
 end

@@ -152,7 +152,7 @@
 
         {#if @open_id_provider}
           <p>
-            {l("Please enter your email addres to finish signing up with %{provider}:",
+            {l("Please enter your email address to finish signing up with %{provider}:",
               provider: (elem(@open_id_provider, 0) || "") |> String.capitalize()
             )}
           </p>
@@ -166,58 +166,37 @@
           <input type="hidden" name="go" value={@go}>
           <input type="hidden" name="invite" value={@invite}>
           <Inputs for={:email}>
-            <Field name={:email_address}>
-              <Label class="label">
-                <span class="text-xs label-text">
-                  {l("Email address")}
-                </span>
-              </Label>
-              <EmailInput
-                opts={placeholder: "alice@email.com"}
-                required
-                class="w-full h-10 text-sm input input-bordered"
-              />
+            <Field name={:email_address} class="fieldset">
+              <Label class="fieldset-legend">{l("Email address")}</Label>
+              <EmailInput opts={placeholder: "alice@email.com"} required class="w-full input" />
               <ErrorTag />
             </Field>
           </Inputs>
           <Inputs for={:credential} :let={form: f}>
-            <div class="mt-3">
-              <Field name={:password}>
-                <Label class="label">
-                  <p class="text-sm label-text" :if={@open_id_provider}>
-                    {l("Optional:")}
-                  </p>
-                  <span class="text-xs label-text">
-                    {l("Choose a password")} ({l("10 characters minimum")})
-                  </span>
-                </Label>
-                <Bonfire.UI.Me.PasswordInputLive
-                  id={f[:password].id}
-                  name={f[:password].name}
-                  placeholder={l("Type a strong password")}
-                  autocomplete="new-password"
-                  required={!@open_id_provider}
-                />
-                <ErrorTag />
-              </Field>
-            </div>
-            <div class="mt-3">
-              <Field name={:password_confirmation}>
-                <Label class="label">
-                  <span class="text-xs label-text">
-                    {l("Confirm your password")}
-                  </span>
-                </Label>
-                <Bonfire.UI.Me.PasswordInputLive
-                  id={f[:password_confirmation].id}
-                  name={f[:password_confirmation].name}
-                  placeholder={l("Enter the same password again")}
-                  autocomplete="new-password"
-                  required={!@open_id_provider}
-                />
-                <ErrorTag />
-              </Field>
-            </div>
+            <Field name={:password}>
+              <Bonfire.UI.Me.PasswordInputLive
+                id={f[:password].id}
+                name={f[:password].name}
+                label={if @open_id_provider,
+                  do: l("Password (optional, 10 characters minimum)"),
+                  else: l("Choose a password (10 characters minimum)")}
+                placeholder={l("Type a strong password")}
+                autocomplete="new-password"
+                required={!@open_id_provider}
+              />
+              <ErrorTag />
+            </Field>
+            <Field name={:password_confirmation}>
+              <Bonfire.UI.Me.PasswordInputLive
+                id={f[:password_confirmation].id}
+                name={f[:password_confirmation].name}
+                label={l("Confirm your password")}
+                placeholder={l("Enter the same password again")}
+                autocomplete="new-password"
+                required={!@open_id_provider}
+              />
+              <ErrorTag />
+            </Field>
           </Inputs>
 
           {!-- {#case @auth_second_factor_secret}
@@ -294,12 +273,10 @@
             </.button>
           </div>
 
-          <div class="flex py-4 pb-2 mt-6 text-xs border-t border-divider place-content-center w-full">
-            <p>
-              {l("Do you already have an account?")}
-              <LinkLive class="link link-primary" to={path(:login, :index)}>{l("Sign in")}</LinkLive>
-            </p>
-          </div>
+          <p class="mt-6 border-t border-divider pt-4 text-center text-sm text-muted">
+            {l("Already have an account?")}
+            <LinkLive class="link link-primary font-medium" to={path(:login, :index)}>{l("Sign in")}</LinkLive>
+          </p>
         </Form>
     {/case}
   </div>

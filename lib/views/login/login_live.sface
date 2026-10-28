@@ -1,4 +1,4 @@
-<Bonfire.UI.Me.AuthLayoutLive id="login">
+<Bonfire.UI.Me.AuthLayoutLive id="login" page={:login} title={l("Sign in")}>
   <Bonfire.UI.Me.LoginViewLive
     form={@form}
     error={@error}

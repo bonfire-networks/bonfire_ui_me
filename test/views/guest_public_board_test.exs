@@ -31,13 +31,13 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       # desktop-only actions (`max-lg:hidden`): on mobile the dock carries them
       |> assert_has(".max-lg\\:hidden #guest-board-signin[href='/login']", text: "Log in")
       |> assert_has(".max-lg\\:hidden #guest-board-signup[href='/signup']", text: "Sign up")
-      # profile-style intro under the banner: the instance name is the page heading, then the tagline and the primary action
-      |> assert_has("#guest-board-hero h1#guest-hero-name", text: GuestBoardLive.instance_name())
-      |> assert_has("#guest-board-hero #about-tagline")
-      |> assert_has("#guest-board-hero #hero-signup[href='/signup']", text: "Join the community")
-      |> assert_has("#guest-board-hero #hero-login[href='/login']", text: "Log in")
-      |> assert_has("#guest-board-hero #about-guest-info",
-        text: "You can read public conversations"
+      # one sheet like About: the shared introduction (name as the page heading, tagline, the primary action), then the admins beside the facts at a glance
+      |> assert_has("#guest-home h1#about-title", text: GuestBoardLive.instance_name())
+      |> assert_has("#guest-home #about-tagline")
+      |> assert_has("#guest-home #hero-signup[href='/signup']", text: "Join the community")
+      |> assert_has("#guest-home #hero-login[href='/login']", text: "Log in")
+      |> assert_has("#guest-home #community-glance #about-guest-info",
+        text: "Public posts readable without an account"
       )
       # no breadcrumb
       |> refute_has("#guest-board-home", text: "Public activity")
@@ -155,9 +155,10 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/")
       |> assert_has("#guest-groups [data-role=widget-heading]", text: "Groups")
-      |> assert_has("#guest-groups [data-role=group-card-compact]", text: "Guest visible group")
-      # compact card: no cover image block
-      |> refute_has("#guest-groups [data-role=group-card-cover]")
+      # the same card as the /groups directory: a cover block above the name, not the compact row
+      |> assert_has("#guest-groups article[id^=group-preview-]", text: "Guest visible group")
+      |> assert_has("#guest-groups [data-role=group-card-cover]")
+      |> refute_has("#guest-groups [data-role=group-card-compact]")
       |> refute_has("#guest-groups", text: "Members only group")
       |> refute_has("#guest-groups", text: "Federated group")
       |> assert_has("#guest-groups a[href='/groups']", text: "Browse all groups")
@@ -178,7 +179,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> visit("/")
-      |> assert_has("#guest-groups [data-carousel-card] [data-role=group-card-compact]",
+      |> assert_has("#guest-groups [data-carousel-card] article[id^=group-preview-]",
         text: "First guest group"
       )
       |> assert_has("#guest-groups [data-role=carousel_dots]")
@@ -212,7 +213,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> visit("/")
       # full-width buttons labelled as configured, the host only as a tooltip (no guessed descriptions)
       |> assert_has(
-        "#guest-board-hero #community-links a[href='https://bonfirenetworks.org/'][target='_blank'][rel=noopener]",
+        "#guest-home #community-links a[href='https://bonfirenetworks.org/'][target='_blank'][rel=noopener]",
         text: "About Bonfire"
       )
       |> assert_has(
@@ -237,12 +238,12 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/")
       |> assert_has(
-        "#guest-board-hero #community-admins a[data-role=admin-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
+        "#guest-home #community-glance #community-admins a[data-role=admin-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
         text: admin.profile.name
       )
     end
 
-    test "names up to two admins and collapses the rest when there are more than three" do
+    test "lists every admin in the glance box, however many there are" do
       admins = for _ <- 1..4, do: fake_admin!(fake_account!())
       Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
       count = length(Bonfire.UI.Me.WidgetUsersLive.list_admins())
@@ -251,10 +252,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       session =
         conn()
         |> visit("/")
-        # 2 named + the rest expandable in place, so every admin is still one click away
-        |> assert_has("#community-admins a[data-role=admin-link]", count: count)
-        |> assert_has("#community-admins-more summary", text: "and #{count - 2} others")
-        |> assert_has("#community-admins-more a[data-role=admin-link]", count: count - 2)
+        # each admin is a row in the Administered by column, so none are collapsed
+        |> assert_has("#community-glance #community-admins a[data-role=admin-link]", count: count)
+        |> refute_has("#community-admins-more")
 
       for admin <- admins do
         assert_has(session, "#community-admins a[href='/@#{admin.character.username}']")
@@ -272,17 +272,31 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> refute_has("#community-admins")
     end
 
-    test "are no longer on the guest About page" do
+    test "are listed beside the facts at a glance on the guest About page, without the community links" do
       Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [
         {"Community handbook", "https://example.org/handbook"}
       ])
 
-      _admin = fake_admin!(fake_account!())
+      admin = fake_admin!(fake_account!())
       Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
 
       conn()
       |> visit("/about")
       |> refute_has("#community-links")
+      |> assert_has(
+        "#community-glance #community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
+        text: admin.profile.name
+      )
+    end
+
+    test "stay off the guest About page when hidden from guests" do
+      _admin = fake_admin!(fake_account!())
+      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+
+      Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetAdminsLive, :show_guests], false)
+
+      conn()
+      |> visit("/about")
       |> refute_has("#community-admins")
     end
   end
@@ -293,11 +307,16 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> visit("/about")
       |> assert_has("#guest-board")
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "About")
-      # the tagline is the page heading (no "About <name>" eyebrow above it since the guests UI rework)
-      |> assert_has("#guest-board h1#about-tagline")
+      # About is a single sheet on the board's canvas, not a stack of cards
+      |> assert_has("#guest-board[data-page=about] article#about-page")
+      |> assert_has("#guest-board article#about-page", count: 1)
+      # the community's name is the page heading, with the tagline under it
+      |> assert_has("#guest-board h1#about-title", text: GuestBoardLive.instance_name())
+      |> assert_has("#guest-board #about-tagline")
       |> refute_has("#participate")
-      |> assert_has("#about-guest-info",
-        text: "You can read public conversations without an account."
+      # what a guest can do without an account sits in the meta line under the tagline
+      |> assert_has("#community-glance #about-meta #about-guest-info",
+        text: "Public posts readable without an account"
       )
       |> refute_has("#guest-board a[href='#participate']")
       |> refute_has("#about-guest-info a[href='/login']")
@@ -311,7 +330,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/about")
       |> refute_has("#about-signup")
-      |> refute_has("#about-guest-info [data-role=signup-closed-note]")
+      |> refute_has("#about-meta [data-role=signup-closed-note]")
       |> assert_has("#guest-board-signin", text: "Log in")
       |> assert_has("#guest-board-signup[href='/signup']", text: "Sign up")
       |> assert_has("#dock-signup-action")
@@ -325,7 +344,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/about")
       |> refute_has("#about-signup")
-      |> assert_has("#about-guest-info [data-role=signup-closed-note]",
+      |> assert_has("#about-meta [data-role=signup-closed-note]",
         text: "by invitation only"
       )
       |> assert_has("#guest-board-signin[href='/login']", text: "Sign in")
@@ -347,12 +366,25 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/about")
       |> refute_has("#participate")
-      |> assert_has("#about-guest-info [data-role=signup-closed-note]",
+      |> assert_has("#about-meta [data-role=signup-closed-note]",
         text: "by invitation only"
       )
-      |> assert_has("#about-guest-info #about-request-invite[href='/signup']",
+      |> assert_has("#about-page #about-request-invite[href='/signup']",
         text: "Request an invite"
       )
+    end
+
+    test "shows a short rules list without the Show all toggle or its checkbox" do
+      Repatch.patch(Bonfire.CommunityRules, :get_instance_rules_sections, [mode: :shared], fn ->
+        [%{sections: [%{rules: [%{name: "Be kind"}, %{name: "No spam"}]}]}]
+      end)
+
+      conn()
+      |> visit("/about")
+      |> assert_has("#community-rules li", text: "Be kind")
+      # an unlabelled checkbox would still be reachable with the keyboard
+      |> refute_has("#community-rules-all")
+      |> refute_has("#community-rules [data-role=show-all]")
     end
 
     test "hides the rules section when no rules are selected" do
@@ -372,10 +404,141 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> visit("/conduct")
-      |> assert_has("#guest-board h1[data-role=page-title]", text: "Code of conduct")
+      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]", text: "Code of conduct")
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "Code of conduct")
       |> assert_has("#conduct-body strong", text: "kind")
       |> refute_has("[data-id=right_nav_and_widgets]")
+    end
+  end
+
+  describe "guest privacy policy and impressum" do
+    test "render in the board's sheet, reached from its footer" do
+      Process.put([:bonfire, :terms, :privacy], "We keep **as little** as we can.")
+
+      conn()
+      |> visit("/privacy")
+      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]", text: "Privacy policy")
+      |> assert_has("#privacy-body strong", text: "as little")
+      |> assert_has("#guest-board-footer a[href='/privacy']", text: "Privacy")
+      # not a tab, so no tab is marked current
+      |> refute_has("#guest-board-nav a[aria-current=page]")
+      |> refute_has("[data-id=right_nav_and_widgets]")
+    end
+
+    test "privacy points to the Bonfire project's policy when none is configured" do
+      Process.put([:bonfire, :terms, :privacy], "")
+
+      conn()
+      |> visit("/privacy")
+      |> assert_has("#privacy-body a[href='https://bonfirenetworks.org/privacy']")
+    end
+
+    test "impressum shows its text and the community links" do
+      Process.put([:bonfire, :terms, :impressum], "Run by **Example Collective**.")
+
+      Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [
+        {"Community handbook", "https://example.org/handbook"}
+      ])
+
+      conn()
+      |> visit("/impressum")
+      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]", text: "Impressum")
+      |> assert_has("#impressum-body strong", text: "Example Collective")
+      |> assert_has("#guest-board-sheet #community-links a[href='https://example.org/handbook']",
+        text: "Community handbook"
+      )
+      |> assert_has("#guest-board-footer a[href='/impressum']")
+    end
+  end
+
+  describe "auth pages" do
+    test "log in sits in the board's form sheet, without the tabs and with only Sign up in the masthead" do
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
+        false
+      end)
+
+      conn()
+      |> visit("/login")
+      |> assert_has("#guest-board #login h1[data-role=page-title]", text: "Sign in")
+      |> assert_has("#login #login-form")
+      |> refute_has("#guest-board-nav")
+      # the form's button is the page's action, so the masthead only offers the other route
+      |> refute_has("#guest-board-signin")
+      |> assert_has("#guest-board-signup[href='/signup']", text: "Sign up")
+      |> assert_has("#guest-board-footer a[href='/privacy']")
+    end
+
+    test "sign up only offers Log in in the masthead" do
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
+        false
+      end)
+
+      Repatch.patch(Bonfire.CommunityRules, :get_instance_rules_sections, [mode: :shared], fn ->
+        []
+      end)
+
+      conn()
+      |> visit("/signup")
+      |> assert_has("#guest-board #signup h1[data-role=page-title]", text: "Sign up")
+      |> assert_has("#guest-board-signin[href='/login']")
+      |> refute_has("#guest-board-signup")
+    end
+
+    test "sign up without community rules shows just the form" do
+      Repatch.patch(Bonfire.CommunityRules, :get_instance_rules_sections, [mode: :shared], fn ->
+        []
+      end)
+
+      conn()
+      |> visit("/signup")
+      |> assert_has("#signup #signup-form")
+      |> refute_has("#signup #community-rules")
+    end
+
+    test "sign up lists the community rules above the form, as on About" do
+      Repatch.patch(Bonfire.CommunityRules, :get_instance_rules_sections, [mode: :shared], fn ->
+        [
+          %{
+            sections: [
+              %{rules: for(name <- ~w(One Two Three Four Five Six Seven), do: %{name: name})}
+            ]
+          }
+        ]
+      end)
+
+      conn()
+      |> visit("/signup")
+      |> assert_has("#signup #community-rules h2", text: "Community rules")
+      |> assert_has("#signup #community-rules li", text: "Seven")
+      |> assert_has("#signup #community-rules [data-role=show-all]", text: "Show all 7 rules")
+      |> assert_has("#signup #community-rules a[href='/conduct']",
+        text: "Read the full code of conduct"
+      )
+      |> assert_has("#signup #signup-form label", text: "Email address")
+      |> assert_has("#signup #signup-form label", text: "Choose a password")
+    end
+
+    test "forgot password heads the form sheet with its own state's title, without the tabs" do
+      conn()
+      |> visit("/login/forgot-password")
+      |> assert_has("#guest-board #forgot-password h1[data-role=page-title]")
+      |> refute_has("#guest-board-nav")
+      |> assert_has("#guest-board-footer a[href='/privacy']")
+    end
+
+    test "a signed-in account changing its password gets the masthead without tabs or actions" do
+      account = fake_account!()
+      user = fake_user!(account)
+
+      conn(user: user, account: account)
+      |> visit("/account/password/change")
+      |> assert_has("#guest-board #change-password h1[data-role=page-title]",
+        text: "Change your password"
+      )
+      |> assert_has("#change-password-form")
+      |> refute_has("#guest-board-nav")
+      |> refute_has("#guest-board-signin")
+      |> assert_has("#guest-board-footer")
     end
   end
 
@@ -386,7 +549,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> visit("/users")
-      |> assert_has("#guest-board h1[data-role=page-title]", text: "Users directory")
+      |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]", text: "Users directory")
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "People")
       |> assert_has("#guest-people [data-role=person-row]", text: user.profile.name)
       |> refute_has("[data-id=right_nav_and_widgets]")
@@ -419,14 +582,29 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     end
 
     test "share the guest About content inside the signed-in layout", %{conn: conn} do
+      # the banner only shows when one is configured
+      Process.put([:bonfire, :ui, :theme, :instance_image], "https://example.org/banner.png")
+
       conn
       |> visit("/about")
       |> refute_has("#guest-board")
       |> assert_has("#member-about [data-role=about-banner]")
-      |> assert_has("#member-about h1#about-tagline")
+      |> assert_has("#member-about h1#about-title")
       |> assert_has("#member-about #community-expectations")
       |> refute_has("#participate")
       |> refute_has("#about-signup")
+    end
+
+    test "keep the regular Privacy and Impressum layouts", %{conn: conn} do
+      Process.put([:bonfire, :terms, :impressum], "Run by Example Collective.")
+
+      conn
+      |> visit("/privacy")
+      |> refute_has("#guest-board")
+
+      conn
+      |> visit("/impressum")
+      |> refute_has("#guest-board")
     end
 
     test "keep the regular Code of conduct and People layouts", %{conn: conn} do

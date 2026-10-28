@@ -21,4 +21,20 @@ defmodule Bonfire.UI.Me.AccountVerificationViewLive do
        form: to_form(%{}, as: :verification)
      )}
   end
+
+  @doc """
+  The heading for each step of the sudo gate.
+
+      iex> Bonfire.UI.Me.AccountVerificationViewLive.title(:password, nil)
+      "Confirm it's you"
+
+      iex> Bonfire.UI.Me.AccountVerificationViewLive.title(:email, %{title: "Delete your account"})
+      "Check your email"
+
+      iex> Bonfire.UI.Me.AccountVerificationViewLive.title(:confirm, %{title: "Delete your account"})
+      "Delete your account"
+  """
+  def title(:password, description), do: e(description, :title, l("Confirm it's you"))
+  def title(:email, _description), do: l("Check your email")
+  def title(_state, description), do: e(description, :title, nil)
 end
