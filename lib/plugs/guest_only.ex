@@ -35,9 +35,25 @@ defmodule Bonfire.UI.Me.Plugs.GuestOnly do
 
     conn
     |> maybe_error()
-    |> Bonfire.UI.Me.LoginController.redirect_after_auth(user_id, params)
+    |> redirect_authed(user_id, params)
     |> halt()
   end
+
+  # Signed in to an account without a profile (eg. after a password reset): pages show it a "Sign in" button, which must lead to picking a profile, like `LoginController.logged_in/5` does, not back to the page it was clicked on.
+  defp redirect_authed(conn, nil, params) do
+    case go_after(conn) || params["go"] do
+      "/account/" <> _ ->
+        Bonfire.UI.Me.LoginController.redirect_after_auth(conn, nil, params)
+
+      _ ->
+        conn
+        |> maybe_set_go_after(params)
+        |> redirect_to(path(:switch_user) || "/switch-user/")
+    end
+  end
+
+  defp redirect_authed(conn, user_id, params),
+    do: Bonfire.UI.Me.LoginController.redirect_after_auth(conn, user_id, params)
 
   defp maybe_error(%{request_path: path} = conn)
        when path in ["/login", "/remote_interaction"] do

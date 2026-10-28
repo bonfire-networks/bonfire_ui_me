@@ -527,4 +527,24 @@ defmodule Bonfire.UI.Me.LoginController.Test do
     assert Floki.attribute(Floki.parse_document!(html), "input[name=go]", "value")
            |> Enum.member?("/somewhere/saved")
   end
+
+  # eg. after a password reset: signed in to the account, no profile chosen yet. "Sign in" must lead to picking a profile, not back to the page it was clicked on.
+  test "an account signed in without a profile is sent to pick one, keeping go" do
+    account = fake_account!()
+    _user = fake_user!(account)
+
+    conn = get(conn(account: account), "/login?go=/about")
+
+    assert redirected_to(conn) =~ "/switch-user"
+    assert go_target(conn) == "/about"
+  end
+
+  test "an account signed in without a profile goes straight to a saved account page" do
+    account = fake_account!()
+    _user = fake_user!(account)
+
+    conn = get(conn(account: account, go: "/account/password/change"), "/login")
+
+    assert redirected_to(conn) =~ "/account/password/change"
+  end
 end
