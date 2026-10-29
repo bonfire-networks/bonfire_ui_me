@@ -1,157 +1,255 @@
 <div>
-  <ul class="menu relative p-0 w-full mt-2">
+  <ul class="menu relative p-0 w-full gap-0 px-0 lg:px-5.5 mt-2">
     <li class="w-full mt-5 first:mt-0">
       <details open class="w-full overflow-hidden">
-        <summary class="relative !pl-3 text-xs font-medium uppercase tracking-wider text-subtle hover:!bg-transparent">
+        <summary class="relative !pl-3 text-xs font-normal uppercase tracking-wide text-base-content hover:!bg-transparent">
           <span>{l("General")}</span>
         </summary>
 
         <li>
-          <LinkLive
-            to={~p"/settings/user/profile"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "profile" or @selected_tab in [nil, "settings"]]}
-          >
-            <#Icon iconify="ph:user-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Profile")}</span>
-          </LinkLive>
+          {#case @selected_tab == "profile" or @selected_tab in [nil, "settings"]}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/user/profile"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:user-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Profile")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li>
-          <LinkLive
-            to={~p"/settings/account"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "account"]}
-          >
-            <#Icon iconify="ph:key-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Account")}</span>
-          </LinkLive>
+          {#case @selected_tab == "account"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/account"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:key-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Account")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li>
-          <LinkLive
-            to={~p"/settings/user/preferences/behaviours"}
-            class={["!gap-4", "bg-primary/10": @id == "behaviours"]}
-          >
-            <#Icon iconify="ph:sliders-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Preferences")}</span>
-          </LinkLive>
+          {#case @id == "behaviours"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/user/preferences/behaviours"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:sliders-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Preferences")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li>
-          <LinkPatchLive
-            to={~p"/settings/user/dashboard"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "dashboard"]}
-          >
-            <#Icon iconify="ph:house-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Dashboard")}</span>
-          </LinkPatchLive>
+          {#case @selected_tab == "dashboard"}
+            {#match active}
+              <LinkPatchLive
+                to={~p"/settings/user/dashboard"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:house-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Dashboard")}</span>
+              </LinkPatchLive>
+          {/case}
         </li>
         <li>
-          <LinkPatchLive
-            to={~p"/settings/user/feeds"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "feeds"]}
-          >
-            <#Icon iconify="ph:rss-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Feeds")}</span>
-          </LinkPatchLive>
+          {#case @selected_tab == "feeds"}
+            {#match active}
+              <LinkPatchLive
+                to={~p"/settings/user/feeds"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:rss-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Feeds")}</span>
+              </LinkPatchLive>
+          {/case}
         </li>
         {!-- only shown for organisation profiles (a user carrying the shared_user mixin); managing co-managers, not converting a personal profile --}
         <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) and
           Bonfire.Common.URIs.shared_user?(current_user(@__context__), preload_if_needed: true)}>
-          <LinkLive
-            to={~p"/settings/user/shared_user"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "shared_user"]}
-          >
-            <#Icon iconify="ph:users-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Team Profile")}</span>
-          </LinkLive>
+          {#case @selected_tab == "shared_user"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/user/shared_user"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:users-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Team Profile")}</span>
+              </LinkLive>
+          {/case}
         </li>
       </details>
     </li>
 
     <li class="w-full mt-5 first:mt-0">
       <details open class="w-full overflow-hidden">
-        <summary class="relative !pl-3 text-xs font-medium uppercase tracking-wider text-subtle hover:!bg-transparent">
+        <summary class="relative !pl-3 text-xs font-normal uppercase tracking-wide text-base-content hover:!bg-transparent">
           <span>{l("Safety")}</span>
         </summary>
 
         <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
-          <LinkLive
-            to={~p"/settings/user/safety"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "safety"]}
-          >
-            <#Icon iconify="ph:shield-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("My Safety Settings")}</span>
-          </LinkLive>
+          {#case @selected_tab == "safety"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/user/safety"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:shield-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("My Safety Settings")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li :if={extension_enabled?(:bonfire_ui_moderation, @__context__)}>
-          <LinkLive
-            to={~p"/settings/user/flags"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "flags"]}
-          >
-            <#Icon iconify="ph:flag-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("My Flags")}</span>
-          </LinkLive>
+          {#case @selected_tab == "flags"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/user/flags"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:flag-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("My Flags")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li :if={extension_enabled?(:bonfire_ui_boundaries, @__context__)}>
-          <LinkLive
-            to={~p"/settings/boundaries/blocked"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "blocked"]}
-          >
-            <#Icon iconify="ph:prohibit-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Blocked")}</span>
-          </LinkLive>
+          {#case @selected_tab == "blocked"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/boundaries/blocked"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:prohibit-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Blocked")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li :if={extension_enabled?(:bonfire_ui_boundaries, @__context__)}>
-          <LinkLive
-            to={~p"/settings/boundaries/ghosted"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "ghosted"]}
-          >
-            <#Icon iconify="ph:ghost-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Ghosted")}</span>
-          </LinkLive>
+          {#case @selected_tab == "ghosted"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/boundaries/ghosted"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:ghost-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Ghosted")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li :if={extension_enabled?(:bonfire_ui_boundaries, @__context__)}>
-          <LinkLive
-            to={~p"/settings/boundaries/silenced"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "silenced"]}
-          >
-            <#Icon iconify="ph:speaker-simple-slash-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Silenced")}</span>
-          </LinkLive>
+          {#case @selected_tab == "silenced"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/boundaries/silenced"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:speaker-simple-slash-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Silenced")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li :if={extension_enabled?(:bonfire_federate_activitypub, @__context__) and
           Bonfire.Federate.ActivityPub.allowlist_only?(current_user(@__context__))}>
-          <LinkLive
-            to={~p"/allowlisted"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "allowlisted"]}
-          >
-            <#Icon iconify="ph:list-checks-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Federation Allowlist")}</span>
-          </LinkLive>
+          {#case @selected_tab == "allowlisted"}
+            {#match active}
+              <LinkLive
+                to={~p"/allowlisted"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:list-checks-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Federation Allowlist")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li>
-          <LinkLive
-            to={~p"/settings/user/blocks_import"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "blocks_import"]}
-          >
-            <#Icon iconify="ph:tray-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Import block lists")}</span>
-          </LinkLive>
+          {#case @selected_tab == "blocks_import"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/user/blocks_import"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:tray-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Import block lists")}</span>
+              </LinkLive>
+          {/case}
         </li>
       </details>
     </li>
 
     <li class="w-full mt-5 first:mt-0">
       <details open class="w-full overflow-hidden">
-        <summary class="relative !pl-3 text-xs font-medium uppercase tracking-wider text-subtle hover:!bg-transparent">
+        <summary class="relative !pl-3 text-xs font-normal uppercase tracking-wide text-base-content hover:!bg-transparent">
           <span>{l("Extensions")}</span>
         </summary>
 
         <li>
-          <LinkLive
-            to={~p"/settings/user/extensions"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "extensions"]}
-          >
-            <#Icon iconify="ph:toggle-right-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Configure Extensions")}</span>
-          </LinkLive>
+          {#case @selected_tab == "extensions"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/user/extensions"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:toggle-right-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Configure Extensions")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <Bonfire.UI.Me.ExtensionsSidebarSettingsNavLive
           selected_tab={@selected_tab}
@@ -163,108 +261,171 @@
 
     <li class="w-full mt-5 first:mt-0">
       <details open class="w-full overflow-hidden">
-        <summary class="relative !pl-3 text-xs font-medium uppercase tracking-wider text-subtle hover:!bg-transparent">
+        <summary class="relative !pl-3 text-xs font-normal uppercase tracking-wide text-base-content hover:!bg-transparent">
           <span>{l("Boundaries")}</span>
         </summary>
 
         <li>
-          <LinkLive
-            to={~p"/settings/boundaries/circles"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "circles"]}
-          >
-            <#Icon iconify="ph:circle-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Circles")}</span>
-          </LinkLive>
+          {#case @selected_tab == "circles"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/boundaries/circles"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:circle-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Circles")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li>
-          <LinkLive
-            to={~p"/settings/boundaries/acls"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "acls"]}
-          >
-            <#Icon iconify="ph:lock-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Boundary presets")}</span>
-          </LinkLive>
+          {#case @selected_tab == "acls"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/boundaries/acls"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:lock-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Boundary presets")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li>
-          <LinkLive
-            to={~p"/settings/boundaries/roles"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "roles"]}
-          >
-            <#Icon iconify="ph:users-three-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Roles")}</span>
-          </LinkLive>
+          {#case @selected_tab == "roles"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/boundaries/roles"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:users-three-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Roles")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li>
-          <LinkLive
-            to={~p"/settings/boundaries/default_roles"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "default_roles"]}
-          >
-            <#Icon iconify="ph:shield-check-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Instance-wide roles")}</span>
-          </LinkLive>
+          {#case @selected_tab == "default_roles"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/boundaries/default_roles"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:shield-check-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Instance-wide roles")}</span>
+              </LinkLive>
+          {/case}
         </li>
       </details>
     </li>
 
     <li class="w-full mt-5 first:mt-0">
       <details open class="w-full overflow-hidden">
-        <summary class="relative !pl-3 text-xs font-medium uppercase tracking-wider text-subtle hover:!bg-transparent">
+        <summary class="relative !pl-3 text-xs font-normal uppercase tracking-wide text-base-content hover:!bg-transparent">
           <span>{l("Migration")}</span>
         </summary>
 
         <li>
-          <LinkLive
-            to={~p"/settings/user/export"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "export"]}
-          >
-            <#Icon iconify="ph:arrow-square-out-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Export")}</span>
-          </LinkLive>
+          {#case @selected_tab == "export"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/user/export"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:arrow-square-out-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Export")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li>
-          <LinkLive
-            to={~p"/settings/user/import"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "import"]}
-          >
-            <#Icon iconify="ph:download-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Import")}</span>
-          </LinkLive>
+          {#case @selected_tab == "import"}
+            {#match active}
+              <LinkLive
+                to={~p"/settings/user/import"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:download-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Import")}</span>
+              </LinkLive>
+          {/case}
         </li>
         <li>
-          <LinkPatchLive
-            to={~p"/settings/user/import_status"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "import_status"]}
-          >
-            <#Icon iconify="ph:clock-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Import status")}</span>
-          </LinkPatchLive>
+          {#case @selected_tab == "import_status"}
+            {#match active}
+              <LinkPatchLive
+                to={~p"/settings/user/import_status"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:clock-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Import status")}</span>
+              </LinkPatchLive>
+          {/case}
         </li>
       </details>
     </li>
 
     <li class="w-full mt-5 first:mt-0">
       <details open class="w-full overflow-hidden">
-        <summary class="relative !pl-3 text-xs font-medium uppercase tracking-wider text-subtle hover:!bg-transparent">
+        <summary class="relative !pl-3 text-xs font-normal uppercase tracking-wide text-base-content hover:!bg-transparent">
           <span>{l("Advanced")}</span>
         </summary>
 
         <li :if={Bonfire.Federate.ActivityPub.federating?(current_user(@__context__))}>
-          <LinkPatchLive
-            to={~p"/settings/user/federation_status"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "federation_status"]}
-          >
-            <#Icon iconify="ph:globe-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Federation status")}</span>
-          </LinkPatchLive>
+          {#case @selected_tab == "federation_status"}
+            {#match active}
+              <LinkPatchLive
+                to={~p"/settings/user/federation_status"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:globe-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Federation status")}</span>
+              </LinkPatchLive>
+          {/case}
         </li>
         <li>
-          <LinkPatchLive
-            to={~p"/settings/user/emojis"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "emojis"]}
-          >
-            <#Icon iconify="ph:smiley-wink-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Custom emoji")}</span>
-          </LinkPatchLive>
+          {#case @selected_tab == "emojis"}
+            {#match active}
+              <LinkPatchLive
+                to={~p"/settings/user/emojis"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:smiley-wink-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Custom emoji")}</span>
+              </LinkPatchLive>
+          {/case}
         </li>
         <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) &&
           Settings.get(:experimental_features_enabled, false,
@@ -272,22 +433,36 @@
             name: l("Experimental Features"),
             description: l("Try features that work but are still being tested.")
           )}>
-          <LinkPatchLive
-            to={~p"/settings/user/config_settings_registry"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "config_settings_registry"]}
-          >
-            <#Icon iconify="ph:gear-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Extra settings")}</span>
-          </LinkPatchLive>
+          {#case @selected_tab == "config_settings_registry"}
+            {#match active}
+              <LinkPatchLive
+                to={~p"/settings/user/config_settings_registry"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:gear-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Extra settings")}</span>
+              </LinkPatchLive>
+          {/case}
         </li>
         <li>
-          <LinkPatchLive
-            to={~p"/settings/user/code"}
-            class={["!gap-4", "bg-primary/10": @selected_tab == "code"]}
-          >
-            <#Icon iconify="ph:book-duotone" class="shrink-0 size-5 text-muted" />
-            <span class="font-normal text-base">{l("Libraries & Licences")}</span>
-          </LinkPatchLive>
+          {#case @selected_tab == "code"}
+            {#match active}
+              <LinkPatchLive
+                to={~p"/settings/user/code"}
+                class={[
+                  "nav-row transition-colors duration-150",
+                  Bonfire.UI.Common.LinkWidgetLive.active_link_class(active)
+                ]}
+                opts={if active, do: ["aria-current": "page"], else: []}
+              >
+                <#Icon iconify="ph:book-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Libraries & Licences")}</span>
+              </LinkPatchLive>
+          {/case}
         </li>
       </details>
     </li>
