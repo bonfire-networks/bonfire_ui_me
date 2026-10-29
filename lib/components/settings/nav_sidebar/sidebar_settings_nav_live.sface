@@ -17,7 +17,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:user-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:user-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Profile")}</span>
               </LinkLive>
           {/case}
@@ -33,7 +36,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:key-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:key-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Account")}</span>
               </LinkLive>
           {/case}
@@ -49,7 +55,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:sliders-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:sliders-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Preferences")}</span>
               </LinkLive>
           {/case}
@@ -65,7 +74,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:house-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:house-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Dashboard")}</span>
               </LinkPatchLive>
           {/case}
@@ -81,7 +93,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:rss-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:rss-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Feeds")}</span>
               </LinkPatchLive>
           {/case}
@@ -99,7 +114,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:users-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:users-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Team Profile")}</span>
               </LinkLive>
           {/case}
@@ -124,7 +142,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:shield-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:shield-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("My Safety Settings")}</span>
               </LinkLive>
           {/case}
@@ -140,7 +161,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:flag-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:flag-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("My Flags")}</span>
               </LinkLive>
           {/case}
@@ -156,7 +180,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:prohibit-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:prohibit-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Blocked")}</span>
               </LinkLive>
           {/case}
@@ -172,7 +199,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:ghost-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:ghost-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Ghosted")}</span>
               </LinkLive>
           {/case}
@@ -188,7 +218,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:speaker-simple-slash-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:speaker-simple-slash-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Silenced")}</span>
               </LinkLive>
           {/case}
@@ -205,7 +238,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:list-checks-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:list-checks-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Federation Allowlist")}</span>
               </LinkLive>
           {/case}
@@ -221,7 +257,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:tray-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:tray-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Import block lists")}</span>
               </LinkLive>
           {/case}
@@ -246,7 +285,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:toggle-right-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:toggle-right-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Configure Extensions")}</span>
               </LinkLive>
           {/case}
@@ -276,7 +318,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:circle-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:circle-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Circles")}</span>
               </LinkLive>
           {/case}
@@ -292,7 +337,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:lock-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:lock-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Boundary presets")}</span>
               </LinkLive>
           {/case}
@@ -308,7 +356,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:users-three-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:users-three-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Roles")}</span>
               </LinkLive>
           {/case}
@@ -324,7 +375,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:shield-check-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:shield-check-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Instance-wide roles")}</span>
               </LinkLive>
           {/case}
@@ -349,7 +403,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:arrow-square-out-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:arrow-square-out-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Export")}</span>
               </LinkLive>
           {/case}
@@ -365,7 +422,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:download-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:download-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Import")}</span>
               </LinkLive>
           {/case}
@@ -381,7 +441,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:clock-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:clock-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Import status")}</span>
               </LinkPatchLive>
           {/case}
@@ -406,7 +469,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:globe-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:globe-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Federation status")}</span>
               </LinkPatchLive>
           {/case}
@@ -422,7 +488,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:smiley-wink-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:smiley-wink-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Custom emoji")}</span>
               </LinkPatchLive>
           {/case}
@@ -443,7 +512,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:gear-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:gear-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Extra settings")}</span>
               </LinkPatchLive>
           {/case}
@@ -459,7 +531,10 @@
                 ]}
                 opts={if active, do: ["aria-current": "page"], else: []}
               >
-                <#Icon iconify="ph:book-duotone" class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]} />
+                <#Icon
+                  iconify="ph:book-duotone"
+                  class={["shrink-0 size-5", Bonfire.UI.Common.LinkWidgetLive.active_icon_class(active)]}
+                />
                 <span class={["nav-label", Bonfire.UI.Common.LinkWidgetLive.active_label_class(active)]}>{l("Libraries & Licences")}</span>
               </LinkPatchLive>
           {/case}
