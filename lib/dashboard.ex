@@ -158,7 +158,8 @@ defmodule Bonfire.UI.Me.Dashboard do
   defp feed_name(presets, current_user, requested) do
     # matched against permitted slugs: never an atom from the URL
     requested =
-      requested && Enum.find_value(presets, fn {slug, _} -> to_string(slug) == requested && slug end)
+      requested &&
+        Enum.find_value(presets, fn {slug, _} -> to_string(slug) == requested && slug end)
 
     requested ||
       Bonfire.Common.Utils.maybe_apply(

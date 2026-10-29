@@ -29,13 +29,13 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> assert_has("#guest-board-nav a[href='/about']", text: "About")
       |> assert_has("#guest-board-nav a[href='/conduct']", text: "Code of conduct")
       # desktop-only actions (`max-lg:hidden`): on mobile the dock carries them
-      |> assert_has(".max-lg\\:hidden #guest-board-signin[href='/login']", text: "Log in")
+      |> assert_has(".max-lg\\:hidden #guest-board-signin[href='/login']", text: "Sign in")
       |> assert_has(".max-lg\\:hidden #guest-board-signup[href='/signup']", text: "Sign up")
       # one sheet like About: the shared introduction (name as the page heading, tagline, the primary action), then the admins beside the facts at a glance
       |> assert_has("#guest-home h1#about-title", text: GuestBoardLive.instance_name())
       |> assert_has("#guest-home #about-tagline")
       |> assert_has("#guest-home #hero-signup[href='/signup']", text: "Join the community")
-      |> assert_has("#guest-home #hero-login[href='/login']", text: "Log in")
+      |> assert_has("#guest-home #hero-login[href='/login']", text: "Sign in")
       |> assert_has("#guest-home #community-glance #about-guest-info",
         text: "Public posts readable without an account"
       )
@@ -48,7 +48,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> refute_has("[data-id=right_nav_and_widgets]")
       |> assert_has("#dock-instance-home img")
       |> refute_has("#dock-instance-home", text: GuestBoardLive.instance_name())
-      |> assert_has("#dock-login-action[href='/login']", text: "Log in")
+      |> assert_has("#dock-login-action[href='/login']", text: "Sign in")
     end
 
     test "only links People when the directory is visible to guests" do
@@ -331,7 +331,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> visit("/about")
       |> refute_has("#about-signup")
       |> refute_has("#about-meta [data-role=signup-closed-note]")
-      |> assert_has("#guest-board-signin", text: "Log in")
+      |> assert_has("#guest-board-signin", text: "Sign in")
       |> assert_has("#guest-board-signup[href='/signup']", text: "Sign up")
       |> assert_has("#dock-signup-action")
     end
