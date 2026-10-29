@@ -143,7 +143,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       html = dashboard_html(conn)
 
       assert has_feed?(html)
-      assert position(html, "#dashboard_main_widgets") < position(html, "#dashboard_feed_heading")
+      assert position(html, "#dashboard_main_widgets") < position(html, "#feed-tabs")
     end
 
     test "has a toggle in settings but no place in the order", %{conn: conn} do
@@ -177,6 +177,57 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       )
 
       assert has_feed?(dashboard_html(conn))
+    end
+  end
+
+  describe "the chosen feed and its tabs" do
+    # feed on, Polls as default; keep the user each put returns, as settings are preloaded on it
+    setup %{me: me} do
+      {:ok, %{__context__: %{current_user: me}}} =
+        Bonfire.Common.Settings.put([Bonfire.UI.Social.FeedLive, :default_feed], :polls,
+          current_user: me
+        )
+
+      {:ok, %{__context__: %{current_user: me}}} =
+        Bonfire.Common.Settings.put([Bonfire.Web.Views.DashboardLive, :include, :feed], true,
+          current_user: me
+        )
+
+      socket = %Phoenix.LiveView.Socket{
+        assigns: %{__context__: %{current_user: me}, __changed__: %{}}
+      }
+
+      {:ok, me: me, socket: socket}
+    end
+
+    test "is the default feed chosen in feed settings", %{socket: socket} do
+      {feed, _component_id} = Dashboard.feed_assigns(socket)
+
+      assert feed[:feed_name] == :polls
+    end
+
+    test "?feed=local shows the Local feed, headed by its title, with its tab active",
+         %{conn: conn, socket: socket} do
+      {feed, _component_id} = Dashboard.feed_assigns(socket, "local")
+      assert feed[:feed_name] == :local
+
+      conn
+      |> visit("/dashboard?feed=local")
+      |> assert_has("#dashboard_feed_heading", text: feed[:page_title])
+      |> assert_has("[data-id=dashboard_feed] #feed-tab-local[aria-current=page]")
+    end
+
+    test "an unknown ?feed falls back to the default feed", %{socket: socket} do
+      {feed, _component_id} = Dashboard.feed_assigns(socket, "nonsense")
+
+      assert feed[:feed_name] == :polls
+    end
+
+    test "tabs link to the dashboard, not to the feed pages", %{conn: conn} do
+      conn
+      |> visit("/dashboard")
+      |> assert_has("[data-id=dashboard_feed] a#feed-tab-local[href='/dashboard?feed=local']")
+      |> refute_has("[data-id=dashboard_feed] a[href^='/feed/']")
     end
   end
 

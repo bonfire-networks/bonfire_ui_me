@@ -15,8 +15,15 @@
 
       <section :if={@feed} data-id="dashboard_feed" aria-labelledby="dashboard_feed_heading">
         <div data-role="widget-header" class="flex items-center">
-          <h2 id="dashboard_feed_heading" data-role="widget-heading">{l("Latest activity")}</h2>
+          <h2 id="dashboard_feed_heading" data-role="widget-heading">{@feed[:page_title] || l("Latest activity")}</h2>
         </div>
+        <StatelessComponent
+          module={maybe_component(Bonfire.UI.Social.FeedTabsLive, @__context__)}
+          available={@feed[:nav_presets]}
+          selected_feed={@feed[:feed_name]}
+          path={&"/dashboard?feed=#{URI.encode_www_form(to_string(&1))}"}
+          sticky={false}
+        />
         <StatefulComponent
           module={maybe_component(Bonfire.UI.Social.FeedLive, @__context__)}
           id={@feed_id}

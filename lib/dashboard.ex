@@ -124,21 +124,52 @@ defmodule Bonfire.UI.Me.Dashboard do
     Settings.get([@settings_key, :default_feed], false, current_user: current_user) in [:my, true]
   end
 
-  @doc "`{feed_props, component_id}` for the user's default feed, or `{nil, nil}` when it's off."
-  def feed_assigns(socket) do
-    with true <- show_feed?(current_user(socket)),
+  @doc "`{feed_props, component_id}` for the `requested` feed slug, else the user's default feed, or `{nil, nil}` when it's off."
+  def feed_assigns(socket, requested \\ nil) do
+    current_user = current_user(socket)
+
+    # loaded once, also for the tabs
+    presets =
+      maybe_apply(Bonfire.UI.Social.FeedNavigation, :list_presets, [[current_user: current_user]],
+        fallback_return: []
+      )
+
+    with true <- show_feed?(current_user),
          [_ | _] = feed_assigns <-
            Bonfire.Common.Utils.maybe_apply(
              Bonfire.Social.Feeds.LiveHandler,
              :feed_default_assigns,
-             [:default, socket],
+             [feed_name(presets, current_user, requested) |> with_filters(), socket],
              fallback_return: nil
            ) do
       # always start from the newest activities, not the preset's saved reading position
-      feed_assigns = Keyword.put(feed_assigns, :disable_marker, true)
+      feed_assigns =
+        feed_assigns
+        |> Keyword.put(:disable_marker, true)
+        |> Keyword.put(:nav_presets, presets)
+
       {Keyword.delete(feed_assigns, :feed_component_id), feed_assigns[:feed_component_id]}
     else
       _ -> {nil, nil}
     end
   end
+
+  # the requested feed if permitted, else the default feed
+  defp feed_name(presets, current_user, requested) do
+    # matched against permitted slugs: never an atom from the URL
+    requested =
+      requested && Enum.find_value(presets, fn {slug, _} -> to_string(slug) == requested && slug end)
+
+    requested ||
+      Bonfire.Common.Utils.maybe_apply(
+        Bonfire.UI.Social.FeedNavigation,
+        :default_feed,
+        [presets, [current_user: current_user]],
+        fallback_return: nil
+      ) || :default
+  end
+
+  # string (custom) feed names only resolve as presets with filters, as on `/feed/<name>`
+  defp with_filters(name) when is_binary(name), do: {name, %{}}
+  defp with_filters(name), do: name
 end
