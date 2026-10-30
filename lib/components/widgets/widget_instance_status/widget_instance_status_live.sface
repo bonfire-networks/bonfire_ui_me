@@ -196,7 +196,7 @@
               {!-- Admins --}
               {#if admins != []}
                 <div>
-                  <div class="type-overline text-subtle mb-1.5">{l("Admins")}</div>
+                  <div class="type-overline text-subtle mb-1.5">{l("Moderators")}</div>
                   <div class="flex flex-col gap-1.5">
                     {#for admin <- admins}
                       <StatelessComponent
@@ -240,7 +240,7 @@
 
           {#if admins != []}
             <div>
-              <div class="type-overline text-subtle mb-1.5">{l("Admins")}</div>
+              <div class="type-overline text-subtle mb-1.5">{l("Moderators")}</div>
               <div class="flex flex-col gap-1.5">
                 {#for admin <- admins}
                   <StatelessComponent

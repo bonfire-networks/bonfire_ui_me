@@ -3,7 +3,7 @@
     <div />
   {#match admins}
     <Bonfire.UI.Me.WidgetUsersLive
-      widget_title={e(@widget_title, l("Admins"))}
+      widget_title={e(@widget_title, l("Moderators"))}
       users={admins}
       parent_id="widget_admins"
     >
@@ -22,4 +22,5 @@
         {/if}
       </:action>
     </Bonfire.UI.Me.WidgetUsersLive>
+    <Bonfire.UI.Me.MessageModeratorsLive />
 {/case}

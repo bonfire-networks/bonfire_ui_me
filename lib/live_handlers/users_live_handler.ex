@@ -144,11 +144,20 @@ defmodule Bonfire.Me.Users.LiveHandler do
       ) do
     with true <- Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]),
          {:ok, user} <-
-           Bonfire.Me.Users.make_admin(assigns(socket)[:user] || params["username_or_id"]) do
+           Bonfire.Me.Users.make_admin(assigns(socket)[:user] || params["username_or_id"],
+             moderator: not empty?(params["moderator"])
+           ) do
       {:noreply,
        socket
        |> assign_flash(:info, l("They are now an admin!"))
        |> assign(user: user)}
+    else
+      false ->
+        {:noreply, assign_flash(socket, :error, l("Only an admin can make someone an admin."))}
+
+      other ->
+        error(other, "Could not make them an admin")
+        {:noreply, assign_flash(socket, :error, l("Could not make them an admin."))}
     end
   end
 
@@ -164,6 +173,17 @@ defmodule Bonfire.Me.Users.LiveHandler do
        socket
        |> assign_flash(:info, l("They are no longer an admin."))
        |> assign(user: user)}
+    else
+      false ->
+        {:noreply, assign_flash(socket, :error, l("Only an admin can revoke an admin."))}
+
+      # eg. the last admin of the instance, which `Users.revoke_admin/1` refuses with a message
+      {:error, message} when is_binary(message) ->
+        {:noreply, assign_flash(socket, :error, message)}
+
+      other ->
+        error(other, "Could not revoke their admin powers")
+        {:noreply, assign_flash(socket, :error, l("Could not revoke their admin powers."))}
     end
   end
 

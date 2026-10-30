@@ -8,7 +8,7 @@ defmodule Bonfire.UI.Me.WidgetAdminsLive do
   def list_visible(context) do
     if current_user_id(context) ||
          Settings.get([__MODULE__, :show_guests], true, context) do
-      List.wrap(Bonfire.UI.Me.WidgetUsersLive.list_admins())
+      List.wrap(Bonfire.Me.Users.list_declared_moderators())
     else
       []
     end
@@ -19,14 +19,15 @@ defmodule Bonfire.UI.Me.WidgetAdminsLive do
         _,
         socket
       ) do
-    Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+    Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
     {:noreply,
      socket
      #  TODO: how to update them without reloading or making this a stateful component
      |> assign_flash(
        :info,
-       l("Admins have been refreshed.") <> " " <> l("You need to reload to see updates, if any.")
+       l("Moderators have been refreshed.") <>
+         " " <> l("You need to reload to see updates, if any.")
      )}
   end
 end

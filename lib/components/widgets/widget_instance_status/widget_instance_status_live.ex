@@ -29,7 +29,7 @@ defmodule Bonfire.UI.Me.WidgetInstanceStatusLive do
     admins =
       try do
         # no need to cache count because the list is cached
-        Bonfire.UI.Me.WidgetUsersLive.list_admins()
+        Bonfire.Me.Users.list_declared_moderators()
       rescue
         _ -> []
       end

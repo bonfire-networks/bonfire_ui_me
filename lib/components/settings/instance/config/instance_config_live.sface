@@ -341,8 +341,8 @@
       <div class="p-4">
         <div class="flex items-center justify-between">
           <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Show list of admins on public homepage")}</div>
-            <div class="text-sm font-normal text-muted">{l("Show list of admins on public homepage")}</div>
+            <div class="text-sm font-medium">{l("Show list of moderators on public homepage")}</div>
+            <div class="text-sm font-normal text-muted">{l("Show list of moderators on public homepage")}</div>
           </div>
           <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
           <input

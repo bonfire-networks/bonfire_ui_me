@@ -148,25 +148,67 @@
             maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
           {#if !maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@user], fallback_return: nil) == true}
             <li class="">
-              <button
-                phx-click="Bonfire.Me.Users:make_admin"
-                phx-value-username_or_id={id(@user)}
-                class="flex items-center gap-3 w-full text-sm text-base-content"
+              <Bonfire.UI.Common.OpenModalLive
+                id={deterministic_dom_id(__MODULE__, id(@user), "make-admin", @parent_id)}
+                title_text={l("Make this user an admin?")}
+                form_opts={%{"phx-submit" => "Bonfire.Me.Users:make_admin"}}
               >
-                <#Icon iconify="ph:key-duotone" class="size-4 shrink-0 text-muted" />
-                <span class="flex-1 truncate">{l("Make admin")}</span>
-              </button>
+                <input type="hidden" name="username_or_id" value={id(@user)}>
+                <p class="text-sm mb-3">
+                  {l(
+                    "SUPER POWERS: %{name} will be able to manage everything on this instance, including its settings and content. They'll also be sent flagged content to review and be able to act on it. This is a very powerful role, and should only be given to people you trust.",
+                    name: Bonfire.Me.Characters.display_username(@user, true, true)
+                  )}
+                </p>
+
+                <label class="label cursor-pointer justify-start gap-2">
+                  <input type="checkbox" name="moderator" value="true" class="checkbox checkbox-sm">
+                  <span class="label-text text-sm">{l("Also declare them as an instance moderator")}</span>
+                </label>
+                <p class="text-xs text-muted mt-1">
+                  {l("Moderators are listed publicly on the instance's pages.")} {l("You can add/remove moderators without making them admins in the instance settings.")} {l(
+                    "You can also give moderator powers to other users without declaring them as moderators, by configuring custom roles and circles."
+                  )}
+                </p>
+
+                <:open_btn>
+                  <div class="flex items-center gap-3 w-full text-sm text-base-content">
+                    <#Icon iconify="ph:key-duotone" class="size-4 shrink-0 text-muted" />
+                    <span class="flex-1 truncate">{l("Make admin")}</span>
+                  </div>
+                </:open_btn>
+
+                <:action_btns>
+                  <button class="btn btn-primary btn-sm">{l("Make them an admin")}</button>
+                </:action_btns>
+              </Bonfire.UI.Common.OpenModalLive>
             </li>
           {#else}
             <li class="">
-              <button
-                phx-click="Bonfire.Me.Users:revoke_admin"
-                phx-value-username_or_id={id(@user)}
-                class="flex items-center gap-3 w-full text-sm text-base-content"
+              <Bonfire.UI.Common.OpenModalLive
+                id={deterministic_dom_id(__MODULE__, id(@user), "revoke-admin", @parent_id)}
+                title_text={l("Revoke their admin powers?")}
+                form_opts={%{"phx-submit" => "Bonfire.Me.Users:revoke_admin"}}
               >
-                <#Icon iconify="ph:key-duotone" class="size-4 shrink-0 text-muted" />
-                <span class="flex-1 truncate text-error">{l("Revoke admin")}</span>
-              </button>
+                <input type="hidden" name="username_or_id" value={id(@user)}>
+                <p class="text-sm mb-3">
+                  {l(
+                    "%{name} will no longer be able to manage this instance, its users and its settings. They stay a moderator if they are one.",
+                    name: Bonfire.Me.Characters.display_username(@user, true, true)
+                  )}
+                </p>
+
+                <:open_btn>
+                  <div class="flex items-center gap-3 w-full text-sm text-base-content">
+                    <#Icon iconify="ph:key-duotone" class="size-4 shrink-0 text-muted" />
+                    <span class="flex-1 truncate text-error">{l("Revoke admin")}</span>
+                  </div>
+                </:open_btn>
+
+                <:action_btns>
+                  <button class="btn btn-error btn-sm">{l("Revoke their admin powers")}</button>
+                </:action_btns>
+              </Bonfire.UI.Common.OpenModalLive>
             </li>
           {/if}
         {/if}

@@ -1,0 +1,28 @@
+{#if @bot_id && extension_enabled?(:bonfire_ui_messages, @__context__)}
+  {#if current_user_id(@__context__)}
+    <Bonfire.UI.Common.SmartInputButtonLive
+      create_object_type={:message}
+      prompt={l("Message the moderators")}
+      icon_class="!size-4 text-muted"
+      class={@class}
+      smart_input_opts={%{
+        create_object_type: :message,
+        recipients_editable: false,
+        to_circles: [{@bot_id, l("The moderators of this instance")}]
+      }}
+    />
+  {#else}
+    <a
+      href={Bonfire.UI.Me.RemoteInteractionLive.generate_url(
+        "message",
+        l("the moderators"),
+        @bot_url,
+        @__context__
+      )}
+      target="_top"
+      class={@class}
+    >
+      {l("Message the moderators")}
+    </a>
+  {/if}
+{/if}

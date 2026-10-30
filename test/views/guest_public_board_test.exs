@@ -9,7 +9,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
   setup do
     # both loaders are cached for hours: start every test from the current DB state
-    Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+    Bonfire.Me.Users.list_declared_moderators(cache: :reset)
     Pins.list_spotlight_activities(cache: :reset)
     Bonfire.UI.Groups.WidgetGroupsCarouselLive.list_guest_groups(cache: :reset)
     :ok
@@ -233,27 +233,57 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
     test "lists public admins linking to their profiles" do
       admin = fake_admin!(fake_account!())
-      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       conn()
       |> visit("/")
       |> assert_has(
-        "#guest-home #community-admins a[data-role=admin-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
+        "#guest-home #community-glance #community-admins a[data-role=admin-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
         text: admin.profile.name
       )
     end
 
-    test "lists every admin, however many there are" do
+    test "lists the moderators and not the admins, once the instance has a moderator" do
+      admin = fake_admin!(fake_account!())
+      moderator = Bonfire.Me.Fake.instance_moderator!(fake_user!(fake_account!()))
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+
+      conn()
+      |> visit("/")
+      # prove the positive first: the moderator is listed
+      |> assert_has(
+        "#guest-home #community-glance #community-admins a[data-role=admin-link][href='/@#{moderator.character.username}']"
+      )
+      |> refute_has("#community-admins a[href='/@#{admin.character.username}']")
+      |> assert_has("#community-admins-title", text: "Moderated by")
+    end
+
+    test "a moderator made after the list was first shown appears without refreshing the list" do
+      _admin = fake_admin!(fake_account!())
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+
+      # the list is cached from here on
+      conn() |> visit("/") |> assert_has("#community-admins")
+
+      moderator = fake_user!(fake_account!())
+      assert {:ok, _} = Bonfire.Me.Users.make_moderator(moderator)
+
+      conn()
+      |> visit("/")
+      |> assert_has("#community-admins a[href='/@#{moderator.character.username}']")
+    end
+
+    test "lists every admin in the glance box, however many there are" do
       admins = for _ <- 1..4, do: fake_admin!(fake_account!())
-      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
-      count = length(Bonfire.UI.Me.WidgetUsersLive.list_admins())
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+      count = length(Bonfire.Me.Users.list_declared_moderators())
       assert count >= 4
 
       session =
         conn()
         |> visit("/")
-        # each admin is a card, so none are collapsed
-        |> assert_has("#community-admins a[data-role=admin-link]", count: count)
+        # each admin is a row in the Administered by column, so none are collapsed
+        |> assert_has("#community-glance #community-admins a[data-role=admin-link]", count: count)
         |> refute_has("#community-admins-more")
 
       for admin <- admins do
@@ -263,7 +293,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
     test "hides the admins section when admins are hidden from guests" do
       _admin = fake_admin!(fake_account!())
-      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetAdminsLive, :show_guests], false)
 
@@ -272,26 +302,26 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> refute_has("#community-admins")
     end
 
-    test "are listed on the guest About page, without the community links" do
+    test "are listed beside the facts at a glance on the guest About page, without the community links" do
       Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [
         {"Community handbook", "https://example.org/handbook"}
       ])
 
       admin = fake_admin!(fake_account!())
-      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       conn()
       |> visit("/about")
       |> refute_has("#community-links")
       |> assert_has(
-        "#community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
+        "#community-glance #community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
         text: admin.profile.name
       )
     end
 
     test "stay off the guest About page when hidden from guests" do
       _admin = fake_admin!(fake_account!())
-      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetAdminsLive, :show_guests], false)
 
@@ -578,7 +608,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
     test "still find the admins on About, since they never see the guest home", %{conn: conn} do
       admin = fake_admin!(fake_account!())
-      Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       conn
       |> visit("/about")
