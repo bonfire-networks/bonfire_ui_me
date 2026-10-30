@@ -39,4 +39,7 @@
       </div>
     {/for}
   </div>
+  <div :if={slot_assigned?(:footer)} class="pt-3">
+    <#slot {@footer} />
+  </div>
 </Bonfire.UI.Common.WidgetBlockLive>

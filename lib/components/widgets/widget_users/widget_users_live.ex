@@ -9,6 +9,9 @@ defmodule Bonfire.UI.Me.WidgetUsersLive do
   @doc "A call to action"
   slot action
 
+  @doc "Shown under the list, such as a button that acts on all the users at once"
+  slot footer
+
   def render(assigns) do
     assigns
     |> assign(

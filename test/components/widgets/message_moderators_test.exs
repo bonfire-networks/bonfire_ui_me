@@ -69,7 +69,7 @@ defmodule Bonfire.UI.Me.MessageModeratorsTest do
 
       conn()
       |> visit(unquote(page))
-      |> assert_has("#community-glance a[href^='/remote_interaction?type=message']",
+      |> assert_has("#community-admins a[href^='/remote_interaction?type=message']",
         text: "Message the moderators"
       )
     end
