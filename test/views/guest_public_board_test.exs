@@ -238,12 +238,12 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/")
       |> assert_has(
-        "#guest-home #community-glance #community-admins a[data-role=admin-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
+        "#guest-home #community-admins a[data-role=admin-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
         text: admin.profile.name
       )
     end
 
-    test "lists every admin in the glance box, however many there are" do
+    test "lists every admin, however many there are" do
       admins = for _ <- 1..4, do: fake_admin!(fake_account!())
       Bonfire.UI.Me.WidgetUsersLive.list_admins(cache: :reset)
       count = length(Bonfire.UI.Me.WidgetUsersLive.list_admins())
@@ -252,8 +252,8 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       session =
         conn()
         |> visit("/")
-        # each admin is a row in the Administered by column, so none are collapsed
-        |> assert_has("#community-glance #community-admins a[data-role=admin-link]", count: count)
+        # each admin is a card, so none are collapsed
+        |> assert_has("#community-admins a[data-role=admin-link]", count: count)
         |> refute_has("#community-admins-more")
 
       for admin <- admins do
@@ -272,7 +272,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> refute_has("#community-admins")
     end
 
-    test "are listed beside the facts at a glance on the guest About page, without the community links" do
+    test "are listed on the guest About page, without the community links" do
       Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [
         {"Community handbook", "https://example.org/handbook"}
       ])
@@ -284,7 +284,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> visit("/about")
       |> refute_has("#community-links")
       |> assert_has(
-        "#community-glance #community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
+        "#community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
         text: admin.profile.name
       )
     end
