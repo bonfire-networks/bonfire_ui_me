@@ -22,7 +22,7 @@
         {/if}
       </:action>
       <:footer>
-        <Bonfire.UI.Me.MessageModeratorsLive class="btn btn-sm btn-outline border-divider normal-case gap-2 w-full" />
+        <Bonfire.UI.Me.MessageModeratorsLive class="btn btn-sm btn-outline border-base-content/15 normal-case gap-2 w-full" />
       </:footer>
     </Bonfire.UI.Me.WidgetUsersLive>
 {/case}
