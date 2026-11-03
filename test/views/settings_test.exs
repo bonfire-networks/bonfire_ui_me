@@ -675,14 +675,19 @@ defmodule Bonfire.UI.Me.SettingsTest do
 
   describe "Instance federation-mode selector (#2056)" do
     setup do
-      on_exit(fn ->
-        parent = self()
+      # the saved mode lands in Application env, which the sandbox doesn't roll back: put back what was there, without the DB, since `on_exit` runs after the test's sandbox connection is gone
+      instance_config = Application.get_env(:activity_pub, :instance)
+      on_exit(fn -> Application.put_env(:activity_pub, :instance, instance_config) end)
 
-        Task.start(fn ->
-          Ecto.Adapters.SQL.Sandbox.allow(Bonfire.Common.Repo, parent, self())
-          Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, false)
-        end)
-      end)
+      # this never reset anything: the `Settings.set` inside it queries the DB from a process the sandbox no longer allows, and the unawaited Task hides the failure
+      # on_exit(fn ->
+      #   parent = self()
+      #
+      #   Task.start(fn ->
+      #     Ecto.Adapters.SQL.Sandbox.allow(Bonfire.Common.Repo, parent, self())
+      #     Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, false)
+      #   end)
+      # end)
 
       account = fake_account!()
       admin = fake_admin!(account)
@@ -769,6 +774,11 @@ defmodule Bonfire.UI.Me.SettingsTest do
                "expected the #{@expected_value} card to remain checked after saving"
       end
     end
+
+    test "a mode saved by an earlier test doesn't outlive it" do
+      assert Bonfire.Federate.ActivityPub.federation_mode() == true,
+             "the instance mode is kept in Application env, which the sandbox doesn't roll back, so whatever a test here saved must be undone when it ends or every test after it runs with federation off"
+    end
   end
 
   describe "User federation-mode selector (#2056, shared component)" do
@@ -779,16 +789,21 @@ defmodule Bonfire.UI.Me.SettingsTest do
       # `allowlist_only` user cards. Reset to the open default before each test so the highlight
       # tests see all four cards reflect the user's own saved choice. See bonfire-app#2056.
       Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, false)
+      instance_config = Application.get_env(:activity_pub, :instance)
       Bonfire.Federate.ActivityPub.set_federating(:instance, true)
 
-      on_exit(fn ->
-        parent = self()
+      # the saved mode lands in Application env, which the sandbox doesn't roll back: put back what was there, without the DB, since `on_exit` runs after the test's sandbox connection is gone
+      on_exit(fn -> Application.put_env(:activity_pub, :instance, instance_config) end)
 
-        Task.start(fn ->
-          Ecto.Adapters.SQL.Sandbox.allow(Bonfire.Common.Repo, parent, self())
-          Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, false)
-        end)
-      end)
+      # this never reset anything: the `Settings.set` inside it queries the DB from a process the sandbox no longer allows, and the unawaited Task hides the failure
+      # on_exit(fn ->
+      #   parent = self()
+      #
+      #   Task.start(fn ->
+      #     Ecto.Adapters.SQL.Sandbox.allow(Bonfire.Common.Repo, parent, self())
+      #     Bonfire.Federate.ActivityPub.set_allowlist_only(:instance, false)
+      #   end)
+      # end)
 
       account = fake_account!()
       alice = fake_user!(account)

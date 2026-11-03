@@ -55,7 +55,9 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
            maybe_apply(
              Bonfire.UI.Social.EmbedThreads,
              :get_or_create,
-             [media_uri, params, creator], fallback_return: nil),
+             [media_uri, params, creator],
+             fallback_return: nil
+           ),
          ap_id when is_binary(ap_id) <-
            Bonfire.Common.URIs.canonical_url(media, preload_if_needed: true) do
       ap_id
