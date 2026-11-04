@@ -89,7 +89,7 @@
 
     <Bonfire.UI.Me.SettingsViewsLive.ObanThroughputLive scope={:instance} />
 
-    <form phx-change="Bonfire.Common.Settings:set">
+    <form id="federation_privacy_settings" phx-change="Bonfire.Common.Settings:set">
       <input name="scope" value={:instance} type="hidden">
 
       <div class="divide-hair divide-divider flex flex-col w-full">
@@ -109,12 +109,20 @@
           />
         </div> --}
         <div class="p-4">
-          <Bonfire.UI.Common.SettingsToggleLive
+          <Bonfire.UI.Common.SettingsSelectLive
+            id="reject_unsigned"
             name={l("Require authentication from federated servers")}
+            label_name={l("Require authentication from federated servers")}
             description={l(
-              "Enables stricter enforcement of users' boundaries and blocks, as well as instance-wide blocks. Please note that this may reduce performance, reach, and/or  compatibility with some federated apps. In addition, this does not fully prevent public posts and profiles from being fetched by third parties."
+              "Enables stricter enforcement of users' boundaries and blocks, as well as instance-wide blocks. Please note that this may reduce performance, reach, and/or compatibility with some federated apps, and does not fully prevent public posts and profiles from being fetched by third parties. Except public profiles: other servers can still look up public groups and people without signing in, so servers that don't sign their requests can find them and receive their posts, but everything else needs authentication. Everything: servers that don't sign their requests (eg. Lemmy before version 1.0) can't reach this instance at all."
             )}
             keys={[:activity_pub, :reject_unsigned]}
+            options={[
+              false: l("Not required"),
+              true: l("Required, except for public profiles"),
+              all: l("Required for everything")
+            ]}
+            default_value={false}
             scope={:instance}
           />
         </div>

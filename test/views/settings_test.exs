@@ -631,6 +631,55 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
   end
 
+  # what the instance asks of servers fetching from it: not at all, all but public profiles (which is what having it on meant before it was a choice, stored as `true`), or everything
+  describe "Require authentication from federated servers" do
+    setup %{account: account} do
+      previous = Application.get_env(:activity_pub, :reject_unsigned)
+
+      on_exit(fn ->
+        if is_nil(previous),
+          do: Application.delete_env(:activity_pub, :reject_unsigned),
+          else: Application.put_env(:activity_pub, :reject_unsigned, previous)
+      end)
+
+      {:ok, conn: conn(user: fake_admin!(account), account: account)}
+    end
+
+    test "an instance that had it switched on shows it as required except for public profiles",
+         %{conn: conn} do
+      Application.put_env(:activity_pub, :reject_unsigned, true)
+
+      conn
+      |> visit("/settings/instance/configuration")
+      |> wait_async()
+      |> assert_has("#reject_unsigned option", text: "Not required")
+      |> assert_has("#reject_unsigned option", text: "Required for everything")
+      |> assert_has("#reject_unsigned option[selected]",
+        text: "Required, except for public profiles"
+      )
+    end
+
+    test "an admin can require it for everything, or for all but public profiles", %{conn: conn} do
+      Application.put_env(:activity_pub, :reject_unsigned, false)
+
+      session =
+        conn
+        |> visit("/settings/instance/configuration")
+        |> wait_async()
+        |> select("Require authentication from federated servers",
+          option: "Required for everything"
+        )
+
+      assert ActivityPub.Config.signed_fetch_required() == :all
+
+      select(session, "Require authentication from federated servers",
+        option: "Required, except for public profiles"
+      )
+
+      assert ActivityPub.Config.signed_fetch_required() == :except_public_actors
+    end
+  end
+
   describe "Instance icon" do
     test "uses the high-resolution instance icon uploader", %{account: account} do
       original_icon = Config.get([:ui, :theme, :instance_icon])

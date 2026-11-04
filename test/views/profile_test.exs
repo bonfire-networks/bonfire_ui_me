@@ -28,6 +28,21 @@ defmodule Bonfire.UI.Me.ProfileTest do
     |> refute_has("[data-id='hero_more_actions-profile_hero']")
   end
 
+  # a real TLD: bare URLs are linked by the formatter when the bio is saved, which checks the TLD in tests too and leaves a `.local` host as text
+  test "a user's bio shows its bare URLs and markdown links as links on their profile" do
+    account = fake_account!()
+
+    user =
+      fake_user!(account, %{
+        summary: "See [my reading list](https://example.com/list) or https://example.com/notes"
+      })
+
+    conn()
+    |> visit("/@#{user.character.username}")
+    |> assert_has("a[href='https://example.com/list']", text: "my reading list")
+    |> assert_has("a[href='https://example.com/notes']")
+  end
+
   test "If a user follows me, I want to have a visual feedback in their profile" do
     account = fake_account!()
     alice = fake_user!(account)

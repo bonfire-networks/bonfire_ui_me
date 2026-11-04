@@ -1,14 +1,18 @@
 <section>
   <div class={"flex flex-col", "mt-2": @character_type == :user, "mt-card": @character_type != :user}>
+    {!-- a long bio is clamped, with Read more below it, so the margin goes around both --}
     <div
       :if={@character_type in [:user, :group] && e(@user, :profile, :summary, nil)}
-      class={
-        "w-full prose !text-base max-w-none",
-        "mb-3 [&>p:first-child]:mt-0 [&>p:last-child]:mb-0": @character_type == :user,
-        "mb-4": @character_type != :user
-      }
+      class={"mb-3": @character_type == :user, "mb-4": @character_type != :user}
     >
-      {rich(e(@user, :profile, :summary, nil))}
+      <Bonfire.UI.Common.TruncatableLive
+        id={"profile-bio-#{id(@user)}"}
+        html={rich(e(@user, :profile, :summary, nil))}
+        class={
+          "w-full prose !text-base max-w-none",
+          "[&>p:first-child]:mt-0 [&>p:last-child]:mb-0": @character_type == :user
+        }
+      />
     </div>
 
     <div :if={@familiar_followers != [] and current_user_id(@__context__) != id(@user)} class="mb-3">
