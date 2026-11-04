@@ -13,13 +13,21 @@
         :account ->
           l(
             "I DO NOT want my profiles to be easily discoverable (in Bonfire, the fediverse, and search engines)"
-          )
+          ) <>
+            ". " <>
+            l(
+              "Note: you may still appear in search results and search engines that already list you."
+            )
 
         _ ->
           l(
             "I DO NOT want my profile (%{username}) to be easily discoverable (in Bonfire, the fediverse, and search engines)",
             username: e(current_user(@__context__), :character, :username, nil) || ""
-          )
+          ) <>
+            ". " <>
+            l(
+              "Note: you may still appear in search results and search engines that already list you."
+            )
       end}
     keys={[Bonfire.Me.Users, :undiscoverable]}
     scope={@scope}
