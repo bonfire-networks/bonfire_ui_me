@@ -71,6 +71,75 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> refute_has("#theme-settings-user-system-button .badge")
     end
 
+    test "As a user I can choose the system theme, even when the instance's dark theme is a stale name" do
+      # an instance configured with a dark theme that no longer exists (no CSS is compiled for it)
+      original = Config.get([:ui, :theme, :instance_theme])
+      Config.put([:ui, :theme, :instance_theme], "bonfire")
+      on_exit(fn -> Config.put([:ui, :theme, :instance_theme], original) end)
+
+      known_themes = Config.get([:ui, :themes_dark], []) ++ Config.get([:ui, :themes_light], [])
+      refute "bonfire" in known_themes
+
+      account = fake_account!()
+      alice = fake_user!(account)
+
+      # alice first chose a fixed light theme, so choosing system is a real change
+      assert {:ok, _} =
+               Bonfire.Common.Settings.put([:ui, :theme, :preferred], :light,
+                 current_user: alice,
+                 scope: :user
+               )
+
+      conn = conn(user: alice, account: account)
+      next = "/settings/user/preferences/appearance"
+
+      conn
+      |> visit(next)
+      |> assert_has("#theme-settings-user-light-button .badge", text: "Active")
+      |> click_button("#theme-settings-user-system-button", "Use system")
+      |> unwrap(fn view ->
+        # the page switches to following the device, with two existing themes to switch between
+        assert_push_event(view, "set_theme", %{theme: "system", light: light, dark: dark})
+        assert light in known_themes
+        assert dark in known_themes
+        render(view)
+      end)
+
+      # re-visit for fresh server state: system is now her saved choice
+      conn
+      |> visit(next)
+      |> assert_has("#theme-settings-user-system-button .badge", text: "Active")
+      |> refute_has("#theme-settings-user-light-button .badge")
+
+      # and the page is rendered in system mode, with two existing themes to switch between
+      html = conn |> get(next) |> html_response(200)
+      [root] = html |> Floki.parse_document!() |> Floki.find("html")
+      assert Floki.attribute(root, "data-theme-mode") == ["system"]
+      assert [light] = Floki.attribute(root, "data-theme-light")
+      assert [dark] = Floki.attribute(root, "data-theme-dark")
+      assert light in known_themes
+      assert dark in known_themes
+    end
+
+    test "the theme mode buttons don't submit the settings form they sit in", %{conn: conn} do
+      # a button without a type submits its form, and this form only has phx-change, so the browser would reload the page
+      session = visit(conn, "/settings/user/preferences/appearance")
+
+      for mode <- ~w(follow dark light system custom) do
+        assert_has(session, "form #theme-settings-user-#{mode}-button[type=button]")
+      end
+    end
+
+    test "A new user's pages use the system theme by default" do
+      account = fake_account!()
+      alice = fake_user!(account)
+      conn = conn(user: alice, account: account)
+
+      html = conn |> get("/settings/user/preferences/appearance") |> html_response(200)
+      [root] = html |> Floki.parse_document!() |> Floki.find("html")
+      assert Floki.attribute(root, "data-theme-mode") == ["system"]
+    end
+
     test "the custom editor renders every supported colour as inherited", %{conn: conn} do
       {:ok, view, _html} = live(conn, "/settings/user/preferences/appearance")
 

@@ -422,10 +422,12 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       following_count: following_count,
       post_count: post_count,
       familiar_followers: familiar_followers,
+      # the profile's feed shows the user's posts, so the page also stays out of search engines when the user has search indexing off, as a post's own page does
       no_index:
         Bonfire.Common.Settings.get([Bonfire.Me.Users, :undiscoverable], false,
           current_user: user
-        ),
+        ) ||
+          !Bonfire.Common.Extend.module_enabled?(Bonfire.Search.Indexer, user),
       sidebar_widgets: sidebar_widgets
     ]
     |> debug()

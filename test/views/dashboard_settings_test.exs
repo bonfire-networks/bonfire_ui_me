@@ -20,6 +20,25 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
         me
       )
 
+  # a custom feed preset of the user's, hidden from the feed tabs; returns its name and the user the put returns, as settings are preloaded on it and a later put on the old user would drop the preset
+  defp put_hidden_preset(me, slug) do
+    name = Faker.Lorem.sentence()
+
+    assert {:ok, %{__context__: %{current_user: me}}} =
+             Bonfire.Common.Settings.put(
+               [:bonfire_social, Bonfire.Social.Feeds, :feed_presets, slug],
+               %{
+                 name: name,
+                 icon: "ph:rss-simple-fill",
+                 exclude_from_nav: true,
+                 filters: %{feed_name: :local}
+               },
+               current_user: me
+             )
+
+    {name, me}
+  end
+
   # positions of the main-area widgets as the dashboard renders them
   defp dashboard_order(conn) do
     {:ok, _view, html} = live(conn, "/dashboard")
@@ -171,6 +190,35 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       refute html =~ "You can customise your dashboard"
     end
 
+    # Latest activity is off here, as "is off unless chosen" shows: the dropdown shows either way, since it also sets where the sidebar's Feeds link opens
+    test "the Default feed dropdown sits beside Latest activity, with every feed I may choose",
+         %{conn: conn, me: me} do
+      {name, _me} = put_hidden_preset(me, :dashboard_custom)
+
+      conn
+      |> visit(@settings)
+      |> assert_has("[data-role=dashboard_feed_setting] select#dashboard-default-feed-select")
+      |> assert_has("#dashboard-default-feed-select option[value=local]", text: "Local")
+      |> assert_has("#dashboard-default-feed-select option[value=dashboard_custom]", text: name)
+    end
+
+    test "choosing a default feed there is the default feed everywhere", %{conn: conn} do
+      conn
+      |> visit(@settings)
+      # by its selector, not within the block: `within` hides the form the select belongs to
+      |> PhoenixTest.select(
+        "[data-role=dashboard_feed_setting] #dashboard-default-feed-select",
+        "Default feed",
+        option: "Local"
+      )
+      |> visit("/settings/user/feeds")
+      |> assert_has("#default-feed-select option[value=local][selected]")
+      |> visit(@settings)
+      |> check("Latest activity", exact: false)
+      |> visit("/dashboard")
+      |> assert_has("[data-id=dashboard_feed] #feed-tab-local[aria-current=page]")
+    end
+
     test "whoever chose the old feed-only mode keeps a feed", %{conn: conn, me: me} do
       Bonfire.Common.Settings.put([Bonfire.Web.Views.DashboardLive, :default_feed], :my,
         current_user: me
@@ -221,6 +269,34 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       {feed, _component_id} = Dashboard.feed_assigns(socket, "nonsense")
 
       assert feed[:feed_name] == :polls
+    end
+
+    test "the default feed's tab shows while another tab is open, even when it is hidden from the tabs",
+         %{conn: conn, me: me} do
+      {_name, me} = put_hidden_preset(me, :dashboard_default)
+
+      assert {:ok, _} =
+               Bonfire.Common.Settings.put(
+                 [Bonfire.UI.Social.FeedLive, :default_feed],
+                 :dashboard_default,
+                 current_user: me
+               )
+
+      conn
+      |> visit("/dashboard?feed=local")
+      |> assert_has("[data-id=dashboard_feed] #feed-tab-local[aria-current=page]")
+      |> assert_has(
+        "[data-id=dashboard_feed] a#feed-tab-dashboard_default[href='/dashboard?feed=dashboard_default']"
+      )
+    end
+
+    test "other hidden presets stay out of the tabs", %{conn: conn, me: me} do
+      {_name, _me} = put_hidden_preset(me, :dashboard_hidden)
+
+      conn
+      |> visit("/dashboard")
+      |> assert_has("[data-id=dashboard_feed] #feed-tabs")
+      |> refute_has("#feed-tab-dashboard_hidden")
     end
 
     test "tabs link to the dashboard, not to the feed pages", %{conn: conn} do

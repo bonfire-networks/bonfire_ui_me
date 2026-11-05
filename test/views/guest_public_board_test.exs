@@ -127,15 +127,17 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     test "shows local groups guests can see, but not private or federated ones" do
       creator = fake_user!(fake_account!())
 
-      Bonfire.Classify.Simulate.fake_group!(creator, %{
-        name: "Guest visible group",
-        visibility: "global"
-      })
+      visible =
+        Bonfire.Classify.Simulate.fake_group!(creator, %{
+          name: "Guest visible group",
+          visibility: "global"
+        })
 
-      Bonfire.Classify.Simulate.fake_group!(creator, %{
-        name: "Members only group",
-        visibility: "members:private"
-      })
+      private =
+        Bonfire.Classify.Simulate.fake_group!(creator, %{
+          name: "Members only group",
+          visibility: "members:private"
+        })
 
       # a public group mirrored from another instance: its `Peered` row is what makes it remote
       federated =
@@ -155,11 +157,19 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> visit("/")
       |> assert_has("#guest-groups [data-role=widget-heading]", text: "Groups")
-      # the same card as the /groups directory: a cover block above the name, not the compact row
-      |> assert_has("#guest-groups article[id^=group-preview-]", text: "Guest visible group")
-      |> assert_has("#guest-groups [data-role=group-card-cover]")
+      # the same row as the /groups directory: the name links to the group, with its joining action beside it, not the compact card
+      |> assert_has("#guest-groups article#group-preview-#{id(visible)}",
+        text: "Guest visible group"
+      )
+      |> assert_has(
+        "#guest-groups #group-preview-#{id(visible)} a#group-preview-link-#{id(visible)}[href='/group/#{visible.character.username}']",
+        text: "Guest visible group"
+      )
+      |> assert_has("#guest-groups #group-preview-#{id(visible)} [data-role=group-card-action]")
       |> refute_has("#guest-groups [data-role=group-card-compact]")
+      |> refute_has("#guest-groups #group-preview-#{id(private)}")
       |> refute_has("#guest-groups", text: "Members only group")
+      |> refute_has("#guest-groups #group-preview-#{id(federated)}")
       |> refute_has("#guest-groups", text: "Federated group")
       |> assert_has("#guest-groups a[href='/groups']", text: "Browse all groups")
     end

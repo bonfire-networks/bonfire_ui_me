@@ -61,6 +61,42 @@ defmodule Bonfire.UI.Me.ProfileTest do
     |> refute_has("[data-role=follows_you]", text: "Follows you")
   end
 
+  # the robots meta is in the root layout, which only the first (non-live) render has, and that render is what crawlers read
+  describe "robots noindex on a guest's view of a profile" do
+    # the test config disables the indexer for the whole instance, so turn it on there and leave each user's own setting to decide (a process override would also mask the user's setting)
+    setup do
+      prev = Config.get([Bonfire.Search.Indexer, :modularity], nil, :bonfire_search)
+      Config.put([Bonfire.Search.Indexer, :modularity], true, :bonfire_search)
+      on_exit(fn -> Config.put([Bonfire.Search.Indexer, :modularity], prev, :bonfire_search) end)
+    end
+
+    defp guest_sees_noindex?(user) do
+      conn()
+      |> get("/@#{user.character.username}")
+      |> floki_response()
+      |> Floki.find("meta[name=robots][content=noindex]")
+      |> Enum.any?()
+    end
+
+    test "is set when the user has search indexing off" do
+      user = Bonfire.Me.Users.put_privacy_settings(fake_user!(), unindexable: true)
+
+      assert guest_sees_noindex?(user)
+    end
+
+    test "is not set when the user has both discovery and search indexing on" do
+      user = fake_user!()
+
+      refute guest_sees_noindex?(user)
+    end
+
+    test "is set when the user has discovery off" do
+      user = Bonfire.Me.Users.put_privacy_settings(fake_user!(), undiscoverable: true)
+
+      assert guest_sees_noindex?(user)
+    end
+  end
+
   describe "follow button federation gating (#647)" do
     setup do
       # global HTTP mock so creating the remote actor (+ any LiveView-side fetch) works

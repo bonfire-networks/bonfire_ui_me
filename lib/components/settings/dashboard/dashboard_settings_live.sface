@@ -61,7 +61,7 @@
 
     <div
       :if={@feed_available}
-      class="rounded-box border border-divider px-4 py-3"
+      class="rounded-box border border-divider px-4 py-3 flex flex-col gap-4"
       data-role="dashboard_feed_setting"
     >
       <Bonfire.UI.Common.SettingsToggleLive
@@ -72,6 +72,12 @@
         )}
         keys={[Bonfire.Web.Views.DashboardLive, :include, :feed]}
         default_value={@feed_default}
+        scope={@scope}
+      />
+      {!-- shown even with the feed off, as it also sets where the sidebar's Feeds link opens --}
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Social.DefaultFeedSelectLive, @__context__)}
+        id="dashboard-default-feed-select"
         scope={@scope}
       />
     </div>
