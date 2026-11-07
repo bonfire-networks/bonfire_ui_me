@@ -9,7 +9,6 @@ defmodule Bonfire.UI.Me.WidgetHighlightUsersLive do
     Cache.maybe_apply_cached(
       &do_list_users/1,
       [
-        #  current_user: current_user_id, # TODO for respecting blocks/boundaries (but then can't have a single cache)
         paginate: [limit: 5]
       ],
       expire: @default_cache_ttl

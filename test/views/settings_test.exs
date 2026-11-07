@@ -1118,6 +1118,87 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> visit(@safety_path)
       |> refute_has("#filter_keywords li", text: "removeme")
     end
+
+    test "keywords are kept as typed, so a number or a capitalised word still hides posts", %{
+      conn: conn,
+      alice: alice
+    } do
+      conn
+      |> visit(@safety_path)
+      |> within("#filter_keywords", fn session ->
+        session
+        |> fill_in("Filter keywords", with: "2026, Enum")
+        |> click_button("Add")
+      end)
+
+      conn
+      |> visit(@safety_path)
+      |> assert_has("#filter_keywords li", text: "2026")
+      |> assert_has("#filter_keywords li", text: "Enum")
+
+      # stored as typed: not the number 2026 and the module `Enum`
+      alice = Bonfire.Common.Repo.preload(alice, :settings, force: true)
+      assert get_in(alice.settings.json, @keyword_keys) == ["2026", "Enum"]
+
+      author = fake_user!()
+
+      {:ok, _} =
+        Bonfire.Posts.publish(
+          current_user: author,
+          post_attrs: %{post_content: %{html_body: "the 2026 recap"}},
+          boundary: "public"
+        )
+
+      alice = Bonfire.Common.Repo.preload(alice, :settings, force: true)
+
+      refute :explore
+             |> Bonfire.Social.FeedLoader.feed_postloaded(limit: 20, current_user: alice)
+             |> Bonfire.Social.FeedLoader.feed_contains?("the 2026 recap", postload: false)
+    end
+
+    test "a person's keywords don't include the instance's", %{conn: conn} do
+      # an instance save also puts the list into the app config, which every later test reads: put back exactly what was there (the stored row goes with the test's transaction)
+      previous_config = Application.get_env(:activity_pub, :mrf_keyword)
+
+      on_exit(fn ->
+        if previous_config,
+          do: Application.put_env(:activity_pub, :mrf_keyword, previous_config),
+          else: Application.delete_env(:activity_pub, :mrf_keyword)
+      end)
+
+      {:ok, _} =
+        Bonfire.Common.Settings.put_raw(@keyword_keys, ["instancewide"],
+          scope: :instance,
+          skip_boundary_check: true
+        )
+
+      conn
+      |> visit(@safety_path)
+      |> refute_has("#filter_keywords li", text: "instancewide")
+    end
+
+    test "a person's list says what it hides and how * works", %{conn: conn} do
+      conn
+      |> visit(@safety_path)
+      |> assert_has("#filter_keywords", text: "Hide posts with these words.")
+      |> assert_has("#filter_keywords", text: "spam* hides spammer and spamming")
+      |> assert_has("#filter_keywords", text: "*spam* also hides antispam and antispammer")
+      |> assert_has("#filter_keywords", text: "so cool also catches C00L")
+      |> refute_has("#filter_keywords", text: "Posts from other instances with these words")
+    end
+
+    test "the instance's list says what happens to posts from other instances and to local ones",
+         %{account: account} do
+      conn(user: fake_admin!(account), account: account)
+      |> visit("/settings/instance/safety")
+      |> assert_has("#filter_keywords",
+        text: "Posts from other instances with these words are rejected."
+      )
+      |> assert_has("#filter_keywords",
+        text: "Local posts with them are hidden from everyone except the author."
+      )
+      |> refute_has("#filter_keywords", text: "Hide posts with these words.")
+    end
   end
 
   describe "Instance signup email-domain allowlist" do

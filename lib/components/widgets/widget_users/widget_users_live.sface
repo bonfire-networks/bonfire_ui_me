@@ -23,20 +23,33 @@
 
   <div class="flex flex-col divide-hair divide-divider">
     {#for user <- @users}
-      <div class="p-1 [.sidebar-widgets_&]:py-1 [.sidebar-widgets_&]:px-0" data-role="widget-user-row">
-        <StatelessComponent
-          module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
-          show_controls={[]}
-          with_popover
-          parent_id={deterministic_dom_id(__MODULE__, id(e(user, :character, nil) || user), "widget_users", @parent_id)}
-          character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
-          profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
-          class="btn btn-square btn-ghost btn-sm"
-          wrapper_class="widget-user-profile flex items-center justify-between gap-1 p-0 border-0 rounded-none bg-transparent"
-          avatar_class="size-9 rounded-full"
-          fallback_class="size-9 rounded-full"
-        />
-      </div>
+      {!-- the lists shown here are cached for everyone, so whoever this viewer silenced is dropped here --}
+      <StatefulComponent
+        module={maybe_component(Bonfire.UI.Boundaries.IfCan, @__context__)}
+        id={deterministic_dom_id(
+          __MODULE__,
+          id(e(user, :activity, :subject, nil) || user),
+          "widget_users_if_can",
+          @parent_id
+        )}
+        object={e(user, :activity, :subject, nil) || user}
+        check_object_boundary={current_user_id(@__context__) && [:see]}
+      >
+        <div class="p-1 [.sidebar-widgets_&]:py-1 [.sidebar-widgets_&]:px-0" data-role="widget-user-row">
+          <StatelessComponent
+            module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
+            show_controls={[]}
+            with_popover
+            parent_id={deterministic_dom_id(__MODULE__, id(e(user, :character, nil) || user), "widget_users", @parent_id)}
+            character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
+            profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
+            class="btn btn-square btn-ghost btn-sm"
+            wrapper_class="widget-user-profile flex items-center justify-between gap-1 p-0 border-0 rounded-none bg-transparent"
+            avatar_class="size-9 rounded-full"
+            fallback_class="size-9 rounded-full"
+          />
+        </div>
+      </StatefulComponent>
     {/for}
   </div>
   <div :if={slot_assigned?(:footer)} class="pt-3">
