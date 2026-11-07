@@ -202,6 +202,67 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       assert [_form] = Floki.find(doc, "#signup-form")
     end
 
+    test "a later visit to /signup, without the invite in the URL, still uses the invite stored in the session",
+         %{invite: invite} do
+      conn = conn() |> get("/signup?invite=#{invite.id}")
+      assert get_session(conn, :invite) == invite.id
+
+      doc = conn |> recycle() |> get("/signup") |> floki_response()
+
+      # the positive first: the form is there, so the missing notice is not the page failing to render
+      assert [_form] = Floki.find(doc, "#signup-form")
+      assert [] = Floki.find(doc, "[data-role=invite_only_notice]")
+    end
+
+    test "a visit with no invite anywhere still gets the invite-only notice" do
+      doc = get(conn(), "/signup") |> floki_response()
+
+      assert [_] = Floki.find(doc, "[data-role=invite_only_notice]")
+      assert [] = Floki.find(doc, "#signup-form")
+    end
+
+    # ORCID does not share an email address unless the person made theirs public, so most ORCID sign-ins arrive here
+    defp come_back_from_orcid_with_no_email(conn) do
+      Process.put([:bonfire_open_id, :openid_connect_providers],
+        orcid: %{
+          discovery_document_uri: "https://orcid.org/.well-known/openid-configuration",
+          client_id: "id",
+          client_secret: "secret",
+          redirect_uri: "http://localhost:4000/openid/client/orcid",
+          scope: "openid",
+          display_name: "ORCID"
+        }
+      )
+
+      Repatch.patch(OpenIDConnect, :fetch_tokens, fn _provider, _params ->
+        {:ok, %{"id_token" => "token", "access_token" => "access"}}
+      end)
+
+      Repatch.patch(OpenIDConnect, :verify, fn _provider, _token ->
+        {:ok,
+         %{"iss" => "https://orcid.org", "sub" => "0000-0002-1825-0097", "name" => "A Person"}}
+      end)
+
+      conn |> recycle() |> get("/openid/client/orcid?code=c&state=s") |> floki_response()
+    end
+
+    test "coming back from a sign-in service that shares no email, the invite in the session still counts",
+         %{invite: invite} do
+      doc = conn() |> get("/signup?invite=#{invite.id}") |> come_back_from_orcid_with_no_email()
+
+      # the positive first: this is the page that asks for the email
+      assert Floki.text(doc) =~ "finish signing up"
+      assert [_form] = Floki.find(doc, "#signup-form")
+      assert [] = Floki.find(doc, "[data-role=invite_only_notice]")
+    end
+
+    test "coming back from a sign-in service that shares no email, with no invite, is still told it is invite-only" do
+      doc = conn() |> come_back_from_orcid_with_no_email()
+
+      assert [_] = Floki.find(doc, "[data-role=invite_only_notice]")
+      assert [] = Floki.find(doc, "#signup-form")
+    end
+
     test "uses real invite from session during signup on invite-only instance", %{invite: invite} do
       conn = conn()
       invite_id = invite.id
