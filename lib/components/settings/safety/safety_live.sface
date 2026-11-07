@@ -240,38 +240,54 @@
     <div class="p-4">
       <StatefulComponent
         id="filter_keywords"
-        module={maybe_component(Bonfire.UI.Common.SettingsListLive, @__context__)}
-        keys={[:activity_pub, :mrf_keyword, :reject]}
+        module={maybe_component(Bonfire.UI.Common.SettingsListsLive, @__context__)}
         scope={@scope}
         name={l("Filter keywords")}
-        description={if @scope == :instance,
-          do:
-            Enum.join(
-              [
-                l("Posts from other instances with these words are rejected."),
-                l("Local posts with them are hidden from everyone except the author."),
-                l(
-                  "Capital letters don't matter, and characters that look alike count as the same, so cool also catches C00L."
-                ),
-                l(
-                  "Add * to also catch longer words: spam* hides spammer and spamming, *spam* also hides antispam and antispammer."
-                )
-              ],
-              " "
+        description={Enum.join(
+          [
+            l(
+              "Capital letters don't matter, and characters that look alike count as the same, so cool also catches C00L."
             ),
-          else:
-            Enum.join(
-              [
-                l("Hide posts with these words."),
-                l(
-                  "Capital letters don't matter, and characters that look alike count as the same, so cool also catches C00L."
-                ),
-                l(
-                  "Add * to also catch longer words: spam* hides spammer and spamming, *spam* also hides antispam and antispammer."
-                )
-              ],
-              " "
-            )}
+            l(
+              "Add * to also catch longer words: spam* hides spammer and spamming, *spam* also hides antispam and antispammer."
+            )
+          ],
+          " "
+        )}
+        lists={[
+          %{
+            keys: [:activity_pub, :mrf_keyword, :reject],
+            name: l("Hide completely"),
+            description:
+              if(@scope == :instance,
+                do:
+                  Enum.join(
+                    [
+                      l("Posts from other instances with these words are rejected."),
+                      l("Local posts with them are hidden from everyone except the author.")
+                    ],
+                    " "
+                  ),
+                else: l("Hide posts with these words.")
+              )
+          },
+          %{
+            keys: [:activity_pub, :mrf_keyword, :warn],
+            name: l("Hide behind a warning"),
+            description:
+              if(@scope == :instance,
+                do:
+                  Enum.join(
+                    [
+                      l("Posts with these words are shown with content hidden behind a warning."),
+                      l("Local posts also include the warning when federating to other instances.")
+                    ],
+                    " "
+                  ),
+                else: l("Posts with these words are shown with content hidden behind a warning.")
+              )
+          }
+        ]}
         placeholder={l("Enter keyword...")}
         allow_bulk_paste
       />

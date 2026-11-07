@@ -698,6 +698,19 @@ defmodule Bonfire.UI.Me.SettingsTest do
       |> visit("/settings/instance/configuration")
       |> assert_has("[data-id=upload_banner]")
     end
+
+    # the mailer reads only the MAIL_* env vars, so a form saving mail settings would change nothing
+    test "an admin doesn't get the email configuration, which only env vars set", %{
+      account: account
+    } do
+      admin = fake_admin!(account)
+
+      conn(user: admin, account: account)
+      |> visit("/settings/instance/configuration")
+      |> assert_has("[data-id=upload_banner]")
+      |> refute_has("input[name*=mail_key]")
+      |> refute_has("*", text: "Email Configuration")
+    end
   end
 
   # what the instance asks of servers fetching from it: not at all, all but public profiles (which is what having it on meant before it was a choice, stored as `true`), or everything
@@ -1066,14 +1079,15 @@ defmodule Bonfire.UI.Me.SettingsTest do
   describe "Safety - keyword filter (SettingsListLive)" do
     # the ported keyword filter reads/writes this setting as a list of strings
     @keyword_keys [:activity_pub, :mrf_keyword, :reject]
+    @warn_keys [:activity_pub, :mrf_keyword, :warn]
     @safety_path "/settings/user/safety"
 
     test "adding a keyword shows it as a chip and persists across a reload", %{conn: conn} do
       conn
       |> visit(@safety_path)
-      |> within("#filter_keywords", fn session ->
+      |> within("#filter_keywords_reject", fn session ->
         session
-        |> fill_in("Filter keywords", with: "spammy")
+        |> fill_in("Hide completely", with: "spammy")
         |> click_button("Add")
       end)
       |> assert_has("#filter_keywords", text: "spammy")
@@ -1088,9 +1102,9 @@ defmodule Bonfire.UI.Me.SettingsTest do
     test "a bulk paste splits comma/newline-separated keywords into separate chips", %{conn: conn} do
       conn
       |> visit(@safety_path)
-      |> within("#filter_keywords", fn session ->
+      |> within("#filter_keywords_reject", fn session ->
         session
-        |> fill_in("Filter keywords", with: "alpha, beta\ngamma")
+        |> fill_in("Hide completely", with: "alpha, beta\ngamma")
         |> click_button("Add")
       end)
       |> assert_has("#filter_keywords li", text: "alpha")
@@ -1108,7 +1122,7 @@ defmodule Bonfire.UI.Me.SettingsTest do
       conn
       |> visit(@safety_path)
       |> assert_has("#filter_keywords", text: "removeme")
-      |> within("#filter_keywords", fn session ->
+      |> within("#filter_keywords_reject", fn session ->
         click_button(session, "Remove: removeme")
       end)
       |> refute_has("#filter_keywords li", text: "removeme")
@@ -1125,9 +1139,9 @@ defmodule Bonfire.UI.Me.SettingsTest do
     } do
       conn
       |> visit(@safety_path)
-      |> within("#filter_keywords", fn session ->
+      |> within("#filter_keywords_reject", fn session ->
         session
-        |> fill_in("Filter keywords", with: "2026, Enum")
+        |> fill_in("Hide completely", with: "2026, Enum")
         |> click_button("Add")
       end)
 
@@ -1198,6 +1212,114 @@ defmodule Bonfire.UI.Me.SettingsTest do
         text: "Local posts with them are hidden from everyone except the author."
       )
       |> refute_has("#filter_keywords", text: "Hide posts with these words.")
+    end
+
+    test "a second list hides behind a warning, kept as typed, at each scope", %{
+      conn: conn,
+      alice: alice,
+      account: account
+    } do
+      conn
+      |> visit(@safety_path)
+      |> within("#filter_keywords_warn", fn session ->
+        session
+        |> fill_in("Hide behind a warning", with: "2026, spoilers")
+        |> click_button("Add")
+      end)
+
+      conn
+      |> visit(@safety_path)
+      |> assert_has("#filter_keywords_warn li", text: "spoilers")
+      |> refute_has("#filter_keywords_reject li", text: "spoilers")
+      |> assert_has("#filter_keywords_warn", text: "behind a warning")
+
+      alice = Bonfire.Common.Repo.preload(alice, :settings, force: true)
+      assert get_in(alice.settings.json, @warn_keys) == ["2026", "spoilers"]
+
+      # the instance's: an instance save also puts the lists into the app config, which every later test reads
+      previous_config = Application.get_env(:activity_pub, :mrf_keyword)
+
+      on_exit(fn ->
+        if previous_config,
+          do: Application.put_env(:activity_pub, :mrf_keyword, previous_config),
+          else: Application.delete_env(:activity_pub, :mrf_keyword)
+      end)
+
+      admin_conn = conn(user: fake_admin!(account), account: account)
+
+      admin_conn
+      |> visit("/settings/instance/safety")
+      |> within("#filter_keywords_warn", fn session ->
+        session
+        |> fill_in("Hide behind a warning", with: "instancewarn")
+        |> click_button("Add")
+      end)
+
+      admin_conn
+      |> visit("/settings/instance/safety")
+      |> assert_has("#filter_keywords_warn li", text: "instancewarn")
+      |> assert_has("#filter_keywords_warn", text: "behind a warning")
+    end
+
+    test "a keyword moves from one list to the other, and back", %{conn: conn, alice: alice} do
+      {:ok, _} =
+        Bonfire.Boundaries.BlockKeywords.put_block_keywords_settings(["alpha", "beta"],
+          current_user: alice
+        )
+
+      conn
+      |> visit(@safety_path)
+      |> within("#filter_keywords_reject", fn session ->
+        click_button(session, "Move alpha to Hide behind a warning")
+      end)
+      |> assert_has("#filter_keywords_warn li", text: "alpha")
+      |> refute_has("#filter_keywords_reject li", text: "alpha")
+
+      conn
+      |> visit(@safety_path)
+      |> assert_has("#filter_keywords_warn li", text: "alpha")
+      |> refute_has("#filter_keywords_reject li", text: "alpha")
+      |> assert_has("#filter_keywords_reject li", text: "beta")
+
+      alice = Bonfire.Common.Repo.preload(alice, :settings, force: true)
+      assert get_in(alice.settings.json, @keyword_keys) == ["beta"]
+      assert get_in(alice.settings.json, @warn_keys) == ["alpha"]
+
+      conn
+      |> visit(@safety_path)
+      |> within("#filter_keywords_warn", fn session ->
+        click_button(session, "Move alpha to Hide completely")
+      end)
+      |> assert_has("#filter_keywords_reject li", text: "alpha")
+      |> refute_has("#filter_keywords_warn li", text: "alpha")
+
+      alice = Bonfire.Common.Repo.preload(alice, :settings, force: true)
+      assert get_in(alice.settings.json, @keyword_keys) == ["beta", "alpha"]
+      assert get_in(alice.settings.json, @warn_keys) == []
+    end
+
+    test "adding a keyword that is in the other list moves it, so it is never in both", %{
+      conn: conn,
+      alice: alice
+    } do
+      {:ok, _} =
+        Bonfire.Boundaries.BlockKeywords.put_block_keywords_settings(["alpha"],
+          current_user: alice
+        )
+
+      conn
+      |> visit(@safety_path)
+      |> within("#filter_keywords_warn", fn session ->
+        session
+        |> fill_in("Hide behind a warning", with: "alpha")
+        |> click_button("Add")
+      end)
+      |> assert_has("#filter_keywords_warn li", text: "alpha")
+      |> refute_has("#filter_keywords_reject li", text: "alpha")
+
+      alice = Bonfire.Common.Repo.preload(alice, :settings, force: true)
+      assert get_in(alice.settings.json, @keyword_keys) == []
+      assert get_in(alice.settings.json, @warn_keys) == ["alpha"]
     end
   end
 
