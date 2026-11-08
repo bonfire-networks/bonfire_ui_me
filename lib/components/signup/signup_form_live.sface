@@ -153,7 +153,7 @@
         {#if @open_id_provider}
           <p>
             {l("Please enter your email address to finish signing up with %{provider}:",
-              provider: (elem(@open_id_provider, 0) || "") |> String.capitalize()
+              provider: (elem(@open_id_provider, 0) || "") |> to_string() |> String.capitalize()
             )}
           </p>
         {#else}

@@ -113,7 +113,7 @@
         </li>
         {!-- only shown for organisation profiles (a user carrying the shared_user mixin); managing co-managers, not converting a personal profile --}
         <li :if={module_enabled?(Bonfire.Me.SharedUsers, @__context__) and
-          Bonfire.Common.URIs.shared_user?(current_user(@__context__), preload_if_needed: true)}>
+          Bonfire.Common.URIs.shared_user?(current_user(@__context__))}>
           {#case @selected_tab == "shared_user"}
             {#match active}
               <LinkLive

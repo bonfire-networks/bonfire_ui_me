@@ -10,13 +10,17 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
         e(params, "page", "Remote interaction") || e(session, "page", "Remote interaction")
       )
 
+    by_id = e(params, "id", nil)
+
     url =
-      case e(params, "media_uri", nil) do
+      case {e(params, "media_uri", nil), by_id} do
         # from the comments embed of a page with no thread yet: start it, as signing in would
-        media_uri when is_binary(media_uri) -> page_post_ap_id(media_uri, params, socket)
+        {media_uri, _} when is_binary(media_uri) -> page_post_ap_id(media_uri, params, socket)
+        # from a link built without the object (the comments embed, a restricted page, a button clicked while signed out): look it up now, the first place it's needed
+        {_, id} when is_binary(id) -> ap_id_by_id(id)
         _ -> nil
       end ||
-        Text.text_only(e(params, "url", nil) || e(session, "url", nil))
+        if(is_nil(by_id), do: Text.text_only(e(params, "url", nil) || e(session, "url", nil)))
 
     go = e(params, "go", nil) || e(params, "go", nil)
 
@@ -37,8 +41,10 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
      )
      |> assign(
        :federating?,
+       # an id that gave no address names something another server couldn't reach, so an account there could do nothing with it
        module_enabled?(Bonfire.Federate.ActivityPub) and
-         Bonfire.Federate.ActivityPub.federating?()
+         Bonfire.Federate.ActivityPub.federating?() and
+         (is_nil(by_id) or is_binary(url))
      )
      |> Bonfire.UI.Me.LoginLive.assign_defaults(params, session)
      |> Bonfire.UI.Me.SignupLive.assign_defaults(params, session, form_key: :signup_form)}
@@ -59,7 +65,27 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
              fallback_return: nil
            ),
          ap_id when is_binary(ap_id) <-
-           Bonfire.Common.URIs.canonical_url(media, preload_if_needed: true) do
+           Bonfire.Common.URIs.canonical_url(media) do
+      ap_id
+    else
+      _ -> nil
+    end
+  end
+
+  # the address another server is to fetch, for what the id names, when it can reach it at all; loaded here with its locality, which `canonical_url` reads
+  defp ap_id_by_id(id) do
+    with id when is_binary(id) <- Types.uid(id),
+         {:ok, object} <- Bonfire.Common.Needles.get(id, skip_boundary_check: true),
+         object <-
+           Bonfire.Common.Repo.maybe_preload(object, [:peered, character: [:peered]], prune: true),
+         true <-
+           maybe_apply(
+             Bonfire.Federate.ActivityPub.AdapterUtils,
+             :remotely_reachable?,
+             [object],
+             fallback_return: false
+           ),
+         ap_id when is_binary(ap_id) <- Bonfire.Common.URIs.canonical_url(object) do
       ap_id
     else
       _ -> nil
@@ -76,13 +102,19 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
   defp interaction_type(_), do: "follow"
 
   def generate_url(type, name, url, opts) do
+    "/remote_interaction?type=#{type}&name=#{name}&url=#{url}&go=#{go(opts)}"
+  end
+
+  @doc "The same link for a caller that holds only the id of what to interact with: the page looks it up when opened (`mount/3`), rather than every page showing the link looking it up whether anyone clicks or not."
+  def generate_url_by_id(type, name, id, opts) do
+    "/remote_interaction?type=#{type}&name=#{name}&id=#{id}&go=#{go(opts)}"
+  end
+
+  defp go(opts) do
     assigns = assigns(opts)
 
-    go =
-      e(assigns, :go, nil) ||
-        e(assigns, :__context__, :go, nil) ||
-        e(assigns, :__context__, :current_params, "go", nil)
-
-    "/remote_interaction?type=#{type}&name=#{name}&url=#{url}&go=#{go}"
+    e(assigns, :go, nil) ||
+      e(assigns, :__context__, :go, nil) ||
+      e(assigns, :__context__, :current_params, "go", nil)
   end
 end
