@@ -57,10 +57,12 @@ defmodule Bonfire.UI.Me.EmailLink do
     fingerprint = :crypto.hash(:sha256, token) |> Base.encode16(case: :lower) |> binary_part(0, 8)
     user_agent = conn |> Plug.Conn.get_req_header("user-agent") |> List.first()
 
-    info(
-      "kind=#{kind} outcome=#{outcome} link=#{fingerprint} user_agent=#{inspect(user_agent)}",
-      "email link"
-    )
+    line = "kind=#{kind} outcome=#{outcome} link=#{fingerprint} user_agent=#{inspect(user_agent)}"
+
+    # a refused link is what a report is about, so it is logged at the level a production instance keeps (`warning`); a link that worked is only for tracing
+    if outcome in [:expired, :used, :invalid],
+      do: warn(line, "email link"),
+      else: info(line, "email link")
 
     conn
   end
