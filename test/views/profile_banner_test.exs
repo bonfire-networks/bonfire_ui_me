@@ -24,6 +24,34 @@ defmodule Bonfire.UI.Me.ProfileBannerTest do
     |> assert_has("[data-id=hero_background][style*='background-image']")
   end
 
+  # most profiles have an avatar as well, and the hero looks at the avatar when deciding what to draw behind it
+  describe "when the profile has an avatar too" do
+    setup %{owner: owner} do
+      {:ok, icon} = fake_upload(image_file(), Bonfire.Files.IconUploader, owner)
+      {:ok, owner} = Bonfire.Me.Profiles.set_profile_image(:icon, owner, icon)
+      {:ok, owner: owner}
+    end
+
+    @tag Bonfire.Common.RuntimeConfig.skip_in_ci()
+    test "another local user sees the banner", %{owner: owner} do
+      viewer_account = fake_account!()
+      viewer = fake_user!(viewer_account)
+
+      conn(user: viewer, account: viewer_account)
+      |> visit("/@#{owner.character.username}")
+      |> wait_async()
+      |> assert_has("[data-id=hero_background][style*='background-image']")
+    end
+
+    @tag Bonfire.Common.RuntimeConfig.skip_in_ci()
+    test "a guest sees the banner", %{owner: owner} do
+      conn()
+      |> visit("/@#{owner.character.username}")
+      |> wait_async()
+      |> assert_has("[data-id=hero_background][style*='background-image']")
+    end
+  end
+
   @tag Bonfire.Common.RuntimeConfig.skip_in_ci()
   test "I see another local user's banner", %{owner: owner} do
     viewer_account = fake_account!()

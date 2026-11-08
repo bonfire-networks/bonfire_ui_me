@@ -188,6 +188,19 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       %{invite: invite, admin_user: admin_user}
     end
 
+    test "an invite that has no uses left gets the invite-only notice, not the form", %{
+      admin_user: admin_user
+    } do
+      {:ok, invite} = Bonfire.Invite.Links.create(admin_user, %{"max_uses" => 1})
+      {1, _} = Bonfire.Invite.Links.redeem(invite)
+      refute Bonfire.Invite.Links.redeemable?(invite.id)
+
+      doc = conn() |> get("/signup?invite=#{invite.id}") |> floki_response()
+
+      assert [_] = Floki.find(doc, "[data-role=invite_only_notice]")
+      assert [] = Floki.find(doc, "#signup-form")
+    end
+
     test "stores real invite code from params in session", %{invite: invite} do
       conn = conn()
       invite_id = invite.id

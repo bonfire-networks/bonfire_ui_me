@@ -393,6 +393,71 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> assert_has("#dock-login-action", text: "Sign in")
     end
 
+    test "an instance that takes sign-ups from certain email domains does not say it is by invitation only" do
+      # the instance is not invite-only: people with an eligible address can sign up, so the note names the real rule
+      Repatch.patch(Bonfire.Me.Accounts, :signup_credentials_active?, [mode: :shared], fn ->
+        true
+      end)
+
+      conn()
+      |> visit("/about")
+      |> assert_has("#about-meta [data-role=signup-closed-note]",
+        text: "limited to certain email domains or sign-in services"
+      )
+      |> refute_has("#about-meta [data-role=signup-closed-note]", text: "by invitation only")
+    end
+
+    # new accounts are created on another site (an external sign-up page, as with Ghost)
+    defp with_external_signup_page do
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
+        true
+      end)
+
+      Repatch.patch(Bonfire.UI.Me.LoginLive, :external_signup_url, [mode: :shared], fn ->
+        "https://jacobin.de/join"
+      end)
+
+      # a contact is set too: the sign-up page wins, since that is where an account comes from
+      Process.put(
+        [:bonfire, :ui, :theme, :instance_welcome, :invite_contact_email],
+        "invites@example.org"
+      )
+    end
+
+    test "with an external sign-up page, the About note says where and links there" do
+      with_external_signup_page()
+
+      conn()
+      |> visit("/about")
+      |> assert_has("#about-meta [data-role=signup-closed-note] a[href='https://jacobin.de/join']",
+        text: "New accounts are created on jacobin.de"
+      )
+      |> refute_has("#about-meta [data-role=signup-closed-note]", text: "by invitation only")
+    end
+
+    test "with an external sign-up page, the About button is a sign-up link to it, not a request for an invite" do
+      with_external_signup_page()
+
+      conn()
+      |> visit("/about")
+      |> assert_has("#about-page #about-request-invite[href='https://jacobin.de/join']",
+        text: "Sign up"
+      )
+      |> refute_has("#about-page a[href^='mailto:']")
+      |> refute_has("#about-page #about-request-invite", text: "Request an invite")
+    end
+
+    test "with an external sign-up page, the guest Home button is the same sign-up link" do
+      with_external_signup_page()
+
+      conn()
+      |> visit("/")
+      |> assert_has("#home-hero-actions #about-request-invite[href='https://jacobin.de/join']",
+        text: "Sign up"
+      )
+      |> refute_has("#home-hero-actions a[href^='mailto:']")
+    end
+
     test "keeps an invitation action in the introduction when a contact is configured" do
       Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
         true
