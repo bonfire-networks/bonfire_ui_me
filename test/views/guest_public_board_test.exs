@@ -409,8 +409,47 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> assert_has("#about-meta [data-role=signup-closed-note]",
         text: "by invitation only"
       )
-      |> assert_has("#about-page #about-request-invite[href='/signup']",
+      # the button writes to the contact itself, instead of sending the visitor on to another "Request an invite"
+      |> assert_has("#about-page #about-request-invite[href^='mailto:invites@example.org']",
         text: "Request an invite"
+      )
+      # beside it, for someone on another server: the "interact from your instance" form with the moderators filled in
+      |> assert_has("#about-page header a[href^='/remote_interaction?type=message']",
+        text: "Message the moderators"
+      )
+    end
+
+    test "the guest Home offers the same invitation action when a contact is configured" do
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
+        true
+      end)
+
+      Process.put(
+        [:bonfire, :ui, :theme, :instance_welcome, :invite_contact_email],
+        "invites@example.org"
+      )
+
+      conn()
+      |> visit("/")
+      |> assert_has(
+        "#home-hero-actions #about-request-invite[href^='mailto:invites@example.org']",
+        text: "Request an invite"
+      )
+      |> assert_has("#home-hero-actions a[href^='/remote_interaction?type=message']",
+        text: "Message the moderators"
+      )
+    end
+
+    test "with no contact configured there is no invitation mail link, but moderators can still be messaged" do
+      Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
+        true
+      end)
+
+      conn()
+      |> visit("/about")
+      |> refute_has("#about-request-invite")
+      |> assert_has("#about-page header a[href^='/remote_interaction?type=message']",
+        text: "Message the moderators"
       )
     end
 

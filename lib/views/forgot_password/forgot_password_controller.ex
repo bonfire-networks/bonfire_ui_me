@@ -16,6 +16,8 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
     else
       case Accounts.check_confirm_token(login_token, confirm_action: :change_password) do
         :ok ->
+          EmailLink.log_link(conn, :reset, :opened)
+
           EmailLink.confirm_page(
             conn,
             "/login/forgot-password/" <> URI.encode_www_form(login_token),
@@ -24,8 +26,8 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
             button: l("Choose a new password")
           )
 
-        _ ->
-          invalid_link(conn)
+        error ->
+          EmailLink.failure(conn, :reset, error)
       end
     end
   end
@@ -41,20 +43,14 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
       as_user = conn.query_params["as_user"]
 
       case Accounts.confirm_email(login_token, confirm_action: :change_password) do
-        {:ok, account} -> change_pw(conn, account, as_user)
-        {:error, _} -> invalid_link(conn)
+        {:ok, account} ->
+          EmailLink.log_link(conn, :reset, :redeemed)
+          change_pw(conn, account, as_user)
+
+        error ->
+          EmailLink.failure(conn, :reset, error)
       end
     end
-  end
-
-  @doc "The page a link lands on when its token can't be used: the form to request a new one."
-  def invalid_link(conn) do
-    conn
-    |> assign_flash(
-      :error,
-      l("This sign-in link is invalid or has expired. Please request a new one.")
-    )
-    |> live_render(ForgotPasswordLive)
   end
 
   # Sign-in links used to open here, before they got their own page. On a passwordless instance, every link that reaches this path was sent as a sign-in link, so hand it over. TODO: remove once those links have expired, a day after the release that introduced /login/email/:token.

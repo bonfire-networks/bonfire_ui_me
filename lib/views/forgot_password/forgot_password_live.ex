@@ -20,6 +20,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordLive do
      |> assign(:without_secondary_widgets, true)
      |> assign(:form, session["form"] || ForgotPasswordController.form())
      |> assign(:error, session["error"])
+     |> assign(:link_error, session["link_error"])
      |> assign(:requested, session["requested"])
      |> assign(:email, session["email"])
      |> assign(:go, session["go"])
@@ -31,6 +32,16 @@ defmodule Bonfire.UI.Me.ForgotPasswordLive do
        Bonfire.Me.Accounts.signup_domain_gate_active?() and is_nil(session["invite"])
      )}
   end
+
+  @doc "Why an emailed link could not be used, and what to do next (see `Bonfire.UI.Me.EmailLink.failure/3`)."
+  def link_error_text(:expired), do: l("This link has expired. Request a new one below.")
+  def link_error_text(:used), do: l("This link was already used. Request a new one below.")
+
+  def link_error_text(_),
+    do:
+      l(
+        "This link isn't valid any more. If you asked for more than one link, only the newest email works. Request a new one below."
+      )
 
   @doc """
   The heading, which changes once the email is sent.

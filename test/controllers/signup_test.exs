@@ -243,7 +243,19 @@ defmodule Bonfire.UI.Me.SignupController.Test do
          %{"iss" => "https://orcid.org", "sub" => "0000-0002-1825-0097", "name" => "A Person"}}
       end)
 
-      conn |> recycle() |> get("/openid/client/orcid?code=c&state=s") |> floki_response()
+      Repatch.patch(OpenIDConnect, :authorization_uri, fn _provider, _redirect_uri, params ->
+        {:ok, "https://orcid.org/authorize?" <> URI.encode_query(params)}
+      end)
+
+      # the sign-in must have been started in this browser, as the answer is checked against what was sent
+      started = conn |> recycle() |> get("/openid/client/orcid")
+      [location] = Plug.Conn.get_resp_header(started, "location")
+      %{"state" => state} = location |> URI.parse() |> Map.fetch!(:query) |> URI.decode_query()
+
+      started
+      |> recycle()
+      |> get("/openid/client/orcid?code=c&state=#{state}")
+      |> floki_response()
     end
 
     test "coming back from a sign-in service that shares no email, the invite in the session still counts",

@@ -4,20 +4,21 @@ defmodule Bonfire.UI.Me.LoginLinkController do
   alias Bonfire.Me.Accounts
   alias Bonfire.Me.Users
   alias Bonfire.UI.Me.EmailLink
-  alias Bonfire.UI.Me.ForgotPasswordController
   alias Bonfire.UI.Me.LoginController
 
   def show(conn, %{"login_token" => token}) do
     case Accounts.check_confirm_token(token, confirm_action: :login) do
       :ok ->
+        EmailLink.log_link(conn, :sign_in, :opened)
+
         EmailLink.confirm_page(conn, "/login/email/" <> URI.encode_www_form(token),
           title: l("Sign in"),
           intro: l("Press the button to finish signing in."),
           button: l("Sign in")
         )
 
-      _ ->
-        ForgotPasswordController.invalid_link(conn)
+      error ->
+        EmailLink.failure(conn, :sign_in, error)
     end
   end
 
@@ -27,8 +28,12 @@ defmodule Bonfire.UI.Me.LoginLinkController do
     as_user = conn.query_params["as_user"]
 
     case Accounts.confirm_email(token, confirm_action: :login) do
-      {:ok, account} -> magic_link_login(conn, account, as_user)
-      {:error, _} -> ForgotPasswordController.invalid_link(conn)
+      {:ok, account} ->
+        EmailLink.log_link(conn, :sign_in, :redeemed)
+        magic_link_login(conn, account, as_user)
+
+      error ->
+        EmailLink.failure(conn, :sign_in, error)
     end
   end
 

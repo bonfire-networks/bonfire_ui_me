@@ -271,26 +271,91 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
       assert redirected_to(conn) =~ "password"
     end
 
+    defp open(verb, path, headers \\ []) do
+      conn =
+        Enum.reduce(headers, conn(), fn {key, value}, conn ->
+          Plug.Conn.put_req_header(conn, key, value)
+        end)
+
+      case verb do
+        :get -> get(conn, path)
+        :post -> post(conn, path)
+      end
+    end
+
+    # the reason a link failed shows on the request page itself, with the form to ask for a new link
+    defp assert_link_error(conn, text, label) do
+      doc = floki_response(conn)
+
+      assert [alert] = Floki.find(doc, "[data-role=link_error]")
+      assert Floki.text(alert) =~ text
+      assert [_] = Floki.find(doc, "form[action='/login/forgot-password']")
+      # a reset link is not a sign-in link
+      if label == "reset", do: refute(Floki.text(doc) =~ "sign-in link")
+    end
+
     for {label, kind, prefix} <- [
           {"sign-in", :sign_in, "/login/email/"},
           {"reset", :reset, "/login/forgot-password/"}
-        ] do
-      test "an expired #{label} link is refused and signs nobody in" do
+        ],
+        {how, verb} <- [{"opening", :get}, {"pressing the button of", :post}] do
+      test "#{how} an expired #{label} link says it expired, and signs nobody in" do
         {address, token} = account_with_token(unquote(kind))
         expire_token(address)
 
-        conn = post(conn(), unquote(prefix) <> token)
+        conn = open(unquote(verb), unquote(prefix) <> token)
 
         assert conn.status == 200
-        assert conn.resp_body =~ "invalid or has expired"
         refute get_session(conn, :current_account_id)
+        assert_link_error(conn, "has expired", unquote(label))
       end
 
-      test "an unknown #{label} link says it is invalid" do
-        conn = get(conn(), unquote(prefix) <> "NOTATOKEN#{System.unique_integer([:positive])}")
+      test "#{how} a #{label} link used earlier, after its grace period, says it was already used" do
+        {address, token} = account_with_token(unquote(kind))
+        assert post(conn(), unquote(prefix) <> token).status in [302, 303]
+        expire_token(address)
 
-        assert conn.resp_body =~ "invalid or has expired"
+        conn = open(unquote(verb), unquote(prefix) <> token)
+
+        assert_link_error(conn, "already used", unquote(label))
       end
+
+      test "#{how} an unknown #{label} link says it is not valid any more" do
+        conn =
+          open(unquote(verb), unquote(prefix) <> "NOTATOKEN#{System.unique_integer([:positive])}")
+
+        assert_link_error(conn, "isn't valid any more", unquote(label))
+      end
+    end
+
+    test "the reason is still on the page once the LiveView has connected" do
+      {address, token} = account_with_token(:sign_in)
+      expire_token(address)
+
+      conn()
+      |> visit("/login/email/" <> token)
+      |> wait_async()
+      |> assert_has("[data-role=link_error]", text: "has expired")
+    end
+
+    test "opening a link leaves a log line with the outcome and the user agent, never the token" do
+      {address, token} = account_with_token(:sign_in)
+      expire_token(address)
+
+      log =
+        ExUnit.CaptureLog.capture_log([level: :info], fn ->
+          open(:get, "/login/email/" <> token, [
+            {"user-agent", "Mozilla/5.0 (compatible; MailScanner/1.0)"}
+          ])
+        end)
+
+      # the request's own log line holds the whole path, so look at ours only
+      line = log |> String.split("\n") |> Enum.find(&(&1 =~ "email link"))
+
+      assert line, "no log line about the link"
+      assert line =~ "expired"
+      assert line =~ "MailScanner"
+      refute line =~ token
     end
 
     test "a sign-in link sent before the split still works on the old path" do
