@@ -236,6 +236,11 @@ defmodule Bonfire.UI.Me.SignupController.Test do
 
     # ORCID does not share an email address unless the person made theirs public, so most ORCID sign-ins arrive here
     defp come_back_from_orcid_with_no_email(conn) do
+      conn |> come_back_from_orcid(%{}) |> floki_response()
+    end
+
+    # `claims` are what the sign-in service tells us about the person, on top of who they are
+    defp come_back_from_orcid(conn, claims) do
       Process.put([:bonfire_open_id, :openid_connect_providers],
         orcid: %{
           discovery_document_uri: "https://orcid.org/.well-known/openid-configuration",
@@ -253,7 +258,10 @@ defmodule Bonfire.UI.Me.SignupController.Test do
 
       Repatch.patch(OpenIDConnect, :verify, fn _provider, _token ->
         {:ok,
-         %{"iss" => "https://orcid.org", "sub" => "0000-0002-1825-0097", "name" => "A Person"}}
+         Map.merge(
+           %{"iss" => "https://orcid.org", "sub" => "0000-0002-1825-0097", "name" => "A Person"},
+           claims
+         )}
       end)
 
       Repatch.patch(OpenIDConnect, :authorization_uri, fn _provider, _redirect_uri, params ->
@@ -268,7 +276,41 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       started
       |> recycle()
       |> get("/openid/client/orcid?code=c&state=#{state}")
-      |> floki_response()
+    end
+
+    test "finishing the sign-up from the page that asks for an email creates the account and spends the invite",
+         %{invite: invite} do
+      email = email()
+
+      callback =
+        conn() |> get("/signup?invite=#{invite.id}") |> come_back_from_orcid(%{})
+
+      assert Floki.text(floki_response(callback)) =~ "finish signing up"
+
+      done =
+        callback
+        |> recycle()
+        |> post("/signup", %{"account" => %{"email" => %{"email_address" => email}}})
+
+      assert %{} = Bonfire.Me.Accounts.get_by_email(email)
+      {:ok, updated_invite} = Bonfire.Invite.Links.get(invite.id)
+      assert updated_invite.max_uses == 2
+
+      # no confirmation needed, as the sign-in service vouches for them: they are signed in and sent on to pick a profile
+      assert redirected_to(done, 303) =~ "/switch-user"
+    end
+
+    test "a sign-in service that shares an email signs the person up from the callback and spends the invite",
+         %{invite: invite} do
+      email = email()
+
+      conn()
+      |> get("/signup?invite=#{invite.id}")
+      |> come_back_from_orcid(%{"email" => email})
+
+      assert %{} = Bonfire.Me.Accounts.get_by_email(email)
+      {:ok, updated_invite} = Bonfire.Invite.Links.get(invite.id)
+      assert updated_invite.max_uses == 2
     end
 
     test "coming back from a sign-in service that shares no email, the invite in the session still counts",
