@@ -26,15 +26,32 @@ defmodule Bonfire.UI.Me.UsersDirectoryTest do
       limit: limit,
       total: total
     } do
-      conn()
-      |> visit("/users")
-      # The first page lists a page worth of users, newest first
-      |> assert_has("[data-id=profile_name]", count: limit)
-      |> assert_has("[data-id=profile_name]", text: "directory user #{total}")
-      # The no-JS guest fallback link must be present (this is the bug: it isn't)
-      |> assert_has("a[data-id=next_page]", text: "Next page")
+      # a guest has no LiveView socket, so the page they get is the static render, which `visit` does not give (it connects a LiveView)
+      # conn()
+      # |> visit("/users")
+      # # The first page lists a page worth of users, newest first
+      # |> assert_has("[data-id=profile_name]", count: limit)
+      # |> assert_has("[data-id=profile_name]", text: "directory user #{total}")
+      # # The no-JS guest fallback link must be present (this is the bug: it isn't)
+      # |> assert_has("a[data-id=next_page]", text: "Next page")
+      # # Following it must show the NEXT users, not a blank page nor the same ones
+      # |> click_link("a[data-id=next_page]", "Next page")
+      # |> assert_has("[data-id=profile_name]")
+      # |> refute_has("[data-id=profile_name]", text: "directory user #{total}")
+      # |> assert_has("[data-id=profile_name]", text: "directory user #{total - limit}")
+
+      first_page =
+        conn()
+        |> get_conn_render("/users")
+        # The first page lists a page worth of users, newest first
+        |> assert_has("[data-id=profile_name]", count: limit)
+        |> assert_has("[data-id=profile_name]", text: "directory user #{total}")
+        # The no-JS guest fallback link is on the static render
+        |> assert_has("a[data-id=next_page]", text: "Next page")
+
       # Following it must show the NEXT users, not a blank page nor the same ones
-      |> click_link("a[data-id=next_page]", "Next page")
+      conn()
+      |> get_conn_render(static_href(first_page, "a[data-id=next_page]"))
       |> assert_has("[data-id=profile_name]")
       |> refute_has("[data-id=profile_name]", text: "directory user #{total}")
       |> assert_has("[data-id=profile_name]", text: "directory user #{total - limit}")

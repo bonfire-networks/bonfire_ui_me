@@ -1,6 +1,8 @@
 defmodule Bonfire.Web.Views.GuestPublicBoardTest do
   use Bonfire.UI.Me.ConnCase, async: false
 
+  # the guest tests check the static render (`get_conn_render`), which is the page a guest gets as they have no LiveView socket; they were `conn() |> visit(path)`, which connects a LiveView on these pages. The signed-in tests keep `visit`
+
   alias Bonfire.UI.Common.GuestBoardLive
   # doctest Bonfire.Web.Components.HomeHeroLive
 
@@ -22,7 +24,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has("#guest-board #guest-board-home", text: GuestBoardLive.instance_name())
       |> assert_has("#guest-board-icon[aria-hidden=true] img")
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "Explore")
@@ -55,19 +57,19 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Process.put([:bonfire_ui_me, Bonfire.UI.Me.UsersDirectoryLive, :show_to], :users)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> refute_has("#guest-board-nav a[href='/users']")
 
       Process.put([:bonfire_ui_me, Bonfire.UI.Me.UsersDirectoryLive, :show_to], :guests)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has("#guest-board-nav a[href='/users']", text: "People")
     end
 
     test "hides Spotlight entirely when nothing is pinned" do
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> refute_has("#guest-spotlight aside")
       |> refute_has("[data-role=widget-empty-state]")
     end
@@ -79,7 +81,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Pins.list_spotlight_activities(cache: :reset)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has("#guest-spotlight [data-role=widget-heading]", text: "Spotlight")
       |> assert_has("#guest-spotlight [data-role=pinned_card]",
         text: "a public post in the guest spotlight"
@@ -97,7 +99,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Pins.list_spotlight_activities(cache: :reset)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has(
         "#guest-spotlight button[data-carousel-scroll=previous][aria-controls=instance_pinned_widget-track]"
       )
@@ -116,7 +118,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :include, :instance_pinned], false)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> refute_has("#guest-spotlight")
       # the post itself is public, so it may still appear in Recent activity
       |> refute_has("[data-role=pinned_card]")
@@ -155,7 +157,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Bonfire.UI.Groups.WidgetGroupsCarouselLive.list_guest_groups(cache: :reset)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has("#guest-groups [data-role=widget-heading]", text: "Groups")
       # the same row as the /groups directory: the name links to the group, with its joining action beside it, not the compact card
       |> assert_has("#guest-groups article#group-preview-#{id(visible)}",
@@ -188,7 +190,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Bonfire.UI.Groups.WidgetGroupsCarouselLive.list_guest_groups(cache: :reset)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has("#guest-groups [data-carousel-card] article[id^=group-preview-]",
         text: "First guest group"
       )
@@ -206,7 +208,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :include, :groups], false)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> refute_has("#guest-groups")
     end
   end
@@ -220,7 +222,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       ])
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       # full-width buttons labelled as configured, the host only as a tooltip (no guessed descriptions)
       |> assert_has(
         "#guest-home #community-links a[href='https://bonfirenetworks.org/'][target='_blank'][rel=noopener]",
@@ -237,7 +239,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [])
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> refute_has("#community-links")
     end
 
@@ -246,7 +248,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has(
         "#guest-home #community-admins a[data-role=admin-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
         text: admin.profile.name
@@ -259,7 +261,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       # prove the positive first: the moderator is listed
       |> assert_has(
         "#guest-home #community-admins a[data-role=admin-link][href='/@#{moderator.character.username}']"
@@ -273,13 +275,13 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       # the list is cached from here on
-      conn() |> visit("/") |> assert_has("#community-admins")
+      conn() |> get_conn_render("/") |> assert_has("#community-admins")
 
       moderator = fake_user!(fake_account!())
       assert {:ok, _} = Bonfire.Me.Users.make_moderator(moderator)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has("#community-admins a[href='/@#{moderator.character.username}']")
     end
 
@@ -291,7 +293,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       session =
         conn()
-        |> visit("/")
+        |> get_conn_render("/")
         # each admin is a card, so none are collapsed
         |> assert_has("#community-admins a[data-role=admin-link]", count: count)
         |> refute_has("#community-admins-more")
@@ -308,7 +310,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetAdminsLive, :show_guests], false)
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> refute_has("#community-admins")
     end
 
@@ -321,7 +323,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> refute_has("#community-links")
       |> assert_has(
         "#community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
@@ -336,7 +338,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetAdminsLive, :show_guests], false)
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> refute_has("#community-admins")
     end
   end
@@ -344,7 +346,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
   describe "guest about" do
     test "renders the board with the tagline, current nav and participation" do
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> assert_has("#guest-board")
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "About")
       # About is a single sheet on the board's canvas, not a stack of cards
@@ -368,7 +370,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> refute_has("#about-signup")
       |> refute_has("#about-meta [data-role=signup-closed-note]")
       |> assert_has("#guest-board-signin", text: "Sign in")
@@ -382,7 +384,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> refute_has("#about-signup")
       |> assert_has("#about-meta [data-role=signup-closed-note]",
         text: "by invitation only"
@@ -400,7 +402,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> assert_has("#about-meta [data-role=signup-closed-note]",
         text: "limited to certain email domains or sign-in services"
       )
@@ -428,7 +430,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       with_external_signup_page()
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> assert_has(
         "#about-meta [data-role=signup-closed-note] a[href='https://jacobin.de/join']",
         text: "New accounts are created on jacobin.de"
@@ -440,7 +442,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       with_external_signup_page()
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> assert_has("#about-page #about-request-invite[href='https://jacobin.de/join']",
         text: "Sign up"
       )
@@ -452,7 +454,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       with_external_signup_page()
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has("#home-hero-actions #about-request-invite[href='https://jacobin.de/join']",
         text: "Sign up"
       )
@@ -470,7 +472,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       )
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> refute_has("#participate")
       |> assert_has("#about-meta [data-role=signup-closed-note]",
         text: "by invitation only"
@@ -496,7 +498,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       )
 
       conn()
-      |> visit("/")
+      |> get_conn_render("/")
       |> assert_has(
         "#home-hero-actions #about-request-invite[href^='mailto:invites@example.org']",
         text: "Request an invite"
@@ -512,7 +514,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> refute_has("#about-request-invite")
       |> assert_has("#about-page header a[href^='/remote_interaction?type=message']",
         text: "Message the moderators"
@@ -525,7 +527,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> assert_has("#community-rules li", text: "Be kind")
       # an unlabelled checkbox would still be reachable with the keyboard
       |> refute_has("#community-rules-all")
@@ -538,7 +540,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/about")
+      |> get_conn_render("/about")
       |> refute_has("#community-rules")
     end
   end
@@ -548,7 +550,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Process.put([:bonfire, :terms, :conduct], "Be **kind** to each other.")
 
       conn()
-      |> visit("/conduct")
+      |> get_conn_render("/conduct")
       |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]",
         text: "Code of conduct"
       )
@@ -563,7 +565,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Process.put([:bonfire, :terms, :privacy], "We keep **as little** as we can.")
 
       conn()
-      |> visit("/privacy")
+      |> get_conn_render("/privacy")
       |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]",
         text: "Privacy policy"
       )
@@ -578,7 +580,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Process.put([:bonfire, :terms, :privacy], "")
 
       conn()
-      |> visit("/privacy")
+      |> get_conn_render("/privacy")
       |> assert_has("#privacy-body a[href='https://bonfirenetworks.org/privacy']")
     end
 
@@ -590,7 +592,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       ])
 
       conn()
-      |> visit("/impressum")
+      |> get_conn_render("/impressum")
       |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]", text: "Impressum")
       |> assert_has("#impressum-body strong", text: "Example Collective")
       |> assert_has("#guest-board-sheet #community-links a[href='https://example.org/handbook']",
@@ -607,7 +609,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/login")
+      |> get_conn_render("/login")
       |> assert_has("#guest-board #login h1[data-role=page-title]", text: "Sign in")
       |> assert_has("#login #login-form")
       |> refute_has("#guest-board-nav")
@@ -627,7 +629,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/signup")
+      |> get_conn_render("/signup")
       |> assert_has("#guest-board #signup h1[data-role=page-title]", text: "Sign up")
       |> assert_has("#guest-board-signin[href='/login']")
       |> refute_has("#guest-board-signup")
@@ -639,7 +641,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/signup")
+      |> get_conn_render("/signup")
       |> assert_has("#signup #signup-form")
       |> refute_has("#signup #community-rules")
     end
@@ -656,7 +658,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       end)
 
       conn()
-      |> visit("/signup")
+      |> get_conn_render("/signup")
       |> assert_has("#signup #community-rules h2", text: "Community rules")
       |> assert_has("#signup #community-rules li", text: "Seven")
       |> assert_has("#signup #community-rules [data-role=show-all]", text: "Show all 7 rules")
@@ -669,7 +671,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
     test "forgot password heads the form sheet with its own state's title, without the tabs" do
       conn()
-      |> visit("/login/forgot-password")
+      |> get_conn_render("/login/forgot-password")
       |> assert_has("#guest-board #forgot-password h1[data-role=page-title]")
       |> refute_has("#guest-board-nav")
       |> assert_has("#guest-board-footer a[href='/privacy']")
@@ -697,7 +699,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       user = fake_user!(fake_account!())
 
       conn()
-      |> visit("/users")
+      |> get_conn_render("/users")
       |> assert_has("#guest-board #guest-board-sheet h1[data-role=page-title]",
         text: "Users directory"
       )

@@ -23,8 +23,11 @@ defmodule Bonfire.UI.Me.ProfileTest do
     account = fake_account!()
     user = fake_user!(account)
 
+    # a guest has no LiveView socket, so the page they get is the static render, which `visit` does not give (it connects a LiveView)
+    # conn()
+    # |> visit("/@#{user.character.username}")
     conn()
-    |> visit("/@#{user.character.username}")
+    |> get_conn_render("/@#{user.character.username}")
     |> refute_has("[data-id='hero_more_actions-profile_hero']")
   end
 
@@ -37,8 +40,11 @@ defmodule Bonfire.UI.Me.ProfileTest do
         summary: "See [my reading list](https://example.com/list) or https://example.com/notes"
       })
 
+    # a guest has no LiveView socket, so the page they get is the static render, which `visit` does not give (it connects a LiveView)
+    # conn()
+    # |> visit("/@#{user.character.username}")
     conn()
-    |> visit("/@#{user.character.username}")
+    |> get_conn_render("/@#{user.character.username}")
     |> assert_has("a[href='https://example.com/list']", text: "my reading list")
     |> assert_has("a[href='https://example.com/notes']")
   end

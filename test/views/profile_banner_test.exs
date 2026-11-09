@@ -45,9 +45,12 @@ defmodule Bonfire.UI.Me.ProfileBannerTest do
 
     @tag Bonfire.Common.RuntimeConfig.skip_in_ci()
     test "a guest sees the banner", %{owner: owner} do
+      # a guest has no LiveView socket, so the page they get is the static render, which `visit` does not give (it connects a LiveView), and there is no async load to wait for
+      # conn()
+      # |> visit("/@#{owner.character.username}")
+      # |> wait_async()
       conn()
-      |> visit("/@#{owner.character.username}")
-      |> wait_async()
+      |> get_conn_render("/@#{owner.character.username}")
       |> assert_has("[data-id=hero_background][style*='background-image']")
     end
   end

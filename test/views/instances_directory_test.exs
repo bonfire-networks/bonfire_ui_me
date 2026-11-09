@@ -26,14 +26,29 @@ defmodule Bonfire.UI.Me.InstancesDirectoryTest do
       total: total,
       limit: limit
     } do
-      conn()
-      |> visit("/known_instances")
-      # The first page lists the newest known instances
-      |> assert_has("a", text: "dir-instance-#{total}.test")
-      # The no-JS guest fallback link must be present (this is the bug: it isn't)
-      |> assert_has("a[data-id=next_page]", text: "Next page")
+      # a guest has no LiveView socket, so the page they get is the static render, which `visit` does not give (it connects a LiveView)
+      # conn()
+      # |> visit("/known_instances")
+      # # The first page lists the newest known instances
+      # |> assert_has("a", text: "dir-instance-#{total}.test")
+      # # The no-JS guest fallback link must be present (this is the bug: it isn't)
+      # |> assert_has("a[data-id=next_page]", text: "Next page")
+      # # Following it must show the NEXT instances, not a blank page nor the same ones
+      # |> click_link("a[data-id=next_page]", "Next page")
+      # |> refute_has("a", text: "dir-instance-#{total}.test")
+      # |> assert_has("a", text: "dir-instance-#{total - limit}.test")
+
+      first_page =
+        conn()
+        |> get_conn_render("/known_instances")
+        # The first page lists the newest known instances
+        |> assert_has("a", text: "dir-instance-#{total}.test")
+        # The no-JS guest fallback link is on the static render
+        |> assert_has("a[data-id=next_page]", text: "Next page")
+
       # Following it must show the NEXT instances, not a blank page nor the same ones
-      |> click_link("a[data-id=next_page]", "Next page")
+      conn()
+      |> get_conn_render(static_href(first_page, "a[data-id=next_page]"))
       |> refute_has("a", text: "dir-instance-#{total}.test")
       |> assert_has("a", text: "dir-instance-#{total - limit}.test")
     end

@@ -3,9 +3,11 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
 
   doctest Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive
 
+  # the tests check the static render (`get_conn_render`), which is the page a guest gets as they have no LiveView socket; they were `conn() |> visit("/about")`, which connects a LiveView
+
   test "about shows the defaults as rows, five first and the rest behind Show all" do
     conn()
-    |> visit("/about")
+    |> get_conn_render("/about")
     |> assert_has("#community-settings h2", text: "How this community works")
     |> assert_has("#community-settings [data-role=settings-rows] > li:first-child",
       text: "Default audience"
@@ -28,7 +30,7 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     Process.put([:bonfire_search, Bonfire.Search.Indexer, :modularity], :disabled)
 
     conn()
-    |> visit("/about")
+    |> get_conn_render("/about")
     # the two facts, plus the guest note since this visitor isn't signed in
     |> assert_has("#about-meta li", count: 3)
     |> assert_has("#about-meta", text: "Connected to the fediverse")
@@ -46,7 +48,7 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     end)
 
     conn()
-    |> visit("/about")
+    |> get_conn_render("/about")
     |> assert_has("#about-meta", text: "Connected to selected communities")
     |> assert_has(
       "#community-federation #community-allowlist a[href='https://community.example.org'][target='_blank']",
@@ -60,7 +62,7 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     Repatch.patch(summary, :instance_allowlist, [mode: :shared], fn -> {[], 0} end)
 
     conn()
-    |> visit("/about")
+    |> get_conn_render("/about")
     |> assert_has("#community-federation", text: "No communities yet")
     |> refute_has("#community-allowlist")
   end
@@ -69,7 +71,7 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     Process.put([:bonfire_ui_me, Bonfire.UI.Me.UsersDirectoryLive, :show_to], :guests)
 
     conn()
-    |> visit("/about")
+    |> get_conn_render("/about")
     |> assert_has("#community-directory", text: "Anyone")
   end
 
@@ -80,7 +82,7 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     Process.put([:bonfire_ui_social, Bonfire.UI.Social.Activity.MediaLive, :hide], true)
 
     conn()
-    |> visit("/about")
+    |> get_conn_render("/about")
     # undiscoverable and an off indexer both read as Hidden, not as a double negative
     |> assert_has("#community-discoverability", text: "Hidden")
     |> assert_has("#community-indexing", text: "Hidden")
@@ -93,7 +95,7 @@ defmodule Bonfire.Web.Views.CommunityExpectationsTest do
     Process.put([:bonfire_ui_social, Bonfire.UI.Social.Activity.MediaLive, :hide], false)
 
     conn()
-    |> visit("/about")
+    |> get_conn_render("/about")
     |> assert_has("#community-report-forwarding", text: "Stay with our moderators")
     |> assert_has("#community-media", text: "Not blurred")
   end

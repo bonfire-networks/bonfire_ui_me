@@ -133,8 +133,7 @@
           id="extra_locales"
           extra_locales={Settings.get([Bonfire.Common.Localise, :extra_locales], [],
             context: @scoped,
-            name: l("Other languages"),
-            description: l("List of other languages you understand, in order of priority.")
+            name: l("Other languages")
           )}
           primary_locale={Settings.get([Bonfire.Common.Localise.Cldr, :default_locale], "en", context: @scoped)}
           scope={@scope}
