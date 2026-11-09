@@ -429,7 +429,8 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> visit("/about")
-      |> assert_has("#about-meta [data-role=signup-closed-note] a[href='https://jacobin.de/join']",
+      |> assert_has(
+        "#about-meta [data-role=signup-closed-note] a[href='https://jacobin.de/join']",
         text: "New accounts are created on jacobin.de"
       )
       |> refute_has("#about-meta [data-role=signup-closed-note]", text: "by invitation only")

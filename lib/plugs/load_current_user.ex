@@ -27,6 +27,8 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
         if Bonfire.Common.Cache.get!("force_logout:#{current_user_id}") do
           conn
           |> Bonfire.UI.Common.Web.renew_session()
+          # the session no longer has a login and `set_locale` skipped this request, so detect the locale from the browser as for a guest
+          |> Bonfire.UI.Common.LivePlugs.Locale.detect_for_conn()
           |> assign(:current_user, nil)
           |> assign(:current_account, nil)
         else
@@ -35,6 +37,20 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentUser do
               current_user_id,
               Plug.Conn.get_session(conn, :current_account_id)
             )
+
+          # the `set_locale` plug skipped this request because the session has a user: now the user and their settings are loaded, set the locale from them, once
+          # a session whose user cannot be loaded has nothing to take it from, so detect it from the browser
+          conn =
+            if user do
+              Bonfire.UI.Common.LivePlugs.Locale.put_locale_for(
+                user,
+                Plug.Conn.get_session(conn, Bonfire.Common.Localise.fallback_session_key())
+              )
+
+              conn
+            else
+              Bonfire.UI.Common.LivePlugs.Locale.detect_for_conn(conn)
+            end
 
           conn
           |> assign(:current_user, user)

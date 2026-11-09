@@ -89,6 +89,11 @@ defmodule Bonfire.UI.Me.Routes do
         live("/username/:username", CharacterLive, as: Bonfire.UI.Me.CharacterLive)
         # live("/profile/:username", CharacterLive, as: Bonfire.Data.Social.Profile)
         # live("/character/:username", CharacterLive, as: Bonfire.Data.Identity.Character)
+      end
+
+      # controller pages anyone can view, which don't load the user, so the locale comes from the browser
+      scope "/", Bonfire.UI.Me do
+        pipe_through(:browser_guest)
 
         get "/settings/deleted/account/:id", DeletedController, :account
         get "/settings/deleted/user/:id", DeletedController, :user
@@ -97,7 +102,7 @@ defmodule Bonfire.UI.Me.Routes do
 
       # pages anyone can view, with throttling
       scope "/", Bonfire.UI.Me do
-        pipe_through([:throttle_forms, :browser])
+        pipe_through([:throttle_forms, :browser_guest])
 
         resources("/login/forgot-password", ForgotPasswordController,
           only: [:index, :create],
@@ -119,6 +124,11 @@ defmodule Bonfire.UI.Me.Routes do
         # sign-in links have their own page, apart from password reset above
         get("/login/email/:login_token", LoginLinkController, :show)
         post("/login/email/:login_token", LoginLinkController, :redeem)
+      end
+
+      # LiveView pages anyone can view, with throttling: their on_mount sets the locale, so they stay on :browser
+      scope "/", Bonfire.UI.Me do
+        pipe_through([:throttle_forms, :browser])
 
         live("/users", UsersDirectoryLive)
         live("/users/instance/:instance", UsersDirectoryLive, as: Bonfire.Data.ActivityPub.Peer)

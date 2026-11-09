@@ -96,5 +96,6 @@ defmodule Bonfire.UI.Me.RemoteInteractionErrorsTest do
   end
 
   # what the form posts: the nick under `outgoing`, and its hidden `type` and `object` inputs at the top level
-  defp form_params(me), do: %{"outgoing" => %{"me" => me}, "type" => "follow", "object" => @object}
+  defp form_params(me),
+    do: %{"outgoing" => %{"me" => me}, "type" => "follow", "object" => @object}
 end

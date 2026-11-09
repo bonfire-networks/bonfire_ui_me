@@ -1,24 +1,30 @@
 {!-- a wrong password, unknown account, or account without a password all come back as "no_match" (deliberately the same) --}
 {#case @form && (e(@form, :source, :errors, :form, nil) || e(@form, :errors, :form, nil))}
   {#match {error, _} when error in ["not_found", "no_match"]}
-    <div role="status" class="text-error">
+    {!-- the link sits inside the one sentence, so a translator can word and order it freely --}
+    <div role="status" class="text-error [&_a]:font-bold [&_a]:underline">
       <div class="flex flex-1">
-        <label>
-          {l("Account not found. Either your username or password was incorrect. Did you want to ")} <LinkLive to={path(:signup)} class="font-bold underline text-error">sign up</LinkLive> ?
-        </label>
+        <div>
+          {rich(
+            l(
+              "Account not found. Either your username or password was incorrect. Did you want to [sign up](%{path})?",
+              path: path(:signup)
+            )
+          )}
+        </div>
       </div>
     </div>
   {#match {"email_not_confirmed", _}}
-    <div role="status" class="alert alert-warning">
+    <div role="status" class="alert alert-warning [&_a]:font-bold [&_a]:underline [&_a]:text-neutral">
       <div class="flex flex-1">
-        <label>
-          {l(
-            "You need to to click the link in the email you should have received to verify your email address.  Need to have it "
-          )} <LinkLive
-            to={path(Bonfire.UI.Me.ConfirmEmailController)}
-            class="font-bold underline text-neutral"
-          >resent</LinkLive> ?
-        </label>
+        <div>
+          {rich(
+            l(
+              "You need to click the link in the email you should have received to verify your email address. Need to have it [resent](%{path})?",
+              path: path(Bonfire.UI.Me.ConfirmEmailController)
+            )
+          )}
+        </div>
       </div>
     </div>
   {#match {error_msg, _}}
