@@ -353,6 +353,41 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     end
   end
 
+  describe "spotlight" do
+    setup do
+      Bonfire.Social.Pins.list_spotlight_activities(cache: :reset)
+      on_exit(fn -> Bonfire.Social.Pins.list_spotlight_activities(cache: :reset) end)
+      :ok
+    end
+
+    test "is hidden when nothing is pinned", %{conn: conn} do
+      conn
+      |> visit("/dashboard")
+      |> wait_async()
+      |> refute_has("[data-role=widget-empty-state]", text: "Nothing in the spotlight yet")
+      |> refute_has("#instance_pinned_widget aside")
+    end
+
+    test "shows a pinned post", %{conn: conn} do
+      admin = fake_admin!(fake_account!())
+
+      {:ok, post} =
+        Bonfire.Posts.publish(
+          current_user: admin,
+          post_attrs: %{post_content: %{html_body: "a public post in the dashboard spotlight"}},
+          boundary: "public"
+        )
+
+      Bonfire.Social.Pins.pin(admin, post, :instance)
+      Bonfire.Social.Pins.list_spotlight_activities(cache: :reset)
+
+      conn
+      |> visit("/dashboard")
+      |> wait_async()
+      |> assert_has("[data-role=pinned_card]", text: "a public post in the dashboard spotlight")
+    end
+  end
+
   describe "choices" do
     test "a key nobody describes is skipped", %{me: me} do
       assert [%{key: :suggested_profiles}] =

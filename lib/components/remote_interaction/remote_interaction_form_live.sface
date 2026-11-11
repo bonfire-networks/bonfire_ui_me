@@ -25,16 +25,28 @@
 
           <Field name={:me}>
             <Label class="block p-0 mb-4 text-center label">
-              <span class="text-base font-medium">{l("Enter your fediverse nick to %{verb} %{thing_or_name} remotely",
+              {!-- <span class="text-base font-medium">{l("Enter your fediverse nick to %{verb} %{thing_or_name} remotely",
                   thing_or_name: @name,
                   verb: verb_name(@interaction_type)
-                )}</span>
+                )}</span> --}
+              <span class="text-base font-medium">{l("Your fediverse username")}</span>
             </Label>
-            <EmailInput
+            {!-- <EmailInput
               required
               opts={placeholder: "username@instance.domain"}
               class="w-full input input-bordered"
+            /> --}
+            <TextInput
+              required
+              opts={
+                placeholder: "@alice@example.social",
+                autocapitalize: "none",
+                autocorrect: "off",
+                spellcheck: "false"
+              }
+              class="w-full input input-bordered"
             />
+            <p class="mt-2 text-sm text-base-content/70">{l("Include your server, eg. @alice@example.social")}</p>
             <ErrorTag />
           </Field>
 

@@ -122,7 +122,7 @@
             </:action_btns>
           </Bonfire.UI.Common.OpenModalLive>
         </li>
-        <li :if={!@is_local_user}>
+        {!-- <li :if={!@is_local_user}>
           <StatelessComponent
             module={maybe_component(Bonfire.UI.Social.Activity.DeleteObjectLive, @__context__)}
             form_opts={%{"phx-submit" => "Bonfire.Me.Users:delete_user"}}
@@ -138,6 +138,25 @@
               username: Bonfire.Me.Characters.display_username(@user, true, true)
             )}
           />
+        </li> --}
+        <li>
+          <Bonfire.UI.Common.OpenModalLive
+            id={deterministic_dom_id(__MODULE__, id(@user), "delete-user", nil)}
+            title_text={l("Delete user & data")}
+            open_btn_wrapper_class="w-full text-left text-error"
+            no_actions
+            modal_assigns={[
+              modal_component: Bonfire.UI.Me.DeleteUserModalLive,
+              modal_component_stateful?: true,
+              user: @user,
+              is_local_user: @is_local_user,
+              blocked: e(@user, :ghosted_instance_wide?, nil) == true
+            ]}
+          >
+            <:open_btn>
+              <div class="w-full text-left text-error">{l("Delete user & data")}</div>
+            </:open_btn>
+          </Bonfire.UI.Common.OpenModalLive>
         </li>
         {!-- <li><LinkLive class="text-error" to="#">{l("Deactivate user")}</LinkLive></li> --}
       </Dropdown>

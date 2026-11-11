@@ -1,0 +1,47 @@
+<div>
+  {#if @target_admin}
+    <p data-role="delete_user_admin_first" class="text-sm">
+      {l(
+        "This user is an instance admin, you need to revoke their admin role before you can delete them."
+      )}
+    </p>
+  {#elseif @blocked}
+    <p class="text-sm mb-3">
+      {l(
+        "WARNING: Deleting a user profile means that this user profile (%{username}) and all related data and activities (like their posts) will be deleted.",
+        username: Bonfire.Me.Characters.display_username(@user, true, true)
+      )}
+    </p>
+    <div class="flex flex-col gap-2">
+      <a
+        id="delete-profile-link"
+        href={confirm_path("DeleteUser", @user, @is_local_user)}
+        class="btn btn-error btn-sm w-full"
+      >
+        {l("Delete this profile")}
+      </a>
+      <a
+        :if={@is_local_user}
+        id="delete-account-link"
+        href={confirm_path("DeleteAccount", @user, @is_local_user)}
+        class="btn btn-error btn-outline btn-sm w-full"
+      >
+        {lp(
+          "Delete their profile and account (so they can no longer sign in)",
+          "Delete their account and %{count} profiles (so they can no longer sign in)",
+          @profile_count || 1,
+          count: @profile_count || 1
+        )}
+      </a>
+    </div>
+    <p :if={@is_local_user} class="text-xs opacity-70 mt-2">
+      {l("The other profiles of the account and associated data are deleted with it.")}
+    </p>
+  {#else}
+    <p data-role="delete_user_blocked_first" class="text-sm">
+      {l(
+        "Block this user instance-wide before deleting them. Deleting is only offered for users who are already blocked."
+      )}
+    </p>
+  {/if}
+</div>

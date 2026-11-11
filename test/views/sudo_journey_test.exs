@@ -29,6 +29,21 @@ defmodule Bonfire.UI.Me.SudoJourneyTest do
     assert length(Oban.Testing.all_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)) == 1
   end
 
+  test "the account confirm page says how many profiles go with it", %{
+    conn: conn,
+    account: account
+  } do
+    _second = fake_user!(account)
+
+    conn
+    |> visit("/settings/account")
+    |> wait_async()
+    |> click_link("#verify-delete-account", "Continue to delete account")
+    |> fill_in("Your password", with: account.credential.password)
+    |> click_button("#sudo-password-submit", "Verify and continue")
+    |> assert_has("p.prose", text: "2 profiles")
+  end
+
   test "forgotten password: the reset escape under the form recovers the journey", %{conn: conn} do
     capture_mail()
 
@@ -120,6 +135,26 @@ defmodule Bonfire.UI.Me.SudoJourneyTest do
     |> assert_has("#sudo-title", text: "Account deletion requested")
 
     assert length(Oban.Testing.all_enqueued(repo(), worker: Bonfire.Me.DeleteWorker)) == 1
+  end
+
+  for go <- ["//evil.example", "https://evil.example"] do
+    test "an off-site go (#{go}) is not used on the done page", %{conn: conn, account: account} do
+      go = unquote(go)
+
+      conn
+      |> visit(
+        "/account/confirm?" <>
+          URI.encode_query(action: "Bonfire.Me.SensitiveActions.DeleteAccount", go: go)
+      )
+      |> assert_has("#sudo-password-form")
+      |> fill_in("Your password", with: account.credential.password)
+      |> click_button("#sudo-password-submit", "Verify and continue")
+      |> click_button("#sudo-confirm-btn", "Confirm")
+      |> assert_has("#sudo-title", text: "Account deletion requested")
+      |> refute_has("#sudo-done-go")
+      |> refute_has("a[href*='evil.example']")
+      |> assert_has("a[href='/']", text: "Go to homepage")
+    end
   end
 
   defp capture_mail do

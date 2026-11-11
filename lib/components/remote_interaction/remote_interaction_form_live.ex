@@ -35,5 +35,6 @@ defmodule Bonfire.UI.Me.RemoteInteractionFormLive do
   def submit_label("boost"), do: l("Proceed to boost")
   def submit_label("flag"), do: l("Proceed to flag")
   def submit_label("follow"), do: l("Proceed to follow")
+  def submit_label("vote"), do: l("Proceed to vote")
   def submit_label(slug), do: l("Proceed to %{verb}", verb: verb_name(slug))
 end

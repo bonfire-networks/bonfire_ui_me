@@ -102,7 +102,10 @@ defmodule Bonfire.UI.Me.AccountVerificationController do
           go: local_go(params["go"])
         )
       else
-        redirect_to(conn, verify_path(action, confirm_url(action, params["target"])))
+        redirect_to(
+          conn,
+          verify_path(action, confirm_url(action, params["target"], local_go(params["go"])))
+        )
       end
     else
       {:error, :needs_login} -> require_login(conn)
@@ -118,11 +121,21 @@ defmodule Bonfire.UI.Me.AccountVerificationController do
          {:ok, module} <- SensitiveActions.resolve(action),
          true <- Sudo.met?(conn, module, account),
          {:ok, _} <- module.execute(%{account: account, target_id: params["target"]}) do
-      render_page(conn, :done, e(describe(module, account, params), :success, nil))
+      render_page(conn, :done, e(describe(module, account, params), :success, nil),
+        go: local_go(params["go"])
+      )
     else
-      {:error, :needs_login} -> require_login(conn)
-      false -> redirect_to(conn, verify_path(action, confirm_url(action, params["target"])))
-      _ -> failure(conn)
+      {:error, :needs_login} ->
+        require_login(conn)
+
+      false ->
+        redirect_to(
+          conn,
+          verify_path(action, confirm_url(action, params["target"], local_go(params["go"])))
+        )
+
+      _ ->
+        failure(conn)
     end
   end
 
@@ -141,10 +154,13 @@ defmodule Bonfire.UI.Me.AccountVerificationController do
   defp verify_path(action, go),
     do: path(:sudo_verify) <> "?" <> URI.encode_query([{"for", action}, {"go", go}])
 
-  defp confirm_url(action, target) do
-    path(:sudo_confirm) <>
-      "?" <>
-      URI.encode_query(if target, do: [action: action, target: target], else: [action: action])
+  # go rides along so the done page can link back, unless it is just home
+  defp confirm_url(action, target, go) do
+    query = [action: action]
+    query = if target, do: query ++ [target: target], else: query
+    query = if go not in [nil, "/"], do: query ++ [go: go], else: query
+
+    path(:sudo_confirm) <> "?" <> URI.encode_query(query)
   end
 
   # go must be a local path; anything else falls back to home

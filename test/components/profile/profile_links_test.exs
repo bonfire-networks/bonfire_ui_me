@@ -92,6 +92,32 @@ defmodule Bonfire.UI.Me.ProfileLinksTest do
     assert [_] = Floki.find(document, "dl dd a[href='#{website}']")
   end
 
+  test "a linked ORCID shows a link to orcid.org" do
+    url = "https://orcid.org/0000-0002-1825-0097"
+
+    aliases = [
+      %{
+        edge: %{
+          object: %Bonfire.Files.Media{
+            media_type: "orcid",
+            path: url,
+            metadata: %{"name" => "ORCID", "verified" => true}
+          }
+        }
+      }
+    ]
+
+    html =
+      render_component(&ProfileLinksLive.render/1,
+        user: %{profile: %{website: nil}},
+        aliases: aliases
+      )
+
+    document = Floki.parse_document!(html)
+    assert [_] = Floki.find(document, "dl dd a[href='#{url}']")
+    assert html =~ "ORCID"
+  end
+
   test "joined date is the first information row even without links" do
     html =
       render_component(&ProfileLinksLive.render/1,

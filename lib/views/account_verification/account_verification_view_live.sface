@@ -64,6 +64,7 @@
       <a href="/" class="link text-sm mt-4 inline-block">{l("Go to homepage")}</a>
     {#match _}
       <p class="prose prose-sm mt-3">{e(@description, :description, nil)}</p>
-      <a href="/" class="link mt-4 inline-block">{l("Go to homepage")}</a>
+      <a :if={@go not in [nil, "/"]} id="sudo-done-go" href={@go} class="link mt-4 inline-block">{l("Go back")}</a>
+      <a :if={@go in [nil, "/"]} href="/" class="link mt-4 inline-block">{l("Go to homepage")}</a>
   {/case}
 </Bonfire.UI.Me.AuthLayoutLive>

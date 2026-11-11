@@ -44,11 +44,15 @@ defmodule Bonfire.UI.Me.ProfileLinksLive do
         when not is_nil(profile) ->
           {links, accounts ++ [account]}
 
-        %{edge: %{object: %{media_type: type, path: path, metadata: metadata}}},
+        %{edge: %{object: %{media_type: type, path: path, metadata: metadata} = object}},
         {links, accounts} ->
+          # href =
+          #   if is_binary(path) and String.trim(path) != "",
+          #     do: path,
+          #     else: e(metadata, "url", nil)
           href =
             if is_binary(path) and String.trim(path) != "",
-              do: path,
+              do: Bonfire.Common.Media.media_url(object) || path,
               else: e(metadata, "url", nil)
 
           label = e(metadata, "name", nil) || if(is_binary(type), do: Text.upcase_first(type))

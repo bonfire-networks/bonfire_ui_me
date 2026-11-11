@@ -9,7 +9,10 @@ defmodule Bonfire.UI.Me.RemoteInteractionErrorsTest do
 
   @object "https://example.local/pub/objects/x"
   @form_path "/remote_interaction?" <> URI.encode_query(type: "follow", url: @object)
-  @nick_label "Enter your fediverse nick"
+  # @nick_label "Enter your fediverse nick"
+  @nick_label "Your fediverse username"
+  @nick_hint "Include your server, eg. @alice@example.social"
+  @no_server_error "Add your server after your username, eg. @alice@example.social"
 
   setup do
     # someone from another instance can only use their account there if this one federates
@@ -38,6 +41,61 @@ defmodule Bonfire.UI.Me.RemoteInteractionErrorsTest do
     conn = post(conn(), "/pub/remote_interaction", form_params("alice@home.local"))
 
     assert redirected_to(conn) == "https://home.local/authorize_interaction?uri=#{@object}"
+  end
+
+  test "an address with a leading @ resolves like one without" do
+    mock(fn
+      %{method: :get, url: "https://home.local/.well-known/webfinger" <> _} ->
+        json(%{
+          "subject" => "acct:alice@home.local",
+          "links" => [
+            %{
+              "rel" => "http://ostatus.org/schema/1.0/subscribe",
+              "template" => "https://home.local/authorize_interaction?uri={uri}"
+            }
+          ]
+        })
+
+      _ ->
+        %Tesla.Env{status: 404, body: ""}
+    end)
+
+    conn = post(conn(), "/pub/remote_interaction", form_params("@alice@home.local"))
+
+    assert redirected_to(conn) == "https://home.local/authorize_interaction?uri=#{@object}"
+  end
+
+  test "an address with no server comes back with the reason and makes no request" do
+    test_pid = self()
+
+    mock(fn env ->
+      send(test_pid, {:http_request, env.url})
+      %Tesla.Env{status: 404, body: ""}
+    end)
+
+    for me <- ["alice", "@alice", "alice@", "@alice@"] do
+      conn = post(conn(), "/pub/remote_interaction", form_params(me))
+
+      assert redirected_to(conn) == @form_path
+      assert Phoenix.Flash.get(conn.assigns.flash, :error) == @no_server_error
+    end
+
+    refute_received {:http_request, _}
+  end
+
+  test "the form asks for a username in a text field, with a hint" do
+    conn()
+    |> visit(@form_path)
+    |> assert_has("label", text: @nick_label, exact: false)
+    |> assert_has("p", text: @nick_hint, exact: false)
+    |> assert_has("input[name='outgoing[me]'][type=text]")
+    |> refute_has("input[name='outgoing[me]'][type=email]")
+  end
+
+  test "voting from another instance has its own whole-sentence button" do
+    conn()
+    |> visit("/remote_interaction?" <> URI.encode_query(type: "vote", url: @object))
+    |> assert_has("button", text: "Proceed to vote")
   end
 
   test "an address that doesn't resolve comes back to the form with the reason" do

@@ -73,5 +73,32 @@ defmodule Bonfire.UI.Me.MessageModeratorsTest do
         text: "Message the moderators"
       )
     end
+
+    # a remote interaction needs the visitor's instance to reach this one, which it can't with federation off
+    test "a visitor who is not logged in gets no link to message them when the instance doesn't federate, on #{page}" do
+      Process.put(:federating, false)
+      _admin = fake_admin!(fake_account!())
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+
+      conn()
+      |> visit(unquote(page))
+      # the positive first: the moderators are listed, so the missing link is not the list missing
+      |> assert_has("#community-admins")
+      |> refute_has("#community-admins a", text: "Message the moderators")
+    end
+  end
+
+  # manual mode holds activities back for review, so other instances can still reach this one
+  test "a visitor who is not logged in still gets the link when federation is in manual mode" do
+    Process.put(:federating, :manual)
+    assert Bonfire.Federate.ActivityPub.federating?() == nil
+    _admin = fake_admin!(fake_account!())
+    Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+
+    conn()
+    |> visit("/about")
+    |> assert_has("#community-admins a[href^='/remote_interaction?type=message']",
+      text: "Message the moderators"
+    )
   end
 end

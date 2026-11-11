@@ -461,6 +461,19 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> refute_has("#home-hero-actions a[href^='mailto:']")
     end
 
+    # an instance that doesn't federate can't be messaged from another one, so the guest is left with the sign-up link
+    test "with an external sign-up page and federation off, the About buttons are only the sign-up link" do
+      with_external_signup_page()
+      Process.put(:federating, false)
+
+      conn()
+      |> get_conn_render("/about")
+      |> assert_has("#about-page #about-request-invite[href='https://jacobin.de/join']",
+        text: "Sign up"
+      )
+      |> refute_has("#about-page a", text: "Message the moderators")
+    end
+
     test "keeps an invitation action in the introduction when a contact is configured" do
       Repatch.patch(Bonfire.Me.Accounts, :instance_is_invite_only?, [mode: :shared], fn ->
         true

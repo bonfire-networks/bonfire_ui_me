@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.MessageModeratorsLive do
   @moduledoc """
   A button to message all the people who can moderate the instance at once, and not pick one of them.
 
-  It opens the message composer addressed to the instance's federation bot, labelled "The moderators of this instance": a message to the bot reaches them all (`Bonfire.Messages.send/3`). Someone not logged in gets a remote interaction link, as for the reply button and the "Send a message" item of a profile, to message the bot from their own instance.
+  It opens the message composer addressed to the instance's federation bot, labelled "The moderators of this instance": a message to the bot reaches them all (`Bonfire.Messages.send/3`). Someone not logged in gets a remote interaction link, as for the reply button and the "Send a message" item of a profile, to message the bot from their own instance, unless the instance doesn't federate.
   """
   use Bonfire.UI.Common.Web, :stateless_component
 
@@ -14,7 +14,13 @@ defmodule Bonfire.UI.Me.MessageModeratorsLive do
     assigns
     |> assign(:bot_id, id(bot))
     |> assign(:bot_url, if(bot, do: URIs.canonical_url(bot)))
+    |> assign(:remote_interaction?, remote_interaction?())
     |> render_sface()
+  end
+
+  # someone not logged in can only message from their own instance, which can't reach this one with federation off (manual mode, `nil`, still lets it in)
+  defp remote_interaction? do
+    maybe_apply(Bonfire.Federate.ActivityPub, :federating?, [], fallback_return: false) != false
   end
 
   # made if it is not there yet: the composer needs a recipient that exists
