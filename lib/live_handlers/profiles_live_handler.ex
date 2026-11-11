@@ -139,8 +139,10 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
            username ->
              get(username)
          end)
-      |> repo().maybe_preload([:settings, character: :peered])
-      |> repo().maybe_preload([:shared_user])
+      |> repo().maybe_preload([:settings, character: :peered], prune: true)
+      |> maybe_preload_shared_user()
+
+    # |> repo().maybe_preload([:shared_user]) also ran on a group's profile (a `Category`, which has no `shared_user`), and raised
 
     # debug(user)
 
@@ -550,4 +552,10 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
       }
     end
   end
+
+  # only a user can be shared between accounts; other profiles (eg. a group's, when its own pages are off) have no `shared_user`
+  defp maybe_preload_shared_user(%Bonfire.Data.Identity.User{} = user),
+    do: repo().maybe_preload(user, [:shared_user], prune: true)
+
+  defp maybe_preload_shared_user(other), do: other
 end
