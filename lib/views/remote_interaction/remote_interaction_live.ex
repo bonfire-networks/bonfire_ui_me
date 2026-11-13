@@ -28,8 +28,6 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
 
     {:ok,
      socket
-     |> assign(:page, page)
-     |> assign(:page_title, page)
      |> assign(:canonical_url, url)
      |> assign_global(:go, go)
      |> assign(:name, Text.text_only(e(params, "name", nil) || e(session, "name", nil)))
@@ -47,7 +45,10 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
          (is_nil(by_id) or is_binary(url))
      )
      |> Bonfire.UI.Me.LoginLive.assign_defaults(params, session)
-     |> Bonfire.UI.Me.SignupLive.assign_defaults(params, session, form_key: :signup_form)}
+     |> Bonfire.UI.Me.SignupLive.assign_defaults(params, session, form_key: :signup_form)
+     # the sign-in and sign-up tabs' defaults set their own page and title, and the page is this one
+     |> assign(:page, page)
+     |> assign(:page_title, page)}
   end
 
   # the AP id of the page's Media post, created when missing under the embed's rules (an import author, else the signed-in user); the embed can link here from a page rendered before an import author was configured

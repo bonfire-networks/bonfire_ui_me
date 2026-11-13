@@ -42,4 +42,18 @@ defmodule Bonfire.UI.Me.RemoteInteractionByIdTest do
     refute html =~ "Interact remotely"
     refute html =~ Bonfire.Common.URIs.canonical_url(post, preload_if_needed: true)
   end
+
+  # the sign-in and sign-up tabs are on the same page, but its heading is the interaction, not one of them
+  test "the page heading names the interaction, not the sign-up tab" do
+    {:ok, _view, html} =
+      live(conn(), "/remote_interaction?type=message&url=https://example.local/x")
+
+    doc = Floki.parse_document!(html)
+
+    # the positive first: the sign-up tab is on the page
+    assert Floki.text(doc) =~ "Sign up"
+
+    assert doc |> Floki.find("[data-role=page-title]") |> Floki.text() |> String.trim() ==
+             "Remote interaction"
+  end
 end
