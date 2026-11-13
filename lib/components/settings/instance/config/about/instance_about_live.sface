@@ -53,6 +53,67 @@
     description={l("Links shown to visitors on the guest homepage (e.g., forum, chat, documentation).")}
   />
 
+  {!-- the feedback widget and the getting-started checklist's wishes step both read these --}
+  <div data-id="feedback_settings" class="flex flex-col gap-4">
+    <div class="font-medium">{l("Feedback")}</div>
+    <div class="text-sm text-muted">{l(
+        "Ask people what they want of this place: link to a form, or, with no form, open the composer to post in a group or topic."
+      )}</div>
+
+    <form phx-submit="Bonfire.Common.Settings:save" class="flex flex-col gap-4">
+      <Bonfire.UI.Common.SettingsInputLive
+        scope={:instance}
+        name={l("Title")}
+        keys={[Bonfire.UI.Common.WidgetFeedbackLive, :title]}
+        placeholder={l("Feedback")}
+        submit_button={false}
+      />
+      <Bonfire.UI.Common.SettingsTextareaLive
+        scope={:instance}
+        name={l("Text")}
+        keys={[Bonfire.UI.Common.WidgetFeedbackLive, :text]}
+        placeholder={l("Help shape what comes next: what you say drives what gets built.")}
+        submit_button={false}
+      />
+      <Bonfire.UI.Common.SettingsInputLive
+        scope={:instance}
+        name={l("Feedback form address (URL)")}
+        description={l(
+          "The web address of a form where people give their feedback, eg. a survey. The button opens it. Leave blank to have people post in a group or topic instead."
+        )}
+        keys={[Bonfire.UI.Common.WidgetFeedbackLive, :url]}
+        placeholder="https://"
+        submit_button={false}
+      />
+      <Bonfire.UI.Common.SettingsSelectLive
+        scope={:instance}
+        id="feedback_context_id"
+        name={l("Group or topic to post in")}
+        description={l(
+          "Used when there is no form link. Only signed-in people can post, so guests don't see the widget then."
+        )}
+        label_name={l("Group or topic to post in")}
+        keys={[Bonfire.UI.Common.WidgetFeedbackLive, :context_id]}
+        options={Bonfire.UI.Common.WidgetFeedbackLive.context_options(@__context__)}
+      />
+      <Bonfire.UI.Common.SettingsTextareaLive
+        scope={:instance}
+        name={l("Text to start the post with")}
+        keys={[Bonfire.UI.Common.WidgetFeedbackLive, :template]}
+        submit_button={false}
+      />
+      <Bonfire.UI.Common.SettingsInputLive
+        scope={:instance}
+        name={l("Button text")}
+        description={l("The words on the button, not where it goes.")}
+        keys={[Bonfire.UI.Common.WidgetFeedbackLive, :cta_label]}
+        placeholder={l("Share your wishes")}
+        submit_button={false}
+      />
+      <button type="submit" class="btn btn-sm btn-soft btn-primary self-start">{l("Save")}</button>
+    </form>
+  </div>
+
   <div class="font-medium">{l("Components to include on the guest homepage")}</div>
   <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={:instance} type="hidden">
