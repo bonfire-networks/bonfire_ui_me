@@ -189,8 +189,12 @@
                                 id={Bonfire.Me.Characters.display_username(@user, true)}
                                 data-clipboard-text={Bonfire.Me.Characters.display_username(@user, true)}
                                 title={l("Click to copy username")}
-                                class="font-normal cursor-copy tooltip tooltip-right truncate text-base text-base-content"
-                              >{Bonfire.Me.Characters.display_username(@user, true)}</span>
+                                class="font-normal cursor-pointer tooltip tooltip-right inline-flex items-center gap-1.5 min-w-0 text-base text-base-content"
+                              >
+                                {!-- with the copy icon a group's address has, and a normal pointer. Was: class="font-normal cursor-copy tooltip tooltip-right truncate text-base text-base-content", the username as its only content --}
+                                <span class="truncate">{Bonfire.Me.Characters.display_username(@user, true)}</span>
+                                <#Icon iconify="ph:copy-duotone" class="size-4 shrink-0 text-muted" />
+                              </span>
                               {!-- TODO: add widgets from config instead of hardcoded --}
                               <StatelessComponent
                                 module={maybe_component(Bonfire.OpenScience.Orcid.AboutLive)}

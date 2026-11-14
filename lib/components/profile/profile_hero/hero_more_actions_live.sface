@@ -16,18 +16,11 @@
     </:trigger>
 
     <li :if={@permalink}>
-      <a
-        phx-hook="Copy"
+      <Bonfire.UI.Common.CopyLinkLive
         id={deterministic_dom_id(__MODULE__, id(@user), "hero_action_copy_url", @parent_id)}
-        href={@permalink}
-        data-share
-        target="_top"
-        class="flex items-center gap-3 text-sm text-base-content"
-      >
-        <#Icon iconify="ph:copy-duotone" class="size-4 shrink-0 text-muted" />
-        <span class="flex-1 truncate" data-role="label">{l("Copy link")}</span>
-        <span class="flex-1 truncate" data-role="share-label">{l("Share")}</span>
-      </a>
+        url={@permalink}
+        share
+      />
     </li>
     <li>
       <StatelessComponent
