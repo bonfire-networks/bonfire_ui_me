@@ -61,14 +61,18 @@
             {#match _}
           {/case}
           <!-- <div data-role="extension_settings"> -->
-          <Bonfire.UI.Common.WidgetsLive
-            widgets={Enum.filter(extension_settings, &visible_in_scope?(&1, @scope))}
-            container_class="divide-hair divide-divider"
-            extra_data={scope: @scope}
-            wrapper_class="my-card pb-card"
-            with_title
-            with_description
-          />
+          {#case Enum.filter(extension_settings, &visible_in_scope?(&1, @scope))}
+            {#match visible_settings}
+              {!-- a lone section would repeat the extension header above, so it only gets its own title when there are several --}
+              <Bonfire.UI.Common.WidgetsLive
+                widgets={visible_settings}
+                container_class="divide-hair divide-divider"
+                extra_data={scope: @scope}
+                wrapper_class="my-card pb-card"
+                with_title={length(visible_settings) > 1}
+                with_description={length(visible_settings) > 1}
+              />
+          {/case}
         </div>
       {#match _}
         <div class="p-6">
