@@ -45,7 +45,12 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
   test "a blocked account still gets the neutral response without crashing" do
     account = fake_account!()
     user = fake_user!(account)
-    {:ok, _} = Bonfire.Boundaries.Blocks.block(user, :ghost, :instance_wide)
+
+    {:ok, _} =
+      Bonfire.Boundaries.Blocks.block(user, :ghost,
+        scope: :instance_wide,
+        skip_boundary_check: true
+      )
 
     resp = submit_forgot(account.email.email_address)
     assert resp.resp_body =~ "Check your inbox"

@@ -57,13 +57,6 @@ defmodule Bonfire.UI.Me.UploadAuthBackgroundLive do
     end
   end
 
-  def handle_progress(type, entry, socket) do
-    Bonfire.UI.Common.LiveHandlers.handle_progress(
-      type,
-      entry,
-      socket,
-      __MODULE__,
-      __MODULE__
-    )
-  end
+  # an upload under any other name is not ours to handle
+  def handle_progress(_type, _entry, socket), do: {:noreply, socket}
 end

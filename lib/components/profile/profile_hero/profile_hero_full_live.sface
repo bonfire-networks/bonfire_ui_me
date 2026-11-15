@@ -51,7 +51,8 @@
                     src={banner_url}
                     style="display:none;"
                     aria-hidden="true"
-                    data-on-error={JS.push("Bonfire.Federate.ActivityPub:refetch_profile:#{id(@user)}")}
+                    data-on-error={if current_user_id(@__context__),
+                      do: JS.push("Bonfire.Federate.ActivityPub:refetch_profile:#{id(@user)}")}
                     onerror="if(window.liveSocket&&this.dataset.onError)liveSocket.execJS(this,this.dataset.onError)"
                   />
                 {/if}

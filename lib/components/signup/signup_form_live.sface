@@ -173,30 +173,58 @@
             </Field>
           </Inputs>
           <Inputs for={:credential} :let={form: f}>
-            <Field name={:password}>
-              <Bonfire.UI.Me.PasswordInputLive
-                id={f[:password].id}
-                name={f[:password].name}
-                label={if @open_id_provider,
-                  do: l("Password (optional, 10 characters minimum)"),
-                  else: l("Choose a password (10 characters minimum)")}
-                placeholder={l("Type a strong password")}
-                autocomplete="new-password"
-                required={!@open_id_provider}
-              />
-              <ErrorTag />
-            </Field>
-            <Field name={:password_confirmation}>
-              <Bonfire.UI.Me.PasswordInputLive
-                id={f[:password_confirmation].id}
-                name={f[:password_confirmation].name}
-                label={l("Confirm your password")}
-                placeholder={l("Enter the same password again")}
-                autocomplete="new-password"
-                required={!@open_id_provider}
-              />
-              <ErrorTag />
-            </Field>
+            {!-- the same rule the signup itself follows: without a password, they sign in through the service or by email link --}
+            {#case Bonfire.Me.Accounts.password_optional?(open_id_provider: @open_id_provider)}
+              {#match true}
+                <details data-role="optional_password" class="mt-2">
+                  <summary class="cursor-pointer text-sm link link-hover">{l("Set a password (optional)")}</summary>
+                  <Field name={:password}>
+                    <Bonfire.UI.Me.PasswordInputLive
+                      id={f[:password].id}
+                      name={f[:password].name}
+                      label={l("Password (optional, 10 characters minimum)")}
+                      placeholder={l("Type a strong password")}
+                      autocomplete="new-password"
+                      required={false}
+                    />
+                    <ErrorTag />
+                  </Field>
+                  <Field name={:password_confirmation}>
+                    <Bonfire.UI.Me.PasswordInputLive
+                      id={f[:password_confirmation].id}
+                      name={f[:password_confirmation].name}
+                      label={l("Confirm your password")}
+                      placeholder={l("Enter the same password again")}
+                      autocomplete="new-password"
+                      required={false}
+                    />
+                    <ErrorTag />
+                  </Field>
+                </details>
+              {#match _}
+                <Field name={:password}>
+                  <Bonfire.UI.Me.PasswordInputLive
+                    id={f[:password].id}
+                    name={f[:password].name}
+                    label={l("Choose a password (10 characters minimum)")}
+                    placeholder={l("Type a strong password")}
+                    autocomplete="new-password"
+                    required
+                  />
+                  <ErrorTag />
+                </Field>
+                <Field name={:password_confirmation}>
+                  <Bonfire.UI.Me.PasswordInputLive
+                    id={f[:password_confirmation].id}
+                    name={f[:password_confirmation].name}
+                    label={l("Confirm your password")}
+                    placeholder={l("Enter the same password again")}
+                    autocomplete="new-password"
+                    required
+                  />
+                  <ErrorTag />
+                </Field>
+            {/case}
           </Inputs>
 
           {!-- {#case @auth_second_factor_secret}

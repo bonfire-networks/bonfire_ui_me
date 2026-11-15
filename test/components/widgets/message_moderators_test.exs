@@ -30,7 +30,7 @@ defmodule Bonfire.UI.Me.MessageModeratorsTest do
     Process.put([:bonfire, :default_pagination_limit], 10)
 
     account = fake_account!()
-    {:ok, staff} = Bonfire.Me.Users.make_admin(fake_user!(account))
+    {:ok, staff} = Bonfire.Me.Users.make_admin(fake_user!(account), skip_boundary_check: true)
     Bonfire.Me.Fake.instance_moderator!(staff)
     sender = fake_user!(fake_account!())
     bot = Bonfire.Federate.ActivityPub.AdapterUtils.get_or_create_service_character()

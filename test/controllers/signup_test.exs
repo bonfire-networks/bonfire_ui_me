@@ -171,7 +171,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
 
       {:ok, admin_user} =
         fake_user!(some_account)
-        |> Bonfire.Me.Users.make_admin()
+        |> Bonfire.Me.Users.make_admin(skip_boundary_check: true)
 
       Bonfire.Me.Fake.clear_caches()
 
@@ -321,6 +321,69 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       assert Floki.text(doc) =~ "finish signing up"
       assert [_form] = Floki.find(doc, "#signup-form")
       assert [] = Floki.find(doc, "[data-role=invite_only_notice]")
+      # they sign in through the service, so a password is only an extra, folded away
+      assert_optional_password(doc)
+    end
+
+    # an instance that signs people in by email link: a password is something they may add, not something asked of them
+    defp with_passwordless_login,
+      do: Process.put([:bonfire_ui_me, :login, :passwordless_only], true)
+
+    defp assert_optional_password(doc) do
+      assert [details] = Floki.find(doc, "#signup-form details[data-role=optional_password]")
+      # closed until they choose to open it
+      assert [] = Floki.attribute(details, "open")
+      assert Floki.text(Floki.find(details, "summary")) =~ "Set a password (optional)"
+      assert [_, _] = Floki.find(details, "input[type=password]")
+      assert [] = Floki.find(doc, "#signup-form input[type=password][required]")
+    end
+
+    test "with email-link sign-in, the invite link's form folds the password away as optional",
+         %{invite: invite} do
+      with_passwordless_login()
+
+      doc = conn() |> get("/signup/invitation/#{invite.id}") |> floki_response()
+
+      # the positive first: this is the sign-up form, not the invite-only notice
+      assert [_form] = Floki.find(doc, "#signup-form")
+      assert_optional_password(doc)
+    end
+
+    test "with email-link sign-in, an invite signup with no password creates the account and spends the invite",
+         %{invite: invite} do
+      with_passwordless_login()
+      email = email()
+
+      conn()
+      |> get("/signup/invitation/#{invite.id}")
+      |> recycle()
+      |> post("/signup", %{"account" => %{"email" => %{"email_address" => email}}})
+
+      assert %{} = account = Bonfire.Me.Accounts.get_by_email(email)
+      refute Bonfire.Me.Accounts.account_has_password?(account)
+      {:ok, updated_invite} = Bonfire.Invite.Links.get(invite.id)
+      assert updated_invite.max_uses == 2
+    end
+
+    test "with email-link sign-in, someone who chooses a password still gets it", %{
+      invite: invite
+    } do
+      with_passwordless_login()
+      email = email()
+      password = password()
+
+      conn()
+      |> get("/signup/invitation/#{invite.id}")
+      |> recycle()
+      |> post("/signup", %{
+        "account" => %{
+          "email" => %{"email_address" => email},
+          "credential" => %{"password" => password, "password_confirmation" => password}
+        }
+      })
+
+      assert %{} = account = Bonfire.Me.Accounts.get_by_email(email)
+      assert Bonfire.Me.Accounts.account_has_password?(account)
     end
 
     test "coming back from a sign-in service that shares no email, with no invite, is still told it is invite-only" do

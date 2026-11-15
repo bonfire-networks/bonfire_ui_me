@@ -278,7 +278,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn() |> get_conn_render("/") |> assert_has("#community-admins")
 
       moderator = fake_user!(fake_account!())
-      assert {:ok, _} = Bonfire.Me.Users.make_moderator(moderator)
+      assert {:ok, _} = Bonfire.Me.Users.make_moderator(moderator, skip_boundary_check: true)
 
       conn()
       |> get_conn_render("/")

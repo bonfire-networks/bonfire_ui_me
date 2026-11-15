@@ -42,7 +42,11 @@ defmodule Bonfire.UI.Me.Boundaries.InstanceWideGhostActorTest do
     account = fake_account!()
     alice_user = fake_user!(account)
     bob_user = fake_user!(account)
-    Bonfire.Boundaries.Blocks.block(bob_user, :ghost, :instance_wide)
+
+    Bonfire.Boundaries.Blocks.block(bob_user, :ghost,
+      scope: :instance_wide,
+      skip_boundary_check: true
+    )
 
     conn = conn(account: account)
     assert catch_throw(get(conn, "/switch-user/#{bob_user.character.username}"))
