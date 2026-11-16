@@ -95,7 +95,8 @@ defmodule Bonfire.UI.Me.SignupController do
   end
 
   def attempt_signup(conn, account_attrs, form \\ %{}, opts \\ []) do
-    debug(account_attrs, "Account attributes")
+    # the attributes hold the plaintext password, so only log which keys were sent
+    debug(Map.keys(account_attrs), "Account attributes keys")
 
     Accounts.signup(
       account_attrs,

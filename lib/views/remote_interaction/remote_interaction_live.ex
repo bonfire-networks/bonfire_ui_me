@@ -79,11 +79,16 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
     end
   end
 
-  # the address the request came from, as the socket's connect info gives it (also on the first, static render)
+  # the client's address, as the socket's connect info gives it (also on the first, static render): the one a trusted proxy forwards, else the connection's own (same rule as the `TrustedRemoteIp` plug)
   defp peer_ip(socket) do
     with connect_info when not is_nil(connect_info) <- socket.private[:connect_info],
          %{address: address} <- Phoenix.LiveView.get_connect_info(socket, :peer_data),
-         ip when is_list(ip) <- :inet.ntoa(address) do
+         client =
+           Bonfire.UI.Common.Plugs.TrustedRemoteIp.client_ip(
+             address,
+             Phoenix.LiveView.get_connect_info(socket, :x_headers)
+           ),
+         ip when is_list(ip) <- :inet.ntoa(client) do
       to_string(ip)
     else
       _ -> nil
