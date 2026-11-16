@@ -160,7 +160,7 @@ defmodule Bonfire.UI.Me.AccountVerificationControllerTest do
       assert_receive {:sudo_mail, _, _}, 1000
     end
 
-    test "resend re-mails the outstanding valid token unchanged (single-outstanding-token semantics)" do
+    test "resend mails a fresh token and the previous one stops working (single-outstanding-token semantics)" do
       capture_mail()
       account = passwordless_account!()
 
@@ -173,7 +173,11 @@ defmodule Bonfire.UI.Me.AccountVerificationControllerTest do
       |> post("/account/verify/send_email", %{"for" => @delete_mod, "go" => "/somewhere"})
 
       assert_receive {:sudo_mail, _, _}, 1000
-      assert Bonfire.Common.Repo.get!(Email, account.id).confirm_token == token_before
+
+      # the stored token is hashed, so the mail can't repeat it: the new mail carries a new token, replacing the old
+      token_after = Bonfire.Common.Repo.get!(Email, account.id).confirm_token
+      assert is_binary(token_after)
+      refute token_after == token_before
     end
 
     test "the emailed challenge on a passwordless instance links to the sign-in page, not the password reset page or the guest-only signup confirmation" do

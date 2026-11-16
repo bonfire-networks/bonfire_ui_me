@@ -42,9 +42,15 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken do
     case token_param(params) || token_param(session_params) do
       token when is_binary(token) ->
         case verify_token(token) do
-          {:ok, user_id} ->
+          {:ok, user_id, issued_at} ->
             user = Bonfire.UI.Me.LivePlugs.LoadCurrentUser.get_current(user_id, nil)
-            Bonfire.UI.Me.LivePlugs.LoadCurrentUser.assign_current_user(socket, user)
+
+            # a token issued before the account's other sessions were revoked (password or email change, reset) no longer signs anyone in
+            if revoked?(user, issued_at) do
+              {:ok, socket}
+            else
+              Bonfire.UI.Me.LivePlugs.LoadCurrentUser.assign_current_user(socket, user)
+            end
 
           :error ->
             {:ok, socket}
@@ -58,9 +64,20 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken do
   defp token_param(%{@param_name => token}) when is_binary(token), do: token
   defp token_param(_), do: nil
 
-  @doc "Sign a long-lived embed token for the given user ID."
+  @doc "Sign a long-lived embed token for the given user ID. It carries when it was issued, so revoking the account's other sessions ends it."
   def sign(_conn_or_endpoint \\ nil, user_id) do
-    Bonfire.Me.Auth.BearerToken.sign(%{user_id: user_id}, salt: @token_salt)
+    Bonfire.Me.Auth.BearerToken.sign(
+      %{user_id: user_id, issued_at: System.system_time(:millisecond)},
+      salt: @token_salt
+    )
+  end
+
+  defp revoked?(user, issued_at) do
+    account =
+      e(user, :account, nil) ||
+        Bonfire.Me.Accounts.get_current(e(user, :accounted, :account_id, nil))
+
+    Bonfire.Me.Accounts.session_revoked?(account, issued_at)
   end
 
   @doc """
@@ -83,15 +100,26 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUserFromEmbedToken do
   end
 
   def valid_token?(%{@param_name => token}) when is_binary(token) do
-    match?({:ok, _}, verify_token(token))
+    # a token issued before the account's other sessions were revoked is not valid, as at mount: one account lookup, only for requests carrying a token
+    case verify_token(token) do
+      {:ok, user_id, issued_at} ->
+        not revoked?(Bonfire.UI.Me.LivePlugs.LoadCurrentUser.get_current(user_id, nil), issued_at)
+
+      :error ->
+        false
+    end
   end
 
   def valid_token?(_), do: false
 
+  # `issued_at` is nil for a token signed before tokens carried it
   defp verify_token(token) do
     case Bonfire.Me.Auth.BearerToken.verify(token, salt: @token_salt, max_age: @max_age) do
-      {:ok, %{user_id: user_id}} when is_binary(user_id) -> {:ok, user_id}
-      _ -> :error
+      {:ok, %{user_id: user_id} = payload} when is_binary(user_id) ->
+        {:ok, user_id, payload[:issued_at]}
+
+      _ ->
+        :error
     end
   end
 end

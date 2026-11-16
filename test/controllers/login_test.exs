@@ -212,7 +212,9 @@ defmodule Bonfire.UI.Me.LoginController.Test do
         })
 
       assert resp.resp_body =~ "Check your inbox"
-      assert_email_sent(to: account.email.email_address)
+      # sent in the background
+      address = account.email.email_address
+      assert_receive {:email, %{to: [{_, ^address}]}}, 2_000
     end
   end
 

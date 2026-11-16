@@ -55,9 +55,11 @@ defmodule Bonfire.UI.Me.ChangePasswordController do
       Bonfire.Me.SensitiveActions.fresh?(session["sudo_proof"] || %{}, [:email])
   end
 
-  defp changed(conn, _account) do
+  defp changed(conn, account) do
     conn
     |> delete_session(:resetting_password)
+    # the account's other sessions end, this one stays signed in
+    |> Bonfire.UI.Me.Sudo.revoke_other_sessions(account)
     # the user just set this password, so it counts as a live password factor (also how a reset self-recovers a sudo password challenge)
     |> Bonfire.UI.Me.Sudo.stamp(:password)
     |> assign_flash(

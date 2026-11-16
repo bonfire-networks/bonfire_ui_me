@@ -216,6 +216,22 @@ defmodule Bonfire.Me.Users.LiveHandler do
     |> Enum.each(&force_logout_user/1)
   end
 
+  @doc "Takes a user out of every session that has it selected, keeping their account signed in, eg. once the user is queued for deletion: disconnects its open pages, and on their next request the sessions go to the profile switcher. A user already forced out stays fully logged out."
+  def deselect_user_everywhere(user_id) when is_binary(user_id) do
+    Utils.maybe_apply(
+      Bonfire.Web.Endpoint,
+      :broadcast,
+      ["socket_user:#{user_id}", "disconnect", %{}]
+    )
+
+    if !Bonfire.Common.Cache.get!("force_logout:#{user_id}") do
+      Bonfire.Common.Cache.put("force_logout:#{user_id}", :deselect,
+        expire: :timer.hours(24 * 60),
+        async: false
+      )
+    end
+  end
+
   @doc "Remove the force-logout flag for a user, re-allowing login"
   def cancel_force_logout_user(user_id) when is_binary(user_id),
     do: Bonfire.Common.Cache.remove("force_logout:#{user_id}")

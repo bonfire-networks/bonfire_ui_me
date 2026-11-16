@@ -120,7 +120,17 @@ defmodule Bonfire.UI.Me.AccountVerificationController do
     with {:ok, account} <- logged_in_account(conn),
          {:ok, module} <- SensitiveActions.resolve(action),
          true <- Sudo.met?(conn, module, account),
-         {:ok, _} <- module.execute(%{account: account, target_id: params["target"]}) do
+         {:ok, result} <- module.execute(%{account: account, target_id: params["target"]}) do
+      # an action that ended the account's other sessions leaves this one signed in
+      conn =
+        case result do
+          %{sessions_revoked_at: at} when is_integer(at) ->
+            put_session(conn, :session_started_at, at)
+
+          _ ->
+            conn
+        end
+
       render_page(conn, :done, e(describe(module, account, params), :success, nil),
         go: local_go(params["go"])
       )
@@ -151,11 +161,12 @@ defmodule Bonfire.UI.Me.AccountVerificationController do
   defp describe(module, account, params),
     do: module.describe(%{account: account, target_id: params["target"]})
 
-  defp verify_path(action, go),
+  @doc "Where to send a session whose proof is missing or stale: the verify page, which returns to `go` once the requirement is met."
+  def verify_path(action, go),
     do: path(:sudo_verify) <> "?" <> URI.encode_query([{"for", action}, {"go", go}])
 
-  # go rides along so the done page can link back, unless it is just home
-  defp confirm_url(action, target, go) do
+  @doc "The confirm page for an action and its target. go rides along so the done page can link back, unless it is just home."
+  def confirm_url(action, target, go) do
     query = [action: action]
     query = if target, do: query ++ [target: target], else: query
     query = if go not in [nil, "/"], do: query ++ [go: go], else: query

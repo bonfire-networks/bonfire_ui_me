@@ -243,7 +243,7 @@ defmodule Bonfire.UI.Me.ConfirmEmailController.Test do
       assert Floki.text(button) =~ "Confirm"
 
       email = stored_email(account)
-      assert email.confirm_token == token
+      assert email.confirm_token == Bonfire.Data.Identity.Email.ConfirmToken.hash(token)
       assert is_nil(email.confirmed_at)
     end
 

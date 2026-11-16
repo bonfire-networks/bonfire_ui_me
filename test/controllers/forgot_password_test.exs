@@ -12,22 +12,48 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
     post(conn(), "/login/forgot-password", %{"forgot_password_fields" => %{"email" => email}})
   end
 
-  # When mail can't be sent, `resend_confirm_email/2` falls out of its `with` and
-  # returns the raw mailer error, which the controller can only render as the
-  # generic "Something went wrong" box — so a broken mailer takes out the one
-  # recovery path available to someone whose email address is already claimed.
-  test "a mailer failure breaks the reset-link request instead of the neutral response" do
+  # the mail is sent in the background, so wait for it
+  defp await_email do
+    assert_receive {:email, email}, 2_000
+    email
+  end
+
+  # the database only holds the token's hash, so the token is read from the mail
+  defp token_in(email) do
+    assert [_, token] =
+             Regex.run(~r{/login/(?:email|forgot-password)/([A-Za-z0-9]+)}, email.text_body)
+
+    token
+  end
+
+  # The mail is sent in the background, so the request can't see the mailer's
+  # result: a broken mailer gives the same neutral response as a working one (an
+  # error page would tell that the address has an account), and the failure is
+  # logged.
+  test "a mailer failure still shows the neutral response, and is logged" do
     account = fake_account!()
     fake_user!(account)
+    test_pid = self()
 
-    Repatch.patch(Bonfire.Mailer, :send_now, fn _mail, _to ->
+    # shared, because the mail is sent from another process
+    Repatch.patch(Bonfire.Mailer, :send_now, [mode: :shared], fn _mail, _to ->
+      send(test_pid, :mailer_called)
       {:error, {:partial_failure, [:no_credentials]}}
     end)
 
-    resp = submit_forgot(account.email.email_address)
+    log =
+      ExUnit.CaptureLog.capture_log(fn ->
+        resp = submit_forgot(account.email.email_address)
 
-    refute resp.resp_body =~ "Check your inbox"
-    assert resp.resp_body =~ "Something went wrong"
+        assert resp.resp_body =~ "Check your inbox"
+        refute resp.resp_body =~ "Something went wrong"
+
+        assert_receive :mailer_called, 2_000
+        # the task logs just after the mailer returns
+        Process.sleep(200)
+      end)
+
+    assert log =~ "Could not send signup confirmation email"
   end
 
   test "unknown email shows a neutral success message" do
@@ -70,28 +96,26 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
     @go "/some-article"
 
     # Request a magic link for `email`, passing a top-level `go` (as the passwordless
-    # login form does), then return the freshly-generated confirm token from the DB.
+    # login form does), then return the confirm token from the mail.
     defp request_magic_link(email, go) do
       post(conn(), "/login/forgot-password", %{
         "forgot_password_fields" => %{"email" => email},
         "go" => go
       })
 
-      Accounts.get_by_email(email)
-      |> repo().preload(:email)
-      |> Map.fetch!(:email)
-      |> Map.fetch!(:confirm_token)
+      await_email() |> token_in()
     end
 
     test "requesting a link emails a URL containing the go destination" do
       account = fake_account!()
       fake_user!(account)
 
-      request_magic_link(account.email.email_address, @go)
+      post(conn(), "/login/forgot-password", %{
+        "forgot_password_fields" => %{"email" => account.email.email_address},
+        "go" => @go
+      })
 
-      assert_email_sent(fn email ->
-        email.text_body =~ "go=" <> URI.encode_www_form(@go)
-      end)
+      assert await_email().text_body =~ "go=" <> URI.encode_www_form(@go)
     end
 
     test "clicking the link (single user) redirects to go" do
@@ -140,7 +164,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
 
       resp = submit_forgot(user.character.username)
 
-      assert_email_sent(to: address)
+      assert Enum.any?(await_email().to, fn {_name, to} -> to == address end)
       assert resp.resp_body =~ "Check your inbox"
       assert resp.resp_body =~ user.character.username
       # showing the address found for a username would reveal it to whoever typed the username
@@ -171,7 +195,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
       assert resp.resp_body =~ "Check your inbox"
 
       assert Accounts.get_by_email(email)
-      assert_email_sent()
+      await_email()
     end
 
     test "an unknown off-list email provisions nothing and stays neutral" do
@@ -186,11 +210,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
       email = "newbie-#{System.unique_integer([:positive])}@example.com"
       submit_forgot(email)
 
-      token =
-        Accounts.get_by_email(email)
-        |> repo().preload(:email)
-        |> Map.fetch!(:email)
-        |> Map.fetch!(:confirm_token)
+      token = await_email() |> token_in()
 
       assert is_binary(token)
       conn = post(conn(), "/login/email/#{token}")
@@ -228,7 +248,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
       # a request made on a passwordless instance mails a sign-in link, otherwise a reset link
       passwordless(kind == :sign_in)
       submit_forgot(address)
-      {address, token_for(address)}
+      {address, await_email() |> token_in()}
     end
 
     test "opening a sign-in link only shows a page: nobody is signed in and the token stays" do
@@ -241,7 +261,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
       assert [form] = Floki.find(floki_response(conn), "#confirm-link-form")
       assert [action] = Floki.attribute(form, "action")
       assert action == "/login/email/#{token}?go=#{URI.encode_www_form(@go)}"
-      assert token_for(address) == token
+      assert token_for(address) == Bonfire.Data.Identity.Email.ConfirmToken.hash(token)
     end
 
     test "a mail scanner opening the sign-in link twice doesn't stop the person signing in" do
@@ -269,7 +289,7 @@ defmodule Bonfire.UI.Me.ForgotPasswordController.Test do
       assert conn.status == 200
       refute get_session(conn, :resetting_password)
       assert [_] = Floki.find(floki_response(conn), "#confirm-link-form")
-      assert token_for(address) == token
+      assert token_for(address) == Bonfire.Data.Identity.Email.ConfirmToken.hash(token)
 
       conn = post(build_conn(), "/login/forgot-password/#{token}")
       assert get_session(conn, :resetting_password)

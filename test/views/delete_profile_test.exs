@@ -135,6 +135,75 @@ defmodule Bonfire.UI.Me.DeleteProfileTest do
     assert {:ok, _} = DeleteUser.execute(%{account: new_owner, target_id: alice.id})
   end
 
+  describe "other devices" do
+    test "with the deleted profile selected go to the profile switcher", %{
+      account: account,
+      alice: alice
+    } do
+      other_device = conn(user: alice, account: account)
+      assert {:ok, _} = DeleteUser.execute(%{account: account, target_id: alice.id})
+
+      assert redirected_to(get(other_device, "/settings/user/profile")) =~ "/switch-user"
+    end
+
+    test "with a profile the worker already deleted go to the profile switcher", %{
+      account: account,
+      alice: alice
+    } do
+      other_device = conn(user: alice, account: account)
+      Bonfire.Me.DeleteWorker.delete_now([alice.id])
+
+      assert redirected_to(get(other_device, "/settings/user/profile")) =~ "/switch-user"
+    end
+
+    test "have their open pages disconnected", %{account: account, alice: alice} do
+      Bonfire.Web.Endpoint.subscribe("socket_user:#{alice.id}")
+      assert {:ok, _} = DeleteUser.execute(%{account: account, target_id: alice.id})
+
+      assert_receive %Phoenix.Socket.Broadcast{event: "disconnect"}
+    end
+
+    test "reconnecting a page go to the profile switcher", %{account: account, alice: alice} do
+      session = %{"current_user_id" => alice.id, "current_account_id" => account.id}
+      socket = %Phoenix.LiveView.Socket{assigns: %{__changed__: %{}, flash: %{}}}
+      assert {:ok, _} = DeleteUser.execute(%{account: account, target_id: alice.id})
+
+      assert {:cont, socket} =
+               Bonfire.UI.Me.LivePlugs.LoadCurrentUser.on_mount(:default, nil, session, socket)
+
+      assert {:halt, socket} =
+               Bonfire.UI.Me.LivePlugs.UserRequired.on_mount(:default, nil, session, socket)
+
+      assert {_, %{to: to}} = socket.redirected
+      assert to =~ "/switch-user"
+    end
+
+    test "are logged out when the whole account is deleted", %{account: account, alice: alice} do
+      with_profile = conn(user: alice, account: account)
+      account_only = conn(account: account)
+
+      assert {:ok, _} =
+               Bonfire.Me.SensitiveActions.DeleteAccount.execute(%{
+                 account: account,
+                 target_id: nil
+               })
+
+      assert redirected_to(get(with_profile, "/settings/user/profile")) =~ "/login"
+      assert redirected_to(get(account_only, "/switch-user")) =~ "/login"
+    end
+
+    test "stay logged out when a force-logged-out profile is then deleted", %{
+      account: account,
+      alice: alice
+    } do
+      other_device = conn(user: alice, account: account)
+      Bonfire.Me.Users.LiveHandler.force_logout_user(alice.id)
+      assert {:ok, _} = DeleteUser.execute(%{account: account, target_id: alice.id})
+
+      assert redirected_to(get(other_device, "/settings/user/profile")) =~ "/login"
+    end
+  end
+
   defp verified_conn(account) do
     conn(account: account)
     |> init_test_session(%{sudo_proof: %{password: System.system_time(:millisecond)}})

@@ -259,12 +259,19 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       Repatch.patch(OpenIDConnect, :verify, fn _provider, _token ->
         {:ok,
          Map.merge(
-           %{"iss" => "https://orcid.org", "sub" => "0000-0002-1825-0097", "name" => "A Person"},
+           %{
+             "iss" => "https://orcid.org",
+             "sub" => "0000-0002-1825-0097",
+             "name" => "A Person",
+             # the service echoes the nonce it was sent
+             "nonce" => Process.get(:oidc_nonce)
+           },
            claims
          )}
       end)
 
       Repatch.patch(OpenIDConnect, :authorization_uri, fn _provider, _redirect_uri, params ->
+        Process.put(:oidc_nonce, params["nonce"])
         {:ok, "https://orcid.org/authorize?" <> URI.encode_query(params)}
       end)
 
@@ -452,9 +459,10 @@ defmodule Bonfire.UI.Me.SignupController.Test do
     # Reported by a client: participants invited to a workshop were told
     # "the e-mail address has already been taken" on every attempt, even though
     # (as far as the admin could see) no such account existed.
-    test "a second signup with an unconfirmed email directs to confirmation recovery", %{
-      invite: invite
-    } do
+    test "a second signup with an unconfirmed email shows the same page as a fresh signup and resends the confirmation",
+         %{
+           invite: invite
+         } do
       email = email()
       password = password()
 
@@ -472,6 +480,7 @@ defmodule Bonfire.UI.Me.SignupController.Test do
         |> post("/signup", account_attrs)
 
       assert [_success] = Floki.find(floki_response(conn), "#signup_success")
+      flush_emails()
 
       # second attempt (fresh browser, same invite link, same email)
       conn =
@@ -481,10 +490,28 @@ defmodule Bonfire.UI.Me.SignupController.Test do
 
       doc = floki_response(conn)
 
-      assert [_notice] = Floki.find(doc, "[data-role='email_confirmation_required']")
-      assert [link] = Floki.find(doc, "[data-role='request_confirmation_link']")
-      assert Floki.attribute(link, "href") == ["/signup/email/confirm"]
+      # the same page as a fresh signup: nothing tells that the address already has an account
+      assert [_success] = Floki.find(doc, "#signup_success")
+      assert [] = Floki.find(doc, "[data-role='email_confirmation_required']")
+      assert [] = Floki.find(doc, "[data-role='request_confirmation_link']")
       refute Floki.text(doc) =~ "has already been taken"
+
+      # ...and the confirmation mail goes to that address again
+      assert_confirmation_mail_sent(email)
+    end
+
+    defp flush_emails do
+      receive do
+        {:email, _} -> flush_emails()
+      after
+        0 -> :ok
+      end
+    end
+
+    # the mail is sent in the background
+    defp assert_confirmation_mail_sent(address) do
+      assert_receive {:email, %{to: to}}, 2_000
+      assert Enum.any?(to, fn {_name, to_address} -> to_address == address end)
     end
 
     # The likeliest way the invisible account gets there in the first place:
@@ -527,8 +554,10 @@ defmodule Bonfire.UI.Me.SignupController.Test do
       assert [] = Bonfire.Me.Users.by_account(account_id)
 
       # A later attempt recovers through confirmation rather than claiming the
-      # email is merely taken.
-      Repatch.restore(Bonfire.Mailer, :send_now, 2)
+      # email is merely taken: it shows the same page as a fresh signup, and the
+      # confirmation mail goes out again.
+      Repatch.restore(Bonfire.Mailer, :send_now, 2, mode: :shared)
+      flush_emails()
 
       conn =
         conn()
@@ -536,10 +565,10 @@ defmodule Bonfire.UI.Me.SignupController.Test do
         |> post("/signup", account_attrs)
 
       doc = floki_response(conn)
-      assert [_notice] = Floki.find(doc, "[data-role='email_confirmation_required']")
-      assert [link] = Floki.find(doc, "[data-role='request_confirmation_link']")
-      assert Floki.attribute(link, "href") == ["/signup/email/confirm"]
+      assert [_success] = Floki.find(doc, "#signup_success")
+      assert [] = Floki.find(doc, "[data-role='email_confirmation_required']")
       refute Floki.text(doc) =~ "has already been taken"
+      assert_confirmation_mail_sent(email)
     end
 
     test "can simulate SSO signup with invite", %{invite: invite} do

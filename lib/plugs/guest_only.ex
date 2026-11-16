@@ -24,7 +24,7 @@ defmodule Bonfire.UI.Me.Plugs.GuestOnly do
     params =
       case conn.query_params do
         %{"url" => url} = params when is_binary(url) and url != "" ->
-          if String.starts_with?(url, "/") or
+          if Bonfire.UI.Common.internal_go_path?(url) or
                Bonfire.UI.Me.LoginController.embed_allowed_origin?(url),
              do: Map.put_new(params, "go", url),
              else: params
