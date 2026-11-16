@@ -14,6 +14,7 @@
       />
 
       <section :if={@feed} data-id="dashboard_feed" aria-labelledby="dashboard_feed_heading">
+        {!-- below 80rem the heading is visually hidden (interface.css, next to the page header rule) --}
         <div data-role="widget-header" class="flex items-center">
           <h2 id="dashboard_feed_heading" data-role="widget-heading">{@feed[:page_title] || l("Latest activity")}</h2>
         </div>
