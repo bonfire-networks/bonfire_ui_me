@@ -159,7 +159,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> get_conn_render("/")
       |> assert_has("#guest-groups [data-role=widget-heading]", text: "Groups")
-      # the same row as the /groups directory: the name links to the group, with its joining action beside it, not the compact card
+      # the compact card, with the /groups row's join action
       |> assert_has("#guest-groups article#group-preview-#{id(visible)}",
         text: "Guest visible group"
       )
@@ -168,7 +168,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
         text: "Guest visible group"
       )
       |> assert_has("#guest-groups #group-preview-#{id(visible)} [data-role=group-card-action]")
-      |> refute_has("#guest-groups [data-role=group-card-compact]")
+      |> assert_has("#guest-groups [data-role=group-card-compact]")
       |> refute_has("#guest-groups #group-preview-#{id(private)}")
       |> refute_has("#guest-groups", text: "Members only group")
       |> refute_has("#guest-groups #group-preview-#{id(federated)}")
