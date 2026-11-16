@@ -62,12 +62,34 @@ defmodule Bonfire.UI.Me.RemoteInteractionLive do
            maybe_apply(
              Bonfire.UI.Social.EmbedThreads,
              :get_or_create,
-             [media_uri, params, creator],
+             # a guest's GET can start a thread, so each IP gets a few attempts a minute (the one shared bucket when the address is not known)
+             [
+               media_uri,
+               params,
+               creator,
+               [rate_limit_ip: e(assigns(socket), :user_ip, nil) || peer_ip(socket) || "unknown"]
+             ],
              fallback_return: nil
            ),
          ap_id when is_binary(ap_id) <-
            Bonfire.Common.URIs.canonical_url(media) do
       ap_id
+    else
+      _ -> nil
+    end
+  end
+
+  # the client's address, as the socket's connect info gives it (also on the first, static render): the one a trusted proxy forwards, else the connection's own (same rule as the `TrustedRemoteIp` plug)
+  defp peer_ip(socket) do
+    with connect_info when not is_nil(connect_info) <- socket.private[:connect_info],
+         %{address: address} <- Phoenix.LiveView.get_connect_info(socket, :peer_data),
+         client =
+           Bonfire.UI.Common.Plugs.TrustedRemoteIp.client_ip(
+             address,
+             Phoenix.LiveView.get_connect_info(socket, :x_headers)
+           ),
+         ip when is_list(ip) <- :inet.ntoa(client) do
+      to_string(ip)
     else
       _ -> nil
     end

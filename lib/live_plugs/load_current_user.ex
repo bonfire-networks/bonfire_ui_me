@@ -79,33 +79,22 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
   end
 
   def mount(_, %{"current_user_id" => user_id} = session, socket) when is_binary(user_id) do
-    if Bonfire.Common.Cache.get!("force_logout:#{user_id}") do
-      {:ok,
-       assign_global(socket,
-         current_user: nil,
-         current_user_id: nil,
-         current_account: nil,
-         current_account_id: nil
-       )}
-    else
-      account_id = current_account_id(assigns(socket)) || session["current_account_id"]
+    # `true` forces a logout, `:deselect` only takes the user out of the session (see `Bonfire.Me.Users.LiveHandler.deselect_user_everywhere/1`)
+    case Bonfire.Common.Cache.get!("force_logout:#{user_id}") do
+      true ->
+        {:ok,
+         assign_global(socket,
+           current_user: nil,
+           current_user_id: nil,
+           current_account: nil,
+           current_account_id: nil
+         )}
 
-      if socket_connected?(socket) || socket.assigns[:__loading_screen__] ||
-           socket.assigns[:force_static] || Config.env() == :test do
-        # Connected mount: full load
+      :deselect ->
+        without_user(session, socket)
 
-        user =
-          time_section :lv_get_current_user do
-            get_current(
-              user_id,
-              account_id
-            )
-          end
-
-        assign_current_user(socket, user)
-      else
-        disconnected_mount(socket, user_id, account_id)
-      end
+      _ ->
+        load_user(user_id, session, socket)
     end
   end
 
@@ -114,6 +103,55 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentUser do
      socket
      |> assign_global(current_user: nil, current_user_id: nil)
      |> Bonfire.UI.Common.ThemeHelper.push_current_theme()}
+  end
+
+  # a user taken out of the session (eg. queued for deletion) or that no longer loads leaves the account signed in, to choose another profile
+  defp without_user(session, socket) do
+    Bonfire.UI.Me.LivePlugs.LoadCurrentAccount.mount(
+      nil,
+      session,
+      assign_global(socket, current_user: nil, current_user_id: nil)
+    )
+  end
+
+  defp load_user(user_id, session, socket) do
+    account_id = current_account_id(assigns(socket)) || session["current_account_id"]
+
+    if socket_connected?(socket) || socket.assigns[:__loading_screen__] ||
+         socket.assigns[:force_static] || Config.env() == :test do
+      # Connected mount: full load
+
+      user =
+        time_section :lv_get_current_user do
+          get_current(
+            user_id,
+            account_id
+          )
+        end
+
+      cond do
+        # a session ended by a password change elsewhere is signed out
+        Bonfire.Me.Accounts.session_revoked?(
+          e(user, :account, nil),
+          session["session_started_at"]
+        ) ->
+          {:ok,
+           assign_global(socket,
+             current_user: nil,
+             current_user_id: nil,
+             current_account: nil,
+             current_account_id: nil
+           )}
+
+        is_nil(user) ->
+          without_user(session, socket)
+
+        true ->
+          assign_current_user(socket, user)
+      end
+    else
+      disconnected_mount(socket, user_id, account_id)
+    end
   end
 
   defp maybe_assign_current_user(socket, user) do

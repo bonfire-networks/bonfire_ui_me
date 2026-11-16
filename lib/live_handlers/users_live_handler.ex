@@ -35,41 +35,34 @@ defmodule Bonfire.Me.Users.LiveHandler do
         %{"object_id" => user_id, "transfer_target" => target} = params,
         socket
       ) do
-    if Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]) do
-      target = String.trim(to_string(target))
+    target = String.trim(to_string(target))
 
-      transfer_opts = [
-        skip_max_per_account: true,
-        # if this profile is an admin, hand admin to the destination account too (else it's revoked)
-        transfer_admin: not empty?(params["transfer_admin"])
-      ]
+    transfer_opts = [
+      current_user: current_user_required!(socket),
+      skip_max_per_account: true,
+      # if this profile is an admin, hand admin to the destination account too (else it's revoked)
+      transfer_admin: not empty?(params["transfer_admin"])
+    ]
 
-      with {%{id: _} = target_account, _target_user} <-
-             Bonfire.Me.Accounts.by_id_email_or_username(target),
-           {:ok, user} <- Users.by_id(user_id),
-           {:ok, _user} <-
-             Users.transfer_to_account(user, target_account, transfer_opts) do
-        {:noreply,
-         assign_flash(socket, :info, l("Profile transferred to %{target}.", target: target))}
-      else
-        nil ->
-          {:noreply,
-           assign_flash(
-             socket,
-             :error,
-             l("No account found for that email or username on this instance.")
-           )}
-
-        e ->
-          {:noreply,
-           assign_flash(
-             socket,
-             :error,
-             l("Could not transfer the profile: %{error}", error: inspect(e))
-           )}
-      end
+    with {:ok, _user} <- Users.transfer_to_account(user_id, target, transfer_opts) do
+      {:noreply,
+       assign_flash(socket, :info, l("Profile transferred to %{target}.", target: target))}
     else
-      error("Not allowed")
+      {:error, :target_not_found} ->
+        {:noreply,
+         assign_flash(
+           socket,
+           :error,
+           l("No account found for that email or username on this instance.")
+         )}
+
+      {:error, :not_permitted} ->
+        {:noreply, assign_flash(socket, :error, l("Only an admin can transfer a profile."))}
+
+      e ->
+        error(e, "Could not transfer the profile")
+
+        {:noreply, assign_flash(socket, :error, l("Could not transfer the profile."))}
     end
   end
 
@@ -142,9 +135,9 @@ defmodule Bonfire.Me.Users.LiveHandler do
         params,
         socket
       ) do
-    with true <- Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]),
-         {:ok, user} <-
+    with {:ok, user} <-
            Bonfire.Me.Users.make_admin(assigns(socket)[:user] || params["username_or_id"],
+             current_user: current_user_required!(socket),
              moderator: not empty?(params["moderator"])
            ) do
       {:noreply,
@@ -152,7 +145,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
        |> assign_flash(:info, l("They are now an admin!"))
        |> assign(user: user)}
     else
-      false ->
+      {:error, :not_permitted} ->
         {:noreply, assign_flash(socket, :error, l("Only an admin can make someone an admin."))}
 
       other ->
@@ -166,15 +159,16 @@ defmodule Bonfire.Me.Users.LiveHandler do
         params,
         socket
       ) do
-    with true <- Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]),
-         {:ok, user} <-
-           Bonfire.Me.Users.revoke_admin(assigns(socket)[:user] || params["username_or_id"]) do
+    with {:ok, user} <-
+           Bonfire.Me.Users.revoke_admin(assigns(socket)[:user] || params["username_or_id"],
+             current_user: current_user_required!(socket)
+           ) do
       {:noreply,
        socket
        |> assign_flash(:info, l("They are no longer an admin."))
        |> assign(user: user)}
     else
-      false ->
+      {:error, :not_permitted} ->
         {:noreply, assign_flash(socket, :error, l("Only an admin can revoke an admin."))}
 
       # eg. the last admin of the instance, which `Users.revoke_admin/1` refuses with a message
@@ -220,6 +214,22 @@ defmodule Bonfire.Me.Users.LiveHandler do
     # Per-user: disconnect socket + set cache flag (one iteration for both)
     Bonfire.Me.Users.ids_by_account(account_id)
     |> Enum.each(&force_logout_user/1)
+  end
+
+  @doc "Takes a user out of every session that has it selected, keeping their account signed in, eg. once the user is queued for deletion: disconnects its open pages, and on their next request the sessions go to the profile switcher. A user already forced out stays fully logged out."
+  def deselect_user_everywhere(user_id) when is_binary(user_id) do
+    Utils.maybe_apply(
+      Bonfire.Web.Endpoint,
+      :broadcast,
+      ["socket_user:#{user_id}", "disconnect", %{}]
+    )
+
+    if !Bonfire.Common.Cache.get!("force_logout:#{user_id}") do
+      Bonfire.Common.Cache.put("force_logout:#{user_id}", :deselect,
+        expire: :timer.hours(24 * 60),
+        async: false
+      )
+    end
   end
 
   @doc "Remove the force-logout flag for a user, re-allowing login"

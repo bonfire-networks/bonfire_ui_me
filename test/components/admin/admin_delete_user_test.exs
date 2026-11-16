@@ -17,7 +17,7 @@ defmodule Bonfire.UI.Me.AdminDeleteUserTest do
   end
 
   defp block!(user) do
-    {:ok, _} = Blocks.block(user, :block, scope: :instance_wide)
+    {:ok, _} = Blocks.block(user, :block, scope: :instance_wide, skip_boundary_check: true)
     user
   end
 

@@ -1,6 +1,8 @@
 defmodule Bonfire.UI.Me.UsersDirectoryLive do
   use Bonfire.UI.Common.Web, :surface_live_view
 
+  @guest_allowed_events ~w(load_more)
+
   # import Bonfire.UI.Me
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}

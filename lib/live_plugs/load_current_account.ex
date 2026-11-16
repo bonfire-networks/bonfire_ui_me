@@ -27,11 +27,17 @@ defmodule Bonfire.UI.Me.LivePlugs.LoadCurrentAccount do
     {:ok, socket}
   end
 
-  def mount(_, %{"current_account_id" => account_id}, socket)
+  def mount(_, %{"current_account_id" => account_id} = session, socket)
       when is_binary(account_id) do
     debug("loading current_account")
     account = Accounts.get_current(account_id)
-    {:ok, assign_global(socket, current_account: account, current_account_id: uid(account))}
+
+    # a session ended by a password change elsewhere is signed out
+    if Accounts.session_revoked?(account, session["session_started_at"]) do
+      {:ok, assign_global(socket, current_account: nil, current_account_id: nil)}
+    else
+      {:ok, assign_global(socket, current_account: account, current_account_id: uid(account))}
+    end
   end
 
   def mount(_, _, socket) do

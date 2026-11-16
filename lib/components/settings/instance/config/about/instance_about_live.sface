@@ -114,6 +114,21 @@
     </form>
   </div>
 
+  <form phx-change="Bonfire.Common.Settings:set" data-id="widget_origin_settings">
+    <Bonfire.UI.Common.SettingsSelectLive
+      scope={:instance}
+      id="widget_origin"
+      name={l("Widgets show")}
+      description={l(
+        "Whether widgets such as top discussions, recent articles, polls and the spotlight show only what was posted on this instance, or content from everywhere."
+      )}
+      label_name={l("Widgets show")}
+      keys={[Bonfire.Social.Feeds, :widget_origin]}
+      default_value={:everywhere}
+      options={[everywhere: l("Content from everywhere"), local: l("Only content from this instance")]}
+    />
+  </form>
+
   <div class="font-medium">{l("Components to include on the guest homepage")}</div>
   <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={:instance} type="hidden">

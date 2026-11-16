@@ -26,14 +26,20 @@ defmodule Bonfire.UI.Me.SignupController do
         conn
 
       {:error, :taken} ->
+        # answers like a fresh signup, so the page doesn't tell whether the address has an account: its owner is emailed instead
+        Accounts.notify_already_registered(e(account_attrs, "email", "email_address", nil))
+
         conn
-        |> assign(:error, :taken)
-        |> render_view(form)
+        |> assign(:registered, :check_email)
+        |> render_view(Map.put(form, "registered", :check_email))
 
       {:error, :email_confirmation_required} ->
+        # also answers like a fresh signup: whoever really signed up gets their confirmation link again by email, anyone else learns nothing
+        Accounts.resend_signup_confirmation(e(account_attrs, "email", "email_address", nil))
+
         conn
-        |> assign(:error, :email_confirmation_required)
-        |> render_view(form)
+        |> assign(:registered, :check_email)
+        |> render_view(Map.put(form, "registered", :check_email))
 
       {:error, :confirmation_email_failed} ->
         conn
@@ -89,7 +95,8 @@ defmodule Bonfire.UI.Me.SignupController do
   end
 
   def attempt_signup(conn, account_attrs, form \\ %{}, opts \\ []) do
-    debug(account_attrs, "Account attributes")
+    # the attributes hold the plaintext password, so only log which keys were sent
+    debug(Map.keys(account_attrs), "Account attributes keys")
 
     Accounts.signup(
       account_attrs,

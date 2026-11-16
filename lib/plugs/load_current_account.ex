@@ -17,6 +17,12 @@ defmodule Bonfire.UI.Me.Plugs.LoadCurrentAccount do
 
     account = Accounts.get_current(current_account_id)
 
+    # a session that was ended (eg. by a password change elsewhere) is signed out
+    {conn, account} =
+      if account && Bonfire.UI.Me.Sudo.revoked?(conn, account),
+        do: {Bonfire.UI.Common.Web.renew_session(conn), nil},
+        else: {conn, account}
+
     # the `set_locale` plug skipped this request because the session has a login: with no user chosen (a session with a user gets their language from `LoadCurrentUser`) use the account's language, and with no account either detect it from the browser
     conn =
       cond do

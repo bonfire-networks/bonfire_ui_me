@@ -36,7 +36,7 @@
               data-id="profile_name"
               class="font-bold text-base-content line-clamp-1 group-hover:underline flex items-center gap-1"
             >
-              {rich(e(@profile, :name, nil))}
+              {e(@profile, :name, nil)}
               {#if :follows_me in @show_controls}
                 <StatefulComponent
                   id={deterministic_dom_id(
@@ -135,7 +135,7 @@
                   "text-sm": @compact
                 }
               >
-                {rich(e(@profile, :name, nil))}
+                {e(@profile, :name, nil)}
                 {#if :follows_me in @show_controls}
                   <StatefulComponent
                     id={deterministic_dom_id(

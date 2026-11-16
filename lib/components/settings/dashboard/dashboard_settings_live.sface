@@ -29,32 +29,14 @@
               scope={@scope}
             />
           </div>
-          <button
-            type="button"
+          <Bonfire.UI.Common.MoveButtonsLive
+            values={%{key: widget.key}}
+            label={widget.name}
+            first={index == 0}
+            last={index == length(@widgets) - 1}
+            target={@myself}
             class="btn btn-ghost btn-sm btn-square"
-            data-role="move_up"
-            phx-click="move"
-            phx-value-key={widget.key}
-            phx-value-direction="up"
-            phx-target={@myself}
-            disabled={index == 0}
-            aria-label={l("Move %{name} up", name: widget.name)}
-          >
-            <#Icon iconify="ph:caret-up" class="size-4" />
-          </button>
-          <button
-            type="button"
-            class="btn btn-ghost btn-sm btn-square"
-            data-role="move_down"
-            phx-click="move"
-            phx-value-key={widget.key}
-            phx-value-direction="down"
-            phx-target={@myself}
-            disabled={index == length(@widgets) - 1}
-            aria-label={l("Move %{name} down", name: widget.name)}
-          >
-            <#Icon iconify="ph:caret-down" class="size-4" />
-          </button>
+          />
         </li>
       {/for}
     </ul>

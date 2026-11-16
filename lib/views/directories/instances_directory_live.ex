@@ -1,6 +1,8 @@
 defmodule Bonfire.UI.Me.InstancesDirectoryLive do
   use Bonfire.UI.Common.Web, :surface_live_view
 
+  @guest_allowed_events ~w(load_more)
+
   alias Bonfire.Federate.ActivityPub.Instances
 
   on_mount {LivePlugs, [Bonfire.UI.Me.LivePlugs.LoadCurrentUser]}
@@ -18,7 +20,7 @@ defmodule Bonfire.UI.Me.InstancesDirectoryLive do
          maybe_apply(Bonfire.Me.Accounts, :is_admin?, [assigns(socket)[:__context__]],
            fallback_return: nil
          ) == true do
-      if (show_to == :guests or current_user(socket)) || current_account(socket) do
+      if (show_to == :guests or current_user) || current_account(socket) do
         %{instances: instances, instances_metadata: instances_metadata, page_info: page_info} =
           list_instances(
             Bonfire.UI.Common.LiveHandlers.unwrap_namespaced_params(params, __MODULE__)

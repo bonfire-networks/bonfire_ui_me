@@ -24,14 +24,15 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
   defp account!, do: fake_account!() |> Bonfire.Common.Repo.preload([:email, :credential])
 
   defp login_token_for(account, go) do
-    {:ok, _, _} =
+    {:ok, _, requested} =
       Accounts.request_confirm_email(%{email: account.email.email_address},
         confirm_action: :login,
         go: go,
         must_confirm?: true
       )
 
-    Bonfire.Common.Repo.get!(Email, account.id).confirm_token
+    # the emailed token; the database only holds its hash
+    requested.email.confirm_token
   end
 
   test "redeeming another account's link clears prior proof (logout semantics) and keeps go" do
@@ -58,14 +59,15 @@ defmodule Bonfire.UI.Me.LoginSessionSemanticsTest do
     b = account!()
     mark = System.system_time(:millisecond)
 
-    {:ok, _, _} =
+    {:ok, _, requested} =
       Accounts.request_confirm_email(%{email: b.email.email_address},
         confirm_action: :forgot_password,
         go: "/keep-me",
         must_confirm?: true
       )
 
-    token = Bonfire.Common.Repo.get!(Email, b.id).confirm_token
+    # the emailed token; the database only holds its hash
+    token = requested.email.confirm_token
 
     conn =
       conn(account: a)

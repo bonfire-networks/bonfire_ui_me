@@ -38,14 +38,15 @@ defmodule Bonfire.UI.Me.SudoStampingTest do
 
     account = account!()
 
-    {:ok, _, _} =
+    {:ok, _, requested} =
       Accounts.request_confirm_email(%{email: account.email.email_address},
         confirm_action: :login,
         go: "/somewhere",
         must_confirm?: true
       )
 
-    token = Bonfire.Common.Repo.get!(Email, account.id).confirm_token
+    # the emailed token; the database only holds its hash
+    token = requested.email.confirm_token
 
     # a pristine conn: the cross-device case, the redeeming browser was never logged in
     conn = post(conn(), "/login/email/#{token}?go=/somewhere")
@@ -66,14 +67,15 @@ defmodule Bonfire.UI.Me.SudoStampingTest do
 
     account = account!()
 
-    {:ok, _, _} =
+    {:ok, _, requested} =
       Accounts.request_confirm_email(%{email: account.email.email_address},
         confirm_action: :forgot_password,
         go: "/somewhere",
         must_confirm?: true
       )
 
-    token = Bonfire.Common.Repo.get!(Email, account.id).confirm_token
+    # the emailed token; the database only holds its hash
+    token = requested.email.confirm_token
 
     conn = conn(account: account) |> post("/login/forgot-password/#{token}?go=/somewhere")
 
