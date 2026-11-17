@@ -569,7 +569,9 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       )
       |> assert_has("#guest-board-nav a[aria-current=page]", text: "Code of conduct")
       |> assert_has("#conduct-body strong", text: "kind")
-      |> refute_has("[data-id=right_nav_and_widgets]")
+      # |> refute_has("[data-id=right_nav_and_widgets]")
+      # unlike the other board pages, the code of conduct has a right rail for guests too, to show the community rules beside it
+      |> assert_has("[data-id=right_nav_and_widgets]")
     end
   end
 
