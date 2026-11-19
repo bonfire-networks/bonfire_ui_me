@@ -110,7 +110,7 @@
         placeholder={l("Share your wishes")}
         submit_button={false}
       />
-      <button type="submit" class="btn btn-sm btn-soft btn-primary self-start">{l("Save")}</button>
+      <button type="submit" class="btn btn-sm btn-primary self-start">{l("Save")}</button>
     </form>
   </div>
 

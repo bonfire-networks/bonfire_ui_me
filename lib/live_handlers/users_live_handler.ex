@@ -136,14 +136,17 @@ defmodule Bonfire.Me.Users.LiveHandler do
         socket
       ) do
     with {:ok, user} <-
-           Bonfire.Me.Users.make_admin(assigns(socket)[:user] || params["username_or_id"],
+           Bonfire.Me.Users.make_admin(admin_role_target(params, socket),
              current_user: current_user_required!(socket),
              moderator: not empty?(params["moderator"])
            ) do
+      Bonfire.UI.Common.OpenModalLive.close()
+      update_admins_list(added_member: user)
+
       {:noreply,
        socket
        |> assign_flash(:info, l("They are now an admin!"))
-       |> assign(user: user)}
+       |> maybe_assign_admin_role_target(user)}
     else
       {:error, :not_permitted} ->
         {:noreply, assign_flash(socket, :error, l("Only an admin can make someone an admin."))}
@@ -160,13 +163,16 @@ defmodule Bonfire.Me.Users.LiveHandler do
         socket
       ) do
     with {:ok, user} <-
-           Bonfire.Me.Users.revoke_admin(assigns(socket)[:user] || params["username_or_id"],
+           Bonfire.Me.Users.revoke_admin(admin_role_target(params, socket),
              current_user: current_user_required!(socket)
            ) do
+      Bonfire.UI.Common.OpenModalLive.close()
+      update_admins_list(removed_member: user)
+
       {:noreply,
        socket
        |> assign_flash(:info, l("They are no longer an admin."))
-       |> assign(user: user)}
+       |> maybe_assign_admin_role_target(user)}
     else
       {:error, :not_permitted} ->
         {:noreply, assign_flash(socket, :error, l("Only an admin can revoke an admin."))}
@@ -179,6 +185,25 @@ defmodule Bonfire.Me.Users.LiveHandler do
         error(other, "Could not revoke their admin powers")
         {:noreply, assign_flash(socket, :error, l("Could not revoke their admin powers."))}
     end
+  end
+
+  # the user the form names: on a page listing many users (the members, the admins), the page's own `:user` assign is not the one acted on
+  defp admin_role_target(params, socket) do
+    case params["username_or_id"] do
+      username_or_id when is_binary(username_or_id) and username_or_id != "" -> username_or_id
+      _ -> assigns(socket)[:user]
+    end
+  end
+
+  # the admins tab of the instance settings lists the admin circle with this id; on any other page there's no such component and the update is dropped
+  defp update_admins_list(change) do
+    if module = Bonfire.Common.Extend.maybe_module(Bonfire.UI.Boundaries.CircleMembersLive),
+      do: maybe_send_update(module, "admin_circle", change)
+  end
+
+  # a profile page shows its `:user`'s admin state, so it gets the updated user; other pages have no `:user` to update
+  defp maybe_assign_admin_role_target(socket, user) do
+    if assigns(socket)[:user], do: assign(socket, user: user), else: socket
   end
 
   def to_tuple(u) do

@@ -83,10 +83,9 @@ defmodule Bonfire.UI.Me.Dashboard do
     end)
   end
 
-  @doc "`options/2` in the user's saved order."
-  def ordered_options(choices, context) do
-    order =
-      Settings.get([:ui, :widget_order, @order_key], %{}, current_user: current_user(context))
+  @doc "`options/2` in the user's saved order, or with `scope: :instance` the instance's default order."
+  def ordered_options(choices, context, scope \\ nil) do
+    order = Settings.get([:ui, :widget_order, @order_key], %{}, read_opts(context, scope))
 
     choices
     |> options(context)
@@ -102,12 +101,15 @@ defmodule Bonfire.UI.Me.Dashboard do
         do: option.widget
   end
 
-  @doc "Saves the order of all offered widgets, hidden ones included so they keep their place."
-  def save_order(options_in_order, current_user) do
+  @doc "Saves the order of all offered widgets, hidden ones included so they keep their place: the user's own, or with `scope: :instance` the default for everyone who hasn't set one (admins only, as `Settings.put/3` checks)."
+  def save_order(options_in_order, current_user, scope \\ nil) do
     Bonfire.Common.Settings.LiveHandler.save_widget_order(
       @order_key,
       Enum.map(options_in_order, &WidgetsLive.order_key(&1.widget)),
-      current_user: current_user
+      if(scope == :instance,
+        do: [current_user: current_user, scope: :instance],
+        else: [current_user: current_user]
+      )
     )
   end
 
@@ -120,9 +122,16 @@ defmodule Bonfire.UI.Me.Dashboard do
   end
 
   @doc "On for users of the old feed-only mode (`[DashboardLive, :default_feed]`), which this replaces."
-  def feed_default(current_user) do
-    Settings.get([@settings_key, :default_feed], false, current_user: current_user) in [:my, true]
+  def feed_default(current_user, scope \\ nil) do
+    Settings.get([@settings_key, :default_feed], false, read_opts(current_user, scope)) in [
+      :my,
+      true
+    ]
   end
+
+  # the instance's own value, as instance settings pages read it, else the user's (which falls back to the instance's)
+  defp read_opts(_context, :instance), do: :instance
+  defp read_opts(context, _), do: [current_user: current_user(context)]
 
   @doc "`{feed_props, component_id}` for the `requested` feed slug, else the user's default feed, or `{nil, nil}` when it's off."
   def feed_assigns(socket, requested \\ nil) do

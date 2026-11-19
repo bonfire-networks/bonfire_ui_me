@@ -49,9 +49,13 @@
       <Bonfire.UI.Common.SettingsToggleLive
         id="dashboard_widget_toggle_feed"
         name={l("Latest activity")}
-        description={l(
-          "Your default feed, always shown at the end of the dashboard so you can keep scrolling into it."
-        )}
+        description={if @scope == :instance,
+          do:
+            l("Each person's default feed, at the end of their dashboard, unless they choose otherwise."),
+          else:
+            l(
+              "Your default feed, always shown at the end of the dashboard so you can keep scrolling into it."
+            )}
         keys={[Bonfire.Web.Views.DashboardLive, :include, :feed]}
         default_value={@feed_default}
         scope={@scope}

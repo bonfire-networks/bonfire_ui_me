@@ -388,6 +388,154 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     end
   end
 
+  describe "instance defaults" do
+    @instance_settings "/settings/instance/dashboard"
+    @order_keys [:ui, :widget_order, :dashboard_main_widgets]
+
+    # instance-scope settings are mirrored into the global Application env, which the sandbox doesn't roll back, so they're cleared before and after each test
+    defp clear_instance_dashboard_settings(keys_list) do
+      # `Config.delete/2` raises when a parent key has no value yet, so only clear what's there
+      for keys <- keys_list,
+          Bonfire.Common.Config.get(keys, nil) != nil do
+        [otp_app | keys] = Bonfire.Common.Config.keys_tree(keys)
+        Bonfire.Common.Config.delete(keys, otp_app)
+      end
+    end
+
+    setup %{me: me} do
+      account = fake_account!()
+      admin = fake_admin!(account)
+
+      clear = fn ->
+        clear_instance_dashboard_settings([
+          [Bonfire.Web.Views.DashboardLive, :include],
+          @order_keys
+        ])
+      end
+
+      clear.()
+      on_exit(clear)
+
+      {:ok, admin: admin, admin_conn: conn(user: admin, account: account), user: me}
+    end
+
+    test "the instance page is the user page, every widget and the feed", %{
+      admin_conn: admin_conn,
+      user: user
+    } do
+      {:ok, view, _html} = live(admin_conn, @instance_settings)
+
+      for option <- options(user) do
+        assert has_element?(view, "#dashboard-widget-#{option.key}", option.name)
+      end
+
+      assert view
+             |> render()
+             |> Floki.parse_document!()
+             |> Floki.find("[data-role=dashboard_widget]")
+             |> length() == length(options(user))
+
+      assert has_element?(view, "#dashboard_widget_toggle_feed")
+    end
+
+    test "hiding a widget there hides it for everyone who hasn't chosen, but not in the admin's own settings",
+         %{admin_conn: admin_conn, admin: admin, conn: conn, user: user} do
+      %{key: key, name: name, widget: widget} = List.last(options(user))
+
+      assert to_string(widget.module) in dashboard_order(conn)
+
+      admin_conn
+      |> visit(@instance_settings)
+      |> uncheck(name, exact: false)
+
+      refute to_string(widget.module) in dashboard_order(conn)
+
+      assert Bonfire.Common.Settings.get(
+               [Bonfire.Web.Views.DashboardLive, :include, key],
+               :unset,
+               current_user: admin,
+               one_scope_only: true
+             ) == :unset,
+             "the instance page must not write the admin's own settings"
+    end
+
+    test "its toggles show the instance value, not the admin's own", %{
+      admin_conn: admin_conn,
+      admin: admin,
+      user: user
+    } do
+      %{key: key} = List.last(options(user))
+
+      {:ok, _} =
+        Bonfire.Common.Settings.put([Bonfire.Web.Views.DashboardLive, :include, key], false,
+          current_user: admin
+        )
+
+      {:ok, view, _html} = live(admin_conn, @instance_settings)
+
+      assert has_element?(view, "#dashboard_widget_toggle_#{key}[checked]")
+    end
+
+    test "moving a widget there moves it for everyone who hasn't chosen, but not in the admin's own settings",
+         %{admin_conn: admin_conn, admin: admin, conn: conn, user: user} do
+      [first, second | _] = options(user)
+      first_module = to_string(first.widget.module)
+      second_module = to_string(second.widget.module)
+
+      assert [^first_module, ^second_module | _] = dashboard_order(conn)
+
+      {:ok, view, _html} = live(admin_conn, @instance_settings)
+
+      view
+      |> element("#dashboard-widget-#{first.key} [data-role=move_down]")
+      |> render_click()
+
+      assert Bonfire.Common.Settings.get(@order_keys, %{}, :instance) != %{},
+             "the move is saved as the instance's order"
+
+      assert [^second_module, ^first_module | _] = dashboard_order(conn)
+
+      assert Bonfire.Common.Settings.get(@order_keys, %{},
+               current_user: admin,
+               one_scope_only: true
+             ) == %{},
+             "the instance page must not write the admin's own order"
+    end
+
+    test "someone's own order still wins over the instance default", %{
+      admin_conn: admin_conn,
+      conn: conn,
+      user: user
+    } do
+      [first, second | _] = options(user)
+      first_module = to_string(first.widget.module)
+      second_module = to_string(second.widget.module)
+
+      {:ok, instance_view, _html} = live(admin_conn, @instance_settings)
+
+      instance_view
+      |> element("#dashboard-widget-#{first.key} [data-role=move_down]")
+      |> render_click()
+
+      assert [^second_module, ^first_module | _] = dashboard_order(conn)
+
+      # the user puts it back for themselves
+      {:ok, view, _html} = live(conn, @settings)
+
+      view
+      |> element("#dashboard-widget-#{first.key} [data-role=move_up]")
+      |> render_click()
+
+      assert [^first_module, ^second_module | _] = dashboard_order(conn)
+    end
+
+    test "the instance settings nav links to it", %{admin_conn: admin_conn} do
+      {:ok, view, _html} = live(admin_conn, "/settings/instance/configuration")
+
+      assert has_element?(view, "a[href='#{@instance_settings}']")
+    end
+  end
+
   describe "choices" do
     test "a key nobody describes is skipped", %{me: me} do
       assert [%{key: :suggested_profiles}] =

@@ -1,5 +1,5 @@
 defmodule Bonfire.UI.Me.DashboardSettingsLive do
-  @moduledoc "User settings for the dashboard's main area: which widgets show, their order, and the feed. See `Bonfire.UI.Me.Dashboard`."
+  @moduledoc "Settings for the dashboard's main area: which widgets show, their order, and the feed. A user's own, or with `scope: :instance` the defaults for everyone who hasn't set theirs. See `Bonfire.UI.Me.Dashboard`."
   use Bonfire.UI.Common.Web, :stateful_component
 
   alias Bonfire.UI.Me.Dashboard
@@ -14,12 +14,13 @@ defmodule Bonfire.UI.Me.DashboardSettingsLive do
   def update(assigns, socket) do
     socket = assign(socket, assigns)
     user = current_user(socket)
+    scope = socket.assigns[:scope]
 
     {:ok,
      assign(socket,
-       widgets: Dashboard.ordered_options(choices(), user),
+       widgets: Dashboard.ordered_options(choices(), user, scope),
        feed_available: not is_nil(user) and module_enabled?(Bonfire.UI.Social.FeedLive, socket),
-       feed_default: Dashboard.feed_default(user)
+       feed_default: Dashboard.feed_default(user, scope)
      )}
   end
 
@@ -37,7 +38,8 @@ defmodule Bonfire.UI.Me.DashboardSettingsLive do
          to = if(direction == "up", do: index - 1, else: index + 1),
          true <- to in 0..(length(widgets) - 1)//1,
          widgets = Enum.slide(widgets, index, to),
-         {:ok, settings} <- Dashboard.save_order(widgets, current_user(socket)) do
+         {:ok, settings} <-
+           Dashboard.save_order(widgets, current_user(socket), socket.assigns[:scope]) do
       {:noreply, socket |> assign(:widgets, widgets) |> maybe_assign_context(settings)}
     else
       {:error, _} = failed ->

@@ -1,0 +1,48 @@
+{#if !e(@user, :character, :peered, nil) and
+    maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
+  {#if admin?(@user, @is_admin)}
+    <Bonfire.UI.Common.OpenModalLive
+      id={deterministic_dom_id(__MODULE__, id(@user), "revoke-admin", @parent_id)}
+      title_text={l("Revoke their admin powers?")}
+      open_btn_wrapper_class={@open_btn_wrapper_class}
+      open_modal_wrapper_class={@open_modal_wrapper_class}
+      no_actions
+      modal_assigns={[modal_component: Bonfire.UI.Me.AdminRoleModalLive, user: @user, revoke: true]}
+    >
+      <:open_btn>
+        {#if @btn_class}
+          <span class={@btn_class}>{l("Revoke admin")}</span>
+        {#elseif @hide_icon}
+          <div class="w-full text-left text-error">{l("Revoke admin")}</div>
+        {#else}
+          <div class="flex items-center gap-3 w-full text-sm text-base-content">
+            <#Icon iconify="ph:key-duotone" class="size-4 shrink-0 text-muted" />
+            <span class="flex-1 truncate text-left text-error">{l("Revoke admin")}</span>
+          </div>
+        {/if}
+      </:open_btn>
+    </Bonfire.UI.Common.OpenModalLive>
+  {#else}
+    <Bonfire.UI.Common.OpenModalLive
+      id={deterministic_dom_id(__MODULE__, id(@user), "make-admin", @parent_id)}
+      title_text={l("Make this user an admin?")}
+      open_btn_wrapper_class={@open_btn_wrapper_class}
+      open_modal_wrapper_class={@open_modal_wrapper_class}
+      no_actions
+      modal_assigns={[modal_component: Bonfire.UI.Me.AdminRoleModalLive, user: @user, revoke: false]}
+    >
+      <:open_btn>
+        {#if @btn_class}
+          <span class={@btn_class}>{l("Make admin")}</span>
+        {#elseif @hide_icon}
+          <div class="w-full text-left">{l("Make admin")}</div>
+        {#else}
+          <div class="flex items-center gap-3 w-full text-sm text-base-content">
+            <#Icon iconify="ph:key-duotone" class="size-4 shrink-0 text-muted" />
+            <span class="flex-1 truncate text-left">{l("Make admin")}</span>
+          </div>
+        {/if}
+      </:open_btn>
+    </Bonfire.UI.Common.OpenModalLive>
+  {/if}
+{/if}

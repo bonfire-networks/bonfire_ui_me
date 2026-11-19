@@ -94,7 +94,7 @@
       </div>
 
       <div class="mt-4">
-        <.button type="submit" variant="soft" full_width loading_text={l("Saving...")}>
+        <.button type="submit" variant="primary" full_width loading_text={l("Saving...")}>
           {l("Save")}
         </.button>
       </div>

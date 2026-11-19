@@ -1,0 +1,39 @@
+{#if @revoke}
+  <form phx-submit="Bonfire.Me.Users:revoke_admin">
+    <input type="hidden" name="username_or_id" value={id(@user)}>
+    <p class="text-sm mb-3">
+      {l(
+        "%{name} will no longer be able to manage this instance, its users and its settings. They stay a moderator if they are one.",
+        name: Bonfire.Me.Characters.display_username(@user, true, true)
+      )}
+    </p>
+
+    <div class="modal-action">
+      <button type="submit" class="btn btn-error btn-sm">{l("Revoke their admin powers")}</button>
+    </div>
+  </form>
+{#else}
+  <form phx-submit="Bonfire.Me.Users:make_admin">
+    <input type="hidden" name="username_or_id" value={id(@user)}>
+    <p class="text-sm mb-3">
+      {l(
+        "SUPER POWERS: %{name} will be able to manage everything on this instance, including its settings and content. They'll also be sent flagged content to review and be able to act on it. This is a very powerful role, and should only be given to people you trust.",
+        name: Bonfire.Me.Characters.display_username(@user, true, true)
+      )}
+    </p>
+
+    <label class="label cursor-pointer justify-start gap-2">
+      <input type="checkbox" name="moderator" value="true" class="checkbox checkbox-sm">
+      <span class="label-text text-sm">{l("Also declare them as an instance moderator")}</span>
+    </label>
+    <p class="text-xs text-muted mt-1">
+      {l("Moderators are listed publicly on the instance's pages.")} {l("You can add/remove moderators without making them admins in the instance settings.")} {l(
+        "You can also give moderator powers to other users without declaring them as moderators, by configuring custom roles and circles."
+      )}
+    </p>
+
+    <div class="modal-action">
+      <button type="submit" class="btn btn-primary btn-sm">{l("Make them an admin")}</button>
+    </div>
+  </form>
+{/if}

@@ -78,7 +78,7 @@
             else
               if @is_local_user, do: l("Block or disable"), else: l("Block")
             end}
-            class="text-error"
+            class="w-full text-left text-error"
           />
         </li>
         <li :if={@is_local_user}>
@@ -121,6 +121,10 @@
               <button class="btn btn-primary btn-sm">{l("Transfer profile")}</button>
             </:action_btns>
           </Bonfire.UI.Common.OpenModalLive>
+        </li>
+        <li :if={@is_local_user and
+          maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}>
+          <Bonfire.UI.Me.AdminRoleLive user={@user} hide_icon open_btn_wrapper_class="w-full text-left" />
         </li>
         {!-- <li :if={!@is_local_user}>
           <StatelessComponent
