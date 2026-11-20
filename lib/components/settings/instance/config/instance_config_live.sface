@@ -310,7 +310,11 @@
         set_fn={&Bonfire.Me.Profiles.LiveHandler.set_image_setting/5}
       />
     </div>
-    <form phx-change="Bonfire.Common.Settings:set" class="divide-hair divide-divider">
+    <form
+      phx-change="Bonfire.Common.Settings:set"
+      data-scope="instance_general"
+      class="divide-hair divide-divider"
+    >
       <div class="p-4">
         <Bonfire.UI.Common.Settings.NumberLive
           scope={:instance}

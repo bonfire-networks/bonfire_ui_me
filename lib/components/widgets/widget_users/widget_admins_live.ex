@@ -4,10 +4,10 @@ defmodule Bonfire.UI.Me.WidgetAdminsLive do
   prop widget_title, :string, default: nil
   prop show_reset_btn, :boolean, default: false
 
-  @doc "The instance admins the current viewer may see: guests only when `[WidgetAdminsLive, :show_guests]` allows it (the same guard as this widget's template)."
+  @doc "The instance admins the current viewer may see: guests only when `[WidgetUsersLive, :show_guests]` allows it, the key instance settings' \"Show list of moderators on public homepage\" toggle saves."
   def list_visible(context) do
     if current_user_id(context) ||
-         Settings.get([__MODULE__, :show_guests], true, context) do
+         Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true, context) do
       List.wrap(Bonfire.Me.Users.list_declared_moderators())
     else
       []

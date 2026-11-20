@@ -22,7 +22,7 @@ defmodule Bonfire.UI.Me.Plugs.AdminRequired do
   end
 
   defp check(nil, conn),
-    do: check(Accounts.is_admin?(conn.assigns[:__context__] || current_user(conn.assigns)), conn)
+    do: check(Accounts.is_admin!(conn.assigns[:__context__] || current_user(conn.assigns)), conn)
 
   defp check(true, conn), do: conn
 

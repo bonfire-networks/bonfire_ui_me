@@ -459,6 +459,27 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
              "the instance page must not write the admin's own settings"
     end
 
+    test "a second change there is saved too, not reverted", %{
+      admin_conn: admin_conn,
+      conn: conn,
+      user: user
+    } do
+      [first, second | _] = options(user)
+
+      admin_conn
+      |> visit(@instance_settings)
+      |> uncheck(first.name, exact: false)
+      |> uncheck(second.name, exact: false)
+
+      order = dashboard_order(conn)
+      refute to_string(first.widget.module) in order, "the first change was not kept"
+      refute to_string(second.widget.module) in order, "the second change was not kept"
+
+      {:ok, view, _html} = live(admin_conn, @instance_settings)
+      refute has_element?(view, "#dashboard_widget_toggle_#{first.key}[checked]")
+      refute has_element?(view, "#dashboard_widget_toggle_#{second.key}[checked]")
+    end
+
     test "its toggles show the instance value, not the admin's own", %{
       admin_conn: admin_conn,
       admin: admin,

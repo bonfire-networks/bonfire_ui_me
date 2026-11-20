@@ -194,6 +194,86 @@ defmodule Bonfire.UI.Me.AdminTest do
     end
   end
 
+  defp suggested?(user), do: in_circle?(user, Instance.suggested_profiles_circle())
+
+  defp moderator_conn do
+    account = fake_account!()
+
+    {:ok, moderator} =
+      Bonfire.Me.Users.make_moderator(fake_user!(account), skip_boundary_check: true)
+
+    conn(user: moderator, account: account)
+  end
+
+  test "As an admin I can add someone to Suggested Profiles from its page, and remove them" do
+    alice = fake_user!(fake_account!())
+
+    session =
+      as_admin_visit("/settings/instance/suggested_profiles")
+      |> assert_has("#circle_members #add_members")
+      |> pick_in_admins_search(alice)
+      |> assert_has("[role=alert]", text: "Added to circle!")
+      |> assert_has("#circle_members", text: alice.profile.name)
+
+    assert suggested?(alice)
+
+    session
+    |> click_button("[data-role=remove_user]", "Remove")
+    |> refute_has("#circle_members", text: alice.profile.name)
+
+    refute suggested?(alice)
+  end
+
+  # the page offers its search to moderators too (`:mediate` on the instance), and the circle is controlled by the `mods_may_manage` preset
+  test "As a moderator I can add someone to Suggested Profiles from its page" do
+    alice = fake_user!(fake_account!())
+
+    moderator_conn()
+    |> visit("/settings/instance/suggested_profiles")
+    |> wait_async()
+    |> assert_has("#circle_members #add_members")
+    |> pick_in_admins_search(alice)
+    |> assert_has("[role=alert]", text: "Added to circle!")
+
+    assert suggested?(alice)
+  end
+
+  test "As an admin I can make someone a moderator from the moderators page, and remove them" do
+    alice = fake_user!(fake_account!())
+
+    session =
+      as_admin_visit("/settings/instance/mods")
+      |> assert_has("#circle_members #add_members")
+      |> pick_in_admins_search(alice)
+      |> assert_has("#circle_members", text: alice.profile.name)
+
+    assert moderator?(alice)
+
+    session
+    |> click_button("[data-role=remove_user]", "Remove")
+    |> refute_has("#circle_members", text: alice.profile.name)
+
+    refute moderator?(alice)
+  end
+
+  # the browser can send the pick without the search showing, so the server has to refuse it
+  test "Someone who is not an admin nor a moderator changes neither Suggested Profiles nor the moderators" do
+    account = fake_account!()
+    me = fake_user!(account)
+    alice = fake_user!(fake_account!())
+
+    for tab <- ["suggested_profiles", "mods"] do
+      conn(user: me, account: account)
+      |> visit("/settings/instance/#{tab}")
+      |> wait_async()
+      |> refute_has("#add_members")
+      |> pick_in_admins_search(alice)
+    end
+
+    refute suggested?(alice)
+    refute moderator?(alice)
+  end
+
   test "As an admin I can make them a moderator too, from the same confirmation" do
     alice = fake_user!(fake_account!())
 

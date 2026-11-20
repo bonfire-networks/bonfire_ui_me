@@ -307,10 +307,42 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       _admin = fake_admin!(fake_account!())
       Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
-      Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetAdminsLive, :show_guests], false)
+      Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetUsersLive, :show_guests], false)
 
       conn()
       |> get_conn_render("/")
+      |> refute_has("#community-admins")
+    end
+
+    test "an admin turning them off in instance settings hides them from guests" do
+      account = fake_account!()
+      admin = fake_admin!(account)
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+
+      # instance settings are mirrored into the global Application env, which the sandbox doesn't roll back
+      on_exit(fn ->
+        Bonfire.Common.Config.delete([Bonfire.UI.Me.WidgetUsersLive], :bonfire_ui_me)
+      end)
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has("#community-admins")
+
+      {:ok, view, _html} =
+        live(conn(user: admin, account: account), "/settings/instance/configuration")
+
+      view
+      |> form("form[data-scope=instance_general]", %{
+        "Bonfire.UI.Me.WidgetUsersLive" => %{"show_guests" => "false"}
+      })
+      |> render_change()
+
+      conn()
+      |> get_conn_render("/")
+      |> refute_has("#community-admins")
+
+      conn()
+      |> get_conn_render("/about")
       |> refute_has("#community-admins")
     end
 
@@ -335,7 +367,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       _admin = fake_admin!(fake_account!())
       Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
-      Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetAdminsLive, :show_guests], false)
+      Process.put([:bonfire_ui_me, Bonfire.UI.Me.WidgetUsersLive, :show_guests], false)
 
       conn()
       |> get_conn_render("/about")

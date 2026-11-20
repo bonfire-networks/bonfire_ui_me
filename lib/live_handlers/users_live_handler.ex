@@ -17,7 +17,7 @@ defmodule Bonfire.Me.Users.LiveHandler do
   end
 
   def handle_event("delete_user", %{"object_id" => delete}, socket) do
-    if Bonfire.Me.Accounts.is_admin?(assigns(socket)[:__context__]) do
+    if Bonfire.Me.Accounts.is_admin!(assigns(socket)[:__context__]) do
       after_delete(
         Bonfire.Me.DeleteWorker.enqueue_delete(delete),
         "/settings/deleted/user/#{id(delete)}",
