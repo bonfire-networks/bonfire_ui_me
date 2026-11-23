@@ -1,0 +1,29 @@
+<header>
+  <h1 id="about-title" class="sr-only">{Bonfire.UI.Common.GuestBoardLive.instance_name()}</h1>
+  <div id="about-tagline" class="type-page-title text-balance wrap-anywhere *:m-0">{rich(
+      Config.get(
+        [:ui, :theme, :instance_tagline],
+        "Welcome to #{maybe_apply(Bonfire.Application, :name_and_flavour, [], fallback_return: "Bonfire")}"
+      )
+    )}</div>
+
+  {#case Config.get([:ui, :theme, :instance_welcome, :description], "")}
+    {#match description when description in [nil, ""]}
+    {#match description}
+      <div
+        id="about-description"
+        class="mt-5 prose max-w-none text-prose leading-[1.6] text-base-content wrap-anywhere prose-p:my-[1.1em] prose-headings:text-base-content prose-h2:text-xl prose-h2:font-bold prose-a:text-base-content prose-a:decoration-1 prose-a:underline-offset-3 prose-strong:text-base-content *:first:mt-0 *:last:mb-0"
+      >{templated_or_remote_markdown(description)}</div>
+  {/case}
+
+  {!-- a page may pass its own actions; otherwise invite-only instances offer an invite request --}
+  {#if slot_assigned?(:default)}
+    <#slot />
+  {#else}
+    <Bonfire.UI.Me.InviteRequestLive
+      :if={@is_guest? and Bonfire.Me.Accounts.instance_is_invite_only?()}
+      wrapper_class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2"
+      class="rounded-full px-5 text-sm font-medium"
+    />
+  {/if}
+</header>

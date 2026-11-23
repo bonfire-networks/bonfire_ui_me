@@ -194,7 +194,7 @@
               {/if}
 
               {!-- Admins --}
-              {#if admins != []}
+              {#if admins != [] and Bonfire.Me.Users.moderators_visible?(@__context__)}
                 <div>
                   <div class="type-overline text-subtle mb-1.5">{l("Moderators")}</div>
                   <div class="flex flex-col gap-1.5">
@@ -238,7 +238,7 @@
             </p>
           {/if}
 
-          {#if admins != []}
+          {#if admins != [] and Bonfire.Me.Users.moderators_visible?(@__context__)}
             <div>
               <div class="type-overline text-subtle mb-1.5">{l("Moderators")}</div>
               <div class="flex flex-col gap-1.5">

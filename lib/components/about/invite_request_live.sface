@@ -1,0 +1,12 @@
+<div class={@wrapper_class}>
+  {#case action()}
+    {#match {link, label}}
+      <a id={@id} href={link} class={"btn btn-primary", @class}>{label}</a>
+    {#match _}
+  {/case}
+  {!-- for someone on another server, who has no account here: the "interact from your instance" form, with the moderators filled in --}
+  <StatelessComponent
+    module={maybe_component(Bonfire.UI.Me.MessageModeratorsLive, @__context__)}
+    class={"btn btn-outline", @class}
+  />
+</div>

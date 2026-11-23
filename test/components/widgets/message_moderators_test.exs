@@ -23,6 +23,17 @@ defmodule Bonfire.UI.Me.MessageModeratorsTest do
     )
   end
 
+  # a moderator is listed on the page and in their own account switcher, both with their avatar
+  test "a moderator can open the About page that lists them" do
+    account = fake_account!()
+    admin = fake_admin!(account)
+    Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+
+    conn(user: admin, account: account)
+    |> visit("/about")
+    |> assert_has("#mod-#{admin.id}")
+  end
+
   # What a moderator sees on the notifications page, which applies more than the feed itself: the categories switched on, the audiences hidden.
   test "a message to the moderators is listed on the notifications page of someone who is an admin and a moderator" do
     # as the notifications tests do: the test default page size is 2, which would cut the list
@@ -69,7 +80,7 @@ defmodule Bonfire.UI.Me.MessageModeratorsTest do
 
       conn()
       |> visit(unquote(page))
-      |> assert_has("#community-admins a[href^='/remote_interaction?type=message']",
+      |> assert_has("#mods a[href^='/remote_interaction?type=message']",
         text: "Message the moderators"
       )
     end
@@ -83,8 +94,8 @@ defmodule Bonfire.UI.Me.MessageModeratorsTest do
       conn()
       |> visit(unquote(page))
       # the positive first: the moderators are listed, so the missing link is not the list missing
-      |> assert_has("#community-admins")
-      |> refute_has("#community-admins a", text: "Message the moderators")
+      |> assert_has("#mods")
+      |> refute_has("#mods a", text: "Message the moderators")
     end
   end
 
@@ -97,7 +108,7 @@ defmodule Bonfire.UI.Me.MessageModeratorsTest do
 
     conn()
     |> visit("/about")
-    |> assert_has("#community-admins a[href^='/remote_interaction?type=message']",
+    |> assert_has("#mods a[href^='/remote_interaction?type=message']",
       text: "Message the moderators"
     )
   end

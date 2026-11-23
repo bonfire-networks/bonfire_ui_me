@@ -15,8 +15,48 @@
   </label>
   {#case @selected_tab}
     {#match "dashboard"}
-      {!-- the same page as a user's own dashboard settings, setting the defaults for everyone who hasn't set theirs --}
-      <Bonfire.UI.Me.DashboardSettingsLive id="instance_dashboard_settings" scope={:instance} />
+      {!-- the instance's widgets, one place per tab --}
+      <div role="tablist" class="tabs tabs-border px-4 pt-2" data-role="widget_places">
+        <LinkPatchLive
+          to={~p"/settings/instance/dashboard"}
+          class={"tab", "tab-active": @place != "home"}
+          opts={role: "tab", "aria-selected": to_string(@place != "home")}
+        >{l("Dashboard (members)")}</LinkPatchLive>
+        <LinkPatchLive
+          to={~p"/settings/instance/dashboard?place=home"}
+          class={"tab", "tab-active": @place == "home"}
+          opts={role: "tab", "aria-selected": to_string(@place == "home")}
+        >{l("Homepage (visitors)")}</LinkPatchLive>
+      </div>
+      {#if @place == "home"}
+        <div class="flex flex-col gap-4 py-4">
+          <p class="text-sm px-4 leading-relaxed text-muted">{l("What visitors see before signing in.")}</p>
+          <Bonfire.UI.Common.PlaceWidgetsSettingsLive
+            id="home"
+            place={{Bonfire.Web.Views.HomeLive, :main}}
+            scope={:instance}
+            for_guests
+          />
+          <div
+            :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
+            class="mx-4 flex items-center gap-4"
+          >
+            <p class="flex-1 text-sm text-muted">{l("Visitors may see a saved copy of the homepage for a while. This shows them your changes now.")}</p>
+            <button
+              type="button"
+              data-role="refresh_homepage"
+              phx-click="refresh_homepage"
+              class="btn btn-sm btn-outline"
+            >{l("Refresh the homepage for visitors")}</button>
+          </div>
+        </div>
+      {#else}
+        {!-- the same page as a user's own dashboard settings, setting the defaults for everyone who hasn't set theirs --}
+        <Bonfire.UI.Me.DashboardSettingsLive id="instance_dashboard_settings" scope={:instance} />
+      {/if}
+      <div class="pb-4">
+        <Bonfire.UI.Common.CustomWidgetFormLive slug={:text} />
+      </div>
       {!-- <Bonfire.UI.Me.SettingsViewsLive.DashboardSettingsLive selected_tab={@selected_tab} /> --}
     {#match "admins"}
       <StatefulComponent

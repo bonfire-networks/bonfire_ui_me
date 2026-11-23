@@ -16,20 +16,21 @@ defmodule Bonfire.UI.Me.WidgetUsersLive do
     assigns
     |> assign(
       :users,
-      users(assigns[:users])
+      users(assigns[:users], assigns[:__context__])
     )
     |> render_sface()
   end
 
-  def users(users) when is_list(users) do
+  def users(users, _context) when is_list(users) do
     users
   end
 
-  def users(%{edges: users}) when is_list(users) do
+  def users(%{edges: users}, _context) when is_list(users) do
     users
   end
 
-  def users(_) do
-    Bonfire.Me.Users.list_declared_moderators()
+  # with no users given, the moderators, as far as the viewer may see them
+  def users(_, context) do
+    Bonfire.Me.Users.list_visible_moderators(context)
   end
 end

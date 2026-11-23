@@ -1,69 +1,47 @@
 <div id="dashboard-settings" class="flex flex-col gap-4 py-4">
-  <p class="text-sm px-4 leading-relaxed text-muted">{l("Choose which widgets appear in the main area of your dashboard, and in what order.")}</p>
+  <p class="text-sm px-4 leading-relaxed text-muted">{if @scope == :instance,
+      do: l("The starting setup for members, who can change it for themselves."),
+      else: l("Choose which widgets appear in the main area of your dashboard, and in what order.")}</p>
 
-  <p :if={@widgets == []} class="px-4 text-sm text-muted">{l("There are no widgets to choose from on this instance.")}</p>
+  <div
+    data-role="widget_areas"
+    class="grid grid-cols-1 gap-4 xl:grid-cols-[2fr_1fr] xl:items-start"
+  >
+    <div class="flex flex-col gap-4">
+      <h3 class="px-4 text-sm font-medium">{l("Main dashboard")}</h3>
+      <Bonfire.UI.Common.PlaceWidgetsSettingsLive
+        id="dashboard"
+        place={{Bonfire.Web.Views.DashboardLive, :main}}
+        scope={@scope}
+        siblings={["dashboard_sidebar"]}
+      />
+    </div>
+
+    <div class="flex flex-col gap-4">
+      <h3 class="px-4 text-sm font-medium">{l("Sidebar")}</h3>
+      <Bonfire.UI.Common.PlaceWidgetsSettingsLive
+        id="dashboard_sidebar"
+        place={{Bonfire.Web.Views.DashboardLive, :sidebar}}
+        scope={@scope}
+        siblings={["dashboard"]}
+      />
+    </div>
+  </div>
 
   <form
-    id="dashboard-settings-form"
+    :if={@feed_available}
+    id="dashboard-feed-settings-form"
     phx-change="Bonfire.Common.Settings:set"
-    class="mx-4 flex flex-col gap-4"
+    class="mx-4"
   >
-    <ul
-      :if={@widgets != []}
-      id="dashboard-widgets"
-      class="rounded-box border border-divider divide-y divide-divider overflow-hidden"
-    >
-      {#for {widget, index} <- Enum.with_index(@widgets)}
-        <li
-          id={"dashboard-widget-#{widget.key}"}
-          data-item={widget.key}
-          data-role="dashboard_widget"
-          class="flex items-center gap-2 px-3 py-2"
-        >
-          <div class="flex-1 min-w-0">
-            <Bonfire.UI.Common.SettingsToggleLive
-              id={"dashboard_widget_toggle_#{widget.key}"}
-              name={widget.name}
-              keys={[Bonfire.Web.Views.DashboardLive, :include, widget.key]}
-              default_value
-              scope={@scope}
-            />
-          </div>
-          <Bonfire.UI.Common.MoveButtonsLive
-            values={%{key: widget.key}}
-            label={widget.name}
-            first={index == 0}
-            last={index == length(@widgets) - 1}
-            target={@myself}
-            class="btn btn-ghost btn-sm btn-square"
-          />
-        </li>
-      {/for}
-    </ul>
-
     <div
-      :if={@feed_available}
       class="rounded-box border border-divider px-4 py-3 flex flex-col gap-4"
       data-role="dashboard_feed_setting"
     >
-      <Bonfire.UI.Common.SettingsToggleLive
-        id="dashboard_widget_toggle_feed"
-        name={l("Latest activity")}
-        description={if @scope == :instance,
-          do:
-            l("Each person's default feed, at the end of their dashboard, unless they choose otherwise."),
-          else:
-            l(
-              "Your default feed, always shown at the end of the dashboard so you can keep scrolling into it."
-            )}
-        keys={[Bonfire.Web.Views.DashboardLive, :include, :feed]}
-        default_value={@feed_default}
-        scope={@scope}
-      />
-      {!-- shown even with the feed off, as it also sets where the sidebar's Feeds link opens --}
+      {!-- the feed is a widget above (Feed); this picks which feed it shows, apart from the default feed that the Feeds link opens, and is shown even with the widget off --}
       <StatelessComponent
-        module={maybe_component(Bonfire.UI.Social.DefaultFeedSelectLive, @__context__)}
-        id="dashboard-default-feed-select"
+        module={maybe_component(Bonfire.UI.Social.WidgetFeedSelectLive, @__context__)}
+        id="dashboard-feed-select"
         scope={@scope}
       />
     </div>

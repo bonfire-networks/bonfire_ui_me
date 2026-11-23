@@ -12,15 +12,21 @@
     />
   </form>
 
-  <form phx-submit="Bonfire.Common.Settings:save">
+  <form phx-submit="Bonfire.Common.Settings:save" data-scope="instance_welcome_description">
     <Bonfire.UI.Common.SettingsTextareaLive
       scope={:instance}
       input="ui[theme][instance_welcome][description]"
-      name={l("Welcome Description")}
+      name={l("Welcome text")}
+      description={l(
+        "Shown at the top of the homepage and the About page. Supports Markdown: headings, links and images."
+      )}
       keys={[:ui, :theme, :instance_welcome, :description]}
       default_value={Config.get([:ui, :theme, :instance_welcome, :description], nil,
-        name: l("Welcome Description"),
-        description: l("Description text displayed on the welcome/about page.")
+        name: l("Welcome text"),
+        description:
+          l(
+            "Shown at the top of the homepage and the About page. Supports Markdown: headings, links and images."
+          )
       )}
     />
   </form>
@@ -129,7 +135,14 @@
     />
   </form>
 
-  <div class="font-medium">{l("Components to include on the guest homepage")}</div>
+  {!-- the guest homepage's widgets, Spotlight and public groups included, are chosen and ordered on the Widgets page --}
+  <LinkLive
+    to="/settings/instance/dashboard?place=home"
+    class="link link-hover font-medium"
+    opts={["data-role": "homepage_widgets_link"]}
+  >{l("Choose what the guest homepage shows")}</LinkLive>
+
+  {!-- <div class="font-medium">{l("Components to include on the guest homepage")}</div>
   <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={:instance} type="hidden">
 
@@ -152,7 +165,7 @@
       scope={:instance}
       compact
     />
-  </form>
+  </form> --}
 
   <div class="font-medium">Components to include in the about page</div>
   <form class="flex flex-col gap-4" phx-change="Bonfire.Common.Settings:set">

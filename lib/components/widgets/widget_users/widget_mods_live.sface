@@ -1,0 +1,81 @@
+{!-- only those the viewer may see, as the instance chose (`Bonfire.Me.Users.list_visible_moderators/1`) --}
+{#case Bonfire.Me.Users.list_visible_moderators(@__context__)}
+  {#match []}
+  {#match mods}
+    {#if @showing_within == :main}
+      <div id="mods">
+        <Bonfire.UI.Common.WidgetBlockLive
+          widget_title={e(@widget_title, l("Moderators"))}
+          class={"w-full", @class}
+          title_class="pb-4"
+          heading_class="text-lg font-bold leading-snug tracking-[-0.01em] normal-case"
+        >
+          <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2" data-role="widget-body">
+            {#for mod <- mods}
+              <li class="min-w-0">
+                <LinkLive
+                  to={path(mod)}
+                  class="group flex h-full min-w-0 items-center gap-3 rounded-box border-hair border-base-content/15 p-4 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2"
+                  opts={[
+                    id: "mod-#{id(mod)}",
+                    "data-role": "mod-link",
+                    title: "@" <> e(mod, :character, :username, "")
+                  ]}
+                >
+                  <Bonfire.UI.Common.AvatarLive
+                    wrapper_class="avatar size-9 shrink-0"
+                    class="size-9 rounded-full"
+                    is_remote={false}
+                    bg_class="rounded-full"
+                    src={Media.avatar_url(mod)}
+                    user_id={id(mod)}
+                    parent_id="mods"
+                    title=""
+                  />
+                  <span class="min-w-0">
+                    <strong class="block text-sm font-semibold wrap-anywhere underline-offset-3 group-hover:underline">{e(mod, :profile, :name, nil) || e(mod, :character, :username, nil)}</strong>
+                    <small
+                      :if={e(mod, :character, :username, nil)}
+                      class="mt-0.5 block text-xs text-muted wrap-anywhere"
+                    >{"@" <> e(mod, :character, :username, "")}</small>
+                  </span>
+                  <#Icon
+                    iconify="ph:caret-right"
+                    class="ml-auto size-4 shrink-0 text-muted group-hover:text-base-content"
+                    aria-hidden="true"
+                  />
+                </LinkLive>
+              </li>
+            {/for}
+          </ul>
+          <div data-role="widget-body">
+            <Bonfire.UI.Me.MessageModeratorsLive class="btn btn-outline border-base-content/15 mt-3 w-full normal-case gap-2" />
+          </div>
+        </Bonfire.UI.Common.WidgetBlockLive>
+      </div>
+    {#else}
+      <Bonfire.UI.Me.WidgetUsersLive
+        widget_title={e(@widget_title, l("Moderators"))}
+        users={mods}
+        parent_id="widget_mods"
+      >
+        <:action>
+          {#if @show_reset_btn || Bonfire.Boundaries.can?(@__context__, :assign, :instance_wide)}
+            <button
+              :on-click="Bonfire.UI.Me.WidgetModsLive:reset"
+              type="button"
+              class="group btn btn-circle btn-xs touch-target-expanded btn-outline border-divider"
+              title={l("Refresh")}
+            >
+              <span class="touch-target-hit-area" aria-hidden="true" />
+              <span class="sr-only">{l("Refresh")}</span>
+              <#Icon iconify="ph:arrow-counter-clockwise-duotone" class="size-4 text-primary" />
+            </button>
+          {/if}
+        </:action>
+        <:footer>
+          <Bonfire.UI.Me.MessageModeratorsLive class="btn btn-sm btn-outline border-base-content/15 normal-case gap-2 w-full" />
+        </:footer>
+      </Bonfire.UI.Me.WidgetUsersLive>
+    {/if}
+{/case}

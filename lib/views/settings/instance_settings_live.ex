@@ -19,7 +19,16 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
        page: "instance_settings",
        trigger_submit: false,
        scope: :instance
-     )}
+     )
+     # the members' Dashboard tab shows its own sidebar list, so the layout's sidebar is hidden there and back on for any other tab, the Homepage tab included
+     |> Phoenix.LiveView.attach_hook(:dashboard_tab_layout, :handle_params, fn params,
+                                                                               _url,
+                                                                               socket ->
+       {:cont,
+        assign(socket,
+          without_secondary_widgets: params["tab"] == "dashboard" and params["place"] != "home"
+        )}
+     end)}
   end
 
   # Unwrap /settings/instance/boundaries/:sub_tab which otherwise matches
@@ -123,6 +132,18 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
      )}
   end
 
+  # the instance's widgets, one place per tab: members' dashboard (default) or the homepage for visitors (`?place=home`)
+  def handle_params(%{"tab" => "dashboard"} = params, _url, socket) do
+    {:noreply,
+     assign(
+       socket,
+       back: true,
+       page_title: l("Widgets"),
+       selected_tab: "dashboard",
+       place: if(params["place"] == "home", do: "home", else: "dashboard")
+     )}
+  end
+
   def handle_params(%{"tab" => "federation_status"}, _url, socket) do
     {:noreply,
      assign(
@@ -156,6 +177,29 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
 
   def handle_params(_, _url, socket) do
     {:noreply, socket}
+  end
+
+  @doc """
+  Clears the saved copies of the homepage and About page that visitors are served, so they see the instance's widget changes now. Admins only.
+
+  That's the pages saved on disk (`Bonfire.UI.Common.StaticGenerator`, which guests are always served from when a page is saved there), cleared right away, and any proxy or CDN set up (`Bonfire.Common.Cache.HTTPPurge`).
+  """
+  def handle_event("refresh_homepage", _params, socket) do
+    if maybe_apply(Bonfire.Me.Accounts, :is_admin?, [socket.assigns[:__context__]],
+         fallback_return: nil
+       ) == true do
+      urls = ["/", "/about"]
+      Bonfire.UI.Common.Cache.HTTPPurge.StaticGenerator.bust_urls(urls)
+
+      for adapter <- Bonfire.Common.Cache.HTTPPurge.adapters(),
+          adapter != Bonfire.UI.Common.Cache.HTTPPurge.StaticGenerator do
+        Task.start(fn -> adapter.bust_urls(urls) end)
+      end
+
+      {:noreply, assign_flash(socket, :info, l("Visitors will see your changes now."))}
+    else
+      {:noreply, assign_flash(socket, :error, l("Only admins can do this."))}
+    end
   end
 
   def handle_event("validate", _params, socket) do

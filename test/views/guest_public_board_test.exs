@@ -4,7 +4,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
   # the guest tests check the static render (`get_conn_render`), which is the page a guest gets as they have no LiveView socket; they were `conn() |> visit(path)`, which connects a LiveView on these pages. The signed-in tests keep `visit`
 
   alias Bonfire.UI.Common.GuestBoardLive
-  # doctest Bonfire.Web.Components.HomeHeroLive
+  # doctest Bonfire.UI.Me.HomeHeroLive
 
   alias Bonfire.Social.Pins
   alias Bonfire.Posts
@@ -44,7 +44,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       # no breadcrumb
       |> refute_has("#guest-board-home", text: "Public activity")
       |> refute_has("#guest-board a", text: "About this community")
-      |> assert_has("#guest-feed-title", text: "Recent activity")
+      |> assert_has("#feed_heading", text: "Recent activity")
       |> assert_has("#guest-board-footer a[href='/privacy']", text: "Privacy")
       # the board owns its chrome (no widgets sidebar), but keeps the guest mobile dock: logo only, plus the actions
       |> refute_has("[data-id=right_nav_and_widgets]")
@@ -70,7 +70,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     test "hides Spotlight entirely when nothing is pinned" do
       conn()
       |> get_conn_render("/")
-      |> refute_has("#guest-spotlight aside")
+      |> refute_has("[data-widget-id=instance_pinned] aside")
       |> refute_has("[data-role=widget-empty-state]")
     end
 
@@ -82,11 +82,13 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> get_conn_render("/")
-      |> assert_has("#guest-spotlight [data-role=widget-heading]", text: "Spotlight")
-      |> assert_has("#guest-spotlight [data-role=pinned_card]",
+      |> assert_has("[data-widget-id=instance_pinned] [data-role=widget-heading]",
+        text: "Spotlight"
+      )
+      |> assert_has("[data-widget-id=instance_pinned] [data-role=pinned_card]",
         text: "a public post in the guest spotlight"
       )
-      |> refute_has("#guest-spotlight [data-carousel-scroll]")
+      |> refute_has("[data-widget-id=instance_pinned] [data-carousel-scroll]")
     end
 
     test "shows static-friendly previous/next controls with several pins" do
@@ -101,13 +103,13 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> get_conn_render("/")
       |> assert_has(
-        "#guest-spotlight button[data-carousel-scroll=previous][aria-controls=instance_pinned_widget-track]"
+        "[data-widget-id=instance_pinned] button[data-carousel-scroll=previous][aria-controls=instance_pinned_widget-track]"
       )
       |> assert_has(
-        "#guest-spotlight button[data-carousel-scroll=next][aria-controls=instance_pinned_widget-track]"
+        "[data-widget-id=instance_pinned] button[data-carousel-scroll=next][aria-controls=instance_pinned_widget-track]"
       )
       # no LiveView-only JS command, which would be mis-routed on the static guest page
-      |> refute_has("#guest-spotlight [data-carousel-scroll][phx-click]")
+      |> refute_has("[data-widget-id=instance_pinned] [data-carousel-scroll][phx-click]")
     end
 
     test "hides Spotlight when the instance turns it off" do
@@ -119,7 +121,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> get_conn_render("/")
-      |> refute_has("#guest-spotlight")
+      |> refute_has("[data-widget-id=instance_pinned]")
       # the post itself is public, so it may still appear in Recent activity
       |> refute_has("[data-role=pinned_card]")
     end
@@ -158,22 +160,24 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> get_conn_render("/")
-      |> assert_has("#guest-groups [data-role=widget-heading]", text: "Groups")
+      |> assert_has("[data-widget-id=groups] [data-role=widget-heading]", text: "Groups")
       # the compact card, with the /groups row's join action
-      |> assert_has("#guest-groups article#group-preview-#{id(visible)}",
+      |> assert_has("[data-widget-id=groups] article#group-preview-#{id(visible)}",
         text: "Guest visible group"
       )
       |> assert_has(
-        "#guest-groups #group-preview-#{id(visible)} a#group-preview-link-#{id(visible)}[href='/group/#{visible.character.username}']",
+        "[data-widget-id=groups] #group-preview-#{id(visible)} a#group-preview-link-#{id(visible)}[href='/group/#{visible.character.username}']",
         text: "Guest visible group"
       )
-      |> assert_has("#guest-groups #group-preview-#{id(visible)} [data-role=group-card-action]")
-      |> assert_has("#guest-groups [data-role=group-card-compact]")
-      |> refute_has("#guest-groups #group-preview-#{id(private)}")
-      |> refute_has("#guest-groups", text: "Members only group")
-      |> refute_has("#guest-groups #group-preview-#{id(federated)}")
-      |> refute_has("#guest-groups", text: "Federated group")
-      |> assert_has("#guest-groups a[href='/groups']", text: "Browse all groups")
+      |> assert_has(
+        "[data-widget-id=groups] #group-preview-#{id(visible)} [data-role=group-card-action]"
+      )
+      |> assert_has("[data-widget-id=groups] [data-role=group-card-compact]")
+      |> refute_has("[data-widget-id=groups] #group-preview-#{id(private)}")
+      |> refute_has("[data-widget-id=groups]", text: "Members only group")
+      |> refute_has("[data-widget-id=groups] #group-preview-#{id(federated)}")
+      |> refute_has("[data-widget-id=groups]", text: "Federated group")
+      |> assert_has("[data-widget-id=groups] a[href='/groups']", text: "Browse all groups")
     end
 
     test "the groups are the shared carousel, with dots" do
@@ -191,10 +195,10 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> get_conn_render("/")
-      |> assert_has("#guest-groups [data-carousel-card] article[id^=group-preview-]",
+      |> assert_has("[data-widget-id=groups] [data-carousel-card] article[id^=group-preview-]",
         text: "First guest group"
       )
-      |> assert_has("#guest-groups [data-role=carousel_dots]")
+      |> assert_has("[data-widget-id=groups] [data-role=carousel_dots]")
     end
 
     test "hides the groups section when the instance turns it off" do
@@ -209,7 +213,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> get_conn_render("/")
-      |> refute_has("#guest-groups")
+      |> refute_has("[data-widget-id=groups]")
     end
   end
 
@@ -250,7 +254,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> get_conn_render("/")
       |> assert_has(
-        "#guest-home #community-admins a[data-role=admin-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
+        "#guest-home #mods a[data-role=mod-link][href='/@#{admin.character.username}'][title='@#{admin.character.username}']",
         text: admin.profile.name
       )
     end
@@ -264,10 +268,10 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> get_conn_render("/")
       # prove the positive first: the moderator is listed
       |> assert_has(
-        "#guest-home #community-admins a[data-role=admin-link][href='/@#{moderator.character.username}']"
+        "#guest-home #mods a[data-role=mod-link][href='/@#{moderator.character.username}']"
       )
-      |> refute_has("#community-admins a[href='/@#{admin.character.username}']")
-      |> assert_has("#community-admins-title", text: "Moderators")
+      |> refute_has("#mods a[href='/@#{admin.character.username}']")
+      |> assert_has("#mods [data-role=widget-heading]", text: "Moderators")
     end
 
     test "a moderator made after the list was first shown appears without refreshing the list" do
@@ -275,14 +279,14 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       # the list is cached from here on
-      conn() |> get_conn_render("/") |> assert_has("#community-admins")
+      conn() |> get_conn_render("/") |> assert_has("#mods")
 
       moderator = fake_user!(fake_account!())
       assert {:ok, _} = Bonfire.Me.Users.make_moderator(moderator, skip_boundary_check: true)
 
       conn()
       |> get_conn_render("/")
-      |> assert_has("#community-admins a[href='/@#{moderator.character.username}']")
+      |> assert_has("#mods a[href='/@#{moderator.character.username}']")
     end
 
     test "lists every admin, however many there are" do
@@ -295,11 +299,11 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
         conn()
         |> get_conn_render("/")
         # each admin is a card, so none are collapsed
-        |> assert_has("#community-admins a[data-role=admin-link]", count: count)
-        |> refute_has("#community-admins-more")
+        |> assert_has("#mods a[data-role=mod-link]", count: count)
+        |> refute_has("#mods-more")
 
       for admin <- admins do
-        assert_has(session, "#community-admins a[href='/@#{admin.character.username}']")
+        assert_has(session, "#mods a[href='/@#{admin.character.username}']")
       end
     end
 
@@ -311,39 +315,213 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> get_conn_render("/")
-      |> refute_has("#community-admins")
+      |> refute_has("#mods")
     end
 
-    test "an admin turning them off in instance settings hides them from guests" do
+    test "an admin choosing to show them only to signed-in people hides them from guests" do
       account = fake_account!()
       admin = fake_admin!(account)
       Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       # instance settings are mirrored into the global Application env, which the sandbox doesn't roll back
       on_exit(fn ->
-        Bonfire.Common.Config.delete([Bonfire.UI.Me.WidgetUsersLive], :bonfire_ui_me)
+        Bonfire.Common.Config.delete([Bonfire.Me.Users, :show_moderators_to], :bonfire_me)
       end)
 
       conn()
       |> get_conn_render("/")
-      |> assert_has("#community-admins")
+      |> assert_has("#mods")
 
       {:ok, view, _html} =
         live(conn(user: admin, account: account), "/settings/instance/configuration")
 
       view
       |> form("form[data-scope=instance_general]", %{
-        "Bonfire.UI.Me.WidgetUsersLive" => %{"show_guests" => "false"}
+        "Elixir.Bonfire.Me.Users" => %{"show_moderators_to" => "users"}
       })
       |> render_change()
 
+      assert Bonfire.Common.Config.get([Bonfire.Me.Users, :show_moderators_to], nil) in [
+               :users,
+               "users"
+             ],
+             "the form saves the choice as the instance's setting"
+
+      refute Bonfire.Me.Users.moderators_visible?(nil), "the context reads it for visitors"
+
       conn()
       |> get_conn_render("/")
-      |> refute_has("#community-admins")
+      |> refute_has("#mods")
 
       conn()
       |> get_conn_render("/about")
-      |> refute_has("#community-admins")
+      |> refute_has("#mods")
+    end
+
+    test "the homepage shows recent activity unless the instance turns it off" do
+      conn()
+      |> get_conn_render("/")
+      |> assert_has("#feed_heading", text: "Recent activity")
+
+      Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :include, :feed], false)
+
+      conn()
+      |> get_conn_render("/")
+      |> refute_has("#feed_heading")
+    end
+
+    test "the introduction is the homepage's first widget, and an admin can turn it off" do
+      first_widget =
+        conn()
+        |> get("/")
+        |> html_response(200)
+        |> Floki.parse_document!()
+        |> Floki.find("#home_main_widgets [data-widget-id]")
+        |> Enum.flat_map(&Floki.attribute(&1, "data-widget-id"))
+        |> List.first()
+
+      assert first_widget == "intro"
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has("[data-widget-id=intro] #about-tagline")
+
+      Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :include, :intro], false)
+
+      conn()
+      |> get_conn_render("/")
+      |> refute_has("#about-tagline")
+    end
+
+    test "the instance facts are one of the homepage's widgets" do
+      conn()
+      |> get_conn_render("/")
+      |> assert_has("[data-widget-id=instance_facts] [data-role=widget-body] #about-meta")
+    end
+
+    test "the community links are one of the homepage's widgets" do
+      Process.put([:bonfire, :ui, :theme, :instance_welcome, :links], [
+        {"Community handbook", "https://example.org/handbook"}
+      ])
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has(
+        "[data-widget-id=community_links] #community-links a[href='https://example.org/handbook']"
+      )
+    end
+
+    test "the community rules are one of the homepage's widgets" do
+      Repatch.patch(Bonfire.CommunityRules, :get_instance_rules_sections, [mode: :shared], fn ->
+        [%{sections: [%{rules: [%{name: "Be kind"}, %{name: "No spam"}]}]}]
+      end)
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has("[data-widget-id=community_rules]", text: "Be kind")
+    end
+
+    test "an instance that shows its moderators only to signed-in people shows them to no visitor, anywhere" do
+      _admin = fake_admin!(fake_account!())
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+
+      # the instance status widget lists the moderators too
+      Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :widgets],
+        main: [:mods, :instance_status]
+      )
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has("#mods")
+      |> assert_has("[data-widget-id=instance_status]", text: "Moderators")
+
+      Process.put([:bonfire_me, Bonfire.Me.Users, :show_moderators_to], :users)
+
+      conn()
+      |> get_conn_render("/")
+      |> refute_has("#mods")
+      |> refute_has("[data-widget-id=instance_status]", text: "Moderators")
+
+      conn()
+      |> get_conn_render("/about")
+      |> refute_has("#mods")
+    end
+
+    test "an instance that shows its moderators to nobody hides them from signed-in people too" do
+      _admin = fake_admin!(fake_account!())
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+      account = fake_account!()
+      me = fake_user!(account)
+
+      conn(user: me, account: account)
+      |> visit("/about")
+      |> assert_has("#mods")
+
+      Process.put([:bonfire_me, Bonfire.Me.Users, :show_moderators_to], :nobody)
+
+      conn(user: me, account: account)
+      |> visit("/about")
+      |> refute_has("#mods")
+    end
+
+    test "the moderators are one of the homepage's widgets" do
+      _admin = fake_admin!(fake_account!())
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has("[data-widget-id=mods] #mods a[data-role=mod-link]")
+    end
+
+    test "widgets the instance puts on the homepage show for visitors" do
+      # Config.get reads these per test process
+      Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :widgets], main: [:custom_text])
+
+      Process.put([:bonfire_ui_common, Bonfire.UI.Common.Widgets, :custom], %{
+        text: %{title: "Start here", text: "Hello **visitors**"}
+      })
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has("#home_main_widgets", text: "Start here")
+      |> assert_has("#home_main_widgets strong", text: "visitors")
+    end
+
+    test "an admin's welcome text shows on the guest home as markdown, with headings, links and images" do
+      account = fake_account!()
+      admin = fake_admin!(account)
+      keys = [:ui, :theme, :instance_welcome, :description]
+
+      # instance settings are mirrored into the global Application env, which the sandbox doesn't roll back
+      on_exit(fn ->
+        if Bonfire.Common.Config.get(keys, nil) do
+          [otp_app | keys] = Bonfire.Common.Config.keys_tree(keys)
+          Bonfire.Common.Config.delete(keys, otp_app)
+        end
+      end)
+
+      {:ok, view, _html} = live(conn(user: admin, account: account), "/settings/instance/about")
+
+      view
+      |> form("form[data-scope=instance_welcome_description]", %{
+        "ui" => %{
+          "theme" => %{
+            "instance_welcome" => %{
+              "description" =>
+                "## Start here\n\nRead [the guide](https://welcome.example.local/guide).\n\n![Our hall](https://welcome.example.local/hall.png)"
+            }
+          }
+        }
+      })
+      |> render_submit()
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has("#about-description h2", text: "Start here")
+      |> assert_has("#about-description a[href='https://welcome.example.local/guide']",
+        text: "the guide"
+      )
+      |> assert_has("#about-description img[src='https://welcome.example.local/hall.png']")
     end
 
     test "are listed on the guest About page, without the community links" do
@@ -358,7 +536,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> get_conn_render("/about")
       |> refute_has("#community-links")
       |> assert_has(
-        "#community-admins a[data-role=admin-link][href='/@#{admin.character.username}']",
+        "#mods a[data-role=mod-link][href='/@#{admin.character.username}']",
         text: admin.profile.name
       )
     end
@@ -371,7 +549,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> get_conn_render("/about")
-      |> refute_has("#community-admins")
+      |> refute_has("#mods")
     end
   end
 
@@ -774,7 +952,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn
       |> visit("/about")
-      |> assert_has("#member-about #community-admins a[data-role=admin-link]",
+      |> assert_has("#member-about #mods a[data-role=mod-link]",
         text: "@#{admin.character.username}"
       )
     end

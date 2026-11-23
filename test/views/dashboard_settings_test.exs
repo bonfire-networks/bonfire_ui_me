@@ -2,8 +2,6 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
   @moduledoc "Dashboard settings: what's changed there is what the dashboard renders."
   use Bonfire.UI.Me.ConnCase, async: false
 
-  alias Bonfire.UI.Me.Dashboard
-
   @settings "/settings/user/dashboard"
 
   setup do
@@ -13,12 +11,16 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     {:ok, conn: conn(user: me, account: account), me: me}
   end
 
+  # every widget the dashboard's settings list, in order, as `%{key, name, widget}`
   defp options(me),
     do:
-      Dashboard.options(
-        maybe_apply(Bonfire.Web.Views.DashboardLive, :main_widget_choices, []),
-        me
+      Enum.map(
+        Bonfire.UI.Common.Widgets.offered({Bonfire.Web.Views.DashboardLive, :main}, me),
+        &%{key: &1.id, name: &1.name, widget: &1, included: &1.included}
       )
+
+  # the ones the dashboard shows
+  defp shown(me), do: Enum.filter(options(me), & &1.included)
 
   # a custom feed preset of the user's, hidden from the feed tabs; returns its name and the user the put returns, as settings are preloaded on it and a later put on the old user would drop the preset
   defp put_hidden_preset(me, slug) do
@@ -80,13 +82,13 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       view
       |> render()
       |> Floki.parse_document!()
-      |> Floki.find("[data-role=dashboard_widget]")
+      |> Floki.find("#dashboard-widgets [data-role=place_widget]")
 
     assert length(rows) == length(options(me))
   end
 
   test "hiding a widget in settings takes it off the dashboard", %{conn: conn, me: me} do
-    %{name: name, widget: widget} = List.last(options(me))
+    %{name: name, widget: widget} = List.last(shown(me))
     module = widget.module
 
     assert to_string(module) in dashboard_order(conn)
@@ -116,7 +118,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
              view
              |> render()
              |> Floki.parse_document!()
-             |> Floki.find("[data-role=dashboard_widget]")
+             |> Floki.find("#dashboard-widgets [data-role=place_widget]")
              |> Enum.flat_map(&Floki.attribute(&1, "data-item"))
 
     assert moved == to_string(first.key)
@@ -134,6 +136,228 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     assert has_element?(view, "#dashboard-widget-#{last.key} [data-role=move_down][disabled]")
   end
 
+  describe "the sidebar" do
+    @sidebar_keys [:bonfire, Bonfire.Web.Views.DashboardLive, :widgets]
+
+    # the ids of the widgets in an area of the dashboard, in the order it renders them
+    defp area_widget_ids(conn, area_selector) do
+      {:ok, _view, html} = live(conn, "/dashboard")
+
+      html
+      |> Floki.parse_document!()
+      |> Floki.find("#{area_selector} [data-widget-id]")
+      |> Enum.flat_map(&Floki.attribute(&1, "data-widget-id"))
+    end
+
+    test "shows the flavour's sidebar widgets, in its order", %{conn: conn} do
+      Process.put(@sidebar_keys, sidebar: [:community_rules, :mods])
+
+      assert ["community_rules", "mods"] ==
+               area_widget_ids(conn, "[data-id=secondary_sidebar_widgets]")
+    end
+
+    test "a member turns a sidebar widget off, and only their sidebar loses it", %{conn: conn} do
+      Process.put(@sidebar_keys, sidebar: [:community_rules, :mods])
+
+      other_account = fake_account!()
+      other_conn = conn(user: fake_user!(other_account), account: other_account)
+
+      assert "mods" in area_widget_ids(conn, "[data-id=secondary_sidebar_widgets]")
+
+      conn
+      |> visit(@settings)
+      |> uncheck("#dashboard_sidebar_widget_toggle_mods", "Moderators", exact: false)
+
+      sidebar = area_widget_ids(conn, "[data-id=secondary_sidebar_widgets]")
+      refute "mods" in sidebar
+      assert "community_rules" in sidebar
+
+      assert "mods" in area_widget_ids(other_conn, "[data-id=secondary_sidebar_widgets]")
+    end
+
+    test "a member moves a sidebar widget to the main area", %{conn: conn} do
+      Process.put(@sidebar_keys,
+        main: [:suggested_profiles, :instance_pinned],
+        sidebar: [:community_rules, :mods, :trending_links]
+      )
+
+      {:ok, view, _html} = live(conn, @settings)
+
+      refute has_element?(view, "#dashboard-widget-community_rules")
+      assert has_element?(view, "#dashboard_sidebar-widget-community_rules")
+
+      # a widget that fits either area can move to the other one, and one that only fits a single area has nowhere to go
+      # the layout's right sidebar is hidden, and the two lists sit side by side where the two areas are
+      refute has_element?(view, "[data-id=secondary_sidebar_widgets]")
+      assert has_element?(view, "[data-role=widget_areas] #dashboard-widgets")
+      assert has_element?(view, "[data-role=widget_areas] #dashboard_sidebar-widgets")
+
+      # the move button is an icon, named for screen readers, with no visible text
+      move_button =
+        view
+        |> render()
+        |> Floki.parse_document!()
+        |> Floki.find("#dashboard-widget-suggested_profiles [data-role=move_widget_area]")
+
+      assert [button] = move_button
+      assert Floki.attribute(button, "aria-label") == ["Move to sidebar"]
+      assert Floki.attribute(button, "title") == ["Move to sidebar"]
+      assert button |> Floki.text() |> String.trim() == ""
+
+      assert has_element?(
+               view,
+               "#dashboard-widget-suggested_profiles [data-role=move_widget_area]"
+             )
+
+      refute has_element?(view, "#dashboard-widget-instance_pinned [data-role=move_widget_area]")
+
+      refute has_element?(
+               view,
+               "#dashboard_sidebar-widget-trending_links [data-role=move_widget_area]"
+             )
+
+      view
+      |> element("#dashboard_sidebar-widget-community_rules [data-role=move_widget_area]")
+      |> render_click()
+
+      assert has_element?(view, "#dashboard-widget-community_rules")
+      refute has_element?(view, "#dashboard_sidebar-widget-community_rules")
+
+      assert "community_rules" in area_widget_ids(conn, "#dashboard_main_widgets")
+      refute "community_rules" in area_widget_ids(conn, "[data-id=secondary_sidebar_widgets]")
+    end
+  end
+
+  # LiveViewTest runs no JS, so these check the markup the Draggable hook reads, and the event it sends
+  describe "dragging widgets in settings" do
+    @drag_keys [:bonfire, Bonfire.Web.Views.DashboardLive, :widgets]
+
+    setup do
+      Process.put(@drag_keys,
+        main: [:suggested_profiles, :instance_pinned],
+        sidebar: [:community_rules, :mods, :trending_links]
+      )
+
+      :ok
+    end
+
+    # the `data-item`s of a settings list, in the order it renders them
+    defp list_ids(view, list_selector) do
+      view
+      |> render()
+      |> Floki.parse_document!()
+      |> Floki.find("#{list_selector} [data-role=place_widget]")
+      |> Enum.flat_map(&Floki.attribute(&1, "data-item"))
+    end
+
+    # what the hook sends when a widget is dropped
+    defp drop_params(source, from, to, target_order) do
+      %{
+        "old_index" => 0,
+        "new_index" => Enum.find_index(target_order, &(&1 == source)),
+        "parent_item" => from,
+        "source_item" => source,
+        "target_parent" => to,
+        "target_order" => target_order
+      }
+    end
+
+    test "the widget lists can be dragged, within and between them", %{conn: conn} do
+      {:ok, view, _html} = live(conn, @settings)
+      doc = view |> render() |> Floki.parse_document!()
+
+      [main] = Floki.find(doc, "#dashboard-widgets")
+      [sidebar] = Floki.find(doc, "#dashboard_sidebar-widgets")
+
+      for list <- [main, sidebar] do
+        assert Floki.attribute(list, "phx-hook") == ["Draggable"]
+        assert [_] = Floki.attribute(list, "data-event")
+        assert [_] = Floki.attribute(list, "phx-target")
+        assert [_ | _] = Floki.attribute(list, "data-sortable-group")
+      end
+
+      assert Floki.attribute(main, "data-sortable-group") ==
+               Floki.attribute(sidebar, "data-sortable-group")
+
+      assert Floki.attribute(main, "data-parent") == ["dashboard"]
+      assert Floki.attribute(sidebar, "data-parent") == ["dashboard_sidebar"]
+
+      for list <- [main, sidebar], row <- Floki.find(list, "[data-role=place_widget]") do
+        assert [_] = Floki.attribute(row, "data-item")
+        assert Floki.attribute(row, "data-sortable-item") != []
+        assert [_ | _] = Floki.find(row, "[data-sortable-handler][aria-label]")
+      end
+    end
+
+    test "dragging a widget within a list saves the order", %{conn: conn, me: me} do
+      {:ok, view, _html} = live(conn, @settings)
+
+      [first, second | rest] = list_ids(view, "#dashboard-widgets")
+      swapped = [second, first | rest]
+
+      view
+      |> element("#dashboard-widgets")
+      |> render_hook("reorder_widgets", drop_params(second, "dashboard", "dashboard", swapped))
+
+      assert list_ids(view, "#dashboard-widgets") == swapped
+
+      modules =
+        for key <- swapped,
+            do: to_string(Enum.find(options(me), &(to_string(&1.key) == key)).widget.module)
+
+      shown = dashboard_order(conn)
+      assert Enum.filter(modules, &(&1 in shown)) == shown
+    end
+
+    test "dragging a widget to the sidebar moves it there, in the dropped position", %{conn: conn} do
+      {:ok, view, _html} = live(conn, @settings)
+
+      assert has_element?(view, "#dashboard-widget-suggested_profiles")
+      sidebar = list_ids(view, "#dashboard_sidebar-widgets")
+      assert ["community_rules", "mods" | _] = sidebar
+
+      target_order =
+        ["community_rules", "suggested_profiles", "mods"] ++
+          (sidebar -- ["community_rules", "mods"])
+
+      view
+      |> element("#dashboard-widgets")
+      |> render_hook(
+        "reorder_widgets",
+        drop_params("suggested_profiles", "dashboard", "dashboard_sidebar", target_order)
+      )
+
+      refute has_element?(view, "#dashboard-widget-suggested_profiles")
+      assert has_element?(view, "#dashboard_sidebar-widget-suggested_profiles")
+      assert list_ids(view, "#dashboard_sidebar-widgets") == target_order
+
+      sidebar_on_page = area_widget_ids(conn, "[data-id=secondary_sidebar_widgets]")
+      assert Enum.find_index(sidebar_on_page, &(&1 == "suggested_profiles")) == 1
+      refute "suggested_profiles" in area_widget_ids(conn, "#dashboard_main_widgets")
+    end
+
+    test "a drop the widget's width doesn't allow changes nothing", %{conn: conn} do
+      {:ok, view, _html} = live(conn, @settings)
+
+      main = list_ids(view, "#dashboard-widgets")
+      sidebar = list_ids(view, "#dashboard_sidebar-widgets")
+      assert "instance_pinned" in main
+
+      view
+      |> element("#dashboard-widgets")
+      |> render_hook(
+        "reorder_widgets",
+        drop_params("instance_pinned", "dashboard", "dashboard_sidebar", [
+          "instance_pinned" | sidebar
+        ])
+      )
+
+      assert list_ids(view, "#dashboard-widgets") == main
+      assert list_ids(view, "#dashboard_sidebar-widgets") == sidebar
+      assert "Elixir.Bonfire.UI.Reactions.PinnedCarouselLive" in dashboard_order(conn)
+    end
+  end
+
   describe "the latest-activity feed" do
     defp dashboard_html(conn) do
       {:ok, _view, html} = live(conn, "/dashboard")
@@ -141,7 +365,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     end
 
     defp has_feed?(html),
-      do: Floki.find(Floki.parse_document!(html), "[data-id=dashboard_feed]") != []
+      do: Floki.find(Floki.parse_document!(html), "[data-id=feed]") != []
 
     defp position(html, selector) do
       # where an element starts in the page, to compare which comes first
@@ -157,7 +381,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     test "turned on in settings, it comes after every widget", %{conn: conn} do
       conn
       |> visit(@settings)
-      |> check("Latest activity", exact: false)
+      |> check("#dashboard_widget_toggle_feed", "Feed", exact: false)
 
       html = dashboard_html(conn)
 
@@ -165,12 +389,19 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       assert position(html, "#dashboard_main_widgets") < position(html, "#feed-tabs")
     end
 
-    test "has a toggle in settings but no place in the order", %{conn: conn} do
+    test "is a widget like the others: a row in settings that can be moved, after the default widgets",
+         %{conn: conn, me: me} do
       {:ok, view, _html} = live(conn, @settings)
 
-      assert has_element?(view, "[data-role=dashboard_feed_setting]", "Latest activity")
-      refute has_element?(view, "[data-role=dashboard_feed_setting] [data-role=move_up]")
-      refute has_element?(view, "[data-role=dashboard_widget]", "Latest activity")
+      assert has_element?(view, "#dashboard-widget-feed", "Feed")
+      assert has_element?(view, "#dashboard-widget-feed [data-role=move_up]")
+
+      {:ok, %{__context__: %{current_user: _me}}} =
+        Bonfire.Common.Settings.put([Bonfire.Web.Views.DashboardLive, :include, :feed], true,
+          current_user: me
+        )
+
+      assert List.last(dashboard_order(conn)) == "Elixir.Bonfire.UI.Social.WidgetFeedLive"
     end
 
     test "with every widget hidden, the dashboard is just the feed", %{conn: conn, me: me} do
@@ -190,33 +421,40 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       refute html =~ "You can customise your dashboard"
     end
 
-    # Latest activity is off here, as "is off unless chosen" shows: the dropdown shows either way, since it also sets where the sidebar's Feeds link opens
-    test "the Default feed dropdown sits beside Latest activity, with every feed I may choose",
+    # the feed is off here, as "is off unless chosen" shows: the dropdown shows either way
+    test "the Feed shown on the dashboard dropdown sits beside the feed widget, with every feed I may choose",
          %{conn: conn, me: me} do
       {name, _me} = put_hidden_preset(me, :dashboard_custom)
 
       conn
       |> visit(@settings)
-      |> assert_has("[data-role=dashboard_feed_setting] select#dashboard-default-feed-select")
-      |> assert_has("#dashboard-default-feed-select option[value=local]", text: "Local")
-      |> assert_has("#dashboard-default-feed-select option[value=dashboard_custom]", text: name)
+      |> assert_has("[data-role=dashboard_feed_setting] select#dashboard-feed-select")
+      |> refute_has("#dashboard-default-feed-select")
+      |> assert_has("#dashboard-feed-select option[value=local]", text: "Local")
+      |> assert_has("#dashboard-feed-select option[value=dashboard_custom]", text: name)
     end
 
-    test "choosing a default feed there is the default feed everywhere", %{conn: conn} do
+    test "choosing a feed there changes the dashboard's feed, not the default feed", %{
+      conn: conn,
+      me: me
+    } do
+      # a feed that no fallback would pick: it sorts after the built-in ones
+      {name, _me} = put_hidden_preset(me, :dashboard_custom)
+
       conn
       |> visit(@settings)
       # by its selector, not within the block: `within` hides the form the select belongs to
       |> PhoenixTest.select(
-        "[data-role=dashboard_feed_setting] #dashboard-default-feed-select",
-        "Default feed",
-        option: "Local"
+        "[data-role=dashboard_feed_setting] #dashboard-feed-select",
+        "Feed shown on the dashboard",
+        option: name
       )
       |> visit("/settings/user/feeds")
-      |> assert_has("#default-feed-select option[value=local][selected]")
+      |> assert_has("#default-feed-select option[value=my][selected]")
       |> visit(@settings)
-      |> check("Latest activity", exact: false)
+      |> check("#dashboard_widget_toggle_feed", "Feed", exact: false)
       |> visit("/dashboard")
-      |> assert_has("[data-id=dashboard_feed] #feed-tab-local[aria-current=page]")
+      |> assert_has("[data-id=feed] #feed-tab-dashboard_custom[aria-current=page]")
     end
 
     test "whoever chose the old feed-only mode keeps a feed", %{conn: conn, me: me} do
@@ -229,10 +467,10 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
   end
 
   describe "the chosen feed and its tabs" do
-    # feed on, Polls as default; keep the user each put returns, as settings are preloaded on it
+    # feed on, Polls as the widget's feed; keep the user each put returns, as settings are preloaded on it
     setup %{me: me} do
       {:ok, %{__context__: %{current_user: me}}} =
-        Bonfire.Common.Settings.put([Bonfire.UI.Social.FeedLive, :default_feed], :polls,
+        Bonfire.Common.Settings.put([Bonfire.UI.Social.WidgetFeedLive, :feed], :polls,
           current_user: me
         )
 
@@ -248,45 +486,65 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       {:ok, me: me, socket: socket}
     end
 
-    test "is the default feed chosen in feed settings", %{socket: socket} do
-      {feed, _component_id} = Dashboard.feed_assigns(socket)
+    test "is the feed chosen for the widget", %{socket: socket} do
+      feed = Bonfire.UI.Social.WidgetFeedLive.feed_props(socket)
 
       assert feed[:feed_name] == :polls
+    end
+
+    test "with no choice and :my as the default feed, it shows another feed" do
+      # someone who never chose a widget feed, unlike the setup's user
+      {:ok, %{__context__: %{current_user: other}}} =
+        Bonfire.Common.Settings.put(
+          [Bonfire.UI.Social.FeedLive, :default_feed],
+          :my,
+          current_user: fake_user!(fake_account!())
+        )
+
+      socket = %Phoenix.LiveView.Socket{
+        assigns: %{__context__: %{current_user: other}, __changed__: %{}}
+      }
+
+      feed = Bonfire.UI.Social.WidgetFeedLive.feed_props(socket)
+
+      assert feed[:feed_name]
+      refute feed[:feed_name] == :my
     end
 
     test "?feed=local shows the Local feed, headed by its title, with its tab active",
          %{conn: conn, socket: socket} do
-      {feed, _component_id} = Dashboard.feed_assigns(socket, "local")
+      feed = Bonfire.UI.Social.WidgetFeedLive.feed_props(socket, "local")
       assert feed[:feed_name] == :local
 
       conn
       |> visit("/dashboard?feed=local")
-      |> assert_has("#dashboard_feed_heading", text: feed[:page_title])
-      |> assert_has("[data-id=dashboard_feed] #feed-tab-local[aria-current=page]")
+      |> assert_has("#feed_heading", text: feed[:page_title])
+      |> assert_has("[data-id=feed] #feed-tab-local[aria-current=page]")
     end
 
-    test "an unknown ?feed falls back to the default feed", %{socket: socket} do
-      {feed, _component_id} = Dashboard.feed_assigns(socket, "nonsense")
+    test "an unknown ?feed falls back to the widget's feed", %{socket: socket} do
+      feed = Bonfire.UI.Social.WidgetFeedLive.feed_props(socket, "nonsense")
 
       assert feed[:feed_name] == :polls
     end
 
-    test "the default feed's tab shows while another tab is open, even when it is hidden from the tabs",
+    # on the dashboard, the tab that stays is the widget's feed's, not the default feed's (that one stays on `/feed`)
+    test "the widget's feed's tab shows while another tab is open, even when it is hidden from the tabs",
          %{conn: conn, me: me} do
       {_name, me} = put_hidden_preset(me, :dashboard_default)
 
       assert {:ok, _} =
                Bonfire.Common.Settings.put(
-                 [Bonfire.UI.Social.FeedLive, :default_feed],
+                 [Bonfire.UI.Social.WidgetFeedLive, :feed],
                  :dashboard_default,
                  current_user: me
                )
 
       conn
       |> visit("/dashboard?feed=local")
-      |> assert_has("[data-id=dashboard_feed] #feed-tab-local[aria-current=page]")
+      |> assert_has("[data-id=feed] #feed-tab-local[aria-current=page]")
       |> assert_has(
-        "[data-id=dashboard_feed] a#feed-tab-dashboard_default[href='/dashboard?feed=dashboard_default']"
+        "[data-id=feed] a#feed-tab-dashboard_default[href='/dashboard?feed=dashboard_default']"
       )
     end
 
@@ -295,15 +553,15 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
 
       conn
       |> visit("/dashboard")
-      |> assert_has("[data-id=dashboard_feed] #feed-tabs")
+      |> assert_has("[data-id=feed] #feed-tabs")
       |> refute_has("#feed-tab-dashboard_hidden")
     end
 
     test "tabs link to the dashboard, not to the feed pages", %{conn: conn} do
       conn
       |> visit("/dashboard")
-      |> assert_has("[data-id=dashboard_feed] a#feed-tab-local[href='/dashboard?feed=local']")
-      |> refute_has("[data-id=dashboard_feed] a[href^='/feed/']")
+      |> assert_has("[data-id=feed] a#feed-tab-local[href='/dashboard?feed=local']")
+      |> refute_has("[data-id=feed] a[href^='/feed/']")
     end
   end
 
@@ -330,9 +588,13 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       [first, second | _] = options(me)
 
       {:ok, _} =
-        Dashboard.save_order(
-          [second, first | options(me) |> Enum.drop(2)],
-          me
+        Bonfire.Common.Settings.LiveHandler.save_widget_order(
+          :dashboard_main_widgets,
+          Enum.map(
+            [second, first | options(me) |> Enum.drop(2)],
+            &Bonfire.UI.Common.WidgetsLive.order_key(&1.widget)
+          ),
+          current_user: me
         )
 
       {:ok, view, _html} = live(conn, @settings)
@@ -341,7 +603,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
         view
         |> render()
         |> Floki.parse_document!()
-        |> Floki.find("[data-role=dashboard_widget]")
+        |> Floki.find("#dashboard-widgets [data-role=place_widget]")
         |> Enum.flat_map(&Floki.attribute(&1, "data-item"))
         |> Enum.map(fn key ->
           Enum.find(options(me), &(to_string(&1.key) == key)).widget
@@ -349,7 +611,9 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
           |> to_string()
         end)
 
-      assert settings_modules == dashboard_order(conn)
+      # settings also lists the widgets the dashboard doesn't show, which can be turned on
+      shown = dashboard_order(conn)
+      assert Enum.filter(settings_modules, &(&1 in shown)) == shown
     end
   end
 
@@ -388,6 +652,45 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     end
   end
 
+  describe "widgets from the registry" do
+    # Config.get reads these per test process
+    @widgets_keys [:bonfire, Bonfire.Web.Views.DashboardLive, :widgets]
+    @welcome_keys [:bonfire, :ui, :theme, :instance_welcome, :description]
+
+    test "the dashboard shows the flavour's widgets, in the flavour's order", %{conn: conn} do
+      Process.put(@widgets_keys, main: [:suggested_profiles, :instance_pinned])
+
+      assert dashboard_order(conn) == [
+               "Elixir.Bonfire.UI.Social.WidgetSuggestedProfilesLive",
+               "Elixir.Bonfire.UI.Reactions.PinnedCarouselLive"
+             ]
+    end
+
+    test "the instance's welcome text shows first when the flavour lists it", %{conn: conn} do
+      Process.put(@widgets_keys, main: [:welcome, :suggested_profiles])
+      Process.put(@welcome_keys, "Welcome to the **hall**")
+
+      assert ["Elixir.Bonfire.UI.Common.WidgetWelcomeLive" | _] = dashboard_order(conn)
+
+      conn
+      |> visit("/dashboard")
+      |> wait_async()
+      |> assert_has("[data-id=widget_welcome] strong", text: "hall")
+    end
+
+    test "with no welcome text, there's no welcome block", %{conn: conn} do
+      Process.put(@widgets_keys, main: [:welcome, :suggested_profiles])
+
+      # an admin who empties the field saves "" (`nil` would fall back to the flavour's default text)
+      Process.put(@welcome_keys, "")
+
+      conn
+      |> visit("/dashboard")
+      |> wait_async()
+      |> refute_has("[data-id=widget_welcome]")
+    end
+  end
+
   describe "instance defaults" do
     @instance_settings "/settings/instance/dashboard"
     @order_keys [:ui, :widget_order, :dashboard_main_widgets]
@@ -409,6 +712,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       clear = fn ->
         clear_instance_dashboard_settings([
           [Bonfire.Web.Views.DashboardLive, :include],
+          [Bonfire.Web.Views.HomeLive, :include],
           @order_keys
         ])
       end
@@ -432,15 +736,18 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       assert view
              |> render()
              |> Floki.parse_document!()
-             |> Floki.find("[data-role=dashboard_widget]")
+             |> Floki.find("#dashboard-widgets [data-role=place_widget]")
              |> length() == length(options(user))
 
       assert has_element?(view, "#dashboard_widget_toggle_feed")
+
+      # the Dashboard tab hides the layout's right sidebar, as its own list sits beside the main one
+      refute has_element?(view, "[data-id=secondary_sidebar_widgets]")
     end
 
     test "hiding a widget there hides it for everyone who hasn't chosen, but not in the admin's own settings",
          %{admin_conn: admin_conn, admin: admin, conn: conn, user: user} do
-      %{key: key, name: name, widget: widget} = List.last(options(user))
+      %{key: key, name: name, widget: widget} = List.last(shown(user))
 
       assert to_string(widget.module) in dashboard_order(conn)
 
@@ -485,7 +792,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       admin: admin,
       user: user
     } do
-      %{key: key} = List.last(options(user))
+      %{key: key} = List.last(shown(user))
 
       {:ok, _} =
         Bonfire.Common.Settings.put([Bonfire.Web.Views.DashboardLive, :include, key], false,
@@ -553,21 +860,192 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
     test "the instance settings nav links to it", %{admin_conn: admin_conn} do
       {:ok, view, _html} = live(admin_conn, "/settings/instance/configuration")
 
-      assert has_element?(view, "a[href='#{@instance_settings}']")
+      assert has_element?(view, "a[href='#{@instance_settings}']", "Widgets")
+
+      # the About settings had their own Spotlight and groups toggles, writing the same keys as the homepage's widget rows
+      {:ok, view, _html} = live(admin_conn, "/settings/instance/about")
+
+      assert has_element?(
+               view,
+               "[data-role=homepage_widgets_link][href='#{@instance_settings}?place=home']"
+             )
+
+      refute has_element?(view, "input[name*='HomeLive'][name*='instance_pinned']")
+    end
+
+    test "it has a tab for the homepage, which only offers widgets visitors can see", %{
+      admin_conn: admin_conn
+    } do
+      {:ok, view, _html} = live(admin_conn, @instance_settings)
+
+      assert has_element?(view, "#dashboard-widget-trending_discussions")
+      assert has_element?(view, "#dashboard_sidebar-widget-community_rules")
+      assert has_element?(view, "a[href='#{@instance_settings}?place=home']", "Homepage")
+
+      {:ok, view, _html} = live(admin_conn, "#{@instance_settings}?place=home")
+
+      assert has_element?(view, "#home-widget-popular_discussions")
+      refute has_element?(view, "#home-widget-trending_discussions")
+      refute has_element?(view, "#dashboard-widget-trending_discussions")
+    end
+
+    test "an admin writes a custom widget there, adds it to the homepage, and visitors see it", %{
+      admin_conn: admin_conn
+    } do
+      Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :widgets], main: [])
+
+      # instance settings are mirrored into the global Application env, which the sandbox doesn't roll back
+      on_exit(fn -> clear_instance_dashboard_settings([[Bonfire.UI.Common.Widgets, :custom]]) end)
+
+      {:ok, view, _html} = live(admin_conn, "#{@instance_settings}?place=home")
+
+      view
+      |> form("form[data-scope=custom_widget_text]", %{
+        "Bonfire.UI.Common.Widgets" => %{
+          "custom" => %{
+            "text" => %{
+              "title" => "Start here",
+              "text" => "Hello **visitors**\n\n![Our garden](https://example.local/garden.png)"
+            }
+          }
+        }
+      })
+      |> render_submit()
+
+      assert %{name: "Start here"} =
+               Enum.find(Bonfire.UI.Common.Widgets.registry(), &(&1.id == :custom_text))
+
+      admin_conn
+      |> visit("#{@instance_settings}?place=home")
+      |> check("Start here", exact: false)
+
+      Phoenix.ConnTest.build_conn()
+      |> get_conn_render("/")
+      |> assert_has("#home_main_widgets strong", text: "visitors")
+      # markdown images, by URL, as the form has no upload
+      |> assert_has(
+        "#home_main_widgets img[src='https://example.local/garden.png'][alt='Our garden']"
+      )
+    end
+
+    test "an admin turns off recent activity in the homepage tab, and visitors don't get it", %{
+      admin_conn: admin_conn
+    } do
+      Phoenix.ConnTest.build_conn()
+      |> get_conn_render("/")
+      |> assert_has("#feed_heading")
+
+      admin_conn
+      |> visit("#{@instance_settings}?place=home")
+      |> uncheck("#home_widget_toggle_feed", "Feed", exact: false)
+
+      Phoenix.ConnTest.build_conn()
+      |> get_conn_render("/")
+      |> refute_has("#feed_heading")
+    end
+
+    test "the homepage tab's refresh button purges the homepage from caches, for admins only", %{
+      admin_conn: admin_conn,
+      conn: conn
+    } do
+      Process.register(self(), :widgets_http_purge_test)
+
+      Process.put([:bonfire_common, Bonfire.Common.Cache.HTTPPurge, :adapters], [
+        Bonfire.UI.Me.Test.RecordingHTTPPurge
+      ])
+
+      {:ok, view, _html} = live(admin_conn, "#{@instance_settings}?place=home")
+
+      view
+      |> element("[data-role=refresh_homepage]")
+      |> render_click()
+
+      assert_receive {:bust_urls, urls}, 1_000
+      assert "/" in urls and "/about" in urls
+
+      # someone who isn't an admin either can't open instance settings, or gets no button
+      case live(conn, "#{@instance_settings}?place=home") do
+        {:ok, view, _html} -> refute has_element?(view, "[data-role=refresh_homepage]")
+        {:error, _} -> :ok
+      end
+    end
+
+    test "the refresh button clears the saved copies of the homepage that guests are served, even with no proxy set up",
+         %{admin_conn: admin_conn} do
+      # a stand-in for `priv/static/public`, which guests are always served from when a page is saved there
+      dir = Path.join(System.tmp_dir!(), "widgets_static_#{System.unique_integer([:positive])}")
+      on_exit(fn -> File.rm_rf(dir) end)
+
+      for path <- ["index.html", "about/index.html"] do
+        File.mkdir_p!(Path.dirname(Path.join(dir, path)))
+        File.write!(Path.join(dir, path), "a homepage saved before the change")
+      end
+
+      Process.put(
+        [:bonfire_ui_common, Bonfire.UI.Common.StaticGenerator, :output_dir],
+        dir
+      )
+
+      # only the no-op adapter, as on an instance with no proxy or CDN
+      Process.put([:bonfire_common, Bonfire.Common.Cache.HTTPPurge, :adapters], [
+        Bonfire.Common.Cache.HTTPPurge.Null
+      ])
+
+      {:ok, view, _html} = live(admin_conn, "#{@instance_settings}?place=home")
+
+      view
+      |> element("[data-role=refresh_homepage]")
+      |> render_click()
+
+      refute File.exists?(Path.join(dir, "index.html"))
+      refute File.exists?(Path.join(dir, "about/index.html"))
+    end
+
+    test "turning a widget on in the homepage tab shows it to visitors, and leaves the dashboard alone",
+         %{admin_conn: admin_conn, user: user} do
+      Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :widgets], main: [])
+
+      dashboard_before =
+        Enum.map(
+          Bonfire.UI.Common.Widgets.for_place({Bonfire.Web.Views.DashboardLive, :main}, user),
+          & &1.id
+        )
+
+      refute :popular_discussions in Enum.map(
+               Bonfire.UI.Common.Widgets.for_place({Bonfire.Web.Views.HomeLive, :main}, nil),
+               & &1.id
+             )
+
+      admin_conn
+      |> visit("#{@instance_settings}?place=home")
+      |> check("Popular discussions", exact: false)
+
+      assert :popular_discussions in Enum.map(
+               Bonfire.UI.Common.Widgets.for_place({Bonfire.Web.Views.HomeLive, :main}, nil),
+               & &1.id
+             )
+
+      assert Enum.map(
+               Bonfire.UI.Common.Widgets.for_place(
+                 {Bonfire.Web.Views.DashboardLive, :main},
+                 user
+               ),
+               & &1.id
+             ) == dashboard_before
     end
   end
 
   describe "choices" do
-    test "a key nobody describes is skipped", %{me: me} do
-      assert [%{key: :suggested_profiles}] =
-               Dashboard.options([:no_such_widget, :suggested_profiles], me)
+    test "a key nobody declares is skipped", %{me: me} do
+      Process.put([:bonfire, Bonfire.Web.Views.DashboardLive, :widgets],
+        main: [:no_such_widget, :suggested_profiles]
+      )
+
+      assert [%{key: :suggested_profiles}] = shown(me)
     end
 
     test "widgets for signed-in people are not offered to guests" do
-      refute Enum.any?(
-               Dashboard.options(Dashboard.default_choices(), nil),
-               &(&1.key == :trending_discussions)
-             )
+      refute Enum.any?(options(nil), &(&1.key == :trending_discussions))
     end
   end
 end

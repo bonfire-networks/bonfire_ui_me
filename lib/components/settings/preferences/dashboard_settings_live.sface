@@ -12,8 +12,8 @@
       <h3 class="font-medium text-muted">{l("Main Content")}</h3>
       <div class="flex flex-col rounded-box border border-divider divide-hair divide-divider">
         <Bonfire.UI.Common.SettingsToggleLive
-          name={l("Latest activity")}
-          description={l("Show each person's default feed at the end of their dashboard, after the widgets.")}
+          name={l("Feed")}
+          description={l("Show a feed at the end of each person's dashboard, after the widgets.")}
           keys={[Bonfire.Web.Views.DashboardLive, :include, :feed]}
           default_value={false}
           scope={@scope}

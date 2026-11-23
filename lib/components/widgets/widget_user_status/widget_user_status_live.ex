@@ -2,7 +2,8 @@ defmodule Bonfire.UI.Me.WidgetUserStatusLive do
   @moduledoc "Dashboard widget showing a narrative overview of the user's account: activity, connections, federation, and safety setup."
   use Bonfire.UI.Common.Web, :stateless_component
 
-  declare_widget("User Status")
+  # about the signed-in viewer, so never offered to guests
+  declare_widget("User Status", current_user_required: true)
 
   # 2 minutes
   @cache_ttl 1_000 * 60 * 2

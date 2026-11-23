@@ -1,0 +1,32 @@
+{#case if(is_nil(@is_guest?), do: is_nil(current_user_id(@__context__)), else: @is_guest?)}
+  {#match guest?}
+    <div id="community-glance">
+      <Bonfire.UI.Common.WidgetBlockLive
+        widget_title={l("At a glance")}
+        class={"w-full", @class}
+        title_class="pb-4"
+        heading_class="text-lg font-bold leading-snug tracking-[-0.01em] normal-case"
+      >
+        {!-- the gutter a place gives `widget-body` (px) would lose its left side to the list's own bullet indent (pl) on the same element --}
+        <div data-role="widget-body">
+          <ul
+            id="about-meta"
+            class="list-disc space-y-2 pl-[1.1em] text-base leading-snug marker:text-base-content/40"
+          >
+            {#for text <-
+                Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive.meta_facts(
+                  Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive.federation_mode(),
+                  Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive.indexable?()
+                )}
+              <li>{text}</li>
+            {/for}
+            <li :if={guest?} id="about-guest-info">{l("Public posts readable without an account")}</li>
+            <li
+              :if={guest? and Bonfire.Me.Accounts.instance_is_invite_only?()}
+              data-role="signup-closed-note"
+            ><Bonfire.UI.Me.SignupNoteLive /></li>
+          </ul>
+        </div>
+      </Bonfire.UI.Common.WidgetBlockLive>
+    </div>
+{/case}

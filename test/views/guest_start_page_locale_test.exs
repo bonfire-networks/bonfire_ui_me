@@ -70,12 +70,15 @@ defmodule Bonfire.Web.Views.GuestStartPageLocaleTest do
     end
 
     test "the Spotlight heading is translated" do
-      assert text_at(italian_guest_page(), "#guest-spotlight [data-role=widget-heading]") ==
+      assert text_at(
+               italian_guest_page(),
+               "[data-widget-id=instance_pinned] [data-role=widget-heading]"
+             ) ==
                "Vetrina"
     end
 
     test "the Groups heading is translated" do
-      assert text_at(italian_guest_page(), "#guest-groups [data-role=widget-heading]") ==
+      assert text_at(italian_guest_page(), "[data-widget-id=groups] [data-role=widget-heading]") ==
                "Gruppi"
     end
 

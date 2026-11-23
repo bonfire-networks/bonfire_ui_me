@@ -351,26 +351,24 @@
         scope={:instance}
       /> --}
 
+      {!-- a privacy setting, applied wherever moderators are listed, including APIs (`Bonfire.Me.Users.list_visible_moderators/1`); whether the homepage shows them at all is its own widget setting --}
       <div class="p-4">
-        <div class="flex items-center justify-between">
-          <div class="flex flex-col gap-1">
-            <div class="text-sm font-medium">{l("Show list of moderators on public homepage")}</div>
-            <div class="text-sm font-normal text-muted">{l("Show list of moderators on public homepage")}</div>
-          </div>
-          <input name="Bonfire.UI.Me.WidgetUsersLive[show_guests]" value="false" type="hidden">
-          <input
-            name="Bonfire.UI.Me.WidgetUsersLive[show_guests]"
-            value="true"
-            type="checkbox"
-            checked={if Bonfire.Common.Settings.get(
-                 [Bonfire.UI.Me.WidgetUsersLive, :show_guests],
-                 true,
-                 @__context__[:instance_settings] || :instance
-               ),
-               do: "checked"}
-            class="toggle toggle-sm"
-          />
-        </div>
+        <Bonfire.UI.Common.SettingsSelectLive
+          scope={:instance}
+          id="show_moderators_to"
+          name={l("Who can see who moderates this instance?")}
+          description={l(
+            "Wherever moderators are listed: the homepage, About, widgets and apps. People can still message the moderators either way."
+          )}
+          label_name={l("Who can see who moderates this instance?")}
+          keys={[Bonfire.Me.Users, :show_moderators_to]}
+          default_value={:guests}
+          options={[
+            guests: l("Everyone, including visitors"),
+            users: l("Signed-in people only"),
+            nobody: l("Nobody")
+          ]}
+        />
       </div>
     </form>
   </div>

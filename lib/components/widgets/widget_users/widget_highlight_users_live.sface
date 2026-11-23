@@ -3,8 +3,7 @@
     <div />
   {#match users}
     <Bonfire.UI.Me.WidgetUsersLive
-      :if={current_user_id(@__context__) ||
-        Settings.get([Bonfire.UI.Me.WidgetUsersLive, :show_guests], true, @__context__)}
+      :if={Bonfire.UI.Common.GuestBoardLive.show_people?(@__context__)}
       widget_title={e(@widget_title, l("Recently joined"))}
       users={users}
       parent_id="widget_highlight_users"

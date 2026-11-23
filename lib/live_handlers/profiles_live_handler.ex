@@ -352,7 +352,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
             {Bonfire.OpenScience.PublicationTypesLive,
              [type: Surface.LiveComponent, id: "osn-publication-types", user: user]}
           # {Bonfire.Tag.Web.WidgetTagsLive, []},
-          # {Bonfire.UI.Me.WidgetAdminsLive, []}
+          # {Bonfire.UI.Me.WidgetModsLive, []}
         ]
       ],
       users: [
@@ -376,7 +376,7 @@ defmodule Bonfire.Me.Profiles.LiveHandler do
           #   {Bonfire.Geolocate.WidgetForecastLive, [location: Settings.get([Bonfire.Geolocate, :location], nil, current_user: user)]},
           {Bonfire.Tag.Web.WidgetTagsLive, []}
           # {Bonfire.UI.Social.WidgetTrendingLinksLive, []},
-          # {Bonfire.UI.Me.WidgetAdminsLive, []}
+          # {Bonfire.UI.Me.WidgetModsLive, []}
         ]
       ]
     ]

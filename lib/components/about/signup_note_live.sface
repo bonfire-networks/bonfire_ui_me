@@ -1,0 +1,6 @@
+{#case note()}
+  {#match {:link, url, text}}
+    <a href={url} class="link">{text}</a>
+  {#match {:text, text}}
+    {text}
+{/case}

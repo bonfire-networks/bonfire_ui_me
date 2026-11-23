@@ -1,0 +1,14 @@
+{!-- strings written in the app itself land in the `bonfire` domain, which extraction never reaches (the app's lib is not compiled then), so "Sign in" takes the domain of the extension that already translates it --}
+<div id="home-hero-actions" class="mt-6 flex flex-wrap items-center gap-3">
+  {#if !Bonfire.Me.Accounts.instance_is_invite_only?()}
+    <LinkLive to={path(:signup)} class="btn btn-primary px-5" opts={[id: "hero-signup"]}>{l("Join the community")}</LinkLive>
+    <LinkLive to={path(:login, :index)} class="btn btn-ghost px-4" opts={[id: "hero-login"]}>{l("Sign in", [], nil, :bonfire_ui_common)}</LinkLive>
+  {#else}
+    <LinkLive
+      to={path(:login, :index)}
+      class={if invite_contact?(), do: "btn btn-ghost px-4", else: "btn btn-primary px-5"}
+      opts={[id: "hero-login"]}
+    >{l("Sign in", [], nil, :bonfire_ui_common)}</LinkLive>
+    <Bonfire.UI.Me.InviteRequestLive />
+  {/if}
+</div>

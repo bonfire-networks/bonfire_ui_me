@@ -1,0 +1,7 @@
+<Bonfire.UI.Common.WidgetBlockLive class="w-full">
+  <div data-role="widget-body">
+    <Bonfire.UI.Me.AboutIntroLive is_guest?={is_nil(current_user_id(@__context__))}>
+      <Bonfire.UI.Me.HomeHeroLive />
+    </Bonfire.UI.Me.AboutIntroLive>
+  </div>
+</Bonfire.UI.Common.WidgetBlockLive>

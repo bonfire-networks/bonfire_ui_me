@@ -24,7 +24,13 @@ defmodule Bonfire.UI.Me.SettingsLive do
        page: "settings",
        trigger_submit: false,
        uploaded_files: []
-     )}
+     )
+     # the Dashboard tab shows its own sidebar list, so the layout's sidebar is hidden there and back on for any other tab
+     |> Phoenix.LiveView.attach_hook(:dashboard_tab_layout, :handle_params, fn params,
+                                                                               _url,
+                                                                               socket ->
+       {:cont, assign(socket, without_secondary_widgets: params["tab"] == "dashboard")}
+     end)}
 
     # |> IO.inspect
   end
