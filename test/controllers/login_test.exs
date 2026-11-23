@@ -143,8 +143,51 @@ defmodule Bonfire.UI.Me.LoginController.Test do
       _user = fake_user!(account)
       {:ok, account} = Accounts.confirm_email(account)
 
-      # Enter submits with the form's first button ("Send sign-in link"), so no `login_with` is sent
+      # Enter submits with the form's first submit button, the hidden `login_with=enter` one
       conn =
+        post(conn(), "/login/email", %{
+          "login_fields" => %{
+            "email_or_username" => account.email.email_address,
+            "password" => account.credential.password
+          },
+          "login_with" => "enter"
+        })
+
+      assert redirected_to(conn, 303) == "/"
+    end
+
+    test "pressing Enter with the password left empty sends a link" do
+      account = fake_account!()
+      fake_user!(account)
+
+      resp =
+        post(conn(), "/login/email", %{
+          "login_fields" => %{
+            "email_or_username" => account.email.email_address,
+            "password" => ""
+          },
+          "login_with" => "enter"
+        })
+
+      assert resp.resp_body =~ "Check your inbox"
+      address = account.email.email_address
+      assert_receive {:email, %{to: [{_, ^address}]}}, 2_000
+    end
+
+    test "Enter submits with a hidden default button, so it can log in with the password while clicking \"Send sign-in link\" can't" do
+      doc = get(conn(), "/login") |> floki_response()
+
+      assert [first | _] = Floki.find(doc, "#login-form button[type=submit]")
+      assert Floki.attribute(first, "name") == ["login_with"]
+      assert Floki.attribute(first, "value") == ["enter"]
+    end
+
+    test "\"Send sign-in link\" emails a link even with a password filled in (eg. by a password manager)" do
+      account = fake_account!()
+      fake_user!(account)
+      {:ok, account} = Accounts.confirm_email(account)
+
+      resp =
         post(conn(), "/login/email", %{
           "login_fields" => %{
             "email_or_username" => account.email.email_address,
@@ -152,7 +195,10 @@ defmodule Bonfire.UI.Me.LoginController.Test do
           }
         })
 
-      assert redirected_to(conn, 303) == "/"
+      assert resp.status == 200
+      assert resp.resp_body =~ "Check your inbox"
+      address = account.email.email_address
+      assert_receive {:email, %{to: [{_, ^address}]}}, 2_000
     end
 
     test "an account with a password can log in with its username" do

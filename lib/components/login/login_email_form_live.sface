@@ -1,4 +1,4 @@
-{!-- One form. "Send sign-in link" requests an email link; "I have a password" reveals a password field and its own "Sign in" button, and the controller logs in instead (see `login_with`). The person picks, never the server, so the page is the same for every email and doesn't reveal who has an account or a password. --}
+{!-- One form. "Send sign-in link" requests an email link, even with a password filled in (eg. by a password manager); "I have a password" reveals a password field and its own "Sign in" button, and the controller logs in instead (see `login_with`). The person picks, never the server, so the page is the same for every email and doesn't reveal who has an account or a password. --}
 {!-- the login page's field names and a non-"forgot" action, so password managers see a login form --}
 <.simple_form
   for={to_form(%{}, as: :login_fields)}
@@ -6,6 +6,17 @@
   class="w-full md:ml-0"
   opts={[id: "login-form"]}
 >
+  {!-- Enter submits with the form's first submit button, so this one comes first: it logs in when a password is typed, else sends a link. Hidden but rendered (not `display: none`), as some browsers skip a button that isn't rendered when Enter submits. --}
+  <button
+    type="submit"
+    name="login_with"
+    value="enter"
+    class="sr-only"
+    tabindex="-1"
+    aria-hidden="true"
+  >
+    {l("Sign in")}
+  </button>
   <input
     type="hidden"
     name="go"

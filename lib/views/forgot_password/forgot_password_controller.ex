@@ -62,9 +62,10 @@ defmodule Bonfire.UI.Me.ForgotPasswordController do
     # emailed link can send the user back to where they came from after signing in.
     go = Map.get(params, "go")
 
-    # the passwordless login form's "I have a password" button logs in with the password instead of emailing a link. A filled-in password counts too, because pressing Enter submits with the form's first button ("Send sign-in link").
+    # the passwordless login form's "I have a password" button logs in with the password instead of emailing a link, and so does Enter (its hidden first button) when a password is typed. "Send sign-in link" emails a link even with a password filled in, eg. by a password manager.
     if params["login_with"] == "password" or
-         (is_binary(data["password"]) and data["password"] != "") do
+         (params["login_with"] == "enter" and is_binary(data["password"]) and
+            data["password"] != "") do
       LoginController.create(conn, %{
         "login_fields" => %{"email_or_username" => data["email"], "password" => data["password"]},
         "go" => go
