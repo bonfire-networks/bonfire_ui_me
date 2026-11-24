@@ -681,7 +681,6 @@
           {/case}
         </li>
         <li :if={extension_enabled?(:bonfire_fasp, @__context__) and
-          Bonfire.Fasp.Provider.enabled?() and
           Bonfire.Boundaries.can?(@__context__, :configure, :instance)}>
           {#case @selected_tab == "fasp_provider"}
             {#match active}
