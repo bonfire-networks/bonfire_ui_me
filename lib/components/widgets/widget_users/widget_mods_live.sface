@@ -10,47 +10,11 @@
           title_class="pb-4"
           heading_class="text-lg font-bold leading-snug tracking-[-0.01em] normal-case"
         >
-          <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2" data-role="widget-body">
-            {#for mod <- mods}
-              <li class="min-w-0">
-                <LinkLive
-                  to={path(mod)}
-                  class="group flex h-full min-w-0 items-center gap-3 rounded-box border-hair border-base-content/15 p-4 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2"
-                  opts={[
-                    id: "mod-#{id(mod)}",
-                    "data-role": "mod-link",
-                    title: "@" <> e(mod, :character, :username, "")
-                  ]}
-                >
-                  <Bonfire.UI.Common.AvatarLive
-                    wrapper_class="avatar size-9 shrink-0"
-                    class="size-9 rounded-full"
-                    is_remote={false}
-                    bg_class="rounded-full"
-                    src={Media.avatar_url(mod)}
-                    user_id={id(mod)}
-                    parent_id="mods"
-                    title=""
-                  />
-                  <span class="min-w-0">
-                    <strong class="block text-sm font-semibold wrap-anywhere underline-offset-3 group-hover:underline">{e(mod, :profile, :name, nil) || e(mod, :character, :username, nil)}</strong>
-                    <small
-                      :if={e(mod, :character, :username, nil)}
-                      class="mt-0.5 block text-xs text-muted wrap-anywhere"
-                    >{"@" <> e(mod, :character, :username, "")}</small>
-                  </span>
-                  <#Icon
-                    iconify="ph:caret-right"
-                    class="ml-auto size-4 shrink-0 text-muted group-hover:text-base-content"
-                    aria-hidden="true"
-                  />
-                </LinkLive>
-              </li>
-            {/for}
-          </ul>
-          <div data-role="widget-body">
-            <Bonfire.UI.Me.MessageModeratorsLive class="btn btn-outline border-base-content/15 mt-3 w-full normal-case gap-2" />
-          </div>
+          <Bonfire.UI.Me.UsersGridLive users={mods} parent_id="mod" item_role="mod-link">
+            <:footer>
+              <Bonfire.UI.Me.MessageModeratorsLive class="btn btn-outline border-base-content/15 mt-3 w-full normal-case gap-2" />
+            </:footer>
+          </Bonfire.UI.Me.UsersGridLive>
         </Bonfire.UI.Common.WidgetBlockLive>
       </div>
     {#else}

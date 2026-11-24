@@ -1,0 +1,66 @@
+{#if @variant == :portrait}
+  <ul
+    class="grid gap-x-5 gap-y-8 grid-cols-[repeat(auto-fill,minmax(180px,1fr))]"
+    data-role="widget-body"
+  >
+    {#for user <- @users}
+      <li class="min-w-0">
+        <StatelessComponent
+          module={maybe_component(Bonfire.UI.Me.UserPreviewLive, @__context__)}
+          user={user}
+          variant={:portrait}
+          href={path(user)}
+          target={@target}
+          show_badges={false}
+          parent_id={@parent_id}
+        />
+      </li>
+    {/for}
+  </ul>
+{#else}
+  <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2" data-role="widget-body">
+    {#for user <- @users}
+      <li class="min-w-0">
+        <LinkLive
+          to={path(user)}
+          target={@target}
+          class="group flex h-full min-w-0 items-center gap-3 rounded-box border-hair border-base-content/15 p-4 hover:bg-surface focus-visible:outline-2 focus-visible:outline-offset-2"
+          opts={[
+            id: "#{@parent_id}-#{id(user)}",
+            "data-role": @item_role,
+            title: "@" <> e(user, :character, :username, "")
+          ]}
+        >
+          <Bonfire.UI.Common.AvatarLive
+            wrapper_class="avatar size-9 shrink-0"
+            class="size-9 rounded-full"
+            is_remote={false}
+            bg_class="rounded-full"
+            src={Media.avatar_url(user)}
+            user_id={id(user)}
+            parent_id={@parent_id}
+            title=""
+          />
+          <span class="min-w-0">
+            <strong
+              class="block text-sm font-semibold wrap-anywhere underline-offset-3 group-hover:underline"
+              data-role="user_name"
+            >{e(user, :profile, :name, nil) || e(user, :character, :username, nil)}</strong>
+            <small
+              :if={e(user, :character, :username, nil)}
+              class="mt-0.5 block text-xs text-muted wrap-anywhere"
+            >{"@" <> e(user, :character, :username, "")}</small>
+          </span>
+          <#Icon
+            iconify="ph:caret-right"
+            class="ml-auto size-4 shrink-0 text-muted group-hover:text-base-content"
+            aria-hidden="true"
+          />
+        </LinkLive>
+      </li>
+    {/for}
+  </ul>
+{/if}
+<div :if={slot_assigned?(:footer)} data-role="widget-body">
+  <#slot {@footer} />
+</div>

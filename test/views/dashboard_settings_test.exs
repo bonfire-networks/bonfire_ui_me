@@ -226,6 +226,51 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       assert "community_rules" in area_widget_ids(conn, "#dashboard_main_widgets")
       refute "community_rules" in area_widget_ids(conn, "[data-id=secondary_sidebar_widgets]")
     end
+
+    # LiveViewTest runs no JS: this sends what the Draggable hook sends on a drop
+    test "dragging a sidebar widget on the dashboard saves the order settings shows", %{
+      conn: conn
+    } do
+      Process.put(@sidebar_keys, sidebar: [:community_rules, :mods])
+
+      {:ok, view, html} = live(conn, "/dashboard")
+
+      [list] =
+        html
+        |> Floki.parse_document!()
+        |> Floki.find("[data-id=secondary_sidebar_widgets] ul[phx-hook=Draggable]")
+
+      [parent] = Floki.attribute(list, "data-parent")
+      [event] = Floki.attribute(list, "data-event")
+
+      [rules, mods] =
+        list |> Floki.find("[data-widget-id]") |> Enum.flat_map(&Floki.attribute(&1, "data-item"))
+
+      view
+      |> element("[data-id=secondary_sidebar_widgets] ul[phx-hook=Draggable]")
+      |> render_hook(event, %{
+        "old_index" => 1,
+        "new_index" => 0,
+        "parent_item" => parent,
+        "source_item" => mods,
+        "target_parent" => parent,
+        "target_order" => [mods, rules]
+      })
+
+      assert ["mods", "community_rules"] ==
+               area_widget_ids(conn, "[data-id=secondary_sidebar_widgets]")
+
+      {:ok, settings, _html} = live(conn, @settings)
+
+      # settings also lists the widgets that are offered but off
+      assert ["mods", "community_rules"] ==
+               settings
+               |> render()
+               |> Floki.parse_document!()
+               |> Floki.find("#dashboard_sidebar-widgets [data-role=place_widget]")
+               |> Enum.flat_map(&Floki.attribute(&1, "data-item"))
+               |> Enum.filter(&(&1 in ["mods", "community_rules"]))
+    end
   end
 
   # LiveViewTest runs no JS, so these check the markup the Draggable hook reads, and the event it sends

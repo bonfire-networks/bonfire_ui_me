@@ -46,4 +46,23 @@
       />
     </div>
   </form>
+
+  <form
+    :if={@circle_available}
+    id="dashboard-circle-settings-form"
+    phx-change="Bonfire.Common.Settings:set"
+    class="mx-4"
+  >
+    <div
+      class="rounded-box border border-divider px-4 py-3 flex flex-col gap-4"
+      data-role="dashboard_circle_setting"
+    >
+      {!-- which circle the Circle members widget shows, as the select above does for the feed widget --}
+      <StatelessComponent
+        module={maybe_component(Bonfire.UI.Boundaries.WidgetCircleSelectLive, @__context__)}
+        id="dashboard-circle-select"
+        scope={@scope}
+      />
+    </div>
+  </form>
 </div>
