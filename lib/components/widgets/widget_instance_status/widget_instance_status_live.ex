@@ -7,9 +7,16 @@ defmodule Bonfire.UI.Me.WidgetInstanceStatusLive do
   # 60 seconds # TODO: cache some things longer (e.g. instance name and image, which are unlikely to change often, along with user_count and blocked) and some things shorter (e.g. online count, or settings if they can be changed from the UI and we want changes to be reflected semi-immediately)
   @cache_ttl 1_000 * 60
 
-  @doc "Gathers instance-level data, cached for 60 seconds since it's shared across all users."
+  @doc "Gathers instance-level data, cached for 60 seconds since it's shared across all users. The moderators are read from their own cached list, so a change to them shows here as soon as it shows anywhere else."
   def load do
     Cache.maybe_apply_cached(&do_load/0, [], expire: @cache_ttl)
+    |> Map.put(:admins, moderators())
+  end
+
+  defp moderators do
+    Bonfire.Me.Users.list_declared_moderators()
+  rescue
+    _ -> []
   end
 
   defp do_load do
@@ -24,14 +31,6 @@ defmodule Bonfire.UI.Me.WidgetInstanceStatusLive do
         rescue
           _ -> 0
         end
-      end
-
-    admins =
-      try do
-        # no need to cache count because the list is cached
-        Bonfire.Me.Users.list_declared_moderators()
-      rescue
-        _ -> []
       end
 
     known_instances_count =
@@ -98,7 +97,6 @@ defmodule Bonfire.UI.Me.WidgetInstanceStatusLive do
       federation_enabled?: federation_enabled?,
       known_instances_count: known_instances_count || 0,
       federation_details: federation_details,
-      admins: admins || [],
       instance_description: Bonfire.Common.Settings.get([:ui, :theme, :instance_description], nil)
     }
   end

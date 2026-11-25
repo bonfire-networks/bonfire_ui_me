@@ -422,13 +422,17 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     end
 
     test "an instance that shows its moderators only to signed-in people shows them to no visitor, anywhere" do
-      _admin = fake_admin!(fake_account!())
-      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
-
       # the instance status widget lists the moderators too
       Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :widgets],
         main: [:mods, :instance_status]
       )
+
+      # the page seen before there is any moderator, so a widget keeping its own copy of the list would go on showing none
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
+      conn() |> get_conn_render("/")
+
+      _admin = fake_admin!(fake_account!())
+      Bonfire.Me.Users.list_declared_moderators(cache: :reset)
 
       conn()
       |> get_conn_render("/")
