@@ -1323,6 +1323,36 @@ defmodule Bonfire.UI.Me.SettingsTest do
     end
   end
 
+  describe "Instance banner branding" do
+    @banner_as_icon_keys [:ui, :theme, :banner_as_icon]
+
+    setup %{account: account} do
+      orig = Config.get(@banner_as_icon_keys)
+      on_exit(fn -> Config.put(@banner_as_icon_keys, orig) end)
+      %{conn: conn(user: fake_admin!(account), account: account)}
+    end
+
+    test "an admin turns on the banner as the top-left icon from the branding tab", %{conn: conn} do
+      refute Config.get(@banner_as_icon_keys)
+
+      conn
+      |> visit("/settings/instance/branding")
+      |> wait_async()
+      |> check("Use the banner instead of the icon", exact: false)
+      |> wait_async()
+
+      assert Config.get(@banner_as_icon_keys) == true
+    end
+
+    test "the about banner keeps the same 3:1 ratio at every width", %{conn: conn} do
+      conn
+      |> visit("/about")
+      |> wait_async()
+      |> assert_has("[data-role=about-banner].aspect-\\[3\\/1\\]")
+      |> refute_has("[data-role=about-banner].sm\\:aspect-\\[4\\/1\\]")
+    end
+  end
+
   describe "Instance signup email-domain allowlist" do
     @instance_config_path "/settings/instance/configuration"
     @domains_keys [Bonfire.Me.Accounts, :allowed_email_domains]

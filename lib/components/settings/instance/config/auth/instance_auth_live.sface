@@ -2,6 +2,16 @@
   <form phx-change="Bonfire.Common.Settings:set">
     <input name="scope" value={:instance} type="hidden">
 
+    <Bonfire.UI.Common.SettingsToggleLive
+      id="banner_as_icon_toggle"
+      keys={[:ui, :theme, :banner_as_icon]}
+      scope={:instance}
+      name={l("Use the banner instead of the icon")}
+      description={l("Show the instance banner in the top left corner, in place of the icon.")}
+      default_value={Config.get([:ui, :theme, :banner_as_icon], false)}
+      compact
+    />
+
     <Bonfire.UI.Common.SettingsSelectLive
       scope={:instance}
       id="auth_layout_select"
