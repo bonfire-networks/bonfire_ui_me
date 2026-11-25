@@ -166,4 +166,26 @@ defmodule Bonfire.UI.Me.ProfileLinksTest do
 
     assert {[], [^account]} = ProfileLinksLive.group_links(nil, Enum.take(aliases, 1))
   end
+
+  test "a link preview (media_type link) is labelled by its Open Graph type, else by its media_type" do
+    aliases = [
+      %{
+        edge: %{
+          object: %{
+            media_type: "link",
+            path: "https://example.org",
+            metadata: %{"facebook" => %{"type" => "website"}}
+          }
+        }
+      },
+      %{
+        edge: %{
+          object: %{media_type: "orcid", path: "https://orcid.org/0000", metadata: %{}}
+        }
+      }
+    ]
+
+    assert {[%{label: "Website"}, %{label: "Orcid"}], []} =
+             ProfileLinksLive.group_links(nil, aliases)
+  end
 end

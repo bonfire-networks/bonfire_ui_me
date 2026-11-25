@@ -55,7 +55,14 @@ defmodule Bonfire.UI.Me.ProfileLinksLive do
               do: Bonfire.Common.Media.media_url(object) || path,
               else: e(metadata, "url", nil)
 
-          label = e(metadata, "name", nil) || if(is_binary(type), do: Text.upcase_first(type))
+          # a link preview's `media_type` is just "link": its Open Graph type (eg. "website") says more
+          label =
+            e(metadata, "name", nil) ||
+              case e(metadata, "facebook", "type", nil) || type do
+                label when is_binary(label) -> Text.upcase_first(label)
+                _ -> nil
+              end
+
           {links ++ [%{href: href, label: label, metadata: metadata}], accounts}
 
         _, groups ->
