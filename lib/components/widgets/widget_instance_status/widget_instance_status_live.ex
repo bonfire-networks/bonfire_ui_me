@@ -2,7 +2,7 @@ defmodule Bonfire.UI.Me.WidgetInstanceStatusLive do
   @moduledoc "Dashboard widget showing a narrative overview of the instance: name, version, community size, federation, and admin contacts."
   use Bonfire.UI.Common.Web, :stateless_component
 
-  declare_widget("Instance Status")
+  declare_widget("Instance Status", skeleton: :status)
 
   # 60 seconds # TODO: cache some things longer (e.g. instance name and image, which are unlikely to change often, along with user_count and blocked) and some things shorter (e.g. online count, or settings if they can be changed from the UI and we want changes to be reflected semi-immediately)
   @cache_ttl 1_000 * 60

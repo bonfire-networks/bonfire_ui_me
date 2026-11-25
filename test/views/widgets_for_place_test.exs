@@ -81,10 +81,10 @@ defmodule Bonfire.UI.Me.WidgetsForPlaceTest do
 
   test "guests never get a widget only for signed-in people" do
     Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :widgets],
-      main: [:trending_discussions, :popular_discussions]
+      main: [:trending_discussions, :welcome]
     )
 
-    assert widget_ids(Widgets.for_place(@home, nil)) == [:popular_discussions]
+    assert widget_ids(Widgets.for_place(@home, nil)) == [:welcome]
   end
 
   test "a sidebar never gets a wide widget, and a main area gets both" do
@@ -184,20 +184,20 @@ defmodule Bonfire.UI.Me.WidgetsForPlaceTest do
 
   test "a disabled widget is left out" do
     Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :widgets],
-      main: [:popular_discussions, :instance_pinned]
+      main: [:welcome, :instance_pinned]
     )
 
-    assert :popular_discussions in widget_ids(Widgets.for_place(@home, nil))
+    assert :welcome in widget_ids(Widgets.for_place(@home, nil))
 
     # with no viewer, `module_enabled?` reads this from config
     Process.put(
-      [:bonfire_ui_social, Bonfire.UI.Social.WidgetDiscussionsLive, :modularity],
+      [:bonfire_ui_common, Bonfire.UI.Common.WidgetWelcomeLive, :modularity],
       :disabled
     )
 
     Bonfire.Common.Extend.clear_modularity_cache()
 
-    refute :popular_discussions in widget_ids(Widgets.for_place(@home, nil))
+    refute :welcome in widget_ids(Widgets.for_place(@home, nil))
     assert :instance_pinned in widget_ids(Widgets.for_place(@home, nil))
   end
 
@@ -222,7 +222,7 @@ defmodule Bonfire.UI.Me.WidgetsForPlaceTest do
     offered = Widgets.offered(@dashboard, me)
 
     assert %{included: true} = Enum.find(offered, &(&1.id == :suggested_profiles))
-    assert %{included: false} = Enum.find(offered, &(&1.id == :popular_discussions))
+    assert %{included: false} = Enum.find(offered, &(&1.id == :groups))
   end
 
   test "a custom widget is offered in every place, and shown once included", %{admin: admin} do

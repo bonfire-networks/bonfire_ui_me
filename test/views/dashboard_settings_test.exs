@@ -929,7 +929,7 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
 
       {:ok, view, _html} = live(admin_conn, "#{@instance_settings}?place=home")
 
-      assert has_element?(view, "#home-widget-popular_discussions")
+      assert has_element?(view, "#home-widget-welcome")
       refute has_element?(view, "#home-widget-trending_discussions")
       refute has_element?(view, "#dashboard-widget-trending_discussions")
     end
@@ -1056,16 +1056,16 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
           & &1.id
         )
 
-      refute :popular_discussions in Enum.map(
+      refute :community_links in Enum.map(
                Bonfire.UI.Common.Widgets.for_place({Bonfire.Web.Views.HomeLive, :main}, nil),
                & &1.id
              )
 
       admin_conn
       |> visit("#{@instance_settings}?place=home")
-      |> check("Popular discussions", exact: false)
+      |> check("Community links", exact: false)
 
-      assert :popular_discussions in Enum.map(
+      assert :community_links in Enum.map(
                Bonfire.UI.Common.Widgets.for_place({Bonfire.Web.Views.HomeLive, :main}, nil),
                & &1.id
              )

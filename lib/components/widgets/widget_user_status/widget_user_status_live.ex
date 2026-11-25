@@ -3,7 +3,7 @@ defmodule Bonfire.UI.Me.WidgetUserStatusLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
   # about the signed-in viewer, so never offered to guests
-  declare_widget("User Status", current_user_required: true)
+  declare_widget("User Status", current_user_required: true, skeleton: :text)
 
   # 2 minutes
   @cache_ttl 1_000 * 60 * 2

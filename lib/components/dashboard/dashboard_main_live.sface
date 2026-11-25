@@ -4,6 +4,7 @@
   data-widget-place
   class="**:data-[role=widget-body]:px-(--stream-content-padding)"
 >
+  <div :if={@editable} class="hidden widgets-editing:block px-5 pt-4 type-caption font-medium text-subtle">{l("Main area")}</div>
   {#case List.wrap(@widgets)}
     {#match []}
       <div class="border border-secondary border-dashed rounded-xl p-4 flex flex-col gap-4 m-4 text-center text-base-content/80 flex items-center place-content-center flex-col">
@@ -20,9 +21,10 @@
         page={@page}
         selected_tab={@selected_tab}
         showing_within={:main}
-        container_class="flex flex-col"
+        container_class="flex flex-col widgets-editing:gap-3 widgets-editing:px-4 widgets-editing:pt-2"
         id="dashboard_main_widgets"
         reorderable={false}
+        editable={@editable}
         with_title
         extra_data={%{
           requested_feed: @requested_feed,
@@ -30,4 +32,5 @@
         }}
       />
   {/case}
+  <Bonfire.UI.Common.AddWidgetsLive :if={@editable} area={:main} addable={@addable} class="p-4" />
 </div>

@@ -6,7 +6,7 @@ defmodule Bonfire.UI.Me.WidgetModsLive do
   """
   use Bonfire.UI.Common.Web, :stateless_component
 
-  declare_widget(l("Moderators"), id: :mods)
+  declare_widget(l("Moderators"), id: :mods, skeleton: :people)
 
   prop widget_title, :string, default: nil
   prop show_reset_btn, :boolean, default: false

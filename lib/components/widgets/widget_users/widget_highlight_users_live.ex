@@ -1,7 +1,7 @@
 defmodule Bonfire.UI.Me.WidgetHighlightUsersLive do
   use Bonfire.UI.Common.Web, :stateless_component
 
-  declare_widget(l("Recently joined"), id: :recent_users, width: :narrow)
+  declare_widget(l("Recently joined"), id: :recent_users, width: :narrow, skeleton: :people)
 
   prop widget_title, :string, default: nil
 
