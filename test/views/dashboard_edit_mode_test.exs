@@ -71,8 +71,15 @@ defmodule Bonfire.UI.Me.DashboardEditModeTest do
   test "each widget's edit mode tile sketches the shape its declaration names", %{conn: conn} do
     {:ok, view, _html} = live(conn, "/dashboard")
 
-    assert has_element?(view, "[data-widget-id=mods] [data-role=widget-skeleton][data-shape=people]")
-    assert has_element?(view, "[data-widget-id=community_rules] [data-role=widget-skeleton][data-shape=list]")
+    assert has_element?(
+             view,
+             "[data-widget-id=mods] [data-role=widget-skeleton][data-shape=people]"
+           )
+
+    assert has_element?(
+             view,
+             "[data-widget-id=community_rules] [data-role=widget-skeleton][data-shape=list]"
+           )
   end
 
   test "removing a widget takes it off that member's dashboard only, and settings shows it off",
@@ -117,7 +124,13 @@ defmodule Bonfire.UI.Me.DashboardEditModeTest do
     |> render_click()
 
     assert has_element?(view, "[data-role=add_widget_card][data-widget-id=recent_users]")
-    assert has_element?(view, "[data-role=add_widget_card][data-widget-id=recent_users]", "Recently joined")
+
+    assert has_element?(
+             view,
+             "[data-role=add_widget_card][data-widget-id=recent_users]",
+             "Recently joined"
+           )
+
     refute has_element?(view, "[data-role=add_widget_card][data-widget-id=mods]")
     refute has_element?(view, "[data-role=add_widget_card][data-widget-id=suggested_profiles]")
     # the Introduction is for the main area only
@@ -175,7 +188,11 @@ defmodule Bonfire.UI.Me.DashboardEditModeTest do
       "parent_item" => sidebar.parent,
       "source_item" => sidebar.items["mods"],
       "target_parent" => main.parent,
-      "target_order" => [main.items["suggested_profiles"], sidebar.items["mods"], main.items["instance_pinned"]]
+      "target_order" => [
+        main.items["suggested_profiles"],
+        sidebar.items["mods"],
+        main.items["instance_pinned"]
+      ]
     })
 
     assert ["suggested_profiles", "mods", "instance_pinned"] == fresh_area_ids(conn, @main)
@@ -273,9 +290,9 @@ defmodule Bonfire.UI.Me.DashboardEditModeTest do
 
     conn
     |> visit("/dashboard")
-    |> PhoenixTest.select("[data-role=widget-edit-controls] select", "Feed shown on the dashboard",
-      option: name
-    )
+    |> PhoenixTest.select(
+      "[data-role=widget-edit-controls] select",
+      "Feed shown on the dashboard", option: name)
     |> visit("/dashboard")
     |> assert_has("[data-id=feed] #feed-tab-dashboard_custom[aria-current=page]")
     # the tile's chip names the chosen feed

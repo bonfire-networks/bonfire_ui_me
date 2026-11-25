@@ -4,7 +4,10 @@
   data-widget-place
   class="**:data-[role=widget-body]:px-(--stream-content-padding)"
 >
-  <div :if={@editable} class="hidden widgets-editing:block px-5 pt-4 type-caption font-medium text-subtle">{l("Main area")}</div>
+  <div
+    :if={@editable}
+    class="hidden widgets-editing:block px-5 pt-4 type-caption font-medium text-subtle"
+  >{l("Main area")}</div>
   {#case List.wrap(@widgets)}
     {#match []}
       <div class="border border-secondary border-dashed rounded-xl p-4 flex flex-col gap-4 m-4 text-center text-base-content/80 flex items-center place-content-center flex-col">
