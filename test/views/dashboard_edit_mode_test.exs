@@ -292,7 +292,9 @@ defmodule Bonfire.UI.Me.DashboardEditModeTest do
     |> visit("/dashboard")
     |> PhoenixTest.select(
       "[data-role=widget-edit-controls] select",
-      "Feed shown on the dashboard", option: name)
+      "Feed shown on the dashboard",
+      option: name
+    )
     |> visit("/dashboard")
     |> assert_has("[data-id=feed] #feed-tab-dashboard_custom[aria-current=page]")
     # the tile's chip names the chosen feed
