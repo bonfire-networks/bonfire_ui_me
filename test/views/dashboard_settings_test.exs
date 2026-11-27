@@ -857,6 +857,32 @@ defmodule Bonfire.UI.Me.DashboardSettingsTest do
       assert [^first_module, ^second_module | _] = dashboard_order(conn)
     end
 
+    # widget-order-mismatch: an admin's order is only a default, a member's own order wins on /dashboard too
+    test "a member's own order wins over the instance's on /dashboard",
+         %{admin: admin, conn: conn, user: user} do
+      keys = Enum.map(shown(user), &Bonfire.UI.Common.WidgetsLive.order_key(&1.widget))
+      [first, second | rest] = keys
+
+      {:ok, _} =
+        Bonfire.Common.Settings.LiveHandler.save_widget_order(
+          :dashboard_main_widgets,
+          Enum.reverse(keys),
+          current_user: admin,
+          scope: :instance
+        )
+
+      # partial and naming a widget no longer offered, as an order saved a while ago is
+      {:ok, _} =
+        Bonfire.Common.Settings.LiveHandler.save_widget_order(
+          :dashboard_main_widgets,
+          [second, Bonfire.UI.Me.WidgetInstanceFactsLive, first | Enum.drop(rest, -1)],
+          current_user: user
+        )
+
+      {first, second} = {to_string(first), to_string(second)}
+      assert [^second, ^first | _] = dashboard_order(conn)
+    end
+
     # case 5
     test "someone who isn't an admin can't change the instance's widgets", %{
       conn: conn,
