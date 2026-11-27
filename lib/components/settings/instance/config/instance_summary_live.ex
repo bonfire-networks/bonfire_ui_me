@@ -62,6 +62,10 @@ defmodule Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive do
     ]
   end
 
+  @doc "`meta_facts/2` with each fact's icon, kept here beside the order they follow."
+  def meta_facts_with_icons(federation, indexable?),
+    do: Enum.zip(["ph:globe-duotone", "ph:magnifying-glass-duotone"], meta_facts(federation, indexable?))
+
   @doc """
   The names of the default boundaries, or `nil` when none is set.
 

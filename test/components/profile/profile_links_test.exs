@@ -5,6 +5,7 @@ defmodule Bonfire.UI.Me.ProfileLinksTest do
   alias Bonfire.UI.Me.ProfileLinksLive
 
   doctest ProfileLinksLive
+  doctest Bonfire.UI.Me.ProfileItemLive
 
   test "missing and blank websites render no section" do
     for website <- [nil, "", " \n "] do

@@ -1,68 +1,11 @@
 <div id="dashboard-settings" class="flex flex-col gap-4 py-4">
   <p class="text-sm px-4 leading-relaxed text-muted">{if @scope == :instance,
       do: l("The starting setup for members, who can change it for themselves."),
-      else: l("Choose which widgets appear in the main area of your dashboard, and in what order.")}</p>
+      else: l("Choose which widgets appear on your dashboard, and where.")}</p>
 
-  <div
-    data-role="widget_areas"
-    class="grid grid-cols-1 gap-4 xl:grid-cols-[2fr_1fr] xl:items-start"
-  >
-    <div class="flex flex-col gap-4">
-      <h3 class="px-4 text-sm font-medium">{l("Main dashboard")}</h3>
-      <Bonfire.UI.Common.PlaceWidgetsSettingsLive
-        id="dashboard"
-        place={{Bonfire.Web.Views.DashboardLive, :main}}
-        scope={@scope}
-        siblings={["dashboard_sidebar"]}
-      />
-    </div>
-
-    <div class="flex flex-col gap-4">
-      <h3 class="px-4 text-sm font-medium">{l("Sidebar")}</h3>
-      <Bonfire.UI.Common.PlaceWidgetsSettingsLive
-        id="dashboard_sidebar"
-        place={{Bonfire.Web.Views.DashboardLive, :sidebar}}
-        scope={@scope}
-        siblings={["dashboard"]}
-      />
-    </div>
-  </div>
-
-  <form
-    :if={@feed_available}
-    id="dashboard-feed-settings-form"
-    phx-change="Bonfire.Common.Settings:set"
-    class="mx-4"
-  >
-    <div
-      class="rounded-box border border-divider px-4 py-3 flex flex-col gap-4"
-      data-role="dashboard_feed_setting"
-    >
-      {!-- the feed is a widget above (Feed); this picks which feed it shows, apart from the default feed that the Feeds link opens, and is shown even with the widget off --}
-      <StatelessComponent
-        module={maybe_component(Bonfire.UI.Social.WidgetFeedSelectLive, @__context__)}
-        id="dashboard-feed-select"
-        scope={@scope}
-      />
-    </div>
-  </form>
-
-  <form
-    :if={@circle_available}
-    id="dashboard-circle-settings-form"
-    phx-change="Bonfire.Common.Settings:set"
-    class="mx-4"
-  >
-    <div
-      class="rounded-box border border-divider px-4 py-3 flex flex-col gap-4"
-      data-role="dashboard_circle_setting"
-    >
-      {!-- which circle the Circle members widget shows, as the select above does for the feed widget --}
-      <StatelessComponent
-        module={maybe_component(Bonfire.UI.Boundaries.WidgetCircleSelectLive, @__context__)}
-        id="dashboard-circle-select"
-        scope={@scope}
-      />
-    </div>
-  </form>
+  <Bonfire.UI.Common.SettingsWidgetsLive
+    place={Bonfire.Web.Views.DashboardLive}
+    widgets={@widgets}
+    scope={@scope}
+  />
 </div>

@@ -1,7 +1,11 @@
-<Bonfire.UI.Common.WidgetBlockLive class="w-full">
+<Bonfire.UI.Common.WidgetBlockLive>
   <div data-role="widget-body">
     <Bonfire.UI.Me.AboutIntroLive is_guest?={is_nil(current_user_id(@__context__))}>
       <Bonfire.UI.Me.HomeHeroLive />
     </Bonfire.UI.Me.AboutIntroLive>
+  </div>
+  {!-- the instance's facts (At a glance), as Welcome shows them to members --}
+  <div id="community-glance" class="mt-6">
+    <Bonfire.UI.Me.InstanceFactsListLive />
   </div>
 </Bonfire.UI.Common.WidgetBlockLive>

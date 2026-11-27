@@ -161,7 +161,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> get_conn_render("/")
       |> assert_has("[data-widget-id=groups] [data-role=widget-heading]", text: "Groups")
-      # the compact card, with the /groups row's join action
+      # a widget row, with the /groups row's join action
       |> assert_has("[data-widget-id=groups] article#group-preview-#{id(visible)}",
         text: "Guest visible group"
       )
@@ -172,20 +172,23 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> assert_has(
         "[data-widget-id=groups] #group-preview-#{id(visible)} [data-role=group-card-action]"
       )
-      |> assert_has("[data-widget-id=groups] [data-role=group-card-compact]")
+      |> assert_has("[data-widget-id=groups] [data-role=group-row-widget]")
       |> refute_has("[data-widget-id=groups] #group-preview-#{id(private)}")
       |> refute_has("[data-widget-id=groups]", text: "Members only group")
       |> refute_has("[data-widget-id=groups] #group-preview-#{id(federated)}")
       |> refute_has("[data-widget-id=groups]", text: "Federated group")
-      |> assert_has("[data-widget-id=groups] a[href='/groups']", text: "Browse all groups")
+      |> assert_has("[data-widget-id=groups] a[href='/groups'][aria-label='Browse all groups']",
+        text: "View all"
+      )
     end
 
-    test "the groups are the shared carousel, with dots" do
+    # rows, at most five, then "View all"
+    test "the groups are at most five rows" do
       creator = fake_user!(fake_account!())
 
-      for name <- ["First guest group", "Second guest group"] do
+      for n <- 1..6 do
         Bonfire.Classify.Simulate.fake_group!(creator, %{
-          name: name,
+          name: "Guest group #{n}",
           membership: "open",
           visibility: "global"
         })
@@ -195,10 +198,55 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
 
       conn()
       |> get_conn_render("/")
-      |> assert_has("[data-widget-id=groups] [data-carousel-card] article[id^=group-preview-]",
-        text: "First guest group"
+      |> assert_has("[data-widget-id=groups] [data-role=group-row-widget]", count: 5)
+    end
+
+    test "a group whose member list is open shows its first members' faces" do
+      creator = fake_user!(fake_account!())
+      member = fake_user!(fake_account!())
+
+      group =
+        Bonfire.Classify.Simulate.fake_group!(creator, %{
+          name: "Open faces group",
+          membership: "open",
+          visibility: "global"
+        })
+
+      {:ok, _} = Bonfire.Classify.Categories.join_and_follow_group(member, group)
+
+      Bonfire.UI.Groups.WidgetGroupsCarouselLive.list_guest_groups(cache: :reset)
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has(
+        "#group-preview-#{id(group)} [data-role=group-row-faces] [title=\"#{member.profile.name}\"]"
       )
-      |> assert_has("[data-widget-id=groups] [data-role=carousel_dots]")
+    end
+
+    test "a group whose member list is private shows its moderators' faces, not its members'" do
+      creator = fake_user!(fake_account!())
+      member = fake_user!(fake_account!())
+
+      group =
+        Bonfire.Classify.Simulate.fake_group!(creator, %{
+          name: "Private list faces group",
+          membership: "on_request",
+          visibility: "global"
+        })
+
+      {:ok, circle} = Bonfire.Classify.Categories.members_circle(group)
+      Bonfire.Boundaries.Circles.add_to_circles(member, circle)
+
+      Bonfire.UI.Groups.WidgetGroupsCarouselLive.list_guest_groups(cache: :reset)
+
+      conn()
+      |> get_conn_render("/")
+      |> assert_has(
+        "#group-preview-#{id(group)} [data-role=group-row-faces] [title=\"#{creator.profile.name}\"]"
+      )
+      |> refute_has(
+        "#group-preview-#{id(group)} [data-role=group-row-faces] [title=\"#{member.profile.name}\"]"
+      )
     end
 
     test "hides the groups section when the instance turns it off" do
@@ -393,10 +441,10 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       |> refute_has("#about-tagline")
     end
 
-    test "the instance facts are one of the homepage's widgets" do
+    test "the instance facts are part of the introduction widget" do
       conn()
       |> get_conn_render("/")
-      |> assert_has("[data-widget-id=instance_facts] [data-role=widget-body] #about-meta")
+      |> assert_has("[data-widget-id=intro] #community-glance #about-meta")
     end
 
     test "the community links are one of the homepage's widgets" do
@@ -422,10 +470,7 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
     end
 
     test "an instance that shows its moderators only to signed-in people shows them to no visitor, anywhere" do
-      # the instance status widget lists the moderators too
-      Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :widgets],
-        main: [:mods, :instance_status]
-      )
+      Process.put([:bonfire, Bonfire.Web.Views.HomeLive, :widgets], main: [:mods])
 
       # the page seen before there is any moderator, so a widget keeping its own copy of the list would go on showing none
       Bonfire.Me.Users.list_declared_moderators(cache: :reset)
@@ -437,14 +482,12 @@ defmodule Bonfire.Web.Views.GuestPublicBoardTest do
       conn()
       |> get_conn_render("/")
       |> assert_has("#mods")
-      |> assert_has("[data-widget-id=instance_status]", text: "Moderators")
 
       Process.put([:bonfire_me, Bonfire.Me.Users, :show_moderators_to], :users)
 
       conn()
       |> get_conn_render("/")
       |> refute_has("#mods")
-      |> refute_has("[data-widget-id=instance_status]", text: "Moderators")
 
       conn()
       |> get_conn_render("/about")

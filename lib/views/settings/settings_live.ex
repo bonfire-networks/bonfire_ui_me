@@ -29,7 +29,18 @@ defmodule Bonfire.UI.Me.SettingsLive do
      |> Phoenix.LiveView.attach_hook(:dashboard_tab_layout, :handle_params, fn params,
                                                                                _url,
                                                                                socket ->
-       {:cont, assign(socket, without_secondary_widgets: params["tab"] == "dashboard")}
+       socket = assign(socket, without_secondary_widgets: params["tab"] == "dashboard")
+
+       {:cont,
+        if(params["tab"] == "dashboard",
+          do:
+            Bonfire.UI.Common.Widgets.LiveHandler.assign_settings_page(
+              socket,
+              Bonfire.Web.Views.DashboardLive,
+              assigns(socket)[:scope]
+            ),
+          else: socket
+        )}
      end)}
 
     # |> IO.inspect

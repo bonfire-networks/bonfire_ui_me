@@ -4,9 +4,7 @@
     <div class="flex items-center gap-4">
       <LinkLive
         parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
-        to={if String.starts_with?(e(@character, :username, ""), "http"),
-          do: e(@character, :username, nil),
-          else: "/character/#{e(@character, :username, "")}"}
+        to={profile_href(@character)}
         class="shrink-0"
         opts={@link_opts}
       >
@@ -27,9 +25,7 @@
         <div class="flex items-start justify-between gap-2">
           <LinkLive
             parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_l", @parent_id)}
-            to={if String.starts_with?(e(@character, :username, ""), "http"),
-              do: e(@character, :username, nil),
-              else: "/character/#{e(@character, :username, "")}"}
+            to={profile_href(@character)}
             class="min-w-0 text-base group"
           >
             <div
@@ -78,6 +74,37 @@
 
     <#slot />
   </div>
+{#elseif @showing_within == :widget_row}
+  {!-- a person in a widget row; the caller draws the `widget-row` around it, so it can add its own action --}
+  <div class="widget-user-profile flex min-w-0 flex-1 items-center gap-3">
+    <LinkLive
+      parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
+      to={profile_href(@character)}
+      class="shrink-0"
+      opts={@link_opts}
+    >
+      <Bonfire.UI.Common.AvatarLive
+        parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
+        comment
+        fallback_class="size-10 rounded-full"
+        class="size-10 rounded-full"
+        user_id={id(@profile)}
+        ring
+        src={Media.avatar_url(@profile)}
+        title={e(@profile, :name, "")}
+        is_remote={@is_remote}
+      />
+    </LinkLive>
+    <LinkLive
+      parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_l", @parent_id)}
+      to={profile_href(@character)}
+      class="block min-w-0 flex-1"
+      opts={@link_opts}
+    >
+      <div data-id="profile_name" class="widget-row-title">{e(@profile, :name, nil)}</div>
+      <div class="widget-row-meta">{Bonfire.Me.Characters.display_username(e(@character, :username, nil), true)}</div>
+    </LinkLive>
+  </div>
 {#else}
   <div>
     <div class={@wrapper_class || "bg-base-100 rounded-box border-hair border-divider p-card"}>
@@ -93,9 +120,7 @@
         >
           <LinkLive
             parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_avatar", @parent_id)}
-            to={if String.starts_with?(e(@character, :username, ""), "http"),
-              do: e(@character, :username, nil),
-              else: "/character/#{e(@character, :username, "")}"}
+            to={profile_href(@character)}
             class=""
             opts={@link_opts}
           >
@@ -116,9 +141,7 @@
           <div :if={!@only_img} class="min-w-0">
             <LinkLive
               parent_id={deterministic_dom_id(__MODULE__, id(@profile), "pi_l", @parent_id)}
-              to={if String.starts_with?(e(@character, :username, ""), "http"),
-                do: e(@character, :username, nil),
-                else: "/character/#{e(@character, :username, "")}"}
+              to={profile_href(@character)}
               class={
                 "flex-1",
                 "text-base": !@compact,
@@ -167,9 +190,7 @@
           {!-- </div>
     
     <Bonfire.UI.Me.UserPreviewLive
-      href={if String.starts_with?(e(@character, :username, ""), "http"),
-        do: e(@character, :username, nil),
-        else: "/character/#{e(@character, :username, "")}"}
+      href={profile_href(@character)}
       user={%{
         id: id(@profile),
         is_local: !@is_remote,

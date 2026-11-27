@@ -25,7 +25,7 @@
       </div>
     {#match "dashboard"}
       <div class="page-panel">
-        <Bonfire.UI.Me.DashboardSettingsLive id="dashboard_settings" scope={@scope} />
+        <Bonfire.UI.Me.DashboardSettingsLive scope={@scope} widgets={@widgets_editing} />
       </div>
     {#match "feeds"}
       <div class="page-panel">

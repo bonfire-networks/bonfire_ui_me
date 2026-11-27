@@ -15,49 +15,47 @@
   </label>
   {#case @selected_tab}
     {#match "dashboard"}
-      {!-- the instance's widgets, one place per tab --}
-      <div role="tablist" class="tabs tabs-border px-4 pt-2" data-role="widget_places">
-        <LinkPatchLive
-          to={~p"/settings/instance/dashboard"}
-          class={"tab", "tab-active": @place != "home"}
-          opts={role: "tab", "aria-selected": to_string(@place != "home")}
-        >{l("Dashboard (members)")}</LinkPatchLive>
-        <LinkPatchLive
-          to={~p"/settings/instance/dashboard?place=home"}
-          class={"tab", "tab-active": @place == "home"}
-          opts={role: "tab", "aria-selected": to_string(@place == "home")}
-        >{l("Homepage (visitors)")}</LinkPatchLive>
+      {!-- the instance's widgets, one place per tab, as chips like the feed tabs (`tab-chip`) --}
+      <div class="flex flex-wrap items-center gap-1 px-3 pt-2">
+        <div role="tablist" class="flex flex-wrap gap-1" data-role="widget_places">
+          <LinkPatchLive
+            to={~p"/settings/instance/dashboard"}
+            class="tab-chip"
+            opts={role: "tab", "aria-selected": to_string(@place != "home")}
+          >{l("Dashboard (members)")}</LinkPatchLive>
+          <LinkPatchLive
+            to={~p"/settings/instance/dashboard?place=home"}
+            class="tab-chip"
+            opts={role: "tab", "aria-selected": to_string(@place == "home")}
+          >{l("Homepage (visitors)")}</LinkPatchLive>
+        </div>
+        {!-- the homepage's refresh, for admins (who can clear the copies visitors get); outside the tablist, which holds only tabs --}
+        <button
+          :if={@place == "home" and
+            maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
+          type="button"
+          data-role="refresh_homepage"
+          phx-click="refresh_homepage"
+          title={l("Visitors may see a saved copy of the homepage for a while. This shows them your changes now.")}
+          class="btn btn-sm btn-ghost text-muted normal-case opaque-on-click ml-auto"
+        >
+          <#Icon iconify="ph:arrow-clockwise" class="size-4" />
+          {l("Refresh for visitors")}
+        </button>
       </div>
       {#if @place == "home"}
         <div class="flex flex-col gap-4 py-4">
           <p class="text-sm px-4 leading-relaxed text-muted">{l("What visitors see before signing in.")}</p>
-          <Bonfire.UI.Common.PlaceWidgetsSettingsLive
-            id="home"
-            place={{Bonfire.Web.Views.HomeLive, :main}}
+          <Bonfire.UI.Common.SettingsWidgetsLive
+            place={Bonfire.Web.Views.HomeLive}
+            widgets={@widgets_editing}
             scope={:instance}
-            for_guests
           />
-          <div
-            :if={maybe_apply(Bonfire.Me.Accounts, :is_admin?, [@__context__], fallback_return: nil) == true}
-            class="mx-4 flex items-center gap-4"
-          >
-            <p class="flex-1 text-sm text-muted">{l("Visitors may see a saved copy of the homepage for a while. This shows them your changes now.")}</p>
-            <button
-              type="button"
-              data-role="refresh_homepage"
-              phx-click="refresh_homepage"
-              class="btn btn-sm btn-outline"
-            >{l("Refresh the homepage for visitors")}</button>
-          </div>
         </div>
       {#else}
         {!-- the same page as a user's own dashboard settings, setting the defaults for everyone who hasn't set theirs --}
-        <Bonfire.UI.Me.DashboardSettingsLive id="instance_dashboard_settings" scope={:instance} />
+        <Bonfire.UI.Me.DashboardSettingsLive scope={:instance} widgets={@widgets_editing} />
       {/if}
-      <div class="pb-4">
-        <Bonfire.UI.Common.CustomWidgetFormLive slug={:text} />
-      </div>
-      {!-- <Bonfire.UI.Me.SettingsViewsLive.DashboardSettingsLive selected_tab={@selected_tab} /> --}
     {#match "admins"}
       <StatefulComponent
         :if={current_user(@__context__)}

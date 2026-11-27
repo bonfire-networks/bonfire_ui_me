@@ -1,9 +1,4 @@
-{!-- a widget's plain body (text, a button) takes the header's gutter; widgets with lists or carousels set their own --}
-<div
-  data-id="dashboard_main"
-  data-widget-place
-  class="**:data-[role=widget-body]:px-(--stream-content-padding)"
->
+<div data-id="dashboard_main" data-widget-place>
   <div
     :if={@editable}
     class="hidden widgets-editing:block px-5 pt-4 type-caption font-medium text-subtle"
@@ -35,5 +30,11 @@
         }}
       />
   {/case}
-  <Bonfire.UI.Common.AddWidgetsLive :if={@editable} area={:main} addable={@addable} class="p-4" />
+  {!-- mb-24: room to scroll above the fixed edit bar --}
+  <Bonfire.UI.Common.AddWidgetsLive
+    :if={@editable}
+    area={:main}
+    addable={@addable}
+    class="p-4 mb-24"
+  />
 </div>

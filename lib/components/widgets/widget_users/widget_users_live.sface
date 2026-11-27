@@ -1,10 +1,14 @@
+{!-- `widget-users` is the typographic preset's hook for people lists --}
 <Bonfire.UI.Common.WidgetBlockLive
-  title_class="text-xs pt-card px-card uppercase tracking-wider text-base-content pb-card border-b-hair border-divider [.sidebar-widgets_&]:pt-0 [.sidebar-widgets_&]:px-0 [.sidebar-widgets_&]:border-b-0"
   widget_title={e(@widget_title, "Users")}
   class="widget-users"
+  reset_cache_event={@reset_cache_event}
+  can_reset={@can_reset}
 >
   <:action>
     <div class="flex items-center ml-auto gap-2">
+      {!-- caller's actions first, so Follow stays flush with the edge --}
+      <#slot {@action} />
       {#if @with_batch_follow && current_user_id(@__context__)}
         <StatefulComponent
           module={maybe_component(Bonfire.UI.Social.Graph.FollowButtonLive, @__context__)}
@@ -17,11 +21,10 @@
           class="group btn btn-circle btn-xs btn-outline border-divider text-primary"
         />
       {/if}
-      <#slot {@action} />
     </div>
   </:action>
 
-  <div class="flex flex-col divide-hair divide-divider">
+  <div class="widget-rows">
     {#for user <- @users}
       {!-- the lists shown here are cached for everyone, so whoever this viewer silenced is dropped here --}
       <StatefulComponent
@@ -35,18 +38,13 @@
         object={e(user, :activity, :subject, nil) || user}
         check_object_boundary={current_user_id(@__context__) && [:see]}
       >
-        <div class="p-1 [.sidebar-widgets_&]:py-1 [.sidebar-widgets_&]:px-0" data-role="widget-user-row">
+        <div class="widget-row" data-role="widget-user-row">
           <StatelessComponent
             module={maybe_component(Bonfire.UI.Me.ProfileItemLive)}
-            show_controls={[]}
-            with_popover
+            showing_within={:widget_row}
             parent_id={deterministic_dom_id(__MODULE__, id(e(user, :character, nil) || user), "widget_users", @parent_id)}
             character={e(user, :character, nil) || e(user, :activity, :subject, :character, nil)}
             profile={e(user, :profile, nil) || e(user, :activity, :subject, :profile, nil)}
-            class="btn btn-square btn-ghost btn-sm"
-            wrapper_class="widget-user-profile flex items-center justify-between gap-1 p-0 border-0 rounded-none bg-transparent"
-            avatar_class="size-9 rounded-full"
-            fallback_class="size-9 rounded-full"
           />
         </div>
       </StatefulComponent>

@@ -96,9 +96,14 @@ defmodule Bonfire.UI.Me.DashboardEditModeTest do
     assert "community_rules" in fresh_area_ids(conn, @sidebar)
     assert "mods" in fresh_area_ids(other_conn, @sidebar)
 
-    conn
-    |> visit(@settings)
-    |> refute_has("#dashboard_sidebar_widget_toggle_mods[checked]")
+    {:ok, settings, _html} = live(conn, @settings)
+    refute has_element?(settings, "[data-role=widget_area] [data-widget-id=mods]")
+
+    settings
+    |> element("[data-role=add_widgets][data-area=sidebar] [data-role=open_modal]")
+    |> render_click()
+
+    assert has_element?(settings, "[data-role=add_widget_card][data-widget-id=mods]")
   end
 
   test "Undo in the edit bar puts a removed widget back where it was", %{conn: conn} do
@@ -169,10 +174,7 @@ defmodule Bonfire.UI.Me.DashboardEditModeTest do
     assert ["instance_pinned", "suggested_profiles"] ==
              settings
              |> render()
-             |> Floki.parse_document!()
-             |> Floki.find("#dashboard-widgets [data-role=place_widget]")
-             |> Enum.flat_map(&Floki.attribute(&1, "data-item"))
-             |> Enum.filter(&(&1 in ["instance_pinned", "suggested_profiles"]))
+             |> area_ids("[data-role=widget_area][data-area=main]")
   end
 
   test "a sidebar widget dragged into the main area moves there, and one too wide for the sidebar goes back",
@@ -292,7 +294,9 @@ defmodule Bonfire.UI.Me.DashboardEditModeTest do
     |> visit("/dashboard")
     |> PhoenixTest.select(
       "[data-role=widget-edit-controls] select",
-      "Feed shown on the dashboard", option: name)
+      "Feed shown on the dashboard",
+      option: name
+    )
     |> visit("/dashboard")
     |> assert_has("[data-id=feed] #feed-tab-dashboard_custom[aria-current=page]")
     # the tile's chip names the chosen feed

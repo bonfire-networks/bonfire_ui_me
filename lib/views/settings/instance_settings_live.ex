@@ -134,13 +134,30 @@ defmodule Bonfire.UI.Me.InstanceSettingsLive do
 
   # the instance's widgets, one place per tab: members' dashboard (default) or the homepage for visitors (`?place=home`)
   def handle_params(%{"tab" => "dashboard"} = params, _url, socket) do
+    place = if(params["place"] == "home", do: "home", else: "dashboard")
+
+    socket =
+      assign(
+        socket,
+        back: true,
+        page_title: l("Widgets"),
+        selected_tab: "dashboard",
+        place: place,
+        page_header_aside: nil
+      )
+
+    # the homepage offers what guests can see
+    {place_module, opts} =
+      if place == "home",
+        do: {Bonfire.Web.Views.HomeLive, [for_guests: true]},
+        else: {Bonfire.Web.Views.DashboardLive, []}
+
     {:noreply,
-     assign(
+     Bonfire.UI.Common.Widgets.LiveHandler.assign_settings_page(
        socket,
-       back: true,
-       page_title: l("Widgets"),
-       selected_tab: "dashboard",
-       place: if(params["place"] == "home", do: "home", else: "dashboard")
+       place_module,
+       :instance,
+       opts
      )}
   end
 

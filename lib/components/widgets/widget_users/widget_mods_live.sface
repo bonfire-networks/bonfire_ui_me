@@ -6,9 +6,8 @@
       <div id="mods">
         <Bonfire.UI.Common.WidgetBlockLive
           widget_title={e(@widget_title, l("Moderators"))}
-          class={"w-full", @class}
-          title_class="pb-4"
-          heading_class="text-lg font-bold leading-snug tracking-[-0.01em] normal-case"
+          class={@class}
+          section
         >
           <Bonfire.UI.Me.UsersGridLive users={mods} parent_id="mod" item_role="mod-link">
             <:footer>
@@ -22,21 +21,9 @@
         widget_title={e(@widget_title, l("Moderators"))}
         users={mods}
         parent_id="widget_mods"
+        reset_cache_event="Bonfire.UI.Me.WidgetModsLive:reset"
+        can_reset={Bonfire.Boundaries.can?(@__context__, :assign, :instance_wide) == true}
       >
-        <:action>
-          {#if @show_reset_btn || Bonfire.Boundaries.can?(@__context__, :assign, :instance_wide)}
-            <button
-              :on-click="Bonfire.UI.Me.WidgetModsLive:reset"
-              type="button"
-              class="group btn btn-circle btn-xs touch-target-expanded btn-outline border-divider"
-              title={l("Refresh")}
-            >
-              <span class="touch-target-hit-area" aria-hidden="true" />
-              <span class="sr-only">{l("Refresh")}</span>
-              <#Icon iconify="ph:arrow-counter-clockwise-duotone" class="size-4 text-primary" />
-            </button>
-          {/if}
-        </:action>
         <:footer>
           <Bonfire.UI.Me.MessageModeratorsLive class="btn btn-sm btn-outline border-base-content/15 normal-case gap-2 w-full" />
         </:footer>

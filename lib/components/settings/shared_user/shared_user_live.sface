@@ -62,7 +62,6 @@
                 parent_id="shared_user_roster"
                 character={e(user, :character, nil)}
                 profile={e(user, :profile, nil)}
-                class="btn btn-ghost btn-sm"
                 avatar_class="size-7 rounded-full"
               />
               <button

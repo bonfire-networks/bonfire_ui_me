@@ -9,7 +9,6 @@ defmodule Bonfire.UI.Me.WidgetModsLive do
   declare_widget(l("Moderators"), id: :mods, skeleton: :people)
 
   prop widget_title, :string, default: nil
-  prop show_reset_btn, :boolean, default: false
   prop showing_within, :atom, default: :sidebar
 
   @doc "Classes of the grid's block, such as negative margins that take its hairline to a sheet's edges."

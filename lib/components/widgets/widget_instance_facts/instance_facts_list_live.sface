@@ -1,0 +1,40 @@
+{#case if(is_nil(@is_guest?), do: is_nil(current_user_id(@__context__)), else: @is_guest?)}
+  {#match guest?}
+    {!-- stacked, side by side once the widget is wide --}
+    <div data-role="widget-body" class="@container">
+      <ul
+        id={@list_id}
+        class="flex flex-col gap-2 text-base leading-snug @md:flex-row @md:flex-wrap @md:gap-x-6"
+      >
+        {#for {icon, text} <-
+            Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive.meta_facts_with_icons(
+              Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive.federation_mode(),
+              Bonfire.UI.Me.SettingsViewsLive.InstanceSummaryLive.indexable?()
+            )}
+          <li class="flex items-center gap-2">
+            <Iconify.iconify icon={icon} class="size-4 shrink-0 text-muted" />
+            <span>{text}</span>
+          </li>
+        {/for}
+        {!-- registration, for members only: guests have the sign-up buttons --}
+        <li :if={!guest?} data-role="registration-fact" class="flex items-center gap-2">
+          {#if Bonfire.Me.Accounts.instance_is_invite_only?()}
+            <#Icon iconify="ph:lock-key-duotone" class="size-4 shrink-0 text-muted" />
+            <span>{l("Joining by invitation")}</span>
+          {#else}
+            <#Icon iconify="ph:door-open-duotone" class="size-4 shrink-0 text-muted" />
+            <span>{l("Open to new members")}</span>
+          {/if}
+        </li>
+        <li :if={guest?} id="about-guest-info" class="flex items-center gap-2">
+          <#Icon iconify="ph:eye-duotone" class="size-4 shrink-0 text-muted" />
+          <span>{l("Public posts readable without an account")}</span>
+        </li>
+        <li
+          :if={guest? and Bonfire.Me.Accounts.instance_is_invite_only?()}
+          data-role="signup-closed-note"
+          class="flex items-center gap-2"
+        ><#Icon iconify="ph:lock-key-duotone" class="size-4 shrink-0 text-muted" /><Bonfire.UI.Me.SignupNoteLive /></li>
+      </ul>
+    </div>
+{/case}

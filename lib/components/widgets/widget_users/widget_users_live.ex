@@ -6,6 +6,10 @@ defmodule Bonfire.UI.Me.WidgetUsersLive do
   prop with_batch_follow, :boolean, default: true
   prop parent_id, :string, default: nil
 
+  @doc "The block's refresh button: its event and who sees it, as `Bonfire.UI.Common.WidgetBlockLive`'s `reset_cache_event` / `can_reset`."
+  prop reset_cache_event, :string, default: nil
+  prop can_reset, :boolean, default: nil
+
   @doc "A call to action"
   slot action
 

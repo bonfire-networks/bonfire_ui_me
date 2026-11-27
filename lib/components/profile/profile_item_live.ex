@@ -11,7 +11,6 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
   prop wrapper_class, :css_class, default: nil
 
   prop character, :any
-  prop class, :css_class
   prop show_controls, :list, default: [:follow]
   prop activity_id, :any, default: nil
   prop inline, :boolean, default: false
@@ -27,4 +26,20 @@ defmodule Bonfire.UI.Me.ProfileItemLive do
   prop showing_within, :any, default: nil
 
   slot default, required: false
+
+  @doc """
+  Where the avatar and name link: a remote actor's URL as is, else the local character page.
+
+      iex> Bonfire.UI.Me.ProfileItemLive.profile_href(%{username: "ana"})
+      "/character/ana"
+
+      iex> Bonfire.UI.Me.ProfileItemLive.profile_href(%{username: "https://example.social/@ana"})
+      "https://example.social/@ana"
+  """
+  def profile_href(character) do
+    case e(character, :username, "") do
+      "http" <> _ = url -> url
+      username -> "/character/#{username}"
+    end
+  end
 end

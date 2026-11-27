@@ -10,7 +10,7 @@ defmodule Bonfire.UI.Me.DashboardMainLive do
   prop page, :string, default: nil
   prop selected_tab, :any, default: nil
 
-  @doc "The page whose widgets get edit mode, see `Bonfire.UI.Common.Widgets.place_assigns/3`."
+  @doc "The page whose widgets get edit mode, see `Bonfire.UI.Common.Widgets.place_assigns/4`."
   prop editable, :any, default: nil
 
   @doc "What edit mode can add to the main area."
